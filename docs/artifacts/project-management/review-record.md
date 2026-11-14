@@ -1002,7 +1002,7 @@ end note
 | Management | Development Case | 1 — F1 Major | Same five-row verification; SBC criterion 5's auditable-tailoring question answered |
 | Management | System Inventory | 2 — F1 Major, F2 Major | Pin tally re-counted from the file; the settlement sentence replaced |
 | Management | Risk List | 2 — F1 Major, F2 Major | R026 present at 3×4=12 and cited by the plan by identifier; R002 and R011 restated `accept` with the grant quoted |
-| Management | Iteration Plan | 5 — F1 major, F2–F5 Major, F6 Minor | No stood-down role on a gate; Excavation profile staffed; five gates booked; retirement map rebuilt; per-criterion state |
+| Management | Iteration Plan | 5 — F1 Major, F2–F5 Major, F6 Minor | No stood-down role on a gate; Excavation profile staffed; five gates booked; retirement map rebuilt; per-criterion state |
 | **Total** |  | **18 — 13 Major, 5 Minor** |  |
 
 Two closures deserve the note on why they stand although the surrounding content is now under a new Major, because a reader will otherwise read them as withdrawn. **System Inventory F2 (Management)** asked that an impossible settlement path be replaced by the stakeholder's decision; it was, and that is what the record required. **Iteration Plan F1 (both lenses)** asked that a criterion stop claiming an unevidenced confirmation; it no longer claims one. That the replacement content then over-reached the sprint zero (SI-B, IP-B) and that the criterion now under-states a confirmation actually obtained (IP-A) are new defects with their own recommendations. Reopening the closed records would obscure which correction failed; a closure answers the defect its record names.
@@ -1017,7 +1017,7 @@ None of the four Majors asks the stakeholder a question. Each narrows content ba
 | RL-B | Risk List | Project Manager | Restate R002 and R011 as accepted until the RUP phases start, when the pipeline builds the solution and runs its tests; correct R002's "no later reading can settle it" and R011's "which this project does not do" to the sprint-zero scope; keep both acceptances and both bands; state in Document Control that the acceptance is bounded to the sprint zero |
 | IP-A | Iteration Plan | Project Manager | Restore criterion 1 to the process wording — the perimeter confirmed by the stakeholder — evidenced by the confirmation given at SBC on 2026-11-14 over the seven projects, the entry-point surface, the stores and the external systems. Delete G2 from the coarse roadmap, the gantt markers and the Resources gate list, leaving G1, G3, G4 and G5 and no dangling identifier. Replace "Where the perimeter is confirmed" with what happened, and do not restate the deferral's rationale as a live reason |
 | IP-B | Iteration Plan | Project Manager | Scope "no retirement runs the system" to the sprint zero; state that from Inception on the CI pipeline builds the solution and runs its test suites so a later phase may retire a risk by a build or test result, and name who produces that evidence; then re-examine the retirement map for what a build and test run can settle and place each at the milestone whose execution produces it |
-| IP-C | Iteration Plan | Project Manager | Move R006 and R025 from the LCO row to a line for Survey 2 — SBC, and restate the accounting so it reads fifteen retired by a later milestone, two at SBC, one by its own bound and eight carried on acceptance — twenty-six |
+| IP-C | Iteration Plan | Project Manager | Move R006 and R025 from the LCO row to a line for Survey 2 — SBC, and restate the accounting so it reads fifteen retired by a later milestone, three at SBC, one by its own bound and eight carried on acceptance — twenty-six |
 | SI-A | System Inventory | Software Archaeologist | Restate the Provenance row to the four files the Coverage sentence names, dropping `RateLimitExtensions.cs` so the row and the 57-file tally agree |
 | RL-A | Risk List | Project Manager | Cite what exists — raising either version changes the pins in `Directory.Packages.props`, owned by the Software Architect, and enters as a Change Request — instead of a Development Case section that does not exist |
 
@@ -1064,6 +1064,14 @@ stop
 - **A Change Request.** None of the seven open records needs one. Each is a correction inside an artifact its owner already holds — no scope change, no baseline change, nothing for the CCB.
 - **Re-scoring any risk.** No lens contests a magnitude in either event, and the plan states that disagreement with a score does not fail the milestone.
 - **A schedule change beyond the iteration count.** Corrective iteration 3 is the plan's own lever for a milestone whose exit criteria do not pass. Declared scope is not narrowed, no role is added in parallel, and no criterion is re-interpreted to fit what was produced.
+
+#### Stakeholder finding — the corrective order, set by the stakeholder
+
+Put to the stakeholder this milestone with the four Majors named and their owners' actions recorded above. Their answer:
+
+> "Close the System Inventory sentence first, then the Risk List and Iteration Plan statements that quote it, then the deleted gate; the three Minors in each owner's next turn."
+
+This sets the sequence and adds no defect, no condition and no new action. Read against the ledger it orders the four Majors as SI-B, then RL-B and IP-B, then IP-A — which is the order the corrective sequence above already states, now the stakeholder's as well as mine — and leaves the three Minors to their owners' next turn. The stakeholder did not name a part of the existing system missing from the perimeter, and did not correct any action above; no record is added or removed on account of this answer.
 
 ## Disposition
 ### Reviewer lens
