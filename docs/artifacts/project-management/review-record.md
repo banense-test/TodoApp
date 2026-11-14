@@ -199,6 +199,129 @@ The stakeholder added one correction, and it is consequential beyond this milest
 
 Two things follow. First, the perimeter's **content** is not in dispute — the stakeholder states nothing is missing from it. What was withheld is the sanction, not the perimeter's accuracy. Second, the correction invalidates a retirement path the plan and the register both depend on, which is why it is recorded as findings against the Iteration Plan (F5), the Risk List (F2) and the System Inventory (F2) rather than as a note here.
 
+### Review Coordinator lens
+<!-- review: Survey I1 -->
+
+#### Review event
+
+End-of-Survey Lifecycle Milestone Review (**SBC**), Survey iteration 1. First review event of the project: no earlier milestone, cycle or iteration exists, so nothing in this record is a trend and no prior metric is reported.
+
+| Field | Value |
+|---|---|
+| Review type | Lifecycle Milestone Review |
+| Triggering condition | "Close-Out Phase" — the Survey iteration's artifacts complete and the phase gate reached |
+| Artifacts in scope | Development Case, System Inventory, Risk List, Iteration Plan |
+| Review point | Lifecycle Milestone — the question is **exit criteria**, not feasibility and not completeness of intent |
+| Entry criteria | Met. The four artifacts existed in target state before review began; `read_artifact_findings` returned an empty list for all four at the start, confirming no unresolved prior record was carried in |
+| Exit criteria | **Not met.** 10 Major defects open and the stakeholder's sanction withheld |
+
+#### Lens participation
+
+| Lens | Executed | Findings yielded | Disposition |
+|---|---|---|---|
+| Technical / Reviewer | Yes | 7 records — 3 Major, 4 Minor, 0 Critical | Approved with changes |
+| Business / BusinessReviewer | **INACTIVE — did not evaluate this review** | None | Not applicable |
+| Management / ManagementReviewer | Yes | 11 records — 10 Major, 1 Minor, 0 Critical | Conditional — sanction REFUSED |
+
+The Business lens is inactive by tailoring, not by omission: the Development Case records `business-process-led = false`, stands the Business Reviewer down for the whole project, and states that the gate loses one lens while Reviewer and Management Reviewer remain. The milestone decision below is taken on the two lenses that executed.
+
+#### Review calendar — this milestone and the events it opens
+
+```plantuml
+@startuml
+title Review calendar — the sprint-zero review events, in order, and the gate each feeds
+skinparam shadowing false
+
+|#LightBlue|Survey 1 — SBC|
+start
+:Iteration Plan Review — the Survey plan, before the iteration runs;
+:Lifecycle Milestone Review SBC — Reviewer, then Management Reviewer, then Review Coordinator;
+note right
+  Business lens INACTIVE — business-process-led = false
+  Entry criteria: the four artifacts in target state,
+  reviewers assigned, evaluation criteria distributed
+  48h ahead
+end note
+:Stakeholder sanction at the SBC gate;
+
+|#LightBlue|Excavation 1 — AR|
+:Iteration Plan Review — the AR plan;
+:Lifecycle Milestone Review AR — Reviewer, Management Reviewer, Review Coordinator;
+:Gate — sanction asked;
+
+|#LightBlue|Consolidation 1 — GHR|
+:Iteration Plan Review — the GHR plan;
+:Lifecycle Milestone Review GHR — Reviewer, Management Reviewer, Review Coordinator;
+:Gate G2 — the perimeter confirmed by the stakeholder, then sanction;
+
+|#PaleGreen|Inception 1 to Transition 1|
+:Iteration Plan Review before every iteration;
+:PRA Review — progress, risk and assessment, during execution;
+:Iteration Evaluation Criteria Review, then Iteration Acceptance Review, at iteration close;
+:Lifecycle Milestone Review at LCO, LCA, IOC and PR;
+note right
+  The Project Approval and Project Planning
+  Reviews run inside LCO, not as separate events.
+  The Project Acceptance Review runs inside PR —
+  the event at which the customer takes ownership.
+end note
+stop
+@enduml
+```
+
+The SBC gate reopens in a **corrective Survey iteration 2**: the same three lenses, the same four artifacts plus whatever the corrections touch, against the corrected exit criteria. No new review type is introduced for it — a correction under a withheld sanction is the same milestone re-held, not a new event.
+
+#### Effectiveness metrics — this review only
+
+```plantuml
+@startmindmap
+skinparam shadowing false
+title SBC review — current metrics. First review event: no trend is reported
+* SBC review · Survey iteration 1
+** Coverage
+*** Planned artifacts: 4
+*** Reviewed: 4
+*** Coverage: 100 %
+** Defects found: 15 distinct
+*** Critical: 0
+*** Major: 10
+*** Minor: 5
+*** Info: 0
+** Defect density by artifact
+*** Iteration Plan: 7
+*** System Inventory: 3
+*** Risk List: 3
+*** Development Case: 2
+** Lens yield
+*** Reviewer lens: 7 records, 7 defects
+*** Management lens: 11 records, 8 defects after dedup
+*** Business lens: INACTIVE, no evaluation
+** Anchor verification
+*** Source files opened: 17
+*** Anchors confirmed: 16
+*** False anchors: 1
+** Not measurable at this review
+*** Rework effort: Survey has not closed
+*** Removal efficiency: no test phase has run
+*** Trend: no prior review exists
+@endmindmap
+```
+
+| Metric | Value | Interpretation |
+|---|---|---|
+| Review coverage | 4 of 4 planned artifacts — 100 % | The Survey process produces exactly these four and all four were reviewed. No artifact escaped review |
+| Defect density — Iteration Plan | 7 defects on one artifact | The highest of the four by a wide margin. The plan is the artifact that carries cross-artifact obligations — role profiles against the tailoring, risk owners against the register, gates against milestone exit conditions — so it is where a contradiction between two correct documents shows up. Not a signal that the plan was written carelessly: it is the only artifact whose correctness depends on three others |
+| Defect density — System Inventory | 3 defects on the sprint zero's central artifact | Low for the artifact that received the deepest review. Seventeen anchors were opened and sixteen confirmed, so the perimeter's content is sound and the three defects are a stale count and two stale qualifiers |
+| Defect density — Risk List | 3 defects | 23 of 25 risks dispose of themselves correctly; the three defects sit on two rows plus one mitigation's ownership |
+| Defect density — Development Case | 2 defects | One broken reference and one notation choice |
+| Anchor verification yield | 1 false anchor in 17 opened — 6 % | Direct verification was worth performing and was performed: the one defect it found (the package-pin tally) is invisible to a reading of the artifact alone |
+| Business lens yield | Not applicable | The lens did not run; its absence is tailoring, and no finding is recorded against it |
+| Rework effort | **Not measurable at this review** | Survey has not closed and no corrective iteration has run, so no rework has been performed to measure. The estimate is NONE — not zero, and not a figure |
+| Defect removal efficiency | **Not measurable at this review** | No test phase has executed in this project. Review is the only detection activity that has occurred, so there is no ratio to compute |
+| Trend | **None reported** | This is the first review event. A trend requires a second. No earlier cycle, iteration or metric is invented to populate one; the comparison begins at the corrective iteration |
+
+The one interpretive claim these numbers support: **the review process is finding defects at a rate that justifies the gate**. A 15-defect yield with 10 in the Major band, from two lenses, on four artifacts — that is a review that did work rather than a rubber stamp. What the numbers cannot yet say is whether the process is *improving*, and nothing here claims it is.
+
 ## Findings
 ### Reviewer lens
 <!-- review: Survey I1 -->
