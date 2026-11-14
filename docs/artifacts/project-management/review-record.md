@@ -28,22 +28,24 @@ Milestone Target: End-of-Survey (SBC) — perimeter confirmed and stakeholder sa
 
 ## Review Scope and Criteria
 ### Reviewer lens
-<!-- review: Survey I3 -->
+<!-- review: Survey I4 -->
 
-Phase: Survey, iteration 3. The third hold of the end-of-Survey (SBC) milestone review, technical lens. Four artifacts in scope, all read in full this iteration.
-
-| Artifact | Owner | Discipline | State reviewed |
-|---|---|---|---|
-| Development Case | Process Engineer | Environment | Revised — Guidelines and Procedures gained a Version policy and a Measurement policy subsection |
-| System Inventory | Software Archaeologist | Discovery | Revised — the Provenance row now names the four files Coverage names |
-| Risk List | Project Manager | Project Management | Revised — R002 and R011 bounded to the RUP phases, R023's citation repaired, Document Control bounded |
-| Iteration Plan | Project Manager | Project Management | Revised — criterion 1 restored, G2 deleted, the retirement map rebuilt, the accounting restated |
-
-The Iteration Assessment is read and is not a gate input, and its absence or lag is no defect: the Project Manager writes it against this verdict.
+<!-- review: Survey I4 -->
 
 #### Review point and lens
 
-The review point is the **Lifecycle Milestone** (SBC), so the question is **exit criteria**. Two jobs, in this order. First, reconcile the two findings this lens carried in — re-tested against the corrected text and the file each correction cites, never against a claim that a correction was made. Second, review the corrected set afresh: three artifacts were rewritten substantially this iteration, and a correction can introduce a defect. That second job is where both Majors come from.
+The **Lifecycle Milestone** review point (SBC), so the question is **exit criteria** — not feasibility, not completeness of intent. This lens reviews the technical artifacts of the phase: the System Inventory, the Development Case, the Risk List and the Iteration Plan.
+
+Two jobs, in this order. First, reconcile the four records this lens carried in, re-tested against the corrected text and against the file or section each correction cites, never against a claim that a correction was made. Second, review the corrected set afresh, because a correction can introduce a defect. Both new findings of this iteration come from the second job, and both are the same counting defect.
+
+The Iteration Assessment is read and is not a gate input: the Project Manager writes it against the verdict of the lens sequence, so at this point it cannot describe the iteration being reviewed. Its state is neither a finding nor a gate condition.
+
+| Artifact | Owner | Discipline | State reviewed |
+|---|---|---|---|
+| Development Case | Process Engineer | Environment | Revised — the Version policy now covers a version property held in a project file |
+| System Inventory | Software Archaeologist | Discovery | Not revised — Coverage and Provenance re-read against the enumeration |
+| Risk List | Project Manager | Project Management | Revised — R005 restated as retired at SBC, R023 routed to the project file, composition sentence made exact |
+| Iteration Plan | Project Manager | Project Management | Revised — R005 moved to the SBC group, accounting restated 14 + 3 + 1 + 8, Process Engineer reported at work, criterion 3's state restated |
 
 #### Criteria applied
 
@@ -56,61 +58,104 @@ The review point is the **Lifecycle Milestone** (SBC), so the question is **exit
 | Coverage consistency — nothing declared read and unread, and the counts agree with the enumeration | SBC criterion 3 | System Inventory |
 | Band arithmetic — every magnitude the band of its own exposure | Risk magnitude table | Risk List |
 | Acceptance authority — no High or Significant risk accepted by someone without the authority | Risk magnitude table | Risk List |
-| Strategy executability — every disposal names work that remains to be done | SBC criterion 4 | Risk List |
-| Exit-criteria integrity — every criterion gates the milestone it names, and claims nothing it does not have | SBC criterion 6 | Iteration Plan |
-| Risk-retirement completeness — all 26 accounted for once, at the milestone that actually retires each | SBC criterion 6 | Iteration Plan |
+| Strategy executability — every disposal names work remaining or a bound that holds | SBC criterion 4 | Risk List, Iteration Plan |
+| Risk-retirement completeness — all 26 accounted for once, at the milestone that retires each | SBC criterion 6 | Iteration Plan |
 | Role accounting — every role at work in the iteration is on its profile, and no stood-down role is | Development Case tailoring | Iteration Plan |
 | Measurement discipline — no invented size, budget, forecast or date | IARI DC §8.1 | Iteration Plan |
 | Scope adherence — no marker retired except by the stakeholder's answer | Scope Guard | All four |
 
 #### Anchor verification this iteration
 
-The two closures rest on opening what the corrections cite, not on reading the corrections.
+Each closure rests on opening what the correction cites, not on reading the correction.
 
 | Anchor | Claim under test | Result |
 |---|---|---|
-| System Inventory, Provenance vs Coverage | The Provenance row agrees with the section it summarises | **Confirmed.** Four files named, no fifth; 53 + 4 = 57 agrees with Document Control, the "Files opened: 57" statement and the enumeration |
-| Development Case, Guidelines and Procedures | R023's repair cites the pins, and the Version policy the iteration-2 finding said was absent | **Confirmed, and the section now exists.** It states the pins are the policy and that raising one is a Change Request owned by the Software Architect |
-| `Todo.Web/Server/Todo.Web.Server.csproj` (sha d31a15d, 1115 bytes) | R023's repair names the file the change touches | **Not confirmed.** `<RazorLangVersion>8.0</RazorLangVersion>` is in that file's `PropertyGroup`; the file carries seven `PackageReference` entries and no Razor package. Recorded as Risk List F4 |
-| System Inventory, Coverage vs Risk List R005 | R005's premise and its `avoid` strategy describe work still to be done | **Not confirmed.** Coverage enumerates `HttpAuthenticationStateProvider.cs` among the 57 opened and closes "No file in that group blocks a use case now". Recorded as Risk List F3 |
+| System Inventory, Coverage vs Risk List R005 | R005 is restated as an anomaly already retired, and no milestone owes it | **Confirmed.** Coverage enumerates `HttpAuthenticationStateProvider.cs` among the files opened and closes "No file in that group blocks a use case now"; R005 now reads "declared unread at the first reading and opened at the second, its content recorded in the System Inventory's Provenance … The reading declared unread no longer includes it", strategy "avoid — retired at Survey 2 — SBC" |
+| `Todo.Web/Server/Todo.Web.Server.csproj` (d31a15d, 1115 bytes) and Development Case, Version policy | R023's repair names the file the change touches, and the policy the row cites covers that file | **Confirmed.** The project file declares `<RazorLangVersion>8.0</RazorLangVersion>` in its own `PropertyGroup` with seven `PackageReference` items and no Razor package; the Version policy states "A version property held in a project file is part of the same policy as the central pins … Naming the central pin file for a property it does not carry is a misdirection, not a shorthand" |
+| Iteration Plan, disposal table, retirement diagram, Excavation 1 profile | R005's retirement is booked where it happened and nowhere else | **Confirmed.** "Retired at Survey 2 — SBC | 3 | R005 … R006, R025"; the AR band carries R003, R013, R016, R018, R021 with no R005 step; the System Analyst's AR column reads R017 alone |
+| Iteration Plan, Resources and fine plan | The Process Engineer is reported at work, with a work item and a produced artifact | **Confirmed.** A Profile row (Environment, High — Development Case — Guidelines and Procedures) and a fine-plan work item owned by the Process Engineer; the claim that no role besides two worked is withdrawn |
+| `Directory.Packages.props` (ed385f4, 2732 bytes) | The register's and the tailor's pin tally is 30 | **Confirmed.** 6 test + 19 application + 5 OpenTelemetry `PackageVersion` elements |
+| `Directory.Build.props` (0b02358, 254 bytes) | The compiler-enforced conventions the Development Case cites are the ones the file declares | **Confirmed.** `net9.0`, `Nullable enable`, `ImplicitUsings enable`, `LangVersion preview` |
+| System Inventory, Coverage vs its own enumeration | 57 application and configuration files are opened and enumerated | **Not confirmed.** The enumeration carries 59 paths, three of them process records — 56 application paths. Recorded as System Inventory F4 |
+| Iteration Plan, Evaluation Criteria row 3 | Criterion 3's evidence is a reconciliation that holds | **Not confirmed.** It restates "53 + 4 = 57, agreeing with … the path-by-path enumeration", which the enumeration does not support. Recorded as Iteration Plan F5 |
 
-Two of four confirmed and two not, on six facts cross-checked. The two failures are the review's findings.
+Six of eight confirmed, on fourteen facts cross-checked. The two failures are one logical defect in two artifacts: the System Inventory holds the count, and the plan quotes it as the gate's evidence.
 
 #### Scope marker audit
 
 | Marker or decision | Where | Verdict |
 |---|---|---|
-| The `admin` branch — unreachable, role provisioning out of scope | System Inventory, Decisions; Risk List R007 | Held. Quoted verbatim in both |
-| External login — configured-at-runtime, no use case this cycle | System Inventory, Decisions; Risk List R008 | Held, with the stakeholder's own condition ("revisit if credentials are supplied") |
+| The `admin` branch — unreachable, role provisioning out of scope | System Inventory, Decisions; Risk List R007 | Held, quoted verbatim in both |
+| External login — configured-at-runtime, no use case this cycle | System Inventory, Decisions; Risk List R008 | Held, with the stakeholder's condition ("revisit if credentials are supplied") |
 | BFF trust boundary — known limitation of the single-host baseline | System Inventory, Decisions; Risk List R012 | Held, carried as an accepted risk |
-| The system is never run in any phase | Nowhere — superseded | **Correctly retired, and by the right authority.** Coverage, the Risk List and the Iteration Plan all narrow it to Survey, Excavation and Consolidation, on the stakeholder's answer of 2026-11-14. No artifact states the project-wide version any longer |
-| The perimeter confirmed at this milestone, no second confirmation | System Inventory, Perimeter; Iteration Plan, Evaluation Criteria | Held. G2 is deleted from roadmap, gantt and gate list; four gates remain |
+| The system is never run in any phase | Nowhere — superseded in all four | **Correctly retired, by the right authority.** Every statement is narrowed to Survey, Excavation and Consolidation on the stakeholder's answer of 2026-11-14; the Development Case states the sprint-zero property "is not carried past Consolidation, and no artifact of this tailoring states it over the RUP phases" |
+| The perimeter confirmed at this milestone, no second confirmation | System Inventory, Perimeter; Iteration Plan, Evaluation Criteria | Held. Four gates remain (G1, G3, G4, G5); no roadmap row, gantt marker or gate list names a second confirmation |
 | No `[DERIVED]` marker anywhere | All four | Correct — nothing here derives from a declared `FR-NNN`; the sprint zero recovers from code |
 
-No marker was retired by a CCB decision, an approval or the passage of an iteration. The one that disappeared was retired by the stakeholder's own later answer, which is the only authority that could retire it. No `undeclared-scope` finding is recorded.
+No marker was retired by a CCB decision, a lens's approval or the passage of an iteration. The one that disappeared was retired by the stakeholder's own later answer, the only authority that could retire it. No `undeclared-scope` finding is recorded.
 
 #### SBC exit criteria — this lens's verdict
 
 ```plantuml
 @startsalt
-title SBC exit criteria, Survey iteration 3 — the technical lens verdict on each criterion as it now stands
+title SBC exit criteria, Survey iteration 4 — the technical lens verdict on each criterion
 {
 {S
 <b>Criterion (Iteration Plan, Evaluation Criteria)</b> | <b>Verdict</b> | <b>Basis</b>
-1 The perimeter is confirmed by the stakeholder | <color:green>MET</color> | Process wording restored; evidenced by the confirmation of 2026-11-14 over seven projects, the entry-point surface, the stores and the external systems; no later gate re-obtains it
+1 The perimeter is confirmed by the stakeholder | <color:green>MET</color> | Process wording; confirmation of 2026-11-14 over seven projects, the entry-point surface, the stores, the external systems
 2 The reading priorities are ordered | <color:green>MET</color> | Eight areas, each naming what the next reading settles
-3 The unread areas are declared rather than omitted | <color:green>MET</color> | 57 files opened and enumerated; Provenance now agrees; the two read-only claims declared for the sprint zero
-4 Every anomaly is a classified risk whose strategy can execute | <color:orange>FAIL F3</color> | 26 risks, all bands correct — but R005's avoid names work already performed, so its strategy cannot execute and its evidence already exists
-5 The process is tailored and the tailoring is auditable | <color:green>MET</color> | Five tool rows resolve; every optional verdict checked against its condition; two new subsections audited
-6 The plan instantiates the process and schedules no work the phase does not run | <color:orange>FAIL F3</color> | Criterion 1 and the gates are right, and every owner is on its milestone — but the retirement map books R005 at AR for work Survey 2 performed
+3 The unread areas are declared rather than omitted | <color:orange>MET, COUNT WRONG</color> | The declaration is complete and no area is omitted — but the files-opened tally is 56 against a stated 57 (SI F4, IP F5)
+4 Every anomaly a classified risk whose strategy can execute | <color:green>MET</color> | 26 risks, bands close, R005 retired at SBC, R023 names the file its change edits
+5 The process is tailored and the tailoring is auditable | <color:green>MET</color> | Every cited path resolves; Deployment Model the one fired optional and its condition holds; 30 pins verified
+6 The plan instantiates the process, sequences by risk, schedules no work the phase does not run | <color:green>MET</color> | 14 + 3 + 1 + 8 = 26; every role at work reported; no stood-down lens on any gate; R005 booked where it retired
 --
-Technical lens disposition | <color:orange>APPROVED WITH CHANGES</color> | 0 Critical, 2 Major, 2 Minor
+Technical lens disposition | <color:orange>APPROVED WITH CHANGES</color> | 0 Critical, 0 Major, 2 Minor open
 }
 }
 @endsalt
 ```
 
-Criteria 1, 2, 3 and 5 are met on this lens's evidence and none of the four Majors touches them. Criterion 4 fails on one row of 26 and criterion 6 on one row of the retirement map — the same row. No other criterion is affected.
+Criterion 3's substance holds and no unread area is omitted; what fails is the count the section publishes about its own completeness. That is why it is a Minor and not a Major: the declaration the criterion turns on is complete, and the defect is the arithmetic in one row.
+
+#### Defect distribution
+
+```plantuml
+@startuml
+title Survey 4 SBC — technical lens: prior records reconciled and this iteration's findings by artifact
+skinparam shadowing false
+skinparam componentStyle rectangle
+
+package "Prior records of this lens — 4 of 4 closed Resolved" #PaleGreen {
+  component "Risk List#F3  Major\nR005 scored on a condition\nCoverage records as eliminated" as P1
+  component "Risk List#F4  Minor\nR023 named the central pin file for a\nproperty held in a project file" as P2
+  component "Iteration Plan#F3  Major\nR005's retirement booked at AR by\nre-opening a file Survey 2 opened" as P3
+  component "Iteration Plan#F4  Minor\nProcess Engineer's Development Case\nrevision left off the role profile" as P4
+}
+
+package "New this iteration — 0 Critical, 0 Major, 2 Minor" #Orange {
+  component "System Inventory#F4  Minor\nThe enumeration carries 56 application\npaths against a stated 57" as N1
+  component "Iteration Plan#F5  Minor\nCriterion 3's evidence column asserts a\nreconciliation the enumeration refutes" as N2
+}
+
+package "Reviewed and clean this iteration" #LightBlue {
+  component "Development Case\n30 pins verified, no baseline redefinition,\nDeployment Model the one fired optional,\nVersion policy covers the project file" as C1
+  component "Risk List\n26 rows, 2/8/12/3/1 closes,\n18 avoided and 8 accepted each named once,\nno Significant acceptance without grant" as C2
+  component "System Inventory — Perimeter\nEvery element anchored, no anchor\ncontradicted, unread areas declared" as C3
+}
+
+note right of N1
+  One logical defect, two artifacts:
+  the Inventory holds the count, the plan
+  quotes it into the gate's evidence column.
+end note
+note bottom of P1
+  Each closure was re-tested against the file
+  or section the correction cites. No record
+  was left open and none was touched by
+  another lens.
+end note
+@enduml
+```
 
 ### Management Reviewer lens
 <!-- review: Survey I3 -->
