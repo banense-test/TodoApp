@@ -3,10 +3,95 @@ Phase: Survey
 Status: Draft — 25 risks carried from the anomalies and declared coverage limits of the System Inventory, each scored and given a strategy; two sit in the High band, both disposed of by avoid; no acceptance above the Moderate band is outstanding
 Milestone Target: End-of-Survey (SBC) — not yet achieved
 ## Risk Classification
+The scales are the IARI Development Case §9.10 scales, cited not redefined: probability and impact are each scored 1 to 5, exposure is their product, and the magnitude is the band that exposure falls in. Probability is read as the likelihood the adverse outcome occurs under the plan as written, not the likelihood the underlying anomaly is present — several anomalies are certain to exist while the harm they do is unlikely. Acceptance of a High (15 to 25) or Significant (9 to 12) risk is the stakeholder's grant and is never self-granted here.
+
+```plantuml
+@startuml
+title Risk classification structure — two five-point scales banded into a magnitude, then a disposal strategy
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+class "Risk (RNNN)" as RISK {
+  probability
+  impact
+  exposure
+  magnitude
+  strategy
+  owner
+  mitigation
+  contingency
+}
+
+class "Probability scale" as PROB {
+  1 = very low, 10% or less
+  2 = low, 11% to 30%
+  3 = medium, 31% to 50%
+  4 = high, 51% to 70%
+  5 = very high, more than 70%
+}
+
+class "Impact scale" as IMP {
+  1 = very low, no deviation
+  2 = low, work inside the iteration
+  3 = medium, an iteration objective slips
+  4 = high, the milestone slips
+  5 = very high, success endangered
+}
+
+class "Magnitude band" as MAG {
+  High, exposure 15 to 25
+  Significant, exposure 9 to 12
+  Moderate, exposure 5 to 8
+  Minor, exposure 3 to 4
+  Low, exposure 1 to 2
+}
+
+class "Strategy" as STRAT {
+  avoid
+  transfer
+  accept
+}
+
+class "Stakeholder grant" as GRANT {
+  required when strategy is accept
+  and magnitude is High or Significant
+  recorded in the stakeholder's own words
+}
+
+RISK --> PROB : scored by
+RISK --> IMP : scored by
+RISK --> MAG : exposure bands into
+RISK --> STRAT : disposed by
+STRAT --> GRANT : accept of High or Significant needs
+@enduml
+```
+
+### Exposure grid — every scored risk at its probability and impact
+
+| Impact | P1 (10% or less) | P2 (11–30%) | P3 (31–50%) | P4 (51–70%) | P5 (more than 70%) |
+|---|---|---|---|---|---|
+| **5** — success endangered | R012 | — | — | — | — |
+| **4** — the milestone slips | — | R011 | — | R001 | — |
+| **3** — an iteration objective slips | — | R006, R013 | R016 | R003, R004, R005, R017 | R009 |
+| **2** — work inside the iteration | R007 | R008, R015 | R014, R023 | R010 | R002, R018 |
+| **1** — no deviation worth recording | — | — | — | R021 | R019, R020, R022, R024, R025 |
+
+### Band distribution
+
+| Band | Exposure | Count | Risks |
+|---|---|---|---|
+| High | 15–25 | 2 | R001 (16), R009 (15) |
+| Significant | 9–12 | 7 | R003 (12), R004 (12), R005 (12), R017 (12), R002 (10), R018 (10), R016 (9) |
+| Moderate | 5–8 | 12 | R010 (8), R011 (8), R006 (6), R013 (6), R014 (6), R023 (6), R012 (5), R019 (5), R020 (5), R022 (5), R024 (5), R025 (5) |
+| Minor | 3–4 | 3 | R008 (4), R015 (4), R021 (4) |
+| Low | 1–2 | 1 | R007 (2) |
+
+### Strategy distribution
+
 | Strategy | Count | Risks | Who accepts |
 |---|---|---|---|
 | avoid | 19 | R001, R002, R003, R004, R005, R006, R009, R010, R011, R013, R014, R016, R017, R018, R020, R021, R022, R024, R025 | not applicable — an artifact this process runs retires each |
-| accept | 6 | R007, R008, R012, R015, R019, R023 | R012 Moderate — stakeholder, granted 2026-11-14; R007 and R008 — stakeholder, decided 2026-11-14; R015, R019, R023 Moderate and Minor — the Project Manager |
+| accept | 6 | R007, R008, R012, R015, R019, R023 | R012 Moderate — stakeholder, granted 2026-11-14; R007 and R008 — stakeholder, decided 2026-11-14; R015, R019, R023 Minor and Moderate — the Project Manager |
 | transfer | 0 | — | no counterparty exists for any risk here: no supplier, no operator, no deployment to transfer to |
 
 Both High-band risks are disposed of by `avoid`, because an artifact this process already runs retires each of them: R001 by the Test Case the Test Designer produces, R009 by the Use-Case Model the System Analyst recovers. No risk in the High or Significant band rests on the Project Manager's own acceptance, so no acceptance is asked of the stakeholder this round. R007, R008 and R012 are `accept` at Low, Minor and Moderate: their acceptance was the stakeholder's, given on 2026-11-14 and cited in Risk Mitigation and Contingency.
