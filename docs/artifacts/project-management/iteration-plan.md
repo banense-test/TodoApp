@@ -180,19 +180,22 @@ The Business Reviewer is not a lens of any gate in this table. The Development C
 
 ### Fine plan — this iteration's work items and their owners
 
+Survey 3 is the corrective iteration the SBC gate's verdict requires. Every item is a correction inside an artifact its owner already holds: no new question for the stakeholder, no scope change, no Change Request. The order is the stakeholder's — the premise first, then the statements that quote it, then the deleted gate, then the Minors in each owner's next turn.
+
 | Work item | Owner | Produces | Predecessor | Evidences which exit criterion |
 |---|---|---|---|---|
-| Narrow the Coverage closing statement to the sprint-zero scope | Software Archaeologist | System Inventory — Coverage (SI-2) | — | 3 — unread areas declared, each carried as a risk |
-| Re-dispose R002 and R011, quote R002's grant, and bound the human gate | Project Manager | Risk List (RL-1, RL-2, RL-3, R026) | Coverage corrected | 4 — every anomaly a classified risk whose strategy can execute |
-| Rebuild the retirement map and sweep the plan for any work item assuming a run | Project Manager | Iteration Plan — Plan and Milestones (IP-5, IP-7) | Risk List corrected | 6 — no work the phase does not run |
-| Reconcile the role profile against every risk owner; staff no stood-down role | Project Manager | Iteration Plan — Resources (IP-2, IP-3) | Retirement map corrected | 6 — the plan instantiates the process |
-| Restore exit criterion 1 to the process wording and report each criterion's state | Project Manager | Iteration Plan — Evaluation Criteria (IP-1, IP-6, IP-8) | Role profile reconciled | 1 — the perimeter confirmed by the stakeholder |
-| Correct the pin tally to 30 and replace the absent-standard reference | Software Archaeologist, Process Engineer | System Inventory (SI-1, SI-3), Development Case (DC-1, DC-2) | — | 1 and 5 — the perimeter's size facts, the tailoring's auditability |
+| Narrow the Coverage closing statement to Survey, Excavation and Consolidation; drop "for the life of this project", "in any phase" and the prohibition on later milestones | Software Archaeologist | System Inventory — Coverage | — | 3 — unread areas declared, each carried as a risk |
+| Restate R002 and R011 as accepted until the RUP phases start, and state in Document Control that the acceptance is bounded to the sprint zero | Project Manager | Risk List — Document Control, Risk Register, Risk Classification, Risk Mitigation and Contingency | System Inventory corrected | 4 — every anomaly a classified risk whose strategy can execute |
+| Scope the no-run property to the sprint zero, state that from Inception on the pipeline builds and tests, and re-examine the retirement map for what a build and test run settles | Project Manager | Iteration Plan — Plan and Milestones | Risk List corrected | 6 — the plan instantiates the process |
+| Restore exit criterion 1 to the process wording, evidence it with the confirmation of 2026-11-14, and delete G2 from the roadmap, the gantt and the gate list | Project Manager | Iteration Plan — Evaluation Criteria, Plan and Milestones, Resources | Retirement map corrected | 1 — the perimeter confirmed by the stakeholder |
+| Restate the Provenance row to the four files Coverage names | Software Archaeologist | System Inventory — Provenance | Owner's next turn | 3 — the declaration of what was read |
+| Cite the pins in `Directory.Packages.props` instead of a version policy the Development Case does not contain | Project Manager | Risk List — Risk Mitigation and Contingency | Owner's next turn | 4 — every strategy names what retires it |
+| Move R006 and R025 from the LCO row to Survey 2 — SBC and restate the accounting | Project Manager | Iteration Plan — Plan and Milestones | Owner's next turn | 6 — the retirement map accounts for every risk once |
 | Write the assessment against the gate's verdict | Project Manager | Iteration Assessment | The verdict | — the record, not a criterion |
 
 No work item carries a size. This system measures two things only: agent work in tokens and elapsed time, and human gates in days of queue time. An empty size is correct; a figure in hours, days or person-anything would describe a unit this project cannot produce.
 
-Each exit criterion names the work item that evidences it. That is the variance iteration 1 recorded and did not repair: the fine plan was built by enumerating artifacts, and an exit criterion is a property of an artifact rather than its existence, so an artifact-shaped work item could not own it.
+Each exit criterion names the work item that evidences it. An exit criterion is a property of an artifact rather than its existence, so an artifact-shaped work item cannot own one.
 
 ### Spend — the two clocks, reported apart and never added
 
@@ -213,20 +216,6 @@ This project declares **no token budget**. None is set here, none is proposed fo
 | Carried on the acceptance recorded in the Risk List | 8 | R002, R007, R008, R011, R012, R015, R019, R023 |
 
 Fifteen plus two plus one plus eight is twenty-six, and it agrees with the register's 18 avoided and 8 accepted. R002 is the only accepted risk in the Significant band, and its acceptance is the stakeholder's answer of 2026-11-14, quoted verbatim in the Risk List.
-
-### Next iteration's fine plan — the corrective work this gate left open
-
-Four Majors and three Minors arrived with the SBC verdict. Each is a correction inside an artifact its owner already holds: no new question for the stakeholder, no scope change, no Change Request. They are sequenced by the stakeholder's order — the premise first, then the statements that quote it, then the deleted gate, the Minors in each owner's next turn.
-
-| Work item | Owner | Produces | Order | Holds the milestone |
-|---|---|---|---|---|
-| Narrow the Coverage closing statement to Survey, Excavation and Consolidation; drop "for the life of this project", "in any phase" and the prohibition on later milestones | Software Archaeologist | System Inventory — Coverage | 1 | Yes |
-| Restate R002 and R011 as accepted until the RUP phases start, and bound the acceptance in Document Control to the sprint zero | Project Manager | Risk List — Document Control, Risk Register, Risk Mitigation and Contingency | 2 | Yes |
-| Scope the no-run property to the sprint zero and state that from Inception on the pipeline builds and tests, naming the evidence's producer | Project Manager | Iteration Plan — Plan and Milestones | 3 | Yes |
-| Restore exit criterion 1 to the process wording and evidence it with the confirmation of 2026-11-14 | Project Manager | Iteration Plan — Evaluation Criteria | 4 | Yes |
-| Restate the Provenance row to the four files Coverage names | Software Archaeologist | System Inventory — Coverage | Owner's next turn | No |
-| Cite the pins in `Directory.Packages.props` instead of a version policy the Development Case does not contain | Project Manager | Risk List — Risk Mitigation and Contingency | Owner's next turn | No |
-| Move R006 and R025 from the LCO row to Survey 2 — SBC and restate the accounting | Project Manager | Iteration Plan — Plan and Milestones | Owner's next turn | No |
 
 ### What the first build-and-test run settles, and what it cannot
 
