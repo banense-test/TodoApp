@@ -1107,3 +1107,12 @@ Every fact above has a row here. A fact whose anchor is a stakeholder answer nam
 | `docs/artifacts/project-management/risk-list.md` is 37006 bytes, `iteration-plan.md` 42585 bytes, `review-record.md` and `iteration-assessment.md` not measured | SCM file metadata, 2026-11-14 |
 | The two process-management records were opened as files at this reading, to check the statements each quotes from this artifact; opening them changed no fact this artifact records about the system | `docs/artifacts/project-management/risk-list.md`, `docs/artifacts/project-management/iteration-plan.md` |
 
+### The process records the reading opened
+
+| Fact | Anchor |
+|---|---|
+| `docs/artifacts/environment/development-case.md` is 20371 bytes | SCM file metadata, 2026-11-14 |
+| `docs/artifacts/project-management/risk-list.md` is 37006 bytes and `iteration-plan.md` is 42585 bytes; `review-record.md` and `iteration-assessment.md` are not measured | SCM file metadata, 2026-11-14 |
+| Each iteration of this phase revises the Development Case, so its path carries revisions at Survey 1, Survey 2, Survey 3 and Survey 4, the most recent `b5a8965` | `scm_list_commits` over `docs/artifacts/environment/development-case.md`, 2026-11-14 |
+| The Risk List and the Iteration Plan were read as files because both quote this artifact's own enumeration; neither records a fact about the system, and every statement either makes about it traces back here | `docs/artifacts/project-management/risk-list.md`, `docs/artifacts/project-management/iteration-plan.md` |
+
