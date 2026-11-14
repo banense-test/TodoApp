@@ -211,7 +211,6 @@ Event 2 is the iteration's largest variance and it was not a review finding in o
 The Business (BusinessReviewer) lens does not appear in the events above because it is inactive by tailoring: `business-process-led = false` stands it down for the whole project, and this gate ran two lenses instead of three. Its absence is a recorded tailoring decision, not a defect, and no finding is raised against it.
 
 ## Rework Required
-
 **One more iteration inside Survey, at schedule cost.** The iteration-count lever is the plan's own stated remedy for a milestone whose exit criteria do not pass: declared scope is not narrowed, no agent role is added in parallel, and no criterion is re-interpreted to fit what was produced. No Change Request is required — all 15 defects are corrections inside an artifact its owner already holds.
 
 ```plantuml
@@ -260,18 +259,18 @@ stop
 @enduml
 ```
 
-| Step | Defect | Owner | Holds the milestone | Correction |
-|---|---|---|---|---|
-| 1 | SI-2 | Software Archaeologist | Yes | Coverage's closing sentence records the stakeholder's decision in their own terms; the declarations themselves stay unchanged |
-| 2 | RL-2 | Project Manager | Yes | R002 and R011 restated `accept`; the stakeholder's grant quoted verbatim as R002's Significant-band acceptance; a contingency for a reading-only claim proving wrong outside this project; Document Control and the strategy split corrected |
-| 3 | IP-5 | Project Manager | Yes | R002 and R011 leave the AR retirement row; the "observed rather than read" step deleted; the plan swept for any other work item assuming the system can be run |
-| 4 | IP-2, IP-3 | Project Manager | Yes | Business Reviewer removed from LCO and LCA; System Analyst and Software Archaeologist added to the Excavation profile; every risk owner reconciled against the role profile |
-| 5 | IP-4 | Project Manager | Yes | A stakeholder gate booked at LCA for the baseline's acceptability and at PR for project acceptance — the event at which ownership passes. Queue time, ceiling 14 days, estimate none |
-| 6 | RL-1 | Project Manager | Yes | A risk bounds those gates at the 14-day ceiling with the suspension rule, or the plan's claim that one exists is deleted |
-| 7 | IP-1 | Project Manager | Yes | Criterion 1 restated to what SBC gates, with G2 cited as the confirmation point. **G2 does not move** — Excavation deepens the perimeter, so confirming it earlier confirms an incomplete record |
-| 8 | SI-1 | Software Archaeologist | Yes | 28 pins corrected to 30 in both places and in the Provenance row. No pin value changes |
-| 9 | DC-1 | Process Engineer | Yes | The `CONTRIBUTING.md` row replaced with `Directory.Build.props` and `Directory.Packages.props`, owner Software Architect, stating that no written coding standard exists |
-| 10 | DC-2, SI-3, RL-3, IP-6, IP-7 | Process Engineer, Software Archaeologist, Project Manager | No | The five Minors, each in its owner's next turn |
+| Step | Defect | Owner | Holds the milestone | Correction | State |
+|---|---|---|---|---|---|
+| 1 | SI-2 | Software Archaeologist | Yes | Coverage's closing sentence records the stakeholder's decision in their own terms; the declarations themselves stay unchanged | With its owner |
+| 2 | RL-2 | Project Manager | Yes | R002 and R011 restated `accept`; the stakeholder's grant quoted verbatim as R002's Significant-band acceptance; a contingency for a reading-only claim proving wrong outside this project; Document Control and the strategy split corrected | Corrected — Risk List, Risk Register and Risk Mitigation and Contingency |
+| 3 | IP-5 | Project Manager | Yes | R002 and R011 leave the AR retirement row; the "observed rather than read" step deleted; the plan swept for any other work item assuming the system can be run | Corrected — Iteration Plan, Plan and Milestones |
+| 4 | IP-2, IP-3 | Project Manager | Yes | Business Reviewer removed from every gate row; System Analyst and Software Archaeologist added to the Excavation profile; every risk owner reconciled against the role profile | Corrected — Iteration Plan, Plan and Milestones and Resources |
+| 5 | IP-4 | Project Manager | Yes | A stakeholder gate booked at LCA for the baseline's acceptability and at PR for project acceptance — the event at which ownership passes. Queue time, ceiling 14 days, estimate none | Corrected — Iteration Plan, Plan and Milestones |
+| 6 | RL-1 | Project Manager | Yes | A risk bounds those gates at the 14-day ceiling with the suspension rule | Corrected — R026 in the Risk List; the plan cites it |
+| 7 | IP-1, IP-6 | Project Manager | Yes / No | Criterion 1 restated to what SBC gates, with G2 cited as the confirmation point; each criterion's state evidenced rather than uniformly reported. **G2 does not move** — Excavation deepens the perimeter, so confirming it earlier confirms an incomplete record | Corrected — Iteration Plan, Evaluation Criteria |
+| 8 | SI-1, SI-3 | Software Archaeologist | Yes / No | 28 pins corrected to 30 in both places and in the Provenance row; the stale "(unread)" qualifier dropped | With its owner |
+| 9 | DC-1, DC-2 | Process Engineer | Yes / No | The `CONTRIBUTING.md` row replaced with `Directory.Build.props` and `Directory.Packages.props`, owner Software Architect, stating that no written coding standard exists; the ownership view redrawn | With its owner |
+| 10 | RL-3 | Project Manager | No | R018's mitigation splits supplying the values from recording them: the Software Architect establishes both threshold sets from the code and supplies them, the System Analyst records them in the Supplementary Specification | Corrected — Risk List, Risk Mitigation and Contingency |
 
 ### Constraints carried into every later iteration
 
@@ -280,11 +279,10 @@ stop
 | The system is never run in any phase | No risk may be retired by observation, and no exit criterion may require it | Risk List strategies, the AR exit case, Coverage's settlement statement |
 | Observation is unavailable, so evidence is reading plus anchor verification | Anchor verification stays a mandatory review activity, not a sampling choice | AR and GHR milestones; the 17-anchor/1-false-anchor yield is its justification |
 | Two lenses, not three, judge every milestone | No Business-lens finding will ever cover a defect; the remaining lenses carry the full load | Every milestone review from SBC onward |
-| A human gate is bounded in the Risk List, never forecast in the plan | Gates are queue time with a 14-day ceiling, estimate none, process suspends rather than assuming | RL-1 and the LCA and PR gates booked by IP-4 |
+| A human gate is bounded in the Risk List, never forecast in the plan | Gates are queue time with a 14-day ceiling, estimate none, process suspends rather than assuming | R026, and the LCA and PR gates the plan books |
+| No milestone may retire more than the artifact it produces | Every one of the 26 risks is accounted for exactly once: 17 by a milestone artifact, 1 by its bound, 8 on the Risk List's acceptance | Iteration Plan, Plan and Milestones |
 
 ### What this iteration leaves the next one
 
-A verified perimeter — 16 of 17 anchors confirmed, and the stakeholder states nothing is missing from it — a correctly scoped set of four stakeholder dispositions, and a risk register whose 23 of 25 disposals hold and whose two that do not are named. The next iteration corrects nine artifact statements against that product; it does not re-derive it.
+A verified perimeter — 16 of 17 anchors confirmed, and the stakeholder states nothing is missing from it — a correctly scoped set of four stakeholder dispositions, and a risk register whose 24 of 26 disposals hold. The next iteration does not re-derive any of it: it carries the corrected plan and register into the gate, and the three defects still with their own owners (SI-2, SI-1 with SI-3, DC-1 with DC-2) are theirs to close before the milestone is sanctioned.
 
-**DEFERRED: Risk List — its two Majors (RL-1, RL-2) and one Minor (RL-3) are corrected as steps 2 and 6 of the corrective sequence in Survey iteration 2, not by rewriting the register inside its own closure record.**
-**DEFERRED: Iteration Plan — its five Majors (IP-1 to IP-5) and two Minors (IP-6, IP-7) are corrected as steps 3, 4, 5, 7 and 10 of the same sequence, together with the fine-plan adjustment recorded under Adherence to Plan.**
