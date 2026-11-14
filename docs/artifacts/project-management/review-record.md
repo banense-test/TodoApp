@@ -1,9 +1,11 @@
 ## Document Control
 ### Reviewer lens
-<!-- review: Survey I3 -->
+<!-- review: Survey I4 -->
+
+<!-- review: Survey I4 -->
 
 Phase: Survey
-Status: Draft — technical lens of the SBC review, re-held at iteration 3. Two prior findings of this lens closed Resolved; 4 new findings (0 Critical, 2 Major, 2 Minor) on 2 artifacts.
+Status: Draft — technical lens of the SBC review, held at Survey iteration 4. Four prior findings of this lens closed Resolved against the corrected text and the anchors they cite; 2 new findings (0 Critical, 0 Major, 2 Minor) on 2 artifacts.
 Milestone Target: End-of-Survey (SBC) — not yet achieved; the sanction is the stakeholder's and this lens does not hold it
 
 ### Management Reviewer lens
