@@ -456,7 +456,7 @@ The Document Control status line reads "All seven Iteration Plan defects of the 
 
 #### Development Case
 
-Environment discipline, Survey. Verdict: **Approved** — no open finding from this lens. The iteration-1 Major is closed Resolved.
+Environment discipline, Survey. Verdict: **Approved** — no open finding from this lens. The iteration-1 Major is closed Resolved, and the stakeholder's corrections of 2026-11-14 do not reach this artifact.
 
 | Checklist item | Verdict |
 |---|---|
@@ -467,87 +467,124 @@ Environment discipline, Survey. Verdict: **Approved** — no open finding from t
 | Every cited tool reference resolves in the tree | **Pass** — was the iteration-1 Major |
 | Discipline intensities match the canonical matrix, no self-granted deviation | Pass |
 | No stood-down role at work the tailoring removes | Pass — Business Process Analyst, Business Reviewer, Capsule Designer |
+| No constraint stated over more of the lifecycle than was decided | Pass — the tailoring states no no-run constraint; it is not this artifact's claim to narrow |
 
-The Tool references table now names five paths, each present in the tree — `.github/workflows/ci.yaml`, `Directory.Packages.props` with `global.json`, `Directory.Build.props`, `Todo.Api.Tests` with `Directory.Packages.props`, `README.md`. It closes with the statement that no written coding standard exists in the repository and none is assumed, and names the route by which one would be authored. SBC criterion 5 asks whether the tailoring is auditable; a process authority whose references all resolve is auditable, and this one is. **Criterion 5: Pass.**
+The Tool references table names five paths, each present in the tree, and closes with the statement that no written coding standard exists in the repository and none is assumed, together with the route by which one would be authored. SBC criterion 5 asks whether the tailoring is auditable; a process authority whose references all resolve is auditable. **Criterion 5: Pass.**
 
-The correction obliges nothing further of this artifact. One consequence for a later role is recorded as an observation, not a finding: with no written standard, the Code Reviewer's checklist is `Directory.Build.props`'s compiler-enforced conventions, the central pins, and the Software Architecture Document's mechanisms. The Development Case says exactly that, so the Code Reviewer is not left improvising.
+One consequence for a later role, recorded as an observation and not a finding: with no written standard, the Code Reviewer's checklist is `Directory.Build.props`'s compiler-enforced conventions, the central pins, and the Software Architecture Document's mechanisms. This artifact says exactly that, so the Code Reviewer is not left improvising.
 
 #### System Inventory
 
-Discovery discipline, Survey — the sprint zero's one artifact and the perimeter every later role builds on. Verdict: **Approved** — no open finding from this lens. Both iteration-1 Majors are closed Resolved.
+Discovery discipline, Survey — the sprint zero's one artifact, and the record the stakeholder has now confirmed as the perimeter. Verdict: **Approved with changes** — one Major.
 
 | Checklist item | Verdict |
 |---|---|
 | Every perimeter element carries an anchor that says what is claimed | Pass — independently verified by the technical lens; not re-opened here |
 | Size and count facts match the anchor | **Pass** — was the iteration-1 Major |
-| Coverage declares its gaps rather than omitting them | Pass — and now carried as risk rather than as an open question |
+| Coverage declares its gaps rather than omitting them | Pass — and carried as risk rather than as an open question |
 | The three stakeholder decisions are recorded in the stakeholder's own words | Pass — each quoted verbatim, each verified against the code it disposes of |
-| No forward commitment rests on an activity the project will not perform | **Pass** — was the iteration-1 Major |
-| Runtime behaviour claimed nowhere | Pass — Coverage states no process was run and none is run in any phase |
+| No constraint stated over more of the lifecycle than was decided | **Fail — F3** |
+| Runtime behaviour claimed nowhere | Pass — Coverage states no process was run in the sprint zero |
 
-The pin tally reads **30** with its group breakdown in all three places it is stated, and the arithmetic closes: 6 test + 19 application + 5 OpenTelemetry. The size fact the Software Architect anchors the SAD's version policy to is now accurate, and so is the size fact of the perimeter the stakeholder is asked to confirm.
+The pin tally reads **30** with its group breakdown in all three places it is stated, and the arithmetic closes: 6 test + 19 application + 5 OpenTelemetry. The size fact the Software Architect anchors the SAD's version policy to is accurate, and so is the size fact of the perimeter the stakeholder has confirmed.
 
-Coverage's closing statement now carries the stakeholder's decision in their terms: the two read-only claims stay declared as read but not observed for the life of the project, carried as accepted risk with the residual uncertainty intact, and no milestone may count them as retired. The declarations themselves stand unchanged — they are the honest record the stakeholder endorsed. **Criterion 3: Pass.**
+##### F3 — Major — the Coverage closing statement states the constraint over the whole lifecycle
 
-The perimeter's content is not disturbed by either correction, and the stakeholder's own answer states that nothing is missing from it that they know of.
+Coverage closes:
+
+> "Both stay declared as read but not observed **for the life of this project**. No process is run **in any phase** — the system is not installed anywhere and nobody runs it here — so neither statement is ever settled by observation, by Excavation or by any later reading of this record. They are carried as accepted risk with that residual uncertainty intact, and **no milestone may count them as retired**."
+
+The stakeholder bounded this in the answer that granted the sanction: the earlier sentence applied to Survey, Excavation and Consolidation only; the system will not never be run — once the RUP phases start the pipeline builds it and runs its tests; the two risks are accepted until then, not for the life of the project.
+
+Three phrases state more than was decided. "For the life of this project" and "in any phase" extend a sprint-zero constraint across Inception, Elaboration, Construction and Transition. "No milestone may count them as retired" is a standing prohibition on later milestones that the stakeholder did not issue — and it is the sentence that converts a temporary acceptance into a permanent one.
+
+This is a Major because three artifacts quote the passage. The Risk List's R002 and R011 rows and the Iteration Plan's retirement map and its "closed for the project" property are all built on it, so a single overstatement in the perimeter record currently propagates into the register and the plan at once — the same propagation shape the iteration-1 Major had, in the opposite direction.
+
+Recommendation: restate to the scope given. No process is run in Survey, Excavation or Consolidation, so within the sprint zero neither statement is settled by observation; both stay declared as read but not observed and are carried as accepted risk until the RUP phases start, when the pipeline builds the solution and runs its tests. Drop "for the life of this project", "in any phase" and the prohibition on later milestones, and leave open that a later phase recording a build-and-test result settles them. The declarations themselves stand unchanged — they remain the honest record, and the stakeholder endorsed them as such.
 
 #### Risk List
 
-Project Management discipline, Survey. Verdict: **Approved** — no open finding from this lens. Both iteration-1 Majors are closed Resolved.
+Project Management discipline, Survey. Verdict: **Approved with changes** — one Major.
 
 | Checklist item | Verdict |
 |---|---|
 | Every anomaly of the System Inventory is carried as a scored risk | Pass — 26 rows; 23 anomalies, 2 declared coverage limits, and R026 |
 | Every magnitude is the band of its own exposure | Pass — 2 High, 8 Significant, 12 Moderate, 3 Minor, 1 Low; agrees with the register row for row |
-| No High or Significant risk rests on an acceptance nobody granted | **Pass** — was the iteration-1 Major |
+| No High or Significant risk rests on an acceptance nobody granted | **Pass** — was the iteration-1 Major; R002's Significant band is covered by the stakeholder's grant |
+| The acceptance recorded is the acceptance given | **Fail — F3** |
 | Every risk's strategy can actually execute | **Pass** — was the iteration-1 Major |
 | The only non-agent delay in the project is bounded here, as the plan claims | **Pass** — R026, 3×4=12, Significant, `avoid` on its own bound |
-| Every accepted risk at Significant or above quotes its grant | Pass — R002 alone, on the stakeholder's answer of 2026-11-14 |
 | Traceability table present, one row per declared `RNNN`, recovered elements with empty `Traces From` | Pass — 26 rows, correct form |
 
-Both High-band risks are `avoid` and retired by artifacts the process already runs — R001 by the Test Case at LCA, R009 by the Use-Case Model at GHR. Of the eight Significant risks, seven are `avoid`; R002 alone is accepted, and it rests on the stakeholder's own words quoted verbatim, with a contingency stating what happens if a reading-only claim proves wrong when the system is first run outside this project. No acceptance in the register is outstanding, and the Document Control status line now says so accurately.
+Both High-band risks are `avoid` and retired by artifacts the process already runs — R001 by the Test Case at LCA, R009 by the Use-Case Model at GHR. Of the eight Significant risks, seven are `avoid`; R002 alone is accepted. R026 bounds the project's only non-agent delay at 14 days of queue time, estimate none, and the Iteration Plan cites it by identifier, so plan and register state the same control. **Criterion 4 fails on F3 alone**, not on the scoring.
 
-R026 bounds the project's only non-agent delay: 14 days of queue time, estimate none, actual measured and reported apart from agent time, the process suspends rather than filling the gap with an assumption. The Iteration Plan cites it by identifier, so the plan and the register now state the same control — a control asserted in one document and absent from the other was the iteration-1 defect, and it is closed. **Criterion 4: Pass.**
+##### F3 — Major — a bounded acceptance is recorded as one that runs to the end of the project
+
+R002 reads "No process was run during the reading, and **none will be run in any phase of this project** ... **no later reading can settle it**". R011 reads "settled only by running the API — **which this project does not do**". Document Control presents the acceptance as standing: "no acceptance is outstanding", with no bound on its duration.
+
+The stakeholder's grant is narrower than that: "I accept those two risks **until then**, not for the life of the project" — "then" being the start of the RUP phases, when the pipeline builds and runs its tests.
+
+The grant exists and R002's Significant band remains covered, so the acceptance itself is sound and no new authority is needed. What is wrong is its duration. A register that presents a sprint-zero acceptance as open-ended overstates the residual risk it carries into three RUP phases and understates the evidence those phases will produce — and it is the register the plan and the Iteration Assessment both read for what remains accepted.
+
+Recommendation: restate both rows to the decision taken — no process is run in Survey, Excavation or Consolidation; both are accepted on the stakeholder's answer of 2026-11-14 until the RUP phases start, when the pipeline builds and runs its tests; the first such run is what settles each, so the uncertainty is confined to the artifacts the sprint zero produces. Correct R002's "no later reading can settle it" and R011's "which this project does not do" to that scope, keep both acceptances and both bands, and state in Document Control that the acceptance is bounded to the sprint zero.
 
 #### Iteration Plan
 
-Project Management discipline, Survey. Verdict: **Approved with changes** — one Minor, no Major. All five iteration-1 Majors and the Minor are closed Resolved.
+Project Management discipline, Survey. Verdict: **Rejected** — two Majors and one Minor. All five iteration-1 Majors and its Minor are closed Resolved.
 
 | Checklist item | Verdict |
 |---|---|
-| Every exit criterion is evidenced as worded | **Pass** — was the iteration-1 Major |
-| No role at work that the tailoring stood down | **Pass** — was the iteration-1 Major |
-| Every role the plan assigns work to is at work in that milestone | **Pass** — was the iteration-1 Major |
-| Every milestone whose exit condition is the stakeholder's acceptance has a gate at which it is obtained | **Pass** — was the iteration-1 Major |
-| No milestone retires a risk by an activity the project will not perform | **Pass** — was the iteration-1 Major |
-| Per-criterion state reported accurately, not uniformly | **Pass** — was the iteration-1 Minor |
-| Every risk accounted for exactly once, at the milestone that retires it | **Fail — F7 (Minor)** |
+| Every exit criterion evidenced as worded | **Fail — F8** |
+| Every gate the plan books is a gate the stakeholder will attend | **Fail — F8** |
+| No constraint stated over more of the lifecycle than was decided | **Fail — F9** |
+| No role at work that the tailoring stood down | Pass — was the iteration-1 Major |
+| Every role the plan assigns work to is at work in that milestone | Pass — was the iteration-1 Major |
+| Every milestone whose exit condition is the stakeholder's acceptance has a gate | Pass — was the iteration-1 Major |
+| Every risk accounted for exactly once, at the milestone that retires it | Fail — F7 (Minor) |
 | No invented size, token budget, forecast or calendar date | Pass — no work item is sized, no bar is a duration, no start date is given |
 | Both clocks reported apart and never added | Pass |
 | Milestone order matches the phase sequence | Pass |
-| Parallelism not claimed where the chain is data-dependent | Pass |
+| Per-criterion state reported accurately, not uniformly | Pass — was the iteration-1 Minor |
 
-##### What the five corrections achieved
+##### F8 — Major — criterion 1 defers to a gate the stakeholder has deleted
 
-Criterion 1 no longer claims a confirmation SBC does not obtain: it asks for recorded-and-put, and the section that follows names **G2 at Consolidation 1's start** as where the perimeter is confirmed, with the reason — Excavation deepens the record, so confirming before that reading would confirm an incomplete one. The three answers of 2026-11-14 are explicitly denied any role as confirmation of the perimeter. This was the defect that made the milestone unsanctionable in iteration 1: a criterion satisfiable only by a sanction the stakeholder withheld. It is now a criterion SBC can satisfy, and it is satisfied.
+Criterion 1 reads as recorded-and-put, with "confirmation deferred to G2", and the subsection beneath it states plainly: "The perimeter is **confirmed** at **G2, at Consolidation 1's start** — not at SBC." G2 then appears in three more places — the coarse roadmap, the gantt markers, and the Resources gate list, which counts five gates.
 
-Two of the three governance Majors are corrected in the roadmap and the role profile. The Business Reviewer appears on no gate, and the roadmap states why — every row reads Reviewer, Management Reviewer, Review Coordinator, matching the plan's own Resources section and the tailoring that governs it. Excavation 1 now carries the System Analyst and the Software Archaeologist at the stages the process assigns them, beside the Software Architect, Designer, Database Designer and Project Manager, so every risk owner named in a milestone row is at work in the milestone that carries its risk. The fifth Major is corrected in the retirement map: R002 and R011 are carried on the Risk List's acceptance rather than counted as retired at AR, and the plan states as a load-bearing property that no retirement anywhere runs the system.
+The stakeholder answered: the perimeter is confirmed **now, at this milestone**; there is to be no second confirmation at the start of Consolidation; G2 is to be removed; and the first exit criterion is to be restored **as the process states it** — the perimeter confirmed by the stakeholder. If Excavation finds something outside the perimeter, the question goes back to them at that point.
 
-The third governance Major — the unbooked acceptance gates — is corrected by booking five: G4 at Elaboration 1's end for the architecture baseline, G5 at Transition 1's end for the product, and the PR row now names "the customer taking ownership of the product (G5)". A milestone that exists to transfer ownership now has an event at which ownership transfers.
+Two consequences, and the second is the more serious. First, the plan still books a gate the stakeholder has refused, so a Review Coordinator assembling the Consolidation gate would summon a human decision that will not be given. Second, criterion 1 is now **satisfiable and satisfied** — the confirmation has been obtained — while the artifact still records it as unobtainable. The plan is therefore understating its own gate: it reports criterion 1 as deferred when the condition is met.
+
+This is a Major because SBC criterion 6 turns on whether the plan instantiates the process, and a plan that books a non-existent gate and defers a met criterion does not. It propagates: the Resources gate count, the roadmap's Consolidation row and the gantt's gold markers all carry G2.
+
+Recommendation: restore criterion 1 to the process's wording and evidence it with the confirmation given at SBC on 2026-11-14 over the seven projects, the entry-point surface, the stores and the external systems. Delete G2 from the coarse roadmap, the gantt markers and the Resources gate list, leaving four gates — G1, G3, G4, G5 — with no dangling identifier. Replace "Where the perimeter is confirmed" with what happened: confirmed at SBC, and an element Excavation finds outside the perimeter is put to the stakeholder then. Do not restate the deferral's rationale as a live reason — it is superseded by the stakeholder's decision.
+
+##### F9 — Major — the plan forecloses a retirement path that exists from Inception on
+
+Two passages state the constraint project-wide:
+
+> "**No retirement runs the system.** ... The two risks whose condition could only be settled by observation — R002 and R011 — are carried on the acceptance rather than counted as retired, so no milestone's exit case rests on evidence the project will not produce."
+
+and, in the retirement diagram, "No retirement anywhere in this plan runs the system: that path is closed for the project."
+
+The stakeholder narrowed it: the earlier sentence applied to Survey, Excavation and Consolidation only; the system will not never be run; once the RUP phases start the pipeline builds it and runs its tests; the two risks are accepted until then.
+
+The over-extension has a cost beyond wording. Treated as unavailable for the whole lifecycle, observation is removed as a retirement path from Elaboration, Construction and Transition — where the CI pipeline produces test evidence as a matter of course — and eight risks are carried accepted to PR with no later milestone asked to settle any of them. The plan forecloses evidence the project will in fact generate.
+
+This is a Major because the risk-retirement map is the instrument by which the plan claims its risks retired, and it now omits a whole class of retirement that exists from Inception on. It is not cosmetic: it changes what later milestones are asked to do.
+
+Recommendation: scope the property to the sprint zero — no retirement in Survey, Excavation or Consolidation runs the system; every step in those three milestones is an artifact a role writes or a bound a register carries. State that from Inception on the pipeline builds the solution and runs its test suites, so a later phase may retire a risk by a build or test result, and name who produces that evidence. Then re-examine the retirement map for what the pipeline can settle: R002 and R011 are accepted only until the RUP phases start, so a milestone from Inception on must retire what it can rather than carrying all eight accepted risks unchanged to PR. Record which of the 26 gain a retirement path once a build and test run exists, and place each at the milestone whose execution produces it.
 
 ##### F7 — Minor — the retirement map credits LCO with two retirements this iteration performed
 
-The LCO row's risk column reads "R006, R025", and the retirement diagram reads "Process authority corrected against the evidence — R006, R025". Both risks are retired **at this milestone**, by corrections the same document records as done: the fine plan's row "Correct the pin tally to 30 and replace the absent-standard reference — Software Archaeologist, Process Engineer — Development Case (DC-1, DC-2)", and the Evaluation Criteria row "DC-1 — the `CONTRIBUTING.md` row, corrected this iteration". R006's mitigation is executed in the Development Case's Guidelines and Procedures and R025's in its Roles and Ownership; this review verified both corrections and closed them.
+The LCO row's risk column reads "R006, R025", and the retirement diagram reads "Process authority corrected against the evidence — R006, R025". Both risks are retired **at this milestone**, by corrections the same document records as done: the fine plan's row "Correct the pin tally to 30 and replace the absent-standard reference — Development Case (DC-1, DC-2)", and the Evaluation Criteria row "DC-1 — the `CONTRIBUTING.md` row, corrected this iteration". R006's mitigation is executed in the Development Case's Guidelines and Procedures and R025's in its Roles and Ownership; this review verified both corrections and closed them.
 
-So the plan's opening property — every risk accounted for "exactly once ... at the milestone named in the table above" — names the wrong milestone for two of the twenty-six. The sum still closes at 26, no risk is double-counted, and no risk is lost.
+So the plan's opening property — every risk accounted for "exactly once ... at the milestone named in the table above" — names the wrong milestone for two of the twenty-six. The sum still closes at 26 and no risk is lost or double-counted.
 
-A Minor because it stays inside the artifact. R006 and R025 are Moderate risks whose correction changed no plan shape; the roadmap's sequencing claim concerns the High and Significant bands, which are untouched; and no exit criterion depends on the attribution. Nothing downstream is built on the wrong milestone.
-
-Recommendation: move R006 and R025 into a line for Survey 2 — SBC and adjust the accounting to fifteen retired by a later milestone artifact, two at SBC, one by its own bound (R026) and eight carried on acceptance. The sum stays twenty-six, and the LCO row then carries no retired risk — correct, because Inception's work is the declared-scope artifacts, not the correction of the process authority.
+A Minor because it stays inside the artifact: both are Moderate risks whose correction changed no plan shape, the sequencing claim concerns the High and Significant bands and those are untouched, and no exit criterion depends on the attribution. Recommendation: move R006 and R025 into a line for Survey 2 — SBC and restate the accounting as fifteen retired by a later milestone artifact, two at SBC, one by its own bound and eight carried on acceptance — twenty-six. The LCO row then carries no retired risk, which is correct.
 
 #### Iteration Assessment
 
-Not reviewed as a gate input, and its absence or lag is no defect. The Project Manager writes it against this verdict; demanding it describe the iteration before this review rules on that iteration would invert the order. Recorded here so no later lens reads the gap as an omission.
+Not reviewed as a gate input, and its absence or lag is no defect. The Project Manager writes it against this verdict; demanding it describe the iteration before this review rules on that iteration would invert the order. Recorded so no later lens reads the gap as an omission.
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
