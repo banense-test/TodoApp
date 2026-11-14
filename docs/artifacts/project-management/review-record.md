@@ -630,6 +630,221 @@ end note
 
 `scm_list_pull_requests` over all states returns none: no branch carries work, no scaffolding awaits approval, and nothing needs to be deferred out of phase. There is also no IARI build to report — the pipeline file does not exist in the repository yet, which says nothing about the repository's own `ci.yaml`. Nothing in this iteration is a code-review or integration question, so no review evidence is withheld on those grounds.
 
+### Management Reviewer lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+#### Development Case
+
+Reviewed at SBC. Environment discipline, Survey. **Disposition: Approved with changes** — one Major, no Minor from this lens.
+
+| Checklist item | Verdict |
+|---|---|
+| Tailoring is a delta over the IARI baseline — no roster, CORE, ownership or optional-universe redefinition | Pass |
+| Every FIRED optional trigger holds its own §5.2 condition | Pass — Deployment Model fires on a genuine four-process topology |
+| Every NOT FIRED verdict holds against its condition | Pass — Data Model on 8 tables, Proof-of-Concept deferred to Elaboration, Test Plan on no audit obligation |
+| Classification carries its basis | Pass — `business-process-led = false` and `real-time-system = false` both derived from the code |
+| Stood-down roles are consistent through the artifact | Pass — Business Process Analyst, Business Reviewer, Capsule Designer |
+| **Every tool reference resolves in the tree** | **Fail — F1** |
+| Discipline intensities match the canonical matrix, no self-granted deviation | Pass |
+
+##### F1 — Major — a tool reference does not resolve, so the tailoring is not auditable
+
+The Tool references table reads:
+
+> `| Coding standard and review conventions | CONTRIBUTING.md | Software Architect, with the Code Reviewer |`
+
+`CONTRIBUTING.md` is not in the tree; a direct read returns "was not found". Two roles are told their standard lives in a document that does not exist, and this artifact is the process authority both of them read.
+
+This is a **Major** because SBC exit criterion 5 asks whether the tailoring is auditable, and a process authority whose references do not resolve is not auditable: a reader cannot distinguish a broken link from a standard nobody ever wrote. The Reviewer raised the same defect from the technical lens; this lens restates it because the consequence is the exit criterion, not the notation.
+
+The remediation is R006's, brought forward. Deferring it to LCO leaves the **Code Reviewer** — a lens of the very next milestone review — pointed at an absent file.
+
+#### System Inventory
+
+Reviewed at SBC. Discovery discipline, Survey — the sprint zero's one artifact and the perimeter every later role builds on. **Disposition: Approved with changes** — two Majors, no Minor from this lens.
+
+The Reviewer opened seventeen anchors and found sixteen correct; that verification stands and is not repeated. This lens tested the artifact on three management questions: is the perimeter *recordable as confirmable*, is its size accurate, and does it commit later roles to work they can do.
+
+| Checklist item | Verdict |
+|---|---|
+| Every perimeter element carries an anchor that says what is claimed | Pass — verified independently by the technical lens |
+| Coverage declares its gaps rather than omitting them | Pass — the honest declaration the stakeholder endorsed |
+| The three stakeholder decisions are recorded in the stakeholder's own words | Pass — each quoted verbatim, each verified against the code it disposes of |
+| **Size facts are accurate** | **Fail — F1** |
+| **No forward commitment rests on an activity the project will not perform** | **Fail — F2** |
+
+##### F1 — Major — the package-pin tally is short by two
+
+The artifact records "28 pins" in Technology and Size and "28 package pins" in Configuration read as documentation. `Directory.Packages.props` declares **30** `PackageVersion` elements. Every individual pin the artifact names resolves; only the count is wrong.
+
+A Major, not a Minor, for a management reason: the Software Architect anchors the SAD's version policy to this row, and the pin set is a **size fact of the perimeter the stakeholder is asked to confirm at SBC**. A perimeter record whose size facts are wrong is not yet a record the stakeholder can confirm. The Reviewer recorded the same defect; it appears in both lenses because it fails a technical check and a management criterion.
+
+##### F2 — Major — the artifact names how the two read-only claims are settled, and that path is closed
+
+The Coverage section closes with:
+
+> "Two statements in Anomalies rest on reading alone ... **Both are settled by running the system, which is Excavation's work.**"
+
+The stakeholder stated on 2026-11-14 that the system will not be run during these phases and that the two statements stay declared as read but not observed, with their risk. The **declarations themselves are correct and stay** — they are the honest record the stakeholder endorsed. What is superseded is the forward sentence saying how they are settled.
+
+This is a Major because two other artifacts build their retirement on that sentence: the Risk List's R002 and R011 mitigations, and the Iteration Plan's AR retirement row. A single wrong forward commitment in the perimeter artifact propagates into the plan and the register at once.
+
+#### Risk List
+
+Reviewed at SBC. Project Management discipline, Survey. **Disposition: Approved with changes** — two Majors, no Minor from this lens.
+
+| Checklist item | Verdict |
+|---|---|
+| Every anomaly of the System Inventory is carried as a scored risk | Pass — 25 rows; 23 anomalies plus 2 declared coverage limits |
+| Every magnitude is the band of its own exposure | Pass — all 25 recomputed independently by the technical lens |
+| No High or Significant risk rests on an acceptance nobody granted | Pass for R001, R003, R004, R005, R009, R016, R017, R018 |
+| Every risk has an owner, a strategy, a mitigation, and a contingency where accepted | Pass formally |
+| **Every risk's strategy can actually execute** | **Fail — F2** |
+| **The only non-agent delay in the project is bounded here, as the plan claims** | **Fail — F1** |
+| Traceability table present, one row per declared `RNNN`, recovery elements with empty `Traces From` | Pass — 25 rows, correct form |
+
+##### What the register gets right, and why it is not a cosmetic artifact
+
+This is the check that matters most for a FMEA-based register at a milestone gate: is it a **control instrument** or a catalogue? On the evidence, it is an instrument:
+
+```plantuml
+@startmindmap
+skinparam shadowing false
+title Risk register at SBC — disposal by strategy, and whether each disposal can execute
+* 25 scored risks
+** 17 avoided — retired by an artifact this process runs
+*** High band: R001 by the Test Case at LCA, R009 by the Use-Case Model at GHR
+*** Significant: R003, R004, R005, R016, R017, R018
+*** Moderate and below: R006, R010, R013, R014, R020, R021, R022, R024, R025
+** 6 accepted — on a grant that exists
+*** Stakeholder grant 2026-11-14: R007, R008, R012
+*** Within the Project Manager's authority: R015, R019, R023
+** 2 avoided by running the system — and the run is ruled out
+*** R002 Significant 10 — the grant exists but the register does not record it
+*** R011 Moderate 8 — the strategy is accept, not avoid
+@endmindmap
+```
+
+Twenty-three of the twenty-five dispose of themselves correctly. Both High-band risks are avoided by artifacts the process already runs, so no High risk depends on anyone's grace. The three stakeholder grants are quoted verbatim and each was verified against the code it disposes of. The two defects below are the exceptions, and both concern the same condition: the assumption that the system can be run.
+
+##### F1 — Major — the plan's only bound on the human gate is not in the register it points at
+
+The Iteration Plan states: "A gate is bounded in the Risk List, never forecast in the plan: ceiling 14 days, after which the process suspends rather than filling the gap with an assumption." Its critical chain repeats the ceiling on G1.
+
+**No risk of the 25 bounds a stakeholder gate.** No row names a human gate, a queue time or a ceiling. The three grants the register quotes are decisions already taken, not pending gates. The Project Manager's schedule discipline therefore rests on a register entry that does not exist, and if a gate exceeds its ceiling, nothing says what happens — the exact failure the ceiling was written to prevent. A control asserted in one document and absent from the other is not a control.
+
+##### F2 — Major — two strategies cannot execute, and one acceptance is unrecorded
+
+| Risk | Band | Strategy as written | Why it cannot execute |
+|---|---|---|---|
+| R002 | Significant (5×2=10) | `avoid` — "the two claims marked reading-only ... are settled by running the system" | The stakeholder ruled out running the system on 2026-11-14 |
+| R011 | Moderate (2×4=8) | `avoid` — "The Software Architect settles the partition key by running the API in Elaboration and records the observed result in the SAD, rather than reading it" | Same |
+
+Neither risk is avoided. The condition they describe is **permanent for this project**, so the correct strategy is `accept`. R002's acceptance sits in the **Significant** band, where the grant is the stakeholder's — and that grant was given in the stakeholder's own answer ("stay declared as such, with their risk") but the register does not record it. A Significant risk disposed of by `avoid` on an impossible action, with a grant that exists but is uncited, is the one combination a milestone review must not pass: it counts as retired a risk nothing retires.
+
+The Document Control status line — "no acceptance above the Moderate band is outstanding" — does not survive the correction.
+
+#### Iteration Plan
+
+Reviewed at SBC. Project Management discipline, Survey. **Disposition: Rejected** — five Majors and one Minor from this lens.
+
+This artifact carries the gate's decisive defects. Where the Reviewer tested it on exit-criteria integrity and measurement discipline — both of which it largely passes, and its refusal to invent a size, budget, forecast or date is correct and worth recording — this lens tested it on whether it can be executed as written.
+
+| Checklist item | Verdict |
+|---|---|
+| No invented size, token budget, forecast or calendar date | Pass — exemplary; the gantt declares its bars are not durations |
+| Both clocks reported apart and never summed | Pass |
+| Milestone order matches the phase sequence | Pass |
+| Parallelism not claimed where the chain is data-dependent | Pass |
+| Every exit criterion gates the milestone it names | **Fail — F1** |
+| **No role at work that the tailoring stood down** | **Fail — F2** |
+| **Every role the plan assigns work to is at work in that milestone** | **Fail — F3** |
+| **Every milestone whose exit condition is the stakeholder's acceptance has a gate at which it is obtained** | **Fail — F4** |
+| **No milestone retires a risk by an activity the project will not perform** | **Fail — F5** |
+| Per-criterion state reported accurately | **Fail — F6 (Minor)** |
+| Risk-retirement map accounts for all 25 risks | Fail — the Reviewer's F2; carried there, not duplicated |
+
+##### F1 — Major — criterion 1 claims a confirmation that nothing at SBC asks for
+
+Criterion 1 reads "The perimeter of the existing system is **confirmed by the stakeholder**", evidenced by the three scope answers of 2026-11-14. Three answers about three facts are not a confirmation of seven projects, an entry-point surface, stores and external systems. The gate that does confirm the perimeter — G2 — is placed at **Consolidation 1's start**, two milestones after the SBC it is meant to gate, and the roadmap's own SBC row states the correct, weaker condition ("recorded and put to the stakeholder").
+
+This defect resolved itself at the gate in the most direct way available: the criterion's claim was put to the stakeholder as part of the sanction question, and the stakeholder declined. **A criterion that can only be satisfied by a sanction the stakeholder withholds is a criterion written wrong**, not a stakeholder who is being difficult.
+
+##### F2 — Major — a stood-down role is staffed at two milestone gates
+
+The roadmap's LCO and LCA rows list "Reviewer, **Business Reviewer**, Management Reviewer, Review Coordinator". The Development Case declares Business Modeling inactive (`business-process-led = false`), stands the Business Reviewer down for the whole project, and states "the gate loses one lens, Reviewer and ManagementReviewer remain". The plan's own Resources section lists only three lenses.
+
+The plan contradicts the tailoring that governs it **and itself**, in the same document. A Review Coordinator assembling the LCO and LCA gates from the roadmap would summon a role that does not work on this project.
+
+##### F3 — Major — Excavation is assigned work with no one assigned to do it
+
+Resources states: "**Consolidation adds** the System Analyst (Use-Case Model, Supplementary Specification, Vision; R005, R008, R009, R017)", and enumerates Excavation's roles as Software Architect, Designer, Database Designer.
+
+But the process runs **Requirements at High** in Excavation (System Analyst — Use-Case Model · Business Rules in the Use-Case Flows · Vision) and **Discovery at High** (Software Archaeologist — System Inventory — Anomalies · History and Coverage). The roadmap's AR row carries **R005**, whose owner in the register is the SystemAnalyst, and **R002**, owned by the SoftwareArchaeologist. The retirement map reads "Reading completed — R005, opening HttpAuthenticationStateProvider.cs first".
+
+An iteration whose risk owners are not on its resource profile has no one accountable for the risks it is carrying. The owner column of the register and the Resources section of the plan name different sets of roles, and only one of them can be right.
+
+##### F4 — Major — two milestones whose exit condition is acceptance have no gate
+
+The plan states "The only human in this system is the stakeholder; their gates are the three gold markers on the roadmap" — G1 (three scope facts), G2 (confirms the perimeter), G3 (accepts the LCO case).
+
+```plantuml
+@startuml
+title The stakeholder gates the plan books against the ones the milestones require
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+package "Booked by the plan — three gold markers" {
+  component "G1 — the three scope facts\nanswered 2026-11-14" as G1 #PaleGreen
+  component "G2 — confirms the perimeter\nConsolidation 1 start" as G2 #PaleGreen
+  component "G3 — accepts the LCO case\nInception 1 end" as G3 #PaleGreen
+}
+
+package "Required by the milestone, booked nowhere" {
+  component "LCA — architecture baseline\nacceptability is the stakeholder's call" as LA #Pink
+  component "PR — Project Acceptance\ncustomer takes ownership of the product" as PR #Pink
+}
+
+package "Milestones carrying no stakeholder gate" {
+  component "SBC — sanction obtained at this review" as SBC #LightBlue
+  component "AR and GHR — reading milestones" as AR #LightBlue
+  component "Construction 1 and 2 — increment builds" as C #LightBlue
+}
+
+note right of PR
+  The PR row gates "Production deployment, acceptance
+  testing, release notes, and the closure of the Change
+  Request ledger". Acceptance testing is not acceptance,
+  and none of the four is the customer taking ownership.
+end note
+note right of LA
+  The lenses sanction the baseline; whether it is
+  acceptable to the stakeholder is not a question a
+  lens can answer.
+end note
+note bottom of G1
+  The plan states these three markers are the only
+  human gates in the project.
+end note
+@enduml
+```
+
+Two gates are missing and each is a different failure. At **LCA** the exit condition includes whether the architecture baseline is acceptable to the stakeholder — a question no lens can answer on their behalf. At **PR** the Project Acceptance Review is the point at which the customer formally accepts ownership of the software; the plan's PR row gates four technical deliverables and **none of them is the customer taking ownership**. A milestone that exists to transfer ownership with no event at which ownership transfers exposes the organization to exactly the contractual risk the acceptance review exists to close.
+
+This finding also corrects an assumption in the plan's own reasoning: SBC did obtain a stakeholder sanction — this very review asked for it. So the claim that the stakeholder's only appearances are three bookmarked markers was already inaccurate for the milestone it was written in.
+
+##### F5 — Major — the AR milestone retires two risks by an activity the stakeholder ruled out
+
+The retirement map reads "Observed rather than read — R002 by running the system, R011 by running the API", and the AR row reads "the claims the reading marked as reading-only are settled by running the system".
+
+The stakeholder ruled this out on 2026-11-14: the system is not installed anywhere and nobody runs it here. AR therefore carries two risks whose named retirement **cannot occur**, and the plan leaves them counted as retired at a gate that will not produce the evidence. This is the most serious of the five: it means the AR milestone's exit case, as planned, cannot be evidenced — and that would have been discovered at AR rather than here, had the stakeholder not stated the constraint.
+
+##### F6 — Minor — the exit-criteria status column reports uniform readiness
+
+Every criterion reads "Met pending the gate", including criterion 5, which carries an open Major. A status column that reports uniform readiness next to a criterion under an open Major understates the gate's state. It stays inside the artifact — no role builds on the wrong content from it — and is fixed in the owner's next turn.
+
 ## Resolutions and Actions
 ### Reviewer lens
 <!-- review: Survey I1 -->
