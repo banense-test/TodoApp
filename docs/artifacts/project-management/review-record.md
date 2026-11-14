@@ -338,137 +338,125 @@ Two things these numbers cannot say. Rework effort and defect removal efficiency
 
 ## Findings
 ### Reviewer lens
-<!-- review: Survey I2 -->
-
-<!-- review: Survey I2 -->
-
-```plantuml
-@startsalt
-title SBC review, Survey iteration 2 — compliance matrix: checklist item x verdict, per artifact
-{
-{S
-<b>Checklist item</b> | <b>DC</b> | <b>SI</b> | <b>RL</b> | <b>IP</b>
-Baseline conformance, no redefinition | <color:green>PASS</color> | - | - | <color:green>PASS</color>
-Every cited tool reference resolves | <color:green>PASS</color> | - | <color:orange>FAIL F2</color> | -
-Every optional trigger holds its own condition | <color:green>PASS</color> | - | - | -
-Every perimeter fact rests on its anchor | - | <color:green>PASS</color> | - | -
-Size and count facts match the file | - | <color:green>PASS</color> | - | <color:green>PASS</color>
-Coverage declares its gaps consistently | - | <color:orange>FAIL F3</color> | - | -
-Every magnitude is the band of its exposure | - | - | <color:green>PASS</color> | -
-Every risk strategy can execute | - | - | <color:green>PASS</color> | <color:green>PASS</color>
-No acceptance without the authority to grant | - | - | <color:green>PASS</color> | -
-Every risk accounted for exactly once | - | - | <color:green>PASS</color> | <color:green>PASS</color>
-Every exit criterion evidenced as worded | - | - | - | <color:green>PASS</color>
-No role at work the tailoring stood down | <color:green>PASS</color> | - | - | <color:green>PASS</color>
-No invented size, budget, forecast or date | - | - | - | <color:green>PASS</color>
-No work item assumes a run of the system | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color>
-Marker retired only by the stakeholder | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color>
---
-Lens verdict | APPROVED | APPROVED WITH CHANGES | APPROVED WITH CHANGES | APPROVED
-}
-}
-@endsalt
-```
+<!-- review: Survey I3 -->
 
 #### Development Case
 
-Environment discipline, Survey. Verdict: **Approved** — no open finding from this lens. Both iteration-1 findings were resolved and verified in the corrected text.
+Environment discipline, Survey. Verdict: **Approved** — no open finding from this lens, and none carried in.
 
 | Checklist item | Verdict |
 |---|---|
 | Baseline conformance: roster, CORE set, ownership unchanged | Pass |
-| Every FIRED optional trigger holds its own §5.2 condition | Pass — Deployment Model still the only one, on the four-process topology |
-| Every NOT FIRED verdict still holds | Pass — re-read, none changed |
-| Every cited tool reference resolves in the tree | Pass — the `CONTRIBUTING.md` row is gone |
-| Classification deltas carry a basis | Pass |
-| No forbidden override | Pass |
+| Every FIRED optional trigger holds its own §5.2 condition | Pass — Deployment Model alone, on the four-process topology read from `TodoApp.sln` and the YARP forwarder |
+| Every NOT FIRED verdict still holds | Pass — Data Model on eight tables of which six are framework-generated, Proof-of-Concept deferred to Elaboration on its own terms, Test Plan on no audit obligation, UI Prototype on a delivered UI, Glossary on common words fixed by the schema |
+| Every cited tool reference resolves in the tree | Pass — five rows, each a path |
+| No constraint stated over more of the lifecycle than was decided | Pass |
 
-The Tool references table now names `.github/workflows/ci.yaml`, `Directory.Packages.props` with `global.json`, `Directory.Build.props`, `Todo.Api.Tests` with `Directory.Packages.props`, and `README.md` — five rows, each a path in the tree — and closes by stating that no written coding standard exists in the repository and none is assumed, with the route by which one would be authored. That is the correction iteration 1 asked for, and it is better than the minimum: the reader is no longer left to infer that an absent standard means no standard.
+This artifact changed this iteration: Guidelines and Procedures gained a **Version policy** subsection and a **Measurement policy** subsection. Both are audited here.
 
-The Roles and Ownership view is redrawn with `component` and `artifact` elements and dashed work-assignment arrows, and carries a note that the arrows are work assignments by stage rather than ownership, with ownership stated in the prose and the contributor bullets. The Minor is closed.
+The Version policy states that the delivered pins are the policy — `net9.0` and `LangVersion preview` in `Directory.Build.props`, the 30 central pins in `Directory.Packages.props` — and that raising a framework, language or package version is a baseline change owned by the Software Architect and entering as a Change Request. It is consistent with the register, and it repairs the defect this lens recorded in iteration 2: R023 no longer cites a policy the Development Case does not contain, because the policy now exists. One clause of it under-reaches and is recorded against the Risk List as F4 rather than here: it names only `Directory.Packages.props` and `Directory.Build.props`, while R023's property lives in `Todo.Web/Server/Todo.Web.Server.csproj`.
 
-#### Development Case — what the correction now obliges
-
-One consequence follows for a later role, recorded as an observation and not a finding: with no written standard, the Code Reviewer's checklist is `Directory.Build.props`'s compiler-enforced conventions, the central pins, and the Software Architecture Document's mechanisms. The Development Case says exactly that, so the Code Reviewer is not left improvising. Nothing more is owed here.
+The Measurement policy states the three quantities the baseline measures and, for each, the decision it enables and who reads it, then binds three rules: the two clocks are never added, no figure is quoted as a velocity, no budget is assumed. It invents no figure and names no authority to narrow scope to meet one. It is a policy about measurement, not a measurement.
 
 #### System Inventory
 
-Discovery discipline, Survey — the sprint zero's one artifact, and the perimeter every later role builds on. Verdict: **Approved with changes** — one Minor, no Major.
-
-The iteration-1 Major was the package-pin tally, and it was found by opening the file, so it was closed the same way.
-
-##### The corrected facts, verified against their anchors
-
-| Claim | Anchor | Result |
-|---|---|---|
-| 30 package pins — 6 test, 19 application, 5 OpenTelemetry | `Directory.Packages.props`, re-opened this iteration | **Confirmed.** 30 elements, and the group split is exact |
-| The individual pins named — EF Core 9.0.8, YARP 2.3.0, Scalar 2.6.8, OpenTelemetry 1.12.0 | same file | Confirmed, unchanged from iteration 1 |
-| `RateLimitExtensions.cs` read, not unread | Coverage enumeration; Documentation table | Confirmed — the qualifier that contradicted Coverage is gone, and Coverage is now the single authority on what was read |
-| The two read-only claims are never settled by observation | Coverage closing statement | Confirmed — the sentence now records the stakeholder's decision in their terms and no longer names running the system |
-
-##### The perimeter still stands
-
-The substantive finding of iteration 1 was that sixteen of seventeen anchors said exactly what the artifact claims, and the stakeholder's own answer added that nothing is missing from the perimeter. Neither the corrections nor this review disturbed that: the perimeter record — seven projects, two actors, five external elements, eight tables, the entry-point surface — is as iteration 1 verified it, and the size facts are now right.
-
-##### F3 — Minor — the Provenance row counts 58 into a 57-file total
-
-Coverage states "Files opened: 57" in Document Control and again in the section, and enumerates exactly 57 paths. The Provenance row that summarises the same reading says "57 files opened: the 53 of the first pass plus `Todo.Api/Extensions/RateLimitExtensions.cs`, `Todo.Api/Filters/ValidationFilter.cs`, `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs`, `Todo.Web/Client/TodoApp.razor` and `Todo.Web/Client/Components/LogInForm.razor`" — five names added to 53.
-
-Coverage's own sentence names four: "Four files opened this iteration were declared unread in the previous reading", and `RateLimitExtensions.cs` is not among them, because iteration 1's Coverage recorded it read in full — which is what makes the iteration-1 Minor on this artifact true.
-
-The tally and the enumeration are both correct; only the summarising Provenance row misstates which files were added. Recommendation: drop `RateLimitExtensions.cs` from that row so it reads "the 53 of the first pass plus" the four named files, and Provenance, Coverage, the enumeration and Document Control then state one number.
-
-This is a Minor: the declaration of what was read — the thing criterion 3 turns on — is unaffected, and no role builds on the arithmetic.
-
-#### Risk List
-
-Project Management discipline, Survey. Verdict: **Approved with changes** — one Minor, no Major. The register grew from 25 to 26 risks and both iteration-1 findings from the other lens, and this lens's own, were corrected.
-
-##### What the correction achieved
-
-| Check | Result |
-|---|---|
-| Every strategy can execute without running the system | **Pass.** R002 and R011 are `accept`, with R002's Significant-band grant quoted verbatim from the stakeholder's 2026-11-14 answer, and a contingency stating what happens if a reading-only claim proves wrong outside this project |
-| No High or Significant risk rests on an acceptance nobody granted | **Pass.** Both High-band risks are `avoid`; of the eight Significant, seven are `avoid` and R002 alone is accepted on the stakeholder's own words |
-| Every magnitude is the band of its own exposure | **Pass.** All 26 recomputed; the distribution 2 High / 8 Significant / 12 Moderate / 3 Minor / 1 Low agrees with the register row for row |
-| The human gate is bounded where the plan says it is | **Pass.** R026 bounds the stakeholder gates at a 14-day queue ceiling with the suspension rule, is Significant (3×4=12), and is `avoid` on its own bound rather than on anyone's grant |
-| A mitigation assigns work inside the owning role's artifact | **Pass.** R018 now has the Software Architect establish the values and supply them, and the System Analyst — the Supplementary Specification's owner — record them |
-| Traceability table present, one row per declared `RNNN`, recovered elements with empty `Traces From` | Pass — 26 rows, correct form |
-
-##### F2 — Minor — R023 cites a version policy the Development Case does not contain
-
-R023's mitigation reads "Framework and Razor language version stay as delivered; raising either is a baseline change under the Development Case version policy", and its contingency "Raising it requires a Change Request against that policy".
-
-The Development Case's sections are Document Control, Tailoring Overview, Disciplines and Intensity, Artifacts and Templates, Optional Artifact Triggers, Roles and Ownership, and Guidelines and Procedures. No section states a version policy. Guidelines and Procedures holds the pin rows — "Runtime and package pins (central package management) | `Directory.Packages.props`, `global.json` | Software Architect" — which name the owner of the pins but state no rule about raising one.
-
-This matters more than its severity suggests, because it is the same defect class the Development Case itself carried in iteration 1: a citation to something that does not resolve. Here it is the register pointing at the process authority, and the authority has no such content. It is contained — R023 is an accepted Moderate risk whose contingency is a Change Request either way, and no exit criterion turns on the wording — so it is a Minor.
-
-Recommendation: cite what exists. "Raising either changes the pins in `Directory.Packages.props`, owned by the Software Architect, and enters as a Change Request" removes the dangling section without adding one. The alternative — asking the Process Engineer to state the version policy in the Development Case and keeping the citation — is equally valid but crosses into another role's artifact, so the first is the shorter repair. What must not remain is the register and the process authority disagreeing about whether a rule exists.
-
-#### Iteration Plan
-
-Project Management discipline, Survey. Verdict: **Approved** — no open finding from this lens. Both iteration-1 findings were resolved and verified.
-
-##### The two corrected defects, verified
-
-- **Criterion 1 no longer claims a confirmation SBC does not obtain.** It reads "The perimeter of the existing system is recorded with an anchor per element, the reading priorities are ordered, and the three facts whose disposition is the stakeholder's have been put to the stakeholder and answered", and the section "Where the perimeter is confirmed" names G2 at Consolidation 1's start with the reason — Excavation deepens the perimeter, so confirming it before that reading would confirm an incomplete record. The three answers are explicitly denied any role as confirmation of the perimeter. Criterion and roadmap row now state the same condition, which is what iteration 1 found they did not.
-- **All 26 risks are accounted for exactly once.** The table splits them 17 retired by a named milestone artifact, 1 retired by its own bound (R026), and 8 carried on the Risk List's acceptance — with R023 named in that list and in the retirement diagram. 17 + 1 + 8 = 26, and it agrees with the register's 18 avoided / 8 accepted split.
-
-##### What the plan now gets right beyond its corrections
+Discovery discipline, Survey — the perimeter record the stakeholder confirmed at the SBC gate of 2026-11-14. Verdict: **Approved** — no open finding from this lens.
 
 | Checklist item | Verdict |
 |---|---|
-| No role at work that the tailoring stood down | Pass — no gate row carries the Business Reviewer, and the table says why |
-| Every role a milestone assigns work to is at work in that milestone | Pass — the Excavation profile now carries the System Analyst and the Software Archaeologist at the stages the process assigns them, and R002, R005 and R017 have their owners on the profile |
-| Every milestone whose exit condition is the stakeholder's acceptance has a gate | Pass — five gates, G1 through G5, with G4 at LCA and G5 at PR where ownership transfers |
-| No work item, milestone or disposal assumes a run of the system | Pass — the retirement map is rebuilt, the "observed rather than read" step is gone, and the plan sweeps for others |
-| No invented size, token budget, forecast or calendar date | Pass, and unchanged: no work item is sized, the gantt declares its bars are not durations, no start date is given, no budget is proposed |
+| Every perimeter element carries an anchor that says what is claimed | Pass — not re-opened; 20 anchors verified across the two prior iterations and no correction disturbed one |
+| Size and count facts match the file | Pass — 30 pins in all three places, 6 + 19 + 5 |
+| Coverage declares its gaps rather than omits them | Pass — F3 of iteration 2 closed |
+| The Provenance row agrees with the section it summarises | **Pass** — was F3, closed this iteration |
+| No constraint stated over more of the lifecycle than was decided | Pass — the closing statement now reads "No process is run in Survey, Excavation or Consolidation … carried as accepted risk until the RUP phases start, when the pipeline builds the solution and runs its test suites; the first such run is what settles each" |
+| Runtime behaviour claimed nowhere | Pass — Coverage states no process was run, and the two claims stay marked read-not-observed |
+
+F3 is verified against the text, not against a claim of correction. Provenance now reads "57 files opened — the 53 of the first pass plus the four `Coverage` names as added in the second reading", names `ValidationFilter.cs`, `HttpAuthenticationStateProvider.cs`, `TodoApp.razor` and `LogInForm.razor`, and no longer names `RateLimitExtensions.cs`. 53 + 4 = 57 agrees with the Document Control tally, the "Files opened: 57" statement and the path-by-path enumeration.
+
+The narrowing the Management lens required is also in place, and it is stated twice — in Coverage and in Perimeter completeness and its limits — with the same horizon. The declarations the stakeholder endorsed stand unchanged. This artifact carries no open record from this lens.
+
+#### Risk List
+
+Project Management discipline, Survey. Verdict: **Changes owed** — one Major, one Minor.
+
+| Checklist item | Verdict |
+|---|---|
+| Every anomaly of the System Inventory is carried as a scored risk | Pass — 26 rows; 22 anomaly rows plus the absence finding set, the declared coverage limits, and R026 |
+| Every magnitude is the band of its own exposure | Pass — all 26 recomputed against the exposure grid and the band distribution; 2 High / 8 Significant / 12 Moderate / 3 Minor / 1 Low closes at 26 and agrees with the register row for row |
+| Every risk's strategy can actually execute | **Fail — F3** |
+| No High or Significant risk rests on an acceptance nobody granted | Pass — both High-band risks `avoid`; R002 alone accepted in the Significant band, on the stakeholder's words |
+| Every acceptance bounded to its horizon | **Pass** — was the Management lens's F3; R002 and R011 read "accept until the RUP phases start", the Mitigation section opens "Every acceptance in this register is bounded by the same horizon", and Document Control states it |
+| The recorded acceptance is the acceptance given | Pass |
+| Traceability table present, one row per declared `RNNN`, recovered elements with empty `Traces From` | Pass — 26 rows, correct form |
+| The only non-agent delay is bounded here, as the plan claims | Pass — R026, 3×4=12, `avoid` on its own bound |
+
+##### F3 — Major — R005 is scored on a condition the perimeter record says was already eliminated
+
+R005 reads "Six files are declared unread, and one — `HttpAuthenticationStateProvider.cs` — blocks the login and logout scenarios", and its mitigation is "The System Analyst opens `HttpAuthenticationStateProvider.cs` before recovering the login and logout scenarios".
+
+Coverage enumerates that file among the 57 opened. It records it as one of the four opened in the previous iteration — "the authentication-state bridge flagged as the one file blocking a use case" — and closes "No file in that group blocks a use case now." Provenance already carries the fact the row was opened for: "The Blazor authentication state is `HttpContext.User` or an empty identity; the provider holds no token and no provider state (369 bytes)."
+
+Two things follow. The strategy `avoid` is attached to work already performed, so it does not name an artifact a role will write — it names one a role has written. And "six files are declared unread" no longer describes Coverage's declaration set, which is two Razor imports plus `Server/App.razor`, `OpenApiOptionsExtensions.cs`, six migration files, three manifests, five launch and appsettings files, the assets, two fixture files and the four project-management records.
+
+This is a Major because two artifacts consume the row: the Iteration Plan books R005's retirement at AR and names it in the System Analyst's Excavation risk column. It is the only Significant-band risk in the register whose evidence the perimeter record says already exists.
+
+Recommendation: restate R005 as the anomaly at the first reading with its resolution — declared unread at Survey 1, opened at Survey 2, its content recorded in Provenance, retired at Survey 2 — SBC. Drop or restate the "six files" clause to Coverage's current set. Keep the band, the owner and the exposure: the risk was real and was retired by an artifact the process ran, so no re-scoring is owed. While restating the Risk Register's opening sentence, make the composition exact: R025 enters from a review finding, not from an anomaly of the Inventory.
+
+##### F4 — Minor — R023's restated mitigation routes the change to the wrong file
+
+R023 now reads "Framework and Razor language version stay as delivered. Raising either changes the pins in `Directory.Packages.props`, which the Software Architect owns, and enters as a Change Request."
+
+Its own anchor is `Todo.Web/Server/Todo.Web.Server.csproj`, and that is where the property sits: the file declares `<RazorLangVersion>8.0</RazorLangVersion>` in its `PropertyGroup` and carries seven `PackageReference` items, none of them a Razor package. Raising the Razor language version edits that project file, not the central pin file.
+
+The iteration-2 defect is genuinely closed — the row no longer cites a Development Case section that does not exist, and the Development Case now has the section. What remains is the same misdirection in a new place: the register names a file the change does not touch.
+
+Recommendation: read "Raising it sets `<RazorLangVersion>` in `Todo.Web/Server/Todo.Web.Server.csproj`, owned by the Software Architect, and enters as a Change Request." The Development Case's Version policy sentence should gain "or the project file that declares the property", so the policy covers this case and the register can cite it.
+
+#### Iteration Plan
+
+Project Management discipline, Survey. Verdict: **Changes owed** — one Major, one Minor.
+
+| Checklist item | Verdict |
+|---|---|
+| Exit criterion 1 carries the process wording and is evidenced | **Pass** — was the Management lens's F8; criterion 1 reads "The perimeter of the existing system is confirmed by the stakeholder", evidenced by the confirmation of 2026-11-14 over the seven projects, the entry-point surface, the stores and the external systems |
+| No gate the plan books has been deleted | **Pass** — G2 is gone from the coarse roadmap, the gantt markers and the Resources gate list; four gates remain, G1, G3, G4, G5, with no dangling identifier |
+| No constraint stated over more of the lifecycle than was decided | **Pass** — was the Management lens's F9; the retirement property reads "No retirement in the sprint zero runs the system, and observation returns as a path from Inception on", and the Tester and Test Manager are named as the evidence's producer and recorder |
+| A retirement path that exists is used, not foreclosed | **Pass** — R011 and the observable statements of R002 are placed at LCA on the first build-and-test run, each with its producer named |
+| Every risk accounted for exactly once, at the milestone that retires it | **Fail — F3** |
+| Every role a milestone assigns work to is at work in that milestone | Pass — every one of the 26 risk owners appears on the profile of the milestone whose row retires the risk |
+| Roles at work reported as they were | **Fail — F4** |
+| No role at work that the tailoring stood down | Pass — Business Process Analyst, Business Reviewer and Capsule Designer sit on no gate and execute no stage |
+| No invented size, budget, forecast or date | Pass — no work item sized, every bar declared "the renderer's unit step", no start date, no budget proposed |
 | Both clocks reported apart and never added | Pass |
-| Every exit criterion names the work item that evidences it | Pass — the variance iteration 1 recorded and did not repair |
+| Milestone order matches the phase sequence | Pass |
 
-##### One item recorded and not raised
+##### F3 — Major — the retirement map books R005 at AR by re-opening a file already opened
 
-The Document Control status line reads "All seven Iteration Plan defects of the SBC review (IP-1 to IP-7) are corrected in place". It is accurate as a statement of the Plan and it names the defects by the Review Coordinator's consolidated identifiers rather than by this lens's finding keys. No role builds on it and no criterion turns on it, so it is recorded here as read and correct rather than as a finding.
+Three places carry it. The retirement diagram reads "AR — Excavation 1: Reading completed — R005, opening `HttpAuthenticationStateProvider.cs` first". The disposal table lists R005 among the 15 "retired by a milestone artifact". The Excavation 1 role profile names R005 in the System Analyst's risk column.
+
+The System Inventory's Coverage enumerates the file among the 57 opened and states no file in that group blocks a use case now, and Provenance records what it was opened for. The evidence R005's retirement rests on exists and was produced at Survey 2.
+
+So the plan schedules reading work already performed, reports a met retirement as pending, and counts R005 in the wrong group of the accounting it publishes as 15 + 2 + 1 + 8 = 26. The arithmetic still closes at 26 and no risk is lost or double-counted — what is wrong is which milestone the plan says retires R005.
+
+This is a Major because the risk-retirement map is the instrument by which the plan claims its risks retired, and the plan currently sends a Significant-band risk's retirement to a milestone that has nothing left to do for it. It propagates into the Excavation 1 profile, which will brief the System Analyst to open a file it will find already read.
+
+Recommendation: move R005 into the "Retired at Survey 2 — SBC" group and restate the accounting as 14 + 3 + 1 + 8 = 26. Drop R005's step from the AR row of the diagram and from the Excavation 1 risk-owner column, leaving R017 as the System Analyst's AR owner. Restate the Risk List's R005 row in the same turn so register and plan state one retirement.
+
+##### F4 — Minor — Resources states no role but two was at work, and a third was
+
+Resources states: "No other role is at work: every open defect of this gate sits in an artifact the Software Archaeologist or the Project Manager holds, and the three lenses review. The Development Case carries no open record from either lens, so the Process Engineer executes no stage here."
+
+The Development Case was revised this iteration. Its Guidelines and Procedures now carries a **Version policy** subsection and a **Measurement policy** subsection — both of which the Management Reviewer's iteration-2 review recorded as absent, in terms: "No section states a version policy." The correction is real and it is the one R023's citation needed.
+
+The statement that R006 and R025 were retired at Survey 2 is correct. The conclusion drawn from it is not: the Process Engineer executed a stage here. The fine plan lists eight work items and none of them is the Development Case revision, so this iteration contains a ninth piece of work with no work item, no owner on the profile and no attribution.
+
+A Minor because it stays inside the plan's own reporting: the work was done, is correct, and changes no roadmap row, no gate and no criterion. It is the same class of defect the iteration-2 review recorded as F7 — a misattributed correction.
+
+Recommendation: add the Development Case revision as a work item — Process Engineer, Development Case — Guidelines and Procedures, the Version policy and Measurement policy subsections added — and name the Process Engineer on this iteration's role profile; or state in Resources that the Process Engineer revised the Development Case at Survey 3 and for what purpose. "No new artifact is produced" stays true; "no other role is at work" does not.
+
+#### Pull requests
+
+`scm_list_pull_requests` over all states returns none. Survey produces no source code, so an empty pull-request set is the correct shape for this milestone rather than a gap. Nothing awaits approval, nothing needs changes requested, and nothing needs deferring out of phase.
 
 ### Management Reviewer lens
 <!-- review: Survey I2 -->
