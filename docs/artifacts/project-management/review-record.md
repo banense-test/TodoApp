@@ -20,7 +20,7 @@ Reviewed at SBC. Environment discipline, Survey. Verdict: Approved with changes 
 | Checklist item | Verdict |
 |---|---|
 | Baseline conformance: roster, CORE set, ownership unchanged | Pass |
-| Every FIRED optional trigger holds its own §5.2 condition | Pass |
+| Every FIRED optional trigger holds its own condition | Pass |
 | Every cited tool reference resolves in the tree | Fail — F1 |
 | UML notation fits what it expresses | Fail — F2 |
 | Classification deltas carry a basis | Pass |
@@ -60,39 +60,34 @@ skinparam shadowing false
 skinparam componentStyle rectangle
 
 package "Checked and passing" {
-  component "Tailoring Overview\nclassification basis stated" as P1
-  component "Disciplines and Intensity\ncanonical, no self-granted delta" as P2
-  component "Artifacts and Templates\nUC enumeration rule correct" as P3
-  component "Optional Artifact Triggers\n6 of 6 audited against conditions" as P4
-  component "Roles and Ownership\nstood-down roles consistent" as P5
-  component "Version policy\nnet9.0 and SDK 9.0.100 verified" as P6
+  component "Tailoring Overview — classification basis stated" as P1
+  component "Disciplines and Intensity — canonical, no self-granted delta" as P2
+  component "Artifacts and Templates — UC enumeration rule correct" as P3
+  component "Optional Artifact Triggers — 6 of 6 audited" as P4
+  component "Roles and Ownership — stood-down roles consistent" as P5
+  component "Version policy — net9.0 and SDK 9.0.100 verified" as P6
 }
 
 package "Findings" {
-  component "Tool references\nCONTRIBUTING.md absent" as F1
-  component "Roles and Ownership\nclass notation for ownership" as F2
+  component "Tool references — CONTRIBUTING.md absent (Major)" as F1 #Pink
+  component "Roles and Ownership — class notation (Minor)" as F2 #Orange
 }
 
-F1 : "Major"
-F2 : "Minor"
-
 note right of P3
-  The use-case enumeration rule the DC fixes
-  is the baseline's and is correct: one UC per
-  endpoint surface, auth/rate-limiting/logging/
-  telemetry excluded as mechanisms into the
-  Supplementary Specification.
+  The use-case enumeration rule the DC fixes is the
+  baseline's and is correct: one UC per endpoint surface,
+  with auth, rate limiting, logging and telemetry excluded
+  as mechanisms into the Supplementary Specification.
 end note
 note right of F1
-  R006 remediation brought forward from LCO.
-  Two roles are currently pointed at a file
-  the repository does not contain.
+  R006's remediation, brought forward from LCO.
+  Two roles are currently pointed at a file the
+  repository does not contain.
 end note
 note bottom of P6
-  net9.0, 9.0.100 rollForward latestFeature and
-  the EF Core 9.0.8 / YARP 2.3.0 / Scalar 2.6.8
-  pins were each checked against the files the
-  policy cites, and each resolves.
+  net9.0, 9.0.100 with rollForward latestFeature, and the
+  EF Core 9.0.8 / YARP 2.3.0 / Scalar 2.6.8 pins were each
+  checked against the files the policy cites, and resolve.
 end note
 @enduml
 ```
