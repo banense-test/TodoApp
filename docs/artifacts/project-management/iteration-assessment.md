@@ -3,70 +3,65 @@ Phase: Survey
 Status: Draft — Survey iteration 2 closed against the Review Coordinator's verdict of SBC: iteration required; three Majors and three Minors corrected, four Majors and three Minors carried into Survey 3
 Milestone Target: End-of-Survey (SBC) — not yet achieved; the stakeholder sanctioned advancing past it and the milestone's artifacts carry rework
 ## Iteration Objectives Reached
-
-Survey iteration 1 planned three objectives. **Two were achieved in substance and one was not achieved.** The milestone the iteration worked toward was not reached: the Review Coordinator's verdict is **iteration required**, and the stakeholder withheld the sanction on 2026-11-14.
+Survey iteration 2 planned three objectives. **One was achieved outright and two were achieved in substance while a defect remained open against their evidence.** The Review Coordinator's verdict is **SBC: iteration required** — the stakeholder granted the sanction and, in the same answer, ordered the four Majors and three Minors corrected before Excavation reads the artifacts.
 
 ```plantuml
 @startuml
-title Survey iteration 1 — the planned chain as it executed, the gate, and the verdict it returned
+title Survey iteration 2 — the critical chain as it executed, the gate, and the verdict it returned
 skinparam shadowing false
 
 |#LightYellow|Agent work — sequential|
 start
-:<b>S1</b> Process Engineer
-tailors the process;
+:<b>S1</b> Software Archaeologist
+narrows Coverage to the sprint-zero scope,
+corrects the pin tally and the unread qualifier;
 note right
-  Produces: Development Case — 16,418 chars
+  Produces: System Inventory — 98,898 chars
 end note
 
-:<b>S2-S3</b> Software Archaeologist
-reads the documentation, then the perimeter,
-technology, size and persistent data;
+:<b>S2</b> Process Engineer
+replaces the absent standard with the files
+that govern, redraws the ownership view;
 note right
-  Produces: System Inventory — 83,084 chars
+  Produces: Development Case — 15,255 chars
+end note
+
+:<b>S3</b> Project Manager
+re-disposes R002 and R011, bounds the human gate at R026;
+note right
+  Produces: Risk List — 32,729 chars
+end note
+
+:<b>S4</b> Project Manager
+rebuilds the retirement map and the role profile,
+restates exit criterion 1;
+note right
+  Produces: Iteration Plan — 34,066 chars
 end note
 
 |#Gold|Human gate — queue time, not work|
-:<b>G1</b> the stakeholder disposes of
-the three scope facts;
+:<b>G1</b> the stakeholder answers at the gate:
+perimeter confirmed, corrective order set;
 note right
-  Answered 2026-11-14
-  Queue time 0:06:04.401833
-  Measured apart from agent time
-end note
-
-|#LightYellow|Agent work — sequential|
-:<b>S4</b> Software Archaeologist
-records the anomalies, the priorities, the coverage;
-
-:<b>S5</b> Project Manager
-scores and bands 25 risks;
-note right
-  Produces: Risk List — 25,903 chars
-end note
-
-:<b>S6</b> Project Manager
-writes the plan;
-note right
-  Produces: Iteration Plan — 20,734 chars
+  Waiting 0:23:37.2682333, measured apart
+  from agent time and never added to it
 end note
 
 |#LightPink|SBC milestone review|
-:Reviewer — technical lens — 7 findings;
-:Management Reviewer — management lens — 11 findings;
+:Reviewer — technical lens;
+:Management Reviewer — management lens;
+:Review Coordinator — consolidated verdict;
 note right
-  18 lens records = 15 distinct defects
-  0 Critical, 10 Major, 5 Minor
+  18 prior findings closed, 4 new Majors
+  and 3 Minors opened by this review
 end note
-:sanction put to the stakeholder at the gate;
-if (sanction granted?) then (no — 2026-11-14)
-  :<b>SBC iteration REQUIRED</b>
-  milestone open, phase does not advance;
-  :Corrective Survey iteration 2
-  premise, then disposal, then executability,
-  then the record errors;
+if (milestone verdict?) then (SBC: iteration REQUIRED)
+  :<b>S5</b> Project Manager —
+  this assessment, written against the verdict;
+  :Corrective Survey iteration 3,
+  the four Majors and three Minors;
   stop
-else (yes)
+else (sanctioned)
   :milestone closes;
   stop
 endif
@@ -75,12 +70,11 @@ endif
 
 | # | Planned objective | Verdict | Evidence and the defect that decides it |
 |---|---|---|---|
-| 1 | Confirm the System Boundary | **NOT ACHIEVED** | The perimeter is recorded and anchored per element — 17 anchors opened by hand, 16 confirmed — and the stakeholder states nothing is missing from it. The **confirmation was withheld**: the sanction was refused on 2026-11-14, and G2, the gate that actually confirms the perimeter, sits at Consolidation 1's start and has not occurred. The objective's own wording was also unsound (IP-1): it claimed a confirmation SBC never obtains |
-| 2 | Tailor Development Process | **ACHIEVED IN SUBSTANCE, OPEN ON AUDITABILITY** | The tailoring holds: classification derived from the code, all six OPTIONAL verdicts audited against their own §5.2 conditions and each holding, disciplines at canonical intensity with no self-granted deviation, stood-down roles consistent. The **auditability** limb fails — DC-1: the Tool references table cites `CONTRIBUTING.md`, which is not in the tree, so the process authority a reader audits does not resolve |
-| 3 | Identify Critical Risks | **ACHIEVED AS CLASSIFICATION, OPEN AS CONTROL** | 25 risks, each scored, its magnitude the band of its own exposure — all 25 recomputed by the technical lens, none misbanded; no High or Significant risk rests on an acceptance nobody granted; 0 Critical-band defects. Two **disposals cannot execute** (RL-2: R002 and R011 avoid by running the system, which is ruled out) and **no risk bounds the human gate** the plan relies on (RL-1) |
+| 1 | Confirm the System Boundary | **ACHIEVED** | The stakeholder confirmed the perimeter at this gate — the seven projects, the entry-point surface, the stores and the external systems — and stated that nothing is missing from it. The confirmation is the milestone's own evidence and the criterion now carries the process wording. The System Inventory's Coverage closing statement still states the no-observation constraint over the whole lifecycle (SI-B), which is a defect in the record that carries the confirmation, not in the confirmation |
+| 2 | Tailor Development Process | **ACHIEVED** | The `CONTRIBUTING.md` row is replaced by five tool references, each a path in the tree, with the statement that no written coding standard exists and none is assumed. The Development Case is the only artifact at this gate with no open finding from either lens, and both pass exit criterion 5 |
+| 3 | Identify Critical Risks | **ACHIEVED AS CLASSIFICATION, OPEN AS DISPOSAL DURATION** | 26 risks, all recomputed by the technical lens, none misbanded; distribution 2 High, 8 Significant, 12 Moderate, 3 Minor, 1 Low; both High-band risks avoided; 0 Critical-band defects. What fails is the **duration** of an acceptance (RL-B): R002 and R011 are recorded as open-ended to the end of the project when the stakeholder granted them until the RUP phases start |
 
-The two High-band risks are avoided, not accepted — R001 (16) by the Test Case at LCA, R009 (15) by the Use-Case Model at GHR — so no High risk in this register depends on anyone's grace. That is the part of objective 3 that worked, and it is why the register is a control instrument with two broken rows rather than a catalogue.
-
+Objective 3 carried a defect the iteration believed closed. Iteration 1 closed RL-2 by making R002 and R011 `accept` instead of `avoid`; that correction was right about the strategy and wrong about its horizon, and the horizon is what the register now gets wrong. It is a new defect in corrected text, not a failed correction — the same shape as the two Majors the plan carried.
 ## Adherence to Plan
 **All seven fine-plan work items were executed and every one produced its artifact. The iteration still failed its exit criteria.** That gap is the central fact of this iteration and the only variance worth a root cause.
 
