@@ -75,10 +75,11 @@ note bottom of SHARED
 end note
 note bottom of EXT
   Registered only when Authentication:Schemes:<name> exists
-  (AuthenticationExtensions.cs). Neither appsettings file in the
-  tree carries such a section — 167 and 144 bytes, both logging
-  only — so all four schemes stay dormant and username/password
-  is the only login path that works from the delivered configuration.
+  (AuthenticationExtensions.cs). Neither appsettings file carries
+  such a section — 167 bytes (log levels + AllowedHosts) and
+  144 bytes (log levels only) — so all four schemes stay dormant
+  and username/password is the only login path that works from
+  the delivered configuration.
 end note
 @enduml
 ```
