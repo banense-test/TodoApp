@@ -852,9 +852,11 @@ Two consequences of this order for the roles after this one:
 ## Coverage
 The tree reports 170 entries. Of these, 45 are vendored Bootstrap CSS/JS files under `Todo.Web/Client/wwwroot/bootstrap` and are excluded from the reading by kind; six are this project's own process records under `docs/artifacts/`, one of which is this artifact. The remaining 119 are application source and configuration.
 
-**Files opened: 57.** Enumerated, so the next iteration does not re-read them:
+**Files opened: 59.** Enumerated, so the next iteration does not re-read them:
 
-`.iari/README.md`, `README.md`, `LICENSE`, `Requests/todo.http`, `Directory.Build.props`, `Directory.Packages.props`, `global.json`, `nuget.config`, `TodoApp.sln`, `.github/workflows/ci.yaml`, `.devcontainer/devcontainer.json`, `.devcontainer/init.sh`, `.aspire/settings.json`, `.vscode/extensions.json`, `docs/artifacts/environment/development-case.md`, `Todo.Api/Program.cs`, `Todo.Api/TodoDbContext.cs`, `Todo.Api/Todo.Api.csproj`, `Todo.Api/appsettings.json`, `Todo.Api/appsettings.Development.json`, `Todo.Api/Todos/Todo.cs`, `Todo.Api/Todos/TodoApi.cs`, `Todo.Api/Users/TodoUser.cs`, `Todo.Api/Users/UsersApi.cs`, `Todo.Api/Authorization/CurrentUser.cs`, `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs`, `Todo.Api/Authorization/CurrentUserExtensions.cs`, `Todo.Api/Extensions/RateLimitExtensions.cs`, `Todo.Api/Filters/ValidationFilter.cs`, `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs`, `Todo.Api.Tests/Todo.Api.Tests.csproj`, `Todo.Api.Tests/TodoApplication.cs`, `Todo.Api.Tests/TokenService.cs`, `Todo.Api.Tests/TodoApiTests.cs`, `Todo.Api.Tests/UserApiTests.cs`, `Todo.Web/Server/Program.cs`, `Todo.Web/Server/TodoApi.cs`, `Todo.Web/Server/AuthApi.cs`, `Todo.Web/Server/AuthClient.cs`, `Todo.Web/Server/Todo.Web.Server.csproj`, `Todo.Web/Server/appsettings.json`, `Todo.Web/Server/appsettings.Development.json`, `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`, `Todo.Web/Server/Authentication/AuthenticationSchemes.cs`, `Todo.Web/Server/Authentication/ExternalProviders.cs`, `Todo.Web/Server/Authentication/TokenNames.cs`, `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs`, `Todo.Web/Client/Program.cs`, `Todo.Web/Client/TodoApp.razor`, `Todo.Web/Client/Todo.Web.Client.csproj`, `Todo.Web/Client/TodoClient.cs`, `Todo.Web/Client/Components/TodoList.razor`, `Todo.Web/Client/Components/LogInForm.razor`, `Todo.Web/Shared/SharedClass.cs`, `TodoApp.AppHost/Program.cs`, `TodoApp.AppHost/Extensions.cs`, `TodoApp.ServiceDefaults/Extensions.cs`.
+`.iari/README.md`, `README.md`, `LICENSE`, `Requests/todo.http`, `Directory.Build.props`, `Directory.Packages.props`, `global.json`, `nuget.config`, `TodoApp.sln`, `.github/workflows/ci.yaml`, `.devcontainer/devcontainer.json`, `.devcontainer/init.sh`, `.aspire/settings.json`, `.vscode/extensions.json`, `docs/artifacts/environment/development-case.md`, `docs/artifacts/project-management/risk-list.md`, `docs/artifacts/project-management/iteration-plan.md`, `Todo.Api/Program.cs`, `Todo.Api/TodoDbContext.cs`, `Todo.Api/Todo.Api.csproj`, `Todo.Api/appsettings.json`, `Todo.Api/appsettings.Development.json`, `Todo.Api/Todos/Todo.cs`, `Todo.Api/Todos/TodoApi.cs`, `Todo.Api/Users/TodoUser.cs`, `Todo.Api/Users/UsersApi.cs`, `Todo.Api/Authorization/CurrentUser.cs`, `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs`, `Todo.Api/Authorization/CurrentUserExtensions.cs`, `Todo.Api/Extensions/RateLimitExtensions.cs`, `Todo.Api/Filters/ValidationFilter.cs`, `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs`, `Todo.Api.Tests/Todo.Api.Tests.csproj`, `Todo.Api.Tests/TodoApplication.cs`, `Todo.Api.Tests/TokenService.cs`, `Todo.Api.Tests/TodoApiTests.cs`, `Todo.Api.Tests/UserApiTests.cs`, `Todo.Web/Server/Program.cs`, `Todo.Web/Server/TodoApi.cs`, `Todo.Web/Server/AuthApi.cs`, `Todo.Web/Server/AuthClient.cs`, `Todo.Web/Server/Todo.Web.Server.csproj`, `Todo.Web/Server/appsettings.json`, `Todo.Web/Server/appsettings.Development.json`, `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`, `Todo.Web/Server/Authentication/AuthenticationSchemes.cs`, `Todo.Web/Server/Authentication/ExternalProviders.cs`, `Todo.Web/Server/Authentication/TokenNames.cs`, `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs`, `Todo.Web/Client/Program.cs`, `Todo.Web/Client/TodoApp.razor`, `Todo.Web/Client/Todo.Web.Client.csproj`, `Todo.Web/Client/TodoClient.cs`, `Todo.Web/Client/Components/TodoList.razor`, `Todo.Web/Client/Components/LogInForm.razor`, `Todo.Web/Shared/SharedClass.cs`, `TodoApp.AppHost/Program.cs`, `TodoApp.AppHost/Extensions.cs`, `TodoApp.ServiceDefaults/Extensions.cs`.
+
+The two project-management records were opened at the fourth reading, to check what they quote from this artifact rather than to learn anything about the system: the Documentation section states the size of the Development Case and the versions it binds, and two records quote the Coverage enumeration. Opening them changed no fact this artifact states about the system.
 
 **Every path the delivered documents cite resolves in the tree**, with one exception that is now the exception the documents themselves state. The `README.md`'s project-folder links all resolve. Every tool reference the Development Case's Guidelines and Procedures makes — `.github/workflows/ci.yaml`, `Directory.Packages.props`, `global.json`, `Directory.Build.props`, `Todo.Api.Tests`, `README.md` — resolves. `CONTRIBUTING.md` is not cited as a reference by any document: the Development Case records in terms that no written coding standard exists, and the tree agrees — no such path is present.
 
@@ -870,7 +872,7 @@ package "Tree as it stands — 170 entries" {
   component "Process records under\ndocs/artifacts\n6 files (incl. this one)" as PROC
 }
 
-package "Opened — 57 files" {
+package "Opened — 59 files" {
   component "Solution, build and\ncentral package files" as BUILD
   component "API: Program, DbContext,\nTodos, Users, Authorization,\nRateLimitExtensions, ValidationFilter,\nmigrations" as API
   component "BFF: Program, AuthApi,\nAuthClient, TodoApi,\nAuthentication/* incl. state provider" as BFF
@@ -878,6 +880,7 @@ package "Opened — 57 files" {
   component "Shared contract,\nAppHost, ServiceDefaults" as COMPOSE
   component "Tests: fixture, token\nhelper, two test classes" as TESTS
   component "Docs, README, .iari,\nlicence, http requests,\ntooling config" as DOCS
+  component "Process records read as files:\nDevelopment Case, Risk List,\nIteration Plan" as PREC
 }
 
 package "Excluded by kind" {
@@ -896,6 +899,7 @@ package "Declared unread" {
 
 VENDOR --> EX1
 PROC --> DOCS
+PROC --> PREC
 APP --> BUILD
 APP --> API
 APP --> BFF
@@ -930,12 +934,12 @@ note bottom of U3
   400 HttpValidationProblemDetails). Only the OpenAPI
   document options stay unread.
 end note
-note right of PROC
-  Written by the sprint zero, not by the sample.
-  Only two are read through the artifact store
-  rather than as files: the Development Case and
-  this artifact. The other four are records about
-  the process, and carry no perimeter fact.
+note right of PREC
+  Read through the artifact store and, at the fourth
+  reading, as files, because two of them quote this
+  artifact's own enumeration. Neither records a fact
+  about the system: anything either asserts about it
+  traces back here.
 end note
 @enduml
 ```
@@ -951,17 +955,18 @@ end note
 | `TodoApp.AppHost/appsettings.Development.json`, all `Properties/launchSettings.json` (`Todo.Api`, `Todo.Web.Server`, `Todo.Web.Client`, `TodoApp.AppHost`) | Local-only overrides, ports and profiles; no perimeter fact |
 | `.gitignore`, `bg.png`, `favicon.ico`, `css/app.css`, all 45 Bootstrap files | Assets and ignore rules; no perimeter fact |
 | `Todo.Api.Tests/DbContextExtensions.cs`, `GlobalUsings.cs` | Fixture plumbing already inferable from `TodoApplication.cs` |
-| The four `docs/artifacts/project-management/` records as files | Risk List, Iteration Plan, Review Record and Iteration Assessment are process records, read through the artifact store where they bear on discovery. They state no fact about the system; anything they assert about it traces back to this artifact |
+| `docs/artifacts/project-management/review-record.md` and `iteration-assessment.md` as files | The two process records not opened as files. Both are records of the process; the Review Record is read through the artifact store for the findings against this artifact each iteration. Neither states a fact about the system |
 | Whole-repository commits older than 2024-11-14 | The 50-commit listing starts there and reports older history exists; the 2022–2023 commits are the candidates for the next history reading, and the migration dates already establish the schema era |
 | Runtime behaviour of any kind | No process was run in any reading of this artifact, and none is run in Survey, Excavation or Consolidation. Every statement in this artifact is read from source and configuration |
 
-What this coverage does **not** claim: that the unread files are unimportant, only that each carries no fact this artifact states. A fact about a file outside the 57 opened is not recorded anywhere above, because none was read.
+What this coverage does **not** claim: that the unread files are unimportant, only that each carries no fact this artifact states. A fact about a file outside the 59 opened is not recorded anywhere above, because none was read.
 
-Four files opened in the previous iteration were declared unread before it — `Todo.Api/Filters/ValidationFilter.cs`, `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs`, `Todo.Web/Client/TodoApp.razor` and `Todo.Web/Client/Components/LogInForm.razor` — and each settled a question the Priorities section had left to a later reading: the validation failure shape, the authentication-state bridge flagged as the one file blocking a use case, and the two screens that carry the log-in and registration traces. No file in that group blocks a use case now.
+Four files opened at the second reading were declared unread before it — `Todo.Api/Filters/ValidationFilter.cs`, `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs`, `Todo.Web/Client/TodoApp.razor` and `Todo.Web/Client/Components/LogInForm.razor` — and each settled a question the Priorities section had left to a later reading: the validation failure shape, the authentication-state bridge flagged as the one file blocking a use case, and the two screens that carry the log-in and registration traces. No file in that group blocks a use case now.
 
 **Two statements in Anomalies rest on reading alone and are marked as such there rather than promoted to fact.** They are the rate limiter's partition key (the claim is read from `RateLimitExtensions.cs`, the pipeline order at request time is not observed) and the database lifecycle's consequences beyond the AppHost's `Directory.Exists` guard.
 
 No process is run in Survey, Excavation or Consolidation: the system is not installed anywhere and nobody runs it here. Within the sprint zero, therefore, neither statement is settled by observation, and both stay declared as read but not observed. They are carried as accepted risk until the RUP phases start, when the pipeline builds the solution and runs its test suites; the first such run is what settles each. Until then the residual uncertainty is confined to what the sprint-zero artifacts assert. The declarations themselves stand unchanged — they are the honest record of what this reading could and could not establish, and no reading alone promotes either to fact.
+
 ## Provenance
 Every fact above has a row here. A fact whose anchor is a stakeholder answer names the files the question was raised against; the judgement rows (priority order, coverage, anomaly grouping) name themselves as their source.
 
