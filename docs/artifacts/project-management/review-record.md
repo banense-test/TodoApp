@@ -1073,3 +1073,85 @@ They are recorded and owned, owed at their owner's next turn, after the two Majo
 - **No acceptance outlives its grant.** R002 is the only Significant-band acceptance and its words are the stakeholder's; every acceptance states a horizon and none runs to the end of the project.
 - **No work item assumes a run of the system inside the sprint zero, and observation returns as a path from Inception on**, with its producer and recorder named.
 - **No invented figure anywhere.** No work item is sized, no bar is a duration, no start date is given, no token budget is proposed.
+
+### Management Reviewer lens
+<!-- review: Survey I3 -->
+
+```plantuml
+@startsalt
+title SBC compliance matrix — Survey iteration 3, management lens: checklist item by artifact
+{
+{S
+<b>Checklist item</b> | <b>DC</b> | <b>SI</b> | <b>RL</b> | <b>IP</b>
+Every exit criterion evidenced as worded | - | - | - | <color:green>PASS</color>
+Size and count facts match the anchor | - | <color:green>PASS</color> | - | -
+No acceptance without the authority to grant it | - | - | <color:green>PASS</color> | -
+The acceptance recorded is the acceptance given | - | - | <color:green>PASS</color> | -
+No acceptance stated over more of the lifecycle than decided | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color>
+Every risk strategy can execute | - | - | <color:green>PASS</color> | -
+Every risk accounted for exactly once, at its retiring milestone | - | - | - | <color:green>PASS</color>
+Every role assigned work is at work in that milestone | - | - | - | <color:green>PASS</color>
+No role at work the tailoring stood down | <color:green>PASS</color> | - | - | <color:green>PASS</color>
+Every gate booked is a gate the stakeholder will attend | - | - | - | <color:green>PASS</color>
+Every cited reference resolves | <color:green>PASS</color> | - | <color:orange>CARRIED RL F4</color> | -
+No invented size, token budget, forecast or date | - | - | - | <color:green>PASS</color>
+Both clocks reported apart and never added | - | - | - | <color:green>PASS</color>
+Marker retired only by the stakeholder's answer | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color>
+State column reports the gate as it now stands | - | - | - | <color:orange>FAIL F10</color>
+--
+Lens verdict | APPROVED | APPROVED | APPROVED | APPROVED WITH CHANGES
+}
+}
+@endsalt
+```
+
+| Criterion | Management lens verdict | Basis |
+|---|---|---|
+| 1 — The perimeter is confirmed by the stakeholder | Met | The confirmation of 2026-11-14, evidenced in criterion 1 with the process wording restored and the second-confirmation gate deleted |
+| 2 — The reading priorities are ordered | Met | Eight areas, each naming what the next reading settles |
+| 3 — The unread areas are declared rather than omitted | Met | The declaration holds; the Provenance row now agrees with the enumeration |
+| 4 — Every anomaly is a classified risk whose strategy can execute | **Under a technical-lens Major** | R005's `avoid` names work already performed, so one of 26 strategies does not execute; the scoring, the bands and every acceptance are sound |
+| 5 — The process is tailored and the tailoring is auditable | Met | Every cited reference resolves; every optional verdict checked against its condition |
+| 6 — The plan instantiates the process and schedules no work the phase does not run | **Under a technical-lens Major** | The retirement map books R005 at AR for work Survey 2 performed; the gates, the roles and the sequencing are sound |
+
+Criteria 1, 2, 3 and 5 are met on this lens's own evidence. Criteria 4 and 6 are met on everything this lens tests and fail on one row of the Risk List and the same row of the retirement map — a defect my lens did not find and does not re-adjudicate.
+
+```plantuml
+@startsalt
+title SBC four-axis health scorecard — Survey iteration 3, management lens
+{
+{S
+<b>Axis</b> | <b>State</b> | <b>Basis</b>
+Scope | <color:green>STABLE</color> | Declared scope untouched; the three stakeholder decisions of 2026-11-14 hold; no marker retired except by a stakeholder answer; no CR owed
+Schedule | <color:green>CONTROLLED</color> | Three Survey iterations, the iteration-count lever only; declared scope never cut to fit; no measured elapsed time exists, so none is quoted and no date is projected
+Cost | <color:green>NO BOX</color> | The project declares no token budget; none is assumed and none is proposed; no work item is sized in a unit this project cannot measure
+Quality | <color:orange>TWO MAJORS OPEN</color> | One defect in two artifacts — R005's stale premise in the register and its retirement at AR in the plan — plus one Minor of this lens and two of the technical lens
+--
+Milestone | <color:orange>NOT CLEAN</color> | Sanctioned by the stakeholder on 2026-11-14; the four Majors it required are closed and verified, and two Major records arrived after them
+Verdict of this lens | <color:orange>CONDITIONAL GO</color> | 0 Critical, 0 Major, 1 Minor from this lens; 2 Majors and 2 Minors from the technical lens hold the milestone
+}
+}
+@endsalt
+```
+
+#### Management lens disposition
+
+**Conditional Go.** This lens records 0 Critical, 0 Major and 1 Minor. Every finding it carried into the iteration is closed against the corrected text, and the four Major corrections the stakeholder's sanction required are landed and verified.
+
+The milestone is nonetheless not clean, and this lens does not report it as clean. Two Major records stand open from the technical lens, and both concern one risk row: R005 is scored `avoid` on a condition the System Inventory's Coverage says was already eliminated, and the Iteration Plan books its retirement at AR by re-opening a file opened at Survey 2. They hold the milestone on the ground SBC criterion 4 and criterion 6 turn on — every strategy must execute, and the plan must account for each risk at the milestone that retires it.
+
+That finding is the technical lens's, verified against the Coverage enumeration rather than against the register's own words, and it is a genuine discovery of this review. My lens checked the R005 row's band, its owner and its acceptance authority and found all three sound; it did not check whether the artefact the strategy names already exists. The two lenses tested different properties of the same row and only one tested this one — which is the reason the gate carries two lenses rather than one.
+
+#### What this review confirms
+
+- **The perimeter is confirmed and is not in dispute.** The stakeholder confirmed it at this gate over the seven projects, the entry-point surface, the stores and the external systems, and stated nothing was missing from it. Twenty anchors were opened across the three iterations; no record of either lens contests a perimeter element.
+- **The four Major corrections are genuinely repaired, not deferred.** Each was verified against the sentence now in the artifact. The no-observation constraint is bounded to the sprint zero in all four artifacts that stated it; every acceptance names a horizon and none runs to the end of the project; criterion 1 carries the process wording with the deleted gate absent from the gantt, the roadmap and the gate list; and observation is restored as a retirement path from Inception on, with R011 and the observable statements of R002 placed at LCA and their producer named.
+- **No acceptance outlives its grant.** R002 is the only Significant-band acceptance, its words are the stakeholder's, its band is unchanged, and every acceptance in the register is bounded by the same horizon.
+- **No invented figure anywhere.** No work item is sized, no bar is a duration, no start date is given and no token budget is proposed. Both clocks are reported apart and never added.
+- **No marker was retired by anything but the stakeholder.** The one marker that disappeared went on their own later answer, which is the only authority that could retire it.
+
+#### What this disposition does not do
+
+It does not sanction the phase, and it does not withhold it. The stakeholder sanctioned SBC on 2026-11-14 and no lens retracts that decision. What stands between the artifact set and a clean gate is a correction inside two artifacts the Project Manager already holds — a restatement of one row in the register and one row of the retirement map, in one turn, register first — and nothing that needs a stakeholder question, a scope change or a Change Request.
+
+The Iteration Assessment is not assessed here. The Project Manager writes it against the verdict of the lens sequence that ends with this lens, so at this point it cannot describe the iteration being reviewed; its state is not a finding and not a gate condition.
