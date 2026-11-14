@@ -1281,42 +1281,79 @@ The one thing this gate cannot say is that the artifacts are ready to be consume
 - **The Iteration Assessment** is written by the Project Manager against this verdict, and does not gate the phase.
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
+
+<!-- review: Survey I2 -->
 
 #### Milestone verdict
 
-**SBC is NOT achieved. The Survey phase does not advance. Corrective Survey iteration 2 is required.**
+**SBC advances no further this iteration. Four Major records are open and the Survey phase continues with corrective iteration 3.** The perimeter *is* confirmed and the stakeholder *did* grant the sanction — both recorded below — but the milestone's exit criteria are not the only condition this verdict answers, and an artifact set that would propagate one over-statement into three phases is not an artifact set the phase may be built on.
+
+```plantuml
+@startuml
+title SBC verdict path at Survey iteration 2 — anchored to the finding ledger, not to judgement
+skinparam shadowing false
+
+start
+:Read the finding ledger of all six artifacts;
+if (Any unresolved Critical finding?) then (yes)
+  :Escalate the Critical findings to the stakeholder;
+  :Record the milestone as requiring a further iteration;
+else (no)
+  if (Unread none, open Major 0, perimeter confirmed, sanction GRANTED?) then (yes)
+    :Ask the stakeholder to advance past the milestone;
+    :Record the milestone as complete;
+  else (no — four Majors open)
+    :Ask the stakeholder what this review's open items leave for the next pass;
+    :Fold the answer in as a stakeholder finding;
+    :Record the milestone as requiring a further iteration;
+  endif
+endif
+stop
+
+note right
+  Measured this milestone, not judged:
+  artifacts read 6 of 6, unread none,
+  open Critical 0, open Major 4, open Minor 3,
+  perimeter confirmed, stakeholder sanction GRANTED.
+end note
+@enduml
+```
 
 | Question | Answer | Basis |
 |---|---|---|
-| Artifacts read | 5 of 5 | `[FINDINGS]` line — Development Case, System Inventory, Risk List, Iteration Plan, Review Record; **unread = none** |
-| Open Critical | 0 | No record in the Critical band |
-| Open Major | 10 defects / 13 lens records | Ledger above; none carries a resolution object |
-| Open Minor | 5 defects / 6 lens records | Ledger above; none carries a resolution object |
-| SBC exit criteria met | 4 of 6 | Criteria 2 and 3 hold on their evidence. Criterion 1 fails as worded (IP-1); criterion 5 fails on an unresolvable tool reference (DC-1); criterion 6 fails on four independent plan defects (IP-2, IP-3, IP-4, IP-5). Criterion 4 holds formally but its register carries RL-1 and RL-2 |
-| Perimeter confirmed | No | G2 sits at Consolidation 1's start and has not occurred. The stakeholder states nothing is missing from the perimeter, but a statement that nothing is missing is not the confirmation G2 asks for, and IP-4 shows the gates that obtain acceptance are themselves unbooked |
-| **Stakeholder sanction** | **REFUSED** — 2026-11-14 | Recorded in the Management Reviewer's lens and confirmed in the answer to this gate's question |
+| Artifacts read | 6 of 6, unread = none | The `[FINDINGS]` line: Development Case, System Inventory, Risk List, Iteration Plan, Review Record, Iteration Assessment |
+| Open Critical | 0 | No record in the Critical band, from any lens |
+| Open Major | 4 | SI-B, RL-B, IP-A, IP-B — each carries no resolution object |
+| Open Minor | 3 | SI-A, RL-A, IP-C — each carries no resolution object |
+| Prior records closed | 18 of 18 | Every iteration-1 record closed by its emitting lens, with verification evidence |
+| Perimeter confirmed | **Yes** — at this milestone, 2026-11-14 | The stakeholder's answer, recorded under Disposition of the Management lens |
+| Stakeholder sanction | **GRANTED** — 2026-11-14 | Same answer. No lens retracts it |
+| SBC exit criteria met | 5 of 6 in substance; criterion 6 fails | Criterion 1 is now satisfied on the process's own wording. Criterion 6 fails while IP-A books a deleted gate and IP-B forecloses a retirement path the process will produce |
 
-#### Why this verdict and not another
+#### Why this verdict and not the other two
 
-The finding data decides, not judgement. `VERDICT_DONE` is disqualified twice over: 10 Major defects are open, and the sanction line reads REFUSED. `VERDICT_ESCALATE_CRITICAL` does not apply — no Critical record exists, and none should: the three scope questions this iteration raised were answered by the stakeholder on 2026-11-14, each answer was verified against the code it disposes of, and no new question surfaced. Nothing here needs a decision only the stakeholder can take.
+**Not critical escalation.** A Critical is a defect only the stakeholder can unblock: a scope decision, a contradiction in what they declared, or a risk only they may accept. None of the four Majors qualifies. Each asks its owner to write down a decision the stakeholder has already taken — the perimeter confirmed, the no-run constraint bounded, the second confirmation withdrawn. Escalating them would put a question back to the stakeholder that they answered twice, which is the very defect IP-A names.
 
-That last point is what makes this a **corrective iteration** rather than an escalation. Every one of the 15 defects is a correction inside an artifact its own owner already holds. None needs a scope change, a baseline change, a Change Request, or a further reading of the system.
+**Not scope complete.** The guard is explicit and it does not hold: 4 Major records open against a requirement of 0. Two of them are not bookkeeping. IP-B removes observation as a retirement path from Elaboration, Construction and Transition, where the CI pipeline will produce test evidence as a matter of course, and SI-B instructs every later milestone that it may not retire the two read-only claims — an instruction to milestones that have not yet run. A plan that tells later milestones to ignore evidence they will hold is not a plan the phase may be built on, whatever the sanction says.
 
-#### What the two executing lenses agreed and disagreed about
+**So: a further iteration.** The remedy for a milestone whose exit criteria do not pass is one more iteration inside the phase. That is the plan's own lever and it is applied without narrowing declared scope, without adding a role in parallel, and without re-interpreting a criterion to fit what was produced.
 
-Both lenses reached the same overall shape: the sprint zero's *product* is sound, and its *governing instruments* are not yet correct.
+#### The distinction this verdict turns on
 
-| Question | Technical lens | Management lens | Consolidated |
-|---|---|---|---|
-| Is the perimeter accurate? | 17 anchors opened, 16 confirmed | Verified independently, not repeated | Yes — not in dispute. The stakeholder states nothing is missing from it |
-| Is the risk scoring sound? | All 25 magnitudes recomputed, none misbanded | No High or Significant risk accepted without authority — one exception, RL-2 | Yes. The scores are coherent; two *dispositions* are wrong |
-| Is the plan measurable? | Exemplary — no invented size, budget, forecast or date | Pass | Yes. This is the artifact's strongest quality and survives every correction |
-| Can the plan be executed? | Tested only exit-criteria integrity — one Major | Tested executability — five Majors | **No.** The stricter reading governs: six Majors sit on the plan |
-| How far to corrective action? | Three textual corrections | Rebuild the retirement map, reconcile roles, book the gates | The Management lens governs, because its findings rest on the stakeholder's correction of 2026-11-14 which arrived after the Reviewer's audit |
+The stakeholder sanctioned the milestone, and the milestone is sanctioned — that is their decision and it is not mine to qualify. What a sanction does not do is make incorrect artifact content correct. Two facts therefore hold at once:
 
-Where the Management lens is stricter, it governs — a Major is a Major whoever finds it. Where the Reviewer's lens found the artifacts *sound* — band arithmetic, anchor verification, measurement discipline, the three stakeholder decisions holding against the code — those findings stand and no correction below disturbs them.
+- **The perimeter is confirmed and the phase gate is open.** Excavation work is authorized by the stakeholder's answer of 2026-11-14.
+- **The artifacts Excavation will read are not fit to be read as written.** Three of the four carry content that reaches past a decision the stakeholder took at that same gate.
 
-#### The decision that is not mine
+I record both. Collapsing them in either direction is the error: recording only the first would send Excavation into a System Inventory that tells it the two read-only claims may never be retired; recording only the second would contradict a sanction the stakeholder gave and misdescribe the work, since every one of the ten Majors that caused the earlier refusal was corrected and verified.
 
-The remedy for a milestone whose exit criteria fail is one more iteration inside the phase, at schedule cost. That is the plan's own stated lever and I apply it: the phase does not advance, the declared scope is not narrowed, no role is added in parallel, and no criterion is re-interpreted to fit what was produced. A criterion that could only be satisfied by the sanction the stakeholder withheld is a criterion written wrong (IP-1, step 7) — the fix is to the criterion, never to what the milestone requires.
+#### The one thing that is not measured here
+
+Rework effort is not measurable at this review and no figure is offered. The Survey phase has not closed; the corrective iteration's work is visible in 18 closures and 4 open records, and that is a count of records, not an effort. Defect removal efficiency is unmeasurable for a stronger reason: no test phase has executed in this project, so review remains the only detection activity and there is no ratio to compute.
+
+#### What the sprint zero hands the RUP phases
+
+A perimeter whose elements each rest on an anchor that was opened — twenty across two iterations, with the one false fact found, corrected and re-counted — and which the stakeholder has confirmed at this gate. A register whose arithmetic holds across all 26 rows, whose bands no lens has contested in either event, and whose most consequential acceptance is the stakeholder's own words. A plan that instantiates the tailored process, staffs no stood-down role, books every acceptance gate, and refuses throughout to invent a size, a token budget, a forecast or a calendar date.
+
+What it does not yet hand them is a set of statements bounded to what was decided. Four are not, three of those four are the same statement, and the correction is a narrowing in each case rather than new content.
