@@ -1030,3 +1030,105 @@ All seven findings are corrections *inside* an artifact. None requires re-derivi
 The technical lens finds nothing that invalidates the sprint zero's core product: a verified perimeter, a correctly scoped set of stakeholder decisions, a coherently scored risk register and a plan that schedules only what the process runs. What stands between the iteration and its sanction is three textual corrections and four small ones, all in the owners' next turn.
 
 The business and management case is the next lens's question, not this one's.
+
+### Management Reviewer lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+#### Disposition
+
+**Conditional — sanction REFUSED. The SBC milestone is NOT achieved and the phase does not advance.** 0 Critical, 10 Major, 1 Minor across 4 artifacts.
+
+```plantuml
+@startuml
+title Management lens — 11 findings by severity across the four artifacts
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+package "Reviewed at SBC" {
+  class "Development Case" as DC {
+    Major = 1
+    Minor = 0
+  }
+  class "System Inventory" as SI {
+    Major = 2
+    Minor = 0
+  }
+  class "Risk List" as RL {
+    Major = 2
+    Minor = 0
+  }
+  class "Iteration Plan" as IP {
+    Major = 5
+    Minor = 1
+  }
+  class "Severity total" as TOT {
+    Critical = 0
+    Major = 10
+    Minor = 1
+  }
+}
+
+DC --> TOT
+SI --> TOT
+RL --> TOT
+IP --> TOT
+
+note right of SI
+  F1 the package-pin tally is short by two.
+  F2 the sentence naming how the two read-only
+  claims are settled is superseded.
+end note
+note right of RL
+  F1 no risk bounds the human gate the plan
+  relies on.
+  F2 two strategies cannot execute.
+end note
+note right of IP
+  F1 criterion 1 claims an unevidenced confirmation.
+  F2 a stood-down role is staffed at two gates.
+  F3 Excavation roles withheld from Excavation.
+  F4 the LCA and PR gates are unbooked.
+  F5 the AR retirement cannot occur.
+  F6 the exit-criteria status column.
+end note
+note bottom of TOT
+  No Critical: nothing in these four artifacts needs a
+  scope decision. Every Major names the role that builds
+  on the wrong content or the exit criterion that fails.
+end note
+@enduml
+```
+
+#### Why Conditional and not No-Go
+
+A **No-Go** would say the sprint zero's product is unsound and the iteration's work is wasted. It is not. The perimeter is anchored per element, sixteen of seventeen verified anchors confirmed, the three stakeholder decisions are recorded in the stakeholder's own words and hold against the code they dispose of, twenty-three of twenty-five risks are disposed of correctly, and the plan refuses to invent a size, a budget, a forecast or a date. That is a real product.
+
+A **Conditional** says the work stands and specific conditions must be met before the gate reopens. That is this gate's state: every one of the ten Majors is a correction **inside** an artifact, seven of them trace to a single root cause and its consequence, and none requires re-deriving the perimeter, re-scoring the register, or a further reading of the system.
+
+**But the condition is the stakeholder's to set, not mine.** I asked for the sanction with the verdict and all open defects inside the question. The answer was **No**. Under this process the sanction is an affirmative grant, not a default and not a formality, and a withheld sanction — whatever the reviewers think of the artifacts — leaves the milestone open. I record the stakeholder's decision as decisive and I do not overturn it.
+
+#### Why no Critical
+
+A Critical is a defect only the stakeholder can unblock: a scope decision, a contradiction in what they declared, or a risk only they may accept. Three such questions were raised during this iteration and answered on 2026-11-14; each answer was verified against the code it disposes of and none is reopened here.
+
+The stakeholder's new correction — that the system will not be run — is **not** an open question: it is a decision already taken, and it is recorded as findings against the artifacts that contradict it. Recording a decision as a defect is not the same as escalating a question.
+
+Two findings touch acceptance the stakeholder must grant: Risk List F2 needs R002's Significant-band grant **recorded** (the grant exists — "stay declared as such, with their risk"), and Iteration Plan F4 needs gates **booked** where acceptance is obtained. Neither asks the stakeholder a new question; both ask the Project Manager to write down what the stakeholder already decided.
+
+#### The finding that carries the most weight into the corrective iteration
+
+Seven of the ten Majors are one root cause and its consequence: **the plan and the register both assume the system can be run, and the stakeholder has said it cannot.** System Inventory F2 states the assumption, Risk List F2 disposes two risks by it, Iteration Plan F5 retires two risks by it. Correcting them out of order produces artefacts that disagree; correcting them in the order given in Resolutions and Actions fixes the premise before anything inherits it.
+
+The remaining three stand alone and each is a governance defect the technical lens cannot see, because none is a defect in an artifact's accuracy — each is a defect in whether the plan can be executed as a governing instrument: a stood-down role summoned to two gates, an iteration assigned work with no one accountable for the risks it carries, and two milestones whose exit condition is the stakeholder's acceptance with no event at which that acceptance is obtained.
+
+#### Handoff to the Review Coordinator
+
+The management case for advancing past SBC does **not** hold, and the stakeholder has withheld the sanction. The Review Coordinator rules on the milestone; my lens reports:
+
+- **Sanction:** REFUSED by the stakeholder, 2026-11-14. Not to be recorded as granted, conditional, or implied.
+- **Milestone state:** open. Do not mark Survey, SBC, or iteration 1 complete, and do not advance to Excavation.
+- **Remedy:** a corrective iteration in the owners' next turn, against the ten Majors in the order given. The iteration-count lever applies — this is a further iteration inside Survey at schedule cost, never a narrowing of what SBC requires and never a re-interpretation of the stakeholder's answer.
+- **Re-review:** the gate is re-held once the ten Majors are corrected. The Reviewer's seven are re-checked at that point as well, since three of them touch the same artifacts.
+- **The Iteration Assessment** is written by the Project Manager against this verdict, not before it, and does not gate the phase.
