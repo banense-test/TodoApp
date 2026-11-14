@@ -1053,102 +1053,117 @@ stop
 
 ## Disposition
 ### Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
+
+<!-- review: Survey I2 -->
 
 #### Disposition
 
-**Approved with changes.** 0 Critical, 3 Major, 4 Minor, 0 Info across 4 artifacts.
+**Approved.** 0 Critical, 0 Major, 2 Minor across the four artifacts reviewed.
+
+This is the first time this lens has approved the SBC artifact set. Iteration 1 returned it Approved with changes on 3 Major and 4 Minor, and every one of those seven was corrected and verified rather than asserted: the two Majors that pointed a role at content that did not exist — the absent coding standard and the criterion claiming a confirmation SBC never obtains — are the two whose corrections matter most, because each misdirected a role downstream of the artifact.
+
+The two Minors now open are consequences of the corrections themselves, not survivals of the old defects, and neither is load-bearing.
 
 ```plantuml
 @startuml
-title Defect distribution — 7 findings by severity across the 4 artifacts reviewed at SBC
+title Defect distribution — 2 open findings by severity and artifact, against the 7 this lens closed
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 
-package "Reviewed at SBC" {
+package "Open after this review" #Orange {
+  class "System Inventory" as SI {
+    Critical = 0
+    Major = 0
+    Minor = 1
+  }
+  class "Risk List" as RL {
+    Critical = 0
+    Major = 0
+    Minor = 1
+  }
+  class "Open total" as OPEN {
+    Critical = 0
+    Major = 0
+    Minor = 2
+  }
+}
+
+package "Closed this iteration by this lens" #PaleGreen {
   class "Development Case" as DC {
     Major = 1
     Minor = 1
   }
-  class "System Inventory" as SI {
+  class "System Inventory" as SIC {
     Major = 1
     Minor = 1
   }
-  class "Risk List" as RL {
-    Major = 0
+  class "Risk List" as RLC {
     Minor = 1
   }
   class "Iteration Plan" as IP {
     Major = 1
     Minor = 1
   }
-  class "Severity total" as TOT {
-    Critical = 0
-    Major = 3
-    Minor = 4
-    Info = 0
+  class "Closed total" as CLOSED {
+    Major = 4
+    Minor = 3
   }
 }
 
-DC --> TOT
-SI --> TOT
-RL --> TOT
-IP --> TOT
+SI --> OPEN
+RL --> OPEN
+DC --> CLOSED
+SIC --> CLOSED
+RLC --> CLOSED
+IP --> CLOSED
 
-note right of DC
-  F1 Tool references cites a file the
-  tree does not contain.
-  F2 ownership drawn as classes.
-end note
 note right of SI
-  F1 a package-pin tally is short by two.
-  F2 a file marked read and unread
-  in two sections.
+  F3 — Provenance states 58 additions
+  where Coverage counts 57.
 end note
 note right of RL
-  F1 R018's mitigation assigns writing
-  inside another role's artifact.
+  F2 — R023 cites a version policy
+  the Development Case has no section for.
 end note
-note right of IP
-  F1 SBC criterion 1 claims a stakeholder
-  confirmation nothing at SBC asks for.
-  F2 R023 absent from the risk map.
+note bottom of OPEN
+  No Critical and no Major is open against this lens.
+  Both open defects stay inside their own artifact:
+  no role builds on the wrong content and no SBC
+  exit criterion depends on either.
 end note
-note bottom of TOT
-  No Critical finding: nothing in these four artifacts
-  needs a decision only the stakeholder can take.
-  The three scope questions were answered 2026-11-14
-  and each answer was verified against the code it
-  disposes of.
+note bottom of CLOSED
+  Every iteration-1 finding of this lens was re-tested
+  against the corrected text and the file it cites, not
+  against the claim that it was fixed.
 end note
 @enduml
 ```
 
 #### Why no Critical
 
-A Critical is a defect only the stakeholder can unblock — a scope decision, a contradiction in what they declared, or a risk only they may accept. Three such questions were raised during this iteration and the stakeholder answered all three on 2026-11-14. Each answer was then tested against the code it disposes of: `AddIdentityCore` really does register no role store, all four external schemes really are gated on a config section neither appsettings file supplies, and the service-to-service TODO really is the first statement in `MapUsers`.
+A Critical is a defect only the stakeholder can unblock: a scope decision, a contradiction in what they declared, or a risk only they may accept. Three such questions were raised during iteration 1 and answered on 2026-11-14; each answer was re-tested against the code it disposes of in this iteration's scope-marker audit, all three hold, and no new question surfaced.
 
-The answers hold, they are recorded in the stakeholder's own words, and no new question surfaced. **Nothing in this artifact set requires the stakeholder to act before the milestone can be sanctioned.**
+The stakeholder's later decision — that the system is never run in any phase — was an open premise in iteration 1 and is now closed content: Coverage states it, R002 and R011 are accepted on it with R002's grant quoted, and the plan sweeps for work that assumed a run. A decision already taken and correctly recorded is not a finding.
 
-#### Why Major and not Minor on the three Majors
+#### Why no Major
 
-Each of the three fails an SBC exit criterion or misdirects a role that builds on it:
+A Major means another role builds on wrong content or a milestone exit criterion fails. Neither holds:
 
-- The Development Case's absent-file row points the **Code Reviewer** — a lens of the very next milestone review — and the Software Architect at a document that does not exist.
-- The System Inventory's pin tally is read by the **Software Architect** when anchoring the SAD to the version policy, and a pin set is a size fact of the perimeter the stakeholder is being asked to confirm.
-- The Iteration Plan's criterion 1 asserts a confirmation the plan itself schedules two milestones later, so the milestone's sanction would rest on a claim its own roadmap contradicts.
+- Every corrected fact was checked against the file that carries it, including re-counting the 30 package pins, and each resolves.
+- All six SBC exit criteria are now evidenced as worded. Criterion 1 in particular was the defect that made the milestone unsanctionable in iteration 1 — a criterion satisfiable only by the sanction the stakeholder withheld — and it now asks for what SBC obtains while G2 is named as where the perimeter is confirmed.
+- Every one of the 26 risks is accounted for exactly once, every disposal executes without running the system, and every risk owner is at work in the milestone that retires its risk.
+- Every gate carries three lenses; the stood-down Business Reviewer appears on none.
 
-#### Why the artifacts are nonetheless close to sound
+#### Why the two Minors do not hold the milestone
 
-This is the finding that should carry the most weight into the Management Reviewer's lens: **seventeen anchors were opened by hand, and sixteen say exactly what the artifact claims.** The perimeter the sprint zero hands forward is accurate. The three stakeholder decisions are correctly scoped — each names what it settles and what it leaves open, and none is over-read into a scope claim the stakeholder did not make. The risk scoring is internally coherent across all 25 rows, with no magnitude misbanded and no High or Significant risk resting on an acceptance nobody granted. The plan invents no size, no budget, no forecast and no date, and says so explicitly.
+Each stays inside its own artifact. The Provenance arithmetic is a summary row that contradicts the section it summarises, while the section, the enumeration and the Document Control tally all agree — so the declaration criterion 3 turns on is sound. R023's citation names a section that does not exist, but R023 is an accepted Moderate risk whose contingency is a Change Request on either reading, so nothing downstream changes shape.
 
-All seven findings are corrections *inside* an artifact. None requires re-deriving content, none requires a further iteration to close, and none touches the perimeter facts the stakeholder will be asked to confirm.
+#### What this lens hands the next lens
 
-#### Handoff to the Management Reviewer
+The technical case for the sprint zero's product is sound and has been verified rather than accepted: a perimeter whose facts rest on anchors that were opened, twenty of them across the two iterations, with the one false fact found and corrected; a register whose arithmetic holds across all 26 rows and whose most consequential acceptance is the stakeholder's own words; and a plan that instantiates the tailored process, schedules no work the phase does not run, and refuses throughout to invent a size, a budget, a forecast or a date.
 
-The technical lens finds nothing that invalidates the sprint zero's core product: a verified perimeter, a correctly scoped set of stakeholder decisions, a coherently scored risk register and a plan that schedules only what the process runs. What stands between the iteration and its sanction is three textual corrections and four small ones, all in the owners' next turn.
-
-The business and management case is the next lens's question, not this one's.
+The milestone's sanction is not this lens's to grant. The three scope questions were answered, the technical defects are closed to the Minor band, and whether the sprint zero advances is the stakeholder's decision and the Review Coordinator's ruling.
 
 ### Management Reviewer lens
 <!-- review: Survey I1 -->
