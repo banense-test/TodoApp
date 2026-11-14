@@ -432,6 +432,80 @@ Instability, read from these commits only:
 - **The sprint-zero commits carry no change to the delivered system.** `ccf6401` and the five Process Engineer commits add `README.md` and `docs/`, and this reading adds upserts of this artifact.
 
 ## Anomalies
+Each row states the evidence, the probability it bites and the impact when it does. The Project Manager carries these into the Risk List; this artifact does not score them as project risks.
+
+```plantuml
+@startuml
+title Anomaly map — the recorded risks grouped by the area of the system that carries them
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+package "Authentication and identity" {
+  component "admin role has no\nruntime producer" as ADM
+  component "no service-to-service\nauthentication BFF -> API" as S2S
+  component "external providers\nconfigured but dormant" as EXT
+  component "lock-out unchecked on\nan otherwise valid token" as LOCK
+  component "logout ends the cookie,\nnot the session behind it" as LOOUT
+  component "external login: name from\nprovider email, no failure path" as XLOG
+}
+
+package "Todos surface and UI" {
+  component "completion toggle exists\nin the API, absent in the UI" as TOG
+}
+
+package "Persistence and data lifecycle" {
+  component "committed migrations\nexercised by nothing" as MIG
+  component "snapshot 8.0.0 against\n9.0.8 package pins" as SNAP
+  component "the API can be run\nwith no database at all" as DBLIFE
+}
+
+package "Tests" {
+  component "field assertions disabled\nin UserApiTests" as ASSRT
+  component "one test project for seven\nprojects; the BFF has none" as COVTEST
+  component "InMemory package pinned\nand unused" as INMEM
+}
+
+package "Request pipeline and configuration" {
+  component "limiter reads a claim the\npipeline may not have populated" as RATE
+  component "thresholds differ: 50 in\nDevelopment, 100 in code" as RATECFG
+  component "root redirects to a\ndevelopment-only route" as OPENAPI
+}
+
+package "Build and environment" {
+  component "CONTRIBUTING.md cited,\nabsent from the tree" as CONTRIB
+  component "dev container pins\nSDK 8.0 against 9.0.100" as DEVCON
+  component "RazorLangVersion 8.0\nunder net9.0" as RAZOR
+}
+
+package "Documentation and client" {
+  component "prerender returns an empty\nlist with a success status" as HACK
+  component "docs/ undeclared in\n.iari/README.md" as DOCS
+  component "README badge names\nthe old repository" as BADGE
+}
+
+note right of S2S
+  Highest impact recorded: a valid bearer token,
+  or the data-protection key ring the two hosts
+  share under discriminator "TodoApp", reaches
+  Todo.Api without passing the BFF
+  (Source: Todo.Api/Users/UsersApi.cs TODO).
+end note
+note bottom of COVTEST
+  No BFF-side test exists: the /auth/* contract,
+  the cookie -> Bearer translation and the
+  external-login dance are verified by nothing
+  (Source: TodoApp.sln — Todo.Api.Tests is the
+  only test project, and it references Todo.Api only).
+end note
+note bottom of RATE
+  Unverified. UseRateLimiter is the second middleware
+  in Todo.Api/Program.cs and the policy partitions on
+  context.User; whether the claim is populated at that
+  point is settled by running the API in Excavation.
+end note
+@enduml
+```
+
 | Anomaly | Evidence | Probability | Impact |
 |---|---|---|---|
 | `CONTRIBUTING.md` is cited as the coding standard but does not exist | `docs/artifacts/environment/development-case.md` names it under Tool references; a read of `CONTRIBUTING.md` returns "was not found"; the tree has no such entry | Certain — already true | Medium: the Software Architect and Code Reviewer are assigned an artifact that is not there; coding conventions must be read off the code or re-authored |
@@ -439,8 +513,8 @@ Instability, read from these commits only:
 | The dev container cannot build the solution | `.devcontainer/devcontainer.json` pins `mcr.microsoft.com/dotnet/sdk:8.0`; `global.json` requires `9.0.100` with `rollForward: latestFeature`. Roll-forward does not bridge a major version | High | Medium for anyone using the container; the CI path (`actions/setup-dotnet@v3`) is unaffected because it resolves the SDK from `global.json` |
 | The Razor language version is pinned below the framework | `Todo.Web/Server/Todo.Web.Server.csproj` sets `<RazorLangVersion>8.0</RazorLangVersion>` while the target framework is `net9.0` | Medium | Low: builds as delivered; a Razor feature introduced after .NET 8 is unavailable in this project, and bumping it is a behaviour change, not a formatting one |
 | The README's completion-toggle feature is unreachable from the UI | `PUT /todos/{id}` writes `IsComplete` (`Todo.Api/Todos/TodoApi.cs`); `Todo.Web/Client/Components/TodoList.razor` renders `<input type="checkbox" />` with no `@bind` and no handler, and `TodoClient` exposes no update call | Certain | Medium: a delivered capability has no user-facing entry point, so a use case recovered from the API would have no screen trace |
-| The `admin` role is not obtainable at runtime | `CurrentUser.IsAdmin` reads `Principal.IsInRole("admin")` (`Todo.Api/Authorization/CurrentUser.cs`); `Todo.Api/Program.cs` calls `AddIdentityCore<TodoUser>()` with no role store and no role seeding; the only producer of an `admin` role claim in the tree is `Todo.Api.Tests/TokenService.cs`, a test fixture | High | Medium: the owner-or-admin branches in `GET/PUT/DELETE /todos/{id}` are exercised only by tests; whether an administrator exists in the product is undetermined by the code |
-| Nothing binds an API request to the BFF | The API accepts any request carrying a valid Identity bearer token, and the BFF forwards the token it keeps in the cookie; there is no service-to-service authentication between the two, which the code records as a TODO in `Todo.Api/Users/UsersApi.cs`. `POST /users/token/{provider}` is the one endpoint with an explicit protection, a provider key | Low for a sample with no deployment; Medium if deployed beyond a single host | High if deployed: a holder of a valid token, or of the data-protection key ring both processes share under the discriminator `TodoApp`, can call the API directly, bypassing the BFF |
+| The `admin` role is not obtainable at runtime | `CurrentUser.IsAdmin` reads `Principal.IsInRole("admin")` (`Todo.Api/Authorization/CurrentUser.cs`); `Todo.Api/Program.cs` calls `AddIdentityCore<TodoUser>()` with no role store (`AddRoles`) and no role seeding; the only producer of an `admin` role claim in the tree is `Todo.Api.Tests/TokenService.cs`, a test fixture | High | Medium: the owner-or-admin branches in `GET/PUT/DELETE /todos/{id}` are exercised only by tests; whether an administrator exists in the product is undetermined by the code |
+| Nothing binds an API request to the BFF | The API accepts any request carrying a valid Identity bearer token, and the BFF forwards the token it keeps in the cookie; there is no service-to-service authentication between the two, which the code records as a TODO in `Todo.Api/Users/UsersApi.cs`. `POST /users/token/{provider}` is the one endpoint with an explicit protection, a provider key. Both hosts share a data-protection key ring under the discriminator `TodoApp` (`Todo.Api/Program.cs`, `Todo.Web/Server/Program.cs`) | Low for a sample with no deployment; Medium if deployed beyond a single host | High if deployed: a holder of a valid token, or of that key ring, can call the API directly, bypassing the BFF and every check the BFF performs |
 | The test suite never validates the committed migrations | `Todo.Api.Tests/TodoApplication.cs` builds the schema with `db.Database.EnsureCreated()` on a fresh `SqliteConnection("Filename=:memory:")`, so the model — not the three migrations in `Todo.Api/Migrations` — produces the tables every test runs against | Certain | Medium: a migration that no longer matches the model (the snapshot already reports `ProductVersion` 8.0.0 against 9.0.8 pins) passes CI green, and the first place it surfaces is a real deployment |
 | The test suite asserts less than it appears to | `Todo.Api.Tests/UserApiTests.cs` comments out its field-level assertions under "TODO: Follow up on the new errors", leaving status-code-only checks; no test covers `PUT`'s `id != todo.Id` branch or the rate limiter | High | Medium: the CI gate is green but weaker than a reader would assume |
 | `EntityFrameworkCore.InMemory` is pinned, referenced and never used | `Todo.Api.Tests/Todo.Api.Tests.csproj` references the package; `Todo.Api.Tests/TodoApplication.cs` overrides the options with `o.UseSqlite(_sqliteConnection)`, so every test runs against SQLite, not the in-memory provider | Certain | Low: a reader who assumes the InMemory provider will misjudge what the suite proves — it exercises real SQLite semantics, which is stronger, and it means the suite's behaviour depends on SQLite translation |
@@ -449,9 +523,22 @@ Instability, read from these commits only:
 | The Development Case's role/artifact ownership diagram is drawn as a class diagram | `docs/artifacts/environment/development-case.md` uses `class` elements and `-->` arrows to express ownership | Certain | Low: cosmetic in a process document; recorded because downstream roles read that artifact |
 | `docs/` is not declared in `.iari/README.md` even though it exists | `.iari/README.md` says the only document is the root `README.md`; the tree holds `docs/artifacts/environment/development-case.md` and `docs/artifacts/discovery/system-inventory.md`, created in this sprint zero | Certain | Low: the delivery statement now under-describes the tree it sits in |
 | `README.md` links a badge to a differently-named repository | The badge URL is `github.com/davidfowl/TodoApi/actions/...` while the project was renamed to `TodoApp` in `3308193` | Certain | Low: external link only |
+| Lock-out is not checked, so a token issued before a lock-out stays usable | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs` succeeds whenever `currentUser.User is not null`, under the comment "TODO: Check user if the user is locked out as well". Identity's lock-out applies to password sign-in (`MapIdentityApi`), not to an already-issued bearer token, and the handler is the API's only gate on `/todos` | Medium — observable only once lock-out triggers | Medium: an account locked after a credential compromise keeps working until the token expires |
+| Logout ends the cookie, not the session behind it | `Todo.Web/Server/AuthApi.cs`: `logout` calls only `context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme)`, with the remote sign-out block commented out under "TODO: Support remote logout"; the access token inside the discarded cookie is never revoked, and the API exposes no revocation endpoint | Certain | Medium: the API's bearer token remains valid until it expires after the user has logged out; for an external provider the provider-side session survives too |
+| The external-login path derives the account name from the provider and reports failure as a redirect | `Todo.Web/Server/AuthApi.cs`, `signin/{provider}`: the user name is taken from `ClaimTypes.Email` with the provider's `Identity.Name` as fallback, under "TODO: We should have the user pick a user name to complete the external login dance"; when `AuthenticateAsync` does not succeed the handler still returns `Results.Redirect("/")`, under "TODO: Handle the failure somehow". `ExternalUserInfo.Username` carries `[Required]`, so a provider that returns neither claim yields a null name on a validated DTO | High for the failure path | Medium: a failed external login is indistinguishable from a cancelled one, and an account created by external login can never have a name the user chose |
+| No test covers the BFF | `TodoApp.sln` holds one test project, and `Todo.Api.Tests/Todo.Api.Tests.csproj` references `Todo.Api` only — not `Todo.Web.Server`. The `/auth/*` contract, the cookie-to-Bearer translation in `Todo.Web/Server/TodoApi.cs` and the external-login dance are verified by nothing | Certain | High: the area with the most commits in the repository and the only trust boundary in the system has no automated evidence, so any change to it is unverified by the CI gate |
+| The rate limiter may partition on a claim the pipeline has not populated yet | `Todo.Api/Extensions/RateLimitExtensions.cs` partitions on `context.User.FindFirstValue(ClaimTypes.NameIdentifier)!` (null-forgiving); `Todo.Api/Program.cs` registers `app.UseRateLimiter()` with no explicit `UseAuthentication` before it, so if the claim is absent every caller shares one bucket instead of one bucket each. The null-forgiving operator would also surface as a failure to partition rather than as a diagnostic | Medium — undetermined by reading | Medium: per-user rate limiting is a stated capability of the README; if the partition key is null the limit is global and one client can exhaust it for everyone |
+| The rate-limit thresholds differ between the code and the only file that sets them | `RateLimitExtensions.cs` defaults to `TokenLimit 100`, `TokensPerPeriod 100`, `QueueLimit 100` with a 10-second replenishment, bound from the `RateLimiting` section; `Todo.Api/appsettings.json` has no such section, and only `appsettings.Development.json` sets `50/50/50`. The README states rate limiting without stating a threshold | Certain | Low: the effective limit is 100 per 10 seconds outside Development and 50 inside it, and no document states either |
+| The API's root route redirects to a Development-only page while the OpenAPI document is served in every environment | `Todo.Api/Program.cs` maps `"/"` to `Results.Redirect("/scalar/v1")` unconditionally, but `MapScalarApiReference` is inside `if (app.Environment.IsDevelopment())`, while `app.MapOpenApi()` sits outside it | Certain | Low: outside Development `/` redirects to a 404, and the API's schema is published at `/openapi` whether or not that is intended |
+| The API can be run with no database at all | `README.md` instructs running `Todo.Api` standalone for its Swagger UI; `Todo.Api/Program.cs` contains no migration or `EnsureCreated` call, and the database is created only by the AppHost and only when `.db` is absent (`TodoApp.AppHost/Extensions.cs`) | Certain | Medium: the standalone path the README documents is the one path on which the schema is never created, so a reader following the README reaches a failing `/todos` call |
 
 Absences recorded as findings rather than filled in: no architecture description, no ADR, no deployment instruction, no data dictionary, no API contract document, no operational runbook, no user guide, and no author to ask (`Source: .iari/README.md`).
 
+**Decisions the reading cannot make.** Three of the rows above are not defects to be fixed by preference but scope decisions only the stakeholder holds, and each changes what later phases may assume:
+
+- `[SCOPE_QUESTION — the `admin` role: the authorization rules in `Todo.Api/Todos/TodoApi.cs` implement an owner-or-admin override, but nothing in the delivered system can produce the `admin` claim. Is an administrator a capability of this product, or are those branches dead code to be recorded as such?]` Reading `Todo.Api/Program.cs` (no `AddRoles`, no seeding) and `Todo.Api.Tests/TokenService.cs` (the only claim producer) settles what the code does, not what the product is meant to have.
+- `[SCOPE_QUESTION — the four external identity providers: the code registers GitHub, Google, Microsoft and Auth0, and no delivered configuration supplies the sections that would enable any of them. Is external login part of this product's scope, or a dormant facility of the upstream sample?]` The answer decides whether Excavation recovers a use case for it or records the edge as configured-at-runtime only.
+- `[SCOPE_QUESTION — the BFF-to-API trust boundary: the API accepts a bearer token from any caller, and the code itself records the missing service-to-service authentication as a TODO. Is hardening this boundary in scope for this project, or is single-host deployment the accepted position?]` Security and integration boundary; it cannot be inferred from the code, which contains both the gap and its acknowledgement.
 ## Priorities
 Ordered by where the code concentrates and by what the Development Case and the delivery statement make load-bearing. Each entry states why it is where it is; this order drives the Excavation reading.
 
