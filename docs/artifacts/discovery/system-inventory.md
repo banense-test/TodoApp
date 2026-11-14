@@ -513,14 +513,14 @@ What this coverage does **not** claim: the `/auth/*` behaviour is described from
 | `RequireCurrentUser()` adds an authenticated-user requirement plus a handler that succeeds only when the API has resolved the caller from its own store, so a valid token for a user that no longer exists is rejected; lock-out is not checked (TODO in the handler) | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs` |
 | The caller is resolved once per request through an `IClaimsTransformation` that assigns `currentUser.Principal` and `currentUser.User` via `UserManager.FindByIdAsync` | `Todo.Api/Authorization/CurrentUserExtensions.cs` |
 | `CurrentUser.IsAdmin` reads the `admin` role claim | `Todo.Api/Authorization/CurrentUser.cs` |
-| `Todo` shape and the `TodoItem` DTO that hides `OwnerId` | `Todo.Api/Todos/Todo.cs`, `Todo.Web/Shared/SharedClass.cs` |
+| The `Todo` entity carries `OwnerId`; the `TodoItem` DTO does not, so ownership never crosses the API boundary in a request or response body | `Todo.Api/Todos/Todo.cs`, `Todo.Web/Shared/SharedClass.cs` |
 | `TodoUser` adds no properties to `IdentityUser` | `Todo.Api/Users/TodoUser.cs` |
 | Eight tables and their columns, keys and indexes | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` |
 | Snapshot `ProductVersion` is `8.0.0` | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` |
 | Relationship `Todo.OwnerId` → `TodoUser.Id`, `.WithMany()` | `Todo.Api/TodoDbContext.cs` |
 | Three migrations, their names and dates | `Todo.Api/Migrations/` file names |
 | Connection string `"Todos"`, fallback `Data Source=.db/Todos.db` | `Todo.Api/Program.cs` |
-| The database is created and migrated only by the AppHost, only when `.db` is absent | `TodoApp.AppHost/Extensions.cs`; `TodoApp.AppHost/Program.cs` |
+| The database is created and migrated only by the AppHost, only when `.db` is absent; no migration runner exists inside the API | `TodoApp.AppHost/Extensions.cs`; `TodoApp.AppHost/Program.cs` |
 | `sqliteweb` container mounting the database directory | `TodoApp.AppHost/Program.cs` |
 | The project reference graph: Client → Shared; Server → ServiceDefaults, Client, Shared; Api → Shared; Tests → Api | `Todo.Web/Client/Todo.Web.Client.csproj`, `Todo.Web/Server/Todo.Web.Server.csproj`, `Todo.Api/Todo.Api.csproj`, `Todo.Api.Tests/Todo.Api.Tests.csproj` |
 | `Todo.Web.Shared` holds the wire DTOs `TodoItem`, `UserInfo`, `ExternalUserInfo` and `AuthToken` (`accessToken` via `JsonPropertyName`), the last three carrying `[Required]`/validation attributes | `Todo.Web/Shared/SharedClass.cs` |
@@ -544,6 +544,7 @@ What this coverage does **not** claim: the `/auth/*` behaviour is described from
 | OTLP export only when `OTEL_EXPORTER_OTLP_ENDPOINT` is set | `TodoApp.ServiceDefaults/Extensions.cs` |
 | Health endpoints mapped in Development only | `TodoApp.ServiceDefaults/Extensions.cs` |
 | The test host replaces the provider with a real `SqliteConnection("Filename=:memory:")` and calls `UseSqlite`, relaxes Identity password rules, installs `EphemeralDataProtectionProvider`, registers a scoped `TokenService`, and mints a bearer token per request through a `DelegatingHandler` | `Todo.Api.Tests/TodoApplication.cs` |
+| Tests build their schema with `EnsureCreated()` from the model, not from the committed migrations | `Todo.Api.Tests/TodoApplication.cs` |
 | `EntityFrameworkCore.InMemory` is referenced but the fixture never uses it | `Todo.Api.Tests/Todo.Api.Tests.csproj`, `Todo.Api.Tests/TodoApplication.cs` |
 | The `admin` role claim is added only by the test token helper | `Todo.Api.Tests/TokenService.cs` |
 | Nine `[Fact]` tests over `/todos`, including owner isolation and admin override | `Todo.Api.Tests/TodoApiTests.cs` |
@@ -561,16 +562,16 @@ What this coverage does **not** claim: the `/auth/*` behaviour is described from
 | `CONTRIBUTING.md` is cited by the Development Case | `docs/artifacts/environment/development-case.md`, Tool references |
 | `CONTRIBUTING.md` does not exist | read attempt returned "was not found"; tree listing |
 | Development Case classification (`business-process-led = false`, `real-time-system = false`), inactive Business Modeling, fired Deployment Model, stood-down roles, Use-Case Model to be enumerated one use case per endpoint surface with auth/rate-limiting/telemetry excluded as mechanisms | `docs/artifacts/environment/development-case.md` |
-| Commit history of the whole repository, 50 commits, 2023-07-14 → 2026-11-14, older history exists | `scm_list_commits` over the repository, 2025-11-14 run |
-| Two change clusters (July 2023, November 2024) and the post-November-2024 commits | same listing: `31b28b3`, `5e9c05b`, `182c354`, `7c18bec`, `6b9f07e`, `3530e8a`, `1449c43`, `bbd680d`, `3308193`, `beb0011`, `1d4e043`, `a6dea68`, `d772504`, `a6ff858`, `307a1ea` |
-| Five authentication-surface commits between 2024-11-23 and 2024-11-27 | `fb0032e`, `2d0d82d`, `228dc29`, `fdc49bb`, `69127f1`, `a519c10` |
+| Commit history of the whole repository: 50 commits, 2024-11-14 → 2026-11-14, older history exists | `scm_list_commits` over the repository, 2026-11-14 run |
+| The November 2024 rework and the post-November commits | same listing: `6b9f07e`, `9d10860`, `09ea52d`, `485e7d4`, `03640dd`, `3530e8a`, `1449c43`, `5af589d`, `780dff8`, `ed8e367`, `bbd680d`, `3308193`, `617dfee`, `fb0032e`, `2d0d82d`, `228dc29`, `fdc49bb`, `993421c`, `2d890e8`, `69127f1`, `a519c10`, `beb0011`, `1d4e043`, `a6dea68`, `d772504`, `a6ff858`, `307a1ea` |
+| Six authentication-surface commits between 2024-11-23 and 2024-11-27, plus the S2S comment and the configurable rate limiter in the same window | `fb0032e`, `2d0d82d`, `228dc29`, `fdc49bb`, `69127f1`, `a519c10`; `2d890e8`, `993421c` |
 | `README.md` history: 20 commits, 2022-12-02 → 2025-09-28 | `scm_list_commits` over `README.md` |
 | `Requests/` history: 5 commits, 2022-11-12 → 2024-03-26 | `scm_list_commits` over `Requests` |
 | `Todo.Api/Migrations` history: 1 commit, 2024-11-23, a path move | `scm_list_commits` over `Todo.Api/Migrations` |
 | `.devcontainer` history: 6 commits, 2022-11-13 → 2023-12-15, last `2e54de3` | `scm_list_commits` over `.devcontainer` |
-| `docs/` created by the sprint-zero commits of 2026-11-14 | whole-repository listing: `ccf6401`, `37986fb`, `520a590`, `a1e2d77`, `6f554f8`, `e0bc4e6` |
+| `docs/` created by the sprint-zero commits of 2026-11-14 | whole-repository listing: `ccf6401`, `37986fb`, `520a590`, `a1e2d77`, `6f554f8`, `e0bc4e6`, and this reading's upserts |
 | 165 tree entries, 45 of them vendored Bootstrap files | `scm_get_repo_tree` |
-| 57 files opened in this reading | the enumeration in Coverage |
+| 52 files opened in this reading | the enumeration in Coverage |
 | No scheduled job, batch process or report exists; the only non-request-driven behaviour is the AppHost's one-shot `dotnet ef database update` | `TodoApp/` tree; no hosted service or job configuration in any read manifest; `TodoApp.AppHost/Extensions.cs` |
 | Priorities order and Coverage declarations | This reading — no external anchor; they are the Software Archaeologist's judgement over the evidence above |
 
