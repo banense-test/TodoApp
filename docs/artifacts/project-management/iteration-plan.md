@@ -314,9 +314,9 @@ The process runs four disciplines in Excavation, and every one of them has its r
 
 ### Later iterations — roles at work, recorded so the roadmap is executable
 
-Inception adds the Integrator (Build Environment Setup; R014), the Change Control Manager (Change Request ledger), the Configuration Manager (CM strategy), the Test Manager (Test Plan not fired; Test Evaluation Summary) and the Deployment Manager. Elaboration adds the Test Designer (Test Case; **R001**), the Tester, the Test Analyst, the Code Reviewer and the User Interface Designer. Construction adds the Implementer and, for the Technical Writer, R022 and R024. Transition is deployment and acceptance closure.
+Inception adds the Integrator (Build Environment Setup; R010, R014), the Change Control Manager (Change Request ledger), the Configuration Manager (CM strategy), the Test Manager (Test Plan not fired; Test Evaluation Summary; R004, R020) and the Deployment Manager. Elaboration adds the Test Designer (Test Case; **R001**), the Tester, the Test Analyst, the Code Reviewer and the User Interface Designer. Construction adds the Implementer and, for the Technical Writer, R022 and R024. Transition is deployment and acceptance closure.
 
-No risk owner in any milestone row above is absent from that milestone's profile. R004's owner is the Test Manager and R010's the Integrator, both at work from LCA and IOC respectively; R001's owner is the Test Designer, at work from Elaboration. The Test Manager and Integrator are the two roles whose first appearance is later than their risk's entry, and neither is a retirement that AR or GHR claims.
+**Every one of the 26 risks has its owner at work in the milestone whose row retires it.** The two roles whose first appearance is later than their risk's entry are the Test Manager, at work from LCA, and the Integrator, at work from IOC — and neither risk is one that AR or GHR claims as retired.
 
 **Stood down for the whole project**, per the Development Case classification: Business Process Analyst and Business Reviewer (`business-process-led = false`), Capsule Designer (`real-time-system = false`). They execute no stage in any iteration and sit on no gate.
 
@@ -333,7 +333,9 @@ No risk owner in any milestone row above is absent from that milestone's profile
 | Management Reviewer | Review lens | SBC milestone review, management | Findings on the artifacts reviewed | — |
 | Review Coordinator | Review lens | SBC milestone review | The SBC verdict | — |
 
-Two risks whose disposal this iteration corrects are owned by roles who first sit at AR, and neither is retired here: R005's owner is the System Analyst and R011's is the Software Architect. This iteration restates their strategy in the Risk List; it does not change their owner, and no milestone row above claims either as retired.
+The Review Coordinator decides whether the milestone closes. It does not decide the Iteration Assessment — the Project Manager writes that against the verdict.
+
+R005 and R011 have owners who first sit at AR — the System Analyst and the Software Architect. This iteration restates their strategy in the Risk List; it changes no owner, and no milestone row here claims either as retired.
 
 ## Use Cases and Scenarios Addressed
 
