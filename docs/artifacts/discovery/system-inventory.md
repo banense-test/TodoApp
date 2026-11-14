@@ -802,3 +802,23 @@ Two statements in Anomalies rest on reading alone and are marked as such there r
 | No scheduled job, batch process or report exists; the only non-request-driven behaviour is the AppHost's one-shot `dotnet ef database update` | `TodoApp/` tree; no hosted service or job configuration in any read manifest; `TodoApp.AppHost/Extensions.cs` |
 | Priorities order and Coverage declarations | This reading — no external anchor; they are the Software Archaeologist's judgement over the evidence above |
 
+### Anchors added by the anomalies and priorities reading
+
+| Fact | Anchor |
+|---|---|
+| The `/todos` authorization gate succeeds whenever the current user resolved from the API's own store is non-null; lock-out is not checked, recorded in the code as a TODO | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs` |
+| Identity is registered as `AddIdentityCore<TodoUser>().AddEntityFrameworkStores<TodoDbContext>().AddApiEndpoints()` — no `AddRoles`, no role store, no role seeding | `Todo.Api/Program.cs` |
+| The API pipeline order is `UseHttpLogging()` then `UseRateLimiter()`, with no explicit `UseAuthentication()` between them; `MapOpenApi()` is mapped unconditionally while `MapScalarApiReference` is inside `if (app.Environment.IsDevelopment())`; `"/"` redirects to `/scalar/v1` unconditionally | `Todo.Api/Program.cs` |
+| Rate limiting is a token-bucket policy named `PerUserRatelimit`, replenishing every 10 seconds, partitioned on `ClaimTypes.NameIdentifier` read with the null-forgiving operator, rejecting with 429; code defaults `TokenLimit 100`, `TokensPerPeriod 100`, `QueueLimit 100`, bound from the `RateLimiting` configuration section | `Todo.Api/Extensions/RateLimitExtensions.cs` |
+| `Todo.Api/appsettings.json` carries logging levels and `AllowedHosts` only — no `RateLimiting` section | `Todo.Api/appsettings.json` |
+| Both hosts set the data-protection application discriminator to `TodoApp`, which is what lets the BFF and the API share a key ring | `Todo.Api/Program.cs`; `Todo.Web/Server/Program.cs` |
+| BFF `logout` signs out only the cookie scheme; the remote provider sign-out is commented out under "TODO: Support remote logout" | `Todo.Web/Server/AuthApi.cs` |
+| BFF `signin/{provider}` derives the user name from `ClaimTypes.Email` falling back to `Identity.Name` under "TODO: We should have the user pick a user name to complete the external login dance", and returns `Results.Redirect("/")` on both the success and the failure path under "TODO: Handle the failure somehow" | `Todo.Web/Server/AuthApi.cs` |
+| The BFF's external-login staging scheme is `AuthenticationSchemes.ExternalScheme`; the provider key is data-protected with a protector created from the provider name before transport | `Todo.Web/Server/AuthApi.cs` |
+| The access token is written into the auth cookie as `TokenNames.AccessToken` alongside `NameIdentifier` and `Name` claims | `Todo.Web/Server/AuthApi.cs`; `Todo.Web/Server/Authentication/TokenNames.cs` |
+| The only test project references `Todo.Api` alone — not `Todo.Web.Server` — so no automated test covers the BFF, its `/auth/*` endpoints or the cookie-to-Bearer translation | `Todo.Api.Tests/Todo.Api.Tests.csproj`; `TodoApp.sln` |
+| The test project references `Microsoft.EntityFrameworkCore.InMemory` and no code path uses it | `Todo.Api.Tests/Todo.Api.Tests.csproj`; `Todo.Api.Tests/TodoApplication.cs` |
+| `README.md` documents running `Todo.Api` standalone against its Swagger UI, and documents rate limiting and social authentication as showcases of the sample | `README.md` |
+| The README badge links `davidfowl/TodoApi`; the rename to `TodoApp` is `3308193` | `README.md`; commit `3308193` |
+| Anomaly table, priority order and the three scope questions | This reading — the evidence column of each row is its anchor; the order and the questions are the Software Archaeologist's judgement over that evidence and are answered by the stakeholder, not by a file |
+
