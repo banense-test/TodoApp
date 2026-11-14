@@ -1076,3 +1076,12 @@ Every fact above has a row here. A fact whose anchor is a stakeholder answer nam
 | The two reading-only statements in Anomalies stay declared as read but not observed across Survey, Excavation and Consolidation and are carried as accepted risk until the RUP phases start, when the pipeline builds the solution and runs its test suites; the first such run is what settles each | Stakeholder answer, 2026-11-14, second answer of the SBC review (question raised against `Todo.Api/Extensions/RateLimitExtensions.cs`, `Todo.Api/Program.cs`, `TodoApp.AppHost/Extensions.cs`) |
 | The anomaly grouping, the priority order and the coverage declarations | This reading — the evidence column of each anomaly row is its anchor; the grouping, the order and the declared gaps are the Software Archaeologist's judgement over that evidence |
 
+### Perimeter completeness and its limits
+
+| Fact | Anchor |
+|---|---|
+| Nothing is missing from the perimeter as this artifact records it | Stakeholder answer, 2026-11-14 ("Nothing is missing from the perimeter that I know of"), in the same answer that corrected the record on observation |
+| The perimeter as this artifact records it — the seven projects, the two actors, the five external elements, the eight tables and the entry-point surface — is confirmed by the stakeholder at the SBC milestone, 2026-11-14 | Stakeholder answer, 2026-11-14, SBC review ("I confirm the perimeter now, at this milestone"), granting the sanction to advance past System Boundary Confirmed |
+| No process is run in Survey, Excavation or Consolidation; the system is not installed anywhere and nobody runs it here. From Inception on the pipeline builds the solution and runs its tests, so a later phase may settle a read-only statement by a build-and-test result | Stakeholder answer, 2026-11-14, SBC review ("My earlier sentence applied to Survey, Excavation and Consolidation only. I did not say the system will never be run: once the RUP phases start, the pipeline builds it and runs its tests") |
+| An element Excavation finds outside the confirmed perimeter is put to the stakeholder at that point, not held to the SBC record | Stakeholder answer, 2026-11-14, SBC review ("If Excavation finds something outside the perimeter, ask me then") |
+
