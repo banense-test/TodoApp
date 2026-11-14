@@ -7,7 +7,7 @@ Survey iteration 3 is corrective. The SBC gate granted the sanction and opened s
 
 1. **Narrow the no-observation constraint to the sprint zero wherever it is stated over more of the lifecycle.** No process is run in Survey, Excavation or Consolidation, so within those three milestones neither read-only claim is settled by observation; both stay declared as read but not observed and are carried as accepted risk until the RUP phases start. From Inception on the pipeline builds the solution and runs its test suites, and a build or test result that bears on an accepted risk settles what it covers. Owner: Software Archaeologist for the System Inventory's Coverage statement, Project Manager for the Risk List and this plan.
 2. **Bound every acceptance, and none to the end of the project.** R002 and R011 are accepted until the RUP phases start, on the stakeholder's answer of 2026-11-14; R002's Significant-band grant stays quoted verbatim. Owner: Project Manager.
-3. **Restore exit criterion 1 to the process wording and delete the gate the stakeholder deleted.** The perimeter is confirmed by the stakeholder, evidenced by the confirmation given at this milestone on 2026-11-14; there is no second confirmation at Consolidation's start, and G2 leaves the roadmap, the gantt and the gate list. Owner: Project Manager.
+3. **Restore exit criterion 1 to the process wording and delete the gate the stakeholder deleted.** The perimeter is confirmed by the stakeholder, evidenced by the confirmation given at this milestone on 2026-11-14; there is no second confirmation at Consolidation's start, and that gate leaves the roadmap, the gantt and the gate list, leaving four gates booked for the stakeholder. Owner: Project Manager.
 4. **Re-examine the retirement map for what a build and test run settles.** A risk a run can settle is placed at the milestone whose execution produces that evidence, with the producer named; a risk no test the process runs can observe stays on the acceptance. Owner: Project Manager.
 5. **Correct the three Minors in their owners' next turn.** The Provenance arithmetic, the citation to a version policy the Development Case does not contain, and the two retirements the LCO row claims but this milestone performed. Owners: Software Archaeologist, Project Manager.
 
@@ -16,7 +16,7 @@ Two Majors are owned by the Software Archaeologist and five records by the Proje
 ```plantuml
 @startuml
 title Survey iteration 3 — the corrective chain: five sequential agent stretches, then the gate
-skinparam swimshadowing false
+skinparam shadowing false
 skinparam swimlaneWidth 200
 
 |#LightYellow|Agent work — sequential|
@@ -56,7 +56,8 @@ end note
 :<b>Stretch 4</b> — Project Manager
 Restore exit criterion 1 to the process wording,
 evidence it with the confirmation of 2026-11-14,
-delete G2, and restate the iteration objectives;
+delete the second-confirmation gate, and restate
+the iteration objectives;
 note right
   Corrects: Iteration Plan — Evaluation Criteria, Resources,
   Iteration Objectives (IP-A)
