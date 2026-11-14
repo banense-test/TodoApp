@@ -94,7 +94,6 @@ stop
 The chain is sequential, not parallel, for one reason: each stretch consumes the one before it. The process tailoring fixes what the reading may record; the reading produces the anomalies; the anomalies are the only legitimate input to the Risk List; the Risk List is half of what this plan is built on. Six agent stretches plus the human gate are the plan's critical path — parallelism buys nothing on a chain whose links are data dependencies.
 
 ## Plan and Milestones
-
 Two levels live in this section: the coarse cross-iteration roadmap and the fine plan for this iteration.
 
 ```plantuml
@@ -122,9 +121,11 @@ skinparam shadowing false
 [Construction 2 — IOC] starts at [Construction 1]'s end
 [Transition 1 — PR] starts at [Construction 2 — IOC]'s end
 
-[G1 stakeholder disposes of the reading's three scope facts] happens at [Survey 1 — SBC]'s end
+[G1 stakeholder disposes of the three scope facts] happens at [Survey 1 — SBC]'s end
 [G2 stakeholder confirms the perimeter] happens at [Consolidation 1 — GHR]'s start
 [G3 stakeholder accepts the LCO case] happens at [Inception 1 — LCO]'s end
+[G4 stakeholder accepts the architecture baseline] happens at [Elaboration 1 — LCA]'s end
+[G5 stakeholder accepts the product] happens at [Transition 1 — PR]'s end
 
 [Survey 1 — SBC] is colored in Salmon
 [Excavation 1 — AR] is colored in LightBlue
@@ -134,35 +135,39 @@ skinparam shadowing false
 [Construction 1] is colored in LightGray
 [Construction 2 — IOC] is colored in LightGray
 [Transition 1 — PR] is colored in LightGray
-[G1 stakeholder disposes of the reading's three scope facts] is colored in Gold
+[G1 stakeholder disposes of the three scope facts] is colored in Gold
 [G2 stakeholder confirms the perimeter] is colored in Gold
 [G3 stakeholder accepts the LCO case] is colored in Gold
+[G4 stakeholder accepts the architecture baseline] is colored in Gold
+[G5 stakeholder accepts the product] is colored in Gold
 
 note bottom
   Every bar is the renderer's unit step, placed only to order the milestones:
   no iteration in this project has a measured elapsed time, so none is
   quoted and no bar is a duration. No project start date is given, because
-  none has been measured. The gold markers are human gates: queue time,
-  not work — ceiling 14 days each, estimate none, the actual reported apart
-  from agent time once the gate closes.
+  none has been measured. The five gold markers are human gates: queue time,
+  not work — ceiling 14 days each (R026), estimate none, the actual reported
+  apart from agent time once the gate closes.
 end note
 @endgantt
 ```
 
 ### Coarse roadmap — the milestone sequence and the risk each milestone retires
 
-Eight iterations, one per phase except Construction, which takes two. The distribution is not the rubber profile's default: the sprint zero carries three of the eight because the architecture, the data model and the use cases are **recovered from a working system** rather than designed from nothing. The phase in which architectural risk is retired is therefore Excavation inside the sprint zero, and Elaboration's LCA becomes a baseline-confirmation iteration rather than a from-scratch architecture baseline. The justification is the Risk List, not preference: R002 (no runtime observation), R003 (migrations unvalidated) and R005 (unread files block the login scenarios) are all Significant and all retired only by reading and running the existing system — work the sprint zero runs and Elaboration does not.
+Eight iterations, one per phase except Construction, which takes two. The distribution is not the rubber profile's default: the sprint zero carries three of the eight because the architecture, the data model and the use cases are **recovered from a working system** rather than designed from nothing. The phase in which architectural risk is retired is therefore Excavation inside the sprint zero, and Elaboration's LCA becomes a baseline-confirmation iteration rather than a from-scratch architecture baseline. The justification is the Risk List, not preference: R002 (no runtime observation), R003 (migrations unvalidated) and R005 (unread files block the login scenarios) are all Significant, and all three are retired by reading the existing system — work the sprint zero runs and Elaboration does not.
 
 | # | Iteration | Milestone | What the milestone gates | Risks whose retirement this milestone carries | Reviewers, in order |
 |---|---|---|---|---|---|
-| 1 | Survey 1 | SBC | The perimeter of the existing system is recorded and put to the stakeholder, the reading priorities are ordered, the unread areas are declared, and every anomaly is a scored risk | All 25 scored and owned — scoring is not retirement | Reviewer, Management Reviewer, Review Coordinator |
-| 2 | Excavation 1 | AR | The recovered architecture, the Design Model with its persistent-data sections and the first recovered use cases are baselined; the claims the reading marked as reading-only are settled by running the system | R002, R005, R011, R016, R018, R021, R007, R012, R003, R013, R019 | Reviewer, Management Reviewer, Review Coordinator |
-| 3 | Consolidation 1 | GHR | Every use case is recovered, the Supplementary Specification carries the mechanisms, and the tailoring is confirmed | R008, R009, R015, R017 | Reviewer, Management Reviewer, Review Coordinator |
-| 4 | Inception 1 | LCO | The Vision, the use-case model of the declared scope, the candidate architecture, the build environment, the Change Request ledger and the CM strategy are in place | R006, R025 | Reviewer, Business Reviewer, Management Reviewer, Review Coordinator |
-| 5 | Elaboration 1 | LCA | The architecture baseline is executed and tested; the Test Manager's plan and the Test Designer's cases exist; the deployment plan is written | R001, R004, R020 | Reviewer, Business Reviewer, Management Reviewer, Review Coordinator |
+| 1 | Survey 1 | SBC | The perimeter of the existing system is recorded with an anchor per element and put to the stakeholder, the reading priorities are ordered, the unread areas are declared, and every anomaly is a scored risk | All scored, banded and owned — scoring is not retirement | Reviewer, Management Reviewer, Review Coordinator |
+| 2 | Excavation 1 | AR | The recovered architecture, the Design Model with its persistent-data sections and the first recovered use cases are baselined, and the anomalies the reading could not settle are carried with their disposal recorded | R003, R005, R007, R012, R013, R016, R018, R019, R021 | Reviewer, Management Reviewer, Review Coordinator |
+| 3 | Consolidation 1 | GHR | Every use case is recovered, the Supplementary Specification carries the mechanisms, the perimeter is confirmed by the stakeholder (G2), and the tailoring is confirmed | R008, R009, R015, R017 | Reviewer, Management Reviewer, Review Coordinator |
+| 4 | Inception 1 | LCO | The Vision, the use-case model of the declared scope, the candidate architecture, the build environment, the Change Request ledger and the CM strategy are in place, and the business case is accepted by the stakeholder (G3) | R006, R025 | Reviewer, Management Reviewer, Review Coordinator |
+| 5 | Elaboration 1 | LCA | The architecture baseline is executed and tested; the Test Manager's plan and the Test Designer's cases exist; the deployment plan is written; the baseline is accepted by the stakeholder (G4) | R001, R004, R020 | Reviewer, Management Reviewer, Review Coordinator |
 | 6 | Construction 1 | — | The first construction increment: component implementation, iteration build, test execution, technical documentation | — | Reviewer, Management Reviewer, Review Coordinator |
 | 7 | Construction 2 | IOC | The declared scope is implemented and tested against the recovered and declared acceptance criteria | R010, R014 | Reviewer, Management Reviewer, Review Coordinator |
-| 8 | Transition 1 | PR | Production deployment, acceptance testing, release notes, and the closure of the Change Request ledger | R022, R024 | Reviewer, Management Reviewer, Review Coordinator |
+| 8 | Transition 1 | PR | Production deployment, acceptance testing, release notes, the closure of the Change Request ledger, and the customer taking ownership of the product (G5) | R022, R024 | Reviewer, Management Reviewer, Review Coordinator |
+
+The Business Reviewer is not a lens of any gate in this table. The Development Case declares Business Modeling inactive (`business-process-led = false`) and stands that role down for the whole project; Reviewer, Management Reviewer and Review Coordinator are the three lenses that remain.
 
 ```plantuml
 @startuml
@@ -177,16 +182,22 @@ note right
   below names the milestone whose artifact
   does the work, which is what makes the
   sequence below risk-driven rather than
-  phase-shaped
+  phase-shaped. No retirement anywhere in
+  this plan runs the system: that path is
+  closed for the project.
 end note
 
 |AR — Excavation 1|
-:Observed rather than read — R002 by running the system, R011 by running the API;
 :Reading completed — R005, opening HttpAuthenticationStateProvider.cs first;
 :Mechanisms recorded in the SAD and the Supplementary Specification — R016, R018, R021;
-:Recorded as unreachable, or as the accepted boundary — R007, R012;
+:Recorded as unreachable or as the accepted boundary — R007, R012;
 :Persistent data checked against the model — R003, R013;
 :Delivered behaviour stated, not corrected — R019;
+note right
+  R002 and R011 are NOT retired here. Both are
+  accepted on the reading alone, and appear in the
+  carried-accepted line below.
+end note
 
 |GHR — Consolidation 1|
 :Recovered use cases state the gap or the dormancy — R008, R009, R015, R017;
@@ -203,15 +214,71 @@ end note
 |PR — Transition 1|
 :Delivery statement and badge corrected before release — R022, R024;
 
+:Carried on the acceptance recorded in the Risk List, retired by no artifact:
+R002, R007, R008, R011, R012, R015, R019, R023;
+note right
+  R002 is Significant — the one acceptance in that band,
+  granted by the stakeholder on 2026-11-14. The other
+  seven sit at Moderate, Minor and Low.
+end note
 stop
 @enduml
 ```
 
-Three properties of this roadmap are load-bearing:
+Four properties of this roadmap are load-bearing:
 
-- **Sequencing follows the risk bands, not the phase names.** Both High-band risks are retired before Construction: R001 (nothing tests the BFF) at LCA, R009 (a delivered API capability with no screen) at GHR. The seven Significant risks are retired by AR and GHR — inside the sprint zero — because that is where their evidence lives. No risk above the Moderate band is carried into Construction or Transition.
-- **Nothing is scheduled before its phase runs it.** The System Inventory's priorities name what Excavation reads; they do not ask Construction to read it. The Architectural Proof-of-Concept stays unfired until Elaboration re-evaluates it against this Risk List, as the Development Case records.
+- **Sequencing follows the risk bands, not the phase names.** Both High-band risks are retired before Construction: R001 (nothing tests the BFF) at LCA, R009 (a delivered API capability with no screen) at GHR. Six of the seven retired Significant risks are retired by AR and GHR — inside the sprint zero — because that is where their evidence lives. R026 is bounded by the register itself and needs no milestone. No risk above the Moderate band is carried into Construction or Transition.
+- **No retirement runs the system.** Every step above is an artifact a role writes. The two risks whose condition could only be settled by observation — R002 and R011 — are carried on the acceptance recorded in the Risk List rather than counted as retired, so no milestone's exit case rests on evidence the project will not produce.
+- **Every milestone whose exit condition is the stakeholder's judgement has a gate at which it is obtained.** That is G2 through G5; G1 served SBC and was answered 2026-11-14.
 - **The lever is iteration count — never parallel agent roles, never declared scope.** If a milestone's exit criteria do not pass, the remedy is one more iteration inside that phase at schedule cost. Declared scope is reduced only by a Change Request the stakeholder decides.
+
+```plantuml
+@startuml
+title The five stakeholder gates the plan books, and the milestone each serves
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+package "Booked gates — queue time, ceiling 14 days, estimate none" #LightBlue {
+  component "G1 — three scope facts disposed\nanswered 2026-11-14" as G1
+  component "G2 — confirms the perimeter\nConsolidation 1 start" as G2
+  component "G3 — accepts the LCO case\nInception 1 end" as G3
+  component "G4 — accepts the architecture baseline\nElaboration 1 end" as G4
+  component "G5 — accepts the product, ownership passes\nTransition 1 end" as G5
+}
+
+package "What each milestone's exit condition requires" {
+  component "SBC — perimeter recorded and put to the stakeholder\nanswered at review" as SBC
+  component "GHR — perimeter confirmed before the declared scope is modelled" as GHR
+  component "LCO — business case acceptable to the stakeholder" as LCO
+  component "LCA — architecture baseline acceptable to the stakeholder" as LCA
+  component "PR — the customer takes ownership of the software" as PR
+}
+
+SBC --> G1
+GHR --> G2
+LCO --> G3
+LCA --> G4
+PR --> G5
+
+note right of G4
+  No lens can answer whether a baseline is acceptable to
+  the stakeholder. It is booked and bounded.
+end note
+note right of G5
+  Acceptance testing is not acceptance. G5 is the event at
+  which ownership transfers — the closure the PR milestone
+  exists to perform.
+end note
+note bottom of G1
+  Every gate is bounded by R026: at 14 days of queue time the
+  process suspends rather than filling the gap with an
+  assumption. Actual queue time is reported apart from agent
+  time; the two clocks are never summed.
+end note
+@enduml
+```
+
+The bound on every gate above is R026 in the Risk List: ceiling 14 days of queue time, estimate none, actual measured and reported apart from agent time, and on expiry the process suspends rather than filling the gap with an assumption. A gate is bounded in the register, never forecast in this plan.
 
 ### Fine plan — this iteration's work items and their owners
 
@@ -222,7 +289,7 @@ Three properties of this roadmap are load-bearing:
 | Read the perimeter, technology and size, persistent data, history | Software Archaeologist | System Inventory — those sections | Documentation | The seven projects, the entry-point surface and the stores — the anchor every recovered use case will point at |
 | Dispose of the three scope facts | Stakeholder — gate G1 | Three decisions recorded in the System Inventory | Perimeter | The reading found three facts whose disposition is the stakeholder's, not the team's. Answered 2026-11-14 |
 | Record the anomalies and order the priorities | Software Archaeologist | System Inventory — Anomalies and Priorities, Coverage | G1 | The raw material of the Risk List and the reading plan for Excavation |
-| Score and classify the risks | Project Manager | Risk List | Anomalies | 25 risks on the IARI scales, each with a strategy, an owner and a contingency |
+| Score and classify the risks, and bound the human gates | Project Manager | Risk List | Anomalies | 26 risks on the IARI scales, each with a strategy, an owner and a contingency; R026 bounds the gates above |
 | Write this plan | Project Manager | Iteration Plan | Risk List | The coarse roadmap with its risk retirement, the fine plan, and the SBC exit criteria |
 
 No work item carries a size. Nothing has been measured yet — Survey has not closed — and this system measures two things only: agent work in tokens and elapsed time, and human gates in days of queue time. An empty size is correct; a figure in hours, days or person-anything would describe a unit this project cannot produce.
@@ -232,7 +299,7 @@ No work item carries a size. Nothing has been measured yet — Survey has not cl
 | Clock | Position at plan time | What it decides |
 |---|---|---|
 | Agent work — tokens and elapsed time | Not measured; no phase has closed, so no forecast exists and none is invented | The measured actual of Survey replaces every assumed share in the plans after SBC |
-| Human queue time — gate G1 | Answered 2026-11-14; the queue duration is reported by the process, never estimated here | Whether gates should be batched into fewer points in later phases |
+| Human queue time — gates G1 to G5 | G1 answered 2026-11-14; each gate's queue duration is measured by the process and reported here, never estimated | Whether gates should be batched into fewer points in later phases |
 
 This project declares **no token budget**. None is set here, none is proposed for the stakeholder to accept, and no declared scope is cut or deferred to fit an estimate. An iteration ends when its exit criteria pass.
 
