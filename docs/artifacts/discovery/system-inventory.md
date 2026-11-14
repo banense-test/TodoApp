@@ -208,7 +208,7 @@ Scheduled jobs, batch processes and reports: none. `Source: TodoApp/` tree — n
 |---|---|---|
 | Framework | `net9.0`, `Nullable enable`, `ImplicitUsings enable`, `LangVersion preview` | `Directory.Build.props` |
 | SDK | `9.0.100`, `rollForward: latestFeature`, `allowPrerelease: true` | `global.json` |
-| Package management | Central (`ManagePackageVersionsCentrally`), 28 pins | `Directory.Packages.props` |
+| Package management | Central (`ManagePackageVersionsCentrally`), **30 pins** — 6 in the test group, 19 in the application group, 5 OpenTelemetry | `Directory.Packages.props` |
 | Persistence | EF Core 9.0.8 + `Microsoft.EntityFrameworkCore.Sqlite` 9.0.8 | `Directory.Packages.props`, `Todo.Api/Todo.Api.csproj` |
 | Identity | `Microsoft.AspNetCore.Identity.EntityFrameworkCore` 9.0.8, `AddIdentityCore<TodoUser>()` + `AddEntityFrameworkStores` + `AddApiEndpoints` | `Todo.Api/Program.cs` |
 | Authentication | Bearer token scheme in the API; cookie scheme in the BFF; four external OAuth/OIDC schemes | `Todo.Api/Program.cs`, `Todo.Web/Server/Authentication/AuthenticationExtensions.cs` |
@@ -244,8 +244,7 @@ Size, by project and by what the tree shows:
 | `TodoApp.AppHost` | `Program.cs`, `Extensions.cs`, 2 `appsettings`, `launchSettings.json` | ~2.4 KB of orchestration |
 | `TodoApp.ServiceDefaults` | `Extensions.cs` | ~4.5 KB |
 
-The client's `wwwroot/bootstrap` accounts for 45 of the tree's 165 entries; it is third-party CSS/JS, not project code.
-
+The client's `wwwroot/bootstrap` accounts for 45 of the tree's 170 entries; it is third-party CSS/JS, not project code. Six further entries are this project's own process records under `docs/artifacts/`.
 ## Persistent Data
 No SQL scripts, stored procedures or triggers exist. `Source: .iari/README.md` ("Database scripts. No SQL files, stored procedures or triggers. The schema exists only as code, in the migrations of the API project") — confirmed against the tree, which holds no `.sql` file.
 
