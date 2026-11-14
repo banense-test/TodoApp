@@ -191,7 +191,6 @@ end note
 Scheduled jobs, batch processes and reports: none. `Source: TodoApp/` tree — no hosted service, no timer, no job configuration in any read manifest. The only non-request-driven behaviour is the one-shot `dotnet ef database update` the AppHost runs at startup.
 
 ## Technology and Size
-
 | Concern | Value | Anchor |
 |---|---|---|
 | Framework | `net9.0`, `Nullable enable`, `ImplicitUsings enable`, `LangVersion preview` | `Directory.Build.props` |
@@ -201,26 +200,38 @@ Scheduled jobs, batch processes and reports: none. `Source: TodoApp/` tree — n
 | Identity | `Microsoft.AspNetCore.Identity.EntityFrameworkCore` 9.0.8, `AddIdentityCore<TodoUser>()` + `AddEntityFrameworkStores` + `AddApiEndpoints` | `Todo.Api/Program.cs` |
 | Authentication | Bearer token scheme in the API; cookie scheme in the BFF; four external OAuth/OIDC schemes | `Todo.Api/Program.cs`, `Todo.Web/Server/Authentication/AuthenticationExtensions.cs` |
 | Proxying | `Yarp.ReverseProxy` 2.3.0 with `MapForwarder` and a request transform | `Todo.Web/Server/TodoApi.cs` |
-| Service discovery | `Microsoft.Extensions.ServiceDiscovery` 9.5.0 + `.Yarp` 9.5.0; the BFF resolves the base address `http://todoapi` | `Todo.Web/Server/Program.cs` |
+| Service discovery | `Microsoft.Extensions.ServiceDiscovery` 9.5.0 + `.Yarp` 9.5.0; the BFF resolves the base address `http://todoapi` | `Todo.Web/Server/Program.cs`, `Todo.Web/Server/Todo.Web.Server.csproj` |
 | Observability | OpenTelemetry 1.12.0 (AspNetCore, Http, Runtime) + HttpLogging | `TodoApp.ServiceDefaults/Extensions.cs`, `Todo.Api/Program.cs` |
 | API documentation surface | `Microsoft.AspNetCore.OpenApi` + `Scalar.AspNetCore` 2.6.8, mapped in Development only | `Todo.Api/Program.cs` |
-| Validation | `MiniValidation` 0.9.2 via `WithParameterValidation` | `Todo.Api/Todos/TodoApi.cs` |
-| Tests | xunit 2.9.3, `Microsoft.AspNetCore.Mvc.Testing` 9.0.8, `coverlet.collector` 6.0.4, `EntityFrameworkCore.InMemory` 9.0.8 | `Todo.Api.Tests/Todo.Api.Tests.csproj` |
+| Validation | `MiniValidation` 0.9.2 via `WithParameterValidation`, plus `DataAnnotations` on the shared DTOs | `Todo.Api/Todos/TodoApi.cs`, `Todo.Web/Shared/SharedClass.cs` |
+| Client runtime | `Microsoft.AspNetCore.Components.WebAssembly` + `Microsoft.Extensions.Http`; Blazor WASM SDK project | `Todo.Web/Client/Todo.Web.Client.csproj` |
+| Tests | xunit 2.9.3, `Microsoft.AspNetCore.Mvc.Testing` 9.0.8, `coverlet.collector` 6.0.4; `EntityFrameworkCore.InMemory` 9.0.8 is pinned but the fixture substitutes a real SQLite in-memory connection, so the package is unused | `Todo.Api.Tests/Todo.Api.Tests.csproj`, `Todo.Api.Tests/TodoApplication.cs` |
 | Build/CI | GitHub Actions: restore, build Release, test Release on push and pull request | `.github/workflows/ci.yaml` |
+
+Cross-compilation surface — which project compiles against which. Read from the project files, because this graph, not the folder layout, is the real boundary between the tiers:
+
+| Project | References | Anchor |
+|---|---|---|
+| `Todo.Web.Client` | `Todo.Web.Shared` | `Todo.Web/Client/Todo.Web.Client.csproj` |
+| `Todo.Web.Server` | `TodoApp.ServiceDefaults`, `Todo.Web.Client`, `Todo.Web.Shared` | `Todo.Web/Server/Todo.Web.Server.csproj` |
+| `Todo.Api` | `Todo.Web.Shared` (and its own EF/Identity packages) | `Todo.Api/Todo.Api.csproj` |
+| `Todo.Api.Tests` | `Todo.Api` | `Todo.Api.Tests/Todo.Api.Tests.csproj` |
+
+`Todo.Web.Shared` is therefore the single project all three tiers compile against, and the DTOs on the wire (`TodoItem`, `UserInfo`, `ExternalUserInfo`, `AuthToken`) are one set of types rather than three parallel copies. `Source: Todo.Web/Shared/SharedClass.cs`. No tier references another's implementation: the client is compiled into the server's output as assets, and the API is reached only over HTTP.
 
 Size, by project and by what the tree shows:
 
 | Project | Composition | Weight |
 |---|---|---|
 | `Todo.Api` | `Program.cs`, `TodoDbContext.cs`, `Todos/` (2), `Users/` (2), `Authorization/` (3), `Extensions/` (2), `Filters/` (1), `Migrations/` (7), 2 `appsettings`, `launchSettings.json` | The heaviest hand-written area; the only area carrying migrations |
-| `Todo.Web.Server` | `Program.cs`, `AuthApi.cs`, `AuthClient.cs`, `TodoApi.cs`, `Authentication/` (5), `App.razor`, `_Imports.razor`, 2 `appsettings`, `launchSettings.json` | Second heaviest; concentrates the authentication logic |
+| `Todo.Web.Server` | `Program.cs`, `AuthApi.cs`, `AuthClient.cs`, `TodoApi.cs`, `Authentication/` (5), `App.razor`, `_Imports.razor`, 2 `appsettings`, `launchSettings.json` | Second heaviest; concentrates the authentication logic and owns the only two channels to the API |
 | `Todo.Web.Client` | `Program.cs`, `TodoApp.razor`, `TodoClient.cs`, `_Imports.razor`, `Components/` (2 razor), `wwwroot/` (45 vendored Bootstrap files, `css/app.css`, `bg.png`, `favicon.ico`) | Small hand-written surface behind a large vendored asset tree |
+| `Todo.Web.Shared` | `SharedClass.cs` — 736 bytes holding four DTO types | Tiny by size, load-bearing by position: every tier's contract |
 | `Todo.Api.Tests` | 6 C# files including the fixture, token helper and two test classes | ~16 KB of test source |
 | `TodoApp.AppHost` | `Program.cs`, `Extensions.cs`, 2 `appsettings`, `launchSettings.json` | ~2.4 KB of orchestration |
 | `TodoApp.ServiceDefaults` | `Extensions.cs` | ~4.5 KB |
-| `Todo.Web.Shared` | `SharedClass.cs` | Placeholder only |
 
-The client's `wwwroot/bootstrap` accounts for 45 of the tree's 163 entries; it is third-party CSS/JS, not project code.
+The client's `wwwroot/bootstrap` accounts for 45 of the tree's 165 entries; it is third-party CSS/JS, not project code.
 
 ## Persistent Data
 
