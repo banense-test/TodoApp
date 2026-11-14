@@ -608,111 +608,99 @@ A Minor because it stays inside the artifact: both are Moderate risks whose corr
 Not reviewed as a gate input, and its absence or lag is no defect. The Project Manager writes it against this verdict; demanding it describe the iteration before this review rules on that iteration would invert the order. Recorded so no later lens reads the gap as an omission.
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
+
+<!-- review: Survey I2 -->
 
 #### Consolidated finding ledger
 
-Coordinated from `read_artifact_findings` over all five artifacts. **18 lens records are open — not one carries a resolution object.** A Review Record sentence saying a defect was fixed is not a resolution; the ledger object is, and no such object exists. Closure ledger below is therefore empty of closures, correctly.
-
-Two executing lenses raised records against the same artifacts. Where they name the same defect I collapse them into one defect with two lens records, both of which must close separately: each lens closes its own record and a cross-lens close is rejected by the handler.
+Coordinated from `read_artifact_findings` over all six artifacts. **Seven lens records are open — not one carries a resolution object.** Eighteen are closed, each by the lens that emitted it. A Review Record sentence saying a defect was fixed is not a resolution; the ledger object is, and every one of the 18 closures carries one with its verification evidence.
 
 ```plantuml
 @startuml
-title Consolidated finding ledger — 18 lens records, deduplicated to 15 defects across 4 artifacts
+title Consolidated finding ledger — 7 open lens records across 3 artifacts, after 18 closures
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 
-package "Development Case — 2 defects" #LightYellow {
-  class "DC-1  Major\nTool references cites CONTRIBUTING.md,\nabsent from the tree" as DC1
-  class "DC-2  Minor\nownership drawn with class elements" as DC2
+package "System Inventory — 2 open" #LightYellow {
+  class "SI-A  Minor (Reviewer F3)\nProvenance counts 58 into a 57-file total" as SIA
+  class "SI-B  Major (Management F3)\nCoverage states the no-observation\nconstraint over the whole lifecycle" as SIB
 }
 
-package "System Inventory — 3 defects" #LightYellow {
-  class "SI-1  Major\npackage-pin tally 28, the file holds 30" as SI1
-  class "SI-2  Major\nCoverage says the read-only claims are\nsettled by running the system" as SI2
-  class "SI-3  Minor\nRateLimitExtensions.cs marked read\nand unread in two sections" as SI3
+package "Risk List — 2 open" #LightYellow {
+  class "RL-A  Minor (Reviewer F2)\nR023 cites a version policy the\nDevelopment Case does not contain" as RLA
+  class "RL-B  Major (Management F3)\na bounded acceptance is recorded\nas one that runs to the project's end" as RLB
 }
 
-package "Risk List — 3 defects" #LightYellow {
-  class "RL-1  Major\nno risk bounds the 14-day gate ceiling" as RL1
-  class "RL-2  Major\nR002 and R011 avoid an action ruled out;\nR002's Significant grant unrecorded" as RL2
-  class "RL-3  Minor\nR018 mitigation writes into the\nSystem Analyst's artifact" as RL3
+package "Iteration Plan — 3 open" #LightYellow {
+  class "IP-A  Major (Management F8)\ncriterion 1 defers to a G2 gate\nthe stakeholder has deleted" as IPA
+  class "IP-B  Major (Management F9)\nthe plan forecloses a retirement\npath that exists from Inception on" as IPB
+  class "IP-C  Minor (Management F7)\nLCO is credited with two retirements\nthis milestone performed" as IPC
 }
 
-package "Iteration Plan — 7 defects" #LightYellow {
-  class "IP-1  Major\ncriterion 1 claims an unevidenced\nstakeholder confirmation" as IP1
-  class "IP-2  Major\nstood-down Business Reviewer staffed\nat LCO and LCA" as IP2
-  class "IP-3  Major\nExcavation roles withheld from the\nExcavation profile" as IP3
-  class "IP-4  Major\nLCA and PR stakeholder gates unbooked" as IP4
-  class "IP-5  Major\nAR retires R002 and R011 by running\nthe system, which is ruled out" as IP5
-  class "IP-6  Minor\nexit-criteria column reports uniform\nreadiness" as IP6
-  class "IP-7  Minor\nR023 absent from the retirement map" as IP7
+package "Closed this review — 18 records" #PaleGreen {
+  class "Development Case\n2 closed" as DCC
+  class "System Inventory\n3 closed" as SIC
+  class "Risk List\n3 closed" as RLC
+  class "Iteration Plan\n10 closed" as IPC2
 }
 
-note right of DC1
-  Two lens records, one defect:
-  Reviewer F1 and Management F1.
-  Both must close it, each from its own lens.
+note right of SIB
+  SI-B, RL-B and IP-B are one premise
+  with two consequences: the stakeholder
+  narrowed the no-run constraint to the
+  sprint zero and three artifacts state it
+  project-wide.
 end note
-note right of SI1
-  Two lens records, one defect.
-  Every individual pin resolves; only the count is wrong.
+note right of SIA
+  Finding keys collide across lenses:
+  System Inventory#F3 is SI-A from the
+  Reviewer and SI-B from the Management
+  Reviewer. Every action names the lens.
 end note
-note right of IP1
-  Two lens records, one defect.
-  The defect the stakeholder's refusal resolved:
-  a criterion satisfiable only by the sanction withheld.
-end note
-note bottom of IP5
-  RL-2, SI-2 and IP-5 are one root cause
-  and its two consequences: the plan and the
-  register both assume the system can be run,
-  and the stakeholder has ruled it out.
+note bottom of IPA
+  IP-A and RL-B both arrive from the same
+  stakeholder answer, and neither is a
+  question they have left open.
 end note
 @enduml
 ```
 
-| Defect | Artifact | Severity | Lens records | Owner | Holds milestone |
+| Defect | Artifact | Severity | Lens record | Owner | Holds the milestone |
 |---|---|---|---|---|---|
-| SI-2 Coverage names an impossible settlement path for the two read-only claims | System Inventory | Major | Management F2 | Software Archaeologist | Yes |
-| RL-2 R002 and R011 avoided on an action ruled out; R002's Significant grant unrecorded | Risk List | Major | Management F2 | Project Manager | Yes |
-| IP-5 AR retires R002 and R011 by running the system | Iteration Plan | Major | Management F5 | Project Manager | Yes |
-| IP-1 SBC criterion 1 claims an unevidenced stakeholder confirmation | Iteration Plan | Major | Reviewer F1, Management F1 | Project Manager | Yes |
-| IP-2 Stood-down Business Reviewer staffed at LCO and LCA | Iteration Plan | Major | Management F2 | Project Manager | Yes |
-| IP-3 Excavation roles withheld from the Excavation profile | Iteration Plan | Major | Management F3 | Project Manager | Yes |
-| IP-4 LCA and PR stakeholder gates unbooked | Iteration Plan | Major | Management F4 | Project Manager | Yes |
-| RL-1 No risk bounds the 14-day human-gate ceiling | Risk List | Major | Management F1 | Project Manager | Yes |
-| DC-1 Tool references cites an absent `CONTRIBUTING.md` | Development Case | Major | Reviewer F1, Management F1 | Process Engineer | Yes |
-| SI-1 Package-pin tally 28 against 30 in the file | System Inventory | Major | Reviewer F1, Management F1 | Software Archaeologist | Yes |
-| DC-2 Ownership drawn with class elements | Development Case | Minor | Reviewer F2 | Process Engineer | No |
-| SI-3 `RateLimitExtensions.cs` marked read and unread | System Inventory | Minor | Reviewer F2 | Software Archaeologist | No |
-| RL-3 R018 mitigation writes into the System Analyst's artifact | Risk List | Minor | Reviewer F1 | Project Manager | No |
-| IP-6 Exit-criteria column reports uniform readiness | Iteration Plan | Minor | Management F6 | Project Manager | No |
-| IP-7 R023 absent from the risk-retirement map | Iteration Plan | Minor | Reviewer F2 | Project Manager | No |
-
-#### Key collisions across lenses
-
-`Iteration Plan#F2` names **two different defects**: the Reviewer's is IP-7 (R023 absent from the retirement map, Minor); the Management Reviewer's is IP-2 (stood-down role staffed, Major). `System Inventory#F1` and `System Inventory#F2` likewise carry one record from each lens with different content in three of the four cases.
-
-This is the identifier convention working as specified — a finding key is scoped per artifact **and per lens** — but it is a coordination hazard in this record set: a reader told to "fix Iteration Plan F2" fixes the Minor and leaves the Major. Every action below therefore names the defect **and** its lens, never the bare key.
+| SI-B — Coverage states the no-observation constraint over the whole lifecycle, and forbids later milestones from retiring the two claims | System Inventory | Major | Management F3 | Software Archaeologist | Yes |
+| RL-B — R002 and R011 record a sprint-zero acceptance as open-ended to the end of the project | Risk List | Major | Management F3 | Project Manager | Yes |
+| IP-A — exit criterion 1 defers the perimeter's confirmation to a gate the stakeholder has deleted | Iteration Plan | Major | Management F8 | Project Manager | Yes |
+| IP-B — the plan states no retirement anywhere in the project runs the system, foreclosing a path that exists from Inception on | Iteration Plan | Major | Management F9 | Project Manager | Yes |
+| SI-A — the Provenance row counts 58 into a 57-file total | System Inventory | Minor | Reviewer F3 | Software Archaeologist | No |
+| RL-A — R023's mitigation and contingency cite a version policy the Development Case has no section for | Risk List | Minor | Reviewer F2 | Project Manager | No |
+| IP-C — the retirement map credits LCO with two retirements this milestone performed | Iteration Plan | Minor | Management F7 | Project Manager | No |
 
 #### Conflicts between lenses, and how I resolved them
 
 | Conflict | Resolution |
 |---|---|
-| **Risk List disposition.** Reviewer: "Approved — one Minor, no Major". Management: "Approved with changes — two Majors". | The Management lens governs. Its two Majors rest on the stakeholder's correction of 2026-11-14, which arrived after the Reviewer had already audited the register and could not have been tested by that lens. The Reviewer's band arithmetic — all 25 magnitudes recomputed, none misbanded — stands and is not disturbed. Both readings are correct about different questions. |
-| **Iteration Plan disposition.** Reviewer: "Approved with changes — one Major". Management: "Rejected — five Majors". | Both stand; the stricter governs the gate. A Major is a Major whoever finds it, and the plan carries six of the ten. The Reviewer's lens tested exit-criteria integrity and measurement discipline and found the plan's refusal to invent a size, budget, forecast or date correct — that finding stands and is recorded as strength, not contradicted. |
-| **System Inventory depth.** Reviewer verified 17 anchors and found 1 wrong; Management accepted that verification without repeating it and found a second Major from a different angle. | Complementary, not conflicting. The consolidated artifact carries both: the perimeter's *content* is verified sound (16 of 17 anchors confirmed, and the stakeholder states nothing is missing from it), while its *forward commitments* and one size fact are wrong. |
-| **Root cause.** Management identifies seven Majors as one cause; the Reviewer records three Majors as independent. | Both accounts are true of their own set. Consolidated: 10 Majors are **one root cause with two consequences** (SI-2, RL-2, IP-5) plus **six independent defects** (IP-1, IP-2, IP-3, IP-4, RL-1, DC-1, SI-1 — of which IP-1 is raised by both lenses). The seven-in-one grouping is what determines the correction order; treating them independently would produce artifacts that disagree with each other. |
+| **Whole-artifact disposition.** Technical lens: all four artifacts Approved, 2 Minor. Management lens: Iteration Plan Rejected, System Inventory and Risk List Approved with changes, 4 Major. | The Management lens governs the gate. Both lenses reviewed the same corrected text; the difference is that the Management lens tested whether each artifact's statements reach beyond the stakeholder's decision, and the Reviewer's checklist did not carry that item. The Reviewer's findings stand and are not disturbed — every corrected fact was re-verified against its anchor, and that verification is the reason no content defect is open. |
+| **System Inventory — one artifact, two verdicts.** Approved with changes for a Minor (Reviewer), Approved with changes for a Major (Management). | Not a conflict of evidence but of reach. The Reviewer audited the declaration of what was read and found it sound; the Management lens audited what the same section says about the future and found it over-stated. Both hold; the Major governs consumption. |
+| **Risk List — the same shape.** The Reviewer's band arithmetic is pass across all 26 rows; the Management lens passes the arithmetic and fails the duration of an acceptance. | Complementary. The scores and bands are sound and no finding contests one. What fails is the period an acceptance is recorded as running for. No re-scoring is ordered by either lens. |
+| **Iteration Plan — the sharpest split.** Reviewer: Approved, no Major, and it explicitly verified that criterion 1 no longer claims an unevidenced confirmation. Management: Rejected on two Majors, one of which is that criterion 1 now *under*-states a confirmation actually obtained. | Both readings are correct about different moments. The Reviewer closed the iteration-1 defect correctly: the criterion no longer claims what SBC did not obtain. The stakeholder then confirmed the perimeter at this gate, so the corrected text now under-states a met condition and books a deleted gate. That is a new defect created by a later decision, not a failed correction — which is why the iteration-1 record stays closed and F8 is a new record. |
+| **Root cause.** Management identifies three Majors as one premise; the Reviewer records two Minors as independent. | Both accounts are true of their own set. Consolidated: the four Majors are **one premise with two consequences** (SI-B → RL-B, IP-B) plus **one independent governance defect** (IP-A). The three Minors are independent. The grouping determines the corrective order: correcting the premise last means correcting RL-B and IP-B twice. |
 
-#### What no lens raised, and I record as not-a-defect
+#### Where the lenses agreed, recorded as agreed
 
-- **The Iteration Assessment's absence.** The Project Manager writes it against this verdict and it does not gate the phase. Both lenses reached this independently and correctly.
-- **Risk scores.** Both lenses declined to contest individual scores, citing the plan's own statement that disagreement with a score does not fail the milestone. I do not convert a scoring judgement into a finding.
-- **The empty trace graph.** Survey declares no traceable element family — the System Inventory and the four process artifacts all cite declared ids where they use them and register no element of their own. A blank trace graph at SBC is the correct shape, not a `trace-gap`. The Risk List's 25 empty `Traces From` rows are the right form for recovered elements.
-- **Scope markers.** No `[DERIVED]`, `[SCOPE_QUESTION]` or `[ASSUMPTION]` marker survives in any of the four artifacts. The three stakeholder decisions of 2026-11-14 were re-tested by the Reviewer against the code each disposes of and all three hold. No marker was retired by anything other than the stakeholder's own words — which is the only thing that may retire one.
+- **The perimeter's content is sound and is not in dispute.** The stakeholder confirmed it at this gate. Twenty anchors were opened across the two iterations; the one fact that failed was corrected and re-counted. No record contests a perimeter element.
+- **Risk magnitudes are coherent.** All 26 were recomputed in iteration 1 and no lens misbanded one in either event. Both High-band risks are `avoid`; the single Significant-band acceptance is the stakeholder's own and its band is unchanged.
+- **The Development Case now carries no open record from either lens.** It is the only artifact in scope with a clean sheet, and it is the artifact that carried the most cross-role misdirection in iteration 1.
+- **No Critical record exists, and none is owed.** Stated with its basis under Disposition.
 
-I did not re-adjudicate any lens finding. Where a record quotes its evidence, the evidence is in the record; re-deriving it would spend the gate's budget restating what has been established.
+#### What I record as not a defect
+
+- **The Iteration Assessment's content.** Both lenses reached this independently: the Project Manager writes it against this verdict, so it cannot describe the iteration it is the verdict for. Its current content assesses iteration 1 against the refused sanction, which is what it can describe.
+- **Risk scores.** Six scores would move under a different Project Manager. Both lenses declined to contest them and the plan states that disagreement with a score does not fail the milestone. A scoring judgement is not converted into a finding here.
+- **The two Minors of the Technical lens.** Recorded, owned, and not milestone-holding. Neither leaves its artifact: no role builds on the wrong arithmetic and no exit criterion turns on R023's citation.
+- **The empty trace graph.** Survey declares no element family of the trace chain — the System Inventory and the four process artifacts cite declared ids where they use them and register none of their own. A blank graph at SBC is the correct shape, not a `trace-gap`. The Risk List's empty `Traces From` rows are the right form for recovered elements.
+
+I did not re-adjudicate any lens record. Where a record quotes its evidence, the evidence is in the record.
 
 ## Resolutions and Actions
 ### Reviewer lens
