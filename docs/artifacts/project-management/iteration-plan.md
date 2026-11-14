@@ -343,29 +343,14 @@ Inception adds the Integrator (Build Environment Setup; R010, R014), the Change 
 
 **Human gates.** The only human in this system is the stakeholder, and the plan books four gates for them: G1 (the three scope facts, answered 2026-11-14), G3 (accepts the LCO case), G4 (accepts the architecture baseline), G5 (accepts the product, where ownership transfers). A gate is bounded in the Risk List at R026, never forecast in the plan: ceiling 14 days of queue time, after which the process suspends rather than filling the gap with an assumption; estimate none; the actual measured and reported apart from agent time.
 
-The perimeter is not one of those gates. The stakeholder confirmed it at the SBC gate of 2026-11-14 — the confirmation Survey 2's exit criterion 1 records — so no plan event re-opens it; an element Excavation finds outside the perimeter goes back to the stakeholder at the point it is found.
-
-### This iteration — Survey 2, SBC
-
-| Role | Discipline and intensity | Stage in this iteration | Produces | Risks owned |
-|---|---|---|---|---|
-| Process Engineer | Environment, High | Development Case | Development Case — the Tool references correction and the ownership view (DC-1, DC-2) | R006, R025 |
-| Software Archaeologist | Discovery, Critical | System Inventory — Documentation · Perimeter · Anomalies and Priorities · Coverage | System Inventory — Coverage corrected (SI-2), the pin tally (SI-1), the unread qualifier (SI-3) | R002 |
-| Project Manager | Project Management, Low | Risk List · Iteration Plan | Risk List (RL-1, RL-2, RL-3), Iteration Plan (IP-1 to IP-9), and the assessment written after the verdict | R026 |
-| Reviewer | Review lens | SBC milestone review, technical | Findings on the artifacts reviewed | — |
-| Management Reviewer | Review lens | SBC milestone review, management | Findings on the artifacts reviewed | — |
-| Review Coordinator | Review lens | SBC milestone review | The SBC verdict | — |
-
-The Review Coordinator decides whether the milestone closes. It does not decide the Iteration Assessment — the Project Manager writes that against the verdict.
-
-R005 and R011 have owners who first sit at AR — the System Analyst and the Software Architect. This iteration restates their strategy in the Risk List; it changes no owner, and no milestone row here claims either as retired.
+The perimeter is not one of those gates. The stakeholder confirmed it at the SBC gate of 2026-11-14 — the confirmation Survey 3's exit criterion 1 records — so no plan event re-opens it; an element Excavation finds outside the perimeter goes back to the stakeholder at the point it is found.
 
 ### This iteration — Survey 3, SBC
 
 | Role | Discipline and intensity | Stage in this iteration | Produces | Risks owned |
 |---|---|---|---|---|
-| Software Archaeologist | Discovery, Critical | System Inventory — Coverage · Provenance | System Inventory — the Coverage closing statement narrowed to the sprint zero, the Provenance row | R002 |
-| Project Manager | Project Management, Low | Risk List · Iteration Plan · Iteration Assessment | Risk List (the acceptance bound, the R023 citation), Iteration Plan (criterion 1, G2, the retirement map, the accounting), the assessment written after the verdict | R026 |
+| Software Archaeologist | Discovery, Critical | System Inventory — Coverage · Provenance | System Inventory — the Coverage closing statement narrowed to the sprint zero, and the Provenance row | R002 |
+| Project Manager | Project Management, Low | Risk List · Iteration Plan · Iteration Assessment | Risk List (the acceptance bound, the R023 citation), Iteration Plan (criterion 1, the gate list, the retirement map, the accounting), the assessment written after the verdict | R026 |
 | Reviewer | Review lens | SBC milestone review, technical | Findings on the artifacts reviewed | — |
 | Management Reviewer | Review lens | SBC milestone review, management | Findings on the artifacts reviewed | — |
 | Review Coordinator | Review lens | SBC milestone review | The SBC verdict | — |
