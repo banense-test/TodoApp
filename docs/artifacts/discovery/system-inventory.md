@@ -1,8 +1,7 @@
 ## Document Control
 Phase: Survey
-Status: Draft — Survey iteration 1; perimeter, technology and size, persistent data, documentation, history, anomalies, priorities and coverage read; not yet reviewed
+Status: Draft — Survey iteration 1; perimeter, technology and size, persistent data, documentation, history, anomalies, priorities and coverage recorded; stakeholder questions raised on the administrator role, external-provider scope, the missing service-to-service authentication and the priority order
 Milestone Target: End-of-Survey (SBC) — not yet achieved
-
 ## Perimeter
 The delivered system is the public sample `davidfowl/TodoApp` (MIT) at commit `307a1ead` of 2026-02-12, copied wholesale into this repository. It is a multi-process .NET 9 solution of seven projects: a Blazor WebAssembly client served by a Blazor server host acting as a backend-for-frontend, a minimal-API backend, an Aspire orchestrator, a shared service-defaults library, a shared DTO library, and an integration-test project.
 
