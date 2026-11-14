@@ -96,6 +96,7 @@ skinparam shadowing false
 -- Sprint zero: the system as it is --
 [Survey 1 — SBC] lasts 1 day
 [Survey 2 — SBC] lasts 1 day
+[Survey 3 — SBC] lasts 1 day
 [Excavation 1 — AR] lasts 1 day
 [Consolidation 1 — GHR] lasts 1 day
 
@@ -107,7 +108,8 @@ skinparam shadowing false
 [Transition 1 — PR] lasts 1 day
 
 [Survey 2 — SBC] starts at [Survey 1 — SBC]'s end
-[Excavation 1 — AR] starts at [Survey 2 — SBC]'s end
+[Survey 3 — SBC] starts at [Survey 2 — SBC]'s end
+[Excavation 1 — AR] starts at [Survey 3 — SBC]'s end
 [Consolidation 1 — GHR] starts at [Excavation 1 — AR]'s end
 [Inception 1 — LCO] starts at [Consolidation 1 — GHR]'s end
 [Elaboration 1 — LCA] starts at [Inception 1 — LCO]'s end
@@ -122,6 +124,7 @@ skinparam shadowing false
 
 [Survey 1 — SBC] is colored in Salmon
 [Survey 2 — SBC] is colored in Salmon
+[Survey 3 — SBC] is colored in Salmon
 [Excavation 1 — AR] is colored in LightBlue
 [Consolidation 1 — GHR] is colored in LightBlue
 [Inception 1 — LCO] is colored in LightGreen
@@ -140,27 +143,28 @@ note bottom
   quoted and no bar is a duration. No project start date is given, because
   none has been measured. The four gold markers are human gates: queue time,
   not work — ceiling 14 days each (R026), estimate none, the actual reported
-  apart from agent time once the gate closes. The perimeter's confirmation
-  is not a gate of its own: it was obtained at the SBC gate of 2026-11-14.
+  apart from agent time once the gate closes. The perimeter's confirmation is
+  not a gate of its own: it was obtained at the SBC gate of 2026-11-14.
 end note
 @endgantt
 ```
 
 ### Coarse roadmap — the milestone sequence and the risk each milestone retires
 
-Nine iterations: two in Survey, then one per phase except Construction, which takes two. Survey takes more than one because the first iteration's exit criteria did not pass — the iteration-count lever, at schedule cost, with declared scope untouched. The sprint zero still carries three milestones of the nine because the architecture, the data model and the use cases are **recovered from a working system** rather than designed from nothing: the phase in which architectural risk is retired is Excavation inside the sprint zero, and Elaboration's LCA becomes a baseline-confirmation iteration rather than a from-scratch architecture baseline. The justification is the Risk List, not preference: R003 (migrations unvalidated) and R005 (unread files block the login scenarios) are both Significant, and both are retired by reading the existing system — work the sprint zero runs and Elaboration does not.
+Ten iterations: three in Survey, then one per phase except Construction, which takes two. Survey takes three because the first iteration's exit criteria did not pass and the second's gate opened four Majors — the iteration-count lever, at schedule cost, with declared scope untouched. The sprint zero still carries three of the ten iterations because the architecture, the data model and the use cases are **recovered from a working system** rather than designed from nothing: the phase in which architectural risk is retired is Excavation inside the sprint zero, and Elaboration's LCA becomes a baseline-confirmation iteration rather than a from-scratch architecture baseline. The justification is the Risk List, not preference: R003 (migrations unvalidated) and R005 (unread files block the login scenarios) are both Significant, and both are retired by reading the existing system — work the sprint zero runs and Elaboration does not.
 
 | # | Iteration | Milestone | What the milestone gates | Risks whose retirement this milestone carries | Reviewers, in order |
 |---|---|---|---|---|---|
 | 1 | Survey 1 | SBC — not reached | The reading, the tailoring and the register produced; the milestone returned them with ten Majors open and the sanction withheld | The 25 risks then known, each scored, banded and owned — scoring is not retirement | Reviewer, Management Reviewer, Review Coordinator |
 | 2 | Survey 2 | SBC | The perimeter is recorded with an anchor per element and confirmed by the stakeholder, the reading priorities are ordered, the unread areas are declared, every anomaly is a scored risk whose strategy can execute, and the plan is executable as a governing instrument | R006, R025 — retired by the Development Case corrections this milestone performed; R026 — by its own bound, the 14-day gate ceiling and the suspension rule | Reviewer, Management Reviewer, Review Coordinator |
-| 3 | Excavation 1 | AR | The recovered architecture, the Design Model with its persistent-data sections and the first recovered use cases are baselined | R003, R005, R013, R016, R018, R021 | Reviewer, Management Reviewer, Review Coordinator |
-| 4 | Consolidation 1 | GHR | Every use case is recovered, the Supplementary Specification carries the mechanisms, and the tailoring is confirmed | R009, R017 | Reviewer, Management Reviewer, Review Coordinator |
-| 5 | Inception 1 | LCO | The Vision, the use-case model of the declared scope, the candidate architecture, the build environment, the Change Request ledger and the CM strategy are in place; the business case is accepted by the stakeholder (G3) | — | Reviewer, Management Reviewer, Review Coordinator |
-| 6 | Elaboration 1 | LCA | The architecture baseline is executed and tested; the Test Manager's plan and the Test Designer's cases exist; the deployment plan is written; the baseline is accepted by the stakeholder (G4) | R001, R004, R020 — and the first build-and-test run, which settles R011 and the runtime statements R002 carries | Reviewer, Management Reviewer, Review Coordinator |
-| 7 | Construction 1 | — | The first construction increment: component implementation, iteration build, test execution, technical documentation | — | Reviewer, Management Reviewer, Review Coordinator |
-| 8 | Construction 2 | IOC | The declared scope is implemented and tested against the recovered and declared acceptance criteria | R010, R014 | Reviewer, Management Reviewer, Review Coordinator |
-| 9 | Transition 1 | PR | Production deployment, acceptance testing, release notes, the closure of the Change Request ledger, and the customer taking ownership of the product (G5) | R022, R024 | Reviewer, Management Reviewer, Review Coordinator |
+| 3 | Survey 3 | SBC | Every finding of the Survey 2 gate closed: the no-observation constraint narrowed to the sprint zero wherever it is stated, every acceptance bounded, exit criterion 1 restored to the process wording with the deleted gate removed, and the retirement map re-examined for what a build and test run settles | None — the seven records this iteration closes are corrections inside the artifacts that carry them, and each risk they touch was already retired or accepted at the milestone named in its row | Reviewer, Management Reviewer, Review Coordinator |
+| 4 | Excavation 1 | AR | The recovered architecture, the Design Model with its persistent-data sections and the first recovered use cases are baselined | R003, R005, R013, R016, R018, R021 | Reviewer, Management Reviewer, Review Coordinator |
+| 5 | Consolidation 1 | GHR | Every use case is recovered, the Supplementary Specification carries the mechanisms, and the tailoring is confirmed | R009, R017 | Reviewer, Management Reviewer, Review Coordinator |
+| 6 | Inception 1 | LCO | The Vision, the use-case model of the declared scope, the candidate architecture, the build environment, the Change Request ledger and the CM strategy are in place; the business case is accepted by the stakeholder (G3) | — | Reviewer, Management Reviewer, Review Coordinator |
+| 7 | Elaboration 1 | LCA | The architecture baseline is executed and tested; the Test Manager's plan and the Test Designer's cases exist; the deployment plan is written; the baseline is accepted by the stakeholder (G4) | R001, R004, R020 — and the first build-and-test run, which settles R011 and the runtime statements R002 carries | Reviewer, Management Reviewer, Review Coordinator |
+| 8 | Construction 1 | — | The first construction increment: component implementation, iteration build, test execution, technical documentation | — | Reviewer, Management Reviewer, Review Coordinator |
+| 9 | Construction 2 | IOC | The declared scope is implemented and tested against the recovered and declared acceptance criteria | R010, R014 | Reviewer, Management Reviewer, Review Coordinator |
+| 10 | Transition 1 | PR | Production deployment, acceptance testing, release notes, the closure of the Change Request ledger, and the customer taking ownership of the product (G5) | R022, R024 | Reviewer, Management Reviewer, Review Coordinator |
 
 The Business Reviewer is not a lens of any gate in this table. The Development Case declares Business Modeling inactive (`business-process-led = false`) and stands that role down for the whole project; Reviewer, Management Reviewer and Review Coordinator are the three lenses that remain.
 
@@ -187,21 +191,21 @@ Each exit criterion names the work item that evidences it. An exit criterion is 
 
 | Clock | Position at plan time | What it decides |
 |---|---|---|
-| Agent work — tokens and elapsed time | Survey 1's and Survey 2's measured actuals are recorded in the Iteration Assessment; no later iteration has closed, so no forecast of it exists and none is invented | The measured actual replaces every assumed share in the plans after SBC |
+| Agent work — tokens and elapsed time | Survey's measured actuals are recorded when the phase closes; no iteration has closed, so no forecast of it exists and none is invented | The measured actual replaces every assumed share in the phases after SBC |
 | Human queue time — gates G1, G3, G4, G5 | G1 answered on 2026-11-14; each gate's queue duration is measured by the process and reported, never estimated | Whether gates should be batched into fewer points in later phases |
 
-This project declares **no token budget**. None is set here, none is proposed for the stakeholder to accept, and no declared scope is cut or deferred to fit an estimate. An iteration ends when its exit criteria pass — and Survey 1's did not, which is why Survey 2 exists, and Survey 2's gate returned four Majors, which is why Survey 3 exists.
+This project declares **no token budget**. None is set here, none is proposed for the stakeholder to accept, and no declared scope is cut or deferred to fit an estimate. An iteration ends when its exit criteria pass — and Survey 1's did not, which is why Survey 2 exists; Survey 2's gate returned four Majors, which is why Survey 3 exists.
 
 ### All 26 risks accounted for, each exactly once
 
 | Disposal | Count | Risks |
 |---|---|---|
 | Retired by a milestone artifact, at the milestone named in the table above | 15 | R001, R003, R004, R005, R009, R010, R013, R014, R016, R017, R018, R020, R021, R022, R024 |
-| Retired at Survey 2 — SBC, by the Development Case corrections this milestone performed | 2 | R006, R025 |
+| Retired at Survey 2 — SBC, by the Development Case corrections that milestone performed | 2 | R006, R025 |
 | Retired by its own bound, at Survey 2's SBC | 1 | R026 |
 | Carried on the acceptance recorded in the Risk List | 8 | R002, R007, R008, R011, R012, R015, R019, R023 |
 
-Fifteen plus two plus one plus eight is twenty-six, and it agrees with the register's 18 avoided and 8 accepted. R002 is the only accepted risk in the Significant band, and its acceptance is the stakeholder's answer of 2026-11-14, quoted verbatim in the Risk List.
+Fifteen plus two plus one plus eight is twenty-six, and it agrees with the register's 18 avoided and 8 accepted. R002 is the only accepted risk in the Significant band, and its acceptance is the stakeholder's answer of 2026-11-14, quoted verbatim in the Risk List. Survey 3 retires none: its work is corrections inside the artifacts that carry these rows.
 
 ### What the first build-and-test run settles, and what it cannot
 
@@ -230,7 +234,7 @@ end note
 
 |SBC — Survey 2|
 :R006 and R025 retired — the Development Case corrections
-this milestone performed;
+that milestone performed;
 :R026 retired by its own bound — 14-day gate ceiling,
 suspension rule, estimate none;
 note right
@@ -239,6 +243,13 @@ note right
   Every step here is an artifact a role writes or a
   bound a register carries.
 end note
+
+|SBC — Survey 3|
+:No risk is retired here — the seven records this iteration
+closes are corrections inside the artifacts that carry them;
+:R002 and R011 keep the acceptance, and its horizon is
+stated as the start of the RUP phases rather than the
+end of the project;
 
 |AR — Excavation 1|
 :Reading completed — R005, opening HttpAuthenticationStateProvider.cs first;
