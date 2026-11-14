@@ -223,5 +223,11 @@ Configuration content lives in the files that hold it, owned by the roles that a
 | Integration-test conventions (xunit, `Microsoft.AspNetCore.Mvc.Testing`, `coverlet`) | `Todo.Api.Tests`, `Directory.Packages.props` | Test Designer |
 | Environment bootstrap and external-provider secrets | `README.md` | Integrator |
 
+### Version policy
+
+**The baseline is the policy.** The delivered tree already fixes the versions this project builds against: `net9.0` and `LangVersion preview` in `Directory.Build.props`, and 30 centrally-managed package pins in `Directory.Packages.props` (`Source: Directory.Packages.props`, re-counted). Those values are the project's version policy and every role treats them as authoritative over any registry `latest`. No stakeholder-declared framework target, pin or LTS-only rule stands outside them, and none is invented in their place.
+
+Raising a framework, language or package version is a baseline change: it alters `Directory.Packages.props` or `Directory.Build.props`, is owned by the Software Architect, and enters as a Change Request — never as an unrecorded edit inside another role's turn. A version a role needs and the baseline does not pin is put to the Software Architect, who supplies the value the pin takes.
+
 **No written coding standard exists in this repository, and none is assumed.** The conventions that bind an Implementer and a Code Reviewer are the compiler-enforced ones in `Directory.Build.props` and the central pins in `Directory.Packages.props`; a Code Reviewer reviews against those plus the Software Architecture Document's mechanisms, and against no style guide. A written standard, if the project wants one, is authored by the Software Architect under a Change Request and this table gains its path at that point. R006 records the absence.
 
