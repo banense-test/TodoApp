@@ -1,9 +1,7 @@
 ## Document Control
-
 Phase: Survey
-Status: Draft — iteration 1 closed against the Review Coordinator's verdict; SBC not achieved, corrective Survey iteration 2 required
-Milestone Target: End-of-Survey (SBC) — not achieved; milestone open, phase does not advance
-
+Status: Draft — Survey iteration 2 closed against the Review Coordinator's verdict of SBC: iteration required; three Majors and three Minors corrected, four Majors and three Minors carried into Survey 3
+Milestone Target: End-of-Survey (SBC) — not yet achieved; the stakeholder sanctioned advancing past it and the milestone's artifacts carry rework
 ## Iteration Objectives Reached
 
 Survey iteration 1 planned three objectives. **Two were achieved in substance and one was not achieved.** The milestone the iteration worked toward was not reached: the Review Coordinator's verdict is **iteration required**, and the stakeholder withheld the sanction on 2026-11-14.
