@@ -5,7 +5,6 @@ Status: Draft — 25 risks carried from the anomalies of the System Inventory an
 Milestone Target: End-of-Survey (SBC) — not yet achieved
 
 ## Risk Classification
-
 The scales are the IARI Development Case §9.10 scales, cited not redefined: probability and impact are each scored 1 to 5, exposure is their product, and the magnitude is the band that exposure falls in. Acceptance of a High (15 to 25) or Significant (9 to 12) risk is the stakeholder's grant, recorded in Risk Mitigation and Contingency; it is never self-granted here.
 
 ```plantuml
@@ -69,15 +68,25 @@ STRAT --> GRANT : accept of High or Significant needs
 @enduml
 ```
 
-| | Probability 1 | 2 | 3 | 4 | 5 |
-|---|---|---|---|---|---|
-| **Impact 5** | R007, R012 | — | R009, R017 | **R001** | — |
-| **Impact 4** | R015 | R011 | **R003** | **R004, R005** | — |
-| **Impact 3** | — | R008, R013 | R016 | **R006? no — R006 is I5** | — |
-| **Impact 2** | — | R014 | — | R010, R018? | R018, R002 |
-| **Impact 1** | — | — | — | R021 | R019, R020, R022, R024, R025 |
+### Exposure grid — every scored risk at its probability and impact
 
-Bands over the 25 scored risks: High 3 (R001, R009, R017) — Significant 7 (R002, R003, R004, R005, R006, R016, R018) — Moderate 13 — Minor 2 (R015, R021) — Low 0.
+| Impact | P1 (≤10%) | P2 (11–30%) | P3 (31–50%) | P4 (51–70%) | P5 (>70%) |
+|---|---|---|---|---|---|
+| **5** — success endangered | R007, R012 | — | R009, R017 | **R001** | — |
+| **4** — milestone slips | R015 | R011 | — | R005 | — |
+| **3** — objective slips | — | R008, R013 | R016 | R004 | — |
+| **2** — work inside the iteration | — | — | R014, R023 | R010 | R002, R018 |
+| **1** — no deviation worth recording | — | — | — | R021 | R019, R020, R022, R024, R025 |
+
+| Band | Exposure | Count | Risks |
+|---|---|---|---|
+| High | 15–25 | 3 | R001 (20), R009 (15), R017 (15) |
+| Significant | 9–12 | 7 | R003 (12), R004 (12), R005 (12), R002 (10), R006 (10), R018 (10), R016 (9) |
+| Moderate | 5–8 | 13 | R010 (8), R011 (8), R008 (6), R013 (6), R014 (6), R023 (6), R007 (5), R012 (5), R019 (5), R020 (5), R022 (5), R024 (5), R025 (5) |
+| Minor | 3–4 | 2 | R015 (4), R021 (4) |
+| Low | 1–2 | 0 | — |
+
+The three High-band risks whose strategy is accept — R001, R009, R017 — have their acceptance put to the stakeholder in this round. All other accepted risks sit at Moderate or Minor, where acceptance is the Project Manager's.
 
 ## Risk Register
 
