@@ -16,13 +16,13 @@ Status: Draft — management lens of the SBC review, re-held at Survey iteration
 Milestone Target: End-of-Survey (SBC) — sanctioned by the stakeholder on 2026-11-14; the four Major corrections that sanction required are landed and verified. The artifact set is not yet clean: one restatement of one risk row, in two artifacts, stands between it and a clean gate.
 
 ### Review Coordinator lens
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
 Phase: Survey
-Status: Draft — coordination lens of the SBC review re-held at Survey iteration 2. Lens participation: Technical EXECUTED, Management EXECUTED, Business INACTIVE. 18 prior lens records closed; 7 records open — 0 Critical, 4 Major, 3 Minor.
-Milestone Target: End-of-Survey (SBC) — perimeter confirmed and stakeholder sanction GRANTED on 2026-11-14; the milestone decision below records the phase under iteration until the four Majors are landed and re-verified
+Status: Draft — coordination lens of the SBC review re-held at Survey iteration 3. Lens participation: Technical EXECUTED, Management EXECUTED, Business INACTIVE — did not evaluate this review. 25 prior lens records closed by their own lenses; 5 open — 0 Critical, 2 Major, 3 Minor.
+Milestone Target: End-of-Survey (SBC) — perimeter confirmed and stakeholder sanction GRANTED, 2026-11-14; the milestone decision records the phase under correction until the two Major records are landed and re-verified
 
 ## Review Scope and Criteria
 ### Reviewer lens
