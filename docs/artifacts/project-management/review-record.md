@@ -561,4 +561,100 @@ Three classes of thing were considered and deliberately not raised as findings, 
 - **The empty trace graph.** `model_generate_rtm` and `get_trace_chain` both return no links. That is correct for a recovery phase: nothing recovered from the existing system has an upstream, so no link is registerable yet. The anchors verified above are what Excavation's recovered elements will hang from. No `trace-gap` finding arises, and the Risk List's 25 empty `Traces From` rows are the correct form for recovery elements, not a defect.
 
 ## Disposition
+### Reviewer lens
+<!-- review: Survey I1 -->
 
+#### Disposition
+
+**Approved with changes.** 0 Critical, 3 Major, 4 Minor, 0 Info across 4 artifacts.
+
+```plantuml
+@startuml
+title Defect distribution — 7 findings by severity across the 4 artifacts reviewed at SBC
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+package "Reviewed at SBC" {
+  class "Development Case" as DC {
+    Major = 1
+    Minor = 1
+  }
+  class "System Inventory" as SI {
+    Major = 1
+    Minor = 1
+  }
+  class "Risk List" as RL {
+    Major = 0
+    Minor = 1
+  }
+  class "Iteration Plan" as IP {
+    Major = 1
+    Minor = 1
+  }
+  class "Severity total" as TOT {
+    Critical = 0
+    Major = 3
+    Minor = 4
+    Info = 0
+  }
+}
+
+DC --> TOT
+SI --> TOT
+RL --> TOT
+IP --> TOT
+
+note right of DC
+  F1 Tool references cites a file the
+  tree does not contain.
+  F2 ownership drawn as classes.
+end note
+note right of SI
+  F1 a package-pin tally is short by two.
+  F2 a file marked read and unread
+  in two sections.
+end note
+note right of RL
+  F1 R018's mitigation assigns writing
+  inside another role's artifact.
+end note
+note right of IP
+  F1 SBC criterion 1 claims a stakeholder
+  confirmation nothing at SBC asks for.
+  F2 R023 absent from the risk map.
+end note
+note bottom of TOT
+  No Critical finding: nothing in these four artifacts
+  needs a decision only the stakeholder can take.
+  The three scope questions were answered 2026-11-14
+  and each answer was verified against the code it
+  disposes of.
+end note
+@enduml
+```
+
+#### Why no Critical
+
+A Critical is a defect only the stakeholder can unblock — a scope decision, a contradiction in what they declared, or a risk only they may accept. Three such questions were raised during this iteration and the stakeholder answered all three on 2026-11-14. Each answer was then tested against the code it disposes of: `AddIdentityCore` really does register no role store, all four external schemes really are gated on a config section neither appsettings file supplies, and the service-to-service TODO really is the first statement in `MapUsers`.
+
+The answers hold, they are recorded in the stakeholder's own words, and no new question surfaced. **Nothing in this artifact set requires the stakeholder to act before the milestone can be sanctioned.**
+
+#### Why Major and not Minor on the three Majors
+
+Each of the three fails an SBC exit criterion or misdirects a role that builds on it:
+
+- The Development Case's absent-file row points the **Code Reviewer** — a lens of the very next milestone review — and the Software Architect at a document that does not exist.
+- The System Inventory's pin tally is read by the **Software Architect** when anchoring the SAD to the version policy, and a pin set is a size fact of the perimeter the stakeholder is being asked to confirm.
+- The Iteration Plan's criterion 1 asserts a confirmation the plan itself schedules two milestones later, so the milestone's sanction would rest on a claim its own roadmap contradicts.
+
+#### Why the artifacts are nonetheless close to sound
+
+This is the finding that should carry the most weight into the Management Reviewer's lens: **seventeen anchors were opened by hand, and sixteen say exactly what the artifact claims.** The perimeter the sprint zero hands forward is accurate. The three stakeholder decisions are correctly scoped — each names what it settles and what it leaves open, and none is over-read into a scope claim the stakeholder did not make. The risk scoring is internally coherent across all 25 rows, with no magnitude misbanded and no High or Significant risk resting on an acceptance nobody granted. The plan invents no size, no budget, no forecast and no date, and says so explicitly.
+
+All seven findings are corrections *inside* an artifact. None requires re-deriving content, none requires a further iteration to close, and none touches the perimeter facts the stakeholder will be asked to confirm.
+
+#### Handoff to the Management Reviewer
+
+The technical lens finds nothing that invalidates the sprint zero's core product: a verified perimeter, a correctly scoped set of stakeholder decisions, a coherently scored risk register and a plan that schedules only what the process runs. What stands between the iteration and its sanction is three textual corrections and four small ones, all in the owners' next turn.
+
+The business and management case is the next lens's question, not this one's.
