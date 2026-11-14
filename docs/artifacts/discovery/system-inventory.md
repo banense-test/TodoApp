@@ -293,11 +293,11 @@ The snapshot declares `ProductVersion` `8.0.0` while the package pins are 9.0.8,
 | Declaration | Verdict against the tree |
 |---|---|
 | "Database scripts. No SQL files, stored procedures or triggers." | Holds — no `.sql` anywhere; schema lives in `Todo.Api/Migrations` |
-| "Documents. No requirements, design or architecture documents, and no manuals." | [OBSOLETE] in part — true of the delivered snapshot, but the tree now also carries `docs/artifacts/environment/development-case.md` and `docs/artifacts/discovery/system-inventory.md`, both added by this sprint zero |
+| "Documents. No requirements, design or architecture documents, and no manuals." | Holds for the delivered code — no requirement, design, architecture document or manual describes the system. The tree now also carries six records under `docs/artifacts/`, all authored by this sprint zero and all process records: none of them documents what the system does |
 | "A running installation. … no production data and no users." | Holds — no deployment descriptor, no seed data, no connection string to a live store |
 | "Its authors. … cannot be asked." | Holds — nothing in the tree names them beyond the MIT copyright line in `LICENSE` |
 
-The single sentence "The only document is the `README.md` at the root of the repository" has to be read with the commits that created `docs/`: the folder did not come from the upstream sample.
+The sentence "The only document is the `README.md` at the root of the repository" must be read with the commits that created `docs/`: the folder did not come from the upstream sample. Every file in it is a record of the sprint zero, not documentation of the delivered system.
 
 ### The document inventory
 
@@ -307,14 +307,24 @@ title Documentation the delivery carries, what it covers, and where no document 
 skinparam componentStyle rectangle
 skinparam shadowing false
 
-package "Documents present" {
+package "Delivered by the upstream sample" {
   component "README.md\n4509 bytes · prose only" as README
   component "Requests/todo.http\n793 bytes · 5 requests" as HTTPFILE
   component ".iari/README.md\n777 bytes · delivery statement" as IARI
   component "LICENSE\nMIT, (c) 2022 David Fowler" as LIC
-  component "docs/artifacts/environment/\ndevelopment-case.md\n16418 bytes · process" as DC
-  component "docs/artifacts/discovery/\nsystem-inventory.md\nthis artifact · discovery" as SI
-  component "Configuration as documentation\nDirectory.Build.props · Directory.Packages.props\nglobal.json · nuget.config · ci.yaml · appsettings\naspire/settings.json · devcontainer" as CFG
+}
+
+package "Authored by this sprint zero — process records" {
+  component "docs/artifacts/environment/\ndevelopment-case.md · process" as DC
+  component "docs/artifacts/discovery/\nsystem-inventory.md · discovery" as SI
+  component "docs/artifacts/project-management/\nrisk-list.md · register" as RL
+  component "docs/artifacts/project-management/\niteration-plan.md · plan" as IP
+  component "docs/artifacts/project-management/\nreview-record.md · review" as RR
+  component "docs/artifacts/project-management/\niteration-assessment.md · assessment" as IA
+}
+
+package "Configuration read as documentation" {
+  component "Directory.Build.props · Directory.Packages.props\nglobal.json · nuget.config · ci.yaml\nappsettings · aspire/settings.json · devcontainer" as CFG
   component "Code comments and TODO markers\n(nine statements · the only inline record)" as COMMENTS
 }
 
@@ -349,14 +359,11 @@ README ..> A7 : no document of what the suite covers
 README ..> A8 : the shared DTOs are described nowhere
 COMMENTS ..> A4 : completion toggle exists in API, absent in UI, unremarked
 
-note bottom of DC
-  Authored in this sprint zero (Process Engineer,
-  commits 2026-11-14). It is process documentation,
-  not documentation of the delivered system.
-end note
-note bottom of SI
-  Authored in this sprint zero (Software Archaeologist).
-  Discovery record, not design documentation.
+note bottom of IA
+  All six docs/ records are process documentation —
+  what the sprint zero did and decided. None describes
+  the delivered system, so the sample's own absence of
+  requirements, design and architecture documents stands.
 end note
 note bottom of COMMENTS
   CONTRIBUTING.md is cited as the coding standard by
@@ -373,13 +380,14 @@ end note
 | `LICENSE` | licence text | MIT, `(c) 2022 David Fowler` | Legal terms only | `LICENSE` |
 | `docs/artifacts/environment/development-case.md` | process tailoring | 16418 bytes | The sprint-zero process: classification, disciplines, artifact catalogue, optional triggers, roles, version policy | committed 2026-11-14 (`37986fb`, `520a590`, `a1e2d77`, `6f554f8`, `e0bc4e6`) |
 | `docs/artifacts/discovery/system-inventory.md` | discovery record | this artifact | The system as it is: perimeter, technology, data, documentation, history, anomalies, priorities, coverage | committed 2026-11-14 (this reading) |
+| `docs/artifacts/project-management/` — `risk-list.md`, `iteration-plan.md`, `review-record.md`, `iteration-assessment.md` | four process records | four files, sizes not measured | The scored risk register, the schedule, the milestone verdict with its finding ledger, and the iteration's self-assessment. None records a fact about the system | committed 2026-11-14 |
 
 Configuration read as documentation — the only authoritative statement of several behaviours:
 
 | Behaviour documented only here | File |
 |---|---|
 | Target framework, nullable, implicit usings, `LangVersion preview` | `Directory.Build.props` |
-| 28 package pins, including the only record that YARP 2.3.0 and Scalar 2.6.8 are intended | `Directory.Packages.props` |
+| 30 package pins (6 test, 19 application, 5 OpenTelemetry), including the only record that YARP 2.3.0 and Scalar 2.6.8 are intended | `Directory.Packages.props` |
 | SDK band and prerelease policy | `global.json` |
 | Package-source lockdown (`<clear />` + `*` → nuget.org) | `nuget.config` |
 | CI gate: restore → build Release → test Release, on push and pull request | `.github/workflows/ci.yaml` |
@@ -416,11 +424,11 @@ Five of the nine sit in the authentication area, which is why that area ranks se
 | The YARP forwarding rule and the cookie→Bearer token translation | Read `Todo.Web/Server/TodoApi.cs` |
 | The complete `/todos` contract — `GET /todos/{id}` and `PUT /todos/{id}` appear in neither the README nor `todo.http` | Read `Todo.Api/Todos/TodoApi.cs` |
 | The authorization rules (owner-only reads, owner-or-admin writes) and the fact that reads use `FindAsync` before the ownership check | Read `Todo.Api/Todos/TodoApi.cs`; `Todo.Api.Tests/TodoApiTests.cs` covers the behaviour |
-| The rate-limit policy and its configuration keys | Read `Todo.Api/Extensions/RateLimitExtensions.cs` (unread) and `Todo.Api/Program.cs` |
+| The rate-limit policy and its configuration keys | Read `Todo.Api/Extensions/RateLimitExtensions.cs` and `Todo.Api/Program.cs` |
 | Which endpoints the test suite covers | Read `Todo.Api.Tests/TodoApiTests.cs`, `Todo.Api.Tests/UserApiTests.cs` |
 | The database lifecycle — that only the AppHost creates and migrates `.db/Todos.db` | Read `TodoApp.AppHost/Extensions.cs` |
 | The API's OpenAPI surface | No committed OpenAPI file; it is generated at runtime and exposed at `/openapi` with `/scalar/v1` in Development |
-| Any ADR, architecture note, glossary, deployment instruction beyond `README.md` | Nothing exists — `.iari/README.md` declares this and the tree confirms it |
+| Any ADR, architecture note, glossary, deployment instruction beyond `README.md` | Nothing exists — `.iari/README.md` declares this and the tree confirms it, the six `docs/` records being process records |
 
 ### Documentation the delivery cites but does not contain
 
