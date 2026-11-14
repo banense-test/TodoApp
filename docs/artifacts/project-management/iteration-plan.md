@@ -1,7 +1,6 @@
 ## Document Control
-
 Phase: Survey
-Status: Draft — Survey iteration 1 plan; coarse roadmap with the risk retirement per milestone, this iteration's fine plan, the agent role profile and the SBC exit criteria recorded
+Status: Draft — Survey iteration 2, corrective; coarse roadmap with the risk retirement and the five stakeholder gates per milestone, this iteration's fine plan, the agent role profile and the SBC exit criteria recorded
 Milestone Target: End-of-Survey (SBC) — not yet achieved
 
 ## Iteration Objectives
