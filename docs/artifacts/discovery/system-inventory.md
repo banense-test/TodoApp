@@ -896,3 +896,15 @@ Every fact above has a row here. A fact whose anchor is a stakeholder answer nam
 | The BFF-to-API trust boundary is a known limitation of the single-host baseline, out of scope for this cycle, carried into the Risk List | Stakeholder answer, 2026-11-14 (question raised against `Todo.Api/Users/UsersApi.cs` TODO, `Todo.Api/Program.cs`, `Todo.Web/Server/Program.cs`) |
 | The two reading-only statements in Anomalies stay declared as read but not observed for the life of the project and are never settled by observation; no process is run in any phase | Stakeholder answer, 2026-11-14 (question raised against `Todo.Api/Extensions/RateLimitExtensions.cs`, `Todo.Api/Program.cs`, `TodoApp.AppHost/Extensions.cs`; the answer is the correction to the perimeter confirmation question) |
 | The anomaly grouping, the priority order and the coverage declarations | This reading — the evidence column of each anomaly row is its anchor; the grouping, the order and the declared gaps are the Software Archaeologist's judgement over that evidence |
+
+### Facts recovered this iteration
+
+| Fact | Anchor |
+|---|---|
+| `Todo.Web/Server/appsettings.json` is 167 bytes and carries log levels plus `AllowedHosts: "*"`; `appsettings.Development.json` is 144 bytes and carries log levels only; neither holds an `Authentication` key | SCM file metadata and content for `Todo.Web/Server/appsettings.json` (167), `Todo.Web/Server/appsettings.Development.json` (144) |
+| A parameter failing MiniValidation returns `Results.ValidationProblem` — HTTP 400 with `HttpValidationProblemDetails` as `application/problem+json` — and the filter attaches only to endpoints carrying a parameter whose type was passed to `WithParameterValidation` | `Todo.Api/Filters/ValidationFilter.cs` |
+| The Blazor authentication state is `HttpContext.User` or an empty identity; the provider holds no token and no provider state (369 bytes) | `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs` |
+| The client shell renders the log-in form when no current user and the task list plus a `Logout` button when there is one; the displayed user name is the one the form submitted; `TodoList.OnForbidden` is bound to `Logout` | `Todo.Web/Client/TodoApp.razor` |
+| One form serves both login and registration; a false result renders "Login failed" or "Failed to create user"; client-side validation requires a 6–32 character password with lower case, upper case, digit and special character and an email of at most 256 characters; provider buttons render from `SocialProviders`, empty as delivered | `Todo.Web/Client/Components/LogInForm.razor`, `Todo.Web/Client/TodoApp.razor`, `Todo.Web/Server/Authentication/ExternalProviders.cs` |
+| 57 files opened: the 53 of the earlier pass plus `Todo.Api/Filters/ValidationFilter.cs`, `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs`, `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs`, `Todo.Web/Client/TodoApp.razor` and `Todo.Web/Client/Components/LogInForm.razor` | the enumeration in Coverage |
+
