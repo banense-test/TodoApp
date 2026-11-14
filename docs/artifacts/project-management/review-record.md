@@ -9,13 +9,13 @@ Status: Draft — technical lens of the SBC review re-held in iteration 2; 7 pri
 Milestone Target: End-of-Survey (SBC) — not yet achieved; the sanction is the stakeholder's and this lens does not hold it
 
 ### Management Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
 Phase: Survey
-Status: Draft — management lens of the SBC review recorded; 11 findings (10 Major, 1 Minor, 0 Critical) on 4 artifacts; stakeholder sanction REFUSED on 2026-11-14; milestone open
-Milestone Target: End-of-Survey (SBC) — not achieved; sanction withheld at the gate
+Status: Draft — management lens of the SBC review, re-held in iteration 2; 11 prior findings of this lens closed Resolved after verification against the corrected text; 1 new finding (0 Critical, 0 Major, 1 Minor)
+Milestone Target: End-of-Survey (SBC) — not yet achieved; the lens verdict is Go and the sanction is the stakeholder's to grant
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
