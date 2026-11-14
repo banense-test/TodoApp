@@ -113,7 +113,7 @@ package "Authentication, identity and the BFF boundary" {
 }
 
 package "The recovery's own evidence base" {
-  component "R002 no runtime observation anywhere — accept, 5x2=10\nR003 committed migrations validated by nothing — avoid\nR004 assertion set weaker than it appears — avoid\nR005 unread files block the login scenarios — avoid\nR011 rate-limiter partition key unstated by the code — accept, 2x4=8" as B
+  component "R002 no runtime observation in the sprint zero — accept, 5x2=10\nR003 committed migrations validated by nothing — avoid\nR004 assertion set weaker than it appears — avoid\nR005 unread files block the login scenarios — avoid\nR011 rate-limiter partition key unstated by the code — accept, 2x4=8" as B
 }
 
 package "Structure, documentation and build" {
@@ -143,8 +143,9 @@ note right of B
   R002 is Significant at 10 and is the one acceptance in
   that band — the answer of 2026-11-14 is quoted in
   Risk Mitigation and Contingency. R011 at 8 is accepted
-  within the Project Manager's authority. Neither rests
-  on running the system, which is closed for the project.
+  within the Project Manager's authority. Neither rests on
+  a run in the sprint zero; from Inception on the pipeline
+  builds the solution and runs its tests.
 end note
 note bottom of C
   Highest band: Moderate, R006 and R023 at 6
@@ -187,8 +188,8 @@ end note
 | R003 | The test suite builds its schema with `EnsureCreated()` from the model, so the three committed migrations are exercised by nothing. A migration that no longer matches the model passes CI green and surfaces first at a real deployment. | `Todo.Api.Tests/TodoApplication.cs` | 4 | 3 | 12 | Significant | avoid | DatabaseDesigner |
 | R004 | The suite asserts less than it appears to: field-level assertions are commented out in `UserApiTests`, and no test covers `PUT`'s `id != todo.Id` branch or the rate limiter. The gate is green but weaker than a reader would assume. | `Todo.Api.Tests/UserApiTests.cs` — "TODO: Follow up on the new errors" | 4 | 3 | 12 | Significant | avoid | TestManager |
 | R005 | Six files are declared unread, and one — `HttpAuthenticationStateProvider.cs` — blocks the login and logout scenarios. Recovering those use cases without it produces a state machine the code does not implement. | System Inventory, Coverage — declared unread | 4 | 3 | 12 | Significant | avoid | SystemAnalyst |
-| R002 | No process was run during the reading, and none will be run in any phase of this project. Every perimeter, data and behaviour statement is read from source and configuration; the rate limiter's partition key under the real pipeline, the prerender path, the database lifecycle and the external-login dance are read, not observed. A statement wrong about runtime behaviour carries into the Use-Case Model and the architecture unchecked, and no later reading can settle it. | System Inventory, Coverage — "Runtime behaviour of any kind: no process was run"; stakeholder's correction of 2026-11-14 | 5 | 2 | 10 | Significant | accept — stakeholder grant, 2026-11-14 | SoftwareArchaeologist |
-| R011 | The rate limiter partitions on `ClaimTypes.NameIdentifier` read with the null-forgiving operator, and `Todo.Api/Program.cs` writes no explicit `UseAuthentication()` before it. Whether the bucket is per-user or global is decided by implicit middleware order, settled only by running the API — which this project does not do — and the README advertises per-user limiting. | `Todo.Api/Extensions/RateLimitExtensions.cs`; `Todo.Api/Program.cs` | 2 | 4 | 8 | Moderate | accept | SoftwareArchitect |
+| R002 | No process was run during the reading, and none is run in Survey, Excavation or Consolidation — the system is not installed anywhere and nothing here runs it. Every perimeter, data and behaviour statement is read from source and configuration; the rate limiter's partition key under the real pipeline, the prerender path, the database lifecycle and the external-login dance are read, not observed. A statement wrong about runtime behaviour carries into the Use-Case Model and the architecture unchecked, and no reading within the sprint zero settles it. From Inception on the pipeline builds the solution and runs its test suites, and a result it produces settles the statements it covers. | System Inventory, Coverage — "Runtime behaviour of any kind: no process was run"; stakeholder's answer of 2026-11-14, granted for the sprint zero | 5 | 2 | 10 | Significant | accept until the RUP phases start — stakeholder grant, 2026-11-14 | SoftwareArchaeologist |
+| R011 | The rate limiter partitions on `ClaimTypes.NameIdentifier` read with the null-forgiving operator, and `Todo.Api/Program.cs` writes no explicit `UseAuthentication()` before it. Whether the bucket is per-user or global is decided by implicit middleware order, unstated by the code and not settled by reading within the sprint zero, while the README advertises per-user limiting. A test that exercises the limiter settles it from Inception on. | `Todo.Api/Extensions/RateLimitExtensions.cs`; `Todo.Api/Program.cs` | 2 | 4 | 8 | Moderate | accept until the RUP phases start | SoftwareArchitect |
 
 ### Structure, documentation and build
 
@@ -222,7 +223,7 @@ end note
 
 | ID | Risk | Anchor | P | I | Exposure | Magnitude | Strategy | Owner |
 |---|---|---|---|---|---|---|---|---|
-| R026 | A stakeholder gate is the project's only non-agent delay, and it is unbounded: the stakeholder answers a questionnaire, confirms the perimeter, accepts the architecture baseline and accepts the product, and each decision queues behind whatever else occupies them. Unbounded, a single gate converts an iteration's wait into a schedule slip no agent can shorten, and the plan has no way to distinguish a slow gate from slow work. | Iteration Plan, Plan and Milestones — the stakeholder gates G1, G2, G3, G4 and G5; the process has one human | 3 | 4 | 12 | Significant | avoid | ProjectManager |
+| R026 | A stakeholder gate is the project's only non-agent delay, and it is unbounded: the stakeholder answers a questionnaire, accepts the LCO case, accepts the architecture baseline and accepts the product, and each decision queues behind whatever else occupies them. Unbounded, a single gate converts an iteration's wait into a schedule slip no agent can shorten, and the plan has no way to distinguish a slow gate from slow work. | Iteration Plan, Plan and Milestones — the stakeholder gates G1, G3, G4 and G5; the process has one human | 3 | 4 | 12 | Significant | avoid | ProjectManager |
 
 ## Risk Mitigation and Contingency
 Every risk carries a mitigation — action the named owner takes — and a contingency: what happens if it materializes anyway. Each mitigation assigns work inside the artifact its owner owns; where a risk needs a value another role records, the owner supplies the value and the recording role writes it. No risk in the High or Significant band rests on an acceptance the Project Manager granted himself, and the one Significant-band acceptance in this register — R002 — cites the stakeholder's own answer of 2026-11-14.
