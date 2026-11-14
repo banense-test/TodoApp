@@ -686,8 +686,7 @@ start
 note right
   The domain itself: Todo, IsComplete, OwnerId.
   Five endpoints, two authorization rules,
-  behavioural tests exist. Validation shape: 400
-  HttpValidationProblemDetails (read).
+  behavioural tests exist. Validation shape read.
 end note
 
 |#LightYellow|2|
@@ -697,23 +696,21 @@ note right
   Most volatile area: six commits in five days
   (2024-11-23 -> 2024-11-27), the newest changing
   a trust boundary. No test covers the BFF side.
-  All five Authentication/* files now read.
 end note
 
 |#LightYellow|3|
 :Persistence — TodoDbContext and Todo.Api/Migrations;
 note right
-  The schema exists nowhere else: the snapshot, the
-  three migrations and the model the tests build.
-  Ground truth for any later change.
+  The schema exists nowhere else. Carries the open
+  snapshot/product-version drift no reading closes.
 end note
 
 |#LightYellow|4|
 :Todo.Web.Shared — the DTO contract;
 note right
-  Load-bearing by position but already read whole —
-  SharedClass.cs is 736 bytes, read in the first pass.
-  It holds a place in the contract, not in the order.
+  Load-bearing by position, already read whole
+  (736 bytes). Holds a place in the contract,
+  not in the order.
 end note
 
 |#LightYellow|5|
@@ -722,13 +719,14 @@ ServiceDefaults;
 note right
   Owns the database lifecycle the API does not;
   the fired Deployment Model reads from here.
+  Also the composition root where the API's
+  route mapping and pipeline order are written.
 end note
 
 |#LightYellow|6|
 :Todo.Web.Client — the only UI;
 note right
   Where the completion toggle has no screen.
-  Every screen with a contract is now read.
 end note
 
 |#LightYellow|7|
@@ -749,16 +747,29 @@ stop
 
 | Order | Area | Why it is here | What the next reading must settle |
 |---|---|---|---|
-| 1 | `Todo.Api/Todos` — the `/todos` surface | The only area carrying the system's actual domain (`Todo`, `IsComplete`, `OwnerId`), the only area with behavioural tests, and the surface the declared product purpose rests on. Five endpoints, two authorization rules, three distinct failure modes. Every endpoint is reachable through the BFF, so a use case recovered here has a trace on both sides of the boundary | The exact owner-or-admin branches of `GET`, `PUT` and `DELETE /todos/{id}`, including the `id != todo.Id` branch no test covers; and whether `PUT /todos/{id}` is a use case in its own right when the delivered UI cannot reach it. The validation failure shape is settled: `WithParameterValidation` returns `Results.ValidationProblem`, HTTP 400 with `HttpValidationProblemDetails` as `application/problem+json`, and is attached only to endpoints carrying a parameter of a validated type (`Filters/ValidationFilter.cs`). The admin half of every branch is unreachable by the stakeholder's decision in Anomalies, so it is recorded and not recovered as an actor |
+| 1 | `Todo.Api/Todos` — the `/todos` surface | The only area carrying the system's actual domain (`Todo`, `IsComplete`, `OwnerId`), the only area with behavioural tests, and the surface the declared product purpose rests on. Five endpoints, two authorization rules, three distinct failure modes. Every endpoint is reachable through the BFF, so a use case recovered here has a trace on both sides of the boundary | The exact owner-or-admin branches of `GET`, `PUT` and `DELETE /todos/{id}`, including the `id != todo.Id` branch no test covers; and whether `PUT /todos/{id}` is a use case in its own right when the delivered UI cannot reach it — a scope judgement for the System Analyst, not a fact this reading left unread. The validation failure shape is settled: `WithParameterValidation` returns `Results.ValidationProblem`, HTTP 400 with `HttpValidationProblemDetails` as `application/problem+json`, and is attached only to endpoints carrying a parameter of a validated type (`Filters/ValidationFilter.cs`). The admin half of every branch is unreachable by the stakeholder's decision in Anomalies, so it is recorded and not recovered as an actor. The guards this surface carries — the current-user handler and the per-user rate limit — are the subject of order 2, and the limiter's partition key is settled by no reading at all (see the closing statement below) |
 | 2 | Authentication and identity — `Todo.Api/Users`, `Todo.Api/Authorization`, `Todo.Web/Server/Auth*`, `Server/Authentication` | The most complex and most volatile area: six commits between 2024-11-23 and 2024-11-27, the newest of which changes a trust boundary (`a519c10`), and in the same window `2d890e8` records the missing service-to-service auth and `993421c` makes the rate limiter configurable. It carries two schemes, four external providers, a data-protection key shared between processes, the only explicit endpoint protection in the system (`/users/token/{provider}`), five TODO markers naming known gaps, and no test at all on the BFF side | Nothing further for the external-login state machine: `HttpAuthenticationStateProvider.cs` is read whole (369 bytes) and resolves the component tree's `AuthenticationState` from `HttpContext.User` alone, holding no token and no provider state, so the machine is the two `AuthApi` handlers already read. What Excavation recovers here is the username/password login, registration and logout scenarios and the cookie-to-Bearer translation the YARP transform performs. External login stays out of scope by the stakeholder's decision of 2026-11-14 |
-| 3 | Persistence — `Todo.Api/TodoDbContext`, `Todo.Api/Migrations` | The schema is the system's ground truth and exists nowhere else. It stands above the DTO contract in the reading order because it carries an open question no reading has closed — the snapshot/product-version drift — while the contract carries none | Whether the committed migrations still produce the model the snapshot declares: the tests build their schema with `EnsureCreated()` from the model, so the only check that would detect the drift is one no test performs. The three migration diffs and their designer files are unread; they matter if schema history is reconstructed |
+| 3 | Persistence — `Todo.Api/TodoDbContext`, `Todo.Api/Migrations` | The schema is the system's ground truth and exists nowhere else. It stands above the DTO contract in the reading order because it carries an open question no reading has closed — the snapshot/product-version drift — while the contract carries none | Whether the committed migrations still produce the model the snapshot declares: the tests build their schema with `EnsureCreated()` from the model, so the only check that would detect the drift is one no test performs. The three migration diffs and their designer files are unread; reading them is what answers this, and it is the one outstanding reading in the artifact |
 | 4 | `Todo.Web.Shared` — the DTO contract | Load-bearing by position, not by size: the one project all three tiers compile against, so a change to `TodoItem`, `UserInfo`, `ExternalUserInfo` or `AuthToken` moves every boundary at once. It was read whole in the first pass, so it asks for no further reading; it keeps a numbered place so any contract change is checked against three tiers at once | Nothing outstanding — `SharedClass.cs` is 736 bytes and was read whole |
-| 5 | Composition and deployment — `TodoApp.AppHost`, `TodoApp.ServiceDefaults` | The Development Case fired the Deployment Model on this topology. The AppHost also owns the database lifecycle, which the API does not | The AppHost's conditional migration (`if (!Directory.Exists(dbDirectory))`) is read; what it means for a second run, a stale file or a changed model cannot be settled by reading, and stays declared as such in Anomalies |
+| 5 | Composition and deployment — `TodoApp.AppHost`, `TodoApp.ServiceDefaults`, and the API's own composition root `Todo.Api/Program.cs` | The Development Case fired the Deployment Model on this topology. The AppHost also owns the database lifecycle, which the API does not. `Todo.Api/Program.cs` is where the route mapping and the pipeline order are written, so the three request-pipeline anomalies live here and the area is read in full already | Nothing outstanding by reading. `Todo.Api/Program.cs` is read: the pipeline is `UseHttpLogging()` then `UseRateLimiter()` with no explicit `UseAuthentication()`, `MapOpenApi()` is unconditional while `MapScalarApiReference` is Development-only, and `"/"` redirects to `/scalar/v1` unconditionally. The AppHost's `if (!Directory.Exists(dbDirectory))` guard is read; what it means for a second run, a stale file or a changed model cannot be settled by reading and stays declared as such in Anomalies |
 | 6 | `Todo.Web.Client` | Small, but it holds the only user-facing UI, a documented defect (the prerender hack) and the missing completion toggle. Read after the API, because the client's contract is the BFF's | Nothing blocking: the screens are read. `TodoApp.razor` switches between `LogInForm` and `TodoList` on a non-empty user name and binds `TodoList.OnForbidden` to `Logout`; `LogInForm.razor` serves login and registration from one form with client-side password rules and renders `SocialProviders`, which is empty as delivered. What Excavation still owes is the use-case trace of those screens, not a further reading of them |
 | 7 | `Todo.Api.Tests` | The evidence for orders 1 and 2, but weaker than it looks — the assertions disabled in `UserApiTests.cs`, the migration-free schema and the absent BFF suite are why this ranks below the code it tests | Nothing for Excavation: what the suite does not prove is now recorded as anomalies |
 | 8 | `wwwroot/bootstrap`, tooling configs | Vendored and already read at the level they need | Nothing |
 
 Deliberately not read first: the vendored Bootstrap tree, `Properties/launchSettings.json` files, and the remaining Razor `App`/`_Imports` plumbing — they carry no perimeter facts.
+
+### What Excavation must not spend a reading on
+
+Two of the 22 anomaly rows are settled by no reading in any sprint-zero milestone, and Excavation must not open a reading hoping to close them. Both are marked as read but not observed in Anomalies, and both are carried as accepted risk in the Risk List until the RUP phases start, when the pipeline builds the solution and runs its test suites; the first such run is what settles each.
+
+| Not settleable by reading | Carried by |
+|---|---|
+| The rate limiter's partition key — whether `ClaimTypes.NameIdentifier` is populated when the partition key is read is decided by the framework's implicit middleware at request time | Order 1 and order 2 both encounter the limiter; neither settles it. Recorded in Anomalies under the request pipeline |
+| The database lifecycle beyond the AppHost's `Directory.Exists` guard — a second run, a stale `.db` file, a changed model | Order 5 carries it. Recorded in Anomalies under the todos surface and data lifecycle |
+
+### Boundaries on the Excavation reading
+
+The perimeter this artifact records — the seven projects, the two actors, the five external elements, the eight tables and the entry-point surface — is confirmed by the stakeholder at the System Boundary Confirmed milestone on 2026-11-14. Excavation reads inside it. There is no second confirmation at the start of Consolidation: an element Excavation finds outside the confirmed perimeter is put to the stakeholder at the point it is found, and not before.
 
 Two consequences of this order for the roles after this one:
 
