@@ -461,6 +461,20 @@ The code is the fact recorded elsewhere in this artifact. These are the README's
 
 The `README.md` remains the only prose description of the system, and every correction it needs is the code's, not a later document's: nothing in the tree supersedes it.
 
+### The coding standard: absent from the tree, and recorded as absent
+
+No written coding standard exists in this repository: there is no `CONTRIBUTING.md` and no equivalent path in the tree, and the `README.md` carries no contribution or style section. The Development Case states this rather than assuming a standard, and names what binds an Implementer and a Code Reviewer in its place:
+
+| Binding convention | Where it exists | Owner |
+|---|---|---|
+| `net9.0`, `Nullable enable`, `ImplicitUsings enable`, `LangVersion preview` | `Directory.Build.props` — compiler-enforced, so a violation fails the build | Software Architect |
+| 30 centrally-managed package pins, no floating versions | `Directory.Packages.props` | Software Architect |
+| Architecture mechanisms | the Software Architecture Document, from Elaboration on | Software Architect |
+
+`Source: docs/artifacts/environment/development-case.md`, Guidelines and Procedures. R006 carries the absence as a risk, and a written standard, if the project wants one, is authored by the Software Architect under a Change Request.
+
+Recorded as an absence, not filled in: no role reviews against a style guide, and the conventions a reviewer applies are the three above and nothing more.
+
 ## History
 Commit history read from the SCM. The whole-repository listing covers the 50 most recent commits, 2024-11-14 to 2026-11-14, and reports that older history exists.
 
