@@ -264,11 +264,11 @@ The snapshot declares `ProductVersion` `8.0.0` while the package pins are 9.0.8 
 | Declaration | Verdict against the tree |
 |---|---|
 | "Database scripts. No SQL files, stored procedures or triggers." | Holds — no `.sql` anywhere; schema lives in `Todo.Api/Migrations` |
-| "Documents. No requirements, design or architecture documents, and no manuals." | [OBSOLETE] in part — true of the delivered snapshot, but the tree now also carries `docs/artifacts/environment/development-case.md`, added by this sprint zero |
+| "Documents. No requirements, design or architecture documents, and no manuals." | [OBSOLETE] in part — true of the delivered snapshot, but the tree now also carries `docs/artifacts/environment/development-case.md` and `docs/artifacts/discovery/system-inventory.md`, both added by this sprint zero |
 | "A running installation. … no production data and no users." | Holds — no deployment descriptor, no seed data, no connection string to a live store |
 | "Its authors. … cannot be asked." | Holds — nothing in the tree names them beyond the MIT copyright line in `LICENSE` |
 
-The single sentence "The only document is the `README.md` at the root of the repository" has to be read with the two commits that created `docs/`: the folder did not come from the upstream sample.
+The single sentence "The only document is the `README.md` at the root of the repository" has to be read with the commits that created `docs/`: the folder did not come from the upstream sample.
 
 ### The document inventory
 
