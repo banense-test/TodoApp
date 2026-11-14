@@ -227,14 +227,16 @@ end note
 ## Risk Mitigation and Contingency
 Every risk carries a mitigation — action the named owner takes — and a contingency: what happens if it materializes anyway. Each mitigation assigns work inside the artifact its owner owns; where a risk needs a value another role records, the owner supplies the value and the recording role writes it. No risk in the High or Significant band rests on an acceptance the Project Manager granted himself, and the one Significant-band acceptance in this register — R002 — cites the stakeholder's own answer of 2026-11-14.
 
+**Every acceptance in this register is bounded by the same horizon.** No process is run in Survey, Excavation or Consolidation: the system is not installed and nothing here runs it, so within the sprint zero no statement about runtime behaviour is settled by observation. From Inception on the pipeline builds the solution and runs its test suites, and a build or test result that bears on an accepted risk settles what it covers. R002 and R011 are accepted **until the RUP phases start** on that basis; neither is recorded as retired by evidence that already exists, and neither is accepted for the life of the project.
+
 ```plantuml
 @startuml
-title Risk Mitigation and Contingency — who holds the acceptance, and which artifact retires each avoided risk
+title Risk Mitigation and Contingency — who holds each acceptance, and the horizon it runs to
 skinparam shadowing false
 skinparam componentStyle rectangle
 
 package "Accepted on the stakeholder's own answer, 2026-11-14" #LightBlue {
-  component "R002 Significant 5x2=10\nno runtime observation anywhere" as R2
+  component "R002 Significant 5x2=10\nno runtime observation in the sprint zero" as R2
   component "R012 Moderate 1x5=5\nnothing binds an API call to the BFF" as R12
   component "R007 Low 1x2=2\nadmin role has no runtime producer" as R7
   component "R008 Minor 2x2=4\nexternal login dormant as delivered" as R8
@@ -256,12 +258,16 @@ note right of R2
   The stakeholder's words: "The two statements marked
   as read but not observed stay declared as such, with
   their risk. Do not plan to settle them by running the
-  system." No gate is open on it.
+  system." That grant was given for the sprint zero:
+  the same answer states that once the RUP phases start
+  the pipeline builds the solution and runs its tests.
 end note
 note bottom of PM1
-  Both are accepted, not avoided: the condition each
-  describes cannot be settled, because running the
-  system is closed for the project.
+  Both are accepted because no artifact of the sprint zero
+  settles them: a reading cannot observe a rate-limiter
+  partition, and a language-version pin is not retired by
+  documentation. From Inception on, a build or test result
+  that bears on either settles it.
 end note
 note right of AV3
   A bound is not a schedule forecast. The gate's actual
@@ -277,19 +283,19 @@ These four were put to the stakeholder on 2026-11-14 and answered. Their answers
 
 | Risk | Band | The stakeholder's decision | Mitigation | Contingency if it materializes |
 |---|---|---|---|---|
-| R002 | Significant (5×2=10) | "The two statements marked as read but not observed stay declared as such, with their risk. Do not plan to settle them by running the system." | The Software Archaeologist keeps both claims declared in the System Inventory as read-not-observed for the life of the project, and carries that declaration into Excavation as its own coverage limit rather than as an open question; no artifact, gate or work item in any phase claims either claim is settled by observation. | A statement contradicted when the system is eventually run outside this project is corrected in the artifact it landed in, marked changed in the trace graph, and reopened as a Change Request — the correction is a downstream fix, never a planned retirement. |
+| R002 | Significant (5×2=10) | "The two statements marked as read but not observed stay declared as such, with their risk. Do not plan to settle them by running the system." Granted for the sprint zero; the same answer states that once the RUP phases start the pipeline builds the solution and runs its tests. | The Software Archaeologist keeps both claims declared in the System Inventory as read-not-observed across Survey, Excavation and Consolidation, and carries that declaration into Excavation as its own coverage limit rather than as an open question. No work item in the sprint zero plans a run, and no sprint-zero milestone's exit case rests on observation. | A statement the pipeline contradicts when it first builds and runs the tests is corrected in the artifact it landed in, marked changed in the trace graph, and reopened as a Change Request. A statement contradicted only by a run outside this project is corrected the same way. Either is a downstream fix, never a planned retirement. |
 | R012 | Moderate | "Record it as a known limitation of the single-host baseline and carry it into the Risk List, out of scope for this cycle." | SoftwareArchitect records the boundary as an accepted limitation of single-host deployment in the SAD, and the Deployment Model states that deployment beyond one host requires service-to-service authentication first. | Deployment beyond a single host is blocked until a Change Request adds service-to-service authentication. |
 | R007 | Low | "Record the admin branches as unreachable in the delivered system and leave role provisioning out of scope for this cycle." | SoftwareArchitect records the owner-or-admin branches as unreachable code in the SAD and the Design Model; no administrator actor and no administrator use case enters the recovered model. | If a later cycle declares administration in scope, role provisioning enters as a Change Request and the `RemoveIsAdmin` migration becomes the starting evidence. |
 | R008 | Minor | "Record it as a configured-at-runtime edge and do not recover an external-login use case this cycle; revisit if credentials are supplied." | SystemAnalyst recovers no external-login use case; the three external endpoints are documented as configured-at-runtime only. | If credentials are supplied, external login is recovered then, opening `HttpAuthenticationStateProvider.cs` first. |
 
 ### Accepted risks within the Project Manager's authority
 
-Each sits at Minor or Moderate, where acceptance is the Project Manager's to take. R011 and R023 are accepted because the condition each describes is permanent for this project and cannot be settled by any artifact this process runs.
+Each sits at Minor or Moderate, where acceptance is the Project Manager's to take. R011 and R023 are accepted because no artifact the sprint zero produces settles the condition each describes; where a later phase produces a result that bears on one, that result settles it.
 
 | Risk | Band | Mitigation | Contingency if it materializes |
 |---|---|---|---|
-| R011 | Moderate (2×4=8) | Accepted, not avoided: whether the limiter bucket is per-user or global is settled by running the API, which this project does not do. The Software Architect records in the SAD that the partition behaviour is undetermined by reading and that the README's per-user claim is unverified. | If the bucket proves global when the system is first run outside this project, the README's per-user claim is corrected and the limiter is re-partitioned as a Change Request. |
-| R023 | Moderate | Framework and Razor language version stay as delivered; raising either is a baseline change under the Development Case version policy. | Raising it requires a Change Request against that policy. |
+| R011 | Moderate (2×4=8) | Accepted until the RUP phases start. Whether the limiter bucket is per-user or global is read from `RateLimitExtensions.cs` and the middleware order but not observed, so the Software Architect records in the SAD that the partition behaviour is undetermined by reading and that the README's per-user claim is unverified. From Inception on, a test the pipeline runs that exercises the limiter settles it. | If the bucket proves global when the system is first run — by the pipeline or outside this project — the README's per-user claim is corrected and the limiter is re-partitioned as a Change Request. |
+| R023 | Moderate | Framework and Razor language version stay as delivered. Raising either changes the pins in `Directory.Packages.props`, which the Software Architect owns, and enters as a Change Request. | Raising either is a Change Request against those pins, and the Software Architect states the behaviour change it carries before it is approved. |
 | R015 | Minor | Recorded as code that exists; no recovered use case depends on it while external login stays dormant. | Re-opened with R008 if credentials are supplied. |
 | R019 | Moderate | Recorded as the delivered first-paint behaviour; no recovered use case claims otherwise. | If a first-paint requirement is declared, it enters as a Change Request. |
 
