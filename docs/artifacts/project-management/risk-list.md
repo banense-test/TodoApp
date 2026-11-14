@@ -117,7 +117,7 @@ end note
 | R021 | The API's root maps a redirect to `/scalar/v1` unconditionally while `MapScalarApiReference` sits inside the Development branch, so outside Development `/` redirects to an unmapped route — and `/openapi` is published in every environment. | `Todo.Api/Program.cs` | 4 | 1 | 4 | Minor | avoid | SoftwareArchitect |
 
 ## Risk Mitigation and Contingency
-Every accepted risk carries a mitigation and a contingency. A mitigation is action the named owner takes now; a contingency is what happens if the risk materializes anyway. For the three High-band risks whose strategy is accept, the acceptance is the stakeholder's to grant — the request, and the answer when it arrives, are recorded in the first table.
+Every risk carries a mitigation — action the named owner takes — and, where acceptance or avoidance is chosen, a contingency: what happens if it materializes anyway. No acceptance above the Moderate band is outstanding, so nothing here awaits the stakeholder's grant.
 
 ### Stakeholder grant — acceptance of the High-band risks
 
@@ -199,6 +199,48 @@ Acceptance of these is the Project Manager's: none sits above the Significant ba
 | R024 | Moderate | TechnicalWriter corrects the badge when the README is next touched. | External link only; no release impact. |
 | R025 | Moderate | ProcessEngineer redraws the ownership view when the Development Case is next revised against evidence. | Downstream roles read the ownership table in the same section, which is unambiguous. |
 | R021 | Minor | SoftwareArchitect records the Development-only mapping in the SAD's mechanisms section. | An unmapped `/` outside Development is answered from the recorded behaviour. |
+
+### Risks the stakeholder has already accepted
+
+These three were put to the stakeholder on 2026-11-14 and answered. Their answers are the acceptance, and they bind every role that reads this artifact.
+
+| Risk | Band | The stakeholder's decision | Mitigation | Contingency if it materializes |
+|---|---|---|---|---|
+| R007 | Low | "Record the admin branches as unreachable in the delivered system and leave role provisioning out of scope for this cycle." | SoftwareArchitect records the owner-or-admin branches as unreachable code in the SAD and the Design Model; no administrator actor and no administrator use case enters the recovered model. | If a later cycle declares administration in scope, role provisioning enters as a Change Request and the `RemoveIsAdmin` migration becomes the starting evidence. |
+| R008 | Minor | "Record it as a configured-at-runtime edge and do not recover an external-login use case this cycle; revisit if credentials are supplied." | SystemAnalyst recovers no external-login use case; the three external endpoints are documented as configured-at-runtime only. | If credentials are supplied, external login is recovered then, opening `HttpAuthenticationStateProvider.cs` first. |
+| R012 | Moderate | "Record it as a known limitation of the single-host baseline and carry it into the Risk List, out of scope for this cycle." | SoftwareArchitect records the boundary as an accepted limitation of single-host deployment in the SAD, and the Deployment Model states that deployment beyond one host requires service-to-service authentication first. | Deployment beyond a single host is blocked until a Change Request adds service-to-service authentication. |
+
+### Accepted risks within the Project Manager's authority
+
+| Risk | Band | Mitigation | Contingency if it materializes |
+|---|---|---|---|
+| R015 | Minor | Recorded as code that exists; no recovered use case depends on it while external login stays dormant. | Re-opened with R008 if credentials are supplied. |
+| R019 | Moderate | Recorded as the delivered first-paint behaviour; no recovered use case claims otherwise. | If a first-paint requirement is declared, it enters as a Change Request. |
+| R023 | Moderate | Framework and Razor language version stay as delivered; raising either is a baseline change under the Development Case version policy. | Raising it requires a Change Request against that policy. |
+
+### Avoided risks — the artifact that retires each
+
+| Risk | Band | What retires it | Contingency if it materializes |
+|---|---|---|---|
+| R001 | High | The Test Designer, in Elaboration, covers the authentication scenarios the BFF performs and records explicitly which are verified by nothing, so the absence becomes a stated coverage gap rather than a silent assumption. | Any change to the `/auth/*` contract or the cookie-to-Bearer translation is unverified on merge and needs a manual end-to-end run before it is called done. |
+| R009 | High | The System Analyst recovers the completion capability with its API anchor and states that no screen reaches it, so the Use-Case Model carries the gap instead of hiding it. | If a screen is declared necessary, it enters as a Change Request against the Use-Case Model. |
+| R017 | Significant | The System Analyst recovers logout as ending the cookie only and records the surviving bearer token as the code's actual behaviour, so no recovered use case overstates the guarantee. | If a logout guarantee is declared, token revocation enters as a Change Request against the API. |
+| R002 | Significant | The Software Archaeologist's Coverage declarations are carried into Excavation as its first work: the two claims marked reading-only — the rate-limiter partition key and the database lifecycle — are settled by running the system. | A statement contradicted by running the system is corrected in the artifact it landed in and marked changed in the trace graph. |
+| R003 | Significant | The Database Designer states in the Design Model that the committed migrations are unvalidated, and checks the snapshot against the model before any migration is added. | A migration that fails on a fresh database is fixed as a Change Request before any other schema work proceeds. |
+| R004 | Significant | The Test Manager records in the Test Evaluation Summary exactly what the suite proves, so a green gate is never read as broader coverage than it is. | A defect escaping the suite is logged through the Change Control Manager and drives a test in the same iteration. |
+| R005 | Significant | The System Analyst opens `HttpAuthenticationStateProvider.cs` before recovering the login and logout scenarios, and declares any scenario still unrecovered. | A scenario that cannot be recovered from code is raised as a scope question rather than invented. |
+| R016 | Significant | The Software Architect records the lock-out gap in the SAD; no recovered use case claims lock-out enforcement. | If lock-out enforcement is declared, it enters as a Change Request with the handler's TODO as its anchor. |
+| R018 | Significant | The Software Architect records both threshold sets and the 10-second replenishment in the Supplementary Specification's rate-limiting constraint. | A limit that surprises an operator is answered from the recorded values. |
+| R006 | Moderate | The Process Engineer corrects the Tool references row so no role is assigned an absent document, and the conventions are read off `Directory.Build.props` and the code. | If a coding standard is required, it is authored in this project as a Change Request, never cited from a file that does not exist. |
+| R010 | Moderate | The Integrator records in the User Documentation that the database is created by the AppHost only, so the documented run path is the AppHost path. | A reader running the API standalone is given the AppHost path as the remedy. |
+| R011 | Moderate | The Software Architect settles the partition key by running the API in Elaboration and records the observed result in the SAD, rather than reading it. | If the bucket proves global, the README's per-user claim is corrected as a Change Request. |
+| R013 | Moderate | The Database Designer records the snapshot/product-version drift and reads the regenerated snapshot on its next change. | A spurious snapshot diff is separated from the intended change before commit. |
+| R014 | Moderate | The Integrator records the required SDK in the User Documentation and treats the CI path as the build of record. | If the container is used, its SDK image is raised via a Change Request. |
+| R020 | Moderate | The Test Manager records that the suite runs against real SQLite, not the in-memory provider. | A test relying on provider behaviour is treated as a SQLite test. |
+| R022 | Moderate | The Technical Writer corrects `.iari/README.md` when the release documentation is finalized. | The delivery statement is corrected before release, not after. |
+| R024 | Moderate | The Technical Writer corrects the badge when the README is next touched. | External link only; no release impact. |
+| R025 | Moderate | The Process Engineer redraws the ownership view when the Development Case is next revised against evidence. | Downstream roles read the ownership table in the same section, which is unambiguous. |
+| R021 | Minor | The Software Architect records the Development-only mapping in the SAD's mechanisms section. | An unmapped `/` outside Development is answered from the recorded behaviour. |
 
 ## Traceability
 
