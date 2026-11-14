@@ -230,3 +230,17 @@ Raising a framework, language or package version is a baseline change: it alters
 
 **No written coding standard exists in this repository, and none is assumed.** The conventions that bind an Implementer and a Code Reviewer are the compiler-enforced ones in `Directory.Build.props` and the central pins in `Directory.Packages.props`; a Code Reviewer reviews against those plus the Software Architecture Document's mechanisms, and against no style guide. A written standard, if the project wants one, is authored by the Software Architect under a Change Request and this table gains its path at that point. R006 records the absence.
 
+### Measurement policy
+
+The baseline measures two quantities and this project takes no third: tokens consumed, and elapsed time split into agent time and time waiting for a human. What follows is what each one is read *for* here — a metric with no decision behind it is not tracked.
+
+| Quantity | Decision it enables | Who reads it |
+|---|---|---|
+| Tokens consumed per iteration | Whether the next iteration's artifact surface is read as widely as the last. Corrective iterations re-read artifacts they already hold; when spend rises while a milestone does not pass, the surface read is the lever — narrow which artifacts an iteration opens, never narrow declared scope | Process Engineer, at the iteration checkpoint |
+| Elapsed agent time per iteration | How the iteration's own work is sequenced, not how long the project takes. A stage that dominates agent time is split or its input prepared earlier | Process Engineer and Project Manager |
+| Human queue time — each stakeholder gate | Whether a gate is about to breach R026's 14-day ceiling. At the ceiling the process suspends and nothing is auto-filled; the answer is escalated, never inferred | Project Manager; the Review Coordinator when booking a gate |
+
+Three rules bind these. **The two clocks are never added** — agent time and queue time answer different questions, and a total answers neither. **No figure is quoted as a velocity**: per-iteration figures are not recorded, and a forecast exists only from the measured actuals of a closed phase. **No budget is assumed**: the project declares none, so no role cuts, defers or re-scopes work to fit an estimate.
+
+A phase whose spend keeps rising without its milestone passing is a schedule slip and is reported as one. Nothing in this policy authorises narrowing the declared scope to meet a figure.
+
