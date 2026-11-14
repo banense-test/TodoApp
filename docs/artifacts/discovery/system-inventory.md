@@ -956,3 +956,12 @@ Every fact above has a row here. A fact whose anchor is a stakeholder answer nam
 | The system is never run in any phase; it is not installed anywhere and nobody runs it here, and no milestone may plan to settle a read-only statement by running it | Stakeholder answer, 2026-11-14 ("the system will not be run during these phases — it is not installed anywhere and nobody runs it here … Do not plan to settle them by running the system") |
 | The perimeter is recorded and put to the stakeholder, not confirmed by them; confirmation follows Excavation's deeper reading | This reading's judgement over the stakeholder answer above, and the corrective plan of the Review Record's "Resolutions and Actions", step 7 — confirming before Excavation would confirm an incomplete record |
 
+### What settles an anomaly, and the reading order
+
+| Fact | Anchor |
+|---|---|
+| Of the 23 anomaly rows, 21 are settled inside this project and 2 are settled by nothing | This reading — the classification of each row's evidence column against the artifacts the process runs, and against the stakeholder answer below |
+| The rate limiter's partition key and the database lifecycle beyond the AppHost's guard are settled by no later reading and by no observation | Stakeholder answer, 2026-11-14 ("the system will not be run during these phases — it is not installed anywhere and nobody runs it here … Do not plan to settle them by running the system"); the two rows are identified by the evidence in `Todo.Api/Program.cs`, `Todo.Api/Extensions/RateLimitExtensions.cs` and `TodoApp.AppHost/Extensions.cs` |
+| The reading priority order is `Todo.Api/Todos` first, authentication and identity second, persistence third | Recorded reading-priority decision, Survey iteration 1, reaffirmed here against the open question each area carries: order 1 and 2 have behavioural or volatility weight, order 3 carries the unresolved snapshot/product-version drift, and the DTO contract at order 4 is read whole (736 bytes) and asks for no further reading |
+| The per-area "what the next reading must settle" statements | This reading — each names the file whose reading would answer it, and the ones marked settled name the file already read |
+
