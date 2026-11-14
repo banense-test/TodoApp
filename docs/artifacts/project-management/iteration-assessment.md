@@ -84,7 +84,6 @@ endif
 The two High-band risks are avoided, not accepted — R001 (16) by the Test Case at LCA, R009 (15) by the Use-Case Model at GHR — so no High risk in this register depends on anyone's grace. That is the part of objective 3 that worked, and it is why the register is a control instrument with two broken rows rather than a catalogue.
 
 ## Adherence to Plan
-
 **All seven fine-plan work items were executed and every one produced its artifact. The iteration still failed its exit criteria.** That gap is the central fact of this iteration and the only variance worth a root cause.
 
 | Planned work item | Owner | Produced | Executed |
@@ -115,11 +114,32 @@ The plan stated no size for any work item, declared no token budget, named no pr
 |---|---|---|---|
 | Agent work — tokens | 16,116,804 | The phase's measured actual. First closed figure the plan may forecast from | Replaces every assumed share in the plans after SBC |
 | Agent work — elapsed | 0:49:10.4046839 | Working time across 9 agent invocations | The working span of a sprint-zero iteration, for comparison with the next |
-| Stakeholder queue time | 0:06:04.401833 | **Waiting, not work.** 12 user interactions, 4 consequential questions | Whether gates should be batched into fewer points in later phases |
+| Stakeholder queue time | 0:06:04.401833 | **Waiting, not work.** 12 user interactions, 5 questions | Whether gates should be batched into fewer points in later phases |
 
 The two clocks are never added and one is never converted into the other. The queue figure **excludes the end-of-iteration approval gate**, which is not measured; the stakeholder's sanction of 2026-11-14 is therefore outside both figures and no duration is attributed to it.
 
-The iteration carried a five-artifact surface of **254,781 characters**, of which the Review Record is 108,642 — the review is the largest single document of the iteration, 42,6% of the surface. That is the cost shape the IARI model predicts and it is recorded here because it is what the next phase's forecast must be built on: re-reading the artifact surface dominates, not emitting it.
+The iteration carried a five-artifact surface of **254,781 characters**, of which the Review Record is 108,642 — the review is the largest single document of the iteration, 42.6% of the surface. That is the cost shape the IARI model predicts and it is recorded here because it is what the next phase's forecast must be built on: re-reading the artifact surface dominates, not emitting it.
+
+```plantuml
+@startsalt
+title Survey iteration 1 — the counted facts, and the decision each is used for
+{
+{S
+<b>Metric</b> | <b>Value</b> | <b>Goal — the decision it enables</b>
+Artifacts produced | 5 | Coverage check: one per role the Survey process runs; none missing, none extra
+Artifact surface, characters | 254,781 | Forecast shape for the next phase: cost scales with live surface x times read, not with volume emitted
+Source anchors opened at review | 17 | Trust in the perimeter: 16 confirmed, 1 false anchor — decides whether anchor verification stays mandatory
+Lens records opened | 18 | Gate yield: two lenses produced 15 distinct defects; business lens inactive by tailoring
+Distinct defects | 15 | Rework scope for iteration 2: 0 Critical, 10 Major, 5 Minor
+Major defects by artifact | IP 6, SI 2, RL 2, DC 1 | Where the corrective effort goes: the plan carries the gate
+Stakeholder questions asked | 5 | Gate batching: five answers in 12 interactions closed three scope facts and the sanction
+Token spend | 16,116,804 | Measured actual of the phase; the first figure a later forecast may rest on
+Agent elapsed time | 0:49:10.4046839 | Working time, reported alone
+Stakeholder queue time | 0:06:04.401833 | Waiting, not work — excludes the approval gate, which is unmeasured
+}
+}
+@endsalt
+```
 
 ## Use Cases and Scenarios Implemented
 
