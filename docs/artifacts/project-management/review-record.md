@@ -1104,3 +1104,93 @@ note bottom of DC
 end note
 @enduml
 ```
+
+#### Technical lens disposition
+
+**Approved with changes.** 0 Critical, 2 Major, 2 Minor. Two of the four artifacts carry no open record from this lens. The milestone itself is the Review Coordinator's to rule on: this lens reports its verdict on the artifacts, it does not sanction the phase.
+
+```plantuml
+@startuml
+title SBC Survey iteration 3 — technical lens disposition across the four artifacts
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+package "Approved — no open finding from this lens" #PaleGreen {
+  class "Development Case\nEnvironment\n5 FIRED / NOT FIRED verdicts audited\n2 new subsections audited" as DC
+  class "System Inventory\nDiscovery\nF3 Minor closed Resolved\nprovenance arithmetic verified" as SI
+}
+
+package "Changes owed — 2 Major, 2 Minor, 0 Critical" #LightYellow {
+  class "Risk List" as RL {
+    F3 Major — R005 stale premise
+    F4 Minor — R023 names the wrong file
+  }
+  class "Iteration Plan" as IP {
+    F3 Major — R005 retired at the wrong milestone
+    F4 Minor — Process Engineer absent from the profile
+  }
+}
+
+package "Recorded, not a defect" #LightBlue {
+  class "Pull requests: none\nSurvey produces no source code" as PR
+  class "Trace graph: empty\nno element family declared at SBC" as TR
+  class "Iteration Assessment\nwritten against this verdict" as IA
+}
+
+DC -[hidden]-> SI
+RL -[hidden]-> IP
+SI -[hidden]-> PR
+IP -[hidden]-> TR
+
+note right of RL
+  The two Majors are one defect in two artifacts:
+  the register holds the premise and the plan
+  builds the retirement on it.
+  No Critical exists — both are corrections inside
+  an artifact its own owner holds, and neither asks
+  the stakeholder a question.
+end note
+note bottom of DC
+  Two artifacts of this phase now carry no open
+  record from this lens.
+end note
+@enduml
+```
+
+#### The seven findings of the previous gate, as this lens now finds them
+
+Five are closed on evidence and two on this iteration's corrections. Each closure rests on reading the corrected text, not on a claim of correction.
+
+| Prior finding | Lens | Status this iteration |
+|---|---|---|
+| Coverage stated the no-observation constraint over the whole lifecycle | Management, System Inventory | Corrected. Coverage and Perimeter completeness both read "No process is run in Survey, Excavation or Consolidation … carried as accepted risk until the RUP phases start; the first such run is what settles each" |
+| R002 and R011 recorded a bounded acceptance as open-ended | Management, Risk List | Corrected. Both rows read "accept until the RUP phases start", the section opens with the horizon, and Document Control states it |
+| The plan foreclosed a retirement path that exists from Inception on | Management, Iteration Plan | Corrected. The property is scoped to the sprint zero, and R011 and the observable statements of R002 are placed at LCA with the Tester named as producer |
+| Criterion 1 deferred to a deleted gate | Management, Iteration Plan | Corrected. Criterion 1 carries the process wording, evidenced by the confirmation given at SBC; G2 is gone from roadmap, gantt and gate list, leaving four gates |
+| The retirement map credited LCO with two retirements SBC performed | Management, Iteration Plan | Corrected. The disposal table now reads "Retired at Survey 2 — SBC … R006, R025" |
+| Provenance counted 58 into a 57-file total | Technical, System Inventory | Closed Resolved this iteration |
+| R023 cited a version policy the Development Case lacks | Technical, Risk List | Closed Resolved this iteration; its replacement text is under the new Minor RL F4 |
+
+The four Majors are genuinely repaired. What this lens finds new is not a failure of those corrections: it is a defect none of them touched, in a risk row no prior finding named.
+
+#### Why the two Majors are Major and not Critical
+
+A Critical is a question only the stakeholder can answer. Neither Major is one.
+
+R005's row and the plan's retirement of it are both wrong about a fact the artifacts already establish between themselves: Coverage says the file was opened and states no file in that group blocks a use case. The correction is a restatement inside two artifacts their owner holds. There is no scope decision, no contradiction in what the stakeholder declared, and no risk for them to accept. Putting it to them would ask a question the perimeter record already answers.
+
+Both hold the milestone on one ground each: the Risk List's strategy for a Significant-band risk does not name work that remains to be done, and the plan's retirement map names the wrong milestone for that same risk.
+
+#### Why the two Minors do not hold the milestone
+
+Each stays inside its own artifact. RL F4 misdirects a reader of an accepted Moderate risk's mitigation to a file the change does not touch — no exit criterion turns on it, and R023's contingency, a Change Request, is the same either way. IP F4 misreports which roles worked this iteration — the work was done and is correct, and no roadmap row, gate or criterion depends on the reporting.
+
+They are recorded and owned, owed at their owner's next turn, after the two Majors.
+
+#### What this lens confirms and does not disturb
+
+- **The perimeter is confirmed and is not in dispute.** The stakeholder confirmed it at this gate over the seven projects, the entry-point surface, the stores and the external systems. Twenty anchors were opened across the three iterations and the one fact that failed was corrected and re-counted. No record of this lens contests an element.
+- **The tailoring is auditable.** Every cited reference resolves, every optional verdict is checked against its own §5.2 condition, and the two subsections added this iteration are policy rather than measurement.
+- **No acceptance outlives its grant.** R002 is the only Significant-band acceptance and its words are the stakeholder's; every acceptance states a horizon and none runs to the end of the project.
+- **No work item assumes a run of the system inside the sprint zero, and observation returns as a path from Inception on**, with its producer and recorder named.
+- **No invented figure anywhere.** No work item is sized, no bar is a duration, no start date is given, no token budget is proposed.
