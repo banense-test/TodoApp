@@ -1039,293 +1039,68 @@ This sets the sequence and adds no defect, no condition and no new action. Read 
 
 ## Disposition
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-<!-- review: Survey I2 -->
-
-#### Disposition
-
-**Approved.** 0 Critical, 0 Major, 2 Minor across the four artifacts reviewed.
-
-This is the first time this lens has approved the SBC artifact set. Iteration 1 returned it Approved with changes on 3 Major and 4 Minor, and every one of those seven was corrected and verified rather than asserted: the two Majors that pointed a role at content that did not exist — the absent coding standard and the criterion claiming a confirmation SBC never obtains — are the two whose corrections matter most, because each misdirected a role downstream of the artifact.
-
-The two Minors now open are consequences of the corrections themselves, not survivals of the old defects, and neither is load-bearing.
+```plantuml
+@startsalt
+title SBC, Survey iteration 3 — compliance matrix: checklist item x verdict, per artifact
+{
+{S
+<b>Checklist item</b> | <b>DC</b> | <b>SI</b> | <b>RL</b> | <b>IP</b>
+Baseline conformance, no redefinition | <color:green>PASS</color> | - | - | <color:green>PASS</color>
+Every optional trigger holds its own condition | <color:green>PASS</color> | - | - | -
+Every cited reference resolves to a file or a section | <color:green>PASS</color> | - | <color:orange>FAIL F4</color> | -
+Every perimeter fact rests on its anchor | - | <color:green>PASS</color> | - | -
+Size and count facts match the file | - | <color:green>PASS</color> | - | -
+Coverage declares its gaps consistently | - | <color:green>PASS</color> | - | -
+No constraint stated over more of the lifecycle than was decided | - | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color>
+Every magnitude is the band of its own exposure | - | - | <color:green>PASS</color> | -
+Every risk strategy can execute | - | - | <color:orange>FAIL F3</color> | -
+Every risk accounted for exactly once, at the milestone that retires it | - | - | - | <color:orange>FAIL F3</color>
+Every exit criterion evidenced as worded | - | - | - | <color:green>PASS</color>
+No acceptance without the authority to grant, none open-ended | - | - | <color:green>PASS</color> | <color:green>PASS</color>
+No role at work the tailoring stood down | <color:green>PASS</color> | - | - | <color:green>PASS</color>
+Roles at work reported as they were | - | - | - | <color:orange>FAIL F4</color>
+No invented size, budget, forecast or date | - | - | - | <color:green>PASS</color>
+Marker retired only by the stakeholder | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color>
+--
+Lens verdict | APPROVED | APPROVED | CHANGES OWED | CHANGES OWED
+}
+}
+@endsalt
+```
 
 ```plantuml
 @startuml
-title Defect distribution — 2 open findings by severity and artifact, against the 7 this lens closed
+title Defect distribution, SBC Survey iteration 3 — 2 Major and 2 Minor across 2 artifacts
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 
-package "Open after this review" #Orange {
-  class "System Inventory" as SI {
-    Critical = 0
-    Major = 0
-    Minor = 1
-  }
-  class "Risk List" as RL {
-    Critical = 0
-    Major = 0
-    Minor = 1
-  }
-  class "Open total" as OPEN {
-    Critical = 0
-    Major = 0
-    Minor = 2
-  }
+package "Risk List" #LightYellow {
+  class "F3  Major\nconsumed-defect\nR005 scored on a condition\nCoverage says is already eliminated" as RL3
+  class "F4  Minor\ncontained-defect\nR023 routes the change to\nDirectory.Packages.props; the\nproperty lives in Todo.Web.Server.csproj" as RL4
 }
 
-package "Closed this iteration by this lens" #PaleGreen {
-  class "Development Case" as DC {
-    Major = 1
-    Minor = 1
-  }
-  class "System Inventory" as SIC {
-    Major = 1
-    Minor = 1
-  }
-  class "Risk List" as RLC {
-    Minor = 1
-  }
-  class "Iteration Plan" as IP {
-    Major = 1
-    Minor = 1
-  }
-  class "Closed total" as CLOSED {
-    Major = 4
-    Minor = 3
-  }
+package "Iteration Plan" #LightYellow {
+  class "F3  Major\nconsumed-defect\nR005 booked as retired at AR by\nre-opening a file opened at Survey 2" as IP3
+  class "F4  Minor\ncontained-defect\nResources states no role but two was\nat work; the Process Engineer revised\nthe Development Case this iteration" as IP4
 }
 
-SI --> OPEN
-RL --> OPEN
-DC --> CLOSED
-SIC --> CLOSED
-RLC --> CLOSED
-IP --> CLOSED
+package "Clean this iteration — no open finding from this lens" #PaleGreen {
+  class "Development Case\nVersion policy and Measurement policy\nsubsections audited; five tool rows resolve" as DC
+  class "System Inventory\nF3 Minor closed: Provenance now names\nthe four files Coverage names" as SI
+}
 
-note right of SI
-  F3 — Provenance states 58 additions
-  where Coverage counts 57.
+note right of RL3
+  RL3 and IP3 are one defect in two
+  artifacts: the register holds the
+  stale premise and the plan builds
+  the retirement on it.
 end note
-note right of RL
-  F2 — R023 cites a version policy
-  the Development Case has no section for.
-end note
-note bottom of OPEN
-  No Critical and no Major is open against this lens.
-  Both open defects stay inside their own artifact:
-  no role builds on the wrong content and no SBC
-  exit criterion depends on either.
-end note
-note bottom of CLOSED
-  Every iteration-1 finding of this lens was re-tested
-  against the corrected text and the file it cites, not
-  against the claim that it was fixed.
+note bottom of DC
+  Both prior Minors of this lens are
+  closed Resolved this iteration —
+  System Inventory#F3 and Risk List#F2.
 end note
 @enduml
 ```
-
-#### Why no Critical
-
-A Critical is a defect only the stakeholder can unblock: a scope decision, a contradiction in what they declared, or a risk only they may accept. Three such questions were raised during iteration 1 and answered on 2026-11-14; each answer was re-tested against the code it disposes of in this iteration's scope-marker audit, all three hold, and no new question surfaced.
-
-The stakeholder's later decision — that the system is never run in any phase — was an open premise in iteration 1 and is now closed content: Coverage states it, R002 and R011 are accepted on it with R002's grant quoted, and the plan sweeps for work that assumed a run. A decision already taken and correctly recorded is not a finding.
-
-#### Why no Major
-
-A Major means another role builds on wrong content or a milestone exit criterion fails. Neither holds:
-
-- Every corrected fact was checked against the file that carries it, including re-counting the 30 package pins, and each resolves.
-- All six SBC exit criteria are now evidenced as worded. Criterion 1 in particular was the defect that made the milestone unsanctionable in iteration 1 — a criterion satisfiable only by the sanction the stakeholder withheld — and it now asks for what SBC obtains while G2 is named as where the perimeter is confirmed.
-- Every one of the 26 risks is accounted for exactly once, every disposal executes without running the system, and every risk owner is at work in the milestone that retires its risk.
-- Every gate carries three lenses; the stood-down Business Reviewer appears on none.
-
-#### Why the two Minors do not hold the milestone
-
-Each stays inside its own artifact. The Provenance arithmetic is a summary row that contradicts the section it summarises, while the section, the enumeration and the Document Control tally all agree — so the declaration criterion 3 turns on is sound. R023's citation names a section that does not exist, but R023 is an accepted Moderate risk whose contingency is a Change Request on either reading, so nothing downstream changes shape.
-
-#### What this lens hands the next lens
-
-The technical case for the sprint zero's product is sound and has been verified rather than accepted: a perimeter whose facts rest on anchors that were opened, twenty of them across the two iterations, with the one false fact found and corrected; a register whose arithmetic holds across all 26 rows and whose most consequential acceptance is the stakeholder's own words; and a plan that instantiates the tailored process, schedules no work the phase does not run, and refuses throughout to invent a size, a budget, a forecast or a date.
-
-The milestone's sanction is not this lens's to grant. The three scope questions were answered, the technical defects are closed to the Minor band, and whether the sprint zero advances is the stakeholder's decision and the Review Coordinator's ruling.
-
-### Management Reviewer lens
-<!-- review: Survey I2 -->
-
-<!-- review: Survey I2 -->
-
-#### Disposition
-
-**Conditional Go — sanction recorded as GRANTED by the stakeholder on 2026-11-14. 0 Critical, 4 Major, 1 Minor across three artifacts.**
-
-The perimeter of the existing system is confirmed by the stakeholder at this milestone, and the SBC milestone is sanctioned. The four Majors are rework owed inside artifacts, not conditions on the milestone: each one narrows content back to a decision the stakeholder has already taken, and none asks them a question they have not answered.
-
-```plantuml
-@startuml
-hide empty description
-title SBC at the close of Survey iteration 2 — sanction granted, four Majors owed as rework
-skinparam shadowing false
-
-[*] --> Refused
-state "Survey 1 — sanction REFUSED, 2026-11-14" as Refused
-Refused --> Corrective : 10 Major, 1 Minor across 4 artifacts
-state "Survey 2 — corrective iteration" as Corrective
-Corrective --> Reheld : 11 findings closed and verified; six criteria evidenced
-state "SBC re-held — management lens: Conditional" as Reheld
-Reheld --> Sanctioned : stakeholder confirms the perimeter and grants sanction — YES
-Reheld --> MajorsOwed : two stakeholder decisions arrive with the grant
-state "SANCTION GRANTED — perimeter confirmed at SBC" as Sanctioned
-state "Four Majors owed before Excavation consumes the artifacts" as MajorsOwed
-state "Artifacts reworked by their owners" as Reworked
-Sanctioned --> MajorsOwed
-MajorsOwed --> Reworked : Project Manager, Software Archaeologist
-Reworked --> [*]
-
-note right of Sanctioned
-  The sanction is the stakeholder's and it was given.
-  No lens retracts it. What the grant does not do is
-  make incorrect artifact content correct.
-end note
-note right of MajorsOwed
-  Iteration Plan F8 — criterion 1 defers to a G2 gate
-  the stakeholder deleted.
-  Iteration Plan F9 — "no run in any phase" overstates
-  a sprint-zero constraint.
-  System Inventory F3 — Coverage says "for the life
-  of this project".
-  Risk List F3 — the bounded acceptance recorded
-  as unbounded.
-end note
-note bottom of Reworked
-  Criterion 1 is now satisfied on the process's own
-  wording — the stakeholder confirmed the perimeter —
-  which is stronger than the deferral it replaces.
-end note
-@enduml
-```
-
-#### The stakeholder's sanction, recorded
-
-| Item | Answer |
-|---|---|
-| Perimeter of the existing system confirmed | **Yes**, at this milestone, 2026-11-14 |
-| Sanction to advance past SBC | **Yes** |
-| Second confirmation at Consolidation 1's start | **Refused** — the gate is to be removed and criterion 1 restored to the process's wording |
-| Scope of the no-observation constraint | Survey, Excavation and Consolidation only — the RUP phases run the pipeline and its tests |
-| Duration of the two read-only acceptances | Until the RUP phases start, not for the life of the project |
-
-Stakeholder sanction: GRANTED
-
-Stakeholder acceptance: "With this answer I confirm the perimeter now, at this milestone. There is no second confirmation at the start of Consolidation: remove that gate from the plan and restore the first exit criterion of this milestone as the process states it. If Excavation finds something outside the perimeter, ask me then." / "My earlier sentence applied to Survey, Excavation and Consolidation only. I did not say the system will never be run: once the RUP phases start, the pipeline builds it and runs its tests. I accept those two risks until then, not for the life of the project."
-
-#### Why Conditional Go and not Go
-
-A **Go** would say the artifact set is fit to be consumed as it stands. Three of the four are not, on four counts, and every count is a statement about a decision the stakeholder has now taken twice. The System Inventory — the artifact Excavation reads first and quotes in its own milestone report — still declares the no-run constraint project-wide and still forbids any later milestone from retiring the two read-only claims. The Risk List still records a sprint-zero acceptance as open-ended. The Iteration Plan still books a gate the stakeholder has refused and still reports its first exit criterion as deferred when the condition has been met.
-
-A **No-Go** would be wrong twice over. It would contradict a sanction the stakeholder has given, and it would misdescribe the work: every one of the ten Majors the refusal rested on was corrected and verified, and the four now open arrived **with** the grant, from decisions taken after the corrections were written. They are the ordinary consequence of a stakeholder answering precisely — a constraint narrowed, a gate withdrawn — not evidence that the corrective iteration failed.
-
-So the milestone is sanctioned and its artifacts are approved subject to rework. The distinction is the honest one: the phase may advance, and four corrections are owed by the roles that hold them before the artifacts are consumed.
-
-#### Why no Critical
-
-A Critical is a defect only the stakeholder can unblock: a scope decision, a contradiction in what they declared, or a risk only they may accept. Nothing here qualifies. The two decisions this answer carries are both already taken — the perimeter confirmed, and the constraint bounded — and the four findings ask their owners to write down those decisions, not the stakeholder to make new ones. The one risk whose acceptance needed the stakeholder's authority, R002 in the Significant band, is granted and unchanged in band.
-
-#### Why no Major beyond the four, and why the four hold rework
-
-Each of the four propagates into an artifact another role reads, which is why none is a Minor. The System Inventory's closing statement is quoted by the register and the plan; the register's acceptance duration is what the Iteration Plan and the Iteration Assessment read for what remains accepted; the plan's G2 survives in three of its own sections; and the plan's projection of the no-run constraint over the lifecycle removes a retirement path that exists from Inception on. A Minor would say no role builds on them. That is not true of any of the four.
-
-None of them is Critical because none requires an answer that has not been given, and none changes the sanctioned perimeter.
-
-#### What the sprint zero hands the RUP phases
-
-The perimeter is confirmed and anchored per element, with one false fact found and corrected across two iterations and the pin set re-counted against the file. The register's arithmetic holds across all 26 rows, every disposal executes without a run in the sprint zero, and the most consequential acceptance is the stakeholder's own words with its duration now to be recorded precisely. The plan instantiates the tailored process, staffs no stood-down role, books every gate at which acceptance is obtained, and refuses throughout to invent a size, a budget, a forecast or a date.
-
-The one thing this gate cannot say is that the artifacts are ready to be consumed as written. Four corrections stand between them and that, and each is a narrowing to what the stakeholder decided.
-
-#### To the Review Coordinator
-
-- **Sanction:** GRANTED — stakeholder, 2026-11-14. Not conditional, not implied. The milestone is sanctioned and the phase may advance past SBC.
-- **Perimeter:** confirmed by the stakeholder at this milestone; the second confirmation gate at Consolidation 1's start does not exist and is to be deleted from the plan.
-- **Open from this lens:** 0 Critical, 4 Major, 1 Minor. The Majors are rework owed inside Iteration Plan, System Inventory and Risk List — F8, F9, F3 and F3, with F7 the Minor — and their owners are the Project Manager and the Software Archaeologist.
-- **Not a gate condition but a prerequisite for consumption:** the System Inventory's correction is owed before Excavation reads it. The milestone may close; the artifact must be corrected before it is quoted.
-- **The Iteration Assessment** is written by the Project Manager against this verdict, and does not gate the phase.
-
-### Review Coordinator lens
-<!-- review: Survey I2 -->
-
-<!-- review: Survey I2 -->
-
-#### Milestone verdict
-
-**SBC advances no further this iteration. Four Major records are open and the Survey phase continues with corrective iteration 3.** The perimeter *is* confirmed and the stakeholder *did* grant the sanction — both recorded below — but the milestone's exit criteria are not the only condition this verdict answers, and an artifact set that would propagate one over-statement into three phases is not an artifact set the phase may be built on.
-
-```plantuml
-@startuml
-title SBC verdict path at Survey iteration 2 — anchored to the finding ledger, not to judgement
-skinparam shadowing false
-
-start
-:Read the finding ledger of all six artifacts;
-if (Any unresolved Critical finding?) then (yes)
-  :Escalate the Critical findings to the stakeholder;
-  :Record the milestone as requiring a further iteration;
-else (no)
-  if (Unread none, open Major 0, perimeter confirmed, sanction GRANTED?) then (yes)
-    :Ask the stakeholder to advance past the milestone;
-    :Record the milestone as complete;
-  else (no — four Majors open)
-    :Ask the stakeholder what this review's open items leave for the next pass;
-    :Fold the answer in as a stakeholder finding;
-    :Record the milestone as requiring a further iteration;
-  endif
-endif
-stop
-
-note right
-  Measured this milestone, not judged:
-  artifacts read 6 of 6, unread none,
-  open Critical 0, open Major 4, open Minor 3,
-  perimeter confirmed, stakeholder sanction GRANTED.
-end note
-@enduml
-```
-
-| Question | Answer | Basis |
-|---|---|---|
-| Artifacts read | 6 of 6, unread = none | The `[FINDINGS]` line: Development Case, System Inventory, Risk List, Iteration Plan, Review Record, Iteration Assessment |
-| Open Critical | 0 | No record in the Critical band, from any lens |
-| Open Major | 4 | SI-B, RL-B, IP-A, IP-B — each carries no resolution object |
-| Open Minor | 3 | SI-A, RL-A, IP-C — each carries no resolution object |
-| Prior records closed | 18 of 18 | Every iteration-1 record closed by its emitting lens, with verification evidence |
-| Perimeter confirmed | **Yes** — at this milestone, 2026-11-14 | The stakeholder's answer, recorded under Disposition of the Management lens |
-| Stakeholder sanction | **GRANTED** — 2026-11-14 | Same answer. No lens retracts it |
-| SBC exit criteria met | 5 of 6 in substance; criterion 6 fails | Criterion 1 is now satisfied on the process's own wording. Criterion 6 fails while IP-A books a deleted gate and IP-B forecloses a retirement path the process will produce |
-
-#### Why this verdict and not the other two
-
-**Not critical escalation.** A Critical is a defect only the stakeholder can unblock: a scope decision, a contradiction in what they declared, or a risk only they may accept. None of the four Majors qualifies. Each asks its owner to write down a decision the stakeholder has already taken — the perimeter confirmed, the no-run constraint bounded, the second confirmation withdrawn. Escalating them would put a question back to the stakeholder that they answered twice, which is the very defect IP-A names.
-
-**Not scope complete.** The guard is explicit and it does not hold: 4 Major records open against a requirement of 0. Two of them are not bookkeeping. IP-B removes observation as a retirement path from Elaboration, Construction and Transition, where the CI pipeline will produce test evidence as a matter of course, and SI-B instructs every later milestone that it may not retire the two read-only claims — an instruction to milestones that have not yet run. A plan that tells later milestones to ignore evidence they will hold is not a plan the phase may be built on, whatever the sanction says.
-
-**So: a further iteration.** The remedy for a milestone whose exit criteria do not pass is one more iteration inside the phase. That is the plan's own lever and it is applied without narrowing declared scope, without adding a role in parallel, and without re-interpreting a criterion to fit what was produced.
-
-#### The distinction this verdict turns on
-
-The stakeholder sanctioned the milestone, and the milestone is sanctioned — that is their decision and it is not mine to qualify. What a sanction does not do is make incorrect artifact content correct. Two facts therefore hold at once:
-
-- **The perimeter is confirmed and the phase gate is open.** Excavation work is authorized by the stakeholder's answer of 2026-11-14.
-- **The artifacts Excavation will read are not fit to be read as written.** Three of the four carry content that reaches past a decision the stakeholder took at that same gate.
-
-I record both. Collapsing them in either direction is the error: recording only the first would send Excavation into a System Inventory that tells it the two read-only claims may never be retired; recording only the second would contradict a sanction the stakeholder gave and misdescribe the work, since every one of the ten Majors that caused the earlier refusal was corrected and verified.
-
-#### The one thing that is not measured here
-
-Rework effort is not measurable at this review and no figure is offered. The Survey phase has not closed; the corrective iteration's work is visible in 18 closures and 4 open records, and that is a count of records, not an effort. Defect removal efficiency is unmeasurable for a stronger reason: no test phase has executed in this project, so review remains the only detection activity and there is no ratio to compute.
-
-#### What the sprint zero hands the RUP phases
-
-A perimeter whose elements each rest on an anchor that was opened — twenty across two iterations, with the one false fact found, corrected and re-counted — and which the stakeholder has confirmed at this gate. A register whose arithmetic holds across all 26 rows, whose bands no lens has contested in either event, and whose most consequential acceptance is the stakeholder's own words. A plan that instantiates the tailored process, staffs no stood-down role, books every acceptance gate, and refuses throughout to invent a size, a token budget, a forecast or a calendar date.
-
-What it does not yet hand them is a set of statements bounded to what was decided. Four are not, three of those four are the same statement, and the correction is a narrowing in each case rather than new content.
