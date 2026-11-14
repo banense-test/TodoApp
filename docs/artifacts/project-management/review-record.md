@@ -1095,11 +1095,11 @@ No acceptance without the authority to grant it | - | - | <color:green>PASS</col
 The acceptance recorded is the acceptance given | - | - | <color:green>PASS</color> | -
 No acceptance stated over more of the lifecycle than decided | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color>
 Every risk strategy can execute | - | - | <color:green>PASS</color> | -
-Every risk accounted for exactly once, at its retiring milestone | - | - | - | <color:green>PASS</color>
+Every risk accounted for exactly once, at its retiring milestone | - | - | - | <color:orange>ONE ROW FAILS</color>
 Every role assigned work is at work in that milestone | - | - | - | <color:green>PASS</color>
 No role at work the tailoring stood down | <color:green>PASS</color> | - | - | <color:green>PASS</color>
 Every gate booked is a gate the stakeholder will attend | - | - | - | <color:green>PASS</color>
-Every cited reference resolves | <color:green>PASS</color> | - | <color:orange>CARRIED RL F4</color> | -
+Every cited reference resolves | <color:green>PASS</color> | - | - | -
 No invented size, token budget, forecast or date | - | - | - | <color:green>PASS</color>
 Both clocks reported apart and never added | - | - | - | <color:green>PASS</color>
 Marker retired only by the stakeholder's answer | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color> | <color:green>PASS</color>
@@ -1131,7 +1131,7 @@ title SBC four-axis health scorecard — Survey iteration 3, management lens
 Scope | <color:green>STABLE</color> | Declared scope untouched; the three stakeholder decisions of 2026-11-14 hold; no marker retired except by a stakeholder answer; no CR owed
 Schedule | <color:green>CONTROLLED</color> | Three Survey iterations, the iteration-count lever only; declared scope never cut to fit; no measured elapsed time exists, so none is quoted and no date is projected
 Cost | <color:green>NO BOX</color> | The project declares no token budget; none is assumed and none is proposed; no work item is sized in a unit this project cannot measure
-Quality | <color:orange>TWO MAJORS OPEN</color> | One defect in two artifacts — R005's stale premise in the register and its retirement at AR in the plan — plus one Minor of this lens and two of the technical lens
+Quality | <color:orange>TWO MAJORS OPEN</color> | One defect in two artifacts — R005's stale premise in the register and its retirement at AR in the plan — plus three Minors: one of this lens, two of the technical lens
 --
 Milestone | <color:orange>NOT CLEAN</color> | Sanctioned by the stakeholder on 2026-11-14; the four Majors it required are closed and verified, and two Major records arrived after them
 Verdict of this lens | <color:orange>CONDITIONAL GO</color> | 0 Critical, 0 Major, 1 Minor from this lens; 2 Majors and 2 Minors from the technical lens hold the milestone
@@ -1144,7 +1144,7 @@ Verdict of this lens | <color:orange>CONDITIONAL GO</color> | 0 Critical, 0 Majo
 
 **Conditional Go.** This lens records 0 Critical, 0 Major and 1 Minor. Every finding it carried into the iteration is closed against the corrected text, and the four Major corrections the stakeholder's sanction required are landed and verified.
 
-The milestone is nonetheless not clean, and this lens does not report it as clean. Two Major records stand open from the technical lens, and both concern one risk row: R005 is scored `avoid` on a condition the System Inventory's Coverage says was already eliminated, and the Iteration Plan books its retirement at AR by re-opening a file opened at Survey 2. They hold the milestone on the ground SBC criterion 4 and criterion 6 turn on — every strategy must execute, and the plan must account for each risk at the milestone that retires it.
+The milestone is nonetheless not clean, and this lens does not report it as clean. Two Major records stand open from the technical lens, and both concern one risk row: R005 is scored `avoid` on a condition the System Inventory's Coverage says was already eliminated, and the Iteration Plan books its retirement at AR by re-opening a file opened at Survey 2. They hold the milestone on the ground SBC criteria 4 and 6 turn on — every strategy must execute, and the plan must account for each risk at the milestone that retires it.
 
 That finding is the technical lens's, verified against the Coverage enumeration rather than against the register's own words, and it is a genuine discovery of this review. My lens checked the R005 row's band, its owner and its acceptance authority and found all three sound; it did not check whether the artefact the strategy names already exists. The two lenses tested different properties of the same row and only one tested this one — which is the reason the gate carries two lenses rather than one.
 
@@ -1159,5 +1159,29 @@ That finding is the technical lens's, verified against the Coverage enumeration 
 #### What this disposition does not do
 
 It does not sanction the phase, and it does not withhold it. The stakeholder sanctioned SBC on 2026-11-14 and no lens retracts that decision. What stands between the artifact set and a clean gate is a correction inside two artifacts the Project Manager already holds — a restatement of one row in the register and one row of the retirement map, in one turn, register first — and nothing that needs a stakeholder question, a scope change or a Change Request.
+
+The Iteration Assessment is not assessed here. The Project Manager writes it against the verdict of the lens sequence that ends with this lens, so at this point it cannot describe the iteration being reviewed; its state is not a finding and not a gate condition.
+
+#### Stakeholder sanction
+
+The sanction was put at this milestone with the open defects named and the lens verdicts attached. The stakeholder's answer:
+
+> "Yes"
+
+**Stakeholder sanction: GRANTED**, 2026-11-14 — the perimeter confirmed as the System Inventory records it, and the phase sanctioned to advance past the System Boundary Confirmed milestone.
+
+Recorded against their accompanying statements, which bound it:
+
+> "With this answer I confirm the perimeter now, at this milestone. There is no second confirmation at the start of Consolidation: remove that gate from the plan and restore the first exit criterion of this milestone as the process states it. If Excavation finds something outside the perimeter, ask me then."
+
+> "My earlier sentence applied to Survey, Excavation and Consolidation only. I did not say the system will never be run: once the RUP phases start, the pipeline builds it and runs its tests. I accept those two risks until then, not for the life of the project."
+
+The corrective order they set for the four Majors was followed and is verified in Resolutions and Actions: the System Inventory sentence first, then the Risk List and Iteration Plan statements that quote it, then the deleted gate. The question is not put again at this iteration — all three of the stakeholder's decisions are already answered and recorded where they bear, and re-putting a question already answered twice is the defect the plan's own F8 named.
+
+#### What stands between this artifact set and a clean gate
+
+One correction, inside two artifacts the Project Manager already holds: restate R005 as the anomaly at the first reading with its resolution at Survey 2 — SBC, and move its retirement out of the AR row so the accounting reads 14 + 3 + 1 + 8 = 26. The register's row is corrected first, because the plan's disposal table derives from it. Nothing in that correction needs a stakeholder question, a scope change or a Change Request, and nothing in it reopens the sanction.
+
+Three Minors are owed at their owners' next turn: the Iteration Plan's F10 from this lens, and the Risk List's citation and the plan's role reporting from the technical lens.
 
 The Iteration Assessment is not assessed here. The Project Manager writes it against the verdict of the lens sequence that ends with this lens, so at this point it cannot describe the iteration being reviewed; its state is not a finding and not a gate condition.
