@@ -14,8 +14,8 @@ Milestone Target: End-of-Survey (SBC) — not yet achieved; the sanction is the 
 <!-- review: Survey I2 -->
 
 Phase: Survey
-Status: Draft — management lens of the SBC review, re-held in iteration 2; 11 prior findings of this lens closed Resolved after verification against the corrected text; 1 new finding (0 Critical, 0 Major, 1 Minor)
-Milestone Target: End-of-Survey (SBC) — not yet achieved; the lens verdict is Go and the sanction is the stakeholder's to grant
+Status: Draft — management lens of the SBC review, re-held in iteration 2; 11 prior findings of this lens closed Resolved; 5 new findings (0 Critical, 4 Major, 1 Minor); stakeholder sanction GRANTED on 2026-11-14 with two corrections that open the four Majors
+Milestone Target: End-of-Survey (SBC) — sanctioned by the stakeholder; four Majors owed as rework before Excavation consumes the artifacts
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
