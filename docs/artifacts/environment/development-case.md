@@ -190,12 +190,13 @@ Configuration content lives in the files that hold it, owned by the roles that a
 
 | Configuration | Path | Owner from here on |
 |---|---|---|
-| CI (restore, build, test on push and pull request) | `.github/workflows/ci.yaml` | Integrator |
-| Runtime and package pins (central package management) | `Directory.Packages.props`, `global.json`, `Directory.Build.props` | Software Architect |
+| Build verification on push and pull request | `.github/workflows/ci.yaml` | Integrator |
+| Runtime and package pins (central package management) | `Directory.Packages.props`, `global.json` | Software Architect |
 | Compiler-enforced conventions (`net9.0`, `Nullable enable`, `ImplicitUsings enable`, `LangVersion preview`) | `Directory.Build.props` | Software Architect |
-| Coding standard and review conventions | `CONTRIBUTING.md` | Software Architect, with the Code Reviewer |
 | Integration-test conventions (xunit, `Microsoft.AspNetCore.Mvc.Testing`, `coverlet`) | `Todo.Api.Tests`, `Directory.Packages.props` | Test Designer |
-| Environment bootstrap | `README.md` (prerequisites, `TodoApp.AppHost`, `dotnet user-secrets` for external providers) | Integrator |
+| Environment bootstrap (prerequisites, `TodoApp.AppHost`, `dotnet user-secrets` for external providers) | `README.md` | Integrator |
+
+**No written coding standard exists in this repository, and none is assumed.** The conventions that bind an Implementer and a Code Reviewer are the compiler-enforced ones in `Directory.Build.props` and the central pins in `Directory.Packages.props`; a Code Reviewer reviews against those plus the Software Architecture Document's mechanisms, and against no style guide. A written standard, if the project wants one, is authored by the Software Architect under a Change Request — it does not appear here until it exists in the tree. The absence is carried as R006.
 
 ### Version policy
 
