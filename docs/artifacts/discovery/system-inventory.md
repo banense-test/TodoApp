@@ -1,8 +1,7 @@
 ## Document Control
 Phase: Survey
-Status: Draft — Survey iteration 2. Perimeter, technology and size, persistent data, documentation, history, anomalies, priorities and coverage recorded; 57 of 119 application files opened and the remainder declared unread. The stakeholder answered the three scope questions on 2026-11-14 and on 2026-11-14 corrected the perimeter record to state that the system is never run in any phase; both are recorded in Anomalies and Coverage. No statement in this artifact rests on observation
+Status: Draft — Survey iteration 3. Perimeter, technology and size, persistent data, documentation, history, anomalies, priorities and coverage recorded; 57 of 119 application files opened and the remainder declared unread. The stakeholder answered the three scope questions on 2026-11-14 and confirmed the perimeter at the System Boundary Confirmed milestone on the same date; both are recorded in Anomalies, Perimeter and Provenance. No statement in this artifact rests on an observation, because no process is run in Survey, Excavation or Consolidation
 Milestone Target: End-of-Survey (SBC) — not yet achieved
-
 ## Perimeter
 The delivered system is the public sample `davidfowl/TodoApp` (MIT) at commit `307a1ead` of 2026-02-12, copied wholesale into this repository. It is a multi-process .NET 9 solution of seven projects: a Blazor WebAssembly client served by a Blazor server host acting as a backend-for-frontend, a minimal-API backend, an Aspire orchestrator, a shared service-defaults library, a shared DTO library, and an integration-test project.
 
