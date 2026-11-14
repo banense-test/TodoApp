@@ -181,7 +181,6 @@ end note
 - **Recovery ownership:** every element recovered from the code cites `Source: <path>` (and lines) where a declared element cites its `FR-NNN`/`NFR-NNN`. Recovered elements carry no upstream arrow; the anchor is their source.
 
 ## Guidelines and Procedures
-
 ### Tool references
 
 Configuration content lives in the files that hold it, owned by the roles that author them — never restated here.
@@ -197,19 +196,9 @@ Configuration content lives in the files that hold it, owned by the roles that a
 
 ### Version policy
 
-The version policy this project is held to is the one the delivered system already carries: framework target `net9.0` with SDK `9.0.100` (`Source: global.json`, `Directory.Build.props`), and package versions fixed centrally in `Directory.Packages.props`. The policy is recorded once for this project and read by the Software Architect when anchoring the SAD; the registry's "latest" never overrides it. A move off `net9.0` — for instance to an LTS line — is a change to the declared baseline and requires a Change Request.
+The stakeholder declared no version constraint in this cycle, and the delivery carries its own pins: framework target `net9.0` with SDK `9.0.100` (`Source: global.json`, `Directory.Build.props`), and package versions fixed centrally in `Directory.Packages.props`. The formal version policy is recorded in **Inception**, once the System Inventory has read what the system actually runs on — not in Survey, where the reading is not yet complete.
 
-### Measurement policy
-
-This project tracks the two quantities the process produces — **tokens** and **elapsed time**, the latter split into agent time and human queue time. Each has a named decision it enables; a quantity with no decision does not get collected.
-
-| Quantity | Decision it enables | Reader |
-|---|---|---|
-| Tokens per discipline per iteration | Whether a live artifact's surface is worth reading again next iteration, or should be replaced so it is read once — the recovery cost of an existing system is dominated by re-reading, not by writing | Process Engineer, at iteration close |
-| Agent time per stage | Whether a stage's scope is too large for one turn and should be split in the next Iteration Plan | Process Engineer and Project Manager |
-| Human queue time at each gate | Whether gates should be batched to fewer points in the phase | Project Manager |
-
-No token budget is declared for this project. Where none is declared, the measured spend is recorded and no scope is cut to fit an estimate. Measured actuals are quoted only for closed phases, and the two clocks are reported apart and never summed.
+Until then the pins in the repository are the working baseline and the registry's "latest" never overrides them: a package is not bumped because a newer version exists. Moving off `net9.0` to an LTS line, or off any pinned package, is a change to the delivered baseline and enters through a Change Request, not through an Implementer's judgement.
 
 ### Process procedures
 
@@ -218,3 +207,4 @@ No token budget is declared for this project. Where none is declared, the measur
 - **Support during the iteration.** A process question, an ambiguous template or a missing convention is answered here, in-cycle. A blocking process issue is escalated immediately as `REQUIRES_USER_INPUT`; it is never left to resolve itself over two iterations.
 - **Assessment-driven change.** A tailoring change is made only against evidence — a finding, a Change Request, or an Iteration Assessment entry naming the problem. Changes are recorded as deltas in this artifact with the evidence that caused them.
 - **Escalation of scope.** This case fixes process, not scope. A gap or contradiction in the declared scope goes to the stakeholder through the role that found it; it is never resolved by a tailoring decision here.
+
