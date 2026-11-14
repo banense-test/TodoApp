@@ -182,18 +182,18 @@ title Survey iteration 2 — the six SBC exit criteria the plan committed to, an
 
 Criterion 6 passed as the process asks it and failed the management lens's test of reach. Both readings are correct about different moments: the iteration-1 defect it repaired was a criterion claiming an unevidenced confirmation, and that repair did not know the stakeholder would give the confirmation at this gate. The criterion then understated a met condition. That is recorded as a new defect, not a reopened one.
 ## Test Results
-
-**No test was executed and none could be.** The Survey process runs no Test discipline, no source file was written or modified in this iteration, no test case exists, and the repository carries no IARI build pipeline — the Review Record's own check of `scm_list_pull_requests` returned none, so there is also no pull request whose checks could be read. This is not a gap in the iteration's work; it is the shape of a phase whose product is a reading.
+**No test was executed and none could be.** The Survey process runs no Test discipline, no source file was written or modified in this iteration, no test case exists, and no build pipeline for this project exists yet — the Review Record records that no pull request exists, so no check result could be read.
 
 | Measure | Value | Why it is not reported as a defect rate |
 |---|---|---|
 | Test cases executed | 0 | No code exists to test in Survey |
 | Test pass rate | Not computable | A rate over zero is not a rate |
 | Defect removal efficiency | **Not computable** | Review is the only detection activity that has occurred; there is no test phase against which to ratio it |
-| Build status | Not applicable for IARI | The pipeline does not exist in the repository yet. This says nothing about the repository's own `ci.yaml` |
+| Build status | Not applicable for IARI | The pipeline does not exist yet. This says nothing about the repository's own `ci.yaml` |
 
-The defects of this iteration were found by **review**, not by execution: 18 lens records, 15 distinct defects, 10 Major. The detection yield that matters at this milestone is anchor verification — 17 source files opened by hand, 16 confirming and 1 false anchor (the package-pin tally). Direct verification found a defect invisible to a reading of the artifact alone, which is the argument for keeping it as a mandatory review activity at AR and GHR rather than a one-off.
+The defects of this iteration were found by **review**, and the detection yield that matters at this milestone is anchor verification: the technical lens re-counted the package pins from `Directory.Packages.props`, checked five tool-reference paths against the tree, and confirmed twenty anchors opened across the two iterations. Direct verification found what reading the artifact alone did not — which is the argument for keeping anchor verification mandatory at AR and GHR.
 
+The first build-and-test run this project will have occurs from Inception on, when the pipeline builds the solution and runs its suites. That run is the evidence path the plan now places at Elaboration for R011 and the observable statements of R002; nothing in this iteration could produce it, and no risk is declared retired by it.
 ## External Changes
 
 Three events arrived from outside the team in this iteration, all on **2026-11-14**, and each changed a premise of the plan.
