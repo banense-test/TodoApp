@@ -490,7 +490,7 @@ What this coverage does **not** claim: the `/auth/*` behaviour is described from
 | `RequireCurrentUser()` adds an authenticated-user requirement plus a handler that succeeds only when the API has resolved the caller from its own store, so a valid token for a user that no longer exists is rejected; lock-out is not checked (TODO in the handler) | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs` |
 | The caller is resolved once per request through an `IClaimsTransformation` that assigns `currentUser.Principal` and `currentUser.User` via `UserManager.FindByIdAsync` | `Todo.Api/Authorization/CurrentUserExtensions.cs` |
 | `CurrentUser.IsAdmin` reads the `admin` role claim | `Todo.Api/Authorization/CurrentUser.cs` |
-| `Todo` shape and the `TodoItem` DTO that hides `OwnerId` | `Todo.Api/Todos/Todo.cs` |
+| `Todo` shape and the `TodoItem` DTO that hides `OwnerId` | `Todo.Api/Todos/Todo.cs`, `Todo.Web/Shared/SharedClass.cs` |
 | `TodoUser` adds no properties to `IdentityUser` | `Todo.Api/Users/TodoUser.cs` |
 | Eight tables and their columns, keys and indexes | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` |
 | Snapshot `ProductVersion` is `8.0.0` | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` |
@@ -499,7 +499,12 @@ What this coverage does **not** claim: the `/auth/*` behaviour is described from
 | Connection string `"Todos"`, fallback `Data Source=.db/Todos.db` | `Todo.Api/Program.cs` |
 | The database is created and migrated only by the AppHost, only when `.db` is absent | `TodoApp.AppHost/Extensions.cs`; `TodoApp.AppHost/Program.cs` |
 | `sqliteweb` container mounting the database directory | `TodoApp.AppHost/Program.cs` |
-| BFF composition: cookie auth, data protection discriminator, `TodoClient`, Razor components with WASM render mode, YARP forwarder with service discovery, `AuthClient` base address `http://todoapi` | `Todo.Web/Server/Program.cs` |
+| The project reference graph: Client → Shared; Server → ServiceDefaults, Client, Shared; Api → Shared; Tests → Api | `Todo.Web/Client/Todo.Web.Client.csproj`, `Todo.Web/Server/Todo.Web.Server.csproj`, `Todo.Api/Todo.Api.csproj`, `Todo.Api.Tests/Todo.Api.Tests.csproj` |
+| `Todo.Web.Shared` holds the wire DTOs `TodoItem`, `UserInfo`, `ExternalUserInfo` and `AuthToken` (`accessToken` via `JsonPropertyName`), the last three carrying `[Required]`/validation attributes | `Todo.Web/Shared/SharedClass.cs` |
+| The client is a Blazor WebAssembly SDK project with only `Components.WebAssembly`, `Extensions.Http` and the Shared reference — no Server or API reference | `Todo.Web/Client/Todo.Web.Client.csproj` |
+| The server references the client project (assets for the render mode) and pins the four external-provider packages | `Todo.Web/Server/Todo.Web.Server.csproj` |
+| The server pins `<RazorLangVersion>8.0</RazorLangVersion>` while targeting `net9.0` | `Todo.Web/Server/Todo.Web.Server.csproj` |
+| The BFF composition: cookie auth, data protection discriminator, `TodoClient`, Razor components with WASM render mode, YARP forwarder with service discovery, `AuthClient` base address `http://todoapi` | `Todo.Web/Server/Program.cs` |
 | BFF forwards `/todos/{*path}` and rewrites the cookie token into a Bearer header | `Todo.Web/Server/TodoApi.cs` |
 | The BFF reaches the API over two separate channels: YARP for `/todos`, a typed `AuthClient` for `/users/*`; no service-to-service authentication exists between them | `Todo.Web/Server/TodoApi.cs`, `Todo.Web/Server/AuthClient.cs`, `Todo.Api/Users/UsersApi.cs` |
 | `AuthClient` calls `users/login`, `users/register` and `users/token/{provider}`, returning the token or null on any non-success status | `Todo.Web/Server/AuthClient.cs` |
@@ -508,7 +513,6 @@ What this coverage does **not** claim: the `/auth/*` behaviour is described from
 | BFF auth endpoints: register, login, logout, `login/{provider}`, `signin/{provider}` | `Todo.Web/Server/AuthApi.cs` |
 | Four external providers, each gated on its configuration section; no delivered `appsettings` supplies one, so the external-login edge is dormant and username/password is the only login path configured in the tree | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`; `Todo.Web/Server/appsettings.json`; `Todo.Web/Server/appsettings.Development.json`, which holds logging keys only (144 bytes) |
 | All non-cookie schemes are treated as social providers for the UI | `Todo.Web/Server/Authentication/ExternalProviders.cs` |
-| The client project is a `Microsoft.NET.Sdk.BlazorWebAssembly` project referencing `Microsoft.AspNetCore.Components.WebAssembly`, `Microsoft.Extensions.Http` and `Todo.Web.Shared` only — no Server or API reference, so it reaches the API only through HTTP | `Todo.Web/Client/Todo.Web.Client.csproj` |
 | The client's `HttpClient` is based on `HostEnvironment.BaseAddress` and sends `X-Requested-With: XMLHttpRequest` so the cookie stack does not redirect unauthenticated requests | `Todo.Web/Client/Program.cs` |
 | Client call surface: add, delete, list, login, register, logout | `Todo.Web/Client/TodoClient.cs` |
 | Prerender returns `(OK, empty)` when `BaseAddress` is null — "hack from hell" | `Todo.Web/Client/TodoClient.cs` |
@@ -516,13 +520,14 @@ What this coverage does **not** claim: the `/auth/*` behaviour is described from
 | OpenTelemetry, health checks, service discovery and resilience defaults | `TodoApp.ServiceDefaults/Extensions.cs` |
 | OTLP export only when `OTEL_EXPORTER_OTLP_ENDPOINT` is set | `TodoApp.ServiceDefaults/Extensions.cs` |
 | Health endpoints mapped in Development only | `TodoApp.ServiceDefaults/Extensions.cs` |
-| Test host uses a real SQLite in-memory connection, relaxed Identity password rules, ephemeral data protection | `Todo.Api.Tests/TodoApplication.cs` |
+| The test host replaces the provider with a real `SqliteConnection("Filename=:memory:")` and calls `UseSqlite`, relaxes Identity password rules, installs `EphemeralDataProtectionProvider`, registers a scoped `TokenService`, and mints a bearer token per request through a `DelegatingHandler` | `Todo.Api.Tests/TodoApplication.cs` |
+| `EntityFrameworkCore.InMemory` is referenced but the fixture never uses it | `Todo.Api.Tests/Todo.Api.Tests.csproj`, `Todo.Api.Tests/TodoApplication.cs` |
 | The `admin` role claim is added only by the test token helper | `Todo.Api.Tests/TokenService.cs` |
 | Nine `[Fact]` tests over `/todos`, including owner isolation and admin override | `Todo.Api.Tests/TodoApiTests.cs` |
 | Seven `[Fact]` tests over `/users`; field-level assertions commented out under a TODO | `Todo.Api.Tests/UserApiTests.cs` |
 | Rate limiting is configured at `TokenLimit 50`, `TokensPerPeriod 50`, `QueueLimit 50` in Development | `Todo.Api/appsettings.Development.json` |
 | README contents: feature list, prerequisites .NET 9 + Aspire CLI, run via AppHost, standalone API walkthrough, external provider and Auth0 configuration, OpenTelemetry | `README.md` |
-| `README.md` is 4509 bytes, `Requests/todo.http` 793 bytes, `.iari/README.md` 777 bytes, `development-case.md` 16418 bytes | SCM file metadata for each path |
+| `README.md` is 4509 bytes, `Requests/todo.http` 793 bytes, `.iari/README.md` 777 bytes, `development-case.md` 16418 bytes, `SharedClass.cs` 736 bytes, `Todo.Api.Tests.csproj` 734 bytes, `Todo.Web.Server.csproj` 1115 bytes, `Todo.Web.Client.csproj` 331 bytes | SCM file metadata for each path |
 | `Requests/todo.http` carries five requests and no `PUT` or `GET /todos/{id}` | `Requests/todo.http` |
 | Badge URL names `TodoApi` while the project is `TodoApp` | `README.md`; commit `3308193` |
 | `.devcontainer` pins SDK 8.0 and forwards ports 5000/5001 | `.devcontainer/devcontainer.json` |
@@ -542,7 +547,7 @@ What this coverage does **not** claim: the `/auth/*` behaviour is described from
 | `.devcontainer` history: 6 commits, 2022-11-13 → 2023-12-15, last `2e54de3` | `scm_list_commits` over `.devcontainer` |
 | `docs/` created by the sprint-zero commits of 2026-11-14 | whole-repository listing: `ccf6401`, `37986fb`, `520a590`, `a1e2d77`, `6f554f8`, `e0bc4e6` |
 | 165 tree entries, 45 of them vendored Bootstrap files | `scm_get_repo_tree` |
-| 51 files opened in this reading | the enumeration in Coverage |
+| 57 files opened in this reading | the enumeration in Coverage |
 | No scheduled job, batch process or report exists; the only non-request-driven behaviour is the AppHost's one-shot `dotnet ef database update` | `TodoApp/` tree; no hosted service or job configuration in any read manifest; `TodoApp.AppHost/Extensions.cs` |
 | Priorities order and Coverage declarations | This reading — no external anchor; they are the Software Archaeologist's judgement over the evidence above |
 
