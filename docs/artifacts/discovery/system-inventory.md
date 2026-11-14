@@ -1,7 +1,6 @@
 ## Document Control
-
 Phase: Survey
-Status: Draft — first reading of the delivered system
+Status: Draft — Survey iteration 1; perimeter, technology and size, persistent data, documentation, history, anomalies, priorities and coverage read; not yet reviewed
 Milestone Target: End-of-Survey (SBC) — not yet achieved
 
 ## Perimeter
