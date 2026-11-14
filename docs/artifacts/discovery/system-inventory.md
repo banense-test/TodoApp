@@ -378,6 +378,179 @@ end note
 
 None of these six is a requirements, design or architecture document. Those do not exist, `.iari/README.md` declares it and the tree confirms it.
 
+### The document inventory
+
+```plantuml
+@startuml
+title Documentation the delivery carries, its kind, and who authored it
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+package "Delivered by the upstream sample — describes the system" {
+  component "README.md\n4509 bytes · prose, one screenshot\nno table, no diagram\nthe only prose description of the system" as README
+  component "Requests/todo.http\n793 bytes · 5 requests\nregister, login, create, list, delete" as HTTPFILE
+  component ".iari/README.md\n777 bytes · delivery statement\nwhat is and is not in the tree" as IARI
+  component "LICENSE\nMIT · (c) 2022 David Fowler\nlegal terms only" as LIC
+}
+
+package "Authored by this sprint zero — records the process, not the system" {
+  component "docs/artifacts/environment/\ndevelopment-case.md · 20371 bytes\n20 commits on this path, latest b5a8965" as DC
+  component "docs/artifacts/discovery/\nsystem-inventory.md · this artifact" as SI
+  component "docs/artifacts/project-management/\nrisk-list.md · 37006 bytes · scored register" as RL
+  component "docs/artifacts/project-management/\niteration-plan.md · 42585 bytes · schedule" as IP
+  component "docs/artifacts/project-management/\nreview-record.md · verdict and finding ledger" as RR
+  component "docs/artifacts/project-management/\niteration-assessment.md · written against the verdict" as IA
+}
+
+package "Configuration read as documentation" {
+  component "Directory.Build.props · Directory.Packages.props\nglobal.json · nuget.config · ci.yaml\nappsettings pairs · aspire settings · devcontainer" as CFG
+  component "Todo.Web/Server/Todo.Web.Server.csproj\nRazorLangVersion 8.0 — a version no central file carries" as PROJ
+  component "Code comments and TODO markers\nnine statements · the only inline record" as COMMENTS
+}
+
+package "System areas" {
+  component "Api/Todos — CRUD over /todos" as A1
+  component "Api/Users — Identity and token" as A2
+  component "Server/Auth — the BFF login dance" as A3
+  component "Client — Blazor task list UI" as A4
+  component "Persistence — 8 tables, 3 migrations" as A5
+  component "Composition — AppHost, ServiceDefaults" as A6
+  component "Tests — integration suite" as A7
+  component "Shared — the DTO contract" as A8
+}
+
+README --> A1 : setup, /users/register and /users/login walkthrough
+README --> A4 : lists the two apps, one screenshot
+README --> A6 : "run TodoApp.AppHost", Aspire prerequisites
+README --> A2 : bearer token response shape
+README --> A3 : external provider setup, secrets, the Auth0 schema
+HTTPFILE --> A1 : POST, GET all, DELETE — no PUT, no GET by id
+CFG --> A5 : connection-string default, migration command
+CFG --> A1 : rate-limit and logging values only
+PROJ --> A3 : the Razor language pin no central file states
+COMMENTS --> A3 : "TODO: Support remote logout", "Handle the failure somehow", "pick a user name"
+COMMENTS --> A2 : "TODO: Add service to service auth between the BFF and this API"
+COMMENTS --> A7 : "TODO: Follow up on the new errors"
+DC --> A7 : names the test conventions and the version policy
+IARI --> A5 : no SQL scripts — the schema is code
+SI --> A8 : the DTOs are the contract every tier compiles against
+
+README ..> A3 : states no /auth/* contract
+README ..> A7 : states nothing the suite covers
+README ..> A8 : describes the shared DTOs nowhere
+COMMENTS ..> A4 : completion toggle exists in the API, absent in the UI, unremarked
+
+note bottom of IA
+  All six docs/ records are process documentation —
+  what the sprint zero did and decided. None describes
+  the delivered system, so the sample's own absence of
+  requirements, design and architecture documents stands.
+end note
+note bottom of PROJ
+  The version policy names this file explicitly: a
+  property held in a project file belongs to the policy
+  the central pins belong to, so a version is looked for
+  in every file that declares one.
+end note
+note right of COMMENTS
+  No CONTRIBUTING.md exists in the tree. The Development
+  Case records that absence rather than assuming a
+  standard: Directory.Build.props and the central pins
+  are what bind a reviewer.
+end note
+@enduml
+```
+
+| Document | Kind | Weight | What it actually covers | Anchor |
+|---|---|---|---|---|
+| `README.md` | prose, no structure beyond headings | 4509 bytes, 0 diagram, 0 table | The two applications, a feature list, prerequisites (.NET 9, Aspire CLI), how to run via `TodoApp.AppHost`, standalone API usage, external-provider and Auth0 configuration schemas, OpenTelemetry mention | `README.md` |
+| `Requests/todo.http` | executable request file (REST Client / VS Code) | 793 bytes, 5 requests | `POST /users/register`, `POST /users/login`, `POST /todos`, `GET /todos`, `DELETE /todos/{id}` | `Requests/todo.http` |
+| `.iari/README.md` | delivery statement | 777 bytes | The upstream commit it was taken at, what is in `.iari/`, and what does not exist | `.iari/README.md` |
+| `LICENSE` | licence text | MIT, `(c) 2022 David Fowler` | Legal terms only | `LICENSE` |
+| `docs/artifacts/environment/development-case.md` | process tailoring | 20371 bytes | The sprint-zero process: classification, disciplines, artifact catalogue, optional triggers, roles, and in Guidelines and Procedures the **Version policy** (which files carry a version and who may raise one) and the **Measurement policy** (the two clocks and the rules that bind them) | `docs/artifacts/environment/development-case.md`; the path carries 20 commits, the latest `b5a8965` |
+| `docs/artifacts/discovery/system-inventory.md` | discovery record | this artifact | The system as it is: perimeter, technology, data, documentation, history, anomalies, priorities, coverage | this artifact |
+| `docs/artifacts/project-management/risk-list.md` | process record — scored register | 37006 bytes | 26 risks, each scored, banded, owned and given a strategy that can execute | `docs/artifacts/project-management/risk-list.md` |
+| `docs/artifacts/project-management/iteration-plan.md` | process record — schedule | 42585 bytes | The roadmap, the retirement map, the role profiles per milestone and the six SBC exit criteria | `docs/artifacts/project-management/iteration-plan.md` |
+| `docs/artifacts/project-management/review-record.md` | process record — milestone verdict | size not measured | The three review lenses' checklists, the finding ledger and the closures | `docs/artifacts/project-management/review-record.md` |
+| `docs/artifacts/project-management/iteration-assessment.md` | process record — self-assessment | size not measured | The iteration's own account, written against the gate's verdict | `docs/artifacts/project-management/iteration-assessment.md` |
+
+None of the four project-management records, and none of the Development Case, records a fact about the system: every statement any of them makes about it traces back to this artifact. Two of the four were opened at the fourth reading precisely to check what they quote from it.
+
+Configuration read as documentation — the only authoritative statement of several behaviours:
+
+| Behaviour documented only here | File |
+|---|---|
+| Target framework, nullable, implicit usings, `LangVersion preview` | `Directory.Build.props` |
+| 30 package pins (6 test, 19 application, 5 OpenTelemetry), including the only record that YARP 2.3.0 and Scalar 2.6.8 are intended | `Directory.Packages.props` |
+| SDK band and prerelease policy | `global.json` |
+| Package-source lockdown (`<clear />` + `*` → nuget.org) | `nuget.config` |
+| CI gate: restore → build Release → test Release, on push and pull request | `.github/workflows/ci.yaml` |
+| Default log levels; YARP warnings suppressed | `Todo.Api/appsettings.json`, `Todo.Web/Server/appsettings.json` |
+| Rate-limit values `TokenLimit 50`, `TokensPerPeriod 50`, `QueueLimit 50` (Development only) | `Todo.Api/appsettings.Development.json` |
+| `RazorLangVersion` 8.0 on the server project — the one version no central file carries, and the case the Development Case's Version policy names explicitly | `Todo.Web/Server/Todo.Web.Server.csproj`; `docs/artifacts/environment/development-case.md`, Guidelines and Procedures — Version policy |
+| AppHost path for the Aspire tooling | `.aspire/settings.json` |
+| Developer environment: SDK 8.0 image, forwarded ports 5000/5001, auto-install of `dotnet-ef` | `.devcontainer/devcontainer.json`, `.devcontainer/init.sh` |
+| Recommended editor extensions (C#, REST Client) | `.vscode/extensions.json` |
+
+### Documentation carried only in code comments
+
+These comments are the sole record of intent or of a known gap, and each is an anchor for a later reading:
+
+| Statement | Anchor |
+|---|---|
+| "TODO: Add service to service auth between the BFF and this API" | `Todo.Api/Users/UsersApi.cs` |
+| "TODO: Support remote logout" | `Todo.Web/Server/AuthApi.cs` |
+| "TODO: Handle the failure somehow" (external login failure path) | `Todo.Web/Server/AuthApi.cs` |
+| "TODO: We should have the user pick a user name to complete the external login dance" | `Todo.Web/Server/AuthApi.cs` |
+| "TODO: Check user if the user is locked out as well" | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs` |
+| "This is a hack from hell to avoid having to know if this is running server or client side" | `Todo.Web/Client/TodoClient.cs` |
+| "TODO: Support passing a connection string" (migration step) | `TodoApp.AppHost/Extensions.cs` |
+| "TODO: Follow up on the new errors" — two field-level assertions commented out | `Todo.Api.Tests/UserApiTests.cs` |
+| "Adding health checks endpoints to applications in non-development environments has security implications" | `TodoApp.ServiceDefaults/Extensions.cs` |
+
+Five of the nine sit in the authentication area, which is why that area ranks second in Priorities.
+
+### What has no document at all
+
+| Undocumented | What the reader must do instead |
+|---|---|
+| The `/auth/*` contract of the BFF (register, login, logout, the two-step external challenge/callback) | Read `Todo.Web/Server/AuthApi.cs`; the `README.md` describes only the API's `/users` endpoints |
+| The YARP forwarding rule and the cookie→Bearer token translation | Read `Todo.Web/Server/TodoApi.cs` |
+| The complete `/todos` contract — `GET /todos/{id}` and `PUT /todos/{id}` appear in neither the README nor `todo.http` | Read `Todo.Api/Todos/TodoApi.cs` |
+| The authorization rules (owner-only reads, owner-or-admin writes) and the fact that reads use `FindAsync` before the ownership check | Read `Todo.Api/Todos/TodoApi.cs`; `Todo.Api.Tests/TodoApiTests.cs` covers the behaviour |
+| The rate-limit policy and its configuration keys | Read `Todo.Api/Extensions/RateLimitExtensions.cs` and `Todo.Api/Program.cs` |
+| Which endpoints the test suite covers | Read `Todo.Api.Tests/TodoApiTests.cs`, `Todo.Api.Tests/UserApiTests.cs` |
+| The database lifecycle — that only the AppHost creates and migrates `.db/Todos.db` | Read `TodoApp.AppHost/Extensions.cs` |
+| The API's OpenAPI surface | No committed OpenAPI file; it is generated at runtime and exposed at `/openapi` with `/scalar/v1` in Development |
+| The version policy itself — which files carry a version and who may raise one | Read `docs/artifacts/environment/development-case.md`, Guidelines and Procedures — Version policy. No repository document states it; the values stay in the three files that declare them |
+| Any ADR, architecture note, glossary, deployment instruction beyond `README.md` | Nothing exists — `.iari/README.md` declares this and the tree confirms it, the six `docs/` records being process records |
+
+### Where the documentation and the code disagree
+
+The code is the fact recorded elsewhere in this artifact. These are the README's claims that the delivered tree does not bear out, each with the anchor that contradicts it — read so a later role does not take the README for the system.
+
+| README claim | What the code shows | Anchor |
+|---|---|---|
+| "You can run the `Todo.Api` project and make requests to various endpoints using the **Swagger UI**", with a screenshot of it | The API maps `MapOpenApi()` at `/openapi` and `MapScalarApiReference()` at `/scalar/v1`, and the Scalar reference sits inside `if (app.Environment.IsDevelopment())` while `"/"` redirects to `/scalar/v1` unconditionally. No Swagger package is pinned and no Swagger UI endpoint is mapped — the README describes a UI the delivery replaced | `README.md`; `Todo.Api/Program.cs`; `Directory.Packages.props` (`Scalar.AspNetCore` 2.6.8, no `Swashbuckle`) |
+| "social authentication providers can be configured … **By default it supports** Github, Google, and Microsoft accounts" | Each scheme is registered only when its own `Authentication:Schemes:<name>` section exists, and neither delivered `appsettings` carries one, so no provider is enabled by default. Auth0 is registered as a fourth scheme the sentence does not name | `README.md`; `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`; `Todo.Web/Server/appsettings.json` (167 bytes), `appsettings.Development.json` (144 bytes) |
+| The feature list advertises "**Rate Limiting**" | Rate limiting is real and mapped, but with no threshold stated anywhere: the code defaults to 100 tokens per 10 seconds and only `appsettings.Development.json` lowers it to 50 | `README.md`; `Todo.Api/Extensions/RateLimitExtensions.cs`; `Todo.Api/appsettings.Development.json` |
+| The badge links `github.com/davidfowl/TodoApi/actions/...` | The repository was renamed to `TodoApp` in `3308193`; `.iari/README.md` names the same upstream sample under the new name | `README.md`; `.iari/README.md`; commit `3308193` |
+
+The `README.md` remains the only prose description of the system, and every correction it needs is the code's, not a later document's: nothing in the tree supersedes it.
+
+### The coding standard: absent from the tree, and recorded as absent
+
+No written coding standard exists in this repository: there is no `CONTRIBUTING.md` and no equivalent path in the tree, and the `README.md` carries no contribution or style section. The Development Case states this rather than assuming a standard, and names what binds an Implementer and a Code Reviewer in its place:
+
+| Binding convention | Where it exists | Owner |
+|---|---|---|
+| `net9.0`, `Nullable enable`, `ImplicitUsings enable`, `LangVersion preview` | `Directory.Build.props` — compiler-enforced, so a violation fails the build | Software Architect |
+| 30 centrally-managed package pins, no floating versions | `Directory.Packages.props` | Software Architect |
+| `RazorLangVersion 8.0` on the server project | `Todo.Web/Server/Todo.Web.Server.csproj` — the property the Version policy names explicitly | Software Architect |
+| Architecture mechanisms | the Software Architecture Document, from Elaboration on | Software Architect |
+
+`Source: docs/artifacts/environment/development-case.md`, Guidelines and Procedures. No role reviews against a style guide, and the conventions a reviewer applies are the four above and nothing more. R006 carries the absence as a risk, and a written standard, if the project wants one, is authored by the Software Architect under a Change Request.
+
 ## History
 Commit history read from the SCM. The whole-repository listing covers the 50 most recent commits, 2024-11-14 to 2026-11-14, and reports that older history exists.
 
