@@ -365,18 +365,74 @@ Two consequences for the iterations that do carry use cases, recorded here becau
 - Three capabilities are recovered as code that exists and is unreachable or dormant, and no use case is recovered for any of them: the owner-or-admin branches (R007), external login (R008), and `PUT /todos/{id}`'s missing screen (R009 — recovered as a use case that states no screen reaches it).
 
 ## Evaluation Criteria
-
-The exit criteria for this iteration are the SBC milestone's. They are the stakeholder's and the process's, not criteria this plan invents.
+The exit criteria for this iteration are the SBC milestone's. They are the stakeholder's and the process's, not criteria this plan invents, and each states a condition this iteration can satisfy without a sanction it cannot obtain.
 
 | # | Criterion | How it is evidenced | State at plan time |
 |---|---|---|---|
-| 1 | The perimeter of the existing system is confirmed by the stakeholder | System Inventory, Perimeter — seven projects, the entry-point surface, the stores and the external systems, each anchored; the three scope facts put to the stakeholder and answered 2026-11-14 | Met pending the gate — the Reviewer's lens decides whether the record is adequate |
-| 2 | The reading priorities are ordered | System Inventory, Priorities — eight areas ordered, each naming what the next reading must settle | Met pending the gate |
-| 3 | The unread areas are declared rather than omitted | System Inventory, Coverage — the declared-unread groups and the statements marked as read but not observed | Met pending the gate |
-| 4 | Every anomaly is a classified risk | Risk List — 25 risks, each scored for probability and impact, its magnitude the band of their product, and each given a strategy, an owner, a mitigation and, where accepted, a contingency | Met pending the gate |
-| 5 | The process is tailored and the tailoring is auditable | Development Case — classification, disciplines and intensities, the OPTIONAL trigger verdicts with the evidence for each, the tool references, the version policy | Met pending the gate |
-| 6 | The plan instantiates the process, sequences by risk, and schedules no work the phase does not run | This artifact — the roadmap names only the roles and artifacts the process assigns to each phase, each milestone carries its risk retirement, and the fine plan names only the roles Survey runs | Met pending the gate |
+| 1 | The perimeter of the existing system is recorded with an anchor per element, the reading priorities are ordered, and the three facts whose disposition is the stakeholder's have been put to the stakeholder and answered | System Inventory, Perimeter — seven projects, the entry-point surface, the stores and the external systems, each anchored; the three scope facts answered 2026-11-14 and recorded verbatim | Recorded and put — confirmed against the record below |
+| 2 | The reading priorities are ordered | System Inventory, Priorities — eight areas ordered, each naming what the next reading must settle | Met — confirmed against the record below |
+| 3 | The unread areas are declared rather than omitted | System Inventory, Coverage — the declared-unread groups and the statements marked as read but not observed, each carried as a risk rather than as an open question | Met — confirmed against the record below |
+| 4 | Every anomaly is a classified risk, and every strategy can execute | Risk List — 26 risks, each scored for probability and impact, its magnitude the band of their product, each given a strategy, an owner, a mitigation and, where accepted, a contingency; no strategy resting on running the system | Met — confirmed against the record below |
+| 5 | The process is tailored and the tailoring is auditable | Development Case — classification, disciplines and intensities, the OPTIONAL trigger verdicts with the evidence for each, the tool references, the version policy | Correctness is the Process Engineer's; the gate reviews it |
+| 6 | The plan instantiates the process, sequences by risk, and schedules no work the phase does not run | This artifact — the roadmap names only the roles and artifacts the process assigns to each phase, each milestone carries its risk retirement, every risk owner is at work in the milestone that carries its risk, and the fine plan names only the roles Survey runs | Met — confirmed against the record below |
 
-Criterion 1 is the one that can fail. If the Reviewer or Management Reviewer finds the perimeter under-evidenced — most likely for the files the reading declared unread, or for the statements it marked as read rather than observed — the iteration does not close, and the remedy is a further Survey iteration that opens those files. That is the iteration-count lever, and it protects the accuracy of the perimeter at schedule cost. It is never answered by adding agent roles in parallel, and never by narrowing what counts as the perimeter.
+### Where the perimeter is confirmed
 
-**Not an exit criterion:** the risk scores are judgements, and a reviewer may disagree with a score without failing the milestone. What must hold is that every anomaly is classified, that every magnitude is the band of its own exposure, and that no High or Significant risk rests on acceptance nobody granted.
+Criterion 1 stops at recorded-and-put. The perimeter is **confirmed** at **G2, at Consolidation 1's start** — not at SBC. Excavation deepens the perimeter before Consolidation: the Design Model, the persistent-data sections and the first recovered use cases add elements the Survey reading has not seen. Confirming the perimeter before that reading would confirm an incomplete record, so G2 is placed where the record is complete rather than where it is most convenient.
+
+The three answers of 2026-11-14 are cited in this criterion because they dispose of three specific facts — the `admin` role's unreachability, the dormancy of the external identity providers, and the BFF-to-API trust boundary. They are not the stakeholder's confirmation of the perimeter, and no criterion here claims they are.
+
+### Criteria 2, 3, 4 and 6 — what was confirmed, and against what
+
+| Criterion | Confirmed against | Result |
+|---|---|---|
+| 2 | System Inventory, Priorities — the eight ordered areas | Each names what the next reading must settle; the todos surface reads first, auth second, persistence third |
+| 3 | System Inventory, Coverage — the declared-unread groups and the two statements marked read-not-observed | Both declarations stand as recorded; each carries its risk, and none is scheduled to be settled by observation |
+| 4 | Risk List, all sections — 26 rows, each exposure recomputed as the product of its own two scores | Every magnitude is the band of its own exposure; every strategy names an artifact or a bound that retires it; R002 is the only Significant-band acceptance and cites the stakeholder's answer of 2026-11-14 |
+| 6 | This artifact, Plan and Milestones and Resources | Every role named in a milestone row is at work in that milestone; no gate staffs a stood-down role; no work item is sized in a unit this project does not measure |
+
+### What can still fail
+
+Criterion 5 is the one that can fail at this gate: whether the tailoring is auditable is a judgement the reviewing lenses make, and a process authority whose references do not resolve is not auditable. The Process Engineer owns the correction, and the Risk List carries it as R006 at Moderate with a mitigation due at LCO — the review decides whether LCO is soon enough for the Code Reviewer, a lens of the very next milestone review.
+
+The other way this iteration does not close is the perimeter's adequacy: if a reviewing lens finds the record under-evidenced — most likely for the files the reading declared unread, or for the statements marked read rather than observed — the iteration does not close, and the remedy is a further Survey iteration that opens those files. That is the iteration-count lever, and it protects the accuracy of the perimeter at schedule cost. It is never answered by adding agent roles in parallel, and never by narrowing what counts as the perimeter.
+
+**Not an exit criterion:** the risk scores are judgements, and a reviewer may disagree with a score without failing the milestone. What must hold is that every anomaly is classified, that every magnitude is the band of its own exposure, and that no High or Significant risk rests on an acceptance nobody granted.
+
+```plantuml
+@startuml
+title The six SBC exit criteria — what each gates, and the state each can reach inside this iteration
+skinparam shadowing false
+skinparam componentStyle rectangle
+
+package "Satisfiable inside Survey 1" #PaleGreen {
+  component "1  Perimeter recorded with an anchor per element,\npriorities ordered, three facts put and answered" as C1
+  component "2  Priorities ordered, each naming what\nthe next reading must settle" as C2
+  component "3  Unread areas declared, each carried as a risk" as C3
+  component "4  Every anomaly a classified risk whose\nstrategy can execute" as C4
+  component "6  The plan instantiates the process and\nschedules no work the phase does not run" as C6
+}
+
+package "A judgement the gate makes, not the author" #LightBlue {
+  component "5  The tailoring is auditable —\nR006 is open, corrected at LCO" as C5
+}
+
+package "Deferred to where the record is complete" #LightYellow {
+  component "G2  the perimeter is CONFIRMED\nConsolidation 1 start" as G2
+}
+
+C1 -.-> G2 : stops short of
+
+note right of C1
+  The condition is satisfiable without the sanction.
+  Criterion 1 asks for recorded-and-put; G2 asks for
+  confirmed, and a later reading is why.
+end note
+note bottom of C5
+  A process authority whose references do not resolve
+  is not auditable. That is R006, owned by the
+  Process Engineer and due at LCO.
+end note
+@enduml
+```
+
