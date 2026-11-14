@@ -206,13 +206,15 @@ The stakeholder declared no version constraint in this cycle, and none was inven
 |---|---|---|
 | Framework target | `net9.0` | `Directory.Build.props` |
 | SDK | `9.0.100`, `rollForward: latestFeature` | `global.json` |
-| Package set | 8 pins recorded via `record_version_policy` — EF Core SQLite, Identity EF Core, MVC Testing, YARP, Scalar, xunit, OpenTelemetry | `Directory.Packages.props` |
+| Package set | Seven package pins: EF Core SQLite, Identity EF Core, MVC Testing (all 9.0.8), YARP 2.3.0, Scalar 2.6.8, xunit 2.9.3, and the OpenTelemetry 1.12.0 set | `Directory.Packages.props` |
+
+Nine pins are recorded via `record_version_policy` — the two framework pins above and the seven package pins — and that recorded set is authoritative for every technical role. `Directory.Packages.props` declares thirty `PackageVersion` elements in total; a package it pins but this policy does not name is pinned by the file and by nothing else.
 
 Three consequences hold from now on:
 
 - The Software Architect anchors the SAD to this policy; the registry's "latest" never overrides a pin.
 - `net9.0` is an STS line. The delivery fixes it, so it stands; moving to an LTS line is a baseline change and enters through a Change Request, never by an Implementer's judgement.
-- The System Inventory's Excavation reading is the point at which these pins are confirmed against what the system actually resolves at runtime. A pin that reading contradicts is corrected here, against the evidence.
+- The pins are confirmed against the files the policy cites — `Directory.Build.props`, `global.json`, `Directory.Packages.props` — when the Software Architect anchors the SAD. A pin a file contradicts is corrected here, against the file. No pin is confirmed by running the system: it is not installed anywhere in this project and is not run in any phase.
 
 ### Process procedures
 
