@@ -5,7 +5,6 @@ Status: Draft — governs the Survey milestone of the sprint zero
 Milestone Target: End-of-Survey (SBC) — not yet achieved
 
 ## Tailoring Overview
-
 This is a **delta document**. It records only what this project does differently from the IARI Development Case baseline. The role roster, the artifact catalogue and the intensity matrix are the baseline's and are not restated here.
 
 The project is a delivered, working system — the public sample `davidfowl/TodoApp` (MIT), taken at commit `307a1ead` of 12 February 2026 — onto which the stakeholder's declared scope is applied. That fact drives every tailoring decision below: the sprint zero reads what exists before RUP starts, and the process must be light enough that recovering a system already in the repository costs less than rewriting it.
@@ -14,7 +13,7 @@ The project is a delivered, working system — the public sample `davidfowl/Todo
 @startuml
 title Development Case — workflow across the sprint zero and the RUP phases
 start
-:Assess the organization\n26 agent roles · no human writing team ·\nprocess maturity: no artifacts exist yet;
+:Assess the organization\n26 agent roles · no human writing team ·\nno requirement, design or architecture\nartifact before Survey;
 :Read what the existing system carries\n.iari/README.md · README.md · TodoApp.sln · tool configs;
 :Classify the project\nbusiness-process-led = false · real-time-system = false;
 partition "Sprint zero — the system as it is" {
@@ -47,9 +46,9 @@ stop
 | Finding | Consequence for this tailoring |
 |---|---|
 | 26 agent roles are available; there is no human writing team, only human gates | Roles execute rather than coordinate; no ceremony whose value is human communication is retained |
-| Process maturity is nil: the repository holds no requirement, design or architecture document, and `.iari/` holds one file | The first iteration is a recovery iteration; the sprint zero carries the process weight, not Inception |
 | The existing system carries a CI workflow, central package management and a test project | These are tool references, not work items — each is owned by its role and cited by path |
 | No running installation, no production data, no users (`Source: .iari/README.md`) | No migration, no backward-compatibility obligation, no deployment history to preserve |
+| The system is not run in any phase, by the stakeholder's decision of 2026-11-14 | No risk is retired, no claim verified and no pin confirmed by observation. Every recovered element rests on reading, and what reading cannot settle stays declared as read but not observed, carried as accepted risk |
 | The authors cannot be consulted (`Source: .iari/README.md`) | Every recovered element cites the file and lines it was read from; nothing is attributed to intent |
 
 ### Classification
