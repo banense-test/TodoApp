@@ -5,6 +5,8 @@ Milestone Target: End-of-Survey (SBC) — not yet achieved
 ## Risk Classification
 The scales are the IARI Development Case §9.10 scales, cited not redefined: probability and impact are each scored 1 to 5, exposure is their product, and the magnitude is the band that exposure falls in. Probability is read as the likelihood the adverse outcome occurs under the plan as written, not the likelihood the underlying anomaly is present — several anomalies are certain to exist while the harm they do is unlikely. Acceptance of a High (15 to 25) or Significant (9 to 12) risk is the stakeholder's grant and is never self-granted here.
 
+Running the system is unavailable as a retirement path for this project: no process is installed or run in any phase, and a strategy that depended on observing runtime behaviour could not execute. Every `avoid` below names an artifact a role in this process writes; the two risks whose condition is permanent are carried `accept` on the grant recorded in Risk Mitigation and Contingency.
+
 ```plantuml
 @startuml
 title Risk classification structure — two five-point scales banded into a magnitude, then a disposal strategy
@@ -71,7 +73,7 @@ STRAT --> GRANT : accept of High or Significant needs
 | Impact | P1 (10% or less) | P2 (11–30%) | P3 (31–50%) | P4 (51–70%) | P5 (more than 70%) |
 |---|---|---|---|---|---|
 | **5** — success endangered | R012 | — | — | — | — |
-| **4** — the milestone slips | — | R011 | — | R001 | — |
+| **4** — the milestone slips | — | R011 | R026 | R001 | — |
 | **3** — an iteration objective slips | — | R006, R013 | R016 | R003, R004, R005, R017 | R009 |
 | **2** — work inside the iteration | R007 | R008, R015 | R014, R023 | R010 | R002, R018 |
 | **1** — no deviation worth recording | — | — | — | R021 | R019, R020, R022, R024, R025 |
@@ -81,7 +83,7 @@ STRAT --> GRANT : accept of High or Significant needs
 | Band | Exposure | Count | Risks |
 |---|---|---|---|
 | High | 15–25 | 2 | R001 (16), R009 (15) |
-| Significant | 9–12 | 7 | R003 (12), R004 (12), R005 (12), R017 (12), R002 (10), R018 (10), R016 (9) |
+| Significant | 9–12 | 8 | R003 (12), R004 (12), R005 (12), R017 (12), R026 (12), R002 (10), R018 (10), R016 (9) |
 | Moderate | 5–8 | 12 | R010 (8), R011 (8), R006 (6), R013 (6), R014 (6), R023 (6), R012 (5), R019 (5), R020 (5), R022 (5), R024 (5), R025 (5) |
 | Minor | 3–4 | 3 | R008 (4), R015 (4), R021 (4) |
 | Low | 1–2 | 1 | R007 (2) |
@@ -90,11 +92,13 @@ STRAT --> GRANT : accept of High or Significant needs
 
 | Strategy | Count | Risks | Who accepts |
 |---|---|---|---|
-| avoid | 19 | R001, R002, R003, R004, R005, R006, R009, R010, R011, R013, R014, R016, R017, R018, R020, R021, R022, R024, R025 | not applicable — an artifact this process runs retires each |
-| accept | 6 | R007, R008, R012, R015, R019, R023 | R012 Moderate — stakeholder, granted 2026-11-14; R007 and R008 — stakeholder, decided 2026-11-14; R015, R019, R023 Minor and Moderate — the Project Manager |
+| avoid | 18 | R001, R003, R004, R005, R006, R009, R010, R013, R014, R016, R017, R018, R020, R021, R022, R024, R025, R026 | not applicable — an artifact this process runs retires each |
+| accept | 8 | R002, R007, R008, R011, R012, R015, R019, R023 | R002 Significant — stakeholder, grant of 2026-11-14 quoted in Risk Mitigation and Contingency; R012 Moderate, R007 Low, R008 Minor — stakeholder, decided 2026-11-14; R011, R019, R023 Moderate and R015 Minor — the Project Manager |
 | transfer | 0 | — | no counterparty exists for any risk here: no supplier, no operator, no deployment to transfer to |
 
-Both High-band risks are disposed of by `avoid`, because an artifact this process already runs retires each of them: R001 by the Test Case the Test Designer produces, R009 by the Use-Case Model the System Analyst recovers. No risk in the High or Significant band rests on the Project Manager's own acceptance, so no acceptance is asked of the stakeholder this round. R007, R008 and R012 are `accept` at Low, Minor and Moderate: their acceptance was the stakeholder's, given on 2026-11-14 and cited in Risk Mitigation and Contingency.
+Both High-band risks are disposed of by `avoid`, because an artifact this process already runs retires each of them: R001 by the Test Case the Test Designer produces, R009 by the Use-Case Model the System Analyst recovers. In the Significant band, seven of the eight are `avoid` on the same footing; **R002 alone is accepted**, and that acceptance is the stakeholder's answer of 2026-11-14, quoted verbatim in Risk Mitigation and Contingency. No acceptance anywhere in this register was granted by the Project Manager on the stakeholder's behalf, and the only open question of acceptance is closed.
+
+R026 is the bound the Iteration Plan's gate ceiling points at: the project's one non-agent delay is stakeholder queue time, and this register is where that delay is bounded. It is `avoid` because the ceiling and the suspension rule retire it without anyone's grant — on expiry the process stops rather than filling the gap with an assumption.
 
 ## Risk Register
 Every risk below is an anomaly, or a declared coverage limit, of the System Inventory, carried with its anchor and scored for this project. Each names the owner that acts on it.
