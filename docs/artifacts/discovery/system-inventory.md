@@ -990,8 +990,9 @@ Every fact above has a row here. A fact whose anchor is a stakeholder answer nam
 
 | Fact | Anchor |
 |---|---|
-| Of the 23 anomaly rows, 21 are settled inside this project and 2 are settled by a build-and-test result once the pipeline runs | This reading — the classification of each row's evidence column against the artifacts the process runs, and against the stakeholder answer below |
+| Of the 22 anomaly rows, 20 are settled inside the sprint zero and 2 are settled by a build-and-test result once the pipeline runs | This reading — the classification of each row's evidence column against the artifacts the process runs, and against the stakeholder answer below |
 | The rate limiter's partition key and the database lifecycle beyond the AppHost's guard cannot be settled by a later reading, and are settled by no observation inside the sprint zero | Stakeholder answer, 2026-11-14, SBC review (the no-run constraint applies to Survey, Excavation and Consolidation; the pipeline runs from Inception on); the two rows are identified by the evidence in `Todo.Api/Program.cs`, `Todo.Api/Extensions/RateLimitExtensions.cs` and `TodoApp.AppHost/Extensions.cs` |
 | The reading priority order is `Todo.Api/Todos` first, authentication and identity second, persistence third | Recorded reading-priority decision, Survey iteration 1, reaffirmed here against the open question each area carries: order 1 and 2 have behavioural or volatility weight, order 3 carries the unresolved snapshot/product-version drift, and the DTO contract at order 4 is read whole (736 bytes) and asks for no further reading |
 | The per-area "what the next reading must settle" statements | This reading — each names the file whose reading would answer it, and the ones marked settled name the file already read |
+| The README claims the code contradicts — the Swagger UI it no longer serves, the providers it does not enable by default, the rate limit it never states, the badge repository name | `README.md`; `Todo.Api/Program.cs`; `Directory.Packages.props`; `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`; `Todo.Api/Extensions/RateLimitExtensions.cs`; commit `3308193` |
 
