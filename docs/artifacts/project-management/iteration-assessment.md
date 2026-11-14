@@ -144,13 +144,11 @@ Root cause: each correction was written against the finding's text rather than a
 **Adjustment for Survey 3:** every correction is written against the stakeholder's answer, not against the finding's recommendation. The four Majors are ordered by the stakeholder — the premise, then the statements that quote it, then the deleted gate — so no correction is written twice, and the three Minors wait for their owners' next turn behind them.
 
 ## Use Cases and Scenarios Implemented
-
 **None — and this is the phase's definition, not a shortfall.**
 
-The Survey process runs no use-case work: the Use-Case Model is recovered in Excavation and completed in Consolidation. This iteration's product is the reading the recovery will be built from, and the perimeter it establishes is the anchor set every recovered use case will cite. No use case, use-case realization, class or source file was produced or modified in this iteration, so nothing is implemented and nothing is testable at this point.
+The Survey process runs no use-case work: the Use-Case Model is recovered in Excavation and completed in Consolidation. This iteration's product is the corrected reading the recovery will be built from, and the perimeter it establishes — now confirmed by the stakeholder — is the anchor set every recovered use case will cite. No use case, use-case realization, class or source file was produced or modified, so nothing is implemented and nothing is testable at this point.
 
-Three capabilities are already known to enter the recovery as code that exists and is unreachable or dormant, and none of them will be recovered as a use case: the owner-or-admin branches (R007), external login (R008), and `PUT /todos/{id}` whose missing screen is itself the use-case finding (R009). The stakeholder disposed of the first two on 2026-11-14.
-
+Three capabilities are already known to enter the recovery as code that exists and is unreachable or dormant, and none will be recovered as a use case: the owner-or-admin branches (R007), external login (R008), and `PUT /todos/{id}` whose missing screen is itself the use-case finding (R009). The stakeholder disposed of the first two on 2026-11-14.
 ## Results Relative to Evaluation Criteria
 
 One line per criterion the Iteration Plan carried, each pointing at the evidence that decides it. Four of six hold on their evidence; two fail, and the milestone does not close on four.
