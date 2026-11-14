@@ -7,7 +7,84 @@ Status: Draft — technical lens of the SBC review recorded; 7 findings (3 Major
 Milestone Target: End-of-Survey (SBC) — not yet achieved
 
 ## Review Scope and Criteria
+### Reviewer lens
+<!-- review: Survey I1 -->
 
+#### Review scope
+
+Survey iteration 1, the technical lens of the end-of-Survey (SBC) milestone review. Four artifacts were in scope — the complete set produced in this iteration:
+
+| Artifact | Owner | Discipline | Status reviewed |
+|---|---|---|---|
+| Development Case | Process Engineer | Environment | Draft |
+| System Inventory | Software Archaeologist | Discovery | Draft |
+| Risk List | Project Manager | Project Management | Draft |
+| Iteration Plan | Project Manager | Project Management | Draft |
+
+No artifact was missing from the required set: the Survey process produces exactly these four, and all four exist. This is iteration 1, so there were no prior findings from any lens to reconcile — `read_artifact_findings` returned an empty list for all four, and the closure ledger starts here.
+
+#### Review point and lens
+
+The review point is the **Lifecycle Milestone** (SBC), so the question is **exit criteria**: do these artifacts collectively satisfy the conditions for the sprint zero to close? It is not a feasibility review and not a completion review. The Iteration Assessment is correctly absent — the Project Manager writes it after the verdict — and its absence is not a finding.
+
+This milestone's gates are the SBC exit criteria the Iteration Plan records, tested against what the artifacts actually evidence rather than against what they assert.
+
+#### Criteria applied
+
+| Criterion | Source | Applied to |
+|---|---|---|
+| DC Baseline Conformance — no roster, ownership, CORE or optional-universe redefinition | IARI baseline | Development Case |
+| Optional Trigger Justification — every FIRED verdict audited against its own condition | IARI §5.2 | Development Case |
+| Every cited tool reference resolves in the tree | Baseline conformance | Development Case |
+| Anchor verification — every perimeter claim checked against the file it cites | Survey depth rule | System Inventory |
+| Provenance completeness — every fact has a row | SBC criterion 1 | System Inventory |
+| Coverage consistency — nothing declared both read and unread | SBC criterion 3 | System Inventory |
+| Band arithmetic — every magnitude the band of its own exposure | Risk magnitude table | Risk List |
+| Acceptance authority — no High or Significant risk accepted by someone without the authority | Risk magnitude table | Risk List |
+| Exit-criteria integrity — every criterion gates the milestone it names | SBC criterion 6 | Iteration Plan |
+| Risk-retirement completeness — every scored risk accounted for | SBC criterion 6 | Iteration Plan |
+| Measurement discipline — no invented size, budget, forecast or date | IARI DC §8.1 | Iteration Plan |
+| Scope adherence — no marker retired without the stakeholder's answer | Scope Guard | All four |
+
+#### Anchor verification method
+
+The Survey depth rule makes EVIDENCE the review focus: the System Inventory describes an existing system, so every fact rests on a file. Rather than accept the anchors as cited, **seventeen source files were opened directly** and read against the claim each was cited for — the `/todos` authorization rules, the Identity registration, the current-user handler and its claims transformation, the `/users` surface, the external-provider registration, both appsettings pairs on both hosts, the YARP forwarder, the package-pin file, the EF model snapshot, the client component, the AppHost migration step and the test project manifest.
+
+This is why the review found what it found. Sixteen of the seventeen anchors say precisely what the inventory claims. One did not — the package-pin file declares 30 entries where the artifact records 28 — and that is finding F1 on the System Inventory.
+
+#### Scope marker audit
+
+Every marker in the four artifacts was checked against the Scope Guard's rule that only the stakeholder closes one:
+
+| Marker or decision | Where | Verdict |
+|---|---|---|
+| The `admin` branch — recorded unreachable, role provisioning out of scope | System Inventory, Anomalies and Decisions | Correctly retired: the stakeholder answered on 2026-11-14, and the answer is quoted verbatim |
+| External login — configured-at-runtime, no use case recovered | System Inventory, Anomalies and Decisions | Correctly retired: stakeholder answer quoted, with the stakeholder's own condition ("revisit if credentials are supplied") preserved |
+| BFF trust boundary — known limitation, carried to the Risk List | System Inventory, Anomalies and Decisions | Correctly retired: stakeholder answer quoted, and R012 carries it |
+| No `[DERIVED]` marker anywhere | All four | Correct — nothing here is derived from a declared `FR-NNN`; the sprint zero recovers from code |
+
+No marker was retired by a CCB decision, an approval or the passage of an iteration. All three were retired by the stakeholder's own words, and each answer was then verified against the code it disposes of. This artifact set is clean on scope adherence — no undeclared-scope finding is recorded.
+
+#### SBC exit criteria — the Reviewer lens verdict
+
+```plantuml
+@startsalt
+title SBC exit criteria — the Reviewer lens verdict on each, from the artifacts as they stand
+{
+{S
+<b>Criterion (Iteration Plan, Evaluation Criteria)</b> | <b>Verdict</b> | <b>Basis</b>
+1 Perimeter recorded, priorities ordered, unread areas declared | <color:green>MET</color> | 17 anchors opened by hand; Coverage declares its gaps honestly
+2 Reading priorities ordered, each naming what the next reading settles | <color:green>MET</color> | Eight areas ordered, each with its open question
+3 Unread areas declared rather than omitted | <color:green>MET</color> | Declared; two internal inconsistencies recorded as Minor
+4 Every anomaly is a scored, banded, owned risk | <color:green>MET</color> | 25 risks; every magnitude recomputed as the band of its own exposure
+5 The process is tailored and the tailoring auditable | <color:orange>MET WITH FINDING</color> | Tailoring holds; one cited file does not exist (Major)
+6 The plan instantiates the process, schedules no unrun work | <color:red>NOT MET AS WORDED</color> | Criterion 1 claims a confirmation nothing at SBC asks for (Major)
+--
+Reviewer disposition | <color:orange>APPROVED WITH CHANGES</color> | 0 Critical, 3 Major, 4 Minor, 0 Info
+}
+}
+@endsalt
+```
 
 ## Findings
 ### Reviewer lens
