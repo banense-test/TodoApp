@@ -212,6 +212,15 @@ The screens and the response shapes they depend on, each anchored:
 
 Scheduled jobs, batch processes and reports: none. `Source: TodoApp/` tree — no hosted service, no timer, no job configuration in any read manifest. The only non-request-driven behaviour is the one-shot `dotnet ef database update` the AppHost runs at startup.
 
+### Perimeter completeness
+
+The stakeholder reviewed this perimeter record on 2026-11-14 and stated that nothing is missing from it. The record therefore claims no gap in what it enumerates: the seven projects, the two actors, the five external elements, the eight tables and the entry-point surface are what the delivered system is made of, read from the tree.
+
+Two limits on that completeness, both declared rather than assumed:
+
+- The perimeter is **recorded and put to the stakeholder**, not confirmed by them. Confirmation is a later gate, deliberately after Excavation has deepened the reading, because confirming a perimeter that a further reading has not yet tested would confirm an incomplete record.
+- Nothing in this perimeter was **observed**. No process is run in any phase of this project: the system is not installed anywhere and nobody runs it here. Every element above is read from source, configuration and project files, and the two behaviours marked read-only in Anomalies stay marked.
+
 ## Technology and Size
 | Concern | Value | Anchor |
 |---|---|---|
