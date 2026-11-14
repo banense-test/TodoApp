@@ -101,20 +101,20 @@ Both High-band risks are disposed of by `avoid`, because an artifact this proces
 R026 is the bound the Iteration Plan's gate ceiling points at: the project's one non-agent delay is stakeholder queue time, and this register is where that delay is bounded. It is `avoid` because the ceiling and the suspension rule retire it without anyone's grant — on expiry the process stops rather than filling the gap with an assumption.
 
 ## Risk Register
-Every risk below is an anomaly, or a declared coverage limit, of the System Inventory, carried with its anchor and scored for this project. Each names the owner that acts on it.
+Every risk below is an anomaly, or a declared coverage limit, of the System Inventory, carried with its anchor and scored for this project, plus R026, which bounds the human gate the Iteration Plan relies on. Each names the owner that acts on it.
 
 ```plantuml
 @startuml
-title Risk register by carrying area — where the 25 scored risks sit, and the highest band each area carries
+title Risk register by carrying area — where the 26 scored risks sit, the highest band each area carries, and each risk's disposal
 skinparam componentStyle rectangle
 skinparam shadowing false
 
 package "Authentication, identity and the BFF boundary" {
-  component "R001 BFF verified by no automated test\nR007 admin role has no runtime producer\nR008 external login dormant as delivered\nR012 nothing binds an API call to the BFF\nR015 external-login name derivation, silent failure\nR016 lock-out never checked by the auth gate\nR017 logout ends the cookie, not the session" as A
+  component "R001 BFF verified by no automated test — avoid, High 16\nR007 admin role has no runtime producer — accept\nR008 external login dormant as delivered — accept\nR012 nothing binds an API call to the BFF — accept\nR015 external-login name derivation, silent failure — accept\nR016 lock-out never checked by the auth gate — avoid\nR017 logout ends the cookie, not the session — avoid" as A
 }
 
 package "The recovery's own evidence base" {
-  component "R002 no runtime observation anywhere\nR003 committed migrations validated by nothing\nR004 assertion set weaker than it appears\nR005 unread files block the login scenarios\nR011 rate-limiter partition key unstated by the code" as B
+  component "R002 no runtime observation anywhere — accept, 5x2=10\nR003 committed migrations validated by nothing — avoid\nR004 assertion set weaker than it appears — avoid\nR005 unread files block the login scenarios — avoid\nR011 rate-limiter partition key unstated by the code — accept, 2x4=8" as B
 }
 
 package "Structure, documentation and build" {
@@ -129,6 +129,10 @@ package "Request pipeline" {
   component "R018 two rate-limit thresholds, neither documented\nR021 root redirects to a Development-only route" as E
 }
 
+package "Stakeholder gates — human queue time" {
+  component "R026 a stakeholder gate runs past the 14-day ceiling\n3x4=12 — avoid" as F
+}
+
 note right of A
   Highest band: High, R001 at exposure 16.
   R017 and R016 are Significant at 12 and 9.
@@ -136,9 +140,12 @@ note right of A
   boundary, and no automated test covers it
 end note
 note right of B
-  Highest band: Significant — R003, R004
-  and R005 at 12 each. Each limits what a
-  green CI run can be taken to prove
+  <b>The two acceptances on the stakeholder's grant sit here.</b>
+  R002 is Significant at 10 and is the one acceptance in
+  that band — the answer of 2026-11-14 is quoted in
+  Risk Mitigation and Contingency. R011 at 8 is accepted
+  within the Project Manager's authority. Neither rests
+  on running the system, which is closed for the project.
 end note
 note bottom of C
   Highest band: Moderate, R006 and R023 at 6
@@ -152,6 +159,12 @@ end note
 note bottom of E
   Highest band: Significant, R018 at 10 —
   both threshold sets recorded, no plan change
+end note
+note right of F
+  The bound the Iteration Plan's gate ceiling points at:
+  14 days of queue time, estimate none, actual reported
+  apart from agent time, the process suspends rather than
+  filling the gap. Retiring it needs no acceptance.
 end note
 @enduml
 ```
@@ -175,8 +188,8 @@ end note
 | R003 | The test suite builds its schema with `EnsureCreated()` from the model, so the three committed migrations are exercised by nothing. A migration that no longer matches the model passes CI green and surfaces first at a real deployment. | `Todo.Api.Tests/TodoApplication.cs` | 4 | 3 | 12 | Significant | avoid | DatabaseDesigner |
 | R004 | The suite asserts less than it appears to: field-level assertions are commented out in `UserApiTests`, and no test covers `PUT`'s `id != todo.Id` branch or the rate limiter. The gate is green but weaker than a reader would assume. | `Todo.Api.Tests/UserApiTests.cs` — "TODO: Follow up on the new errors" | 4 | 3 | 12 | Significant | avoid | TestManager |
 | R005 | Six files are declared unread, and one — `HttpAuthenticationStateProvider.cs` — blocks the login and logout scenarios. Recovering those use cases without it produces a state machine the code does not implement. | System Inventory, Coverage — declared unread | 4 | 3 | 12 | Significant | avoid | SystemAnalyst |
-| R002 | No process was run during the reading. Every perimeter, data and behaviour statement is read from source and configuration; the rate limiter's partition key under the real pipeline, the prerender path and the external-login dance are read, not observed. A statement wrong about runtime behaviour carries into the Use-Case Model and the architecture unchecked. | System Inventory, Coverage — "Runtime behaviour of any kind: no process was run" | 5 | 2 | 10 | Significant | avoid | SoftwareArchaeologist |
-| R011 | The rate limiter partitions on `ClaimTypes.NameIdentifier` read with the null-forgiving operator, and `Todo.Api/Program.cs` writes no explicit `UseAuthentication()` before it. Whether the bucket is per-user or global is decided by implicit middleware order, settled only by running the API — and the README advertises per-user limiting. | `Todo.Api/Extensions/RateLimitExtensions.cs`; `Todo.Api/Program.cs` | 2 | 4 | 8 | Moderate | avoid | SoftwareArchitect |
+| R002 | No process was run during the reading, and none will be run in any phase of this project. Every perimeter, data and behaviour statement is read from source and configuration; the rate limiter's partition key under the real pipeline, the prerender path, the database lifecycle and the external-login dance are read, not observed. A statement wrong about runtime behaviour carries into the Use-Case Model and the architecture unchecked, and no later reading can settle it. | System Inventory, Coverage — "Runtime behaviour of any kind: no process was run"; stakeholder's correction of 2026-11-14 | 5 | 2 | 10 | Significant | accept — stakeholder grant, 2026-11-14 | SoftwareArchaeologist |
+| R011 | The rate limiter partitions on `ClaimTypes.NameIdentifier` read with the null-forgiving operator, and `Todo.Api/Program.cs` writes no explicit `UseAuthentication()` before it. Whether the bucket is per-user or global is decided by implicit middleware order, settled only by running the API — which this project does not do — and the README advertises per-user limiting. | `Todo.Api/Extensions/RateLimitExtensions.cs`; `Todo.Api/Program.cs` | 2 | 4 | 8 | Moderate | accept | SoftwareArchitect |
 
 ### Structure, documentation and build
 
@@ -205,6 +218,12 @@ end note
 |---|---|---|---|---|---|---|---|---|
 | R018 | Two rate-limit thresholds exist and neither is documented: code defaults are 100/100/100 with a 10-second replenishment, while only `appsettings.Development.json` sets 50/50/50, so the effective limit differs by environment and no document states either. | `Todo.Api/Extensions/RateLimitExtensions.cs`; `Todo.Api/appsettings.json`; `Todo.Api/appsettings.Development.json` | 5 | 2 | 10 | Significant | avoid | SoftwareArchitect |
 | R021 | The API's root maps a redirect to `/scalar/v1` unconditionally while `MapScalarApiReference` sits inside the Development branch, so outside Development `/` redirects to an unmapped route — and `/openapi` is published in every environment. | `Todo.Api/Program.cs` | 4 | 1 | 4 | Minor | avoid | SoftwareArchitect |
+
+### Stakeholder gates — human queue time
+
+| ID | Risk | Anchor | P | I | Exposure | Magnitude | Strategy | Owner |
+|---|---|---|---|---|---|---|---|---|
+| R026 | A stakeholder gate is the project's only non-agent delay, and it is unbounded: the stakeholder answers a questionnaire, confirms the perimeter, accepts the architecture baseline and accepts the product, and each decision queues behind whatever else occupies them. Unbounded, a single gate converts an iteration's wait into a schedule slip no agent can shorten, and the plan has no way to distinguish a slow gate from slow work. | Iteration Plan, Plan and Milestones — the stakeholder gates G1, G2, G3, G4 and G5; the process has one human | 3 | 4 | 12 | Significant | avoid | ProjectManager |
 
 ## Risk Mitigation and Contingency
 Every risk carries a mitigation — action the named owner takes — and a contingency: what happens if it materializes anyway. No risk in the High or Significant band rests on acceptance the Project Manager granted himself, so nothing here awaits the stakeholder's grant.
