@@ -96,88 +96,91 @@ Every verdict below is an auditable claim against the §5.2 condition. Re-evalua
 | Glossary | **NOT FIRED** | Requires specialist domain vocabulary needing stakeholder-validated definitions. The domain vocabulary is `Todo`, `IsComplete`, `Owner` — common words whose meaning is fixed by the recovered schema. |
 
 ## Roles and Ownership
-
-Primary ownership is the baseline's and is unchanged. This section records only the roles this tailoring stands down and the roles that carry the sprint zero.
+Primary ownership is the baseline's and is unchanged. The diagram shows which role works on which artifact in which stage of the sprint zero; that is a work assignment, not an ownership relation, and the authoritative statement of ownership is the sentence above plus the contributor bullets below.
 
 ```plantuml
 @startuml
-title Roles at work in the sprint zero, and the roles this tailoring stands down
-skinparam classAttributeIconSize 0
+title Roles at work in the sprint zero, by the stage each works in
+skinparam shadowing false
+skinparam componentStyle rectangle
 
 package "Survey" {
-  class "ProcessEngineer" as PE
-  class "SoftwareArchaeologist" as ARCHY
-  class "ProjectManager" as PM
+  component "Process Engineer" as PE
+  component "Software Archaeologist" as ARCHY
+  component "Project Manager" as PM
+  component "Reviewer\nManagement Reviewer\nReview Coordinator" as REV
 }
 
 package "Excavation and Consolidation" {
-  class "SoftwareArchitect" as SWA
-  class "Designer" as DES
-  class "DatabaseDesigner" as DBD
-  class "SystemAnalyst" as SYSA
+  component "Software Architect" as SWA
+  component "Designer" as DES
+  component "Database Designer" as DBD
+  component "System Analyst" as SYSA
 }
 
-package "Stood down by this tailoring" {
-  class "BusinessProcessAnalyst" as BPA
-  class "BusinessReviewer" as BREV
-  class "CapsuleDesigner" as CAP
+package "Stood down by this tailoring" #LightGray {
+  component "Business Process Analyst" as BPA
+  component "Business Reviewer" as BREV
+  component "Capsule Designer" as CAP
 }
 
-package "Artifacts handed forward" {
-  class "Development Case" as DC
-  class "System Inventory" as SI
-  class "Risk List" as RL
-  class "Iteration Plan" as IP
-  class "Software Architecture Document" as SAD
-  class "Design Model" as DM
-  class "Deployment Model" as DEPM
-  class "Use-Case Model" as UCM
-  class "Supplementary Specification" as SS
-  class "Vision" as VIS
+package "Artifacts carrying the sprint zero" {
+  artifact "Development Case" as DC
+  artifact "System Inventory" as SI
+  artifact "Risk List" as RL
+  artifact "Iteration Plan" as IP
+  artifact "Software Architecture Document" as SAD
+  artifact "Deployment Model" as DEPM
+  artifact "Design Model" as DM
+  artifact "Use-Case Model" as UCM
+  artifact "Supplementary Specification" as SS
+  artifact "Vision" as VIS
 }
 
-PE --> DC : owns
-ARCHY --> SI : owns
-PM --> RL : owns
-PM --> IP : owns
-SWA --> SAD : owns
-SWA --> DEPM : owns
-DES --> DM : owns
-DBD --> DM : contributes the persistent-data sections
-SYSA --> UCM : owns
-SYSA --> SS : owns
-SYSA --> VIS : owns
+PE ..> DC : works on, Survey
+ARCHY ..> SI : works on, Survey
+PM ..> RL : works on, Survey
+PM ..> IP : works on, Survey
+SWA ..> SAD : works on, Excavation
+SWA ..> DEPM : works on, Excavation
+DES ..> DM : works on, Excavation
+DBD ..> DM : contributes persistent-data sections
+SYSA ..> UCM : works on, Excavation
+SYSA ..> SS : works on, Excavation
+SYSA ..> VIS : works on, Excavation
 
 note right of BPA
-  business-process-led = false
-  Business Modeling is inactive:
-  no business use case, no business
-  object model, no business rules
-  beyond those the code enforces
+  business-process-led = false.
+  Business Modeling is inactive: no
+  business use case model, no business
+  object model, no business rules beyond
+  those the code enforces.
 end note
-
 note right of BREV
-  reads the same classification:
-  the gate loses one lens,
-  Reviewer and ManagementReviewer remain
+  Reads the same classification: the gate
+  loses one lens, Reviewer and Management
+  Reviewer remain.
 end note
-
 note right of CAP
-  real-time-system = false:
-  request/response only, no hard
-  deadline and no concurrent
-  event-driven behaviour
+  real-time-system = false: request/response
+  only, no hard deadline and no concurrent
+  event-driven behaviour.
 end note
-
 note bottom of DBD
-  Data Model NOT FIRED — the persistent
-  data is recovered into the Design Model
+  Data Model NOT FIRED. The persistent data is
+  recovered into the Design Model as sections of
+  a co-owned artifact; only their author edits them.
+end note
+note top of DC
+  The arrows are work assignments by stage, not
+  ownership. Ownership is the baseline's and is
+  stated in the text below.
 end note
 @enduml
 ```
 
-- **Stood down:** Business Process Analyst and Business Reviewer (§4 false), Capsule Designer (§10 false).
-- **Project-specific contributors:** the Database Designer contributes the persistent-data sections of the Design Model in Excavation (Data Model not fired) — the contribution is a section of a co-owned artifact, and only its author edits it.
+- **Stood down:** Business Process Analyst and Business Reviewer (§4 business-process-led = false), Capsule Designer (§10 real-time-system = false). No gate summons them; the LCO and LCA review sequences lose one lens and Reviewer, Management Reviewer and Review Coordinator remain.
+- **Project-specific contributors:** the Database Designer contributes the persistent-data sections of the Design Model in Excavation, Consolidation and later phases (Data Model not fired). The contribution is a section of a co-owned artifact and only its author edits it. This is the project's only contributor assignment beyond the baseline's.
 - **Recovery ownership:** every element recovered from the code cites `Source: <path>` (and lines) where a declared element cites its `FR-NNN`/`NFR-NNN`. Recovered elements carry no upstream arrow; the anchor is their source.
 
 ## Guidelines and Procedures
