@@ -394,7 +394,7 @@ package "Delivered by the upstream sample — describes the system" {
 }
 
 package "Authored by this sprint zero — records the process, not the system" {
-  component "docs/artifacts/environment/\ndevelopment-case.md · 20371 bytes\n20 commits on this path, latest b5a8965" as DC
+  component "docs/artifacts/environment/\ndevelopment-case.md · 20371 bytes" as DC
   component "docs/artifacts/discovery/\nsystem-inventory.md · this artifact" as SI
   component "docs/artifacts/project-management/\nrisk-list.md · 37006 bytes · scored register" as RL
   component "docs/artifacts/project-management/\niteration-plan.md · 42585 bytes · schedule" as IP
@@ -467,7 +467,7 @@ end note
 | `Requests/todo.http` | executable request file (REST Client / VS Code) | 793 bytes, 5 requests | `POST /users/register`, `POST /users/login`, `POST /todos`, `GET /todos`, `DELETE /todos/{id}` | `Requests/todo.http` |
 | `.iari/README.md` | delivery statement | 777 bytes | The upstream commit it was taken at, what is in `.iari/`, and what does not exist | `.iari/README.md` |
 | `LICENSE` | licence text | MIT, `(c) 2022 David Fowler` | Legal terms only | `LICENSE` |
-| `docs/artifacts/environment/development-case.md` | process tailoring | 20371 bytes | The sprint-zero process: classification, disciplines, artifact catalogue, optional triggers, roles, and in Guidelines and Procedures the **Version policy** (which files carry a version and who may raise one) and the **Measurement policy** (the two clocks and the rules that bind them) | `docs/artifacts/environment/development-case.md`; the path carries 20 commits, the latest `b5a8965` |
+| `docs/artifacts/environment/development-case.md` | process tailoring | 20371 bytes | The sprint-zero process: classification, disciplines, artifact catalogue, optional triggers, roles, and in Guidelines and Procedures the **Version policy** (which files carry a version and who may raise one) and the **Measurement policy** (the two clocks and the rules that bind them) | `docs/artifacts/environment/development-case.md` |
 | `docs/artifacts/discovery/system-inventory.md` | discovery record | this artifact | The system as it is: perimeter, technology, data, documentation, history, anomalies, priorities, coverage | this artifact |
 | `docs/artifacts/project-management/risk-list.md` | process record — scored register | 37006 bytes | 26 risks, each scored, banded, owned and given a strategy that can execute | `docs/artifacts/project-management/risk-list.md` |
 | `docs/artifacts/project-management/iteration-plan.md` | process record — schedule | 42585 bytes | The roadmap, the retirement map, the role profiles per milestone and the six SBC exit criteria | `docs/artifacts/project-management/iteration-plan.md` |
