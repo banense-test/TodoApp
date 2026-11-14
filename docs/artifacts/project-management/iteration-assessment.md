@@ -165,7 +165,7 @@ title Survey iteration 2 — the six SBC exit criteria the plan committed to, an
 5 Process tailored and the tailoring auditable | <color:green>PASSES</color> | Met — every tool reference resolves; both lenses pass it
 6 Plan instantiates the process, schedules no unrun work | <color:orange>HOLDS, TWO STATEMENTS OVER-REACH</color> | Met in structure; IP-A and IP-B are what the plan says about decisions already taken
 --
-<b>Stakeholder sanction</b> | <color:red>GRANTED 2026-11-14</color> | SBC milestone sanctioned — artifacts approved subject to rework
+<b>Stakeholder sanction</b> | <color:green>GRANTED 2026-11-14</color> | SBC milestone sanctioned — artifacts approved subject to rework
 }
 }
 @endsalt
