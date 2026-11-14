@@ -522,9 +522,12 @@ end note
 note bottom of RATE
   UseRateLimiter is the second middleware in
   Todo.Api/Program.cs and no UseAuthentication is
-  written between them; whether the claim is
-  populated when the partition key is read is
-  settled by running the API, not by reading it.
+  written between them. Whether the claim is
+  populated when the partition key is read stays
+  undetermined: no process is run in any phase, so
+  reading is the only evidence this project will
+  ever have for it, and the anomaly is carried
+  accepted with that uncertainty.
 end note
 @enduml
 ```
@@ -536,7 +539,7 @@ end note
 | `CONTRIBUTING.md` is cited as the coding standard but does not exist | `docs/artifacts/environment/development-case.md` names it under Tool references; a read of `CONTRIBUTING.md` returns "was not found"; the tree has no such entry | Certain — already true | Medium: the Software Architect and Code Reviewer are assigned an artifact that is not there; coding conventions must be read off the code or re-authored |
 | The dev container cannot build the solution | `.devcontainer/devcontainer.json` pins `mcr.microsoft.com/dotnet/sdk:8.0`; `global.json` requires `9.0.100` with `rollForward: latestFeature`. Roll-forward does not bridge a major version | High | Medium for anyone using the container; the CI path (`actions/setup-dotnet@v3`) is unaffected because it resolves the SDK from `global.json` |
 | The Razor language version is pinned below the framework | `Todo.Web/Server/Todo.Web.Server.csproj` sets `<RazorLangVersion>8.0</RazorLangVersion>` while the target framework is `net9.0` | Medium | Low: builds as delivered; a Razor feature introduced after .NET 8 is unavailable in this project, and bumping it is a behaviour change, not a formatting one |
-| `docs/` is not declared in `.iari/README.md` even though it exists | `.iari/README.md` says the only document is the root `README.md`; the tree holds `docs/artifacts/environment/development-case.md` and `docs/artifacts/discovery/system-inventory.md`, created in this sprint zero | Certain | Low: the delivery statement now under-describes the tree it sits in |
+| `docs/` is not declared in `.iari/README.md` even though it exists | `.iari/README.md` says the only document is the root `README.md`; the tree holds six records under `docs/artifacts/` — `environment/development-case.md`, `discovery/system-inventory.md` and four under `project-management/` — all created in this sprint zero | Certain | Low: the delivery statement now under-describes the tree it sits in |
 | `README.md` links a badge to a differently-named repository | The badge URL is `github.com/davidfowl/TodoApi/actions/...` while the project was renamed to `TodoApp` in `3308193` | Certain | Low: external link only |
 | The Development Case's role/artifact ownership diagram is drawn as a class diagram | `docs/artifacts/environment/development-case.md` uses `class` elements and `-->` arrows to express ownership | Certain | Low: cosmetic in a process document; recorded because downstream roles read that artifact |
 
@@ -568,11 +571,11 @@ end note
 
 | Anomaly | Evidence | Probability | Impact |
 |---|---|---|---|
-| The rate limiter's partition key depends on middleware order the code does not state | `Todo.Api/Extensions/RateLimitExtensions.cs` partitions on `context.User.FindFirstValue(ClaimTypes.NameIdentifier)!` (null-forgiving); `Todo.Api/Program.cs` writes `app.UseHttpLogging(); app.UseRateLimiter();` with no explicit `app.UseAuthentication()`, so whether the principal is populated when the key is read is decided by the framework's implicit middleware, not by the file. If it is not populated, the null-forgiving read yields one shared bucket for all callers instead of one per user | Medium — undetermined by reading | Medium: per-user rate limiting is a capability the README advertises; if the key is null the limit is global and one caller can exhaust it for everyone |
+| The rate limiter's partition key depends on middleware order the code does not state | `Todo.Api/Extensions/RateLimitExtensions.cs` partitions on `context.User.FindFirstValue(ClaimTypes.NameIdentifier)!` (null-forgiving); `Todo.Api/Program.cs` writes `app.UseHttpLogging(); app.UseRateLimiter();` with no explicit `app.UseAuthentication()`, so whether the principal is populated when the key is read is decided by the framework's implicit middleware, not by the file. If it is not populated, the null-forgiving read yields one shared bucket for all callers instead of one per user | Undetermined by reading, and it stays undetermined — no process is run in any phase, so no later reading or milestone observes it | Medium: per-user rate limiting is a capability the README advertises; if the key is null the limit is global and one caller can exhaust it for everyone |
 | The rate-limit thresholds differ between the code and the only file that sets them | `RateLimitExtensions.cs` defaults to `TokenLimit 100`, `TokensPerPeriod 100`, `QueueLimit 100` with a 10-second replenishment, bound from the `RateLimiting` section; `Todo.Api/appsettings.json` has no such section, and only `appsettings.Development.json` sets `50/50/50`. `README.md` advertises rate limiting without a threshold | Certain | Low: the effective limit is 100 per 10 seconds outside Development and 50 inside it, and no document states either |
 | The API's root route redirects to a Development-only page while its OpenAPI document is served in every environment | `Todo.Api/Program.cs` maps `"/"` to `Results.Redirect("/scalar/v1")` unconditionally, but `MapScalarApiReference` sits inside `if (app.Environment.IsDevelopment())`, while `app.MapOpenApi()` sits outside it | Certain | Low: outside Development `/` redirects to a route that is not mapped, and the API's schema is published at `/openapi` whether or not that is intended |
 
-Absences recorded as findings rather than filled in: no architecture description, no ADR, no deployment instruction, no data dictionary, no API contract document, no operational runbook, no user guide, and no author to ask (`Source: .iari/README.md`).
+Absences recorded as findings rather than filled in: no architecture description, no ADR, no deployment instruction, no data dictionary, no API contract document, no operational runbook, no user guide, and no author to ask (`Source: .iari/README.md`). The six `docs/artifacts/` records are process documents and fill none of these: not one describes what the system does.
 
 ### Decisions taken on the scope questions
 
