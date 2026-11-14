@@ -3,88 +3,71 @@ Phase: Survey
 Status: Draft — Survey iteration 3, corrective. Coarse roadmap with the risk retirement and the four stakeholder gates across the roadmap; this iteration's fine plan, each exit criterion naming the work item that evidences it; the agent role profile with every risk owner reconciled against the register; the six SBC exit criteria with a per-criterion state. Criterion 1 carries the process wording and is evidenced by the confirmation given at the SBC gate of 2026-11-14; no later gate re-obtains it. Observation is a retirement path from Inception on: the pipeline builds the solution and runs its test suites, and the Tester produces that evidence.
 Milestone Target: End-of-Survey (SBC) — not yet achieved
 ## Iteration Objectives
-Survey iteration 3 is corrective. The SBC gate granted the sanction and opened seven records against the artifacts of this phase — four Majors, three Minors, none Critical. This iteration closes them in the order the stakeholder set. No new artifact is produced and no finding asks a new question: each correction narrows content back to a decision the stakeholder has already taken.
+Survey iteration 4 is corrective. The SBC gate at iteration 3 opened five records against two artifacts of this phase — two Majors, three Minors, none Critical — and confirmed the corrective order: the register's row first, then the plan's retirement map that derives from it. Each item corrects an artifact its owner already holds; none asks the stakeholder a new question, and none changes scope, band, owner or horizon.
 
-1. **Narrow the no-observation constraint to the sprint zero wherever it is stated over more of the lifecycle.** No process is run in Survey, Excavation or Consolidation, so within those three milestones neither read-only claim is settled by observation; both stay declared as read but not observed and are carried as accepted risk until the RUP phases start. From Inception on the pipeline builds the solution and runs its test suites, and a build or test result that bears on an accepted risk settles what it covers. Owner: Software Archaeologist for the System Inventory's Coverage statement, Project Manager for the Risk List and this plan.
-2. **Bound every acceptance, and none to the end of the project.** R002 and R011 are accepted until the RUP phases start, on the stakeholder's answer of 2026-11-14; R002's Significant-band grant stays quoted verbatim. Owner: Project Manager.
-3. **Restore exit criterion 1 to the process wording and delete the gate the stakeholder deleted.** The perimeter is confirmed by the stakeholder, evidenced by the confirmation given at this milestone on 2026-11-14; there is no second confirmation at Consolidation's start, and that gate leaves the roadmap, the gantt and the gate list, leaving four gates booked for the stakeholder. Owner: Project Manager.
-4. **Re-examine the retirement map for what a build and test run settles.** A risk a run can settle is placed at the milestone whose execution produces that evidence, with the producer named; a risk no test the process runs can observe stays on the acceptance. Owner: Project Manager.
-5. **Correct the three Minors in their owners' next turn.** The Provenance arithmetic, the citation to a version policy the Development Case does not contain, and the two retirements the LCO row claims but this milestone performed. Owners: Software Archaeologist, Project Manager.
+1. **Restate R005 in the register as an anomaly with its resolution.** The authentication-state bridge was declared unread at the first reading and opened at the second, its content recorded in the System Inventory's Provenance. The row states that retirement rather than a strategy attached to work already performed, and its unread clause matches the declaration set Coverage publishes. Band 4×3=12, owner and exposure are unchanged: the risk was real and was retired by an artifact the process ran, so no re-scoring is owed. Owner: Project Manager.
+2. **Make the register's composition sentence exact.** R025 enters from a review finding, not from an anomaly of the Inventory, and R026 bounds the human gate rather than entering from the reading at all. The opening sentence names both rather than calling every row an anomaly. Owner: Project Manager.
+3. **Route R023 to the file the change actually edits.** `<RazorLangVersion>` is declared in `Todo.Web/Server/Todo.Web.Server.csproj`, not in the central pin file. The mitigation names the property and the project file that holds it, and the Development Case's Version policy covers a version property held in a project file so the row's citation resolves. Owners: Project Manager, Process Engineer.
+4. **Move R005's retirement to the milestone that performed it.** The retirement map, the disposal table and the Excavation 1 risk column place R005 at Survey 2 — SBC; the accounting is restated as 14 + 3 + 1 + 8 = 26; R017 remains the System Analyst's AR owner. Owner: Project Manager.
+5. **Report every role at work.** The Process Engineer revised the Development Case's Guidelines and Procedures, and this iteration carries that revision one clause further. The role appears on this iteration's profile and in the fine plan's work items. Owner: Project Manager.
+6. **Report criterion 3's state as it stands.** The Provenance row agrees with the enumeration Coverage publishes, so criterion 3's state column records a closed record rather than an outstanding Minor. Owner: Project Manager.
 
-Of the seven records, the Software Archaeologist owns two — SI-B (Major) and SI-A (Minor) — and the Project Manager owns five: three Majors (RL-B, IP-A, IP-B) and two Minors (RL-A, IP-C). The coverage sentence is stated first because the register and this plan both quote it: correcting it last would write the same narrowing into three artifacts that then disagree about the same two risks.
+The register's row is corrected first because the plan's disposal table derives from it. Correcting them in the other order writes the same retirement into two artifacts that then disagree about one risk — the failure the stakeholder's corrective order at this gate exists to prevent.
 
 ```plantuml
 @startuml
-title Survey iteration 3 — the corrective chain: five sequential agent stretches, then the gate
+title Survey 4 — the corrective chain: five sequential agent stretches from iteration start to the SBC gate
 skinparam shadowing false
-skinparam swimlaneWidth 200
 
-|#LightYellow|Agent work — sequential|
+|#Pink|1 — the register holds the premise|
 start
-:<b>Stretch 1</b> — Software Archaeologist
-Coverage states the no-observation constraint over
-Survey, Excavation and Consolidation, and the
-Provenance row is restated to the four files named;
+:Project Manager — Risk List —
+restate R005 as retired at Survey 2 — SBC;
+:Project Manager — Risk List —
+route R023 to the project file that declares the property;
+:Project Manager — Risk List —
+Document Control and Traceability state one retirement;
 note right
-  Corrects: System Inventory (SI-B Major, SI-A Minor)
-  The premise the two stretches below quote.
-  Spend: Survey 3 has not closed, so no measured
-  actual exists and none is projected
+  Register first: the plan's disposal table derives
+  from this row. Correcting them in the other order
+  writes one retirement twice, into two artifacts
+  that then disagree about one risk.
 end note
 
-:<b>Stretch 2</b> — Project Manager
-Restate R002 and R011 as accepted until the RUP
-phases start, bound the acceptance in Document Control,
-and correct the Risk Classification premise;
-note right
-  Corrects: Risk List (RL-B Major, RL-A Minor)
-  Every acceptance now names its horizon
-  Spend: not measured
-end note
+|#Orange|2 — the plan builds on it|
+:Project Manager — Iteration Plan —
+retirement map, accounting 14 + 3 + 1 + 8 = 26;
+:Project Manager — Iteration Plan —
+fine plan for Survey 4, Resources profile;
+:Project Manager — Iteration Plan —
+criterion states reflect the records now closed;
 
-:<b>Stretch 3</b> — Project Manager
-Scope the no-run property to the sprint zero, state
-that the pipeline builds and tests from Inception on,
-and re-place the risks a run can settle;
-note right
-  Corrects: Iteration Plan — Plan and Milestones (IP-B, IP-C)
-  Names the Tester as the evidence's producer and the
-  Test Manager as its recorder
-  Spend: not measured
-end note
+|#LightBlue|3 — the record|
+:Project Manager — Iteration Assessment —
+written against the gate's verdict, not before it;
 
-:<b>Stretch 4</b> — Project Manager
-Restore exit criterion 1 to the process wording,
-evidence it with the confirmation of 2026-11-14,
-delete the second-confirmation gate, and restate
-the iteration objectives;
-note right
-  Corrects: Iteration Plan — Evaluation Criteria, Resources,
-  Iteration Objectives (IP-A)
-  Leaves four gates: G1, G3, G4, G5
-  Spend: not measured
-end note
+|#PaleGreen|4 — the review|
+:Reviewer — this iteration's artifacts;
+:Management Reviewer — this iteration's artifacts;
+:Review Coordinator — consolidates the ledger and rules the SBC gate;
 
-:<b>Stretch 5</b> — Project Manager
-Write the Iteration Assessment against this
-iteration's own verdict, once the gate has ruled;
+|#Gold|5 — the human gate|
+:The SBC gate is the Review Coordinator's verdict. The
+perimeter was confirmed by the stakeholder on 2026-11-14
+and is not re-put. G3 is first reached at LCO;
 note right
-  Produces: Iteration Assessment
-  Written last, never before the verdict
-  Spend: not measured
+  Five sequential stretches, one reviewer wave at the end.
+  No stretch runs in parallel and none is sized: no iteration
+  in this project has a measured elapsed time, so no figure
+  is quoted and none is invented.
 end note
-
-|#LightPink|SBC milestone review — re-run|
-:The Reviewer finds, technical lens;
-:The Management Reviewer finds, management lens;
-:The Review Coordinator rules on SBC;
 stop
 @enduml
 ```
 
-The chain is sequential for the same reason as the two before it: each stretch consumes the one before. The premise correction comes first because the register and the plan both quote the sentence it corrects; the two Minors ride with their owner's stretch rather than earning one of their own, since neither leaves its artifact.
+The chain is sequential for the same reason as the three iterations before it: each stretch consumes the one before. The register's row comes first because the plan's disposal table derives from it, and the two Minors ride with their owner's stretch rather than earning one of their own, since neither leaves its artifact.
 
-No stretch carries a spend figure. Survey has not closed, so no measured actual exists and no forecast is invented in its place. No stretch and no gate assumes a run of the system: the sprint zero is read-only, and the first build-and-test run the plan relies on is at Elaboration.
+No stretch carries a spend figure. The three Survey iterations that closed measured 13,650,687 tokens and 30 minutes of agent time over 9 runs; that is a phase total for the work already done, not a per-iteration velocity and not a forecast of this one. No stretch and no gate assumes a run of the system: the sprint zero is read-only, and the first build-and-test run the plan relies on is at Elaboration.
 ## Plan and Milestones
 Two levels live in this section: the coarse cross-iteration roadmap and the fine plan for this iteration.
 
