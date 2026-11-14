@@ -414,17 +414,6 @@ Five of the nine sit in the authentication area, which is why that area ranks se
 
 Recorded as an absence, not filled in: no coding standard exists beyond what `Directory.Build.props` enforces (nullable, implicit usings, preview language version) and what the code demonstrates.
 
-### Artifacts produced in this sprint zero
-
-Two documents in `docs/artifacts/` were authored in this sprint zero and are not part of the delivered sample:
-
-| Document | Owner | Covers |
-|---|---|---|
-| `docs/artifacts/environment/development-case.md` | Process Engineer | The process: classification, disciplines, artifact catalogue, optional triggers, roles, version policy |
-| `docs/artifacts/discovery/system-inventory.md` | Software Archaeologist | This artifact — the system as it is, with its anchors |
-
-Neither documents the delivered system's requirements or design; both are process and discovery records, and neither is a substitute for the missing architecture description, data dictionary or API contract listed in Anomalies.
-
 ## History
 Commit history read from the SCM. The whole-repository listing covers the 50 most recent commits, 2024-11-14 to 2026-11-14, and reports that older history exists.
 
