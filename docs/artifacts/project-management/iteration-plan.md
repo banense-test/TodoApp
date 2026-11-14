@@ -343,7 +343,7 @@ The process runs four disciplines in Excavation, and every one of them has its r
 | Software Archaeologist | Discovery, High | System Inventory — Anomalies · History and Coverage | System Inventory | R002 |
 | Project Manager | Project Management, Low | Risk List · Iteration Plan | Risk List, Iteration Plan, Iteration Assessment | R026 |
 
-The System Analyst recovers the login and logout scenarios this iteration from the delivered code and the Provenance record the second reading wrote — the file that blocked them was opened at Survey 2 — so no reading work is booked here for R005, which that record retired.
+The System Analyst recovers the login and logout scenarios here from the delivered code and the Provenance record the second reading wrote — the file that blocked them was opened at Survey 2 — so no reading work is booked for R005, which that record retired.
 
 ### Consolidation 1 — GHR
 
@@ -366,7 +366,7 @@ Inception adds the Integrator (Build Environment Setup; R010, R014), the Change 
 
 **Human gates.** The only human in this system is the stakeholder, and the plan books four gates for them: G1 (the three scope facts, answered 2026-11-14), G3 (accepts the LCO case), G4 (accepts the architecture baseline), G5 (accepts the product, where ownership transfers). A gate is bounded in the Risk List at R026, never forecast in the plan: ceiling 14 days of queue time, after which the process suspends rather than filling the gap with an assumption; estimate none; the actual measured and reported apart from agent time.
 
-The perimeter is not one of those gates. The stakeholder confirmed it at the SBC gate of 2026-11-14 — the confirmation Survey 3's exit criterion 1 records — so no plan event re-opens it; an element Excavation finds outside the perimeter goes back to the stakeholder at the point it is found.
+The perimeter is not one of those gates. The stakeholder confirmed it at the SBC gate of 2026-11-14 — the confirmation criterion 1 records — so no plan event re-opens it; an element Excavation finds outside the perimeter goes back to the stakeholder at the point it is found.
 
 ### This iteration — Survey 3, SBC
 
@@ -386,6 +386,80 @@ No other role is at work: every open defect of this gate sits in an artifact the
 The Review Coordinator decides whether the milestone closes. It does not decide the Iteration Assessment — the Project Manager writes that against the verdict.
 
 R011's owner first sits at AR — the Software Architect. This iteration restates that risk's strategy in the Risk List; it changes no owner, and no milestone row claims it as retired. R005's owner, the System Analyst, carries no work here: that risk was retired at Survey 2 — SBC by the Provenance record, and the register and this plan now state one retirement.
+
+### This iteration — Survey 4, SBC
+
+```plantuml
+@startuml
+title Survey 4 — the critical chain: sequential agent stretches from iteration start to the SBC gate
+skinparam shadowing false
+
+|#Pink|1 — the register holds the premise|
+start
+:Project Manager — Risk List —
+restate R005 as retired at Survey 2 — SBC;
+:Project Manager — Risk List —
+route R023 to the project file that declares the property;
+:Project Manager — Risk List —
+Document Control and Traceability state one retirement;
+note right
+  Register first: the plan's disposal table derives
+  from this row. Correcting them in the other order
+  writes one retirement twice, into two artifacts
+  that then disagree about one risk.
+end note
+
+|#Orange|2 — the plan builds on it|
+:Project Manager — Iteration Plan —
+retirement map, accounting 14 + 3 + 1 + 8 = 26;
+:Project Manager — Iteration Plan —
+fine plan for Survey 4, Resources profile;
+:Project Manager — Iteration Plan —
+criterion states reflect the records now closed;
+
+|#LightBlue|3 — the record|
+:Project Manager — Iteration Assessment —
+written against the gate's verdict, not before it;
+
+|#PaleGreen|4 — the review|
+:Reviewer — this iteration's artifacts;
+:Management Reviewer — this iteration's artifacts;
+:Review Coordinator — consolidates the ledger and rules the SBC gate;
+
+|#Gold|5 — the human gate|
+:The SBC gate is the Review Coordinator's verdict. The
+perimeter was confirmed by the stakeholder on 2026-11-14
+and is not re-put. G3 is first reached at LCO;
+note right
+  Five sequential stretches, one reviewer wave at the end.
+  No stretch runs in parallel and none is sized: no iteration
+  in this project has a measured elapsed time, so no figure
+  is quoted and none is invented.
+end note
+stop
+@enduml
+```
+
+Five sequential stretches reach the gate, and the one human step — the stakeholder's confirmation — is not one of them: it was given on 2026-11-14 and this iteration does not re-put it. A sixth agent stretch would lengthen the chain without shortening it, because every stretch consumes the artifact the one before it corrects.
+
+| Role | Discipline and intensity | Stage in this iteration | Produces | Risks owned |
+|---|---|---|---|---|
+| Project Manager | Project Management, Low | Risk List · Iteration Plan · Iteration Assessment | Risk List — the R005 row, the R023 citation, Document Control, Traceability; Iteration Plan — the retirement map, the accounting, the fine plan, the profile, criterion 3's state; the assessment written after the verdict | R026 |
+| Software Archaeologist | Discovery, Critical | System Inventory — Coverage · Provenance | System Inventory — no correction owed this iteration; the Provenance record the second reading wrote is the artifact R005's retirement rests on | R002 |
+| Process Engineer | Environment, High | Development Case — Guidelines and Procedures | Development Case — the Version policy's clause covering a version property held in a project file, which is the section R023's row cites | R006, R025 |
+| Reviewer | Review lens | SBC milestone review, technical | Findings on the artifacts reviewed | — |
+| Management Reviewer | Review lens | SBC milestone review, management | Findings on the artifacts reviewed | — |
+| Review Coordinator | Review lens | SBC milestone review | The SBC verdict | — |
+
+The Process Engineer revised the Development Case at Survey 3 — its Guidelines and Procedures gained the Version policy and the Measurement policy — and this iteration's clause is the same revision carried one step further, so that the file R023 names is covered by the policy the row cites. That work appears on this profile and in the fine plan's work items; no new artifact is produced.
+
+The Software Archaeologist owes no correction this iteration. Its artifact carries no open record from either lens, and the Provenance record it wrote is cited here because it is the evidence R005's retirement rests on.
+
+No other role is at work. Every open defect of this gate sits in an artifact the Project Manager holds; the three lenses review, and no role a later phase owns is booked here.
+
+The Review Coordinator decides whether the milestone closes. It does not decide the Iteration Assessment — the Project Manager writes that against the verdict.
+
+R011's owner first sits at AR — the Software Architect. This iteration restates that risk's strategy in the Risk List; it changes no owner, and no milestone row claims it as retired beyond LCA. R005's owner, the System Analyst, carries no work here: that risk was retired at Survey 2 — SBC by the Provenance record, and the register and this plan now state one retirement.
 
 ## Use Cases and Scenarios Addressed
 
