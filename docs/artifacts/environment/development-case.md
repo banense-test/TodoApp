@@ -58,12 +58,13 @@ stop
 | §10 real-time-system | false | Request/response only. No hard deadline, no concurrent event-driven or reactive behaviour. Rate limiting and OpenTelemetry are mechanisms, not timing guarantees. |
 
 ## Disciplines and Intensity
-
 All active disciplines run at the **canonical matrix intensities** — no deviation is claimed and none is required. Deltas:
 
-- **Business Modeling — INACTIVE for the whole project.** `business-process-led = false` (§4). No business use case model, business object model or business rules artifact is produced; the Business Process Analyst and the Business Reviewer do not work. Business rules that the code enforces are recovered as use-case preconditions by the System Analyst in Excavation — that is an Analysis & Design and Requirements activity, not a Business Modeling one.
+- **Business Modeling — INACTIVE for the whole project.** `business-process-led = false` (§4). No business use case model, business object model or business rules artifact is produced; the Business Process Analyst and the Business Reviewer do not work. Business rules that the code enforces are recovered as use-case preconditions by the System Analyst in Excavation — that is a Requirements and Analysis & Design activity, not a Business Modeling one.
 - **Discovery — ACTIVE, sprint zero only** (Survey Critical, Excavation High, Consolidation Low). It concludes before Inception; nothing after Consolidation reads the System Inventory as a live artifact.
 - **Environment — Survey High, Inception High, Elaboration Medium.** Per the baseline, the tailoring is stable after the Elaboration baseline. No Environment work is planned in Construction or Transition; a process question raised there is answered here as support, without an iteration-level DC revision unless a finding or CR requires one.
+
+**No intensity changes because the system is never run.** The stakeholder's decision of 2026-11-14 removes one class of activity from every discipline — no stage validates anything by executing the system, and no risk is disposed of by observation. It does not move a single intensity level, because the levels are the matrix's and the reading-based activities they cover remain the work: Analysis & Design stays Critical in Excavation on recovered reading, and Test stays at its matrix level with execution confined to what the repository's own test project can run.
 
 ## Artifacts and Templates
 
