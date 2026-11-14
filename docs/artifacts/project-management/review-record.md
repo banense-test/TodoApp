@@ -531,72 +531,37 @@ I did not re-adjudicate any lens record. Where a record quotes its evidence, the
 
 ## Resolutions and Actions
 ### Reviewer lens
-<!-- review: Survey I3 -->
+<!-- review: Survey I4 -->
 
-#### Closure ledger — the two findings this lens carried in
+<!-- review: Survey I4 -->
 
-Each was re-tested against the corrected text **and** against the file or section the correction cites, then closed by the tool call that materializes the state change. Both calls were applied before this entry was written.
+#### Closures — four records of this lens, each re-tested against its anchor
 
-```plantuml
-@startuml
-title Closure reconciliation — the 2 findings of this lens carried into Survey iteration 3
-skinparam shadowing false
-
-state "Open at the start of the iteration" as OPEN
-state "Resolved — correction verified against the artifact and its anchor" as RES
-
-state OPEN {
-  state "System Inventory F3  Minor\nProvenance counted 58 into a 57-file total" as A1
-  state "Risk List F2  Minor\nR023 cited a version policy the\nDevelopment Case had no section for" as A2
-}
-
-[*] --> OPEN
-A1 --> RES : Provenance now names the four files\nCoverage names — 53 + 4 = 57
-A2 --> RES : R023 names the pins and the owner;\nthe Development Case now has a Version policy
-RES --> [*]
-
-note bottom of RES
-  A resolution is the tool call, not a sentence.
-  Both were applied before this entry was written.
-  R023's replacement text is under a NEW Minor (RL F4):
-  it names Directory.Packages.props, while the
-  property lives in Todo.Web.Server.csproj.
-end note
-@enduml
-```
-
-| Finding | Severity | Correction found in the artifact | Closed |
+| Record | Severity | Basis of closure | Verified against |
 |---|---|---|---|
-| System Inventory F3 — Provenance counted 58 into a 57-file total | Minor | The row reads "the 53 of the first pass plus the four `Coverage` names as added in the second reading", names `ValidationFilter.cs`, `HttpAuthenticationStateProvider.cs`, `TodoApp.razor` and `LogInForm.razor`, and no longer names `RateLimitExtensions.cs` | Resolved |
-| Risk List F2 — R023 cited a version policy the Development Case had no section for | Minor | R023 now reads "Raising either changes the pins in `Directory.Packages.props`, which the Software Architect owns, and enters as a Change Request", and the Development Case's Guidelines and Procedures gained a Version policy subsection stating the same rule | Resolved |
+| Risk List#F3 | Major | R005 no longer scores a condition that has been eliminated. The row states the anomaly as it stood and its retirement, drops the stale "six files are declared unread" clause, and keeps band 4×3=12 and owner SystemAnalyst; the composition sentence names R025 and R026 as the register's non-anomaly rows | System Inventory, Coverage — `HttpAuthenticationStateProvider.cs` among the files opened, "No file in that group blocks a use case now"; Provenance — the 369-byte bridge, no token and no provider state |
+| Risk List#F4 | Minor | R023's mitigation and contingency name the property and the file that declares it, and the policy the row cites covers that file | `Todo.Web/Server/Todo.Web.Server.csproj` (d31a15d) — `<RazorLangVersion>8.0</RazorLangVersion>` in its own `PropertyGroup`, seven `PackageReference` items, no Razor package; Development Case, Version policy |
+| Iteration Plan#F3 | Major | R005's retirement is booked where it happened, in every section the record named — disposal table, accounting, retirement diagram, roadmap row and Excavation 1 risk column — and the register and plan state one retirement | Iteration Plan, Plan and Milestones and Resources, read in full |
+| Iteration Plan#F4 | Minor | The Process Engineer is reported at work, with a profile row, a fine-plan work item and the artifact it produces; the claim that no other role worked is withdrawn | Iteration Plan, Resources; Development Case, Guidelines and Procedures — the Version policy clause that item produces |
 
-Neither closure rests on a claim of correction. The Provenance row was counted against Coverage's enumeration, and R023's citation was read against the Development Case section the Process Engineer added.
+All four were closed with `resolve_artifact_finding` before this narrative was written. None was left open, deferred or rejected, and none was resolved on the strength of a claim in a summary that a correction had been made.
 
-The second closure is recorded with its residue: the replacement text names a file the change does not touch, and that is a new defect with its own key (Risk List F4), not a reopening. The finding asked that the citation resolve; it now resolves. Whether it resolves to the right file is a separate test that the replacement fails.
+#### New records — no action owed this milestone
 
-#### Open findings and their actions
+Both are Minor. A Minor is recorded; its owner fixes it in its next turn, after any Critical and Major, and the artifact is approved by default. Neither is an action for the Review Coordinator and neither is a gate condition.
 
-| Finding | Artifact | Severity | Owner | Holds the milestone | Action |
-|---|---|---|---|---|---|
-| Risk List F3 — R005 is scored `avoid` on a condition Coverage records as already eliminated, and its "six files are declared unread" no longer matches Coverage's set | Risk List | Major | Project Manager | Yes | Restate R005 as the anomaly at the first reading with its resolution at Survey 2 — SBC; correct the unread count; keep band, owner and exposure; make the Register's composition sentence exact about R025 |
-| Iteration Plan F3 — the retirement map, the disposal table and the Excavation 1 profile book R005's retirement at AR by re-opening a file opened at Survey 2 | Iteration Plan | Major | Project Manager | Yes | Move R005 to "Retired at Survey 2 — SBC" and restate the accounting as 14 + 3 + 1 + 8 = 26; drop it from the AR diagram step and the Excavation 1 risk column |
-| Risk List F4 — R023's mitigation routes the change to `Directory.Packages.props`, while `<RazorLangVersion>` lives in `Todo.Web/Server/Todo.Web.Server.csproj` | Risk List | Minor | Project Manager | No | Name the property and the project file that holds it; add "or the project file that declares the property" to the Development Case's Version policy so the register can cite it |
-| Iteration Plan F4 — Resources states no role but the Software Archaeologist and the Project Manager was at work, while the Process Engineer revised the Development Case this iteration | Iteration Plan | Minor | Project Manager | No | Add the Development Case revision as a work item and name the Process Engineer on this iteration's profile, or state in Resources that the revision happened and why |
+| Record | Owner | What closes it |
+|---|---|---|
+| System Inventory#F4 | Software Archaeologist | Re-read the enumeration against the tree path by path and state one number in Coverage, Document Control and Provenance — the figure must come from the listing, not from adjusting arithmetic |
+| Iteration Plan#F5 | Project Manager | Take the corrected figure into criterion 3's state and the corrections table once the Inventory states it, and make the state column claim only the declaration, not an arithmetic it cannot verify there |
 
-Risk List F3 and Iteration Plan F3 are one defect in two artifacts: the register holds the stale premise and the plan builds the retirement on it. They are repaired in one turn, and the register's row is the one that must be corrected first — the plan's disposal table derives from it.
+#### Pull requests
 
-The two Minors are independent and each stays inside its own artifact. Risk List F4 crosses into the Development Case only to the extent of one clause in a sentence that already exists; the Process Engineer is named as the role to add it, and the Project Manager may name the file and the owner without it.
+No pull request is open in the repository, and none was opened during Survey. This phase writes artifacts, not code: the process runs no Implementation work in Survey, so there is no scaffolding to approve, no defective code to return and no scope to defer out of phase. The first pull request this project expects is the build environment at Inception, and no branch waits for review now.
 
-#### What this lens deliberately did not raise
+#### Records of other lenses this lens did not touch
 
-Recorded so each omission is a decision rather than an oversight.
-
-- **The perimeter's content.** Twenty anchors have been opened across the three iterations and every one says what the artifact claims. The stakeholder confirmed the perimeter at this milestone. No record of any lens contests an element of it, and re-verifying it would spend the gate's budget restating what is established.
-- **Risk scores.** No lens has misbanded a risk in three events. R005's exposure is real and was retired by an artifact the process ran; the defect is where the artifact records the retirement, not the number. Re-scoring would misprice a risk whose control worked.
-- **The Development Case's new subsections.** Audited, not contested. The Version policy under-reaches by one clause, recorded against the Risk List as F4 rather than as a Development Case finding, because the artifact that misdirects the reader is the register.
-- **The empty pull-request set.** Survey produces no source code, so an empty set is the correct shape for this milestone.
-- **The empty trace graph.** Survey declares no element family of the trace chain. A blank graph at SBC is the right shape, not a `trace-gap`.
-- **The Iteration Assessment.** The Project Manager writes it against this verdict. Its absence or lag is no defect and no gate condition.
+The closure invariant is per lens: only the lens that emitted a record may close it. The open records of the Management Reviewer on these artifacts stay open until that lens closes them, and this lens neither resolved nor re-recorded any of them.
 
 ### Management Reviewer lens
 <!-- review: Survey I3 -->
