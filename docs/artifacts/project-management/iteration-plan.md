@@ -292,18 +292,6 @@ Four properties of this roadmap are load-bearing:
 - **Every milestone whose exit condition is the stakeholder's judgement has a gate at which it is obtained.** G1 at Survey 1's SBC disposed of the three scope facts; G3 at LCO accepts the business case; G4 at LCA accepts the architecture baseline; G5 at PR accepts the product, where ownership transfers. The perimeter needs no gate of its own: the stakeholder confirmed it at the SBC gate of 2026-11-14, and an element Excavation finds outside the perimeter is put to them at that point.
 - **The lever is iteration count — never parallel agent roles, never declared scope.** A milestone whose exit criteria do not pass is followed by one more iteration inside that phase at schedule cost, which is how Survey reached four. Declared scope is reduced only by a Change Request the stakeholder decides.
 
-### Next iteration's fine plan — the corrective work this gate left open
-
-No iteration beyond Survey 3 is planned inside this phase. Survey 3 carries the four Majors and three Minors the SBC gate opened; whether a fourth Survey iteration follows is decided by the next gate's verdict on that rework, and planning one now would plan past the horizon. If a fourth is required, its fine plan is built from that verdict in the same way this one was.
-
-The phase's next iteration is Excavation 1 — AR, whose profile is in Resources above. Its work items are the ones the process assigns to Analysis & Design, Requirements and Discovery in that milestone, not work carried forward from Survey.
-
-### Next iteration's fine plan — the horizon this plan stops at
-
-No iteration beyond Survey 3 is planned inside this phase at the level of fine plan. Whether a fourth Survey iteration follows is decided by the next gate's verdict on the rework this iteration carries, and planning one now would plan past the horizon. If a fourth is required, its fine plan is built from that verdict in the same way this one was.
-
-The phase's next iteration is Excavation 1 — AR, whose profile is in Resources above. Its work items are the ones the process assigns to Analysis & Design, Requirements and Discovery in that milestone, not work carried forward from Survey.
-
 ### The horizon this plan stops at
 
 No iteration beyond Survey 4 is planned at the level of fine plan. Whether a fifth Survey iteration follows is decided by the next gate's verdict on the rework this iteration carries, and planning one now would plan past the horizon. If a fifth is required, its fine plan is built from that verdict in the same way this one was.
