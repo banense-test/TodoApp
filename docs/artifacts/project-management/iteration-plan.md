@@ -222,14 +222,20 @@ skinparam shadowing false
 
 |SBC — Survey 1|
 start
-:Every risk scored, banded and owned;
-:R026 retired by the bound itself — 14-day gate ceiling,
+:25 risks scored, banded and owned;
+note right
+  Scoring is not retirement, and this
+  milestone sanctioned none of them.
+end note
+
+|SBC — Survey 2|
+:R026 retired by its own bound — 14-day gate ceiling,
 suspension rule, estimate none;
 note right
-  Scoring is not retirement. Each disposal below
-  names the milestone whose artifact does the work.
-  No retirement anywhere in this plan runs the
-  system: that path is closed for the project.
+  Each disposal below names the milestone
+  whose artifact does the work. No retirement
+  anywhere in this plan runs the system:
+  that path is closed for the project.
 end note
 
 |AR — Excavation 1|
