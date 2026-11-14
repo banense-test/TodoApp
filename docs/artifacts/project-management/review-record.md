@@ -954,124 +954,116 @@ What the grant does not do is make incorrect artifact content correct. Four Majo
 This is the difference between the milestone and its artifacts. The milestone is sanctioned; the artifacts are approved subject to rework. Recording the second does not reopen the first.
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-#### Closure ledger
+<!-- review: Survey I2 -->
 
-No closure is recorded. This is the project's first review event, `read_artifact_findings` returned an empty list for all four artifacts at the start of the review, and every one of the 18 records now in the ledger is open — none carries a resolution object.
+#### Closure ledger — the 18 records this iteration resolved
+
+Each was closed by the lens that emitted it, after that lens re-tested the correction against the artifact and, where the record concerned a file outside it, against the anchor. The tool call materializes the closure; this table records what it rests on.
 
 ```plantuml
 @startuml
-title Finding lifecycle — how a lens record moves from open to closed, and where it escalates
+title Finding lifecycle across the SBC re-hold — from record to verified closure
 skinparam shadowing false
 
 [*] --> Open : record_artifact_finding by the originating lens
-Open --> Assigned : owner, severity and deadline recorded at review close
+Open --> Assigned : owner and severity named at review close
 Assigned --> InProgress : owner reworks the artifact
-InProgress --> Resolved : the owner's upsert lands
-Resolved --> Verified : the originating lens calls resolve_artifact_finding
-Resolved --> InProgress : corrective action inadequate — re-recorded under its key, occurrence +1
-Verified --> Closed
-Open --> Escalated : deadline missed by one business day
-Assigned --> Escalated : deadline missed by one business day
-Escalated --> Assigned : re-prioritised by the Project Manager, or by the stakeholder where the grant is theirs
+InProgress --> Resolved : the correction lands and the owning lens calls resolve_artifact_finding
+Resolved --> Reopened : corrective action inadequate — re-recorded under its key, occurrence + 1
+Reopened --> InProgress
+Resolved --> Closed
+Open --> Escalated : deadline missed
+Assigned --> Escalated : deadline missed
+Escalated --> Assigned : prioritised by the Project Manager, or by the stakeholder where the grant is theirs
+Closed --> [*]
 
-note right of Open
+note right of Resolved
   Only the lens that emitted a record may close it.
-  A Review Record sentence saying "resolved"
+  A Review Record sentence saying "Resolved"
   is not a resolution — the ledger object is.
 end note
-note right of Escalated
-  Escalation targets:
-  Project Manager for review debt
-  Configuration and Change Management Board
-  for a systemic process failure
-  the stakeholder for a Critical or a grant
-end note
-note bottom of Verified
-  A Critical record escalates to the stakeholder
-  and no verdict may close the milestone
-  while one stands open.
+note bottom of Open
+  A finding key is scoped per artifact AND per lens:
+  System Inventory#F3 names two different defects —
+  a Reviewer Minor and a Management Major.
+  Every action names the defect and its lens.
 end note
 @enduml
 ```
 
-#### Review debt
+| Lens | Artifact | Records closed | Verified against |
+|---|---|---|---|
+| Technical | Development Case | 2 — F1 Major, F2 Minor | Tool references: five rows, each an existing path, no written standard claimed; ownership redrawn with component and artifact elements |
+| Technical | System Inventory | 2 — F1 Major, F2 Minor | `Directory.Packages.props` re-counted: 6 + 19 + 5 = 30; the stale `(unread)` qualifier is gone |
+| Technical | Risk List | 1 — F1 Minor | R018's mitigation separates establishing the values from recording them |
+| Technical | Iteration Plan | 2 — F1 Major, F2 Minor | Criterion 1 restated; all 26 risks accounted for, R023 named |
+| Management | Development Case | 1 — F1 Major | Same five-row verification; SBC criterion 5's auditable-tailoring question answered |
+| Management | System Inventory | 2 — F1 Major, F2 Major | Pin tally re-counted from the file; the settlement sentence replaced |
+| Management | Risk List | 2 — F1 Major, F2 Major | R026 present at 3×4=12 and cited by the plan by identifier; R002 and R011 restated `accept` with the grant quoted |
+| Management | Iteration Plan | 5 — F1 major, F2–F5 Major, F6 Minor | No stood-down role on a gate; Excavation profile staffed; five gates booked; retirement map rebuilt; per-criterion state |
+| **Total** |  | **18 — 13 Major, 5 Minor** |  |
 
-| Measure | Value |
-|---|---|
-| Open lens records | 18 |
-| Distinct defects | 15 |
-| Overdue | 0 — no deadline has yet been set; all deadlines begin at this record |
-| Critical | 0 |
-| Major | 10 defects (13 lens records) |
-| Minor | 5 defects (6 lens records) |
-| Escalations raised | 0 — nothing is overdue, so nothing escalates. The stakeholder escalation of this milestone is the sanction question, recorded under Disposition, not review debt |
+Two closures deserve the note on why they stand although the surrounding content is now under a new Major, because a reader will otherwise read them as withdrawn. **System Inventory F2 (Management)** asked that an impossible settlement path be replaced by the stakeholder's decision; it was, and that is what the record required. **Iteration Plan F1 (both lenses)** asked that a criterion stop claiming an unevidenced confirmation; it no longer claims one. That the replacement content then over-reached the sprint zero (SI-B, IP-B) and that the criterion now under-states a confirmation actually obtained (IP-A) are new defects with their own recommendations. Reopening the closed records would obscure which correction failed; a closure answers the defect its record names.
 
-Every record is assigned an owner at this close. Deadlines are **not** dates on a calendar: no start date has been measured on this project, so a deadline here is "the owner's next turn in corrective iteration 2", which is where the iteration's exit criteria bind. A record that misses that turn becomes overdue and escalates on the next business day.
+#### Action owed at each owner's next turn
 
-#### Corrective action plan — the order is the plan
+None of the four Majors asks the stakeholder a question. Each narrows content back to a decision they have already taken, twice.
+
+| Defect | Artifact | Owner | Action |
+|---|---|---|---|
+| SI-B | System Inventory | Software Archaeologist | Restate the Coverage closing statement to the scope given: no process is run in Survey, Excavation or Consolidation, so within the sprint zero neither read-only claim is settled by observation; both stay declared as read but not observed and are carried as accepted risk until the RUP phases start. Remove "for the life of this project", "in any phase" and the "no milestone may count them as retired" sentence, and leave open that a later phase recording a build-and-test result settles them. The declarations themselves stand unchanged |
+| RL-B | Risk List | Project Manager | Restate R002 and R011 as accepted until the RUP phases start, when the pipeline builds the solution and runs its tests; correct R002's "no later reading can settle it" and R011's "which this project does not do" to the sprint-zero scope; keep both acceptances and both bands; state in Document Control that the acceptance is bounded to the sprint zero |
+| IP-A | Iteration Plan | Project Manager | Restore criterion 1 to the process wording — the perimeter confirmed by the stakeholder — evidenced by the confirmation given at SBC on 2026-11-14 over the seven projects, the entry-point surface, the stores and the external systems. Delete G2 from the coarse roadmap, the gantt markers and the Resources gate list, leaving G1, G3, G4 and G5 and no dangling identifier. Replace "Where the perimeter is confirmed" with what happened, and do not restate the deferral's rationale as a live reason |
+| IP-B | Iteration Plan | Project Manager | Scope "no retirement runs the system" to the sprint zero; state that from Inception on the CI pipeline builds the solution and runs its test suites so a later phase may retire a risk by a build or test result, and name who produces that evidence; then re-examine the retirement map for what a build and test run can settle and place each at the milestone whose execution produces it |
+| IP-C | Iteration Plan | Project Manager | Move R006 and R025 from the LCO row to a line for Survey 2 — SBC, and restate the accounting so it reads fifteen retired by a later milestone, two at SBC, one by its own bound and eight carried on acceptance — twenty-six |
+| SI-A | System Inventory | Software Archaeologist | Restate the Provenance row to the four files the Coverage sentence names, dropping `RateLimitExtensions.cs` so the row and the 57-file tally agree |
+| RL-A | Risk List | Project Manager | Cite what exists — raising either version changes the pins in `Directory.Packages.props`, owned by the Software Architect, and enters as a Change Request — instead of a Development Case section that does not exist |
+
+#### Corrective order — the sequence is the plan
 
 ```plantuml
 @startuml
-title Corrective sequence — the order that stops the same defects being re-made
+title Corrective sequence for the four Majors — the order that stops one overstatement propagating twice
 skinparam shadowing false
 
 |#Pink|Premise|
 start
-:SI-2 — Coverage records the stakeholder's decision:\nthe two read-only claims are never settled by observation;
+:System Inventory F3 — narrow the Coverage closing statement to Survey, Excavation and Consolidation;
 note right
-  Fixing this last means fixing RL-2
-  and IP-5 twice: both quote the sentence.
+  Fixing this last means fixing Risk List F3
+  and Iteration Plan F9 twice: both quote the sentence.
 end note
 
-|#Orange|Disposal|
-:RL-2 — R002 and R011 restated accept,\nR002's Significant grant quoted verbatim,\nDocument Control and strategy split corrected;
-:IP-5 — R002 and R011 leave AR's retirement list;\nthe "observed rather than read" step deleted;
-:Sweep the plan for any other work item\nthat assumes the system can be run;
+|#Orange|Acceptance duration|
+:Risk List F3 — restate R002 and R011 as accepted until the RUP phases start;
+:Bound the acceptance in Document Control to the sprint zero;
 
-|#LightBlue|Executability|
-:IP-2 — Business Reviewer removed from LCO and LCA;
-:IP-3 — System Analyst and Software Archaeologist\nadded to the Excavation profile;
-:Reconcile every risk owner in every milestone row\nagainst the role profile;
-:IP-4 — stakeholder gates booked at LCA and PR;
-:RL-1 — a risk bounds those gates at the 14-day ceiling\nwith the suspension rule;
+|#LightBlue|Plan — gates and retirement path|
+:Iteration Plan F8 — restore criterion 1 to the process wording, delete G2 from roadmap, gantt and gate list;
+:Iteration Plan F9 — scope no-run to the sprint zero, state that the pipeline builds and tests from Inception on, re-examine the retirement map for what a build and test run can settle;
 
-|#PaleGreen|Record errors|
-:IP-1 — criterion 1 restated; G2 stays at Consolidation 1's start;
-:SI-1 — 28 pins corrected to 30, plus the Provenance row;
-:DC-1 — CONTRIBUTING.md row replaced with the files that govern;
-
-|#LightGray|Minors — owner's next turn|
-:DC-2 · SI-3 · RL-3 · IP-6 · IP-7;
+|#PaleGreen|Minors — owner's next turn|
+:System Inventory F3 Minor — Provenance counts 58 into a 57-file total;
+:Risk List F2 Minor — R023 cites a version provision the Development Case does not contain;
+:Iteration Plan F7 Minor — R006 and R025 are retired at SBC, not at LCO;
 stop
 @enduml
 ```
 
-| Step | Defect | Owner | Action | Done when |
-|---|---|---|---|---|
-| 1 | SI-2 | Software Archaeologist | Replace the Coverage closing sentence with the stakeholder's decision in their own terms: the two read-only claims stand declared for the life of the project, carried as accepted risk, settled by no later reading. The declarations themselves stay unchanged | The sentence names the decision and no longer names running the system |
-| 2 | RL-2 | Project Manager | Restate R002 and R011 as `accept`; quote the stakeholder's 2026-11-14 answer verbatim as R002's Significant-band grant; give both a contingency for a reading-only claim proving wrong when the system is first run outside this project; correct the Document Control status line and the strategy distribution | Register, status line and strategy split state the same disposal |
-| 3 | IP-5 | Project Manager | Remove R002 and R011 from AR's retirement list; delete the "observed rather than read" step; then sweep every milestone for any other work item assuming the system can be run | No milestone retires a risk by an activity the project will not perform |
-| 4 | IP-2, IP-3 | Project Manager | Remove Business Reviewer from the LCO and LCA rows; add System Analyst and Software Archaeologist to the Excavation profile at the stages the process assigns them; reconcile every risk owner in every milestone row against the role profile | The register's owner column and the plan's role profile name one set of roles |
-| 5 | IP-4 | Project Manager | Book a stakeholder gate at PR for formal project acceptance — the event at which ownership passes — and one at LCA for the architecture baseline's acceptability. Record both as queue time: ceiling 14 days, estimate none, actual reported apart, process suspends rather than assuming | Every milestone whose exit condition is the stakeholder's acceptance has a gate |
-| 6 | RL-1 | Project Manager | Add a risk covering the stakeholder gates, with the 14-day ceiling and the suspension rule as its bound and mitigation, or delete the plan's claim that one exists | The plan and the register state the same control |
-| 7 | IP-1 | Project Manager | Restate criterion 1 to what SBC gates: the perimeter recorded with an anchor per element, the priorities ordered, the three stakeholder facts put and answered 2026-11-14. Cite G2 at Consolidation 1's start as where the perimeter is confirmed. **G2 does not move** — Excavation deepens the perimeter, so confirming it earlier confirms an incomplete record | The criterion is satisfiable without a sanction that has been withheld |
-| 8 | SI-1 | Software Archaeologist | Correct 28 to 30 pins in both places and in the matching Provenance row. No pin value changes | The tally matches `Directory.Packages.props` |
-| 9 | DC-1 | Process Engineer | Replace the `CONTRIBUTING.md` row with `Directory.Build.props` and `Directory.Packages.props` as the compiler-enforced conventions, owner Software Architect, stating that no written coding standard exists. A standard, if wanted, is authored under a Change Request | Every tool reference resolves in the tree |
-| 10 | DC-2, SI-3, RL-3, IP-6, IP-7 | Process Engineer, Software Archaeologist, Project Manager | The five Minors, in each owner's next turn | Each is fixed as its own record recommends |
+**SI-B first, then RL-B and IP-B.** They are not three defects: one sentence in the perimeter record states a sprint-zero constraint over the whole lifecycle, and the register and the plan both quote it. Correcting them in the other order writes the same narrowing three times into three artifacts that then disagree about the same two risks — the failure mode the previous milestone's corrective order existed to prevent.
 
-**Steps 1–3 are one root cause and must be done before the rest.** SI-2, RL-2 and IP-5 are not three defects: the plan and the register both assume the system can be run, the stakeholder has ruled it out, and the System Inventory is where that assumption is written down. Correcting them out of order produces three artifacts that disagree about the same two risks.
+**IP-A is independent** and can land in either pass: it is a restored criterion and a deleted gate, touching nothing the other three touch.
 
-**Steps 4–6 make the plan executable as a governing instrument.** None of them is an accuracy defect — each is a defect in whether the plan can be run: a role summoned that does not work on the project, an iteration assigned work with no one accountable for its risks, milestones that transfer ownership with no event at which it transfers. Adding the gates in step 5 without step 6 leaves the new gates unbounded, which is why they are ordered together and before the record errors.
-
-**Steps 7–9 are record corrections.** Small, independent, and each one is a claim a milestone or another role relies on.
+**The three Minors are owed at their owners' next turn.** Each stays inside its own artifact, and each is a single row.
 
 #### What is deliberately not an action
 
-- **An Iteration Assessment.** The Project Manager writes it against this verdict. It is not owed by this review and ordering it here would invert the sequence the process fixes.
-- **A Change Request.** None is required for any of the 15 defects. Each is a correction inside an artifact its owner already owns — no scope change, no baseline change, nothing for the CCB.
-- **Any schedule change.** Corrective iteration 2 is the iteration-count lever, which is the plan's own stated remedy for a milestone whose exit criteria do not pass. Declared scope is not reduced, no role is added in parallel, and no criterion is narrowed.
+- **A new stakeholder question at this gate.** All four Majors are corrections to what the artifacts say about decisions already given. Putting any of them back to the stakeholder would ask them to answer what they have answered twice, which is the defect IP-A names.
+- **A Change Request.** None of the seven open records needs one. Each is a correction inside an artifact its owner already holds — no scope change, no baseline change, nothing for the CCB.
+- **Re-scoring any risk.** No lens contests a magnitude in either event, and the plan states that disagreement with a score does not fail the milestone.
+- **A schedule change beyond the iteration count.** Corrective iteration 3 is the plan's own lever for a milestone whose exit criteria do not pass. Declared scope is not narrowed, no role is added in parallel, and no criterion is re-interpreted to fit what was produced.
 
 ## Disposition
 ### Reviewer lens
