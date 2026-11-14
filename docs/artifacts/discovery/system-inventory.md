@@ -448,19 +448,18 @@ Five of the nine sit in the authentication area, which is why that area ranks se
 | The API's OpenAPI surface | No committed OpenAPI file; it is generated at runtime and exposed at `/openapi` with `/scalar/v1` in Development |
 | Any ADR, architecture note, glossary, deployment instruction beyond `README.md` | Nothing exists — `.iari/README.md` declares this and the tree confirms it, the six `docs/` records being process records |
 
-### The coding standard: absent from the tree, and recorded as absent
+### Where the documentation and the code disagree
 
-No written coding standard exists in this repository: there is no `CONTRIBUTING.md` and no equivalent path in the tree, and the `README.md` carries no contribution or style section. The Development Case states this rather than assuming a standard, and names what binds an Implementer and a Code Reviewer in its place:
+The code is the fact recorded elsewhere in this artifact. These are the README's claims that the delivered tree does not bear out, each with the anchor that contradicts it — read so a later role does not take the README for the system.
 
-| Binding convention | Where it exists | Owner |
+| README claim | What the code shows | Anchor |
 |---|---|---|
-| `net9.0`, `Nullable enable`, `ImplicitUsings enable`, `LangVersion preview` | `Directory.Build.props` — compiler-enforced, so a violation fails the build | Software Architect |
-| 30 centrally-managed package pins, no floating versions | `Directory.Packages.props` | Software Architect |
-| Architecture mechanisms | the Software Architecture Document, from Elaboration on | Software Architect |
+| "You can run the `Todo.Api` project and make requests to various endpoints using the **Swagger UI**", with a screenshot of it | The API maps `MapOpenApi()` at `/openapi` and `MapScalarApiReference()` at `/scalar/v1`, and the Scalar reference sits inside `if (app.Environment.IsDevelopment())` while `"/"` redirects to `/scalar/v1` unconditionally. No Swagger package is pinned and no Swagger UI endpoint is mapped — the README describes a UI the delivery replaced | `README.md`; `Todo.Api/Program.cs`; `Directory.Packages.props` (`Scalar.AspNetCore` 2.6.8, no `Swashbuckle`) |
+| "social authentication providers can be configured … **By default it supports** Github, Google, and Microsoft accounts" | Each scheme is registered only when its own `Authentication:Schemes:<name>` section exists, and neither delivered `appsettings` carries one, so no provider is enabled by default. Auth0 is registered as a fourth scheme the sentence does not name | `README.md`; `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`; `Todo.Web/Server/appsettings.json` (167 bytes), `appsettings.Development.json` (144 bytes) |
+| The feature list advertises "**Rate Limiting**" | Rate limiting is real and mapped, but with no threshold stated anywhere: the code defaults to 100 tokens per 10 seconds and only `appsettings.Development.json` lowers it to 50 | `README.md`; `Todo.Api/Extensions/RateLimitExtensions.cs`; `Todo.Api/appsettings.Development.json` |
+| The badge links `github.com/davidfowl/TodoApi/actions/...` | The repository was renamed to `TodoApp` in `3308193` | `README.md`; commit `3308193` |
 
-`Source: docs/artifacts/environment/development-case.md`, Guidelines and Procedures. R006 carries the absence as a risk, and a written standard, if the project wants one, is authored by the Software Architect under a Change Request.
-
-Recorded as an absence, not filled in: no role reviews against a style guide, and the conventions a reviewer applies are the three above and nothing more.
+The `README.md` remains the only prose description of the system, and every correction it needs is the code's, not a later document's: nothing in the tree supersedes it.
 
 ## History
 Commit history read from the SCM. The whole-repository listing covers the 50 most recent commits, 2024-11-14 to 2026-11-14, and reports that older history exists.
