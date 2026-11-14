@@ -150,23 +150,22 @@ The Survey process runs no use-case work: the Use-Case Model is recovered in Exc
 
 Three capabilities are already known to enter the recovery as code that exists and is unreachable or dormant, and none will be recovered as a use case: the owner-or-admin branches (R007), external login (R008), and `PUT /todos/{id}` whose missing screen is itself the use-case finding (R009). The stakeholder disposed of the first two on 2026-11-14.
 ## Results Relative to Evaluation Criteria
-
-One line per criterion the Iteration Plan carried, each pointing at the evidence that decides it. Four of six hold on their evidence; two fail, and the milestone does not close on four.
+One line per criterion the Iteration Plan carried, each pointing at the evidence that decides it. All six hold on their evidence; the milestone's artifacts do not all hold, and the difference is what Rework Required records.
 
 ```plantuml
 @startsalt
-title Survey iteration 1 — the six SBC exit criteria the plan committed to, and the verdict each received
+title Survey iteration 2 — the six SBC exit criteria the plan committed to, and the verdict each received
 {
 {S
 <b>Criterion (Iteration Plan, Evaluation Criteria)</b> | <b>Review verdict</b> | <b>Assessment</b>
-1 Perimeter recorded and put to the stakeholder | <color:red>FAILS AS WORDED</color> | Not met — IP-1: claims a confirmation SBC never asks for; G2 sits at Consolidation 1
+1 Perimeter confirmed by the stakeholder | <color:green>PASSES</color> | Met — confirmed at this gate over the seven projects and the entry-point surface; no second confirmation claimed
 2 Reading priorities ordered | <color:green>HOLDS</color> | Met — eight areas, each naming what the next reading settles
-3 Unread areas declared rather than omitted | <color:green>HOLDS</color> | Met — declared; SI-2 is a forward commitment, not the declaration
-4 Every anomaly is a scored, banded, owned risk | <color:orange>HOLDS FORMALLY</color> | Met as written; RL-1 and RL-2 are defects in disposal, not in classification
-5 Process tailored and the tailoring auditable | <color:red>FAILS</color> | Not met — DC-1: a cited tool reference does not resolve in the tree
-6 Plan instantiates the process, schedules no unrun work | <color:red>FAILS</color> | Not met — IP-2, IP-3, IP-4, IP-5
+3 Unread areas declared rather than omitted | <color:green>HOLDS</color> | Met — the declaration is honest; SI-A is a one-count error in the summarising row
+4 Every anomaly a scored, banded, owned risk | <color:orange>HOLDS, DISPOSAL DURATION OPEN</color> | Met as written; RL-B is the duration of an acceptance, not its scoring or its grant
+5 Process tailored and the tailoring auditable | <color:green>PASSES</color> | Met — every tool reference resolves; both lenses pass it
+6 Plan instantiates the process, schedules no unrun work | <color:orange>HOLDS, TWO STATEMENTS OVER-REACH</color> | Met in structure; IP-A and IP-B are what the plan says about decisions already taken
 --
-<b>Stakeholder sanction</b> | <color:red>REFUSED 2026-11-14</color> | SBC NOT achieved — corrective iteration 2 required
+<b>Stakeholder sanction</b> | <color:red>GRANTED 2026-11-14</color> | SBC milestone sanctioned — artifacts approved subject to rework
 }
 }
 @endsalt
@@ -174,15 +173,14 @@ title Survey iteration 1 — the six SBC exit criteria the plan committed to, an
 
 | # | Criterion | Result | Evidence |
 |---|---|---|---|
-| 1 | Perimeter recorded with an anchor per element, priorities ordered, unread areas declared | **Not met as written** | The perimeter is anchored and verified (System Inventory, Perimeter; 16 of 17 anchors confirmed). The criterion as worded demanded a stakeholder confirmation no SBC event obtains, and it was refused. The *record* meets the intent; the *wording* makes an unsatisfiable claim (IP-1). G2 at Consolidation 1's start is where confirmation occurs |
-| 2 | Reading priorities ordered | **Met** | System Inventory, Priorities — eight areas ordered, each naming the question the next reading must settle. Both lenses accepted it without a finding |
-| 3 | Unread areas declared rather than omitted | **Met** | System Inventory, Coverage — the declared-unread groups are real and the two read-only statements are honest. The finding against this section (SI-2) is the forward sentence naming *how* they are settled, not the declaration itself |
-| 4 | Every anomaly is a classified risk | **Met as written** | Risk List — 25 risks, every magnitude the band of its own exposure, every one owned with a strategy. What fails is execution of two strategies (RL-2) and the missing gate bound (RL-1), both disposals rather than classification |
-| 5 | The process is tailored and the tailoring is auditable | **Not met** | DC-1: `CONTRIBUTING.md` is cited and absent, so two roles are pointed at a document that does not exist and a reader cannot distinguish a broken link from a standard nobody wrote. The tailoring itself is sound and all six OPTIONAL verdicts hold |
-| 6 | The plan instantiates the process and schedules no work the phase does not run | **Not met** | IP-2 (a stood-down role staffed at LCO and LCA), IP-3 (Excavation assigned work with its risk owners absent from its profile), IP-4 (LCA and PR stakeholder gates unbooked), IP-5 (AR retires two risks by an activity the stakeholder has ruled out) |
+| 1 | The perimeter of the existing system is confirmed by the stakeholder | **Met** | The stakeholder confirmed the perimeter at this gate over the seven projects, the entry-point surface, the stores and the external systems, and stated that nothing is missing from it. The three scope answers are cited as dispositions of three facts, not as the confirmation |
+| 2 | The reading priorities are ordered | **Met** | System Inventory, Priorities — eight areas ordered, each naming the question the next reading must settle. Neither lens raised a finding |
+| 3 | Unread areas declared rather than omitted | **Met** | System Inventory, Coverage — the declared-unread groups are real and the two read-only statements are honest. SI-A is a one-count error in the Provenance row; SI-B is the reach of the closing sentence, not the declaration |
+| 4 | Every anomaly is a classified risk, and every strategy can execute | **Met as written** | Risk List — 26 risks, every magnitude the band of its own exposure, every one owned with a strategy that executes without a run in the sprint zero. RL-B is the period an acceptance runs for, which the criterion does not state |
+| 5 | The process is tailored and the tailoring is auditable | **Met** | Development Case — five tool references, each a path in the tree, and the statement that no written standard exists and none is assumed. Both lenses pass the artifact with no open finding |
+| 6 | The plan instantiates the process and schedules no work the phase does not run | **Met in structure** | Every role named in a milestone row is at work in it, no gate staffs a stood-down role, four gates are booked for the four stakeholder judgements. IP-A (a deleted gate still booked, a met criterion reported as deferred) and IP-B (a retirement path closed project-wide) are statements about decisions already taken |
 
-Criterion 6 is the one that decides the gate, and its four defects are not accuracy defects: each is a defect in whether the plan can be executed as a governing instrument. They are recorded with their correction in Rework Required.
-
+Criterion 6 passed as the process asks it and failed the management lens's test of reach. Both readings are correct about different moments: the iteration-1 defect it repaired was a criterion claiming an unevidenced confirmation, and that repair did not know the stakeholder would give the confirmation at this gate. The criterion then understated a met condition. That is recorded as a new defect, not a reopened one.
 ## Test Results
 
 **No test was executed and none could be.** The Survey process runs no Test discipline, no source file was written or modified in this iteration, no test case exists, and the repository carries no IARI build pipeline — the Review Record's own check of `scm_list_pull_requests` returned none, so there is also no pull request whose checks could be read. This is not a gap in the iteration's work; it is the shape of a phase whose product is a reading.
