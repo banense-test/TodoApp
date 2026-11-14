@@ -1,7 +1,6 @@
 ## Document Control
-
 Phase: Survey
-Status: Draft — governs the Survey milestone of the sprint zero
+Status: Revised — governs the Survey milestone of the sprint zero
 Milestone Target: End-of-Survey (SBC) — not yet achieved
 
 ## Tailoring Overview
