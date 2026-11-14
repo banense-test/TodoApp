@@ -75,9 +75,9 @@ end note
 note bottom of EXT
   Registered only when Authentication:Schemes:<name> exists
   (AuthenticationExtensions.cs). Neither appsettings file in the
-  tree carries such a section, so all four schemes stay dormant
-  and username/password is the only login path that works
-  from the delivered configuration.
+  tree carries such a section — 167 and 144 bytes, both logging
+  only — so all four schemes stay dormant and username/password
+  is the only login path that works from the delivered configuration.
 end note
 @enduml
 ```
@@ -98,7 +98,7 @@ External systems and stores, each with the anchor that proves the dependency:
 
 | External element | Direction | Anchor |
 |---|---|---|
-| External identity providers — GitHub, Google, Microsoft, Auth0 | BFF → provider (OAuth2 / OIDC), configured-at-runtime | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs` registers the four schemes by name, each only when its `Authentication:Schemes:<name>` section exists; the four provider packages are pinned in `Todo.Web/Server/Todo.Web.Server.csproj`. No delivered configuration supplies such a section — `Todo.Web/Server/appsettings.json` and `appsettings.Development.json` (144 bytes, logging only) hold none — so in the delivered shape the edge is dormant and only username/password login is reachable. The stakeholder confirmed on 2026-11-14 that it stays recorded this way and no external-login use case is recovered this cycle |
+| External identity providers — GitHub, Google, Microsoft, Auth0 | BFF → provider (OAuth2 / OIDC), configured-at-runtime | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs` registers the four schemes by name, each only when its `Authentication:Schemes:<name>` section exists; the four provider packages are pinned in `Todo.Web/Server/Todo.Web.Server.csproj`. No delivered configuration supplies such a section — `Todo.Web/Server/appsettings.json` is 167 bytes (log levels plus `AllowedHosts: "*"`) and `appsettings.Development.json` is 144 bytes (log levels only); neither holds an `Authentication` key — so in the delivered shape the edge is dormant and only username/password login is reachable. The stakeholder confirmed on 2026-11-14 that it stays recorded this way and no external-login use case is recovered this cycle |
 | SQLite database file `.db/Todos.db` | API → file | `Todo.Api/Program.cs` connection string `"Todos"` with fallback `Data Source=.db/Todos.db` |
 | `tomdesinto/sqliteweb` container | AppHost → container, container → database file | `TodoApp.AppHost/Program.cs` |
 | OTLP endpoint | API and BFF → collector | `TodoApp.ServiceDefaults/Extensions.cs` exports only when `OTEL_EXPORTER_OTLP_ENDPOINT` is non-empty |
@@ -112,94 +112,102 @@ Recorded because every recovered use case must point back to it.
 
 ```plantuml
 @startuml
-title Entry-point surface — the traces the use cases will be recovered from
+title Entry-point surface — screens, endpoints, and the response shape each produces
 skinparam componentStyle rectangle
 skinparam shadowing false
 
 actor "Visitor" as VIS
 actor "Signed-in user" as USR
 
-package "Todo.Web.Client — Blazor WASM in the browser\n(Source: Todo.Web/Client/TodoClient.cs, Program.cs)" {
-  component "Task-list screen\nadd · list · delete" as UI1
-  component "Log-in form" as UI2
-  component "HttpClient\nbase = HostEnvironment.BaseAddress\nX-Requested-With: XMLHttpRequest" as CLIENT
+package "Todo.Web.Client — Blazor WASM\n(Source: TodoApp.razor, Components/LogInForm.razor, Components/TodoList.razor, TodoClient.cs)" {
+  component "Shell\nno current user -> log-in form\ncurrent user -> task list + Logout" as SHELL
+  component "Log-in form\nEmail [Required, 256]\nPassword [Required, 6-32, lower+upper+digit+special]\nLogin · Create User\nfailure -> alertMessage" as LOGIN
+  component "Social-provider buttons\nrendered from SocialProviders[]\nempty as delivered" as SOC
+  component "Task-list screen\nadd · list · delete\nno completion toggle" as LIST
+  component "TodoClient\nbase = HostEnvironment.BaseAddress\nX-Requested-With: XMLHttpRequest" as CLIENT
 }
 
-package "Todo.Web.Server — BFF\n(Source: Todo.Web/Server/AuthApi.cs, TodoApi.cs)" {
+package "Todo.Web.Server — BFF\n(Source: AuthApi.cs, TodoApi.cs, Authentication/*)" {
   component "POST /auth/register" as BREG
   component "POST /auth/login" as BLOGIN
   component "POST /auth/logout" as BLOGOUT
-  component "GET /auth/login/{provider}\nchallenge" as BEXT
-  component "GET /auth/signin/{provider}\ncallback" as BSIGN
-  component "/todos/{*path}\nYARP forward + Bearer transform" as BFWD
+  component "GET /auth/login/{provider}\nGET /auth/signin/{provider}" as BEXT
+  component "/todos/{*path}\nYARP forward + cookie-to-Bearer transform" as BFWD
+  component "HttpAuthenticationStateProvider\nAuthenticationState = HttpContext.User" as STATE
 }
 
-package "Todo.Api\n(Source: Todo.Api/Todos/TodoApi.cs, Users/UsersApi.cs)" {
-  component "GET /todos\nown todos only" as TGET
-  component "GET /todos/{id}\nowner check" as TGET1
-  component "POST /todos\ntitle + owner from the resolved user" as TPOST
-  component "PUT /todos/{id}\ntitle + IsComplete" as TPUT
-  component "DELETE /todos/{id}\nowner check" as TDEL
-  component "POST /users/register · /users/login · /users/refresh\n+ MapIdentityApi group" as UIDN
-  component "POST /users/token/{provider}\nexternal login, protected provider key" as UEXT
+package "Todo.Api\n(Source: Todos/TodoApi.cs, Users/UsersApi.cs, Filters/ValidationFilter.cs)" {
+  component "GET /todos — own todos only\nGET /todos/{id} — owner check\nPOST /todos — owner from resolved user\nPUT /todos/{id} — title + IsComplete\nDELETE /todos/{id} — owner check" as TODOS
+  component "POST /users/register · /users/login\n/users/refresh · MapIdentityApi group\nPOST /users/token/{provider}" as USERS
+  component "WithParameterValidation\n400 HttpValidationProblemDetails\napplication/problem+json" as VAL
 }
 
-VIS --> UI2
-USR --> UI1
-UI1 --> CLIENT
-UI2 --> CLIENT
+VIS --> SHELL
+USR --> SHELL
+SHELL --> LOGIN
+SHELL --> LIST
+LOGIN --> SOC
+LOGIN --> CLIENT
+LIST --> CLIENT
 CLIENT --> BREG : /auth/register
 CLIENT --> BLOGIN : /auth/login
-BREG --> UIDN : AuthClient
-BLOGIN --> UIDN : AuthClient
-VIS --> BEXT
-BEXT --> BSIGN
-BSIGN --> UEXT : AuthClient
-USR --> BLOGOUT
-USR --> BFWD
+CLIENT --> BLOGOUT : /auth/logout
 CLIENT --> BFWD : /todos
-BFWD --> TGET
-BFWD --> TPOST
-BFWD --> TGET1
-BFWD --> TPUT
-BFWD --> TDEL
+SOC --> BEXT : href auth/login/{provider}
+BREG --> USERS : AuthClient
+BLOGIN --> USERS : AuthClient
+BEXT --> USERS : AuthClient /users/token/{provider}
+BFWD --> TODOS
+TODOS --> VAL : validates DTO parameters
+STATE ..> SHELL : reads the cookie principal
 
-note right of BFWD
-  The /todos path has no /users equivalent:
-  the BFF calls the API over two separate
-  channels — YARP for /todos, a typed
-  AuthClient for /users/*.
+note right of STATE
+  Read whole: 369 bytes, returns
+  HttpContext.User or an empty identity.
+  No token handling of its own.
 end note
-note bottom of TGET
-  Every /todos call passes through
-  RequireCurrentUser(), which re-reads the
-  user from the API's own store, so a valid
-  token for a user that no longer exists is
-  rejected (Source: CheckCurrentUserAuthHandler.cs,
-  CurrentUserExtensions.cs).
+note right of VAL
+  The validation failure shape is settled:
+  Results.ValidationProblem -> 400 with
+  HttpValidationProblemDetails, and the
+  metadata is only added when a parameter
+  type is in typesToValidate.
 end note
-note bottom of UI1
-  No completion toggle in the UI even though
-  PUT /todos/{id} sets IsComplete
-  (TodoList.razor renders an unbound checkbox).
+note bottom of LIST
+  TodoList takes OnForbidden="@Logout", so a
+  403 from /todos ends the client-side session
+  even though nothing revokes the bearer token.
 end note
-note right of UEXT
-  External login is configured-at-runtime only,
-  so these endpoints have no recovered use case
-  this cycle (stakeholder decision, 2026-11-14 —
-  see Anomalies).
+note bottom of SOC
+  SocialProviders is supplied from
+  ExternalProviders, which enumerates the
+  non-cookie schemes actually registered —
+  none as delivered, so the loop renders
+  nothing (stakeholder decision, 2026-11-14).
 end note
-note bottom of TGET1
-  TGET1, TPUT and TDEL also accept an owner OR
-  admin caller. No admin claim can be produced by
-  the delivered system, so that half of each rule
-  is unreachable (stakeholder decision, 2026-11-14 —
-  see Anomalies).
+note bottom of TODOS
+  Owner-or-admin on GET/PUT/DELETE by id.
+  No admin claim can be produced by the
+  delivered system, so that half of each rule
+  is unreachable (stakeholder decision,
+  2026-11-14 — see Anomalies).
 end note
 @enduml
 ```
 
 Two actors are recorded: the visitor, who reaches only the log-in form, and the signed-in user, who reaches the task list. No administrator actor is recorded, because no claim that would identify one can be produced by the delivered system (Anomalies).
+
+The screens and the response shapes they depend on, each anchored:
+
+| Entry point | Surface | What it returns or renders | Anchor |
+|---|---|---|---|
+| Application shell | `TodoApp.razor` | Two states only: no current user renders the log-in form, a current user renders the task list with a `Logout` button. The user name shown is the one the form submitted, not one read back from a session | `Todo.Web/Client/TodoApp.razor` |
+| Log-in and registration | `LogInForm.razor` | One form for both: `Login` calls `TodoClient.LoginAsync`, `Create User` calls `CreateUserAsync`; a false result renders "Login failed" or "Failed to create user". Client-side validation requires a 6–32 character password with lower case, upper case, digit and special character, and an email of at most 256 characters | `Todo.Web/Client/Components/LogInForm.razor` |
+| Social-provider buttons | `LogInForm.razor` | Link anchors to `auth/login/{provider}` for each name in `SocialProviders`, which the shell passes in from the registered external schemes. The delivered configuration registers none, so nothing renders | `Todo.Web/Client/Components/LogInForm.razor`, `Todo.Web/Client/TodoApp.razor`, `Todo.Web/Server/Authentication/ExternalProviders.cs` |
+| Task list | `Components/TodoList.razor` | Add, list and delete. A `403` invokes `OnForbidden`, which the shell binds to `Logout` — the client treats a rejected call as a lost session | `Todo.Web/Client/Components/TodoList.razor`, `Todo.Web/Client/TodoApp.razor` |
+| `/todos` contract | `Todo.Api/Todos/TodoApi.cs` | Five operations; owner-or-admin on the three by-id operations; ownership taken from the resolved caller, never from the body | `Todo.Api/Todos/TodoApi.cs` |
+| Validation failure | `Todo.Api/Filters/ValidationFilter.cs` | A parameter that fails MiniValidation returns `Results.ValidationProblem` — HTTP 400 with `HttpValidationProblemDetails` as `application/problem+json` — and the filter is only attached to an endpoint that has at least one parameter of a type passed to `WithParameterValidation` | `Todo.Api/Filters/ValidationFilter.cs`, `Todo.Api/Todos/TodoApi.cs` |
+| BFF authentication state | `Authentication/HttpAuthenticationStateProvider.cs` | Wraps `IHttpContextAccessor.HttpContext?.User`, falling back to an empty identity. It holds no token and no provider state: the Blazor component tree reads the same principal the cookie handler produced | `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs` |
 
 Scheduled jobs, batch processes and reports: none. `Source: TodoApp/` tree — no hosted service, no timer, no job configuration in any read manifest. The only non-request-driven behaviour is the one-shot `dotnet ef database update` the AppHost runs at startup.
 
