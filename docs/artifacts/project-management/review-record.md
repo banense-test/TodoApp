@@ -742,122 +742,112 @@ A Major means another role builds on wrong content or a milestone exit criterion
 - Four gates are booked, each is a decision the stakeholder will give, and none staffs a stood-down lens.
 
 ### Review Coordinator lens
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-<!-- review: Survey I2 -->
+<!-- review: Survey I3 -->
 
-#### Closure ledger — the 18 records this iteration resolved
+#### Closure ledger — the 25 records this milestone closed
 
-Each was closed by the lens that emitted it, after that lens re-tested the correction against the artifact and, where the record concerned a file outside it, against the anchor. The tool call materializes the closure; this table records what it rests on.
+Each was closed by the lens that emitted it, after that lens re-tested the correction against the text and, where the record concerned a file outside the artifact, against the anchor that carries it. The tool call materializes the closure; this table records what it rests on.
 
 ```plantuml
 @startuml
-title Finding lifecycle across the SBC re-hold — from record to verified closure
+title Finding closure across the three holds of SBC — 25 of 30 lens records closed
 skinparam shadowing false
 
-[*] --> Open : record_artifact_finding by the originating lens
-Open --> Assigned : owner and severity named at review close
-Assigned --> InProgress : owner reworks the artifact
-InProgress --> Resolved : the correction lands and the owning lens calls resolve_artifact_finding
-Resolved --> Reopened : corrective action inadequate — re-recorded under its key, occurrence + 1
-Reopened --> InProgress
-Resolved --> Closed
-Open --> Escalated : deadline missed
-Assigned --> Escalated : deadline missed
-Escalated --> Assigned : prioritised by the Project Manager, or by the stakeholder where the grant is theirs
-Closed --> [*]
+state "Recorded by the emitting lens — no resolution object" as OPEN
+state "Resolved — correction verified against the text and its anchor" as RES
 
-note right of Resolved
+state OPEN {
+  state "Survey 1 hold — 15 records" as H1
+  state "Survey 2 hold — 7 records" as H2
+  state "Survey 3 hold — 5 records" as H3
+}
+
+H1 --> RES : 15 closed at Survey 2 — every record this lens emitted
+H2 --> RES : 7 closed at Survey 3 — every record carried in
+H3 --> OPEN : 2 Major, 3 Minor — the work order for corrective Survey 4
+
+note right of RES
   Only the lens that emitted a record may close it.
-  A Review Record sentence saying "Resolved"
-  is not a resolution — the ledger object is.
+  A Review Record sentence saying "Resolved" is not
+  a resolution — the ledger object is.
 end note
-note bottom of Open
-  A finding key is scoped per artifact AND per lens:
-  System Inventory#F3 names two different defects —
-  a Reviewer Minor and a Management Major.
-  Every action names the defect and its lens.
+note bottom of H3
+  A closure answers the defect its record names.
+  That replacement content introduced a new defect
+  is a new record with its own key, never a reopening.
 end note
 @enduml
 ```
 
-| Lens | Artifact | Records closed | Verified against |
+| Hold | Lens | Records closed | Verified against |
 |---|---|---|---|
-| Technical | Development Case | 2 — F1 Major, F2 Minor | Tool references: five rows, each an existing path, no written standard claimed; ownership redrawn with component and artifact elements |
-| Technical | System Inventory | 2 — F1 Major, F2 Minor | `Directory.Packages.props` re-counted: 6 + 19 + 5 = 30; the stale `(unread)` qualifier is gone |
-| Technical | Risk List | 1 — F1 Minor | R018's mitigation separates establishing the values from recording them |
-| Technical | Iteration Plan | 2 — F1 Major, F2 Minor | Criterion 1 restated; all 26 risks accounted for, R023 named |
-| Management | Development Case | 1 — F1 Major | Same five-row verification; SBC criterion 5's auditable-tailoring question answered |
-| Management | System Inventory | 2 — F1 Major, F2 Major | Pin tally re-counted from the file; the settlement sentence replaced |
-| Management | Risk List | 2 — F1 Major, F2 Major | R026 present at 3×4=12 and cited by the plan by identifier; R002 and R011 restated `accept` with the grant quoted |
-| Management | Iteration Plan | 5 — F1 Major, F2–F5 Major, F6 Minor | No stood-down role on a gate; Excavation profile staffed; five gates booked; retirement map rebuilt; per-criterion state |
-| **Total** |  | **18 — 13 Major, 5 Minor** |  |
+| Survey 1 → Survey 2 | Technical | 7 — 3 Major, 4 Minor | Five tool references each resolving to an existing path; the pin tally re-counted; the stale `(unread)` qualifier gone; R018 separating establishment from recording |
+| Survey 1 → Survey 2 | Management | 11 — 9 Major, 2 Minor | The pin tally and the settlement sentence; R026 present at 3×4=12 and cited by the plan by identifier; five gates booked; the retirement map rebuilt; the tailoring auditable |
+| Survey 2 → Survey 3 | Technical | 2 — 2 Minor | The Provenance row counted against Coverage's enumeration at 53 + 4 = 57; R023's citation resolving to a Development Case section that now exists |
+| Survey 2 → Survey 3 | Management | 5 — 4 Major, 1 Minor | Coverage, R002 and R011, criterion 1, the retirement property and the LCO row, each re-read against the sentence now in the artifact |
+| **Total** | | **25 — 16 Major, 9 Minor, 0 Critical** | |
 
-Two closures deserve the note on why they stand although the surrounding content is now under a new Major, because a reader will otherwise read them as withdrawn. **System Inventory F2 (Management)** asked that an impossible settlement path be replaced by the stakeholder's decision; it was, and that is what the record required. **Iteration Plan F1 (both lenses)** asked that a criterion stop claiming an unevidenced confirmation; it no longer claims one. That the replacement content then over-reached the sprint zero (SI-B, IP-B) and that the criterion now under-states a confirmation actually obtained (IP-A) are new defects with their own recommendations. Reopening the closed records would obscure which correction failed; a closure answers the defect its record names.
-
-#### Action owed at each owner's next turn
-
-None of the four Majors asks the stakeholder a question. Each narrows content back to a decision they have already taken, twice.
-
-| Defect | Artifact | Owner | Action | Position |
-|---|---|---|---|---|
-| SI-B | System Inventory | Software Archaeologist | Restate the Coverage closing statement to the scope given: no process is run in Survey, Excavation or Consolidation, so within the sprint zero neither read-only claim is settled by observation; both stay declared as read but not observed and are carried as accepted risk until the RUP phases start. Remove "for the life of this project", "in any phase" and the "no milestone may count them as retired" sentence, and leave open that a later phase recording a build-and-test result settles them. The declarations themselves stand unchanged | 1 |
-| RL-B | Risk List | Project Manager | Restate R002 and R011 as accepted until the RUP phases start, when the pipeline builds the solution and runs its tests; correct R002's "no later reading can settle it" and R011's "which this project does not do" to the sprint-zero scope; keep both acceptances and both bands; state in Document Control that the acceptance is bounded to the sprint zero | 2 |
-| IP-B | Iteration Plan | Project Manager | Scope "no retirement runs the system" to the sprint zero; state that from Inception on the CI pipeline builds the solution and runs its test suites so a later phase may retire a risk by a build or test result, and name who produces that evidence; then re-examine the retirement map for what a build and test run can settle and place each at the milestone whose execution produces it | 2 |
-| IP-A | Iteration Plan | Project Manager | Restore criterion 1 to the process wording — the perimeter confirmed by the stakeholder — evidenced by the confirmation given at SBC on 2026-11-14 over the seven projects, the entry-point surface, the stores and the external systems. Delete G2 from the coarse roadmap, the gantt markers and the Resources gate list, leaving G1, G3, G4 and G5 and no dangling identifier. Replace "Where the perimeter is confirmed" with what happened, and do not restate the deferral's rationale as a live reason | 3 |
-| IP-C | Iteration Plan | Project Manager | Move R006 and R025 from the LCO row to a line for Survey 2 — SBC, and restate the accounting so it reads fifteen retired by a later milestone artifact, two at SBC, one by its own bound and eight carried on acceptance — twenty-six | Minor — owner's next turn |
-| SI-A | System Inventory | Software Archaeologist | Restate the Provenance row to the four files the Coverage sentence names, dropping `RateLimitExtensions.cs` so the row and the 57-file tally agree | Minor — owner's next turn |
-| RL-A | Risk List | Project Manager | Cite what exists — raising either version changes the pins in `Directory.Packages.props`, owned by the Software Architect, and enters as a Change Request — instead of a Development Case section that does not exist | Minor — owner's next turn |
+Two closures are recorded with their residue, because a reader would otherwise read them as withdrawn. **Risk List Reviewer F2** asked that R023's citation resolve; it now resolves, and the replacement names a file the change does not touch — a new record (RL F4), not a reopening. **Iteration Plan Management F7** asked that R006 and R025 stop being credited to LCO; they are moved, and the row it moved them to is now under the R005 Major (IP F3) — again a new record, not a failed correction. Reopening a closed record would obscure which correction failed; a closure answers the defect its record names.
 
 #### Corrective order — the sequence is the plan
 
 ```plantuml
 @startuml
-title Corrective sequence for the four Majors — the order that stops one overstatement propagating twice
+title Corrective order — one defect in two artifacts, and three Minors behind it
 skinparam shadowing false
 
-|#Pink|Premise|
+|#Pink|1 — the register holds the premise|
 start
-:System Inventory F3 — narrow the Coverage closing statement to Survey, Excavation and Consolidation;
-note right
-  Fixing this last means fixing Risk List F3
-  and Iteration Plan F9 twice: both quote the sentence.
-end note
+:Risk List F3 Major (Reviewer) — restate R005 as the anomaly at the first reading with its retirement at Survey 2 — SBC;
+:Risk List F3 Major (Reviewer) — restate the unread clause to Coverage's current declaration set;
+:Risk List F3 Major (Reviewer) — keep band, owner and exposure; make the Register's composition sentence exact about R025;
 
-|#Orange|Acceptance duration|
-:Risk List F3 — restate R002 and R011 as accepted until the RUP phases start;
-:Bound the acceptance in Document Control to the sprint zero;
+|#Orange|2 — the plan builds on it|
+:Iteration Plan F3 Major (Reviewer) — move R005 into "Retired at Survey 2 — SBC";
+:Iteration Plan F3 Major (Reviewer) — restate the accounting as 14 + 3 + 1 + 8 = 26;
+:Iteration Plan F3 Major (Reviewer) — drop R005 from the AR step and the Excavation 1 risk column, leaving R017 as the System Analyst's AR owner;
 
-|#LightBlue|Plan — gates and retirement path|
-:Iteration Plan F8 — restore criterion 1 to the process wording, delete G2 from roadmap, gantt and gate list;
-:Iteration Plan F9 — scope no-run to the sprint zero, state that the pipeline builds and tests from Inception on, re-examine the retirement map for what a build and test run can settle;
-
-|#PaleGreen|Minors — owner's next turn|
-:System Inventory F3 Minor — Provenance counts 58 into a 57-file total;
-:Risk List F2 Minor — R023 cites a version provision the Development Case does not contain;
-:Iteration Plan F7 Minor — R006 and R025 are retired at SBC, not at LCO;
+|#LightBlue|3 — the owners' next turn|
+:Risk List F4 Minor — name the RazorLangVersion property in Todo.Web/Server/Todo.Web.Server.csproj;
+:Iteration Plan F4 Minor — add the Development Case revision as a work item and name the Process Engineer on the profile, or state it in Resources;
+:Iteration Plan F10 Minor — restate criterion 3's state, drop the Provenance work item from the fine plan;
 stop
 @enduml
 ```
 
-**SI-B first, then RL-B and IP-B, then IP-A.** They are not four independent defects: one sentence in the perimeter record states a sprint-zero constraint over the whole lifecycle, and the register and the plan both quote it. Correcting them in the other order writes the same narrowing three times into three artifacts that then disagree about the same two risks — the failure mode the previous milestone's corrective order existed to prevent.
+**The register's row first, then the plan's retirement.** They are not two independent defects: the plan's disposal table derives from the register's row, and correcting them in the other order writes the same retirement into two artifacts that then disagree about one risk. This is the same failure mode the stakeholder's corrective order at the previous gate existed to prevent, applied to this one.
 
-**The three Minors are owed at their owners' next turn.** Each stays inside its own artifact, and each is a single row.
+#### Action owed at each owner's next turn
+
+None of the five asks the stakeholder a question. Each is a correction inside an artifact its owner already holds.
+
+| Defect | Artifact | Owner | Action | Position |
+|---|---|---|---|---|
+| RL F3 — R005 disposed by work already performed | Risk List | Project Manager | Restate R005 as the anomaly at the first reading with its resolution: declared unread at Survey 1, opened at Survey 2, its content recorded in Provenance, retired at Survey 2 — SBC. Drop or restate the "six files are declared unread" clause to Coverage's current declaration set — two Razor imports plus `Server/App.razor`, `OpenApiOptionsExtensions.cs`, six migration files, three manifests, five launch and appsettings files, the assets, two fixture files and the four project-management records. Keep band 4×3=12, owner and exposure: the risk was real and was retired by an artifact the process ran, so no re-scoring is owed. While restating the Register's opening sentence, make the composition exact — R025 enters from a review finding, not from an anomaly of the Inventory | 1 |
+| IP F3 — R005's retirement booked at AR | Iteration Plan | Project Manager | Move R005 into the "Retired at Survey 2 — SBC" group and restate the accounting as 14 + 3 + 1 + 8 = 26. Drop R005's step from the AR row of the retirement diagram and R005 from the Excavation 1 risk-owner column, leaving R017 as the System Analyst's AR owner. Restate the Risk List's R005 row in the same turn so register and plan state one retirement; the Significant-band count of 8 is unaffected, only where R005 retires | 2 |
+| RL F4 — R023 routes the change to the wrong file | Risk List | Project Manager | Read "Raising it sets `<RazorLangVersion>` in `Todo.Web/Server/Todo.Web.Server.csproj`, owned by the Software Architect, and enters as a Change Request." The Development Case's Version policy sentence gains "or the project file that declares the property", so the policy covers this case and the register can cite it | 3 — owner's next turn |
+| IP F4 — Resources reports no role but two at work | Iteration Plan | Project Manager | Add the Development Case revision as a work item — Process Engineer, Development Case — Guidelines and Procedures, the Version policy and Measurement policy subsections added — and name the Process Engineer on this iteration's role profile; or state in Resources that the Process Engineer revised the Development Case at Survey 3 and for what purpose. "No new artifact is produced" stays true; "no other role is at work" does not | 3 — owner's next turn |
+| IP F10 — criterion 3 reports a closed record as outstanding | Iteration Plan | Project Manager | Restate criterion 3's state to "Evidenced — the declaration holds; the Provenance row now agrees with the enumeration the Coverage section publishes", and drop the "Restate the Provenance row" row from the fine plan's work items. The work is performed and verified, not owed. No other row of the Evaluation Criteria table changes | 3 — owner's next turn |
 
 #### What is deliberately not an action
 
-- **A new stakeholder question at this gate.** All four Majors are corrections to what the artifacts say about decisions already given. Putting any of them back to the stakeholder would ask them to answer what they have answered twice, which is the defect IP-A names.
-- **A Change Request.** None of the seven open records needs one. Each is a correction inside an artifact its owner already holds — no scope change, no baseline change, nothing for the CCB.
-- **Re-scoring any risk.** No lens contests a magnitude in either event, and the plan states that disagreement with a score does not fail the milestone.
-- **A schedule change beyond the iteration count.** Corrective iteration 3 is the plan's own lever for a milestone whose exit criteria do not pass. Declared scope is not narrowed, no role is added in parallel, and no criterion is re-interpreted to fit what was produced.
+- **A new stakeholder question at this gate.** All five records are corrections inside artifacts their owners hold. Putting any back to the stakeholder would ask them to answer what they have answered twice — the defect class the plan's own IP F8 named at the previous hold.
+- **A Change Request.** None of the five needs one. No scope change, no baseline change, nothing for the CCB.
+- **Re-scoring any risk.** Neither lens contests a magnitude in any of the three events, and the plan states that disagreement with a score does not fail the milestone.
+- **A schedule change beyond the iteration count.** Corrective iteration 4 is the plan's own lever for a milestone whose exit criteria do not pass. Declared scope is not narrowed, no role is added in parallel, and no criterion is re-interpreted to fit what was produced.
+- **A second perimeter confirmation.** Deleted by the stakeholder's own answer; it appears on no calendar this block publishes.
 
-#### Stakeholder finding — the corrective order, set by the stakeholder
+#### Stakeholder finding — the corrective order set at the previous gate, and its status
 
-Put to the stakeholder this milestone with the four Majors named and their owners' actions recorded above. Their answer:
+Put to the stakeholder at Survey iteration 2 with the four Majors named:
 
 > "Close the System Inventory sentence first, then the Risk List and Iteration Plan statements that quote it, then the deleted gate; the three Minors in each owner's next turn."
 
-This sets the sequence and adds no defect, no condition and no new action. Read against the ledger it orders the four Majors as SI-B; then RL-B and IP-B; then IP-A; and it leaves the three Minors to their owners' next turn. The stakeholder named no part of the existing system missing from the perimeter and corrected none of the actions above; no record is added or removed on account of this answer. The position column above carries this order.
+That order held and is verified: all four Majors it named are closed against the corrected text, and all three Minors it named are closed — the System Inventory Provenance record by the Technical lens, the Risk List citation by the Technical lens, and the Iteration Plan's LCO attribution by the Management lens. The order stands as the precedent applied to this iteration's two Majors, one of which (R005) is the same shape of defect: a statement two artifacts build on, repaired in the register first.
+
+The stakeholder's earlier answer also set the perimeter as confirmed at this milestone, with no second confirmation at Consolidation's start and the process's first exit criterion restored. That is verified in the Iteration Plan and appears on no other artifact.
 
 ## Disposition
 ### Reviewer lens
