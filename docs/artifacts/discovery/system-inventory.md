@@ -384,8 +384,10 @@ note bottom of IA
   requirements, design and architecture documents stands.
 end note
 note bottom of COMMENTS
-  CONTRIBUTING.md is cited as the coding standard by
-  the Development Case but is absent from the tree.
+  No CONTRIBUTING.md exists in the tree. The Development
+  Case records that absence rather than assuming a standard:
+  Directory.Build.props and the central pins are what bind
+  a reviewer, and R006 carries the gap.
 end note
 @enduml
 ```
@@ -396,7 +398,7 @@ end note
 | `Requests/todo.http` | executable request file (REST Client / VS Code) | 793 bytes, 5 requests | `POST /users/register`, `POST /users/login`, `POST /todos`, `GET /todos`, `DELETE /todos/{id}` | `Requests/todo.http` |
 | `.iari/README.md` | delivery statement | 777 bytes | What is and is not in the delivery | `.iari/README.md` |
 | `LICENSE` | licence text | MIT, `(c) 2022 David Fowler` | Legal terms only | `LICENSE` |
-| `docs/artifacts/environment/development-case.md` | process tailoring | 16418 bytes | The sprint-zero process: classification, disciplines, artifact catalogue, optional triggers, roles, version policy | committed 2026-11-14 (`37986fb`, `520a590`, `a1e2d77`, `6f554f8`, `e0bc4e6`) |
+| `docs/artifacts/environment/development-case.md` | process tailoring | 16418 bytes | The sprint-zero process: classification, disciplines, artifact catalogue, optional triggers, roles, the version policy, the measurement policy | committed 2026-11-14 (`37986fb`, `520a590`, `a1e2d77`, `6f554f8`, `e0bc4e6`) |
 | `docs/artifacts/discovery/system-inventory.md` | discovery record | this artifact | The system as it is: perimeter, technology, data, documentation, history, anomalies, priorities, coverage | committed 2026-11-14 (this reading) |
 | `docs/artifacts/project-management/` — `risk-list.md`, `iteration-plan.md`, `review-record.md`, `iteration-assessment.md` | four process records | four files, sizes not measured | The scored risk register, the schedule, the milestone verdict with its finding ledger, and the iteration's self-assessment. None records a fact about the system | committed 2026-11-14 |
 
@@ -453,6 +455,20 @@ Five of the nine sit in the authentication area, which is why that area ranks se
 `docs/artifacts/environment/development-case.md` lists `CONTRIBUTING.md` as "Coding standard and review conventions" with the Software Architect and Code Reviewer as owners. **`CONTRIBUTING.md` does not exist in the tree** — a direct read fails with "was not found". The Development Case's other tool references (`ci.yaml`, `Directory.Packages.props`, `global.json`, `Directory.Build.props`, `Todo.Api.Tests`, `README.md`) all resolve.
 
 Recorded as an absence, not filled in: no coding standard exists beyond what `Directory.Build.props` enforces (nullable, implicit usings, preview language version) and what the code demonstrates.
+
+### The coding standard: absent from the tree, and recorded as absent
+
+No written coding standard exists in this repository: there is no `CONTRIBUTING.md` and no equivalent path in the tree, and the `README.md` carries no contribution or style section. The Development Case states this rather than assuming a standard, and names what binds an Implementer and a Code Reviewer in its place:
+
+| Binding convention | Where it exists | Owner |
+|---|---|---|
+| `net9.0`, `Nullable enable`, `ImplicitUsings enable`, `LangVersion preview` | `Directory.Build.props` — compiler-enforced, so a violation fails the build | Software Architect |
+| 30 centrally-managed package pins, no floating versions | `Directory.Packages.props` | Software Architect |
+| Architecture mechanisms | the Software Architecture Document, from Elaboration on | Software Architect |
+
+`Source: docs/artifacts/environment/development-case.md`, Guidelines and Procedures. R006 carries the absence as a risk, and a written standard, if the project wants one, is authored by the Software Architect under a Change Request.
+
+Recorded as an absence, not filled in: no role reviews against a style guide, and the conventions a reviewer applies are the three above and nothing more.
 
 ## History
 Commit history read from the SCM. The whole-repository listing covers the 50 most recent commits, 2024-11-14 to 2026-11-14, and reports that older history exists.
