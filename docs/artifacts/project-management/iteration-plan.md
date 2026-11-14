@@ -357,6 +357,22 @@ The Review Coordinator decides whether the milestone closes. It does not decide 
 
 R005 and R011 have owners who first sit at AR — the System Analyst and the Software Architect. This iteration restates their strategy in the Risk List; it changes no owner, and no milestone row here claims either as retired.
 
+### This iteration — Survey 3, SBC
+
+| Role | Discipline and intensity | Stage in this iteration | Produces | Risks owned |
+|---|---|---|---|---|
+| Software Archaeologist | Discovery, Critical | System Inventory — Coverage · Provenance | System Inventory — the Coverage closing statement narrowed to the sprint zero, the Provenance row | R002 |
+| Project Manager | Project Management, Low | Risk List · Iteration Plan · Iteration Assessment | Risk List (the acceptance bound, the R023 citation), Iteration Plan (criterion 1, G2, the retirement map, the accounting), the assessment written after the verdict | R026 |
+| Reviewer | Review lens | SBC milestone review, technical | Findings on the artifacts reviewed | — |
+| Management Reviewer | Review lens | SBC milestone review, management | Findings on the artifacts reviewed | — |
+| Review Coordinator | Review lens | SBC milestone review | The SBC verdict | — |
+
+No other role is at work: every open defect of this gate sits in an artifact the Software Archaeologist or the Project Manager holds, and the three lenses review. The Development Case carries no open record from either lens, so the Process Engineer executes no stage here — the Development Case corrections R006 and R025 name were performed at Survey 2 and are retired there.
+
+The Review Coordinator decides whether the milestone closes. It does not decide the Iteration Assessment — the Project Manager writes that against the verdict.
+
+R005 and R011 have owners who first sit at AR — the System Analyst and the Software Architect. This iteration restates their strategy in the Risk List; it changes no owner, and no milestone row claims either as retired.
+
 ## Use Cases and Scenarios Addressed
 
 None, and that is the phase's definition rather than a gap in the plan.
