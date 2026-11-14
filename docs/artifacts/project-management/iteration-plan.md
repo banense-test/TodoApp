@@ -388,7 +388,7 @@ Two consequences for the iterations that do carry use cases, recorded here becau
 - Three capabilities are recovered as code that exists and is unreachable or dormant, and no use case is recovered for any of them: the owner-or-admin branches (R007), external login (R008), and `PUT /todos/{id}`'s missing screen (R009 — recovered as a use case that states no screen reaches it).
 
 ## Evaluation Criteria
-The exit criteria for this iteration are the SBC milestone's. They are the stakeholder's and the process's, not criteria this plan invents, and each states a condition this iteration can satisfy. Each is marked with the artifact and the fact that evidences it — no criterion is marked met here, because the gate rules on the evidence, not the author.
+The exit criteria for this iteration are the SBC milestone's. They are the stakeholder's and the process's, not criteria this plan invents, and each states a condition this iteration can satisfy. Each is marked with the artifact and the fact that evidences it.
 
 | # | Criterion | How it is evidenced | State at plan time |
 |---|---|---|---|
@@ -428,12 +428,6 @@ end note
 @enduml
 ```
 
-### Where the perimeter is confirmed
-
-Criterion 1 stops at recorded-and-put. The perimeter is **confirmed** at **G2, at Consolidation 1's start** — not at SBC. Excavation deepens the perimeter before Consolidation: the Design Model, the persistent-data sections and the first recovered use cases add elements the Survey reading has not seen. Confirming the perimeter before that reading would confirm an incomplete record, so G2 is placed where the record is complete rather than where it is most convenient.
-
-The three answers of 2026-11-14 are cited in this criterion because they dispose of three specific facts — the `admin` role's unreachability, the dormancy of the external identity providers, and the BFF-to-API trust boundary. They are not the stakeholder's confirmation of the perimeter, and no criterion here claims they are.
-
 ### What can still fail
 
 Criterion 5 turns on a judgement the reviewing lenses make: whether a process authority whose references all resolve is auditable. The `CONTRIBUTING.md` row is corrected and the Development Case states that no written coding standard exists, so the correction is not deferred. Whether the corrected authority is now auditable is the gate's call, not the author's.
@@ -441,15 +435,6 @@ Criterion 5 turns on a judgement the reviewing lenses make: whether a process au
 The other way an iteration does not close is the perimeter's adequacy: if a reviewing lens finds the record under-evidenced — most likely for the files the reading declared unread, or for the statements marked read rather than observed — the remedy is a further Survey iteration that opens those files. That is the iteration-count lever, and it protects the accuracy of the perimeter at schedule cost. It is never answered by adding agent roles in parallel, and never by narrowing what counts as the perimeter.
 
 **Not an exit criterion:** the risk scores are judgements, and a reviewer may disagree with a score without failing the milestone. What must hold is that every anomaly is classified, that every magnitude is the band of its own exposure, and that no High or Significant risk rests on an acceptance nobody granted.
-
-### The four criteria this iteration's corrections carry
-
-| Criterion | Corrected against | What still has to hold at the gate |
-|---|---|---|
-| 1 | This artifact, Evaluation Criteria — the criterion now asks for recorded-and-put, and G2 is named as the confirmation point | That the record itself is adequate: anchored per element, priorities ordered, unread areas declared |
-| 3 | System Inventory, Coverage — the closing statement records the stakeholder's decision that the two read-only claims are never settled by observation | That SI-2 has landed; nothing else in the criterion is in doubt |
-| 4 | Risk List, all sections — 26 rows, each exposure the product of its own two scores; R002 and R011 accepted with R002's Significant-band grant quoted | Every strategy names an artifact or a bound that retires it, and no milestone counts a risk retired by evidence this project will not produce |
-| 6 | This artifact, Plan and Milestones and Resources | Every role named in a milestone row is at work in that milestone; no gate staffs a stood-down role; every risk owner reconciles with the register; no work item is sized in a unit this project does not measure |
 
 ### Where the perimeter's confirmation was obtained
 
@@ -463,7 +448,7 @@ The three scope answers of 2026-11-14 are cited in criterion 1 only as the dispo
 
 | Criterion | Corrected against | What has to hold at the gate |
 |---|---|---|
-| 1 | This artifact, Evaluation Criteria — restored to the process wording and evidenced by the confirmation given at SBC on 2026-11-14; G2 deleted from the roadmap, the gantt and the Resources gate list | That the record itself is adequate: anchored per element, priorities ordered, unread areas declared |
+| 1 | This artifact, Evaluation Criteria — restored to the process wording and evidenced by the confirmation given at SBC on 2026-11-14; the second confirmation gate deleted from the roadmap, the gantt and the Resources gate list | That the record itself is adequate: anchored per element, priorities ordered, unread areas declared |
 | 3 | System Inventory, Coverage — the closing statement narrowed to Survey, Excavation and Consolidation by its owner | That the Provenance row is corrected; nothing else in the criterion is in doubt |
 | 4 | Risk List, all sections — 26 rows, each exposure the product of its own two scores; R002 and R011 accepted until the RUP phases start, R002's Significant-band grant quoted | Every strategy names an artifact or a bound that retires it, and no acceptance outlives the horizon it was granted for |
 | 6 | This artifact, Plan and Milestones and Resources — the retirement map scoped to the sprint zero with observation restored as a path from Inception on, four gates, every risk owner reconciled | Every role named in a milestone row is at work in that milestone; no gate staffs a stood-down role; no work item is sized in a unit this project does not measure |
