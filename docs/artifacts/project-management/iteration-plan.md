@@ -4,93 +4,101 @@ Status: Draft — Survey iteration 2, corrective; coarse roadmap with the risk r
 Milestone Target: End-of-Survey (SBC) — not yet achieved
 
 ## Iteration Objectives
+Survey iteration 2 is corrective. Survey iteration 1 produced the reading, the tailoring and the register, and the SBC gate returned them with ten Majors open and the stakeholder's sanction withheld. This iteration has one objective with five parts, and no new artifact among them: it corrects stated claims against the product iteration 1 verified.
 
-Survey iteration 1 opens the sprint zero. Its objective is to establish the two things every later iteration depends on: a governed process, and a read of the system that already exists.
+1. **Re-dispose the two risks whose strategy cannot execute.** R002 and R011 are accepted, not avoided, on the stakeholder's answer of 2026-11-14 that the system will not be run in any phase; R002's Significant-band grant is quoted verbatim. Owner: Project Manager.
+2. **Bound the human gate.** A risk carries the 14-day queue-time ceiling and the suspension rule, so the plan's claim that a gate is bounded rests on a register entry that exists. Owner: Project Manager.
+3. **Make the plan executable as a governing instrument.** No stood-down role on any gate, every risk owner at work in the milestone that carries its risk, and a stakeholder gate booked at each milestone whose exit condition is the stakeholder's acceptance. Owner: Project Manager.
+4. **Remove every forward commitment that assumes the system can be run.** No milestone, work item or mitigation in the plan or the register rests on observation. Owner: Project Manager.
+5. **Restate criterion 1 to the condition SBC actually gates.** The perimeter is recorded and put to the stakeholder here; it is confirmed at G2, at Consolidation 1's start, because Excavation deepens the record. Owner: Project Manager.
 
-1. Tailor the IARI Development Process for this project — classification, active disciplines, OPTIONAL trigger verdicts, stood-down roles, version policy. Owner: Process Engineer.
-2. Read the delivered system to the depth its own priorities demand — the perimeter, technology and size, persistent data, documentation, history, anomalies and priorities. Owner: Software Archaeologist.
-3. Convert every anomaly the reading found into a scored, banded risk with a strategy, an owner, a mitigation and a contingency. Owner: Project Manager.
-4. Place the risks and the process into a plan — the coarse roadmap across the sprint zero and the four RUP phases with the risk retirement each milestone carries, this iteration's fine plan, and the agent role profile. Owner: Project Manager.
+The two Majors owned by other roles — the package-pin tally (R006's neighbourhood) and the absent coding standard — are corrections inside their owners' artifacts, carried in this plan as the same iteration's work because a milestone does not close with them open.
 
 ```plantuml
 @startuml
-title Survey iteration 1 — the critical chain: six sequential agent stretches and one human gate, from iteration start to the SBC gate
+title Survey iteration 2 — the corrective chain: seven sequential agent stretches, no human gate required
 skinparam shadowing false
 skinparam swimlaneWidth 200
 
 |#LightYellow|Agent work — sequential|
 start
-:<b>Stretch 1</b> — Process Engineer
-Tailor the process as a delta over the IARI baseline;
+:<b>Stretch 1</b> — Software Archaeologist
+Coverage records that the two read-only claims
+are never settled by observation;
 note right
-  Produces: Development Case
+  Corrects: System Inventory — Coverage (SI-2)
+  The premise the two stretches below inherit.
   Spend: not measured — Survey has not closed
 end note
 
-:<b>Stretch 2</b> — Software Archaeologist
-Read the documentation the delivery carries;
+:<b>Stretch 2</b> — Project Manager
+Re-dispose R002 and R011 as accept on the
+stakeholder's answer, and bound the human gate;
 note right
-  Produces: System Inventory — Documentation
+  Corrects: Risk List (RL-1, RL-2, RL-3)
+  Produces: R026 at Significant, avoid
   Spend: not measured
 end note
 
-:<b>Stretch 3</b> — Software Archaeologist
-Read the perimeter, the technology and size, the persistent data and the history;
+:<b>Stretch 3</b> — Project Manager
+Rebuild the retirement map and correct the
+fine plan so no work item assumes a run;
 note right
-  Produces: System Inventory — Perimeter,
-  Technology and Size, Persistent Data, History
+  Corrects: Iteration Plan — Plan and Milestones (IP-5)
   Spend: not measured
 end note
 
-|#Gold|Human gate — queue time, not work|
-:G1 — the stakeholder disposes of the three
-facts whose disposition is theirs: the admin
-branches, the dormant external login, the
-BFF-to-API boundary;
+:<b>Stretch 4</b> — Project Manager
+Reconcile the role profile against every
+risk owner and stop staffing stood-down roles;
 note right
-  Ceiling 14 days; estimate none.
-  Asked and answered 2026-11-14; the queue
-  duration is reported by the process and is
-  never converted into agent time
-end note
-
-|#LightYellow|Agent work — sequential|
-:<b>Stretch 4</b> — Software Archaeologist
-Record the anomalies and order the reading priorities;
-note right
-  Produces: System Inventory — Anomalies and Priorities, Coverage
+  Corrects: Iteration Plan — Resources (IP-2, IP-3)
   Spend: not measured
 end note
 
 :<b>Stretch 5</b> — Project Manager
-Score and classify every anomaly;
+Restate criterion 1 to what SBC gates,
+citing G2 as where the perimeter is confirmed;
 note right
-  Produces: Risk List — 25 risks, two High, both avoided
+  Corrects: Iteration Plan — Evaluation Criteria (IP-1, IP-6)
   Spend: not measured
 end note
 
-:<b>Stretch 6</b> — Project Manager
-Write this plan: the coarse roadmap and the fine plan;
+:<b>Stretch 6</b> — Software Archaeologist, Process Engineer
+Correct the pin tally to 30 and replace the
+CONTRIBUTING.md reference with the files that govern;
 note right
-  Produces: Iteration Plan
+  Corrects: System Inventory (SI-1, SI-3), Development Case (DC-1, DC-2)
+  The only stretches that touch another role's artifact
   Spend: not measured
 end note
 
-|#LightPink|Milestone review|
-:The Reviewer finds on the artifacts;
-:The Management Reviewer asks whether the milestone's case holds;
+:<b>Stretch 7</b> — Project Manager
+Write the Iteration Assessment against the
+iteration's own verdict, once the gate has ruled;
+note right
+  Produces: Iteration Assessment
+  Written last, never before the verdict
+  Spend: not measured
+end note
+
+|#LightPink|SBC milestone review — re-run|
+:The Reviewer finds, technical lens;
+:The Management Reviewer finds, management lens;
 :The Review Coordinator rules on SBC;
 note right
-  The verdict decides whether the iteration
-  closes. The Iteration Assessment is written
-  by the Project Manager against that verdict,
-  never before it, and it does not gate the phase
+  No stakeholder gate is booked inside this iteration.
+  The sanction is asked at the gate, not planned as a
+  work item — G1 was answered 2026-11-14 and G2 is at
+  Consolidation 1's start
 end note
 stop
 @enduml
 ```
 
-The chain is sequential, not parallel, for one reason: each stretch consumes the one before it. The process tailoring fixes what the reading may record; the reading produces the anomalies; the anomalies are the only legitimate input to the Risk List; the Risk List is half of what this plan is built on. Six agent stretches plus the human gate are the plan's critical path — parallelism buys nothing on a chain whose links are data dependencies.
+The chain is sequential for the same reason as iteration 1's: each stretch consumes the one before it. The premise correction comes first because the register and the plan both quote the sentence it corrects; the record errors come last because no other correction depends on them. Stretch 7 is the Iteration Assessment, which is written against the verdict and does not gate the phase.
+
+No stretch carries a spend figure. Survey has not closed, so no measured actual exists and no forecast is invented in its place.
 
 ## Plan and Milestones
 Two levels live in this section: the coarse cross-iteration roadmap and the fine plan for this iteration.
