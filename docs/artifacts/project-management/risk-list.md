@@ -3,7 +3,7 @@ Phase: Survey
 Status: Draft — 25 risks carried from the anomalies and declared coverage limits of the System Inventory, each scored and given a strategy; one sits in the High band and its acceptance is put to the stakeholder in this round
 Milestone Target: End-of-Survey (SBC) — not yet achieved
 ## Risk Classification
-The scales are the IARI Development Case §9.10 scales, cited not redefined: probability and impact are each scored 1 to 5, exposure is their product, and the magnitude is the band that exposure falls in. Acceptance of a High (15 to 25) or Significant (9 to 12) risk is the stakeholder's grant, recorded in Risk Mitigation and Contingency; it is never self-granted here.
+The scales are the IARI Development Case §9.10 scales, cited not redefined: probability and impact are each scored 1 to 5, exposure is their product, and the magnitude is the band that exposure falls in. Probability is read as the likelihood the adverse outcome occurs under the plan as written, not the likelihood the underlying anomaly is present — several anomalies are certain to exist while the harm they do is unlikely. Acceptance of a High (15 to 25) or Significant (9 to 12) risk is the stakeholder's grant and is never self-granted here.
 
 ```plantuml
 @startuml
@@ -68,23 +68,23 @@ STRAT --> GRANT : accept of High or Significant needs
 
 ### Exposure grid — every scored risk at its probability and impact
 
-| Impact | P1 (≤10%) | P2 (11–30%) | P3 (31–50%) | P4 (51–70%) | P5 (>70%) |
+| Impact | P1 (10% or less) | P2 (11–30%) | P3 (31–50%) | P4 (51–70%) | P5 (more than 70%) |
 |---|---|---|---|---|---|
-| **5** — success endangered | R007, R012 | — | R009, R017 | **R001** | — |
-| **4** — milestone slips | R015 | R011 | — | R005 | — |
-| **3** — objective slips | — | R008, R013 | R016 | R004 | — |
-| **2** — work inside the iteration | — | — | R014, R023 | R010 | R002, R018 |
+| **5** — success endangered | R007, R012 | — | — | — | — |
+| **4** — the milestone slips | — | R011 | — | R001 | — |
+| **3** — an iteration objective slips | — | R006, R008, R013 | R016 | R003, R004, R005, R017 | R009 |
+| **2** — work inside the iteration | — | R015 | R014, R023 | R010 | R002, R018 |
 | **1** — no deviation worth recording | — | — | — | R021 | R019, R020, R022, R024, R025 |
 
 | Band | Exposure | Count | Risks |
 |---|---|---|---|
-| High | 15–25 | 3 | R001 (20), R009 (15), R017 (15) |
-| Significant | 9–12 | 7 | R003 (12), R004 (12), R005 (12), R002 (10), R006 (10), R018 (10), R016 (9) |
-| Moderate | 5–8 | 13 | R010 (8), R011 (8), R008 (6), R013 (6), R014 (6), R023 (6), R007 (5), R012 (5), R019 (5), R020 (5), R022 (5), R024 (5), R025 (5) |
+| High | 15–25 | 2 | R001 (16), R009 (15) |
+| Significant | 9–12 | 7 | R003 (12), R004 (12), R005 (12), R017 (12), R002 (10), R018 (10), R016 (9) |
+| Moderate | 5–8 | 14 | R010 (8), R011 (8), R006 (6), R008 (6), R013 (6), R014 (6), R023 (6), R007 (5), R012 (5), R019 (5), R020 (5), R022 (5), R024 (5), R025 (5) |
 | Minor | 3–4 | 2 | R015 (4), R021 (4) |
 | Low | 1–2 | 0 | — |
 
-The three High-band risks whose strategy is accept — R001, R009, R017 — have their acceptance put to the stakeholder in this round. All other accepted risks sit at Moderate or Minor, where acceptance is the Project Manager's.
+Both High-band risks — R001 and R009 — are disposed of by `avoid`, because an artifact this process already produces retires each of them: the Test Case and the recovered Use-Case Model respectively. No risk in the High or Significant band rests on the Project Manager's own acceptance, so no acceptance is asked of the stakeholder this round. The three risks whose strategy is `accept` at Moderate — R007, R008 and R012 — were each put to the stakeholder on 2026-11-14 and their answers are cited in Risk Mitigation and Contingency.
 
 ## Risk Register
 
