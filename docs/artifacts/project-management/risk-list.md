@@ -126,10 +126,10 @@ package "Request pipeline" {
 }
 
 note right of A
-  Carries both High-band risks: R001 at 16
-  and R017 at 12 Significant. This is the
-  only area holding a trust boundary, and
-  it is the area no automated test covers
+  Highest band: High, R001 at exposure 16.
+  R017 and R016 are Significant at 12 and 9.
+  This is the only area holding a trust
+  boundary, and no automated test covers it
 end note
 note right of B
   Highest band: Significant — R003, R004
@@ -141,8 +141,9 @@ note bottom of C
   No entry here changes the shape of the plan
 end note
 note bottom of D
-  Highest band: High, R009 at 15 — a recovered
-  API capability with no screen reaching it
+  Highest band: High, R009 at exposure 15 —
+  a recovered API capability with no screen
+  reaching it
 end note
 note bottom of E
   Highest band: Significant, R018 at 10 —
