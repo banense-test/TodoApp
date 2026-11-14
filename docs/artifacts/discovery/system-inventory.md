@@ -619,37 +619,6 @@ Three anomalies above are not defects to be fixed by preference but scope decisi
 
 These three decisions close the only scope questions this reading raised. Nothing else in this artifact awaits confirmation: the areas left unread in Coverage are declared unread, not open, and every other anomaly is a finding about the code with no decision attached.
 
-### What settles an anomaly here, and what never will
-
-Of the 23 rows above, 21 are settled inside this project — by an artifact another role writes, by a correction to the tree, or by a decision the stakeholder has already taken. Two are not, and they are named so no milestone adopts a retirement path that cannot run.
-
-```plantuml
-@startuml
-title What settles an anomaly in this artifact, and the path that does not exist here
-skinparam shadowing false
-
-state "Recorded by reading" as R
-state "Settled inside this project — an artifact another role writes, a correction to the tree, or a decision already taken" as A
-state "Carried with the uncertainty intact for the life of the project" as C
-state "Settled by observing a running system" as O
-
-[*] --> R : every row — the evidence column cites the file and the construct
-R --> A : 21 rows
-R --> C : 2 rows — the rate limiter's partition key; the database lifecycle beyond the Directory.Exists guard
-C --> C : no milestone counts it retired
-R -[#red,dashed]-> O : ruled out 2026-11-14 — the system is not installed and is never run
-O --> [*]
-
-@enduml
-```
-
-| Row | Why reading cannot settle it | What stands in its place |
-|---|---|---|
-| The rate limiter's partition key depends on middleware order the code does not state | Whether `ClaimTypes.NameIdentifier` is populated when the partition key is read is decided by the framework's implicit middleware at request time, not by any line in `Todo.Api/Program.cs` or `Todo.Api/Extensions/RateLimitExtensions.cs` | The per-user limit is recorded as undetermined in the delivered system. The statement and its risk stand for the life of the project |
-| The database lifecycle beyond the AppHost's guard | What a second run, a stale `.db` file or a changed model does is runtime behaviour of `TodoApp.AppHost/Extensions.cs`'s `Directory.Exists` branch | The conditional migration is recorded as read. Its consequences stay undetermined |
-
-Neither row is a gap in the reading and neither is closed by a later one: both are permanent for this project. A risk whose mitigation names running the system is a risk nothing mitigates, so the Project Manager disposes of these two by acceptance rather than by avoidance, and the acceptance stands in the Risk List, not here.
-
 ### What settles an anomaly here
 
 Of the 23 rows above, 21 are settled inside the sprint zero — by an artifact another role writes, by a correction to the tree, or by a decision the stakeholder has already taken. Two are not, and they are named so no milestone adopts a retirement path that cannot run inside the sprint zero.
