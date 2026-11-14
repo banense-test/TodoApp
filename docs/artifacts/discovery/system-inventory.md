@@ -5,6 +5,8 @@ Milestone Target: End-of-Survey (SBC) — not yet achieved
 ## Perimeter
 The delivered system is the public sample `davidfowl/TodoApp` (MIT) at commit `307a1ead` of 2026-02-12, copied wholesale into this repository. It is a multi-process .NET 9 solution of seven projects: a Blazor WebAssembly client served by a Blazor server host acting as a backend-for-frontend, a minimal-API backend, an Aspire orchestrator, a shared service-defaults library, a shared DTO library, and an integration-test project.
 
+### Components, stores and external systems
+
 ```plantuml
 @startuml
 title Perimeter of the existing TodoApp system — components, stores and external systems
@@ -26,7 +28,7 @@ package "TodoApp solution — 7 projects (Source: TodoApp.sln)" {
 node "Browser" as BROWSER
 database "SQLite file\n.db/Todos.db — 8 tables" as DB
 component "sqliteweb\n<<docker container tomdesinto/sqliteweb>>" as SQLWEB
-cloud "External identity providers\nGitHub · Google · Microsoft · Auth0 OIDC" as EXT
+cloud "External identity providers\nGitHub · Google · Microsoft · Auth0 OIDC\nconfigured-at-runtime only" as EXT
 cloud "OTLP endpoint\n(only if OTEL_EXPORTER_OTLP_ENDPOINT is set)" as OTLP
 cloud "NuGet feed\napi.nuget.org · packageSourceMapping '*'" as NUGET
 
@@ -35,7 +37,7 @@ BROWSER --> WASM : runs (assets served by BFF)
 BROWSER --> BFF : HTTPS · auth cookie\nX-Requested-With: XMLHttpRequest
 BFF --> API : /todos/{*path}\nYARP forwarder · http://todoapi\nBearer access token
 BFF --> API : /users/login · /users/register\n/users/token/{provider}\nAuthClient · http://todoapi
-BFF --> EXT : OIDC / OAuth challenge\n/auth/login/{provider}
+BFF -.-> EXT : OIDC / OAuth challenge\n/auth/login/{provider}\n(dormant as delivered)
 API --> DB : EF Core Sqlite\nconnection string "Todos"
 SQLWEB --> DB : browse\n(run mode only)
 APPHOST ..> API : launches · "dotnet ef database update"
@@ -96,15 +98,17 @@ External systems and stores, each with the anchor that proves the dependency:
 
 | External element | Direction | Anchor |
 |---|---|---|
-| External identity providers — GitHub, Google, Microsoft, Auth0 | BFF → provider (OAuth2 / OIDC) | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs` registers the four schemes by name, each only when its `Authentication:Schemes:<name>` section exists; the four provider packages are pinned in `Todo.Web/Server/Todo.Web.Server.csproj`. No delivered configuration supplies such a section — `Todo.Web/Server/appsettings.json` and `appsettings.Development.json` (144 bytes, logging only) hold none — so in the delivered shape the edge is dormant and only username/password login is reachable |
+| External identity providers — GitHub, Google, Microsoft, Auth0 | BFF → provider (OAuth2 / OIDC), configured-at-runtime | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs` registers the four schemes by name, each only when its `Authentication:Schemes:<name>` section exists; the four provider packages are pinned in `Todo.Web/Server/Todo.Web.Server.csproj`. No delivered configuration supplies such a section — `Todo.Web/Server/appsettings.json` and `appsettings.Development.json` (144 bytes, logging only) hold none — so in the delivered shape the edge is dormant and only username/password login is reachable. The stakeholder confirmed on 2026-11-14 that it stays recorded this way and no external-login use case is recovered this cycle |
 | SQLite database file `.db/Todos.db` | API → file | `Todo.Api/Program.cs` connection string `"Todos"` with fallback `Data Source=.db/Todos.db` |
 | `tomdesinto/sqliteweb` container | AppHost → container, container → database file | `TodoApp.AppHost/Program.cs` |
 | OTLP endpoint | API and BFF → collector | `TodoApp.ServiceDefaults/Extensions.cs` exports only when `OTEL_EXPORTER_OTLP_ENDPOINT` is non-empty |
 | `api.nuget.org` | build → feed | `nuget.config` clears inherited sources and maps `*` to nuget.org |
 
-The BFF-to-API connection is the one boundary that is easy to record wrongly, and both directions are anchored: `/todos` is forwarded by YARP, which rewrites the cookie-held token into an `Authorization` header, while `/users/*` is called by `AuthClient` with the credentials in the request body. The API never learns which of the two channels a request came through — there is no service-to-service authentication between them, which the code itself records as a TODO (`Todo.Api/Users/UsersApi.cs`).
+The BFF-to-API connection is the one boundary that is easy to record wrongly, and both directions are anchored: `/todos` is forwarded by YARP, which rewrites the cookie-held token into an `Authorization` header, while `/users/*` is called by `AuthClient` with the credentials in the request body. The API never learns which of the two channels a request came through — there is no service-to-service authentication between them, which the code itself records as a TODO (`Todo.Api/Users/UsersApi.cs`). The stakeholder confirmed on 2026-11-14 that this is a known limitation of the single-host baseline and out of scope for this cycle, so the boundary is recorded as accepted rather than as a defect to design away.
 
-The entry-point surface, recorded because every recovered use case must point back to it:
+### Entry-point surface
+
+Recorded because every recovered use case must point back to it.
 
 ```plantuml
 @startuml
@@ -114,7 +118,6 @@ skinparam shadowing false
 
 actor "Visitor" as VIS
 actor "Signed-in user" as USR
-actor "Administrator\n(role claim only — no runtime producer)" as ADM
 
 package "Todo.Web.Client — Blazor WASM in the browser\n(Source: Todo.Web/Client/TodoClient.cs, Program.cs)" {
   component "Task-list screen\nadd · list · delete" as UI1
@@ -133,10 +136,10 @@ package "Todo.Web.Server — BFF\n(Source: Todo.Web/Server/AuthApi.cs, TodoApi.c
 
 package "Todo.Api\n(Source: Todo.Api/Todos/TodoApi.cs, Users/UsersApi.cs)" {
   component "GET /todos\nown todos only" as TGET
-  component "GET /todos/{id}\nowner or admin" as TGET1
+  component "GET /todos/{id}\nowner check" as TGET1
   component "POST /todos\ntitle + owner from the resolved user" as TPOST
-  component "PUT /todos/{id}\nowner or admin · title + IsComplete" as TPUT
-  component "DELETE /todos/{id}\nowner or admin" as TDEL
+  component "PUT /todos/{id}\ntitle + IsComplete" as TPUT
+  component "DELETE /todos/{id}\nowner check" as TDEL
   component "POST /users/register · /users/login · /users/refresh\n+ MapIdentityApi group" as UIDN
   component "POST /users/token/{provider}\nexternal login, protected provider key" as UEXT
 }
@@ -160,9 +163,6 @@ BFWD --> TPOST
 BFWD --> TGET1
 BFWD --> TPUT
 BFWD --> TDEL
-ADM -.-> TGET1
-ADM -.-> TPUT
-ADM -.-> TDEL
 
 note right of BFWD
   The /todos path has no /users equivalent:
@@ -174,8 +174,8 @@ note bottom of TGET
   Every /todos call passes through
   RequireCurrentUser(), which re-reads the
   user from the API's own store, so a valid
-  token for a deleted user is rejected
-  (Source: CheckCurrentUserAuthHandler.cs,
+  token for a user that no longer exists is
+  rejected (Source: CheckCurrentUserAuthHandler.cs,
   CurrentUserExtensions.cs).
 end note
 note bottom of UI1
@@ -183,8 +183,23 @@ note bottom of UI1
   PUT /todos/{id} sets IsComplete
   (TodoList.razor renders an unbound checkbox).
 end note
+note right of UEXT
+  External login is configured-at-runtime only,
+  so these endpoints have no recovered use case
+  this cycle (stakeholder decision, 2026-11-14 —
+  see Anomalies).
+end note
+note bottom of TGET1
+  TGET1, TPUT and TDEL also accept an owner OR
+  admin caller. No admin claim can be produced by
+  the delivered system, so that half of each rule
+  is unreachable (stakeholder decision, 2026-11-14 —
+  see Anomalies).
+end note
 @enduml
 ```
+
+Two actors are recorded: the visitor, who reaches only the log-in form, and the signed-in user, who reaches the task list. No administrator actor is recorded, because no claim that would identify one can be produced by the delivered system (Anomalies).
 
 Scheduled jobs, batch processes and reports: none. `Source: TodoApp/` tree — no hosted service, no timer, no job configuration in any read manifest. The only non-request-driven behaviour is the one-shot `dotnet ef database update` the AppHost runs at startup.
 
