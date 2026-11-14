@@ -1011,15 +1011,15 @@ Two closures deserve the note on why they stand although the surrounding content
 
 None of the four Majors asks the stakeholder a question. Each narrows content back to a decision they have already taken, twice.
 
-| Defect | Artifact | Owner | Action |
-|---|---|---|---|
-| SI-B | System Inventory | Software Archaeologist | Restate the Coverage closing statement to the scope given: no process is run in Survey, Excavation or Consolidation, so within the sprint zero neither read-only claim is settled by observation; both stay declared as read but not observed and are carried as accepted risk until the RUP phases start. Remove "for the life of this project", "in any phase" and the "no milestone may count them as retired" sentence, and leave open that a later phase recording a build-and-test result settles them. The declarations themselves stand unchanged |
-| RL-B | Risk List | Project Manager | Restate R002 and R011 as accepted until the RUP phases start, when the pipeline builds the solution and runs its tests; correct R002's "no later reading can settle it" and R011's "which this project does not do" to the sprint-zero scope; keep both acceptances and both bands; state in Document Control that the acceptance is bounded to the sprint zero |
-| IP-A | Iteration Plan | Project Manager | Restore criterion 1 to the process wording — the perimeter confirmed by the stakeholder — evidenced by the confirmation given at SBC on 2026-11-14 over the seven projects, the entry-point surface, the stores and the external systems. Delete G2 from the coarse roadmap, the gantt markers and the Resources gate list, leaving G1, G3, G4 and G5 and no dangling identifier. Replace "Where the perimeter is confirmed" with what happened, and do not restate the deferral's rationale as a live reason |
-| IP-B | Iteration Plan | Project Manager | Scope "no retirement runs the system" to the sprint zero; state that from Inception on the CI pipeline builds the solution and runs its test suites so a later phase may retire a risk by a build or test result, and name who produces that evidence; then re-examine the retirement map for what a build and test run can settle and place each at the milestone whose execution produces it |
-| IP-C | Iteration Plan | Project Manager | Move R006 and R025 from the LCO row to a line for Survey 2 — SBC, and restate the accounting so it reads fifteen retired by a later milestone, three at SBC, one by its own bound and eight carried on acceptance — twenty-six |
-| SI-A | System Inventory | Software Archaeologist | Restate the Provenance row to the four files the Coverage sentence names, dropping `RateLimitExtensions.cs` so the row and the 57-file tally agree |
-| RL-A | Risk List | Project Manager | Cite what exists — raising either version changes the pins in `Directory.Packages.props`, owned by the Software Architect, and enters as a Change Request — instead of a Development Case section that does not exist |
+| Defect | Artifact | Owner | Action | Position |
+|---|---|---|---|---|
+| SI-B | System Inventory | Software Archaeologist | Restate the Coverage closing statement to the scope given: no process is run in Survey, Excavation or Consolidation, so within the sprint zero neither read-only claim is settled by observation; both stay declared as read but not observed and are carried as accepted risk until the RUP phases start. Remove "for the life of this project", "in any phase" and the "no milestone may count them as retired" sentence, and leave open that a later phase recording a build-and-test result settles them. The declarations themselves stand unchanged | 1 |
+| RL-B | Risk List | Project Manager | Restate R002 and R011 as accepted until the RUP phases start, when the pipeline builds the solution and runs its tests; correct R002's "no later reading can settle it" and R011's "which this project does not do" to the sprint-zero scope; keep both acceptances and both bands; state in Document Control that the acceptance is bounded to the sprint zero | 2 |
+| IP-B | Iteration Plan | Project Manager | Scope "no retirement runs the system" to the sprint zero; state that from Inception on the CI pipeline builds the solution and runs its test suites so a later phase may retire a risk by a build or test result, and name who produces that evidence; then re-examine the retirement map for what a build and test run can settle and place each at the milestone whose execution produces it | 2 |
+| IP-A | Iteration Plan | Project Manager | Restore criterion 1 to the process wording — the perimeter confirmed by the stakeholder — evidenced by the confirmation given at SBC on 2026-11-14 over the seven projects, the entry-point surface, the stores and the external systems. Delete G2 from the coarse roadmap, the gantt markers and the Resources gate list, leaving G1, G3, G4 and G5 and no dangling identifier. Replace "Where the perimeter is confirmed" with what happened, and do not restate the deferral's rationale as a live reason | 3 |
+| IP-C | Iteration Plan | Project Manager | Move R006 and R025 from the LCO row to a line for Survey 2 — SBC, and restate the accounting so it reads fifteen retired by a later milestone artifact, two at SBC, one by its own bound and eight carried on acceptance — twenty-six | Minor — owner's next turn |
+| SI-A | System Inventory | Software Archaeologist | Restate the Provenance row to the four files the Coverage sentence names, dropping `RateLimitExtensions.cs` so the row and the 57-file tally agree | Minor — owner's next turn |
+| RL-A | Risk List | Project Manager | Cite what exists — raising either version changes the pins in `Directory.Packages.props`, owned by the Software Architect, and enters as a Change Request — instead of a Development Case section that does not exist | Minor — owner's next turn |
 
 #### Corrective order — the sequence is the plan
 
@@ -1052,9 +1052,7 @@ stop
 @enduml
 ```
 
-**SI-B first, then RL-B and IP-B.** They are not three defects: one sentence in the perimeter record states a sprint-zero constraint over the whole lifecycle, and the register and the plan both quote it. Correcting them in the other order writes the same narrowing three times into three artifacts that then disagree about the same two risks — the failure mode the previous milestone's corrective order existed to prevent.
-
-**IP-A is independent** and can land in either pass: it is a restored criterion and a deleted gate, touching nothing the other three touch.
+**SI-B first, then RL-B and IP-B, then IP-A.** They are not four independent defects: one sentence in the perimeter record states a sprint-zero constraint over the whole lifecycle, and the register and the plan both quote it. Correcting them in the other order writes the same narrowing three times into three artifacts that then disagree about the same two risks — the failure mode the previous milestone's corrective order existed to prevent.
 
 **The three Minors are owed at their owners' next turn.** Each stays inside its own artifact, and each is a single row.
 
@@ -1071,7 +1069,7 @@ Put to the stakeholder this milestone with the four Majors named and their owner
 
 > "Close the System Inventory sentence first, then the Risk List and Iteration Plan statements that quote it, then the deleted gate; the three Minors in each owner's next turn."
 
-This sets the sequence and adds no defect, no condition and no new action. Read against the ledger it orders the four Majors as SI-B, then RL-B and IP-B, then IP-A — which is the order the corrective sequence above already states, now the stakeholder's as well as mine — and leaves the three Minors to their owners' next turn. The stakeholder did not name a part of the existing system missing from the perimeter, and did not correct any action above; no record is added or removed on account of this answer.
+This sets the sequence and adds no defect, no condition and no new action. Read against the ledger it orders the four Majors as SI-B; then RL-B and IP-B; then IP-A; and it leaves the three Minors to their owners' next turn. The stakeholder named no part of the existing system missing from the perimeter and corrected none of the actions above; no record is added or removed on account of this answer. The position column above carries this order.
 
 ## Disposition
 ### Reviewer lens
