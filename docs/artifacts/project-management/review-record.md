@@ -242,6 +242,119 @@ end note
 
 No `## Traceability` table is expected of this artifact and its absence is not a finding: the System Inventory declares no element family from the trace chain. Everything it records is recovered from the existing system and cites its anchor where it sits; the trace graph is empty, correctly, and every recovered element will hang from the anchors verified above when Excavation registers them.
 
+#### Risk List
+
+Reviewed at SBC. Project Management discipline, Survey. Verdict: Approved — one Minor, no Major.
+
+##### What the audit checked
+
+| Checklist item | Verdict |
+|---|---|
+| Every anomaly in the System Inventory became a scored risk | Pass — 25 risks, traced back to an anomaly or a declared coverage limit |
+| Every magnitude is the band of that risk's own exposure | Pass — all 25 recomputed |
+| No High or Significant risk rests on an acceptance nobody granted | Pass — see below |
+| Every risk has an owner, a strategy, a mitigation and, where accepted, a contingency | Pass |
+| A mitigation assigns work inside the owning role's artifact | **Fail — F1** |
+| Traceability table present with one row per declared `RNNN` | Pass — 25 rows, `Traces From` empty as recovery elements require |
+| No invented figure | Pass |
+
+##### The band arithmetic holds across all 25
+
+Every exposure was recomputed as the product of its own two scores and checked against the band table. None is misbanded. The distribution is 2 High, 7 Significant, 12 Moderate, 3 Minor, 1 Low, and the artifact's three summary tables agree with its register row for row.
+
+##### No acceptance is self-granted
+
+This is the check that matters at SBC, and it passes:
+
+- **Both High-band risks are `avoid`** — R001 (16) retired by the Test Case at LCA, R009 (15) retired by the Use-Case Model at GHR. Neither depends on anyone's acceptance.
+- **All seven Significant risks are `avoid`** — R003, R004, R005, R017, R002, R018, R016. Again none rests on acceptance.
+- **The three accepted risks that are the stakeholder's** — R007 (Low), R008 (Minor), R012 (Moderate) — each quote the stakeholder's answer of 2026-11-14 verbatim, and each answer was verified against the code it disposes of in the System Inventory entry above. R012 is Moderate, where acceptance is the Project Manager's to take anyway; it was escalated and granted regardless, which is the conservative direction.
+- **The three accepted risks within PM authority** — R015, R019, R023 — all sit at Minor or Moderate, where the acceptance is legitimately the Project Manager's.
+
+No risk in the High or Significant band is left resting on an acceptance no one granted. The classification section's claim to that effect is true.
+
+##### Scoring judgements reviewed and not contested
+
+The Exit Criteria for this phase are explicit that risk scores are judgements and that disagreement with a score does not fail the milestone. Two scores are worth noting for the record without being findings:
+
+- **R011 at Moderate (2×4).** The rate-limiter partition key being null yields one shared bucket — Impact 4 assumes a real operator scenario. Defensible; the artifact also correctly marks the behaviour as undetermined by reading.
+- **R002 at Significant (5×2).** Probability 5 is honest — no process was run — and Impact 2 is defensible because the reading's own Coverage section marks which claims are read-only. The pairing is coherent.
+
+Neither is a defect, and neither is recorded as one.
+
+##### F1 — Minor — R018's mitigation writes into another role's artifact
+
+The mitigation reads: "The Software Architect records both threshold sets and the 10-second replenishment in the Supplementary Specification's rate-limiting constraint."
+
+The Supplementary Specification is the System Analyst's artifact — the Development Case states "Primary ownership is the baseline's and is unchanged" and declares the Database Designer as the only project-specific contributor to a co-owned artifact. As written, two roles would edit the same section, and the Software Architect is not a declared contributor there.
+
+Recommendation: split the supply from the recording — "The Software Architect establishes both threshold sets and the 10-second replenishment by running the API, and supplies them to the System Analyst, who records them in the Supplementary Specification." R018's owner may stay the Software Architect; settling the partition key by observation is that role's work.
+
+This is a Minor: no role builds on the wrong content, and no SBC exit criterion depends on it. It is worth fixing before Elaboration rather than at LCO, because the Supplementary Specification is first written at Consolidation.
+
+```plantuml
+@startuml
+title Risk List — the 25 risks by magnitude band, the strategy each carries, and where the audit found a defect
+skinparam shadowing false
+skinparam componentStyle rectangle
+
+package "High (15-25) — 2 risks" #Pink {
+  component "R001 BFF covered by no test — 4x4=16 / avoid, retired at LCA" as H1
+  component "R009 completion toggle has no screen — 5x3=15 / avoid, retired at GHR" as H2
+}
+
+package "Significant (9-12) — 7 risks" #Orange {
+  component "R003 4x3=12   R004 4x3=12   R005 4x3=12" as S1
+  component "R017 4x3=12   R002 5x2=10   R018 5x2=10" as S2
+  component "R016 3x3=9" as S3
+}
+
+package "Moderate (5-8) — 12 risks" #LightBlue {
+  component "R010 4x2=8   R011 2x4=8   R006 2x3=6   R013 2x3=6" as M1
+  component "R014 3x2=6   R023 3x2=6   R012 1x5=5   R019 5x1=5" as M2
+  component "R020 5x1=5   R022 5x1=5   R024 5x1=5   R025 5x1=5" as M3
+}
+
+package "Minor (3-4) — 3 risks" #LightGreen {
+  component "R008 2x2=4   R015 2x2=4   R021 4x1=4" as N1
+}
+
+package "Low (1-2) — 1 risk" #PaleGreen {
+  component "R007 1x2=2" as L1
+}
+
+note right of H1
+  Both High-band risks are disposed of by avoid,
+  and each names the artifact that does the
+  retiring. Neither rests on an acceptance the
+  Project Manager granted. Verified.
+end note
+note right of S3
+  R016 is 3x3=9, Significant, strategy avoid — so
+  no Significant risk depends on an unsought
+  acceptance either. Verified across all seven.
+end note
+note right of M2
+  R012 is the one risk whose acceptance is the
+  stakeholder's at Moderate, granted 2026-11-14 and
+  quoted in the mitigation section. Verified against
+  the System Inventory's decision record.
+end note
+note right of M1
+  <b>MINOR F1 sits here:</b> R018's mitigation has the
+  Software Architect writing into the Supplementary
+  Specification, which the System Analyst owns. The
+  score and band are correct; the mitigation's owner
+  is not.
+end note
+note bottom of N1
+  Every magnitude in all 25 rows was recomputed as the
+  product of its own two scores and checked against the
+  band table. None is misbanded.
+end note
+@enduml
+```
+
 ## Resolutions and Actions
 
 
