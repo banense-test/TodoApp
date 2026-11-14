@@ -698,13 +698,118 @@ Two consequences of this order for the roles after this one:
 - The Software Architect inherits the perimeter from this artifact and the boundary from order 2. Single-host deployment with no service-to-service authentication is the accepted position the stakeholder recorded in Anomalies, so the architecture records that boundary as accepted rather than as a defect to design away.
 
 ## Coverage
+The tree reports 170 entries. Of these, 45 are vendored Bootstrap CSS/JS files under `Todo.Web/Client/wwwroot/bootstrap` and are excluded from the reading by kind; six are this project's own process records under `docs/artifacts/`, one of which is this artifact. The remaining 119 are application source and configuration.
+
+**Files opened: 57.** Enumerated, so the next iteration does not re-read them:
+
+`.iari/README.md`, `README.md`, `LICENSE`, `Requests/todo.http`, `Directory.Build.props`, `Directory.Packages.props`, `global.json`, `nuget.config`, `TodoApp.sln`, `.github/workflows/ci.yaml`, `.devcontainer/devcontainer.json`, `.devcontainer/init.sh`, `.aspire/settings.json`, `.vscode/extensions.json`, `docs/artifacts/environment/development-case.md`, `Todo.Api/Program.cs`, `Todo.Api/TodoDbContext.cs`, `Todo.Api/Todo.Api.csproj`, `Todo.Api/appsettings.json`, `Todo.Api/appsettings.Development.json`, `Todo.Api/Todos/Todo.cs`, `Todo.Api/Todos/TodoApi.cs`, `Todo.Api/Users/TodoUser.cs`, `Todo.Api/Users/UsersApi.cs`, `Todo.Api/Authorization/CurrentUser.cs`, `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs`, `Todo.Api/Authorization/CurrentUserExtensions.cs`, `Todo.Api/Extensions/RateLimitExtensions.cs`, `Todo.Api/Filters/ValidationFilter.cs`, `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs`, `Todo.Api.Tests/Todo.Api.Tests.csproj`, `Todo.Api.Tests/TodoApplication.cs`, `Todo.Api.Tests/TokenService.cs`, `Todo.Api.Tests/TodoApiTests.cs`, `Todo.Api.Tests/UserApiTests.cs`, `Todo.Web/Server/Program.cs`, `Todo.Web/Server/TodoApi.cs`, `Todo.Web/Server/AuthApi.cs`, `Todo.Web/Server/AuthClient.cs`, `Todo.Web/Server/Todo.Web.Server.csproj`, `Todo.Web/Server/appsettings.json`, `Todo.Web/Server/appsettings.Development.json`, `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`, `Todo.Web/Server/Authentication/AuthenticationSchemes.cs`, `Todo.Web/Server/Authentication/ExternalProviders.cs`, `Todo.Web/Server/Authentication/TokenNames.cs`, `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs`, `Todo.Web/Client/Program.cs`, `Todo.Web/Client/TodoApp.razor`, `Todo.Web/Client/Todo.Web.Client.csproj`, `Todo.Web/Client/TodoClient.cs`, `Todo.Web/Client/Components/TodoList.razor`, `Todo.Web/Client/Components/LogInForm.razor`, `Todo.Web/Shared/SharedClass.cs`, `TodoApp.AppHost/Program.cs`, `TodoApp.AppHost/Extensions.cs`, `TodoApp.ServiceDefaults/Extensions.cs`.
+
+**Files confirmed absent: 1** — `CONTRIBUTING.md`, cited by the Development Case.
+
+```plantuml
+@startuml
+title Coverage of this reading — what was opened, what was excluded by kind, and what stays open
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+package "Tree as it stands — 170 entries" {
+  component "Vendored Bootstrap\n45 files" as VENDOR
+  component "Application source\nand configuration\n119 files" as APP
+  component "Process records under\ndocs/artifacts\n6 files (incl. this one)" as PROC
+}
+
+package "Opened — 57 files" {
+  component "Solution, build and\ncentral package files" as BUILD
+  component "API: Program, DbContext,\nTodos, Users, Authorization,\nRateLimitExtensions, ValidationFilter,\nmigrations" as API
+  component "BFF: Program, AuthApi,\nAuthClient, TodoApi,\nAuthentication/* incl. state provider" as BFF
+  component "Client: Program, TodoApp.razor,\nTodoClient, TodoList.razor,\nLogInForm.razor" as CLI
+  component "Shared contract,\nAppHost, ServiceDefaults" as COMPOSE
+  component "Tests: fixture, token\nhelper, two test classes" as TESTS
+  component "Docs, README, .iari,\nlicence, http requests,\ntooling config" as DOCS
+}
+
+package "Excluded by kind" {
+  component "Bootstrap CSS/JS\n45 files" as EX1
+  component "Assets: image, ico,\ncss, gitignore" as EX2
+}
+
+package "Declared unread" {
+  component "Server App.razor and\nthe two _Imports (3)" as U1
+  component "OpenApiOptionsExtensions (1)" as U3
+  component "Migration diffs and\ndesigners (6)" as U4
+  component "Manifests already covered\ncentrally (3)" as U5
+  component "Local launch and\nappsettings files (5)" as U6
+  component "Fixture plumbing (2)" as U7
+}
+
+VENDOR --> EX1
+PROC --> DOCS
+APP --> BUILD
+APP --> API
+APP --> BFF
+APP --> CLI
+APP --> COMPOSE
+APP --> TESTS
+APP --> DOCS
+APP --> U1
+APP --> U3
+APP --> U4
+APP --> U5
+APP --> U6
+APP --> U7
+APP --> EX2
+
+note right of CLI
+  The log-in and registration screens are read:
+  one form serving both Login and Create User,
+  with client-side password rules and an
+  alertMessage for a false result.
+end note
+note right of BFF
+  HttpAuthenticationStateProvider is 369 bytes and
+  wraps HttpContext.User only. It blocks no use case:
+  it holds no token and no provider state.
+end note
+note bottom of U3
+  Rate limiting is read in full (RateLimitExtensions.cs:
+  token bucket, 10-second replenishment, partition key
+  ClaimTypes.NameIdentifier, 429). The validation
+  failure shape is read too (ValidationFilter.cs:
+  400 HttpValidationProblemDetails). Only the OpenAPI
+  document options stay unread.
+end note
+note right of PROC
+  Written by the sprint zero, not by the sample.
+  Only two are read through the artifact store
+  rather than as files: the Development Case and
+  this artifact. The other four are records about
+  the process, and carry no perimeter fact.
+end note
+@enduml
+```
+
+**Areas left unread, declared rather than omitted:**
+
+| Unread | Why it can wait |
+|---|---|
+| `Todo.Web/Server/App.razor`, `Todo.Web/Server/_Imports.razor`, `Todo.Web/Client/_Imports.razor` | Razor markup and component plumbing only. Every screen with a contract — `TodoApp.razor`, `LogInForm.razor`, `TodoList.razor` — is now read, so this group carries no use-case trace |
+| `Todo.Api/Extensions/OpenApiOptionsExtensions.cs` | The mechanism behind `/openapi`'s document metadata. The endpoint's mapping and its Development-only Scalar reference are read in `Program.cs`; only the document's customisation is unread, and no use case or perimeter edge depends on it |
+| `Todo.Api/Migrations/2022*.cs`, `2023*.cs` (3 migration files plus 3 designer files) | The schema is read from the snapshot; the per-migration diffs matter only when reconstructing schema history |
+| `Todo.Web/Shared/Todo.Web.Shared.csproj`, `TodoApp.AppHost/TodoApp.AppHost.csproj`, `TodoApp.ServiceDefaults/TodoApp.ServiceDefaults.csproj` | Manifests restating pins already read centrally; the Client, Server, Api and Tests manifests are read, so the reference graph is confirmed |
+| `TodoApp.AppHost/appsettings.Development.json`, all `Properties/launchSettings.json` (`Todo.Api`, `Todo.Web.Server`, `Todo.Web.Client`, `TodoApp.AppHost`) | Local-only overrides, ports and profiles; no perimeter fact |
+| `.gitignore`, `bg.png`, `favicon.ico`, `css/app.css`, all 45 Bootstrap files | Assets and ignore rules; no perimeter fact |
+| `Todo.Api.Tests/DbContextExtensions.cs`, `GlobalUsings.cs` | Fixture plumbing already inferable from `TodoApplication.cs` |
+| The four `docs/artifacts/project-management/` records as files | Risk List, Iteration Plan, Review Record and Iteration Assessment are process records, read through the artifact store where they bear on discovery. They state no fact about the system; anything they assert about it traces back to this artifact |
+| Whole-repository commits older than 2024-11-14 | The 50-commit listing starts there and reports older history exists; the 2022–2023 commits are the candidates for the next history reading, and the migration dates already establish the schema era |
+| Runtime behaviour of any kind | No process was run, and no process is run in any phase of this project. Every statement in this artifact is read from source and configuration |
+
 What this coverage does **not** claim: that the unread files are unimportant, only that each carries no fact this artifact states. A fact about a file outside the 57 opened is not recorded anywhere above, because none was read.
 
-Four files opened this iteration were declared unread in the previous reading — `Todo.Api/Filters/ValidationFilter.cs`, `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs`, `Todo.Web/Client/TodoApp.razor` and `Todo.Web/Client/Components/LogInForm.razor` — and each settled a question the Priorities section had left to a later reading: the validation failure shape, the authentication-state bridge that was flagged as the one file blocking a use case, and the two screens that carry the log-in and registration traces. No file in that group blocks a use case now.
+Four files opened this iteration were declared unread in the previous reading — `Todo.Api/Filters/ValidationFilter.cs`, `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs`, `Todo.Web/Client/TodoApp.razor` and `Todo.Web/Client/Components/LogInForm.razor` — and each settled a question the Priorities section had left to a later reading: the validation failure shape, the authentication-state bridge flagged as the one file blocking a use case, and the two screens that carry the log-in and registration traces. No file in that group blocks a use case now.
 
 **Two statements in Anomalies rest on reading alone and are marked as such there rather than promoted to fact.** They are the rate limiter's partition key (the claim is read from `RateLimitExtensions.cs`, the pipeline order at request time is not observed) and the database lifecycle's consequences beyond the AppHost's `Directory.Exists` guard.
 
-Both stay declared as read but not observed for the life of this project. No process is run in any phase — the system is not installed anywhere and nobody runs it here — so neither statement is ever settled by observation, by Excavation or by any later reading of this record. They are carried as accepted risk with that residual uncertainty intact, and no milestone may count them as retired.
+Both stay declared as read but not observed for the life of this project. No process is run in any phase — the system is not installed anywhere and nobody runs it here — so neither statement is ever settled by observation, by Excavation or by any later reading of this record. They are carried as accepted risk with that residual uncertainty intact, and no milestone may count them as retired. The declarations themselves stand unchanged; only the claim that observation would settle them is gone, by the stakeholder's decision of 2026-11-14.
 
 ## Provenance
 Every fact above has a row here. A fact whose anchor is a stakeholder answer names the files the question was raised against; the judgement rows (priority order, coverage, anomaly grouping) name themselves as their source.
