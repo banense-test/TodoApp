@@ -914,3 +914,11 @@ Every fact above has a row here. A fact whose anchor is a stakeholder answer nam
 | The two reading-only statements in Anomalies stay declared as read but not observed for the life of the project and are never settled by observation; no process is run in any phase | Stakeholder answer, 2026-11-14 (question raised against `Todo.Api/Extensions/RateLimitExtensions.cs`, `Todo.Api/Program.cs`, `TodoApp.AppHost/Extensions.cs`; the answer is the correction to the perimeter confirmation question) |
 | The anomaly grouping, the priority order and the coverage declarations | This reading — the evidence column of each anomaly row is its anchor; the grouping, the order and the declared gaps are the Software Archaeologist's judgement over that evidence |
 
+### Perimeter completeness and its limits
+
+| Fact | Anchor |
+|---|---|
+| Nothing is missing from the perimeter as this artifact records it | Stakeholder answer, 2026-11-14 ("Nothing is missing from the perimeter that I know of"), in the same answer that corrected the record on observation |
+| The system is never run in any phase; it is not installed anywhere and nobody runs it here, and no milestone may plan to settle a read-only statement by running it | Stakeholder answer, 2026-11-14 ("the system will not be run during these phases — it is not installed anywhere and nobody runs it here … Do not plan to settle them by running the system") |
+| The perimeter is recorded and put to the stakeholder, not confirmed by them; confirmation follows Excavation's deeper reading | This reading's judgement over the stakeholder answer above, and the corrective plan of the Review Record's "Resolutions and Actions", step 7 — confirming before Excavation would confirm an incomplete record |
+
