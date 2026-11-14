@@ -528,7 +528,7 @@ package "Request pipeline and configuration" {
 }
 
 package "Build and environment" {
-  component "CONTRIBUTING.md cited,\nabsent from the tree" as CONTRIB
+  component "no written coding standard\nand no CONTRIBUTING.md" as CONTRIB
   component "dev container pins\nSDK 8.0 against 9.0.100" as DEVCON
   component "RazorLangVersion 8.0\nunder net9.0" as RAZOR
 }
@@ -558,10 +558,15 @@ note bottom of RATE
   Todo.Api/Program.cs and no UseAuthentication is
   written between them. Whether the claim is
   populated when the partition key is read stays
-  undetermined: no process is run in any phase, so
-  reading is the only evidence this project will
-  ever have for it, and the anomaly is carried
-  accepted with that uncertainty.
+  undetermined: no process is run in Survey,
+  Excavation or Consolidation, so no reading settles
+  it. The pipeline's first build-and-test run, from
+  Inception on, is what can.
+end note
+note bottom of CONTRIB
+  The Development Case names the absence rather than
+  citing a missing file; Directory.Build.props and the
+  central pins are what bind a reviewer. R006 carries it.
 end note
 @enduml
 ```
@@ -570,12 +575,11 @@ end note
 
 | Anomaly | Evidence | Probability | Impact |
 |---|---|---|---|
-| `CONTRIBUTING.md` is cited as the coding standard but does not exist | `docs/artifacts/environment/development-case.md` names it under Tool references; a read of `CONTRIBUTING.md` returns "was not found"; the tree has no such entry | Certain — already true | Medium: the Software Architect and Code Reviewer are assigned an artifact that is not there; coding conventions must be read off the code or re-authored |
+| No written coding standard exists, and none is assumed | `docs/artifacts/environment/development-case.md` (Guidelines and Procedures) states the absence and names `Directory.Build.props`'s compiler-enforced conventions and the central pins as what binds an Implementer and a Code Reviewer; the tree holds no `CONTRIBUTING.md` and no equivalent path, and `README.md` carries no contribution or style section | Certain — already true | Medium: the Software Architect is the owner of the convention set and a written standard, if wanted, is authored there under a Change Request; until then a reviewer applies the compiler-enforced set and the Architecture Document's mechanisms and nothing else |
 | The dev container cannot build the solution | `.devcontainer/devcontainer.json` pins `mcr.microsoft.com/dotnet/sdk:8.0`; `global.json` requires `9.0.100` with `rollForward: latestFeature`. Roll-forward does not bridge a major version | High | Medium for anyone using the container; the CI path (`actions/setup-dotnet@v3`) is unaffected because it resolves the SDK from `global.json` |
 | The Razor language version is pinned below the framework | `Todo.Web/Server/Todo.Web.Server.csproj` sets `<RazorLangVersion>8.0</RazorLangVersion>` while the target framework is `net9.0` | Medium | Low: builds as delivered; a Razor feature introduced after .NET 8 is unavailable in this project, and bumping it is a behaviour change, not a formatting one |
 | `docs/` is not declared in `.iari/README.md` even though it exists | `.iari/README.md` says the only document is the root `README.md`; the tree holds six records under `docs/artifacts/` — `environment/development-case.md`, `discovery/system-inventory.md` and four under `project-management/` — all created in this sprint zero | Certain | Low: the delivery statement now under-describes the tree it sits in |
 | `README.md` links a badge to a differently-named repository | The badge URL is `github.com/davidfowl/TodoApi/actions/...` while the project was renamed to `TodoApp` in `3308193` | Certain | Low: external link only |
-| The Development Case's role/artifact ownership diagram is drawn as a class diagram | `docs/artifacts/environment/development-case.md` uses `class` elements and `-->` arrows to express ownership | Certain | Low: cosmetic in a process document; recorded because downstream roles read that artifact |
 
 ### Authentication and the BFF boundary
 
@@ -605,7 +609,7 @@ end note
 
 | Anomaly | Evidence | Probability | Impact |
 |---|---|---|---|
-| The rate limiter's partition key depends on middleware order the code does not state | `Todo.Api/Extensions/RateLimitExtensions.cs` partitions on `context.User.FindFirstValue(ClaimTypes.NameIdentifier)!` (null-forgiving); `Todo.Api/Program.cs` writes `app.UseHttpLogging(); app.UseRateLimiter();` with no explicit `app.UseAuthentication()`, so whether the principal is populated when the key is read is decided by the framework's implicit middleware, not by the file. If it is not populated, the null-forgiving read yields one shared bucket for all callers instead of one per user | Undetermined by reading, and it stays undetermined — no process is run in any phase, so no later reading or milestone observes it | Medium: per-user rate limiting is a capability the README advertises; if the key is null the limit is global and one caller can exhaust it for everyone |
+| The rate limiter's partition key depends on middleware order the code does not state | `Todo.Api/Extensions/RateLimitExtensions.cs` partitions on `context.User.FindFirstValue(ClaimTypes.NameIdentifier)!` (null-forgiving); `Todo.Api/Program.cs` writes `app.UseHttpLogging(); app.UseRateLimiter();` with no explicit `app.UseAuthentication()`, so whether the principal is populated when the key is read is decided by the framework's implicit middleware, not by the file. If it is not populated, the null-forgiving read yields one shared bucket for all callers instead of one per user | Undetermined by reading, and no reading settles it — no process is run in Survey, Excavation or Consolidation. A build-and-test result from Inception on is the only path that can | Medium: per-user rate limiting is a capability the README advertises; if the key is null the limit is global and one caller can exhaust it for everyone |
 | The rate-limit thresholds differ between the code and the only file that sets them | `RateLimitExtensions.cs` defaults to `TokenLimit 100`, `TokensPerPeriod 100`, `QueueLimit 100` with a 10-second replenishment, bound from the `RateLimiting` section; `Todo.Api/appsettings.json` has no such section, and only `appsettings.Development.json` sets `50/50/50`. `README.md` advertises rate limiting without a threshold | Certain | Low: the effective limit is 100 per 10 seconds outside Development and 50 inside it, and no document states either |
 | The API's root route redirects to a Development-only page while its OpenAPI document is served in every environment | `Todo.Api/Program.cs` maps `"/"` to `Results.Redirect("/scalar/v1")` unconditionally, but `MapScalarApiReference` sits inside `if (app.Environment.IsDevelopment())`, while `app.MapOpenApi()` sits outside it | Certain | Low: outside Development `/` redirects to a route that is not mapped, and the API's schema is published at `/openapi` whether or not that is intended |
 
@@ -653,6 +657,42 @@ O --> [*]
 | The database lifecycle beyond the AppHost's guard | What a second run, a stale `.db` file or a changed model does is runtime behaviour of `TodoApp.AppHost/Extensions.cs`'s `Directory.Exists` branch | The conditional migration is recorded as read. Its consequences stay undetermined |
 
 Neither row is a gap in the reading and neither is closed by a later one: both are permanent for this project. A risk whose mitigation names running the system is a risk nothing mitigates, so the Project Manager disposes of these two by acceptance rather than by avoidance, and the acceptance stands in the Risk List, not here.
+
+### What settles an anomaly here
+
+Of the 23 rows above, 21 are settled inside the sprint zero — by an artifact another role writes, by a correction to the tree, or by a decision the stakeholder has already taken. Two are not, and they are named so no milestone adopts a retirement path that cannot run inside the sprint zero.
+
+```plantuml
+@startuml
+title What settles an anomaly in this artifact, and where observation enters
+skinparam shadowing false
+
+state "Recorded by reading" as R
+state "Settled inside the sprint zero — an artifact another role writes, a correction to the tree, or a decision already taken" as A
+state "Carried with the uncertainty intact until the RUP phases start" as C
+state "Settled by a build-and-test result once the pipeline runs" as O
+
+[*] --> R : every row — the evidence column cites the file and the construct
+R --> A : 21 rows
+R --> C : 2 rows — the rate limiter's partition key; the database lifecycle beyond the Directory.Exists guard
+C --> O : from Inception on — the pipeline builds the solution and runs its test suites
+O --> [*]
+R -[#red,dashed]-> O : not inside Survey, Excavation or Consolidation
+
+note bottom of C
+  Both are stated as read and marked as such. No statement
+  in this artifact stands on an observation, because no
+  process is run in Survey, Excavation or Consolidation.
+end note
+@enduml
+```
+
+| Row | Why reading cannot settle it | What stands in its place |
+|---|---|---|
+| The rate limiter's partition key depends on middleware order the code does not state | Whether `ClaimTypes.NameIdentifier` is populated when the partition key is read is decided by the framework's implicit middleware at request time, not by any line in `Todo.Api/Program.cs` or `Todo.Api/Extensions/RateLimitExtensions.cs` | The per-user limit is recorded as undetermined in the delivered system. The statement stands as read but not observed, and the risk is carried accepted until a build-and-test result can settle it |
+| The database lifecycle beyond the AppHost's guard | What a second run, a stale `.db` file or a changed model does is runtime behaviour of `TodoApp.AppHost/Extensions.cs`'s `Directory.Exists` branch | The conditional migration is recorded as read. Its consequences stay undetermined, on the same terms |
+
+Neither row is a gap in the reading, and no further reading closes either: within the sprint zero both stay open. What settles them is the pipeline's first build-and-test run from Inception on, which is evidence the process produces without anyone installing the system. Until then the Project Manager disposes of these two by acceptance rather than by avoidance, and the acceptance stands in the Risk List, not here.
 
 ## Priorities
 Ordered by what the delivery makes load-bearing and by where the code concentrates its weight. The order drives the Excavation reading, and states per area what that reading must settle.
