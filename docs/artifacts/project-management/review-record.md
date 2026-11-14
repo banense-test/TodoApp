@@ -849,6 +849,14 @@ That order held and is verified: all four Majors it named are closed against the
 
 The stakeholder's earlier answer also set the perimeter as confirmed at this milestone, with no second confirmation at Consolidation's start and the process's first exit criterion restored. That is verified in the Iteration Plan and appears on no other artifact.
 
+#### Stakeholder answer — the corrective order for RL F3 and IP F3
+
+Put at this milestone with the two Majors named, their owners' actions recorded above, and the three Minors listed. The stakeholder's answer:
+
+> "Nothing to add. Close it as you describe: the Risk List row first, then the retirement map."
+
+Read against the ledger it confirms the corrective order this block set — RL F3 first, IP F3 immediately after — and adds no defect, no condition and no new action. The stakeholder named no part of the existing system missing from the perimeter and amended none of the five actions above; no record is added or removed on account of this answer, and the position column above carries the order they confirmed.
+
 ## Disposition
 ### Reviewer lens
 <!-- review: Survey I3 -->
