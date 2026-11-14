@@ -1,9 +1,7 @@
 ## Document Control
-
 Phase: Survey
-Status: Draft — 25 risks carried from the anomalies of the System Inventory and scored; three sit in the High band and their acceptance is put to the stakeholder in this round
+Status: Draft — 25 risks carried from the anomalies and declared coverage limits of the System Inventory, each scored and given a strategy; one sits in the High band and its acceptance is put to the stakeholder in this round
 Milestone Target: End-of-Survey (SBC) — not yet achieved
-
 ## Risk Classification
 The scales are the IARI Development Case §9.10 scales, cited not redefined: probability and impact are each scored 1 to 5, exposure is their product, and the magnitude is the band that exposure falls in. Acceptance of a High (15 to 25) or Significant (9 to 12) risk is the stakeholder's grant, recorded in Risk Mitigation and Contingency; it is never self-granted here.
 
