@@ -1112,3 +1112,114 @@ One correction, inside two artifacts the Project Manager already holds: restate 
 Three Minors are owed at their owners' next turn: the Iteration Plan's F10 from this lens, and the Risk List's citation and the plan's role reporting from the technical lens.
 
 The Iteration Assessment is not assessed here. The Project Manager writes it against the verdict of the lens sequence that ends with this lens, so at this point it cannot describe the iteration being reviewed; its state is not a finding and not a gate condition.
+
+### Review Coordinator lens
+<!-- review: Survey I3 -->
+
+<!-- review: Survey I3 -->
+
+#### Effectiveness metrics — three review events, measured
+
+```plantuml
+@startsalt
+title SBC review effectiveness — three review events, measured
+{
+{S
+<b>Metric</b> | <b>Survey 1</b> | <b>Survey 2</b> | <b>Survey 3</b> | <b>Reading</b>
+Coverage — planned artifacts reviewed | 4 of 4 | 4 of 4 | 4 of 4 | No artifact escaped review in any of the three events
+Prior lens records closed | none — first event | 18 of 18 | 7 of 7 | Every carried record was met in full at each re-hold
+New records raised | 15 | 7 | 5 | Monotone decline across three events
+--- of which Major | 10 | 4 | 2 | The Major band fell at every hold
+--- of which Critical | 0 | 0 | 0 | No record of any lens has ever been Critical
+Density — Iteration Plan | 7 | 3 | 3 | Densest artifact in all three: it carries the cross-artifact obligations
+Density — Risk List | 3 | 2 | 2 | Band arithmetic contested by no lens in any event
+Density — System Inventory | 3 | 2 | 0 | First clean sheet at this event
+Density — Development Case | 2 | 0 | 0 | Clean for two consecutive events
+Anchor verification | 17 opened, 1 wrong | 3 opened, 1 unresolved | 12 opened, 3 failed | The failures are the review's substantive discoveries
+Lens yield — Reviewer | 7 | 2 | 4 | Found both Majors at this event
+Lens yield — Management Reviewer | 11 | 5 | 1 | Found one Minor at this event
+Lens yield — Business Reviewer | INACTIVE | INACTIVE | INACTIVE | business-process-led = false; stood down for the project
+Rework effort | not measurable | not measurable | not measurable | The phase has not closed
+Defect removal efficiency | not measurable | not measurable | not measurable | No test phase has executed; review is the only detection activity
+}
+}
+@endsalt
+```
+
+| Metric | Reading across the three events |
+|---|---|
+| Review coverage | 100 % at every hold — no artifact of this phase has entered a gate unreviewed |
+| Prior records closed | 25 of 25 closed by their emitting lenses; no record has ever been carried open past the iteration that could close it |
+| New records | 15 → 7 → 5. The Major band 10 → 4 → 2 |
+| Densest artifact | The Iteration Plan, in all three events — 7, 3, 3. It carries the cross-artifact obligations (role profiles against the tailoring, risk owners against the register, gates against exit conditions), so it is where a contradiction between two correct documents surfaces first |
+| Lens yield | The Management lens found every Major in the first two events; at this event the Technical lens found both. Two lenses remain the reason the set is not approved at 0 Major — either alone would have passed this artifact set |
+| Anchor verification | 17 → 3 → 12 anchors opened, 1 → 1 → 3 failing. The failures are what the review is for: at this event two of the three are the R005 premise and the Razor language property |
+| Rework effort | Not measurable — the phase has not closed. Estimate NONE: not zero, and no figure projected |
+| Defect removal efficiency | Not measurable — no test phase has executed, so there is no ratio to compute. Review remains the only detection activity in the project |
+
+**The trend these three points support, stated no more strongly than the evidence carries.** The correction machinery works and is converging: every record carried into an iteration is closed, the defect yield has fallen by two thirds in three events, and two of the four artifacts now carry no open record at all. What the trend does not support is a claim that the set is clean. The two Majors open now are the same shape as the previous iteration's — a statement in the Risk List that the Iteration Plan builds on — and both concern a single risk row.
+
+**What these numbers cannot say.** Rework effort and defect removal efficiency are unmeasurable until the phase closes and a test phase executes; no figure is projected to fill them. Three points are a comparison, not a trend line, and no velocity is quoted from them. Cost is the second currency and it is not measured here: the project declares no token budget, none is assumed and none is proposed, and both clocks are reported apart.
+
+#### Milestone decision
+
+```plantuml
+@startuml
+title Milestone decision path — SBC re-held at Survey iteration 3
+skinparam shadowing false
+
+[*] --> Consolidated
+state "Findings consolidated from read_artifact_findings\nover all six artifacts" as Consolidated
+Consolidated --> Escalated : any unresolved Critical
+Consolidated --> Corrective : open Major from an executing lens
+Consolidated --> Complete : 0 Critical, 0 Major, 0 unread,\nsanction GRANTED, perimeter confirmed
+state "Escalated to the stakeholder — milestone held" as Escalated
+state "Corrective Survey iteration 4" as Corrective
+state "Recorded complete — requiresIteration false" as Complete
+
+Escalated --> [*]
+Corrective --> [*]
+Complete --> [*]
+
+note right of Corrective
+  Taken: open Critical 0, open Major 2, open Minor 3.
+  The sanction of 2026-11-14 stands and no lens
+  retracts it. What is not clean is the artifact
+  set — two Majors in the Risk List and the
+  Iteration Plan, one defect carried in both.
+end note
+@enduml
+```
+
+| Question | Answer, from the ledger |
+|---|---|
+| Unresolved Critical findings | 0 |
+| Open Major findings | 2 — Risk List Reviewer F3, Iteration Plan Reviewer F3 |
+| Open Minor findings | 3 — Risk List Reviewer F4, Iteration Plan Reviewer F4, Iteration Plan Management Reviewer F10 |
+| Artifacts read | 6 of 6, unread = none |
+| Perimeter confirmed | Yes — by the stakeholder at SBC, 2026-11-14 |
+| Stakeholder sanction | **GRANTED**, 2026-11-14 |
+
+**Decision: the phase is under corrective iteration. This milestone is not recorded complete.**
+
+The perimeter is confirmed and the stakeholder's sanction stands; no lens retracts it and this block does not withhold it. What is not clean is the artifact set. SBC exit criteria 4 and 6 fail on one row: R005's strategy in the register names work already performed, and the plan books that risk's retirement at a milestone with nothing left to do for it. One correction inside two artifacts the Project Manager already holds closes both, and nothing in it needs a stakeholder question, a scope change or a Change Request.
+
+Recording this milestone complete while two Major findings hold its own exit criteria would falsely open the phase gate — the highest-impact error available at this point, and the one this block exists to prevent.
+
+#### Stakeholder sanction, as recorded by the Management lens
+
+> "Yes"
+
+**Stakeholder sanction: GRANTED**, 2026-11-14 — the perimeter confirmed as the System Inventory records it, and the phase sanctioned to advance past the System Boundary Confirmed milestone.
+
+The sanction is not re-put at this iteration. All three of the stakeholder's decisions are answered and recorded where they bear; a decision already taken and correctly recorded everywhere it bears is not an open question, and escalating it a third time would ask them to answer what they have already answered twice.
+
+#### Escalations
+
+None. No record is overdue: every record open at entry to this iteration was closed within it, and the five open now were raised at this event. No review procedure was skipped or performed late in this milestone — the three lenses ran in sequence with the Business lens stood down by tailoring, and the four artifacts entered review in target state. No systemic process failure is recorded, so there is nothing for the Change Control Board.
+
+#### What this milestone hands to Excavation
+
+- **A confirmed perimeter.** The System Inventory and the Development Case carry no open record from either lens — the first time in this milestone that two of four artifacts are clean.
+- **A bounding discipline that held.** Every acceptance in the register names the RUP phases as its horizon, and observation returns as a retirement path from Inception on with its producer and recorder named.
+- **A register and a plan that must state one retirement for R005 before either is consumed.** Both artifacts are read by the System Analyst in Excavation 1, whose risk column currently sends that role to open a file it will find already read.
