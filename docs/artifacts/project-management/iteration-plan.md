@@ -304,23 +304,54 @@ No work item carries a size. Nothing has been measured yet — Survey has not cl
 This project declares **no token budget**. None is set here, none is proposed for the stakeholder to accept, and no declared scope is cut or deferred to fit an estimate. An iteration ends when its exit criteria pass.
 
 ## Resources
+The team is the agent roster the process assigns, not a staffed organisation. The profile below is read from the IARI Development Process and the Development Case's tailoring — no role here does work the process does not run in this phase, and every role named as a risk owner in a milestone row is at work in that milestone.
 
-The team is the agent roster the process assigns, not a staffed organisation. The profile below is read from the IARI Development Process and the Development Case's tailoring — no role here does work the process does not run in this phase.
+### This iteration — Survey 1, SBC
 
-| Role | Stage in this iteration | Produces | Notes |
-|---|---|---|---|
-| Process Engineer | Development Case | Development Case | Environment discipline, High in Survey. Owner of R006 and R025 — both are corrections to that artifact, both due at LCO |
-| Software Archaeologist | System Inventory — Documentation · Perimeter · Anomalies and Priorities | System Inventory | Discovery discipline, Critical in Survey. Owner of R002 and R005, the two risks about the limits of the reading itself |
-| Project Manager | Risk List · Iteration Plan | Risk List, Iteration Plan | Project Management discipline, Low in Survey. Owns this artifact and the assessment written after the verdict |
-| Reviewer | SBC milestone review | Findings on the artifacts reviewed | First lens of the gate |
-| Management Reviewer | SBC milestone review | Findings on the artifacts reviewed | Second lens; asks whether the milestone's business case holds |
-| Review Coordinator | SBC milestone review | The SBC verdict | Decides whether the milestone closes. Does not decide the Iteration Assessment — the Project Manager writes that against the verdict |
+| Role | Discipline and intensity | Stage in this iteration | Produces | Risks owned |
+|---|---|---|---|---|
+| Process Engineer | Environment, High | Development Case | Development Case | R006, R025 — both corrections to that artifact, due at LCO |
+| Software Archaeologist | Discovery, Critical | System Inventory — Documentation · Perimeter · Anomalies and Priorities | System Inventory | R002, R005 — the two risks about the limits of the reading itself |
+| Project Manager | Project Management, Low | Risk List · Iteration Plan | Risk List, Iteration Plan | R026, and this artifact plus the assessment written after the verdict |
+| Reviewer | Review lens | SBC milestone review | Findings on the artifacts reviewed | — |
+| Management Reviewer | Review lens | SBC milestone review | Findings on the artifacts reviewed | — |
+| Review Coordinator | Review lens | SBC milestone review | The SBC verdict | — |
 
-**Stood down for the whole project**, per the Development Case classification: Business Process Analyst and Business Reviewer (`business-process-led = false`), Capsule Designer (`real-time-system = false`). They execute no stage in any iteration.
+The Review Coordinator decides whether the milestone closes. It does not decide the Iteration Assessment — the Project Manager writes that against the verdict.
 
-**Roles at work in later sprint-zero iterations**, recorded so the roadmap is executable rather than aspirational: Software Architect (SAD and Deployment Model — the only FIRED optional artifact; owner of R007, R011, R012, R016, R018, R021, R023), Designer (Design Model class and package sections; R015, R019), Database Designer (the persistent-data sections of the Design Model, Data Model not fired; R003, R013). Consolidation adds the System Analyst (Use-Case Model, Supplementary Specification, Vision; R005, R008, R009, R017).
+### Excavation 1 — AR
 
-**Human gates.** The only human in this system is the stakeholder; their gates are the three gold markers on the roadmap. A gate is bounded in the Risk List, never forecast in the plan: ceiling 14 days, after which the process suspends rather than filling the gap with an assumption; estimate none; the actual measured and reported apart from agent time.
+The process runs four disciplines in Excavation, and every one of them has its role on this iteration's profile. The two that Analysis & Design does not cover are the two that carry risk owners.
+
+| Role | Discipline and intensity | Stage in this iteration | Produces | Risks owned |
+|---|---|---|---|---|
+| Software Architect | Analysis & Design, Critical | Software Architecture Document — Components and Connectors · Mechanisms, Technology and Deployment | Software Architecture Document | R007, R012, R016, R018, R021, R023 |
+| Designer | Analysis & Design, Critical | Design Model — Domain Model · Packages and Classes | Design Model | R015, R019 |
+| Database Designer | Analysis & Design, Critical | Persistent Data — Entities, Keys and Associations · Enforced Rules | Design Model — persistent-data sections (Data Model not fired) | R003, R013 |
+| System Analyst | Requirements, High | Use-Case Model · Business Rules in the Use-Case Flows · Vision | Use-Case Model, Vision | R017 |
+| Software Archaeologist | Discovery, High | System Inventory — Anomalies · History and Coverage | System Inventory | R002, R005 |
+| Project Manager | Project Management, Low | Risk List · Iteration Plan | Risk List, Iteration Plan, Iteration Assessment | R026 |
+
+### Consolidation 1 — GHR
+
+| Role | Discipline and intensity | Stage in this iteration | Produces | Risks owned |
+|---|---|---|---|---|
+| System Analyst | Requirements, High | Use-Case Model · Supplementary Specification | Use-Case Model, Supplementary Specification, Vision | R008, R009, R015, R017 |
+| Software Architect | Analysis & Design, Medium | Software Architecture Document — Components · Mechanisms and Use-Case View | Software Architecture Document | R023 |
+| Designer | Analysis & Design, Medium | Design Model — Domain Model · Packages and Classes | Design Model | R019 |
+| Database Designer | Analysis & Design, Medium | Persistent Data — Entities, Keys and Associations · Enforced Rules | Design Model — persistent-data sections | — |
+| Software Archaeologist | Discovery, Low | System Inventory | System Inventory | — |
+| Project Manager | Project Management, Low | Risk List · Iteration Plan | Risk List, Iteration Plan, Iteration Assessment | R026 |
+
+### Later iterations — roles at work, recorded so the roadmap is executable
+
+Inception adds the Integrator (Build Environment Setup; R014), the Change Control Manager (Change Request ledger), the Configuration Manager (CM strategy), the Test Manager (Test Plan not fired; Test Evaluation Summary) and the Deployment Manager. Elaboration adds the Test Designer (Test Case; **R001**), the Tester, the Test Analyst, the Code Reviewer and the User Interface Designer. Construction adds the Implementer and, for the Technical Writer, R022 and R024. Transition is deployment and acceptance closure.
+
+No risk owner in any milestone row above is absent from that milestone's profile. R004's owner is the Test Manager and R010's the Integrator, both at work from LCA and IOC respectively; R001's owner is the Test Designer, at work from Elaboration. The Test Manager and Integrator are the two roles whose first appearance is later than their risk's entry, and neither is a retirement that AR or GHR claims.
+
+**Stood down for the whole project**, per the Development Case classification: Business Process Analyst and Business Reviewer (`business-process-led = false`), Capsule Designer (`real-time-system = false`). They execute no stage in any iteration and sit on no gate.
+
+**Human gates.** The only human in this system is the stakeholder, and the plan books five gates for them: G1 (the three scope facts), G2 (confirms the perimeter at Consolidation 1's start), G3 (accepts the LCO case), G4 (accepts the architecture baseline), G5 (accepts the product, where ownership transfers). A gate is bounded in the Risk List at R026, never forecast in the plan: ceiling 14 days of queue time, after which the process suspends rather than filling the gap with an assumption; estimate none; the actual measured and reported apart from agent time.
 
 ## Use Cases and Scenarios Addressed
 
