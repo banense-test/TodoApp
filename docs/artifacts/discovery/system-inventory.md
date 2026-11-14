@@ -374,10 +374,13 @@ These comments are the sole record of intent or of a known gap, and each is an a
 | "TODO: Support remote logout" | `Todo.Web/Server/AuthApi.cs` |
 | "TODO: Handle the failure somehow" (external login failure path) | `Todo.Web/Server/AuthApi.cs` |
 | "TODO: We should have the user pick a user name to complete the external login dance" | `Todo.Web/Server/AuthApi.cs` |
+| "TODO: Check user if the user is locked out as well" | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs` |
 | "This is a hack from hell to avoid having to know if this is running server or client side" | `Todo.Web/Client/TodoClient.cs` |
 | "TODO: Support passing a connection string" (migration step) | `TodoApp.AppHost/Extensions.cs` |
 | "TODO: Follow up on the new errors" — two field-level assertions commented out | `Todo.Api.Tests/UserApiTests.cs` |
 | "Adding health checks endpoints to applications in non-development environments has security implications" | `TodoApp.ServiceDefaults/Extensions.cs` |
+
+Five of the nine sit in the authentication area, which is why that area ranks second in Priorities.
 
 ### What has no document at all
 
