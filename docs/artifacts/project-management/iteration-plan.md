@@ -12,7 +12,7 @@ Survey iteration 2 is corrective. Survey iteration 1 produced the reading, the t
 4. **Remove every forward commitment that assumes the system can be run.** No milestone, work item or mitigation in the plan or the register rests on observation. Owner: Project Manager.
 5. **Restate criterion 1 to the condition SBC actually gates.** The perimeter is recorded and put to the stakeholder here; it is confirmed at G2, at Consolidation 1's start, because Excavation deepens the record. Owner: Project Manager.
 
-The two Majors owned by other roles — the package-pin tally (R006's neighbourhood) and the absent coding standard — are corrections inside their owners' artifacts, carried in this plan as the same iteration's work because a milestone does not close with them open.
+Three Majors are owned by other roles, and each is a correction inside its own artifact: **SI-2** — Coverage's closing statement, which is the premise parts 1 and 4 inherit; **SI-1** — the package-pin tally, read by the Software Architect when anchoring the SAD; **DC-1** — the absent coding standard, which points the Code Reviewer, a lens of the next milestone review, at a file the repository does not contain. They and their Minors (SI-3, DC-2) are carried in this plan as the same iteration's work because a milestone does not close with them open.
 
 ```plantuml
 @startuml
@@ -44,7 +44,7 @@ end note
 Rebuild the retirement map and correct the
 fine plan so no work item assumes a run;
 note right
-  Corrects: Iteration Plan — Plan and Milestones (IP-5)
+  Corrects: Iteration Plan — Plan and Milestones (IP-5, IP-7)
   Spend: not measured
 end note
 
