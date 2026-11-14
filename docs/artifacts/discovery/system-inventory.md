@@ -5,7 +5,7 @@ Status: Draft — first reading of the delivered system
 Milestone Target: End-of-Survey (SBC) — not yet achieved
 
 ## Perimeter
-The delivered system is the public sample `davidfowl/TodoApp` (MIT) at commit `307a1ead` of 2026-02-12, copied wholesale into this repository. It is a multi-process .NET 9 solution of seven projects: a Blazor WebAssembly client served by a Blazor server host acting as a backend-for-frontend, a minimal-API backend, an Aspire orchestrator, a shared service-defaults library, a one-class shared library, and an integration-test project.
+The delivered system is the public sample `davidfowl/TodoApp` (MIT) at commit `307a1ead` of 2026-02-12, copied wholesale into this repository. It is a multi-process .NET 9 solution of seven projects: a Blazor WebAssembly client served by a Blazor server host acting as a backend-for-frontend, a minimal-API backend, an Aspire orchestrator, a shared service-defaults library, a shared DTO library, and an integration-test project.
 
 ```plantuml
 @startuml
@@ -17,7 +17,7 @@ actor "Person using the task list" as USER
 
 package "TodoApp solution — 7 projects (Source: TodoApp.sln)" {
   component "Todo.Web.Client\nBlazor WASM · Razor components" as WASM
-  component "Todo.Web.Shared\nSharedClass only" as SHARED
+  component "Todo.Web.Shared\nTodoItem · UserInfo · ExternalUserInfo · AuthToken" as SHARED
   component "Todo.Web.Server\nBFF · cookie auth · YARP forwarder · AuthClient" as BFF
   component "Todo.Api\nASP.NET Core minimal API" as API
   component "TodoApp.ServiceDefaults\nhealth checks · OpenTelemetry · service discovery" as SD
@@ -45,13 +45,15 @@ APPHOST ..> BFF : launches
 APPHOST ..> SQLWEB : launches
 API ..> SD : AddServiceDefaults()
 BFF ..> SD : AddServiceDefaults()
-TESTS ..> API : WebApplicationFactory\nin-process · EF InMemory
+TESTS ..> API : WebApplicationFactory\nin-process · SqliteConnection ":memory:"
 API ..> OTLP : logs · metrics · spans
 BFF ..> OTLP : logs · metrics · spans
 NUGET ..> API : restore (Directory.Packages.props)
 NUGET ..> BFF : restore
-WASM --> SHARED
+BFF --> WASM : ProjectReference\nserves the client's assets
 BFF --> SHARED
+WASM --> SHARED
+API --> SHARED
 
 note right of API
   Endpoint groups (Source: Todo.Api/Program.cs):
@@ -63,6 +65,12 @@ note right of BFF
   Endpoint groups (Source: Todo.Web/Server/Program.cs):
   MapAuth() -> /auth/*
   MapTodos() -> /todos/{*path} forwarded
+end note
+note bottom of SHARED
+  The only project both sides of every
+  boundary compile against: the DTOs on the
+  wire between browser, BFF and API
+  (Source: Todo.Web/Shared/SharedClass.cs).
 end note
 note bottom of EXT
   Registered only when Authentication:Schemes:<name> exists
@@ -76,13 +84,13 @@ end note
 
 | Component | What it is | Boundary the code shows |
 |---|---|---|
-| `Todo.Api` | ASP.NET Core minimal API; owns the data and all business rules | The only writer of the SQLite file. Authenticates with the Identity bearer scheme, then re-resolves the caller from its own store before any `/todos` handler runs. `Source: Todo.Api/Program.cs`, `Todo.Api/Todos/TodoApi.cs`, `Todo.Api/Users/UsersApi.cs`, `Todo.Api/Authorization/CurrentUserExtensions.cs` |
-| `Todo.Web.Server` | BFF; owns the browser session (cookie) and reaches the API over two distinct channels | Holds the access token inside the auth cookie (`TokenNames.AccessToken = "accessToken"`) and re-issues it as a Bearer header for `/todos` (`Todo.Web/Server/TodoApi.cs`); calls `/users/*` over a separately registered typed client that posts the credentials itself (`Todo.Web/Server/AuthClient.cs`, `Todo.Web/Server/Program.cs`). `Source: Todo.Web/Server/Program.cs`, `TodoApi.cs`, `AuthApi.cs`, `AuthClient.cs` |
-| `Todo.Web.Client` | Blazor WebAssembly assembly running in the browser | Project references `Todo.Web.Shared` only — no reference to the Server, the API or the shared DTO assembly, so every call it makes is HTTP against its own origin (`builder.HostEnvironment.BaseAddress`). It therefore reaches the BFF and never the API directly. `Source: Todo.Web/Client/Todo.Web.Client.csproj`, `Todo.Web/Client/Program.cs`, `Todo.Web/Client/TodoClient.cs` |
-| `Todo.Web.Shared` | Project reference shared by Client and Server | Holds one empty class. Both `Todo.Web.Client.csproj` and `Todo.Web.Server.csproj` reference it. `Source: Todo.Web/Shared/SharedClass.cs`, `Todo.Web/Client/Todo.Web.Client.csproj` |
-| `TodoApp.ServiceDefaults` | Cross-cutting library: OpenTelemetry, health checks, service discovery, resilience | Referenced by both runnable hosts, not by the client. `Source: TodoApp.ServiceDefaults/Extensions.cs` |
+| `Todo.Api` | ASP.NET Core minimal API; owns the data and all business rules | The only writer of the SQLite file. Authenticates with the Identity bearer scheme, then re-resolves the caller from its own store before any `/todos` handler runs. Compiles against `Todo.Web.Shared`, so the DTOs it returns are literally the client's types. `Source: Todo.Api/Program.cs`, `Todo.Api/Todos/TodoApi.cs`, `Todo.Api/Users/UsersApi.cs`, `Todo.Api/Authorization/CurrentUserExtensions.cs`, `Todo.Api/Todo.Api.csproj` |
+| `Todo.Web.Server` | BFF; owns the browser session (cookie) and reaches the API over two distinct channels | Holds the access token inside the auth cookie (`TokenNames.AccessToken = "accessToken"`) and re-issues it as a Bearer header for `/todos` (`Todo.Web/Server/TodoApi.cs`); calls `/users/*` over a separately registered typed client that posts the credentials itself (`Todo.Web/Server/AuthClient.cs`, `Todo.Web/Server/Program.cs`). Also references `Todo.Web.Client`, which is how the WASM assets are served for the render mode. `Source: Todo.Web/Server/Todo.Web.Server.csproj`, `Program.cs`, `TodoApi.cs`, `AuthApi.cs`, `AuthClient.cs` |
+| `Todo.Web.Client` | Blazor WebAssembly assembly running in the browser | A `Microsoft.NET.Sdk.BlazorWebAssembly` project referencing `Microsoft.AspNetCore.Components.WebAssembly`, `Microsoft.Extensions.Http` and `Todo.Web.Shared` only — no reference to the Server or the API, so every call it makes is HTTP against its own origin (`builder.HostEnvironment.BaseAddress`). It therefore reaches the BFF and never the API directly. `Source: Todo.Web/Client/Todo.Web.Client.csproj`, `Todo.Web/Client/Program.cs`, `Todo.Web/Client/TodoClient.cs` |
+| `Todo.Web.Shared` | The DTO contract shared across all three tiers | Not a placeholder: it declares `TodoItem` (`Id`, `Title` `[Required]`, `IsComplete`), `UserInfo` (`Email`, `Password`, both `[Required]`), `ExternalUserInfo` (`Username`, `ProviderKey`, both `[Required]`) and `AuthToken` (a record whose single property is `Token`, serialised as `accessToken`). All three tiers reference it. `Source: Todo.Web/Shared/SharedClass.cs`, `Todo.Web/Client/Todo.Web.Client.csproj`, `Todo.Web/Server/Todo.Web.Server.csproj`, `Todo.Api/Todo.Api.csproj` |
+| `TodoApp.ServiceDefaults` | Cross-cutting library: OpenTelemetry, health checks, service discovery, resilience | Referenced by the two runnable hosts, not by the client. `Source: TodoApp.ServiceDefaults/Extensions.cs`, `Todo.Web/Server/Todo.Web.Server.csproj` |
 | `TodoApp.AppHost` | Aspire orchestration; also runs the EF migration before the API starts | Launches API and BFF, optionally `sqliteweb`; creates `.db/` and runs `dotnet ef database update` when the directory is absent. `Source: TodoApp.AppHost/Program.cs`, `TodoApp.AppHost/Extensions.cs` |
-| `Todo.Api.Tests` | xunit integration suite | Drives `Todo.Api` in-process with a real SQLite in-memory connection. `Source: Todo.Api.Tests/TodoApplication.cs`, `Todo.Api.Tests/TodoApiTests.cs`, `Todo.Api.Tests/UserApiTests.cs` |
+| `Todo.Api.Tests` | xunit integration suite | Drives `Todo.Api` in-process through `WebApplicationFactory<Program>`, replacing the provider with a real `SqliteConnection("Filename=:memory:")`, relaxing Identity password rules, installing an ephemeral data-protection provider and minting bearer tokens per request through a `DelegatingHandler`. The pinned `EntityFrameworkCore.InMemory` package is not used by the fixture. `Source: Todo.Api.Tests/TodoApplication.cs`, `Todo.Api.Tests/Todo.Api.Tests.csproj` |
 
 Project composition and solution structure, read from the solution file rather than from the tree: the seven projects plus four solution folders (`src`, `tests`, `Solution Items`, and the two folder nodes the projects are nested into); the six tool files `ci.yaml`, `Directory.Build.props`, `Directory.Packages.props`, `global.json`, `nuget.config` and `README.md` are carried as solution items, so the build conventions travel with the solution. `Source: TodoApp.sln`.
 
@@ -90,7 +98,7 @@ External systems and stores, each with the anchor that proves the dependency:
 
 | External element | Direction | Anchor |
 |---|---|---|
-| External identity providers — GitHub, Google, Microsoft, Auth0 | BFF → provider (OAuth2 / OIDC) | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs` registers the four schemes by name, each only when its `Authentication:Schemes:<name>` section exists. No delivered configuration supplies one: `Todo.Web/Server/appsettings.json` and `appsettings.Development.json` (144 bytes, logging only) hold none, so in the delivered shape the edge is dormant and only username/password login is reachable |
+| External identity providers — GitHub, Google, Microsoft, Auth0 | BFF → provider (OAuth2 / OIDC) | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs` registers the four schemes by name, each only when its `Authentication:Schemes:<name>` section exists; the four provider packages are pinned in `Todo.Web/Server/Todo.Web.Server.csproj`. No delivered configuration supplies such a section — `Todo.Web/Server/appsettings.json` and `appsettings.Development.json` (144 bytes, logging only) hold none — so in the delivered shape the edge is dormant and only username/password login is reachable |
 | SQLite database file `.db/Todos.db` | API → file | `Todo.Api/Program.cs` connection string `"Todos"` with fallback `Data Source=.db/Todos.db` |
 | `tomdesinto/sqliteweb` container | AppHost → container, container → database file | `TodoApp.AppHost/Program.cs` |
 | OTLP endpoint | API and BFF → collector | `TodoApp.ServiceDefaults/Extensions.cs` exports only when `OTEL_EXPORTER_OTLP_ENDPOINT` is non-empty |
