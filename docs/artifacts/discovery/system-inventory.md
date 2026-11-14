@@ -428,18 +428,18 @@ Each is stated with its evidence, a probability that it bites, and the impact if
 Absences recorded as findings rather than filled in: no architecture description, no ADR, no deployment instruction, no data dictionary, no API contract document, no operational runbook, no user guide, and no author to ask (`Source: .iari/README.md`).
 
 ## Priorities
-
 Ordered by where the code concentrates and by what the Development Case and the delivery statement make load-bearing. Each entry states why it is where it is; this order drives the Excavation reading.
 
 | Order | Area | Why it is here |
 |---|---|---|
-| 1 | `Todo.Api/Todos` — the `/todos` surface | The only area that carries the system's actual domain (`Todo`, `IsComplete`, `OwnerId`), the only area with behavioural tests, and the surface the declared product purpose rests on. Five endpoints, two authorization rules, three distinct failure modes |
-| 2 | Authentication and identity — `Todo.Api/Users`, `Todo.Api/Authorization`, `Todo.Web/Server/Auth*`, `Server/Authentication` | The most complex and most volatile area: 5 commits in 5 days of November 2024, the newest of which changes a trust boundary (`a519c10`). It carries two schemes, four external providers, a data-protection key shared between processes, and four TODO markers naming known gaps. Nothing readable is safe to assume here |
-| 3 | Persistence — `Todo.Api/TodoDbContext`, `Todo.Api/Migrations` | The schema is the system's ground truth and exists nowhere else. The snapshot/product-version drift and the AppHost-only migration path both have consequences for any later change |
-| 4 | Composition and deployment — `TodoApp.AppHost`, `TodoApp.ServiceDefaults` | The Development Case fired the Deployment Model on this topology. The AppHost also owns the database lifecycle, which the API does not |
-| 5 | `Todo.Web.Client` | Small, but it holds the only user-facing UI and a documented defect (the prerender hack) and the missing completion toggle. Read after the API, because the client's contract is the BFF's |
-| 6 | `Todo.Api.Tests` | The evidence for rules 1 and 2, but weaker than it looks — the assertions disabled in `UserApiTests.cs` are why this ranks below the code they test |
-| 7 | `Todo.Web.Shared`, `wwwroot/bootstrap`, tooling configs | Placeholder, vendored, and already read at the level they need |
+| 1 | `Todo.Api/Todos` — the `/todos` surface | The only area carrying the system's actual domain (`Todo`, `IsComplete`, `OwnerId`), the only area with behavioural tests, and the surface the declared product purpose rests on. Five endpoints, two authorization rules, three distinct failure modes. Every endpoint is reachable through the BFF, so a use case recovered here has a screen trace on both sides of the boundary |
+| 2 | Authentication and identity — `Todo.Api/Users`, `Todo.Api/Authorization`, `Todo.Web/Server/Auth*`, `Server/Authentication` | The most complex and most volatile area: five commits in five days of November 2024, the newest of which changes a trust boundary (`a519c10`). It carries two schemes, four external providers, a data-protection key shared between processes, the only explicit endpoint protection in the system (`/users/token/{provider}`), and four TODO markers naming known gaps. Nothing readable is safe to assume here |
+| 3 | `Todo.Web.Shared` — the DTO contract | Load-bearing by position, not by size: the one project all three tiers compile against, so any change to `TodoItem`, `UserInfo`, `ExternalUserInfo` or `AuthToken` moves every boundary at once. Read with priority 1, because the `/todos` and `/users` contracts are literally these types |
+| 4 | Persistence — `Todo.Api/TodoDbContext`, `Todo.Api/Migrations` | The schema is the system's ground truth and exists nowhere else. The snapshot/product-version drift and the AppHost-only migration path both have consequences for any later change |
+| 5 | Composition and deployment — `TodoApp.AppHost`, `TodoApp.ServiceDefaults` | The Development Case fired the Deployment Model on this topology. The AppHost also owns the database lifecycle, which the API does not |
+| 6 | `Todo.Web.Client` | Small, but it holds the only user-facing UI, a documented defect (the prerender hack) and the missing completion toggle. Read after the API, because the client's contract is the BFF's |
+| 7 | `Todo.Api.Tests` | The evidence for rules 1 and 2, but weaker than it looks — the assertions disabled in `UserApiTests.cs` are why this ranks below the code they test |
+| 8 | `wwwroot/bootstrap`, tooling configs | Vendored and already read at the level they need |
 
 Deliberately not read first: the vendored Bootstrap tree, `Properties/launchSettings.json` files, and the Razor `_Imports`/`App` plumbing — they carry no perimeter facts.
 
