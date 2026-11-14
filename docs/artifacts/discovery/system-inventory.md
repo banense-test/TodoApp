@@ -315,6 +315,69 @@ The snapshot declares `ProductVersion` `8.0.0` while the package pins are 9.0.8,
 
 The sentence "The only document is the `README.md` at the root of the repository" must be read with the commits that created `docs/`: the folder did not come from the upstream sample. Every file in it is a record of the sprint zero, not documentation of the delivered system.
 
+### Which document governs which question
+
+Six authorities answer six different questions, and a reader who takes one for another records a claim the tree does not support. The Development Case is not a description of the system; it is the process's own authority, and it binds the other five only where it names them.
+
+```plantuml
+@startuml
+title Which authority governs when two documents state the same fact
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+package "Code and configuration — authoritative for what the system does" #PaleGreen {
+  component "Todo.Api, Todo.Web, TodoApp.*\nthe delivered source at 307a1ea" as CODE
+  component "Directory.Build.props · Directory.Packages.props\nglobal.json · nuget.config · appsettings pairs" as PINS
+  component "Todo.Web/Server/Todo.Web.Server.csproj\nRazorLangVersion 8.0 — a version no central file carries" as PROJ
+}
+
+package "Delivered documents — describe the code, and are corrected by it" {
+  component "README.md\nfour claims the code contradicts" as README
+  component "Requests/todo.http\nfive requests, a subset of the /todos contract" as HTTPFILE
+  component ".iari/README.md\nthe delivery statement" as IARI
+}
+
+package "Process records — govern the process, never describe the system" {
+  component "Development Case\nVersion policy · Measurement policy\ntool references · optional triggers" as DC
+  component "Risk List · Iteration Plan · Review Record\nIteration Assessment · System Inventory" as RECS
+}
+
+CODE -[hidden]-> PINS
+PINS --> PROJ : the policy covers every file that declares a version
+DC --> PINS : names the pins and their owner
+DC --> PROJ : names the project file, not only the central files
+DC --> README : no citation to any document that does not exist
+README ..> CODE : overruled where it disagrees
+HTTPFILE ..> CODE : overruled where it disagrees
+IARI ..> RECS : "the only document is the root README" now under-describes the tree
+
+note right of README
+  Where a document and the code disagree, the code
+  is the fact recorded in this artifact and the
+  document's claim is recorded as obsolete. Nothing
+  in the tree supersedes README.md, so it stays the
+  only prose description of the system.
+end note
+note bottom of DC
+  The version policy is documentation of a version,
+  not the version itself: it states who may change a
+  pin and that the declaring file is the one named.
+  The value stays in the file.
+end note
+@enduml
+```
+
+| Question a reader has | Authority | Basis |
+|---|---|---|
+| What does the system do? | the code, at `307a1ea` | No document supersedes it, and `README.md` is corrected by it in the four places this section records. `Requests/todo.http` is a subset of the `/todos` contract, not its statement |
+| How is it run? | `README.md` | The only prose description; the `TodoApp.AppHost` path is the documented one, and the standalone path it also documents reaches an unmigrated database |
+| What does the delivery contain, and what does not exist? | `.iari/README.md` | True of the code; it under-describes the tree only by the six `docs/` records, none of which documents the system |
+| Which versions does this project build against, and who may raise one? | `docs/artifacts/environment/development-case.md`, Guidelines and Procedures — Version policy, pointing at the file that declares each value | The values live in `Directory.Build.props`, `Directory.Packages.props` and `Todo.Web/Server/Todo.Web.Server.csproj`; the rule binding them is a process record, and it names the declaring file rather than the central files alone |
+| What conventions does a reviewer apply? | The same section — the compiler-enforced properties and the central pins, and no style guide | No `CONTRIBUTING.md` or equivalent path exists in the tree |
+| What did the process run, and what did it decide? | the six `docs/artifacts/` records | They record the sprint zero — its tailoring, its perimeter, its risks, its schedule, its verdict. None describes the system |
+
+None of these six is a requirements, design or architecture document. Those do not exist, `.iari/README.md` declares it and the tree confirms it.
+
 ## History
 Commit history read from the SCM. The whole-repository listing covers the 50 most recent commits, 2024-11-14 to 2026-11-14, and reports that older history exists.
 
