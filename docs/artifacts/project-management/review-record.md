@@ -453,7 +453,7 @@ Environment discipline, Survey. Verdict: **Approved** — no open finding from t
 | Every FIRED optional trigger holds its own §5.2 condition | Pass — Deployment Model alone, on the genuine four-process topology read from `TodoApp.sln` and the YARP forwarder |
 | Every NOT FIRED verdict holds against its condition | Pass — Data Model on the tables the snapshot declares, Proof-of-Concept deferred to Elaboration on its own terms, Test Plan on no audit obligation, UI Prototype on a delivered UI |
 | Every cited tool reference resolves in the tree | Pass — five rows, each a path |
-| Discipline intensities match the canonical matrix, no self-granted deviation | Pass — Discovery Critical in Survey, Environment High, business-process-led and real-time-system false |
+| Discipline intensities match the canonical matrix, no self-granted deviation | Pass — Discovery Critical in Survey, Environment High, `business-process-led` and `real-time-system` false |
 | No stood-down role at work the tailoring removes | Pass — Business Process Analyst and Business Reviewer stood down, Capsule Designer for `real-time-system = false` |
 | No constraint stated over more of the lifecycle than was decided | Pass |
 
@@ -496,6 +496,8 @@ F3 is verified against the rows and against the register's own tallies. R002 now
 
 Both High-band risks remain `avoid` and retired by artifacts the process already runs — R001 by the Test Case at LCA, R009 by the Use-Case Model at GHR. Of the eight Significant risks, seven are `avoid`; R002 alone is accepted and its grant is the stakeholder's. R026 bounds the project's only non-agent delay at 14 days of queue time, estimate none, and the Iteration Plan cites it by identifier, so plan and register state the same control.
 
+What this lens did not test on these rows is whether the artefact a strategy names already exists. The technical lens tested it and found it failed for R005; that record is open and is carried in Disposition.
+
 #### Iteration Plan
 
 Project Management discipline, Survey. Verdict: **Approved with changes** — one Minor.
@@ -506,7 +508,7 @@ Project Management discipline, Survey. Verdict: **Approved with changes** — on
 | Every gate booked is a gate the stakeholder will attend | Pass — four gates, G1, G3, G4, G5, and no dangling identifier |
 | No constraint stated over more of the lifecycle than was decided | Pass |
 | A retirement path that exists is used, not foreclosed | Pass — R011 and the observable statements of R002 are placed at LCA on the first build-and-test run, with the Tester named as producer and the Test Manager as recorder |
-| Every risk accounted for exactly once, at the milestone that retires it | Pass — 15 + 2 + 1 + 8 = 26, and the LCO row now carries no retired risk |
+| Every risk accounted for exactly once, at the milestone that retires it | Pass on the arithmetic — 15 + 2 + 1 + 8 = 26 and the LCO row carries no retired risk — but one risk's milestone is wrong under the technical lens's record |
 | Every role a milestone assigns work to is at work in that milestone | Pass — every one of the 26 risk owners appears on the profile of the milestone whose row retires the risk |
 | No role at work that the tailoring stood down | Pass |
 | No invented size, budget, forecast or date | Pass — no work item sized, every bar declared the renderer's unit step, no start date, no budget proposed |
@@ -514,21 +516,25 @@ Project Management discipline, Survey. Verdict: **Approved with changes** — on
 | Milestone order matches the phase sequence | Pass |
 | State column reports the gate as it now stands | **Fail — F10** |
 
-Four findings of this lens are closed this iteration and one Minor is new.
+Three findings of this lens on this artifact are closed this iteration, and one Minor is new.
 
 ##### F10 — Minor — the exit-criteria table reports a defect that has closed
 
-Criterion 3's state column reads "Evidenced — the declaration holds; the Provenance row is its owner's Minor", and the fine plan carries the work item "Restate the Provenance row to the four files Coverage names … Owner's next turn". That Provenance Minor is the technical lens's System Inventory#F3, and it was closed Resolved this iteration: the row names exactly the four files Coverage names and 53 + 4 = 57 agrees with the tally and the enumeration.
+Criterion 3's state column reads "Evidenced — the declaration holds; the Provenance row is its owner's Minor", and the fine plan carries the work item "Restate the Provenance row to the four files Coverage names … Owner's next turn". That Provenance Minor is the technical lens's System Inventory#F3, and it was closed Resolved at the start of this iteration: the row names exactly the four files Coverage names and 53 + 4 = 57 agrees with the tally and the enumeration.
 
 The plan therefore tells a reader of the SBC exit-criteria table that a declaration is under an open record when the record has closed and the row is correct. It is the mirror image of the defect this lens recorded as F6 at the first hold — a status column that misreports where the gate stands — in the opposite direction: F6 understated an open defect, F10 overstates a closed one.
 
-A Minor because it stays inside the artifact's own reporting. Criterion 3's evidence and verdict are unaffected, the declaration the criterion turns on holds either way, and no roadmap row, gate or criterion follows from it. It does not hold the milestone, and its owner fixes it in the next turn after any Critical and Major across the project — of which there are none.
+A Minor because it stays inside the artifact's own reporting. Criterion 3's evidence and verdict are unaffected, the declaration the criterion turns on holds either way, and no roadmap row, gate or criterion follows from it. It does not hold the milestone, and its owner fixes it in the next turn after any Critical and Major across the project.
 
 Recommendation: restate criterion 3's state to "Evidenced — the declaration holds; the Provenance row now agrees with the enumeration the Coverage section publishes", and drop the "Restate the Provenance row" row from the fine plan's work items. The work is performed and verified, not owed. No other row of the Evaluation Criteria table changes.
 
 #### Pull requests
 
 `scm_list_pull_requests` over all states returns none. Survey produces no source code, so an empty pull-request set is the correct shape for this milestone rather than a gap. Nothing awaits approval, nothing needs changes requested, and nothing needs deferring out of phase.
+
+#### Source-control evidence
+
+Survey produces no source code, so there is no implementation state to verify: no branch, no build, no pull request and no open defect exists to cite, and this lens holds no source-control tool with which to query one. No build status, test count or pull-request identifier is reported in this block, because none was observed and none can be. The milestone's evidence is artifact evidence, and where this block states a fact it cites the artifact section that carries it.
 
 ### Review Coordinator lens
 <!-- review: Survey I2 -->
