@@ -233,7 +233,6 @@ Size, by project and by what the tree shows:
 The client's `wwwroot/bootstrap` accounts for 45 of the tree's 165 entries; it is third-party CSS/JS, not project code.
 
 ## Persistent Data
-
 No SQL scripts, stored procedures or triggers exist. `Source: .iari/README.md` ("Database scripts. No SQL files, stored procedures or triggers. The schema exists only as code, in the migrations of the API project") — confirmed against the tree, which holds no `.sql` file.
 
 The schema is defined by `TodoDbContext` and materialised by three EF Core migrations plus a model snapshot.
@@ -252,9 +251,25 @@ The schema is defined by `TodoDbContext` and materialised by three EF Core migra
 
 The relationship is configured in code, not only generated: `Todo` → `TodoUser` by `OwnerId`, principal key `Id`, `.WithMany()`. `Source: Todo.Api/TodoDbContext.cs`.
 
-Data lifecycle: the database file is created and migrated **only** by the AppHost in run mode, and only when the `.db` directory does not yet exist (`if (!Directory.Exists(dbDirectory))` then `AddEfMigration`). `Source: TodoApp.AppHost/Extensions.cs`, `TodoApp.AppHost/Program.cs`. There is no migration runner inside `Todo.Api` itself, so running the API standalone leaves it pointing at a database file that nothing creates.
+### What the store holds against what crosses the boundary
 
-The snapshot declares `ProductVersion` `8.0.0` while the package pins are 9.0.8 — see Anomalies.
+Two type sets exist and must not be confused when data is recovered:
+
+| Type set | Where | What it carries |
+|---|---|---|
+| Entity — `Todo` | `Todo.Api/Todos/Todo.cs` | `Id`, `Title`, `IsComplete`, **`OwnerId`**. The ownership column exists only here; it never crosses the API boundary |
+| Wire DTO — `TodoItem` | `Todo.Web/Shared/SharedClass.cs` | `Id`, `Title` (`[Required]`), `IsComplete`. No `OwnerId` — ownership is taken from the caller's resolved identity, not from the request body |
+| Wire DTO — `TodoUser` | `Todo.Api/Users/TodoUser.cs` | `IdentityUser` with no added properties; the password hash and lockout state live in the framework columns of `AspNetUsers` |
+
+The API therefore cannot be told to write a todo for someone else, and a client cannot see whose todo it is beyond the fact that `GET /todos` only returns its own.
+
+### Data lifecycle
+
+The database file is created and migrated **only** by the AppHost in run mode, and only when the `.db` directory does not yet exist (`if (!Directory.Exists(dbDirectory))` then `AddEfMigration`). `Source: TodoApp.AppHost/Extensions.cs`, `TodoApp.AppHost/Program.cs`. There is no migration runner inside `Todo.Api` itself, so running the API standalone leaves it pointing at a database file that nothing creates.
+
+The integration tests take a different path to a schema: the fixture replaces the provider with a real `SqliteConnection("Filename=:memory:")` and calls `db.Database.EnsureCreated()`, so tests run against a schema generated from the current model rather than from the committed migrations. A divergence between the snapshot and the model would therefore not fail the suite. `Source: Todo.Api.Tests/TodoApplication.cs`.
+
+The snapshot declares `ProductVersion` `8.0.0` while the package pins are 9.0.8, and the `EntityFrameworkCore.InMemory` package is pinned but unused — see Anomalies.
 
 ## Documentation
 ### What the owner declared, against what the tree holds
