@@ -76,17 +76,17 @@ endif
 
 Objective 3 carried a defect the iteration believed closed. Iteration 1 closed RL-2 by making R002 and R011 `accept` instead of `avoid`; that correction was right about the strategy and wrong about its horizon, and the horizon is what the register now gets wrong. It is a new defect in corrected text, not a failed correction — the same shape as the two Majors the plan carried.
 ## Adherence to Plan
-**All seven fine-plan work items were executed and every one produced its artifact. The iteration still failed its exit criteria.** That gap is the central fact of this iteration and the only variance worth a root cause.
+**All seven fine-plan work items were executed and every one produced its artifact; the iteration still did not close.** The gap is narrower than iteration 1's and sits in a different place: not in whether the work was done, but in whether what it wrote states no more than the stakeholder decided.
 
 | Planned work item | Owner | Produced | Executed |
 |---|---|---|---|
-| Tailor the process for this project | Process Engineer | Development Case | Yes — 16,418 chars |
-| Read the documentation the delivery carries | Software Archaeologist | System Inventory — Documentation | Yes |
-| Read the perimeter, technology and size, persistent data, history | Software Archaeologist | System Inventory — those sections | Yes |
-| Dispose of the three scope facts (G1) | Stakeholder | Three decisions recorded | Yes — answered 2026-11-14, queue time 0:06:04.401833 |
-| Record the anomalies and order the priorities | Software Archaeologist | System Inventory — Anomalies, Priorities, Coverage | Yes — 83,084 chars, the iteration's largest artifact |
-| Score and classify the risks | Project Manager | Risk List | Yes — 25 risks, 25,903 chars |
-| Write this plan | Project Manager | Iteration Plan | Yes — 20,734 chars |
+| Narrow the Coverage closing statement to the sprint-zero scope | Software Archaeologist | System Inventory — Coverage | Yes — and its reach beyond the sprint zero is SI-B, the Major the review opened |
+| Re-dispose R002 and R011, quote R002's grant, bound the human gate | Project Manager | Risk List — 26 risks, R026 added | Yes — and the horizon of the acceptance is RL-B, the Major the review opened |
+| Rebuild the retirement map and sweep the plan for any work item assuming a run | Project Manager | Iteration Plan — Plan and Milestones | Yes — and the sweep closed a path that exists from Inception on (IP-B) |
+| Reconcile the role profile against every risk owner | Project Manager | Iteration Plan — Resources | Yes — no defect; every risk owner is at work in the milestone that carries its risk |
+| Restate exit criterion 1 and report each criterion's state | Project Manager | Iteration Plan — Evaluation Criteria | Partially — the criterion stopped claiming an unevidenced confirmation, then under-stated the confirmation obtained at this gate (IP-A) |
+| Correct the pin tally to 30 and replace the absent-standard reference | Software Archaeologist, Process Engineer | System Inventory, Development Case | Yes — the Development Case is clean; Coverage's Provenance row miscounts by one (SI-A, Minor) |
+| Write the assessment against the gate's verdict | Project Manager | This artifact | Yes |
 
 ### Variance — the exit criteria had no owning work item
 
@@ -98,40 +98,50 @@ Root cause: the fine plan was built by enumerating the artifacts Survey produces
 
 ### Adherence on measurement discipline — no variance
 
-The plan stated no size for any work item, declared no token budget, named no project start date, and flagged its gantt bars as the renderer's unit step rather than durations. Both lenses confirmed this independently and neither raised it as a defect. No correction is owed here and none is made.
+No work item carried a size, no token budget was declared, no project start date was named, and the gantt bars are flagged as the renderer's unit step rather than durations. Both lenses confirmed this independently and neither raised it. No correction is owed and none is made.
 
 ### The two clocks — measured, reported apart, never summed
 
 | Clock | Measured | What it is | What it decides |
 |---|---|---|---|
-| Agent work — tokens | 16,116,804 | The phase's measured actual. First closed figure the plan may forecast from | Replaces every assumed share in the plans after SBC |
-| Agent work — elapsed | 0:49:10.4046839 | Working time across 9 agent invocations | The working span of a sprint-zero iteration, for comparison with the next |
-| Stakeholder queue time | 0:06:04.401833 | **Waiting, not work.** 12 user interactions, 5 questions | Whether gates should be batched into fewer points in later phases |
+| Agent work — tokens | 14,471,072 | The iteration's measured actual across 9 agent invocations | The measured actual replaces every assumed share in the plans after SBC |
+| Agent work — elapsed | 0:31:16.5340857 | Working time across those invocations | The working span of a corrective sprint-zero iteration, against iteration 1's 0:49:10 |
+| Stakeholder queue time | 0:23:37.2682333 | **Waiting, not work.** 13 user interactions | Whether gates should be batched into fewer points in later phases |
 
-The two clocks are never added and one is never converted into the other. The queue figure **excludes the end-of-iteration approval gate**, which is not measured; the stakeholder's sanction of 2026-11-14 is therefore outside both figures and no duration is attributed to it.
+The two clocks are never added and one is never converted into the other. The queue figure **excludes the end-of-iteration approval gate**, which is not measured.
 
-The iteration carried a five-artifact surface of **254,781 characters**, of which the Review Record is 108,642 — the review is the largest single document of the iteration, 42.6% of the surface. That is the cost shape the IARI model predicts and it is recorded here because it is what the next phase's forecast must be built on: re-reading the artifact surface dominates, not emitting it.
+Two facts about this iteration's cost, recorded because the next plan rests on them. The corrective iteration spent **fewer tokens than iteration 1** (14,471,072 against 16,116,804) and **less agent time** (0:31:16 against 0:49:10) while carrying a larger artifact surface into review: re-reading a baseline already established is cheaper than establishing it. And the stakeholder's queue time **quadrupled** (0:23:37 against 0:06:04), because this gate asked for a sanction and a corrective order rather than three factual dispositions. A corrective iteration's cost shape is the inverse of a construction iteration's — agent spend falls, human queue time rises.
 
 ```plantuml
 @startsalt
-title Survey iteration 1 — the counted facts, and the decision each is used for
+title Survey iteration 2 — the counted facts, and the decision each is used for
 {
 {S
 <b>Metric</b> | <b>Value</b> | <b>Goal — the decision it enables</b>
-Artifacts produced | 5 | Coverage check: one per role the Survey process runs; none missing, none extra
-Artifact surface, characters | 254,781 | Forecast shape for the next phase: cost scales with live surface x times read, not with volume emitted
-Source anchors opened at review | 17 | Trust in the perimeter: 16 confirmed, 1 false anchor — decides whether anchor verification stays mandatory
-Lens records opened | 18 | Gate yield: two lenses produced 15 distinct defects; business lens inactive by tailoring
-Distinct defects | 15 | Rework scope for iteration 2: 0 Critical, 10 Major, 5 Minor
-Major defects by artifact | IP 6, SI 2, RL 2, DC 1 | Where the corrective effort goes: the plan carries the gate
-Stakeholder questions asked | 5 | Gate batching: five answers in 12 interactions closed three scope facts and the sanction
-Token spend | 16,116,804 | Measured actual of the phase; the first figure a later forecast may rest on
-Agent elapsed time | 0:49:10.4046839 | Working time, reported alone
-Stakeholder queue time | 0:06:04.401833 | Waiting, not work — excludes the approval gate, which is unmeasured
+Artifacts produced | 6 | Coverage: one per role the Survey process runs; none missing, none extra
+Artifact surface, characters | 315,459 | Shape of the next phase's reading cost: surface x times read, not volume emitted
+Review Record share of surface | 110,435 — 35.0% | Review is the costliest element at a corrective milestone; decides whether a third Survey iteration is cheaper than a fourth re-read
+Prior findings closed | 18 of 18 | Whether the corrective iteration did what the refused sanction asked
+New findings this gate | 4 Major, 3 Minor | Rework scope carried into Survey 3: 0 Critical
+Major defects by artifact | SI 1, RL 1, IP 2 | Where the corrective effort goes: the plan and the premise it quotes
+Stakeholder interactions | 13 | Gate batching: whether the gates should be consolidated in later phases
+Token spend | 14,471,072 | Measured actual of a corrective iteration; no forecast is built on it
+Agent elapsed time | 0:31:16.5340857 | Working time, reported alone
+Stakeholder queue time | 0:23:37.2682333 | Waiting, not work — excludes the approval gate, which is unmeasured
 }
 }
 @endsalt
 ```
+
+### Variance — a correction can over-reach its own decision
+
+Iteration 1's variance was that the fine plan assigned an owner to every product and none to an exit criterion. Iteration 2 repaired that: the six criteria each name the work item that evidences them. The variance of this iteration is the level below it.
+
+Each of the four Majors is a statement that reaches past a decision the stakeholder had already taken, written **by the act of correcting the previous defect**. Iteration 1's finding was that three artifacts treated observation as available; the correction ruled observation out for the whole lifecycle. Iteration 1's finding was that the register avoided two risks by an action that was ruled out; the correction made them accepted with no horizon. Iteration 1's finding was that criterion 1 claimed a confirmation SBC never asks for; the correction deferred it to a gate that does not exist — and then the stakeholder gave the confirmation at this gate, leaving the criterion understating a met condition.
+
+Root cause: each correction was written against the finding's text rather than against the decision the finding pointed at. A finding names a defect; the stakeholder's answer names the scope of the decision. A correction that satisfies the finding while ignoring that scope writes the same class of defect with the opposite sign.
+
+**Adjustment for Survey 3:** every correction is written against the stakeholder's answer, not against the finding's recommendation. The four Majors are ordered by the stakeholder — the premise, then the statements that quote it, then the deleted gate — so no correction is written twice, and the three Minors wait for their owners' next turn behind them.
 
 ## Use Cases and Scenarios Implemented
 
