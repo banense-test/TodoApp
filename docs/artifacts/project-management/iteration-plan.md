@@ -294,20 +294,20 @@ The process runs four disciplines in Excavation, and every one of them has its r
 
 | Role | Discipline and intensity | Stage in this iteration | Produces | Risks owned |
 |---|---|---|---|---|
-| Software Architect | Analysis & Design, Critical | Software Architecture Document — Components and Connectors · Mechanisms, Technology and Deployment | Software Architecture Document | R007, R012, R016, R018, R021, R023 |
+| Software Architect | Analysis & Design, Critical | Software Architecture Document — Components and Connectors · Mechanisms, Technology and Deployment | Software Architecture Document | R007, R011, R012, R016, R018, R021, R023 |
 | Designer | Analysis & Design, Critical | Design Model — Domain Model · Packages and Classes | Design Model | R015, R019 |
 | Database Designer | Analysis & Design, Critical | Persistent Data — Entities, Keys and Associations · Enforced Rules | Design Model — persistent-data sections (Data Model not fired) | R003, R013 |
-| System Analyst | Requirements, High | Use-Case Model · Business Rules in the Use-Case Flows · Vision | Use-Case Model, Vision | R017 |
-| Software Archaeologist | Discovery, High | System Inventory — Anomalies · History and Coverage | System Inventory | R002, R005 |
+| System Analyst | Requirements, High | Use-Case Model · Business Rules in the Use-Case Flows · Vision | Use-Case Model, Vision | R005, R017 |
+| Software Archaeologist | Discovery, High | System Inventory — Anomalies · History and Coverage | System Inventory | R002 |
 | Project Manager | Project Management, Low | Risk List · Iteration Plan | Risk List, Iteration Plan, Iteration Assessment | R026 |
 
 ### Consolidation 1 — GHR
 
 | Role | Discipline and intensity | Stage in this iteration | Produces | Risks owned |
 |---|---|---|---|---|
-| System Analyst | Requirements, High | Use-Case Model · Supplementary Specification | Use-Case Model, Supplementary Specification, Vision | R008, R009, R015, R017 |
+| System Analyst | Requirements, High | Use-Case Model · Supplementary Specification | Use-Case Model, Supplementary Specification, Vision | R008, R009, R017 |
 | Software Architect | Analysis & Design, Medium | Software Architecture Document — Components · Mechanisms and Use-Case View | Software Architecture Document | R023 |
-| Designer | Analysis & Design, Medium | Design Model — Domain Model · Packages and Classes | Design Model | R019 |
+| Designer | Analysis & Design, Medium | Design Model — Domain Model · Packages and Classes | Design Model | R015, R019 |
 | Database Designer | Analysis & Design, Medium | Persistent Data — Entities, Keys and Associations · Enforced Rules | Design Model — persistent-data sections | — |
 | Software Archaeologist | Discovery, Low | System Inventory | System Inventory | — |
 | Project Manager | Project Management, Low | Risk List · Iteration Plan | Risk List, Iteration Plan, Iteration Assessment | R026 |
@@ -321,6 +321,19 @@ No risk owner in any milestone row above is absent from that milestone's profile
 **Stood down for the whole project**, per the Development Case classification: Business Process Analyst and Business Reviewer (`business-process-led = false`), Capsule Designer (`real-time-system = false`). They execute no stage in any iteration and sit on no gate.
 
 **Human gates.** The only human in this system is the stakeholder, and the plan books five gates for them: G1 (the three scope facts), G2 (confirms the perimeter at Consolidation 1's start), G3 (accepts the LCO case), G4 (accepts the architecture baseline), G5 (accepts the product, where ownership transfers). A gate is bounded in the Risk List at R026, never forecast in the plan: ceiling 14 days of queue time, after which the process suspends rather than filling the gap with an assumption; estimate none; the actual measured and reported apart from agent time.
+
+### This iteration — Survey 2, SBC
+
+| Role | Discipline and intensity | Stage in this iteration | Produces | Risks owned |
+|---|---|---|---|---|
+| Process Engineer | Environment, High | Development Case | Development Case — the Tool references correction and the ownership view (DC-1, DC-2) | R006, R025 |
+| Software Archaeologist | Discovery, Critical | System Inventory — Documentation · Perimeter · Anomalies and Priorities · Coverage | System Inventory — Coverage corrected (SI-2), the pin tally (SI-1), the unread qualifier (SI-3) | R002 |
+| Project Manager | Project Management, Low | Risk List · Iteration Plan | Risk List (RL-1, RL-2, RL-3), Iteration Plan (IP-1 to IP-7), and the assessment written after the verdict | R026 |
+| Reviewer | Review lens | SBC milestone review, technical | Findings on the artifacts reviewed | — |
+| Management Reviewer | Review lens | SBC milestone review, management | Findings on the artifacts reviewed | — |
+| Review Coordinator | Review lens | SBC milestone review | The SBC verdict | — |
+
+Two risks whose disposal this iteration corrects are owned by roles who first sit at AR, and neither is retired here: R005's owner is the System Analyst and R011's is the Software Architect. This iteration restates their strategy in the Risk List; it does not change their owner, and no milestone row above claims either as retired.
 
 ## Use Cases and Scenarios Addressed
 
