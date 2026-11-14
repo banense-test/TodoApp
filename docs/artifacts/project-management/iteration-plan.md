@@ -159,7 +159,9 @@ The Business Reviewer is not a lens of any gate in this table. The Development C
 
 ### Fine plan — this iteration's work items and their owners
 
-Survey 4 is the corrective iteration the SBC gate's verdict requires. Every item is a correction inside an artifact its owner already holds: no new question for the stakeholder, no scope change, no Change Request. The order is the stakeholder's own — the register's row first, then the plan's retirement map that derives from it, then the Minors in the owner's next turn.
+Survey 4 is the corrective iteration the SBC gate's verdict requires. Every item is a correction inside an artifact its owner already holds: no new question for the stakeholder, no scope change, no Change Request.
+
+The rework the stakeholder marked on the Risk List and on this plan is these seven work items and no others. They are the five records the SBC gate of Survey 3 left open, read against the corrective order the stakeholder confirmed at that gate: "Close it as you describe: the Risk List row first, then the retirement map." The three Minors follow in their owners' next turn, which is this one. Nothing is added to the marked scope and nothing in it is deferred.
 
 | Work item | Owner | Produces | Predecessor | Evidences which exit criterion |
 |---|---|---|---|---|
@@ -168,8 +170,8 @@ Survey 4 is the corrective iteration the SBC gate's verdict requires. Every item
 | Carry the corrected rows into Document Control's status line | Project Manager | Risk List — Document Control | Risk Register restated | 4 — the register states its own composition |
 | Move R005 into the "Retired at Survey 2 — SBC" group, restate the accounting as 14 + 3 + 1 + 8 = 26, and drop R005 from the AR diagram step and the Excavation 1 risk column | Project Manager | Iteration Plan — Plan and Milestones | Risk List restated | 6 — every risk accounted for exactly once |
 | Report every role at work: the Process Engineer's Development Case revision named on this iteration's profile | Project Manager | Iteration Plan — Resources | Plan and Milestones corrected | 6 — the plan instantiates the process |
+| Add "or the project file that declares the property" to the Version policy in Guidelines and Procedures, so the section R023's row cites covers the file that row names | Process Engineer | Development Case — Guidelines and Procedures | Risk List's R023 row restated | 5 — the tailoring is auditable and every cited reference resolves |
 | Restate criterion 3's state to record that the Provenance row agrees with the enumeration, and drop the Provenance work item from the fine plan | Project Manager | Iteration Plan — Evaluation Criteria, Plan and Milestones | Owner's next turn | 3 — unread areas declared, each carried as a risk |
-| Build this iteration's fine plan and profile from the gate's verdict | Project Manager | Iteration Plan — Plan and Milestones, Resources | The verdict | 6 — the plan instantiates the process |
 | Write the assessment against the gate's verdict | Project Manager | Iteration Assessment | The verdict | — the record, not a criterion |
 
 No work item carries a size. This system measures two things only: agent work in tokens and elapsed time, and human gates in days of queue time. An empty size is correct; a figure in hours, days or person-anything would describe a unit this project cannot produce.
