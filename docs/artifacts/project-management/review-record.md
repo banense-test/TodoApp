@@ -810,7 +810,8 @@ package "Closed Resolved this iteration — 10 Major" #PaleGreen {
   }
   class "System Inventory F2" as SI2 {
     Coverage named running the system as the settlement
-    verified: stakeholder decision recorded in their terms
+    verified: sprint-zero scope recorded, though its
+    reach beyond the sprint zero is F3
   }
   class "Risk List F1" as RL1 {
     no risk bounded the 14-day human gate
@@ -825,7 +826,8 @@ package "Closed Resolved this iteration — 10 Major" #PaleGreen {
 package "Closed Resolved this iteration — 5 Major" #PaleGreen {
   class "Iteration Plan F1" as IP1 {
     criterion 1 claimed an unasked confirmation
-    verified: recorded-and-put, G2 named for confirmation
+    verified: restated — though the restoration
+    now owed is F8
   }
   class "Iteration Plan F2" as IP2 {
     stood-down Business Reviewer on two gates
@@ -841,7 +843,7 @@ package "Closed Resolved this iteration — 5 Major" #PaleGreen {
   }
   class "Iteration Plan F5" as IP5 {
     AR retired two risks by running the system
-    verified: retirement map rebuilt, no run in any phase
+    verified: retirement map rebuilt, no run in the sprint zero
   }
 }
 
@@ -874,8 +876,10 @@ IP5 --> V
 IP6 --> V
 
 note bottom of V
-  Nothing was closed because the author said it was fixed.
-  Each closure carries the corrected sentence as evidence.
+  Each closure answers the defect it names. Where the
+  corrected content later turned out to reach further
+  than the stakeholder decided, that is a new finding
+  (F3, F8, F9), not a reopening of a closed one.
 end note
 @enduml
 ```
@@ -884,15 +888,17 @@ end note
 |---|---|---|---|
 | Development Case F1 — Tool references cited an absent `CONTRIBUTING.md` | Major | Resolved | Five rows, each a path in the tree; no written standard assumed |
 | System Inventory F1 — package-pin tally 28 against 30 | Major | Resolved | `Directory.Packages.props` re-counted: 6 + 19 + 5 = 30 |
-| System Inventory F2 — Coverage named running the system as the settlement | Major | Resolved | Coverage's closing statement, in the stakeholder's terms |
+| System Inventory F2 — Coverage named running the system as the settlement | Major | Resolved | The settlement sentence is gone; the sprint-zero scope is recorded |
 | Risk List F1 — no risk bounded the human gate | Major | Resolved | R026 present, 3×4=12, cited by the plan by identifier |
 | Risk List F2 — R002 and R011 avoided an action ruled out | Major | Resolved | Both `accept`; R002's Significant-band grant quoted verbatim |
-| Iteration Plan F1 — criterion 1 claimed an unasked confirmation | Major | Resolved | Criterion restated; G2 named as the confirmation point |
+| Iteration Plan F1 — criterion 1 claimed an unasked confirmation | Major | Resolved | The unevidenced claim is removed; the restoration owed is F8 |
 | Iteration Plan F2 — stood-down Business Reviewer on two gates | Major | Resolved | Every roadmap row carries three lenses |
 | Iteration Plan F3 — Excavation had no one for its own work | Major | Resolved | System Analyst and Software Archaeologist on the profile |
-| Iteration Plan F4 — LCA and PR acceptance gates unbooked | Major | Resolved | Five gates; G5 names ownership transfer |
-| Iteration Plan F5 — AR retired two risks by running the system | Major | Resolved | Retirement map rebuilt; no run scheduled in any phase |
+| Iteration Plan F4 — LCA and PR acceptance gates unbooked | Major | Resolved | Five gates booked; G5 names ownership transfer |
+| Iteration Plan F5 — AR retired two risks by running the system | Major | Resolved | Retirement map rebuilt; no run scheduled in the sprint zero |
 | Iteration Plan F6 — exit-criteria column reported uniform readiness | Minor | Resolved | Per-criterion state, two rows naming their dependency and owner |
+
+Two closures deserve a note on why they stand although the surrounding content is now under a new Major. **System Inventory F2** asked that the impossible settlement path be replaced by the stakeholder's decision; it was, and that is what the finding required. **Iteration Plan F1** asked that a criterion stop claiming an unevidenced confirmation; it no longer claims one. That the replacement content then over-reached the sprint zero (F3, F9) and that the criterion now under-states a confirmation actually obtained (F8) are new defects with their own recommendation — reopening the closed findings would obscure which correction failed, and the closure is about the defect each finding named.
 
 #### Action owed at the owner's next turn
 
@@ -917,6 +923,26 @@ A Major means another role builds on wrong content or a milestone exit criterion
 - All 26 risks are disposed of by an artifact or a bound that exists, no disposal runs the system, and every owner is at work in the milestone that carries the risk.
 - Every gate carries three lenses, and no gate staffs a stood-down role.
 - Both acceptance milestones the plan had left unbooked now have a gate, and the PR gate names ownership transfer.
+
+#### Actions owed at their owners' next turn
+
+| Action | Artifact | Owner | Closes |
+|---|---|---|---|
+| Restore criterion 1 to the process wording — the perimeter confirmed by the stakeholder — evidence it with the confirmation of 2026-11-14, and delete G2 from the roadmap, the gantt and the Resources gate list, leaving four gates | Iteration Plan | Project Manager | F8 (Major) |
+| Scope "no retirement runs the system" to the sprint zero, state that from Inception on the pipeline builds and runs the tests, and re-examine the retirement map for what a build and test run can settle | Iteration Plan | Project Manager | F9 (Major) |
+| Narrow the Coverage closing statement to Survey, Excavation and Consolidation, drop "for the life of this project", "in any phase" and the prohibition on later milestones | System Inventory | Software Archaeologist | F3 (Major) |
+| Restate R002 and R011 as accepted until the RUP phases start, correct "none will be run in any phase", "no later reading can settle it" and "which this project does not do", and bound the acceptance in Document Control | Risk List | Project Manager | F3 (Major) |
+| Move R006 and R025 from the LCO row to Survey 2 — SBC and restate the accounting as 15 + 2 + 1 + 8 = 26 | Iteration Plan | Project Manager | F7 (Minor) |
+
+F8's owner is the same role that owed F7, and the two sit in one artifact; both are repaired in that role's next turn. F3 on the System Inventory is owed before Excavation reads the artifact again, because it is the sentence Excavation's own milestone report will quote.
+
+#### Where the four Majors leave the milestone
+
+The stakeholder granted the sanction, and no lens retracts it: the perimeter is confirmed as the System Inventory records it, and the phase may advance past SBC. That is the stakeholder's decision and it is recorded as decisive.
+
+What the grant does not do is make incorrect artifact content correct. Four Majors are open, each inside an artifact its own owner holds, and each is a correction of what the artifact says about a decision the stakeholder has already taken — no new question, no scope change, no further reading of the system. They are owed as rework before Excavation consumes the System Inventory and before the Iteration Plan is used to run an iteration, because both artifacts would otherwise carry the over-statement and the deleted gate into reading work that quotes them.
+
+This is the difference between the milestone and its artifacts. The milestone is sanctioned; the artifacts are approved subject to rework. Recording the second does not reopen the first.
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
