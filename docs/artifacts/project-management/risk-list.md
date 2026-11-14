@@ -70,21 +70,29 @@ STRAT --> GRANT : accept of High or Significant needs
 
 | Impact | P1 (10% or less) | P2 (11–30%) | P3 (31–50%) | P4 (51–70%) | P5 (more than 70%) |
 |---|---|---|---|---|---|
-| **5** — success endangered | R007, R012 | — | — | — | — |
+| **5** — success endangered | R012 | — | — | — | — |
 | **4** — the milestone slips | — | R011 | — | R001 | — |
-| **3** — an iteration objective slips | — | R006, R008, R013 | R016 | R003, R004, R005, R017 | R009 |
-| **2** — work inside the iteration | — | R015 | R014, R023 | R010 | R002, R018 |
+| **3** — an iteration objective slips | — | R006, R013 | R016 | R003, R004, R005, R017 | R009 |
+| **2** — work inside the iteration | R007 | R008, R015 | R014, R023 | R010 | R002, R018 |
 | **1** — no deviation worth recording | — | — | — | R021 | R019, R020, R022, R024, R025 |
 
 | Band | Exposure | Count | Risks |
 |---|---|---|---|
 | High | 15–25 | 2 | R001 (16), R009 (15) |
 | Significant | 9–12 | 7 | R003 (12), R004 (12), R005 (12), R017 (12), R002 (10), R018 (10), R016 (9) |
-| Moderate | 5–8 | 14 | R010 (8), R011 (8), R006 (6), R008 (6), R013 (6), R014 (6), R023 (6), R007 (5), R012 (5), R019 (5), R020 (5), R022 (5), R024 (5), R025 (5) |
-| Minor | 3–4 | 2 | R015 (4), R021 (4) |
-| Low | 1–2 | 0 | — |
+| Moderate | 5–8 | 12 | R010 (8), R011 (8), R006 (6), R013 (6), R014 (6), R023 (6), R012 (5), R019 (5), R020 (5), R022 (5), R024 (5), R025 (5) |
+| Minor | 3–4 | 3 | R008 (4), R015 (4), R021 (4) |
+| Low | 1–2 | 1 | R007 (2) |
 
-Both High-band risks — R001 and R009 — are disposed of by `avoid`, because an artifact this process already produces retires each of them: the Test Case and the recovered Use-Case Model respectively. No risk in the High or Significant band rests on the Project Manager's own acceptance, so no acceptance is asked of the stakeholder this round. The three risks whose strategy is `accept` at Moderate — R007, R008 and R012 — were each put to the stakeholder on 2026-11-14 and their answers are cited in Risk Mitigation and Contingency.
+### Strategy distribution
+
+| Strategy | Count | Risks | Who accepts |
+|---|---|---|---|
+| avoid | 15 | R001, R002, R003, R004, R005, R006, R009, R010, R011, R013, R014, R016, R017, R018, R020, R021, R022, R024, R025 | not applicable — an artifact retires each |
+| accept | 6 | R007, R008, R012, R015, R019, R023 | R012 Moderate — stakeholder, granted 2026-11-14; R007 and R008 — stakeholder, decided 2026-11-14; R015, R019, R023 Moderate and Minor — the Project Manager |
+| transfer | 0 | — | no counterparty exists for any risk here: there is no supplier, no operator and no deployment to transfer to |
+
+Both High-band risks are disposed of by `avoid`, because an artifact this process already runs retires each of them: R001 by the Test Case the Test Designer produces, R009 by the Use-Case Model the System Analyst recovers. No risk in the High or Significant band rests on the Project Manager's own acceptance, so no acceptance is asked of the stakeholder this round. R007, R008 and R012 are `accept` at Low, Minor and Moderate: their acceptance was the stakeholder's, given on 2026-11-14 and cited in Risk Mitigation and Contingency.
 
 ## Risk Register
 Every risk below is an anomaly, or a declared coverage limit, of the System Inventory, carried with its anchor and scored for this project. Each names the owner that acts on it.
