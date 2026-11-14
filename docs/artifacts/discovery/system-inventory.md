@@ -299,8 +299,9 @@ package "Documents present" {
   component ".iari/README.md\n777 bytes · delivery statement" as IARI
   component "LICENSE\nMIT, (c) 2022 David Fowler" as LIC
   component "docs/artifacts/environment/\ndevelopment-case.md\n16418 bytes · process" as DC
+  component "docs/artifacts/discovery/\nsystem-inventory.md\nthis artifact · discovery" as SI
   component "Configuration as documentation\nDirectory.Build.props · Directory.Packages.props\nglobal.json · nuget.config · ci.yaml · appsettings\naspire/settings.json · devcontainer" as CFG
-  component "Code comments and TODO markers\n(only inline record of known gaps)" as COMMENTS
+  component "Code comments and TODO markers\n(nine statements · the only inline record)" as COMMENTS
 }
 
 package "System areas" {
@@ -311,6 +312,7 @@ package "System areas" {
   component "Persistence — 8 tables, 3 migrations" as A5
   component "Composition — AppHost, ServiceDefaults" as A6
   component "Tests — integration suite" as A7
+  component "Shared — the DTO contract" as A8
 }
 
 README --> A1 : setup, /users/register and /users/login walkthrough
@@ -321,19 +323,26 @@ README --> A3 : external providers setup, secrets, Auth0 schema
 HTTPFILE --> A1 : POST, GET all, DELETE — no PUT, no GET by id
 CFG --> A5 : connection string default, migration command
 CFG --> A1 : rate limit and logging settings only
-COMMENTS --> A3 : "TODO: Support remote logout", "TODO: Handle the failure somehow"
+COMMENTS --> A3 : "TODO: Support remote logout", "Handle the failure somehow", "pick a user name"
 COMMENTS --> A2 : "TODO: Add service to service auth between the BFF and this API"
+COMMENTS --> A7 : "TODO: Follow up on the new errors"
 DC --> A7 : names the test conventions
 IARI --> A5 : no SQL scripts — schema is code
+SI --> A8 : the DTOs are the contract every tier compiles against
 
 README ..> A3 : no document of the /auth/* contracts
 README ..> A7 : no document of what the suite covers
+README ..> A8 : the shared DTOs are described nowhere
 COMMENTS ..> A4 : completion toggle exists in API, absent in UI, unremarked
 
 note bottom of DC
   Authored in this sprint zero (Process Engineer,
   commits 2026-11-14). It is process documentation,
   not documentation of the delivered system.
+end note
+note bottom of SI
+  Authored in this sprint zero (Software Archaeologist).
+  Discovery record, not design documentation.
 end note
 note bottom of COMMENTS
   CONTRIBUTING.md is cited as the coding standard by
@@ -348,7 +357,8 @@ end note
 | `Requests/todo.http` | executable request file (REST Client / VS Code) | 793 bytes, 5 requests | `POST /users/register`, `POST /users/login`, `POST /todos`, `GET /todos`, `DELETE /todos/{id}` | `Requests/todo.http` |
 | `.iari/README.md` | delivery statement | 777 bytes | What is and is not in the delivery | `.iari/README.md` |
 | `LICENSE` | licence text | MIT, `(c) 2022 David Fowler` | Legal terms only | `LICENSE` |
-| `docs/artifacts/environment/development-case.md` | process tailoring | 16418 bytes | The sprint-zero process: classification, disciplines, artifact catalogue, optional triggers, roles | committed 2026-11-14 (`37986fb`, `520a590`, `a1e2d77`, `6f554f8`, `e0bc4e6`) |
+| `docs/artifacts/environment/development-case.md` | process tailoring | 16418 bytes | The sprint-zero process: classification, disciplines, artifact catalogue, optional triggers, roles, version policy | committed 2026-11-14 (`37986fb`, `520a590`, `a1e2d77`, `6f554f8`, `e0bc4e6`) |
+| `docs/artifacts/discovery/system-inventory.md` | discovery record | this artifact | The system as it is: perimeter, technology, data, documentation, history, anomalies, priorities, coverage | committed 2026-11-14 (this reading) |
 
 Configuration read as documentation — the only authoritative statement of several behaviours:
 
@@ -360,6 +370,8 @@ Configuration read as documentation — the only authoritative statement of seve
 | Package-source lockdown (`<clear />` + `*` → nuget.org) | `nuget.config` |
 | CI gate: restore → build Release → test Release, on push and pull request | `.github/workflows/ci.yaml` |
 | Default log levels; YARP warnings suppressed | `Todo.Api/appsettings.json`, `Todo.Web/Server/appsettings.json` |
+| Rate-limit values `TokenLimit 50`, `TokensPerPeriod 50`, `QueueLimit 50` (Development only) | `Todo.Api/appsettings.Development.json` |
+| `RazorLangVersion` 8.0 on the server project | `Todo.Web/Server/Todo.Web.Server.csproj` |
 | AppHost path for the Aspire tooling | `.aspire/settings.json` |
 | Developer environment: SDK 8.0 image, forwarded ports 5000/5001, auto-install of `dotnet-ef` | `.devcontainer/devcontainer.json`, `.devcontainer/init.sh` |
 | Recommended editor extensions (C#, REST Client) | `.vscode/extensions.json` |
