@@ -196,9 +196,19 @@ Configuration content lives in the files that hold it, owned by the roles that a
 
 ### Version policy
 
-The stakeholder declared no version constraint in this cycle, and the delivery carries its own pins: framework target `net9.0` with SDK `9.0.100` (`Source: global.json`, `Directory.Build.props`), and package versions fixed centrally in `Directory.Packages.props`. The formal version policy is recorded in **Inception**, once the System Inventory has read what the system actually runs on — not in Survey, where the reading is not yet complete.
+The stakeholder declared no version constraint in this cycle, and none was invented: the policy is the one the delivery already fixes, read from its own files.
 
-Until then the pins in the repository are the working baseline and the registry's "latest" never overrides them: a package is not bumped because a newer version exists. Moving off `net9.0` to an LTS line, or off any pinned package, is a change to the delivered baseline and enters through a Change Request, not through an Implementer's judgement.
+| Pin | Value | Source |
+|---|---|---|
+| Framework target | `net9.0` | `Directory.Build.props` |
+| SDK | `9.0.100`, `rollForward: latestFeature` | `global.json` |
+| Package set | 8 pins recorded via `record_version_policy` — EF Core SQLite, Identity EF Core, MVC Testing, YARP, Scalar, xunit, OpenTelemetry | `Directory.Packages.props` |
+
+Three consequences hold from now on:
+
+- The Software Architect anchors the SAD to this policy; the registry's "latest" never overrides a pin.
+- `net9.0` is an STS line. The delivery fixes it, so it stands; moving to an LTS line is a baseline change and enters through a Change Request, never by an Implementer's judgement.
+- The System Inventory's Excavation reading is the point at which these pins are confirmed against what the system actually resolves at runtime. A pin that reading contradicts is corrected here, against the evidence.
 
 ### Process procedures
 
@@ -207,16 +217,4 @@ Until then the pins in the repository are the working baseline and the registry'
 - **Support during the iteration.** A process question, an ambiguous template or a missing convention is answered here, in-cycle. A blocking process issue is escalated immediately as `REQUIRES_USER_INPUT`; it is never left to resolve itself over two iterations.
 - **Assessment-driven change.** A tailoring change is made only against evidence — a finding, a Change Request, or an Iteration Assessment entry naming the problem. Changes are recorded as deltas in this artifact with the evidence that caused them.
 - **Escalation of scope.** This case fixes process, not scope. A gap or contradiction in the declared scope goes to the stakeholder through the role that found it; it is never resolved by a tailoring decision here.
-
-### Measurement policy
-
-This project tracks the two quantities the process produces — **tokens** and **elapsed time**, the latter split into agent time and human queue time. Each has a named decision it enables; a quantity with no decision does not get collected.
-
-| Quantity | Decision it enables | Reader |
-|---|---|---|
-| Tokens per discipline per iteration | Whether a live artifact's surface is worth reading again next iteration, or should be replaced so it is read once — the cost of working on an existing system is dominated by re-reading, not by writing | Process Engineer, at iteration close |
-| Agent time per stage | Whether a stage's scope is too large for one turn and should be split in the next Iteration Plan | Process Engineer and Project Manager |
-| Human queue time at each gate | Whether gates should be batched into fewer points in the phase | Project Manager |
-
-No token budget is declared for this project. Where none is declared, the measured spend is recorded and no declared scope is cut to fit an estimate. Measured actuals are quoted only for closed phases, and the two clocks are reported apart and never summed.
 
