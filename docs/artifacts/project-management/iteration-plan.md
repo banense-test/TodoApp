@@ -343,13 +343,15 @@ The process runs four disciplines in Excavation, and every one of them has its r
 
 ### Later iterations — roles at work, recorded so the roadmap is executable
 
-Inception adds the Integrator (Build Environment Setup; R010, R014), the Change Control Manager (Change Request ledger), the Configuration Manager (CM strategy), the Test Manager (Test Plan not fired; Test Evaluation Summary; R004, R020) and the Deployment Manager. Elaboration adds the Test Designer (Test Case; **R001**), the Tester, the Test Analyst, the Code Reviewer and the User Interface Designer. Construction adds the Implementer and, for the Technical Writer, R022 and R024. Transition is deployment and acceptance closure.
+Inception adds the Integrator (Build Environment Setup; R010, R014), the Change Control Manager (Change Request ledger), the Configuration Manager (CM strategy), the Test Manager (Test Plan not fired; Test Evaluation Summary; R004, R020) and the Deployment Manager. Elaboration adds the Test Designer (Test Case; **R001**), the Tester — who produces the build-and-test evidence that settles R011 and the observable statements of R002 — the Test Analyst, the Code Reviewer and the User Interface Designer. Construction adds the Implementer and, for the Technical Writer, R022 and R024. Transition is deployment and acceptance closure.
 
 **Every one of the 26 risks has its owner at work in the milestone whose row retires it.** The two roles whose first appearance is later than their risk's entry are the Test Manager, at work from LCA, and the Integrator, at work from IOC — and neither risk is one that AR or GHR claims as retired.
 
 **Stood down for the whole project**, per the Development Case classification: Business Process Analyst and Business Reviewer (`business-process-led = false`), Capsule Designer (`real-time-system = false`). They execute no stage in any iteration and sit on no gate.
 
-**Human gates.** The only human in this system is the stakeholder, and the plan books five gates for them: G1 (the three scope facts), G2 (confirms the perimeter at Consolidation 1's start), G3 (accepts the LCO case), G4 (accepts the architecture baseline), G5 (accepts the product, where ownership transfers). A gate is bounded in the Risk List at R026, never forecast in the plan: ceiling 14 days of queue time, after which the process suspends rather than filling the gap with an assumption; estimate none; the actual measured and reported apart from agent time.
+**Human gates.** The only human in this system is the stakeholder, and the plan books four gates for them: G1 (the three scope facts, answered 2026-11-14), G3 (accepts the LCO case), G4 (accepts the architecture baseline), G5 (accepts the product, where ownership transfers). A gate is bounded in the Risk List at R026, never forecast in the plan: ceiling 14 days of queue time, after which the process suspends rather than filling the gap with an assumption; estimate none; the actual measured and reported apart from agent time.
+
+The perimeter is not one of those gates. The stakeholder confirmed it at the SBC gate of 2026-11-14 — the confirmation Survey 2's exit criterion 1 records — so no plan event re-opens it; an element Excavation finds outside the perimeter goes back to the stakeholder at the point it is found.
 
 ### This iteration — Survey 2, SBC
 
@@ -357,7 +359,7 @@ Inception adds the Integrator (Build Environment Setup; R010, R014), the Change 
 |---|---|---|---|---|
 | Process Engineer | Environment, High | Development Case | Development Case — the Tool references correction and the ownership view (DC-1, DC-2) | R006, R025 |
 | Software Archaeologist | Discovery, Critical | System Inventory — Documentation · Perimeter · Anomalies and Priorities · Coverage | System Inventory — Coverage corrected (SI-2), the pin tally (SI-1), the unread qualifier (SI-3) | R002 |
-| Project Manager | Project Management, Low | Risk List · Iteration Plan | Risk List (RL-1, RL-2, RL-3), Iteration Plan (IP-1 to IP-7), and the assessment written after the verdict | R026 |
+| Project Manager | Project Management, Low | Risk List · Iteration Plan | Risk List (RL-1, RL-2, RL-3), Iteration Plan (IP-1 to IP-9), and the assessment written after the verdict | R026 |
 | Reviewer | Review lens | SBC milestone review, technical | Findings on the artifacts reviewed | — |
 | Management Reviewer | Review lens | SBC milestone review, management | Findings on the artifacts reviewed | — |
 | Review Coordinator | Review lens | SBC milestone review | The SBC verdict | — |
