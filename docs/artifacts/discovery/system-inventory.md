@@ -304,7 +304,7 @@ The snapshot declares `ProductVersion` `8.0.0` while the package pins are 9.0.8,
 ## Documentation
 ### What the owner declared, against what the tree holds
 
-`Source: .iari/README.md` is the only file the delivery places in `.iari/`. It makes four statements; three hold against the tree, one no longer does.
+`Source: .iari/README.md` is the only file the delivery places in `.iari/`. It makes four statements, and all four hold against the delivered tree; one further sentence in it is true of the delivered code and under-describes the tree the sprint zero has since added to.
 
 | Declaration | Verdict against the tree |
 |---|---|
@@ -447,12 +447,6 @@ Five of the nine sit in the authentication area, which is why that area ranks se
 | The database lifecycle — that only the AppHost creates and migrates `.db/Todos.db` | Read `TodoApp.AppHost/Extensions.cs` |
 | The API's OpenAPI surface | No committed OpenAPI file; it is generated at runtime and exposed at `/openapi` with `/scalar/v1` in Development |
 | Any ADR, architecture note, glossary, deployment instruction beyond `README.md` | Nothing exists — `.iari/README.md` declares this and the tree confirms it, the six `docs/` records being process records |
-
-### Documentation the delivery cites but does not contain
-
-`docs/artifacts/environment/development-case.md` lists `CONTRIBUTING.md` as "Coding standard and review conventions" with the Software Architect and Code Reviewer as owners. **`CONTRIBUTING.md` does not exist in the tree** — a direct read fails with "was not found". The Development Case's other tool references (`ci.yaml`, `Directory.Packages.props`, `global.json`, `Directory.Build.props`, `Todo.Api.Tests`, `README.md`) all resolve.
-
-Recorded as an absence, not filled in: no coding standard exists beyond what `Directory.Build.props` enforces (nullable, implicit usings, preview language version) and what the code demonstrates.
 
 ### The coding standard: absent from the tree, and recorded as absent
 
