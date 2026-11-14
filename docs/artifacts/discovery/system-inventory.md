@@ -565,9 +565,77 @@ Three anomalies above are not defects to be fixed by preference but scope decisi
 These three decisions close the only scope questions this reading raised. Nothing else in this artifact awaits confirmation: the areas left unread in Coverage are declared unread, not open, and every other anomaly is a finding about the code with no decision attached.
 
 ## Priorities
+Ordered by what the delivery makes load-bearing and by where the code concentrates its weight. The order drives the Excavation reading, and states per area what that reading must settle.
+
+```plantuml
+@startuml
+title Priorities — the order the Excavation reading takes, and why each area sits where it does
+skinparam shadowing false
+
+|#LightYellow|1|
+start
+:Todo.Api/Todos — the /todos surface;
+note right
+  The domain itself: Todo, IsComplete, OwnerId.
+  Five endpoints, two authorization rules,
+  behavioural tests exist.
+end note
+
+|#LightYellow|2|
+:Authentication and identity — Api/Users,
+Api/Authorization, Server/Auth*, Server/Authentication;
+note right
+  Most volatile area: six commits in five days
+  (2024-11-23 -> 2024-11-27), the newest changing
+  a trust boundary. No test covers the BFF side.
+end note
+
+|#LightYellow|3|
+:Todo.Web.Shared — the DTO contract;
+note right
+  Load-bearing by position: the one project all
+  three tiers compile against.
+end note
+
+|#LightYellow|4|
+:Persistence — TodoDbContext and Migrations;
+note right
+  The schema exists nowhere else.
+end note
+
+|#LightYellow|5|
+:Composition and deployment — AppHost,
+ServiceDefaults;
+note right
+  Owns the database lifecycle the API does not;
+  the fired Deployment Model reads from here.
+end note
+
+|#LightYellow|6|
+:Todo.Web.Client — the only UI;
+note right
+  Where the completion toggle has no screen.
+end note
+
+|#LightYellow|7|
+:Todo.Api.Tests;
+note right
+  The evidence for 1 and 2, weaker than it looks.
+  Below the code it tests.
+end note
+
+|#LightYellow|8|
+:Vendored assets and tooling configs;
+note right
+  Read at the level they need; no perimeter fact.
+end note
+stop
+@enduml
+```
+
 | Order | Area | Why it is here | What the next reading must settle |
 |---|---|---|---|
-| 1 | `Todo.Api/Todos` — the `/todos` surface | The only area carrying the system's actual domain (`Todo`, `IsComplete`, `OwnerId`), the only area with behavioural tests, and the surface the declared product purpose rests on. Five endpoints, two authorization rules, three distinct failure modes. Every endpoint is reachable through the BFF, so a use case recovered here has a trace on both sides of the boundary | The exact owner-or-admin branches of `GET`, `PUT` and `DELETE /todos/{id}`, including the `id != todo.Id` branch no test covers; the validation failure shape `WithParameterValidation` produces; and whether `PUT /todos/{id}` is a use case in its own right when the delivered UI cannot reach it. The admin half of every branch is unreachable by the stakeholder's decision, so it is recorded and not recovered as an actor |
+| 1 | `Todo.Api/Todos` — the `/todos` surface | The only area carrying the system's actual domain (`Todo`, `IsComplete`, `OwnerId`), the only area with behavioural tests, and the surface the declared product purpose rests on. Five endpoints, two authorization rules, three distinct failure modes. Every endpoint is reachable through the BFF, so a use case recovered here has a trace on both sides of the boundary | The exact owner-or-admin branches of `GET`, `PUT` and `DELETE /todos/{id}`, including the `id != todo.Id` branch no test covers; the validation failure shape `WithParameterValidation` produces; and whether `PUT /todos/{id}` is a use case in its own right when the delivered UI cannot reach it. The admin half of every branch is unreachable by the stakeholder's decision in Anomalies, so it is recorded and not recovered as an actor |
 | 2 | Authentication and identity — `Todo.Api/Users`, `Todo.Api/Authorization`, `Todo.Web/Server/Auth*`, `Server/Authentication` | The most complex and most volatile area: six commits between 2024-11-23 and 2024-11-27, the newest of which changes a trust boundary (`a519c10`), and in the same window `2d890e8` records the missing service-to-service auth and `993421c` makes the rate limiter configurable. It carries two schemes, four external providers, a data-protection key shared between processes, the only explicit endpoint protection in the system (`/users/token/{provider}`), five TODO markers naming known gaps, and no test at all on the BFF side | The external-login state machine, which needs `Server/Authentication/HttpAuthenticationStateProvider.cs` and the two Razor forms (unread, see Coverage) — and which the stakeholder has put out of scope for this cycle, so it is read only to the depth the recorded endpoints require. What Excavation does recover here is the username/password login, registration and logout scenarios and the cookie-to-Bearer translation the YARP transform performs |
 | 3 | `Todo.Web.Shared` — the DTO contract | Load-bearing by position, not by size: the one project all three tiers compile against, so a change to `TodoItem`, `UserInfo`, `ExternalUserInfo` or `AuthToken` moves every boundary at once. Read with priority 1, because the `/todos` and `/users` contracts are literally these types | Nothing outstanding — `SharedClass.cs` is 736 bytes and was read whole. It stays at 3 so any contract change is checked against three tiers at once |
 | 4 | Persistence — `Todo.Api/TodoDbContext`, `Todo.Api/Migrations` | The schema is the system's ground truth and exists nowhere else. The snapshot/product-version drift, the AppHost-only migration path and the tests' `EnsureCreated()` schema all have consequences for any later change | Whether the committed migrations still produce the model the snapshot declares — the only check that would detect the drift is one no test performs. The three migration diffs and their designer files are unread; they matter only if schema history is reconstructed |
