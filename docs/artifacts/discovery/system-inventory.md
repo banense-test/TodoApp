@@ -634,24 +634,28 @@ These three decisions close the only scope questions this reading raised. Nothin
 
 ### What settles an anomaly here
 
-The Anomalies section records 22 rows. Of these, 20 are settled inside the sprint zero — by an artifact another role writes, by a correction to the tree, or by a decision the stakeholder has already taken. Two are not, and they are named so no milestone adopts a retirement path that cannot run inside the sprint zero.
+The section records **22 rows** across its four tables — 5 on structure, documentation and build; 7 on authentication and the BFF boundary; 7 on the todos surface, the client and the data lifecycle; 3 on the request pipeline — plus **one absence finding set** stated as a paragraph rather than as a row: no architecture description, no ADR, no deployment instruction, no data dictionary, no API contract document, no operational runbook, no user guide, and no author to ask. The rows are what the Risk List scores one to one; the absences set is carried as a single risk on the same evidence, which is why the register's anomaly count exceeds this section's row count and neither is a drift.
+
+Of the 22 rows, 20 are settled inside the sprint zero — by an artifact another role writes, by a correction to the tree, or by a decision the stakeholder has already taken. Two are not, and they are named so no milestone adopts a retirement path that cannot run inside the sprint zero.
 
 ```plantuml
 @startuml
-title What settles an anomaly in this artifact, and where observation enters
+title What settles an anomaly in this artifact — 22 rows, one absence finding set, and where observation enters
 skinparam shadowing false
 
-state "Recorded by reading" as R
-state "Settled inside the sprint zero — an artifact another role writes, a correction to the tree, or a decision already taken" as A
-state "Carried with the uncertainty intact until the RUP phases start" as C
+state "Recorded by reading — 22 rows, each with its evidence anchor" as R
+state "Settled inside the sprint zero — an artifact another role writes, a correction to the tree, or a decision already taken — 20 rows" as A
+state "Carried with the uncertainty intact until the RUP phases start — 2 rows" as C
 state "Settled by a build-and-test result once the pipeline runs" as O
+state "The absences paragraph — seven absent documents and no reachable author, recorded as one finding set with no row of its own" as N
 
-[*] --> R : every row — the evidence column cites the file and the construct
-R --> A : 20 rows
-R --> C : 2 rows — the rate limiter's partition key; the database lifecycle beyond the Directory.Exists guard
-C --> O : from Inception on — the pipeline builds the solution and runs its test suites
-O --> [*]
+[*] --> R : the evidence column of each row cites the file and the construct
+R --> A
+R --> C
+R --> N
+C --> O : from Inception on
 R -[#red,dashed]-> O : not inside Survey, Excavation or Consolidation
+O --> [*]
 
 note bottom of C
   Both are stated as read and marked as such. No statement
