@@ -1207,10 +1207,11 @@ end note
 | Artifacts read | 6 of 6, unread = none |
 | Perimeter confirmed | Yes — by the stakeholder at SBC, 2026-11-14 |
 | Stakeholder sanction | **GRANTED**, 2026-11-14 |
+| Stakeholder's answer at this event | "Nothing to add. Close it as you describe: the Risk List row first, then the retirement map." — recorded in Resolutions and Actions |
 
 **Decision: the phase is under corrective iteration. This milestone is not recorded complete.**
 
-The perimeter is confirmed and the stakeholder's sanction stands; no lens retracts it and this block does not withhold it. What is not clean is the artifact set. SBC exit criteria 4 and 6 fail on one row: R005's strategy in the register names work already performed, and the plan books that risk's retirement at a milestone with nothing left to do for it. One correction inside two artifacts the Project Manager already holds closes both, and nothing in it needs a stakeholder question, a scope change or a Change Request.
+The perimeter is confirmed and the stakeholder's sanction stands; no lens retracts it and this block does not withhold it. What is not clean is the artifact set. SBC exit criteria 4 and 6 fail on one row: R005's strategy in the register names work already performed, and the plan books that risk's retirement at a milestone with nothing left to do for it. One correction inside two artifacts the Project Manager already holds closes both, and nothing in it needs a stakeholder question, a scope change or a Change Request. The stakeholder confirmed that order at this event and added nothing to it.
 
 Recording this milestone complete while two Major findings hold its own exit criteria would falsely open the phase gate — the highest-impact error available at this point, and the one this block exists to prevent.
 
