@@ -275,19 +275,6 @@ Four properties of this roadmap are load-bearing:
 ## Resources
 The team is the agent roster the process assigns, not a staffed organisation. The profile below is read from the IARI Development Process and the Development Case's tailoring — no role here does work the process does not run in this phase, and every role named as a risk owner in a milestone row is at work in that milestone.
 
-### This iteration — Survey 1, SBC
-
-| Role | Discipline and intensity | Stage in this iteration | Produces | Risks owned |
-|---|---|---|---|---|
-| Process Engineer | Environment, High | Development Case | Development Case | R006, R025 — both corrections to that artifact, due at LCO |
-| Software Archaeologist | Discovery, Critical | System Inventory — Documentation · Perimeter · Anomalies and Priorities | System Inventory | R002, R005 — the two risks about the limits of the reading itself |
-| Project Manager | Project Management, Low | Risk List · Iteration Plan | Risk List, Iteration Plan | R026, and this artifact plus the assessment written after the verdict |
-| Reviewer | Review lens | SBC milestone review | Findings on the artifacts reviewed | — |
-| Management Reviewer | Review lens | SBC milestone review | Findings on the artifacts reviewed | — |
-| Review Coordinator | Review lens | SBC milestone review | The SBC verdict | — |
-
-The Review Coordinator decides whether the milestone closes. It does not decide the Iteration Assessment — the Project Manager writes that against the verdict.
-
 ### Excavation 1 — AR
 
 The process runs four disciplines in Excavation, and every one of them has its role on this iteration's profile. The two that Analysis & Design does not cover are the two that carry risk owners.
