@@ -341,7 +341,7 @@ Every correction the stakeholder ordered at the previous gate landed and was ver
 
 #### Records of other lenses
 
-Three records of the Management Reviewer remain open on these artifacts — Risk List F10, Iteration Plan F10 and Iteration Plan F11 — and one record of this lens is closed by that lens on the Iteration Plan. Findings from other lenses belong to those lenses; none is examined, resolved or re-recorded here.
+This lens read the finding ledgers of the Risk List and the Iteration Plan. On the Risk List every record of another lens is closed and none is open. On the Iteration Plan one record of the Management Reviewer remains open (its F10, on criterion 3's state column) — it concerns the same cell this lens's F5 records, and its disposition is that lens's. No record of another lens was examined, resolved or re-recorded here.
 
 ### Management Reviewer lens
 <!-- review: Survey I3 -->
