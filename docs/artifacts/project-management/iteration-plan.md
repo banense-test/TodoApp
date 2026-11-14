@@ -359,15 +359,6 @@ Criterion 1 stops at recorded-and-put. The perimeter is **confirmed** at **G2, a
 
 The three answers of 2026-11-14 are cited in this criterion because they dispose of three specific facts — the `admin` role's unreachability, the dormancy of the external identity providers, and the BFF-to-API trust boundary. They are not the stakeholder's confirmation of the perimeter, and no criterion here claims they are.
 
-### Criteria 2, 3, 4 and 6 — what was confirmed, and against what
-
-| Criterion | Confirmed against | Result |
-|---|---|---|
-| 2 | System Inventory, Priorities — the eight ordered areas | Each names what the next reading must settle; the todos surface reads first, auth second, persistence third |
-| 3 | System Inventory, Coverage — the declared-unread groups and the two statements marked read-not-observed | Both declarations stand as recorded; each carries its risk, and none is scheduled to be settled by observation |
-| 4 | Risk List, all sections — 26 rows, each exposure recomputed as the product of its own two scores | Every magnitude is the band of its own exposure; every strategy names an artifact or a bound that retires it; R002 is the only Significant-band acceptance and cites the stakeholder's answer of 2026-11-14 |
-| 6 | This artifact, Plan and Milestones and Resources | Every role named in a milestone row is at work in that milestone; no gate staffs a stood-down role; no work item is sized in a unit this project does not measure |
-
 ### What can still fail
 
 Criterion 5 is the one most likely to fail at this gate: whether the tailoring is auditable is a judgement the reviewing lenses make, and a process authority whose references do not resolve is not auditable. The `CONTRIBUTING.md` row is corrected in this iteration — the Process Engineer replaces it with `Directory.Build.props` and `Directory.Packages.props` and states that no written coding standard exists — so the correction is not deferred to LCO. Whether the corrected authority is now auditable is the gate's call, not the author's.
