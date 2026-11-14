@@ -95,6 +95,103 @@ Reviewer disposition | <color:orange>APPROVED WITH CHANGES</color> | 0 Critical,
 @endsalt
 ```
 
+### Management Reviewer lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+#### Review scope
+
+Survey iteration 1, the management lens of the end-of-Survey (SBC) milestone review. The four artifacts produced in this iteration were in scope, plus the Review Record's own technical lens as an input:
+
+| Artifact | Owner | Discipline | Lens question |
+|---|---|---|---|
+| Development Case | Process Engineer | Environment | Does the tailoring govern, and can it be audited? |
+| System Inventory | Software Archaeologist | Discovery | Is the perimeter recorded well enough to be confirmed? |
+| Risk List | Project Manager | Project Management | Is the register a control instrument or a catalogue? |
+| Iteration Plan | Project Manager | Project Management | Does the plan instantiate the tailored process and schedule only what the phases run? |
+
+This is iteration 1, so there was no prior finding of this lens to reconcile. `read_artifact_findings` returned seven entries, all emitted by the Reviewer lens — not mine to close, and each is independently recorded.
+
+#### Review point and lens
+
+The review point is the **Lifecycle Milestone** (SBC), so the question is **exit criteria**. The technical lens has already verified anchors and band arithmetic; a management lens that repeated it would add nothing. This lens asks the questions the technical lens does not reach:
+
+| Criterion | Source | Applied to |
+|---|---|---|
+| Milestone criteria coverage — every exit criterion addressed, pass or fail | SBC criteria | Iteration Plan |
+| Plan instantiates the tailored process — no role at work the tailoring stood down | IARI process table + Development Case | Iteration Plan |
+| Plan staffs the work it assigns — every risk owner is a role at work in that milestone | Risk List owner column | Iteration Plan |
+| Human gates cover the milestones whose exit condition is the stakeholder's acceptance | Project Acceptance / LCA criteria | Iteration Plan |
+| Every control the plan relies on is bound in the register it points at | Risk List | Risk List |
+| Strategies are executable against the project's real conditions | FMEA response strategies | Risk List |
+| The perimeter record is acceptable to the stakeholder | SBC criterion 1 | System Inventory |
+| The process authority is auditable | SBC criterion 5 | Development Case |
+| Stakeholder sanction obtained, not assumed | Rule 5 — acceptance is obtained by asking | All four |
+
+#### Method — what this lens did not re-do
+
+The Reviewer opened seventeen anchors and found sixteen correct. That verification is accepted, not repeated: re-deriving it would consume the gate's budget without testing anything new. The two discrepancies the Reviewer found — the package-pin tally and the stale "(unread)" qualifier — are carried in this lens as F1 and the Reviewer's F2 respectively, and F1 is restated here because the pin count is a size fact of the perimeter and therefore a management fact, not only a technical one.
+
+What this lens did instead was read the four artifacts **against each other**: the plan against the Development Case's tailoring, the plan's risk assignments against the register's owner column, the plan's stated controls against the register's contents, and every mitigation against the conditions the project actually operates under. Every finding below came from a cross-artifact contradiction or from a control that exists in one document and not the other.
+
+#### SBC exit criteria — management lens verdict
+
+```plantuml
+@startsalt
+title SBC exit criteria and the sanction — management lens
+{
+{S
+<b>Criterion</b> | <b>Verdict</b> | <b>Basis</b>
+1 Perimeter recorded and anchored | MET WITH FINDING | Anchored per element; wording claims a confirmation SBC does not obtain (IP F1)
+2 Reading priorities ordered | MET | Eight areas, each naming what the next reading settles
+3 Unread areas declared | MET WITH FINDING | Declared and endorsed by the stakeholder; the sentence naming how two claims are settled is superseded (SI F2)
+4 Every anomaly a scored risk | MET WITH FINDING | 25 carried, banded and owned; two strategies cannot execute (RL F2)
+5 Tailoring auditable | MET WITH FINDING | Tailoring holds; one tool reference does not resolve (DC F1)
+6 Plan schedules only what the phase runs | NOT MET | Stood-down role staffed, Excavation roles withheld, a run of the system scheduled (IP F2, F3, F5)
+--
+<b>Stakeholder sanction</b> | <b>REFUSED</b> | Withheld at the gate on 2026-11-14
+<b>Milestone</b> | <b>OPEN</b> | SBC not achieved; no phase advance
+}
+}
+@endsalt
+```
+
+Criterion 6 is **not met**, and it is the one that decides this gate. A plan that staffs a stood-down role, withholds the roles its own roadmap assigns work to, and schedules an activity the stakeholder has ruled out is not a plan this process can run. The remedy is a corrective iteration, not a negotiation.
+
+#### Stakeholder sanction — asked, and withheld
+
+The sanction was put to the stakeholder at this gate, with the verdict and every open Major defect inside the question.
+
+```plantuml
+@startuml
+title Project state at the SBC gate
+skinparam shadowing false
+
+state "SBC review held — eleven findings on four artifacts" as R
+state "Sanction withheld — milestone open" as H
+state "Corrective iteration in the owners' next turn" as C
+state "Sanctioned — advance to Excavation" as S
+
+[*] --> R : iteration 1 artifacts complete
+R --> S : six criteria met and the stakeholder sanctions
+R --> H : a criterion fails, or the sanction is withheld
+H --> C : the ten Major findings are corrected
+C --> R : the gate is re-held
+S --> [*]
+@enduml
+```
+
+**Stakeholder sanction: REFUSED.**
+
+Stakeholder acceptance: "No" — the perimeter is not confirmed and SBC is not sanctioned.
+
+The stakeholder added one correction, and it is consequential beyond this milestone:
+
+> "Nothing is missing from the perimeter that I know of. One correction: the system will not be run during these phases — it is not installed anywhere and nobody runs it here. The two statements marked as read but not observed stay declared as such, with their risk. Do not plan to settle them by running the system."
+
+Two things follow. First, the perimeter's **content** is not in dispute — the stakeholder states nothing is missing from it. What was withheld is the sanction, not the perimeter's accuracy. Second, the correction invalidates a retirement path the plan and the register both depend on, which is why it is recorded as findings against the Iteration Plan (F5), the Risk List (F2) and the System Inventory (F2) rather than as a note here.
+
 ## Findings
 ### Reviewer lens
 <!-- review: Survey I1 -->
