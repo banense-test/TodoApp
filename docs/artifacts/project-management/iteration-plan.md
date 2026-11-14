@@ -339,25 +339,6 @@ Inception adds the Integrator (Build Environment Setup; R010, R014), the Change 
 
 The perimeter is not one of those gates. The stakeholder confirmed it at the SBC gate of 2026-11-14 — the confirmation criterion 1 records — so no plan event re-opens it; an element Excavation finds outside the perimeter goes back to the stakeholder at the point it is found.
 
-### This iteration — Survey 3, SBC
-
-| Role | Discipline and intensity | Stage in this iteration | Produces | Risks owned |
-|---|---|---|---|---|
-| Software Archaeologist | Discovery, Critical | System Inventory — Coverage | System Inventory — the Coverage closing statement narrowed to the sprint zero | R002 |
-| Project Manager | Project Management, Low | Risk List · Iteration Plan · Iteration Assessment | Risk List (the acceptance bound, the R005 row, the R023 citation), Iteration Plan (criterion 1, the gate list, the retirement map, the accounting, the Resources statement), the assessment written after the verdict | R026 |
-| Process Engineer | Environment, High | Development Case — Guidelines and Procedures | Development Case — the **Version policy** and **Measurement policy** subsections | R006, R025 |
-| Reviewer | Review lens | SBC milestone review, technical | Findings on the artifacts reviewed | — |
-| Management Reviewer | Review lens | SBC milestone review, management | Findings on the artifacts reviewed | — |
-| Review Coordinator | Review lens | SBC milestone review | The SBC verdict | — |
-
-The Process Engineer executed a stage in this iteration and the fine plan's work-item table carries it: the Development Case's Guidelines and Procedures gained the Version policy and the Measurement policy, which the Management Reviewer's iteration-2 review recorded as absent. It is a revision of an existing artifact, not a new one — which is why it appears on the profile and in the work items, and why "no new artifact is produced this iteration" stays true.
-
-No other role is at work: every open defect of this gate sits in an artifact the Software Archaeologist, the Project Manager or the Process Engineer holds, and the three lenses review.
-
-The Review Coordinator decides whether the milestone closes. It does not decide the Iteration Assessment — the Project Manager writes that against the verdict.
-
-R011's owner first sits at AR — the Software Architect. This iteration restates that risk's strategy in the Risk List; it changes no owner, and no milestone row claims it as retired. R005's owner, the System Analyst, carries no work here: that risk was retired at Survey 2 — SBC by the Provenance record, and the register and this plan now state one retirement.
-
 ### This iteration — Survey 4, SBC
 
 ```plantuml
