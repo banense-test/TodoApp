@@ -390,10 +390,10 @@ The exit criteria for this iteration are the SBC milestone's. They are the stake
 |---|---|---|---|
 | 1 | The perimeter of the existing system is confirmed by the stakeholder | System Inventory, Perimeter — seven projects, the entry-point surface, the stores and the external systems, each anchored; confirmed by the stakeholder at the SBC gate of 2026-11-14, together with their statement that nothing is missing from it | Evidenced — the confirmation has been given |
 | 2 | The reading priorities are ordered | System Inventory, Priorities — eight areas ordered, each naming what the next reading must settle | Evidenced |
-| 3 | The unread areas are declared rather than omitted | System Inventory, Coverage — the declared-unread groups and the statements marked as read but not observed, each carried as a risk rather than as an open question | Evidenced — the declaration holds; the Provenance row is its owner's Minor |
-| 4 | Every anomaly is a classified risk, and every strategy can execute | Risk List — 26 risks, each scored for probability and impact, its magnitude the band of their product, each given a strategy, an owner, a mitigation and, where accepted, a contingency; every acceptance bounded to the sprint zero, and observation restored as a retirement path from Inception on | Evidenced |
-| 5 | The process is tailored and the tailoring is auditable | Development Case — classification, disciplines and intensities, the OPTIONAL trigger verdicts with the evidence for each, the tool references | Evidenced — whether the result is auditable is the gate's judgement |
-| 6 | The plan instantiates the process, sequences by risk, and schedules no work the phase does not run | This artifact — the roadmap names only the roles and artifacts the process assigns to each phase, each milestone carries its risk retirement, every risk owner is at work in the milestone that carries its risk, and the fine plan names only the roles Survey runs | Evidenced |
+| 3 | The unread areas are declared rather than omitted | System Inventory, Coverage — the declared-unread groups and the statements marked as read but not observed, each carried as a risk rather than as an open question; and Provenance, whose row now agrees with the enumeration the Coverage section publishes | Evidenced — the declaration holds and its ownership record agrees with it |
+| 4 | Every anomaly is a classified risk, and every strategy can execute | Risk List — 26 risks, each scored for probability and impact, its magnitude the band of their product, each given a strategy, an owner, a mitigation and, where accepted, a contingency; every acceptance bounded to the sprint zero, and observation restored as a retirement path from Inception on; every strategy naming work that remains to be done or a bound that holds | Evidenced — the R005 and R023 rows were restated against the artifact each names |
+| 5 | The process is tailored and the tailoring is auditable | Development Case — classification, disciplines and intensities, the OPTIONAL trigger verdicts with the evidence for each, the tool references, and the Version policy and Measurement policy the Guidelines and Procedures section carries | Evidenced — whether the result is auditable is the gate's judgement |
+| 6 | The plan instantiates the process, sequences by risk, and schedules no work the phase does not run | This artifact — the roadmap names only the roles and artifacts the process assigns to each phase, each milestone carries its risk retirement, every risk owner is at work in the milestone that carries its risk, the accounting closes at 26, and the fine plan names only the roles Survey runs | Evidenced — 14 + 3 + 1 + 8 = 26, each risk once |
 
 ```plantuml
 @startuml
@@ -404,7 +404,7 @@ skinparam componentStyle rectangle
 package "Satisfied on artifact evidence" #PaleGreen {
   component "1  Perimeter recorded with an anchor per element\nand confirmed by the stakeholder at the SBC gate" as C1
   component "2  Priorities ordered, each naming what\nthe next reading must settle" as C2
-  component "3  Unread areas declared and carried as risks" as C3
+  component "3  Unread areas declared and carried as risks;\nthe Provenance row agrees with the enumeration" as C3
   component "4  Every anomaly a classified risk whose\nstrategy can execute" as C4
   component "5  Tailoring is a delta over the baseline\nand every cited reference resolves" as C5
   component "6  The plan instantiates the process and\nschedules no work the phase does not run" as C6
@@ -426,7 +426,7 @@ end note
 
 ### What can still fail
 
-Criterion 5 turns on a judgement the reviewing lenses make: whether a process authority whose references all resolve is auditable. The `CONTRIBUTING.md` row is corrected and the Development Case states that no written coding standard exists, so the correction is not deferred. Whether the corrected authority is now auditable is the gate's call, not the author's.
+Criterion 5 turns on a judgement the reviewing lenses make: whether a process authority whose references all resolve is auditable. The Development Case now carries both policies that judgement needs — the Version policy that names the pins and the project file, and the Measurement policy that states the two clocks and binds no figure to a scope decision. Whether the corrected authority is now auditable is the gate's call, not the author's.
 
 The other way an iteration does not close is the perimeter's adequacy: if a reviewing lens finds the record under-evidenced — most likely for the files the reading declared unread, or for the statements marked read rather than observed — the remedy is a further Survey iteration that opens those files. That is the iteration-count lever, and it protects the accuracy of the perimeter at schedule cost. It is never answered by adding agent roles in parallel, and never by narrowing what counts as the perimeter.
 
@@ -445,7 +445,7 @@ The three scope answers of 2026-11-14 are cited in criterion 1 only as the dispo
 | Criterion | Corrected against | What has to hold at the gate |
 |---|---|---|
 | 1 | This artifact, Evaluation Criteria — restored to the process wording and evidenced by the confirmation given at SBC on 2026-11-14; the second confirmation gate deleted from the roadmap, the gantt and the Resources gate list | That the record itself is adequate: anchored per element, priorities ordered, unread areas declared |
-| 3 | System Inventory, Coverage — the closing statement narrowed to Survey, Excavation and Consolidation by its owner | That the Provenance row is corrected; nothing else in the criterion is in doubt |
-| 4 | Risk List, all sections — 26 rows, each exposure the product of its own two scores; R002 and R011 accepted until the RUP phases start, R002's Significant-band grant quoted | Every strategy names an artifact or a bound that retires it, and no acceptance outlives the horizon it was granted for |
-| 6 | This artifact, Plan and Milestones and Resources — the retirement map scoped to the sprint zero with observation restored as a path from Inception on, four gates, every risk owner reconciled | Every role named in a milestone row is at work in that milestone; no gate staffs a stood-down role; no work item is sized in a unit this project does not measure |
+| 3 | System Inventory, Provenance — the row now agrees with the enumeration the Coverage section publishes: 53 files of the first reading plus the four added at the second, 53 + 4 = 57, agreeing with the Document Control tally and the path-by-path enumeration | That the declaration holds, which it does; nothing else in the criterion is in doubt |
+| 4 | Risk List — R005 restated as the anomaly at the first reading with its retirement at Survey 2 — SBC, and R023 routed to `Todo.Web/Server/Todo.Web.Server.csproj`, the file that declares `<RazorLangVersion>`; every acceptance still bounded to the sprint zero | Every strategy names work that remains to be done or a bound that holds, and no acceptance outlives the horizon it was granted for |
+| 6 | This artifact, Plan and Milestones and Resources — R005 moved into the "Retired at Survey 2 — SBC" group, the accounting restated as 14 + 3 + 1 + 8 = 26, the Process Engineer named on this iteration's profile | Every role named in a milestone row is at work in that milestone; no gate staffs a stood-down role; no work item is sized in a unit this project does not measure |
 
