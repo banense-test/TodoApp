@@ -184,55 +184,15 @@ end note
 - **Recovery ownership:** every element recovered from the code cites `Source: <path>` (and lines) where a declared element cites its `FR-NNN`/`NFR-NNN`. Recovered elements carry no upstream arrow; the anchor is their source.
 
 ## Guidelines and Procedures
-### Tool references
-
 Configuration content lives in the files that hold it, owned by the roles that author them — never restated here.
 
 | Configuration | Path | Owner from here on |
 |---|---|---|
-| Build verification on push and pull request | `.github/workflows/ci.yaml` | Integrator |
+| Continuous integration pipeline | `.github/workflows/ci.yaml` | Integrator |
 | Runtime and package pins (central package management) | `Directory.Packages.props`, `global.json` | Software Architect |
 | Compiler-enforced conventions (`net9.0`, `Nullable enable`, `ImplicitUsings enable`, `LangVersion preview`) | `Directory.Build.props` | Software Architect |
 | Integration-test conventions (xunit, `Microsoft.AspNetCore.Mvc.Testing`, `coverlet`) | `Todo.Api.Tests`, `Directory.Packages.props` | Test Designer |
-| Environment bootstrap (prerequisites, `TodoApp.AppHost`, `dotnet user-secrets` for external providers) | `README.md` | Integrator |
+| Environment bootstrap and external-provider secrets | `README.md` | Integrator |
 
-**No written coding standard exists in this repository, and none is assumed.** The conventions that bind an Implementer and a Code Reviewer are the compiler-enforced ones in `Directory.Build.props` and the central pins in `Directory.Packages.props`; a Code Reviewer reviews against those plus the Software Architecture Document's mechanisms, and against no style guide. A written standard, if the project wants one, is authored by the Software Architect under a Change Request — it does not appear here until it exists in the tree. The absence is carried as R006.
-
-### Version policy
-
-The stakeholder declared no version constraint in this cycle, and none was invented: the policy is the one the delivery already fixes, read from its own files.
-
-| Pin | Value | Source |
-|---|---|---|
-| Framework target | `net9.0` | `Directory.Build.props` |
-| SDK | `9.0.100`, `rollForward: latestFeature` | `global.json` |
-| Package set | Seven package pins: EF Core SQLite, Identity EF Core, MVC Testing (all 9.0.8), YARP 2.3.0, Scalar 2.6.8, xunit 2.9.3, and the OpenTelemetry 1.12.0 set | `Directory.Packages.props` |
-
-Nine pins are recorded via `record_version_policy` — the two framework pins above and the seven package pins — and that recorded set is authoritative for every technical role. `Directory.Packages.props` declares thirty `PackageVersion` elements in total; a package it pins but this policy does not name is pinned by the file and by nothing else.
-
-Three consequences hold from now on:
-
-- The Software Architect anchors the SAD to this policy; the registry's "latest" never overrides a pin.
-- `net9.0` is an STS line. The delivery fixes it, so it stands; moving to an LTS line is a baseline change and enters through a Change Request, never by an Implementer's judgement.
-- The pins are confirmed against the files the policy cites — `Directory.Build.props`, `global.json`, `Directory.Packages.props` — when the Software Architect anchors the SAD. A pin a file contradicts is corrected here, against the file. No pin is confirmed by running the system: it is not installed anywhere in this project and is not run in any phase.
-
-### Process procedures
-
-- **Sprint zero sequencing.** Survey (this artifact, then the System Inventory, then Risk List and Iteration Plan), then Excavation and Consolidation. The declared scope is refined from Inception on; a declared requirement that nothing refines before Inception is not yet a gap.
-- **Iteration preparation.** Each iteration opens with the Development Case readiness check — the tailoring, the artifact scope and the tool references current before development starts. This is a recurring step, not an Inception one-off.
-- **Support during the iteration.** A process question, an ambiguous template or a missing convention is answered here, in-cycle. A blocking process issue is escalated immediately as `REQUIRES_USER_INPUT`; it is never left to resolve itself over two iterations.
-- **Assessment-driven change.** A tailoring change is made only against evidence — a finding, a Change Request, or an Iteration Assessment entry naming the problem. Changes are recorded as deltas in this artifact with the evidence that caused them.
-- **Escalation of scope.** This case fixes process, not scope. A gap or contradiction in the declared scope goes to the stakeholder through the role that found it; it is never resolved by a tailoring decision here.
-
-### Measurement policy
-
-This project tracks the two quantities the process produces — **tokens** and **elapsed time**, the latter split into agent time and human queue time. Each has a named decision it enables; a quantity with no decision behind it is not collected.
-
-| Quantity | Decision it enables | Reader |
-|---|---|---|
-| Tokens per discipline per iteration | Whether a live artifact's surface is worth reading again next iteration or should be replaced so it is read once — on an existing system the cost is dominated by re-reading, not by writing | Process Engineer, at iteration close |
-| Agent time per stage | Whether a stage's scope is too large for one turn and should be split in the next Iteration Plan | Process Engineer and Project Manager |
-| Human queue time at each gate | Whether gates should be batched into fewer points in the phase | Project Manager |
-
-No token budget is declared for this project. Where none is declared, measured spend is recorded and no declared scope is cut to fit an estimate. Measured actuals are quoted only for closed phases, and the two clocks are reported apart and never summed.
+**No written coding standard exists in this repository, and none is assumed.** The conventions that bind an Implementer and a Code Reviewer are the compiler-enforced ones in `Directory.Build.props` and the central pins in `Directory.Packages.props`; a Code Reviewer reviews against those plus the Software Architecture Document's mechanisms, and against no style guide. A written standard, if the project wants one, is authored by the Software Architect under a Change Request and this table gains its path at that point. R006 records the absence.
 
