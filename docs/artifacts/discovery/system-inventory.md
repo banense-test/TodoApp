@@ -870,3 +870,10 @@ Two statements in Anomalies rest on reading alone and are marked as such there r
 | External login is a configured-at-runtime edge; no external-login use case is recovered this cycle; revisit if credentials are supplied | Stakeholder answer, 2026-11-14 (question raised against `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`, both `Todo.Web/Server` appsettings files, `README.md`) |
 | The BFF-to-API trust boundary is a known limitation of the single-host baseline, out of scope for this cycle, carried into the Risk List | Stakeholder answer, 2026-11-14 (question raised against `Todo.Api/Users/UsersApi.cs` TODO, `Todo.Api/Program.cs`, `Todo.Web/Server/Program.cs`) |
 
+### Corrections to the first table
+
+| Fact | Anchor |
+|---|---|
+| **53** files were opened in this reading, not 52: the second reading added `Todo.Api/Extensions/RateLimitExtensions.cs` | the enumeration in Coverage |
+| The anomaly table and the priority order are the Software Archaeologist's judgement over the evidence above. The three scope questions the same reading raised have been answered: see the stakeholder anchors below, and the decisions table in Anomalies | This reading; stakeholder answers of 2026-11-14 |
+
