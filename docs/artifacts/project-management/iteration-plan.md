@@ -421,7 +421,7 @@ package "Deferred to where the record is complete" #LightYellow {
   component "G2  the perimeter is CONFIRMED\nConsolidation 1 start" as G2
 }
 
-C1 -.-> G2 : stops short of
+C1 .> G2 : stops short of
 
 note right of C1
   The condition is satisfiable without the sanction.
