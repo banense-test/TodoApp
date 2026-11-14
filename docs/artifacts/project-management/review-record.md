@@ -128,37 +128,39 @@ Review type: Lifecycle Milestone Review (SBC), management lens, exit-criteria qu
 
 | Checklist item | What it tests |
 |---|---|
-| Every exit criterion evidenced as worded | The criterion states a condition the iteration can satisfy without a sanction it cannot obtain |
+| Every exit criterion evidenced as worded | The criterion states the process's condition, and the evidence supports it |
 | Size and count facts match the anchor | A perimeter fact the stakeholder is asked to confirm is accurate |
 | No acceptance without the authority to grant it | No Significant or High band risk rests on a grant nobody gave |
+| The acceptance recorded is the acceptance given | The register's grant is neither narrower nor wider than the stakeholder's answer |
 | Every risk strategy can execute | No disposal rests on an activity the project will not perform |
 | Every risk accounted for exactly once, at the milestone that retires it | The plan's accounting describes what the milestones do |
 | Every role the plan assigns work to is at work in that milestone | No iteration carries risks with no accountable owner |
 | No role at work the tailoring stood down | No gate staffs a stood-down lens |
-| Every milestone whose exit condition is the stakeholder's has a gate | Acceptance is obtained at an event, not assumed |
+| Every gate the plan books is a gate the stakeholder will attend | The plan does not ask for a decision that has been refused |
 | Every cited reference resolves | The process authority is auditable |
 | No invented size, token budget, forecast or calendar date | The plan measures only what this project can measure |
 | Both clocks reported apart and never added | Agent time and human queue time are never summed |
+| No constraint stated over more of the lifecycle than was decided | A sprint-zero condition is not written as a project-wide law |
 | Marker retired only by the stakeholder's own answer | No inference is promoted to declared scope |
-| Optional triggers hold their own §5.2 condition | Tailoring is not inflated |
 
 ```plantuml
 @startsalt
-title SBC compliance matrix — six exit criteria, the artifact that evidences each, and the verdict at this gate
+title SBC compliance matrix — six exit criteria, and the verdict after the stakeholder's grant and corrections
 {
 {S
 <b>#</b> | <b>Exit criterion</b> | <b>Evidencing artifact</b> | <b>Verdict</b>
-1 | Perimeter recorded, an anchor per element; priorities ordered; the three stakeholder facts put and answered | System Inventory — Perimeter, Priorities | PASS
+1 | The perimeter of the existing system is confirmed by the stakeholder | System Inventory — Perimeter; stakeholder confirmation, 2026-11-14 | PASS
 2 | Reading priorities ordered, each naming what the next reading must settle | System Inventory — Priorities | PASS
-3 | Unread areas declared rather than omitted, each carried as a risk | System Inventory — Coverage | PASS
-4 | Every anomaly a classified risk whose strategy can execute | Risk List — 26 rows, 18 avoided / 8 accepted | PASS
+3 | Unread areas declared rather than omitted, each carried as a risk | System Inventory — Coverage | FAIL F3
+4 | Every anomaly a classified risk whose strategy can execute | Risk List — 26 rows, 18 avoided / 8 accepted | FAIL F3
 5 | Process tailored and the tailoring auditable | Development Case — Tool references | PASS
-6 | Plan instantiates the process, sequences by risk, schedules no work the phase does not run | Iteration Plan — roadmap, Resources, Evaluation Criteria | PASS
+6 | Plan instantiates the process, sequences by risk, schedules no work the phase does not run | Iteration Plan — roadmap, Resources, Evaluation Criteria | FAIL F8, F9
 --
 Iteration-1 Majors open | 10 closed, verified in the corrected text | 0
-Iteration-1 Minors open | 1 closed | 0
-New findings this review | Iteration Plan, retirement attribution | 1 Minor
-Lens disposition | 0 Critical, 0 Major, 1 Minor from this lens | GO
+New findings this review | 4 Major, 1 Minor on 3 artifacts | 5
+Perimeter confirmed | by the stakeholder, at this milestone, 2026-11-14 | YES
+Stakeholder sanction | GRANTED, 2026-11-14 | YES
+Lens disposition | sanction recorded as granted; 4 Majors owed as rework | CONDITIONAL GO
 }
 }
 @endsalt
@@ -173,6 +175,22 @@ The 2026-11-14 refusal rested on ten Majors. Seven of them traced to one root ca
 - **The plan.** The retirement map is rebuilt: R002 and R011 are carried on acceptance, the "observed rather than read" step is gone, and the plan states as a load-bearing property that no retirement runs the system in any phase.
 
 The three remaining Majors were independent governance defects — a stood-down role on two gates, an iteration with no one accountable for the risks it carried, and two acceptance milestones with no gate. Each is corrected in the Iteration Plan's roadmap and role profile.
+
+#### The two decisions the stakeholder took with this answer
+
+The grant carries two corrections, and each closes one question while opening content that must now be corrected. Neither is a new question put to the stakeholder; both are decisions already given, recorded where they bear.
+
+**The perimeter is confirmed now.** "With this answer I confirm the perimeter now, at this milestone. There is no second confirmation at the start of Consolidation: remove that gate from the plan and restore the first exit criterion of this milestone as the process states it. If Excavation finds something outside the perimeter, ask me then." This is the confirmation G2 was booked to obtain. Criterion 1 is therefore satisfied on the process's own wording — a stronger position than the recorded-and-put deferral it replaces — and the deferral gate must be deleted rather than left standing. The plan had also argued that confirming before Excavation would confirm an incomplete record; the stakeholder decided otherwise, and if Excavation finds an element outside the perimeter the question goes back to them at that point. That is the arrangement now, not the deferral.
+
+**The no-observation constraint is a sprint-zero constraint.** "My earlier sentence applied to Survey, Excavation and Consolidation only. I did not say the system will never be run: once the RUP phases start, the pipeline builds it and runs its tests. I accept those two risks until then, not for the life of the project." The constraint is real where it was given and narrower than three artifacts record it. Survey, Excavation and Consolidation run nothing; from Inception on the CI pipeline builds the solution and runs its test suites, and the two reading-only claims are accepted only until then. Three artifacts state the constraint as project-wide — the System Inventory's Coverage closing statement, the Risk List's R002 and R011, and the Iteration Plan's retirement map and its "closed for the project" property — and each must be narrowed to what was decided.
+
+#### What the corrections of this iteration achieved
+
+The 2026-11-14 refusal rested on ten Majors, and seven traced to one root cause: the plan and the register both assumed the system could be run, and the stakeholder's correction had established that it cannot within the sprint zero. The correction order the previous milestone set — premise first, then what inherits it — was followed, which is why the three artifacts now agree instead of contradicting each other rather than each carrying its own version of the premise.
+
+The three remaining Majors were independent governance defects — a stood-down role on two gates, an iteration with no one accountable for the risks it carried, and two acceptance milestones with no gate — and each is corrected in the roadmap and the role profile.
+
+Those corrections stand. What this answer changes is not their quality but their perimeter: the plan's own absolute statement about running the system, written to honour the earlier correction, now overstates it, and the deferral of the perimeter confirmation to a later gate is a decision the stakeholder has taken back.
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
