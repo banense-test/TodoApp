@@ -6,6 +6,15 @@ Phase: Survey
 Status: Draft — technical lens of the SBC review recorded; 7 findings (3 Major, 4 Minor, 0 Critical) on 4 artifacts
 Milestone Target: End-of-Survey (SBC) — not yet achieved
 
+### Management Reviewer lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+Phase: Survey
+Status: Draft — management lens of the SBC review recorded; 11 findings (10 Major, 1 Minor, 0 Critical) on 4 artifacts; stakeholder sanction REFUSED on 2026-11-14; milestone open
+Milestone Target: End-of-Survey (SBC) — not achieved; sanction withheld at the gate
+
 ## Review Scope and Criteria
 ### Reviewer lens
 <!-- review: Survey I1 -->
