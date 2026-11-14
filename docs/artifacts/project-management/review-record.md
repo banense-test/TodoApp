@@ -730,55 +730,138 @@ Recorded so the omission is a decision rather than an oversight.
 `scm_list_pull_requests` over all states returns none. No branch carries work, no scaffolding awaits approval, nothing needs deferring out of phase, and no code-review evidence is withheld on those grounds. Survey produces no source code, so an empty pull-request set is the correct shape for this milestone rather than a gap.
 
 ### Management Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-#### Closure ledger
+#### Closure of the iteration-1 findings of this lens
 
-This lens emitted no finding before this milestone: Survey iteration 1 is its first, and `read_artifact_findings` returned seven entries, all from the Reviewer lens. Nothing is resolved, deferred or rejected here — the Reviewer's seven are that lens's to close.
+Eleven findings were open against this lens at the start of this iteration — ten Major, one Minor. Every one is closed **Resolved**, and none on the strength of a claim. Each was closed only after the corrected section was read and, where the finding concerned a file outside the artifact, the anchor itself was re-read: the package pins were re-counted from `Directory.Packages.props`, the five tool-reference paths were checked against the tree, and the two closure sentences were read in the text that now carries them.
 
-Eleven findings are open against four artifacts.
+```plantuml
+@startuml
+title Closure ledger — the eleven iteration-1 findings of this lens, and what verified each
+skinparam shadowing false
+skinparam classAttributeIconSize 0
 
-| Artifact | Finding | Owner | Severity | Holds the milestone | Closes when |
-|---|---|---|---|---|---|
-| Development Case | F1 — Tool references cites an absent `CONTRIBUTING.md` | Process Engineer | Major | Yes | The row names what actually governs, and states no written standard exists |
-| System Inventory | F1 — package-pin tally short by two | Software Archaeologist | Major | Yes | Both occurrences read 30, plus the matching Provenance row |
-| System Inventory | F2 — the sentence naming how the two read-only claims are settled is superseded | Software Archaeologist | Major | Yes | The Coverage closing sentence records the stakeholder's decision; the declarations themselves stay |
-| Risk List | F1 — no risk bounds the human gate the plan relies on | Project Manager | Major | Yes | A risk bounds the gate at the 14-day ceiling with the suspension rule, or the plan's claim is deleted |
-| Risk List | F2 — R002 and R011 are `avoid` on an impossible action | Project Manager | Major | Yes | Both restated `accept` with the stakeholder's grant cited; status line and strategy distribution corrected |
-| Iteration Plan | F1 — criterion 1 claims an unevidenced confirmation | Project Manager | Major | Yes | Restated to what SBC gates, with G2 cited as the confirmation point |
-| Iteration Plan | F2 — a stood-down role is staffed at LCO and LCA | Project Manager | Major | Yes | Business Reviewer removed from both rows |
-| Iteration Plan | F3 — Excavation roles withheld from Excavation | Project Manager | Major | Yes | System Analyst and Software Archaeologist added to the Excavation profile; owners reconciled |
-| Iteration Plan | F4 — the LCA and PR gates are unbooked | Project Manager | Major | Yes | A stakeholder gate booked at each, bounded as queue time |
-| Iteration Plan | F5 — the AR retirement cannot occur | Project Manager | Major | Yes | R002 and R011 removed from AR and recorded as carried accepted |
-| Iteration Plan | F6 — the exit-criteria status column | Project Manager | Minor | No | Per-criterion states replace uniform readiness |
+package "Closed Resolved this iteration — 10 Major" #PaleGreen {
+  class "Development Case F1" as DC1 {
+    Tool references cited an absent CONTRIBUTING.md
+    verified: five rows, each an existing path
+  }
+  class "System Inventory F1" as SI1 {
+    package-pin tally 28 against 30 in the file
+    verified: 6 + 19 + 5 = 30, three places agree
+  }
+  class "System Inventory F2" as SI2 {
+    Coverage named running the system as the settlement
+    verified: stakeholder decision recorded in their terms
+  }
+  class "Risk List F1" as RL1 {
+    no risk bounded the 14-day human gate
+    verified: R026, 3x4=12, cited by the plan
+  }
+  class "Risk List F2" as RL2 {
+    R002 and R011 avoided an action ruled out
+    verified: both accept, grant quoted verbatim
+  }
+}
 
-#### Actions, in the order they gate the milestone
+package "Closed Resolved this iteration — 5 Major" #PaleGreen {
+  class "Iteration Plan F1" as IP1 {
+    criterion 1 claimed an unasked confirmation
+    verified: recorded-and-put, G2 named for confirmation
+  }
+  class "Iteration Plan F2" as IP2 {
+    stood-down Business Reviewer on two gates
+    verified: three lenses on every row
+  }
+  class "Iteration Plan F3" as IP3 {
+    Excavation had no one for its own work
+    verified: System Analyst and Archaeologist on the profile
+  }
+  class "Iteration Plan F4" as IP4 {
+    LCA and PR acceptance gates unbooked
+    verified: five gates, G5 names ownership transfer
+  }
+  class "Iteration Plan F5" as IP5 {
+    AR retired two risks by running the system
+    verified: retirement map rebuilt, no run in any phase
+  }
+}
 
-The ten Majors are what stand between this iteration and its sanction. They are not ten independent repairs: seven of them come from **one root cause and one consequence**, and fixing them in this order stops the same defects being re-made.
+package "Closed Resolved this iteration — 1 Minor" #PaleGreen {
+  class "Iteration Plan F6" as IP6 {
+    exit-criteria column reported uniform readiness
+    verified: per-criterion state, two name their dependency
+  }
+}
 
-**Step 1 — Fix the premise. (System Inventory F2.)** The Software Archaeologist records in Coverage that the two read-only claims stay declared for the life of the project and are not settled by observation, citing the stakeholder's decision. Everything downstream inherits this, so doing it last means doing the other six twice.
+package "Result" #LightBlue {
+  class "Verification basis" as V {
+    10 Major and 1 Minor closed
+    each tested against the corrected text
+    and the file it cites, not the claim
+    of correction
+  }
+}
 
-**Step 2 — Re-dispose the two risks that depended on it. (Risk List F2.)** The Project Manager restates R002 and R011 as `accept`, quotes the stakeholder's 2026-11-14 answer as R002's Significant-band grant, gives both a contingency stating what happens should a reading-only claim prove wrong when the system is eventually run outside this project, and corrects the Document Control status line and the strategy distribution. The register and the plan then state the same disposal for the same two risks.
+DC1 --> V
+SI1 --> V
+SI2 --> V
+RL1 --> V
+RL2 --> V
+IP1 --> V
+IP2 --> V
+IP3 --> V
+IP4 --> V
+IP5 --> V
+IP6 --> V
 
-**Step 3 — Rebuild the retirement map on the corrected disposal. (Iteration Plan F5.)** R002 and R011 leave AR's retirement list; the "observed rather than read" step goes. The plan must then be swept for any other work item assuming the system can be run — the stakeholder's instruction is general, not limited to these two risks.
+note bottom of V
+  Nothing was closed because the author said it was fixed.
+  Each closure carries the corrected sentence as evidence.
+end note
+@enduml
+```
 
-**Step 4 — Make the plan runnable by roles that exist. (Iteration Plan F2, F3.)** Remove the Business Reviewer from the LCO and LCA rows; add the System Analyst and the Software Archaeologist to Excavation at the stages the process assigns them; then check every risk owner named in every milestone row against the role profile, so the register's owner column and the plan's resource profile name one set of roles.
+| Finding | Severity | Closed | Verified against |
+|---|---|---|---|
+| Development Case F1 — Tool references cited an absent `CONTRIBUTING.md` | Major | Resolved | Five rows, each a path in the tree; no written standard assumed |
+| System Inventory F1 — package-pin tally 28 against 30 | Major | Resolved | `Directory.Packages.props` re-counted: 6 + 19 + 5 = 30 |
+| System Inventory F2 — Coverage named running the system as the settlement | Major | Resolved | Coverage's closing statement, in the stakeholder's terms |
+| Risk List F1 — no risk bounded the human gate | Major | Resolved | R026 present, 3×4=12, cited by the plan by identifier |
+| Risk List F2 — R002 and R011 avoided an action ruled out | Major | Resolved | Both `accept`; R002's Significant-band grant quoted verbatim |
+| Iteration Plan F1 — criterion 1 claimed an unasked confirmation | Major | Resolved | Criterion restated; G2 named as the confirmation point |
+| Iteration Plan F2 — stood-down Business Reviewer on two gates | Major | Resolved | Every roadmap row carries three lenses |
+| Iteration Plan F3 — Excavation had no one for its own work | Major | Resolved | System Analyst and Software Archaeologist on the profile |
+| Iteration Plan F4 — LCA and PR acceptance gates unbooked | Major | Resolved | Five gates; G5 names ownership transfer |
+| Iteration Plan F5 — AR retired two risks by running the system | Major | Resolved | Retirement map rebuilt; no run scheduled in any phase |
+| Iteration Plan F6 — exit-criteria column reported uniform readiness | Minor | Resolved | Per-criterion state, two rows naming their dependency and owner |
 
-**Step 5 — Book the gates the milestones require. (Iteration Plan F4.)** Add a stakeholder gate at PR for formal project acceptance — the event at which ownership passes — and one at LCA for the architecture baseline's acceptability. Record both as human queue time: ceiling 14 days, estimate none, actual reported apart from agent time, process suspends rather than assuming.
+#### Action owed at the owner's next turn
 
-**Step 6 — Bound the gate, or stop claiming it is bounded. (Risk List F1.)** The register and the plan must state the same control. A risk covering the stakeholder gates, with the ceiling and the suspension rule as its bound, is the preferred repair; deleting the plan's claim is the fallback. Adding gates in Step 5 without this step leaves the new gates unbounded.
+| Action | Artifact | Owner | Closes |
+|---|---|---|---|
+| Move R006 and R025 from the LCO row to Survey 2 — SBC in the retirement map, and restate the accounting as 15 + 2 + 1 + 8 = 26 | Iteration Plan | Project Manager | F7 |
 
-**Step 7 — Correct the two record errors. (Iteration Plan F1, System Inventory F1, Development Case F1.)** Restate criterion 1 to what SBC gates and cite G2 as where the perimeter is confirmed — **do not move G2 into SBC**: Excavation deepens the perimeter, so confirming it before that reading would confirm an incomplete record. Correct 28 to 30 pins. Replace the `CONTRIBUTING.md` row with `Directory.Build.props` and `Directory.Packages.props`, owner Software Architect. Fix the exit-criteria status column (F6, Minor, same turn).
+F7 does not hold the milestone. It is a Minor: the attribution changes no plan shape, both risks are retired either way, and no exit criterion turns on which row names them. The artifact is approved; its owner fixes the row in the next turn, after any Critical and Major across the project.
 
-#### What this lens deliberately did not raise
+#### No Critical, and why
 
-Three classes of thing were considered and are recorded as decisions rather than oversights:
+A Critical is a defect only the stakeholder can unblock: a scope decision, a contradiction in what they declared, or a risk only they may accept. Nothing at this gate qualifies.
 
-- **Risk scores.** Scores are judgements and the plan states plainly that disagreement with a score does not fail the milestone. What must hold — every magnitude the band of its own exposure, no High or Significant risk accepted without authority — holds, with the single exception recorded as Risk List F2, which is a strategy defect rather than a score defect.
-- **The perimeter's accuracy.** The stakeholder said nothing is missing from the perimeter, and seventeen anchors were opened with sixteen confirming. The perimeter is not in dispute. What was withheld is the sanction.
-- **The Iteration Assessment's absence.** It is written after the verdict and does not gate the phase. Its absence is correct and is not a finding.
+The three scope questions raised in iteration 1 were answered on 2026-11-14 and each answer was re-tested against the code it disposes of; all three hold and none is reopened. The stakeholder's later correction — that the system is never run — is a decision already taken and now fully absorbed: Coverage states it, R002 and R011 are accepted on it with the grant quoted, the plan sweeps for work that assumed a run, and the Risk List bounds the gate queue that decision leaves as the only non-agent delay. A decision already taken and correctly recorded everywhere it bears is not an open question, and escalating it again would ask the stakeholder to answer what they have already decided.
+
+#### No Major, and why
+
+A Major means another role builds on wrong content or a milestone exit criterion fails. Neither holds.
+
+- Every corrected fact was checked against the anchor that carries it, and each resolves. No role is pointed at content that does not exist.
+- All six SBC exit criteria are evidenced as worded, and the compliance matrix above records the verdict per criterion.
+- All 26 risks are disposed of by an artifact or a bound that exists, no disposal runs the system, and every owner is at work in the milestone that carries the risk.
+- Every gate carries three lenses, and no gate staffs a stood-down role.
+- Both acceptance milestones the plan had left unbooked now have a gate, and the PR gate names ownership transfer.
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
