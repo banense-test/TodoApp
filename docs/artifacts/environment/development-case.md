@@ -2,7 +2,6 @@
 Phase: Survey
 Status: Revised — governs the Survey milestone of the sprint zero
 Milestone Target: End-of-Survey (SBC) — not yet achieved
-
 ## Tailoring Overview
 This is a **delta document**. It records only what this project does differently from the IARI Development Case baseline. The role roster, the artifact catalogue and the intensity matrix are the baseline's and are not restated here.
 
