@@ -628,28 +628,96 @@ Two consequences of this order for the roles after this one:
 ## Coverage
 The tree reports 165 entries. Of these, 45 are vendored Bootstrap CSS/JS files under `Todo.Web/Client/wwwroot/bootstrap` and are excluded from the reading by kind, and one is this artifact (`docs/artifacts/discovery/system-inventory.md`).
 
-**Files opened: 52**, plus this artifact and the Development Case read through the artifact store. Enumerated, so the next iteration does not re-read them:
+**Files opened: 53**, plus this artifact and the Development Case read through the artifact store. Enumerated, so the next iteration does not re-read them:
 
-`.iari/README.md`, `README.md`, `LICENSE`, `Requests/todo.http`, `Directory.Build.props`, `Directory.Packages.props`, `global.json`, `nuget.config`, `TodoApp.sln`, `.github/workflows/ci.yaml`, `.devcontainer/devcontainer.json`, `.devcontainer/init.sh`, `.aspire/settings.json`, `.vscode/extensions.json`, `docs/artifacts/environment/development-case.md`, `Todo.Api/Program.cs`, `Todo.Api/TodoDbContext.cs`, `Todo.Api/Todo.Api.csproj`, `Todo.Api/appsettings.json`, `Todo.Api/appsettings.Development.json`, `Todo.Api/Todos/Todo.cs`, `Todo.Api/Todos/TodoApi.cs`, `Todo.Api/Users/TodoUser.cs`, `Todo.Api/Users/UsersApi.cs`, `Todo.Api/Authorization/CurrentUser.cs`, `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs`, `Todo.Api/Authorization/CurrentUserExtensions.cs`, `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs`, `Todo.Api.Tests/Todo.Api.Tests.csproj`, `Todo.Api.Tests/TodoApplication.cs`, `Todo.Api.Tests/TokenService.cs`, `Todo.Api.Tests/TodoApiTests.cs`, `Todo.Api.Tests/UserApiTests.cs`, `Todo.Web/Server/Program.cs`, `Todo.Web/Server/TodoApi.cs`, `Todo.Web/Server/AuthApi.cs`, `Todo.Web/Server/AuthClient.cs`, `Todo.Web/Server/Todo.Web.Server.csproj`, `Todo.Web/Server/appsettings.json`, `Todo.Web/Server/appsettings.Development.json`, `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`, `Todo.Web/Server/Authentication/AuthenticationSchemes.cs`, `Todo.Web/Server/Authentication/ExternalProviders.cs`, `Todo.Web/Server/Authentication/TokenNames.cs`, `Todo.Web/Client/Program.cs`, `Todo.Web/Client/Todo.Web.Client.csproj`, `Todo.Web/Client/TodoClient.cs`, `Todo.Web/Client/Components/TodoList.razor`, `Todo.Web/Shared/SharedClass.cs`, `TodoApp.AppHost/Program.cs`, `TodoApp.AppHost/Extensions.cs`, `TodoApp.ServiceDefaults/Extensions.cs`.
+`.iari/README.md`, `README.md`, `LICENSE`, `Requests/todo.http`, `Directory.Build.props`, `Directory.Packages.props`, `global.json`, `nuget.config`, `TodoApp.sln`, `.github/workflows/ci.yaml`, `.devcontainer/devcontainer.json`, `.devcontainer/init.sh`, `.aspire/settings.json`, `.vscode/extensions.json`, `docs/artifacts/environment/development-case.md`, `Todo.Api/Program.cs`, `Todo.Api/TodoDbContext.cs`, `Todo.Api/Todo.Api.csproj`, `Todo.Api/appsettings.json`, `Todo.Api/appsettings.Development.json`, `Todo.Api/Todos/Todo.cs`, `Todo.Api/Todos/TodoApi.cs`, `Todo.Api/Users/TodoUser.cs`, `Todo.Api/Users/UsersApi.cs`, `Todo.Api/Authorization/CurrentUser.cs`, `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs`, `Todo.Api/Authorization/CurrentUserExtensions.cs`, `Todo.Api/Extensions/RateLimitExtensions.cs`, `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs`, `Todo.Api.Tests/Todo.Api.Tests.csproj`, `Todo.Api.Tests/TodoApplication.cs`, `Todo.Api.Tests/TokenService.cs`, `Todo.Api.Tests/TodoApiTests.cs`, `Todo.Api.Tests/UserApiTests.cs`, `Todo.Web/Server/Program.cs`, `Todo.Web/Server/TodoApi.cs`, `Todo.Web/Server/AuthApi.cs`, `Todo.Web/Server/AuthClient.cs`, `Todo.Web/Server/Todo.Web.Server.csproj`, `Todo.Web/Server/appsettings.json`, `Todo.Web/Server/appsettings.Development.json`, `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`, `Todo.Web/Server/Authentication/AuthenticationSchemes.cs`, `Todo.Web/Server/Authentication/ExternalProviders.cs`, `Todo.Web/Server/Authentication/TokenNames.cs`, `Todo.Web/Client/Program.cs`, `Todo.Web/Client/Todo.Web.Client.csproj`, `Todo.Web/Client/TodoClient.cs`, `Todo.Web/Client/Components/TodoList.razor`, `Todo.Web/Shared/SharedClass.cs`, `TodoApp.AppHost/Program.cs`, `TodoApp.AppHost/Extensions.cs`, `TodoApp.ServiceDefaults/Extensions.cs`.
 
 **Files confirmed absent: 1** — `CONTRIBUTING.md`, cited by the Development Case.
+
+```plantuml
+@startuml
+title Coverage of this reading — what was opened, what was excluded by kind, and what stays open
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+package "Tree at delivery — 165 entries" {
+  component "Vendored Bootstrap\n45 files" as VENDOR
+  component "Application source\nand configuration\n119 files" as APP
+}
+
+package "Opened — 53 files" {
+  component "Solution, build and\ncentral package files" as BUILD
+  component "API: Program, DbContext,\nTodos, Users, Authorization,\nRateLimitExtensions, migrations" as API
+  component "BFF: Program, AuthApi,\nAuthClient, TodoApi,\nAuthentication/*" as BFF
+  component "Client: Program,\nTodoClient, TodoList.razor" as CLI
+  component "Shared contract,\nAppHost, ServiceDefaults" as COMPOSE
+  component "Tests: fixture, token\nhelper, two test classes" as TESTS
+  component "Docs, README, .iari,\nlicence, http requests,\ntooling config" as DOCS
+}
+
+package "Excluded by kind" {
+  component "Bootstrap CSS/JS\n45 files" as EX1
+  component "Assets: image, ico,\ncss, gitignore" as EX2
+}
+
+package "Declared unread" {
+  component "Razor markup and\ncomponent plumbing (6)" as U1
+  component "HttpAuthenticationStateProvider\n(1)" as U2
+  component "OpenApiOptionsExtensions,\nValidationFilter (2)" as U3
+  component "Migration diffs and\ndesigners (6)" as U4
+  component "Manifests already covered\ncentrally (3)" as U5
+  component "Local launch and\nappsettings files (5)" as U6
+  component "Fixture plumbing (2)" as U7
+}
+
+VENDOR --> EX1
+APP --> BUILD
+APP --> API
+APP --> BFF
+APP --> CLI
+APP --> COMPOSE
+APP --> TESTS
+APP --> DOCS
+APP --> U1
+APP --> U2
+APP --> U3
+APP --> U4
+APP --> U5
+APP --> U6
+APP --> U7
+APP --> EX2
+
+note right of U2
+  The one unread file that blocks a use case:
+  the external-login state machine cannot be
+  recovered without it (Priority 2).
+end note
+note bottom of U3
+  The rate-limit policy and its partition key are
+  now read (RateLimitExtensions.cs); the validation
+  filter's response shape is not.
+end note
+@enduml
+```
 
 **Areas left unread, declared rather than omitted:**
 
 | Unread | Why it can wait |
 |---|---|
 | `Todo.Web/Client/TodoApp.razor`, `_Imports.razor`, `Components/LogInForm.razor`, `Todo.Web/Server/App.razor`, `_Imports.razor` | Razor markup and component plumbing; the log-in form's contract is inferable from `TodoClient` and `AuthApi` and must be confirmed in Excavation before the login use case is recovered |
-| `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs` | The Blazor authentication-state bridge between the cookie and the component tree; needed for the login use case, not for the perimeter |
-| `Todo.Api/Extensions/OpenApiOptionsExtensions.cs`, `RateLimitExtensions.cs`, `Filters/ValidationFilter.cs` | The mechanism behind `/openapi`, the rate limiter and parameter validation. The limiter's configured values are now known (`RateLimiting: TokenLimit 50, TokensPerPeriod 50, QueueLimit 50`); the policy construction and its partition key are not read |
+| `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs` | The Blazor authentication-state bridge between the cookie and the component tree. This is the one unread file that blocks a use case: the external-login and log-out scenarios cannot be recovered without it, so it is the first file the next reading opens |
+| `Todo.Api/Extensions/OpenApiOptionsExtensions.cs`, `Filters/ValidationFilter.cs` | The mechanism behind `/openapi` and parameter validation. The rate limiter is now read in full (`RateLimitExtensions.cs`: token bucket, 10-second replenishment, partition key `ClaimTypes.NameIdentifier`, rejection status 429, defaults 100/100/100). What validation returns on failure is not read |
 | `Todo.Api/Migrations/2022*.cs`, `2023*.cs` (3 migration files plus 3 designer files) | The schema is read from the snapshot; the per-migration diffs matter only when reconstructing schema history |
 | `Todo.Web/Shared/Todo.Web.Shared.csproj`, `TodoApp.AppHost/TodoApp.AppHost.csproj`, `TodoApp.ServiceDefaults/TodoApp.ServiceDefaults.csproj` | Manifests restating pins already read centrally; the Client, Server, Api and Tests manifests are read, so the reference graph is confirmed |
 | `TodoApp.AppHost/appsettings.Development.json`, all `Properties/launchSettings.json` (`Todo.Api`, `Todo.Web.Server`, `Todo.Web.Client`, `TodoApp.AppHost`) | Local-only overrides, ports and profiles; no perimeter fact |
 | `.gitignore`, `bg.png`, `favicon.ico`, `css/app.css`, all 45 Bootstrap files | Assets and ignore rules; no perimeter fact |
 | `Todo.Api.Tests/DbContextExtensions.cs`, `GlobalUsings.cs` | Fixture plumbing already inferable from `TodoApplication.cs` |
 | Whole-repository commits older than 2024-11-14 | The 50-commit listing starts there and reports older history exists; the 2022–2023 commits are the candidates for the next history reading, and the migration dates already establish the schema era |
+| Runtime behaviour of any kind | No process was run. Every statement in this artifact is read from source and configuration; the rate limiter's partition key under the real pipeline, the prerender path and the external-login dance are read, not observed |
 
-What this coverage does **not** claim: the `/auth/*` behaviour is described from the endpoint list, `AuthClient` and the provider registration, not from the state machine that drives the external login (unread `HttpAuthenticationStateProvider.cs` and the Razor forms); the rate-limit partition key is not read; the three remaining project manifests are unread; and no file outside the 52 opened has been looked at, so a fact about an unread file would be an assumption.
+What this coverage does **not** claim: the `/auth/*` behaviour is described from the endpoint handlers, `AuthClient` and the provider registration, not from the Blazor state provider that drives the cookie into the component tree (unread `HttpAuthenticationStateProvider.cs`); the validation failure shape is unread; the three remaining project manifests are unread; and no file outside the 53 opened has been looked at, so a fact about an unread file would be an assumption.
 
+Two statements in Anomalies rest on reading alone and are marked as such there rather than promoted to fact: the rate limiter's partition key (the claim is read, the pipeline order at request time is not observed) and the database lifecycle's consequences beyond the AppHost's `Directory.Exists` guard. Both are settled by running the system, which is Excavation's work.
 ## Provenance
 | Fact | Anchor |
 |---|---|
