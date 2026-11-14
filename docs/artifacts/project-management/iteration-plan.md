@@ -267,58 +267,10 @@ stop
 
 Four properties of this roadmap are load-bearing:
 
-- **Sequencing follows the risk bands, not the phase names.** Both High-band risks are retired before Construction: R001 (nothing tests the BFF) at LCA, R009 (a delivered API capability with no screen) at GHR. Five of the seven retired Significant risks are retired by AR and GHR — inside the sprint zero — because that is where their evidence lives. The remaining Significant risks are R002 (accepted, on the stakeholder's grant) and R026 (bounded at SBC). No risk above the Moderate band is carried into Construction or Transition.
+- **Sequencing follows the risk bands, not the phase names.** Both High-band risks are retired before Construction: R001 (nothing tests the BFF) at LCA, R009 (a delivered API capability with no screen) at GHR. Of the eight Significant risks, five are retired by AR and GHR — inside the sprint zero — because that is where their evidence lives; R004 is retired at LCA, R026 is bounded by its own ceiling, and R002 is accepted on the stakeholder's grant. No risk above the Moderate band is carried into Construction or Transition.
 - **No retirement runs the system.** Every step above is an artifact a role writes or a bound a register carries. The two risks whose condition could only be settled by observation — R002 and R011 — are carried on the acceptance rather than counted as retired, so no milestone's exit case rests on evidence the project will not produce.
 - **Every milestone whose exit condition is the stakeholder's judgement has a gate at which it is obtained.** That is G2 through G5; G1 served Survey 1's SBC and was answered 2026-11-14.
 - **The lever is iteration count — never parallel agent roles, never declared scope.** A milestone whose exit criteria do not pass is followed by one more iteration inside that phase at schedule cost. Declared scope is reduced only by a Change Request the stakeholder decides.
-
-```plantuml
-@startuml
-title The five stakeholder gates the plan books, and the milestone each serves
-skinparam componentStyle rectangle
-skinparam shadowing false
-
-package "Booked gates — queue time, ceiling 14 days, estimate none" #LightBlue {
-  component "G1 — three scope facts disposed\nanswered 2026-11-14" as G1
-  component "G2 — confirms the perimeter\nConsolidation 1 start" as G2
-  component "G3 — accepts the LCO case\nInception 1 end" as G3
-  component "G4 — accepts the architecture baseline\nElaboration 1 end" as G4
-  component "G5 — accepts the product, ownership passes\nTransition 1 end" as G5
-}
-
-package "What each milestone's exit condition requires" {
-  component "SBC — perimeter recorded and put to the stakeholder\nanswered at review" as SBC
-  component "GHR — perimeter confirmed before the declared scope is modelled" as GHR
-  component "LCO — business case acceptable to the stakeholder" as LCO
-  component "LCA — architecture baseline acceptable to the stakeholder" as LCA
-  component "PR — the customer takes ownership of the software" as PR
-}
-
-SBC --> G1
-GHR --> G2
-LCO --> G3
-LCA --> G4
-PR --> G5
-
-note right of G4
-  No lens can answer whether a baseline is acceptable to
-  the stakeholder. It is booked and bounded.
-end note
-note right of G5
-  Acceptance testing is not acceptance. G5 is the event at
-  which ownership transfers — the closure the PR milestone
-  exists to perform.
-end note
-note bottom of G1
-  Every gate is bounded by R026: at 14 days of queue time the
-  process suspends rather than filling the gap with an
-  assumption. Actual queue time is reported apart from agent
-  time; the two clocks are never summed.
-end note
-@enduml
-```
-
-The bound on every gate above is R026 in the Risk List: ceiling 14 days of queue time, estimate none, actual measured and reported apart from agent time, and on expiry the process suspends rather than filling the gap with an assumption. A gate is bounded in the register, never forecast in this plan.
 
 ## Resources
 The team is the agent roster the process assigns, not a staffed organisation. The profile below is read from the IARI Development Process and the Development Case's tailoring — no role here does work the process does not run in this phase, and every role named as a risk owner in a milestone row is at work in that milestone.
