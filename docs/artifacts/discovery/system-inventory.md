@@ -326,7 +326,7 @@ skinparam componentStyle rectangle
 skinparam shadowing false
 
 package "Delivered by the upstream sample — describes the system" {
-  component "README.md\n4509 bytes · prose, one screenshot\nno table, no diagram\n the only prose description of the system" as README
+  component "README.md\n4509 bytes · prose, one screenshot\nno table, no diagram\nthe only prose description of the system" as README
   component "Requests/todo.http\n793 bytes · 5 requests\nregister, login, create, list, delete" as HTTPFILE
   component ".iari/README.md\n777 bytes · delivery statement\nwhat is and is not in the tree" as IARI
   component "LICENSE\nMIT · (c) 2022 David Fowler\nlegal terms only" as LIC
@@ -408,23 +408,12 @@ end note
 | `LICENSE` | licence text | MIT, `(c) 2022 David Fowler` | Legal terms only | `LICENSE` |
 | `docs/artifacts/environment/development-case.md` | process tailoring | 20371 bytes | The sprint-zero process: classification, disciplines, artifact catalogue, optional triggers, roles, and in Guidelines and Procedures the **Version policy** (which files carry a version and who may raise one) and the **Measurement policy** (the two clocks and the rules that bind them) | `docs/artifacts/environment/development-case.md`; the path carries 20 commits, the latest `b5a8965` |
 | `docs/artifacts/discovery/system-inventory.md` | discovery record | this artifact | The system as it is: perimeter, technology, data, documentation, history, anomalies, priorities, coverage | this artifact |
-| `docs/artifacts/project-management/` — `risk-list.md`, `iteration-plan.md`, `review-record.md`, `iteration-assessment.md` | four process records | four files, sizes not measured | The scored risk register, the schedule, the milestone verdict with its finding ledger, and the iteration's self-assessment. None records a fact about the system | four files under `docs/artifacts/project-management/` |
+| `docs/artifacts/project-management/risk-list.md` | process record — scored register | 37006 bytes | 26 risks, each scored, banded, owned and given a strategy that can execute | `docs/artifacts/project-management/risk-list.md` |
+| `docs/artifacts/project-management/iteration-plan.md` | process record — schedule | 42585 bytes | The roadmap, the retirement map, the role profiles per milestone and the six SBC exit criteria | `docs/artifacts/project-management/iteration-plan.md` |
+| `docs/artifacts/project-management/review-record.md` | process record — milestone verdict | size not measured | The three review lenses' checklists, the finding ledger and the closures | `docs/artifacts/project-management/review-record.md` |
+| `docs/artifacts/project-management/iteration-assessment.md` | process record — self-assessment | size not measured | The iteration's own account, written against the gate's verdict | `docs/artifacts/project-management/iteration-assessment.md` |
 
-Configuration read as documentation — the only authoritative statement of several behaviours:
-
-| Behaviour documented only here | File |
-|---|---|
-| Target framework, nullable, implicit usings, `LangVersion preview` | `Directory.Build.props` |
-| 30 package pins (6 test, 19 application, 5 OpenTelemetry), including the only record that YARP 2.3.0 and Scalar 2.6.8 are intended | `Directory.Packages.props` |
-| SDK band and prerelease policy | `global.json` |
-| Package-source lockdown (`<clear />` + `*` → nuget.org) | `nuget.config` |
-| CI gate: restore → build Release → test Release, on push and pull request | `.github/workflows/ci.yaml` |
-| Default log levels; YARP warnings suppressed | `Todo.Api/appsettings.json`, `Todo.Web/Server/appsettings.json` |
-| Rate-limit values `TokenLimit 50`, `TokensPerPeriod 50`, `QueueLimit 50` (Development only) | `Todo.Api/appsettings.Development.json` |
-| `RazorLangVersion` 8.0 on the server project — the one version no central file carries, and the case the Development Case's Version policy names explicitly | `Todo.Web/Server/Todo.Web.Server.csproj`; `docs/artifacts/environment/development-case.md`, Guidelines and Procedures — Version policy |
-| AppHost path for the Aspire tooling | `.aspire/settings.json` |
-| Developer environment: SDK 8.0 image, forwarded ports 5000/5001, auto-install of `dotnet-ef` | `.devcontainer/devcontainer.json`, `.devcontainer/init.sh` |
-| Recommended editor extensions (C#, REST Client) | `.vscode/extensions.json` |
+None of the four project-management records, and none of the Development Case, records a fact about the system: every statement any of them makes about it traces back to this artifact. Two of the four were opened at the fourth reading precisely to check what they quote from it.
 
 ### Documentation carried only in code comments
 
