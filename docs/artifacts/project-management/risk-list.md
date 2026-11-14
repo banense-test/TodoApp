@@ -4,7 +4,7 @@ Status: Draft — 26 risks: the anomalies and declared coverage limits of the Sy
 ## Risk Classification
 The scales are the IARI Development Case §9.10 scales, cited not redefined: probability and impact are each scored 1 to 5, exposure is their product, and the magnitude is the band that exposure falls in. Probability is read as the likelihood the adverse outcome occurs under the plan as written, not the likelihood the underlying anomaly is present — several anomalies are certain to exist while the harm they do is unlikely. Acceptance of a High (15 to 25) or Significant (9 to 12) risk is the stakeholder's grant and is never self-granted here.
 
-Running the system is unavailable as a retirement path for this project: no process is installed or run in any phase, and a strategy that depended on observing runtime behaviour could not execute. Every `avoid` below names an artifact a role in this process writes; the two risks whose condition is permanent are carried `accept` on the grant recorded in Risk Mitigation and Contingency.
+Observing the running system is unavailable as a retirement path **within the sprint zero**: no process is installed and nothing is run in Survey, Excavation or Consolidation, so a strategy inside those three milestones that depended on observing runtime behaviour could not execute. Every `avoid` below names an artifact a role in this process writes. **From Inception on the pipeline builds the solution and runs its test suites**, so a build or test result is a retirement path a later phase may use. R002 and R011 are carried `accept` only until the RUP phases start, on the grant recorded in Risk Mitigation and Contingency, and the first run bearing on either settles it.
 
 ```plantuml
 @startuml
@@ -53,6 +53,12 @@ class "Strategy" as STRAT {
   accept
 }
 
+class "Retirement path" as PATH {
+  an artifact a role writes, in every phase
+  a build or test result the pipeline produces,
+  from Inception on
+}
+
 class "Stakeholder grant" as GRANT {
   required when strategy is accept
   and magnitude is High or Significant
@@ -63,6 +69,7 @@ RISK --> PROB : scored by
 RISK --> IMP : scored by
 RISK --> MAG : exposure bands into
 RISK --> STRAT : disposed by
+STRAT --> PATH : avoid retires through
 STRAT --> GRANT : accept of High or Significant needs
 @enduml
 ```
@@ -92,10 +99,10 @@ STRAT --> GRANT : accept of High or Significant needs
 | Strategy | Count | Risks | Who accepts |
 |---|---|---|---|
 | avoid | 18 | R001, R003, R004, R005, R006, R009, R010, R013, R014, R016, R017, R018, R020, R021, R022, R024, R025, R026 | not applicable — an artifact this process runs retires each |
-| accept | 8 | R002, R007, R008, R011, R012, R015, R019, R023 | R002 Significant — stakeholder, grant of 2026-11-14 quoted in Risk Mitigation and Contingency; R012 Moderate, R007 Low, R008 Minor — stakeholder, decided 2026-11-14; R011, R019, R023 Moderate and R015 Minor — the Project Manager |
+| accept | 8 | R002, R007, R008, R011, R012, R015, R019, R023 | R002 Significant — stakeholder, grant of 2026-11-14 quoted in Risk Mitigation and Contingency, bounded to the sprint zero; R012 Moderate, R007 Low, R008 Minor — stakeholder, decided 2026-11-14; R011, R019, R023 Moderate and R015 Minor — the Project Manager |
 | transfer | 0 | — | no counterparty exists for any risk here: no supplier, no operator, no deployment to transfer to |
 
-Both High-band risks are disposed of by `avoid`, because an artifact this process already runs retires each of them: R001 by the Test Case the Test Designer produces, R009 by the Use-Case Model the System Analyst recovers. In the Significant band, seven of the eight are `avoid` on the same footing; **R002 alone is accepted**, and that acceptance is the stakeholder's answer of 2026-11-14, quoted verbatim in Risk Mitigation and Contingency. No acceptance anywhere in this register was granted by the Project Manager on the stakeholder's behalf, and the only open question of acceptance is closed.
+Both High-band risks are disposed of by `avoid`, because an artifact this process already runs retires each of them: R001 by the Test Case the Test Designer produces, R009 by the Use-Case Model the System Analyst recovers. In the Significant band, seven of the eight are `avoid` on the same footing; **R002 alone is accepted**, and that acceptance is the stakeholder's answer of 2026-11-14, quoted verbatim in Risk Mitigation and Contingency. No acceptance anywhere in this register was granted by the Project Manager on the stakeholder's behalf, and no acceptance here is open-ended: each runs to a stated horizon, and the two that depend on observation run only until the RUP phases start.
 
 R026 is the bound the Iteration Plan's gate ceiling points at: the project's one non-agent delay is stakeholder queue time, and this register is where that delay is bounded. It is `avoid` because the ceiling and the suspension rule retire it without anyone's grant — on expiry the process stops rather than filling the gap with an assumption.
 
