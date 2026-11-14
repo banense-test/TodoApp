@@ -1169,6 +1169,126 @@ Three classes of thing were considered and are recorded as decisions rather than
 - **The perimeter's accuracy.** The stakeholder said nothing is missing from the perimeter, and seventeen anchors were opened with sixteen confirming. The perimeter is not in dispute. What was withheld is the sanction.
 - **The Iteration Assessment's absence.** It is written after the verdict and does not gate the phase. Its absence is correct and is not a finding.
 
+### Review Coordinator lens
+<!-- review: Survey I1 -->
+
+#### Closure ledger
+
+No closure is recorded. This is the project's first review event, `read_artifact_findings` returned an empty list for all four artifacts at the start of the review, and every one of the 18 records now in the ledger is open — none carries a resolution object.
+
+```plantuml
+@startuml
+title Finding lifecycle — how a lens record moves from open to closed, and where it escalates
+skinparam shadowing false
+
+[*] --> Open : record_artifact_finding by the originating lens
+Open --> Assigned : owner, severity and deadline recorded at review close
+Assigned --> InProgress : owner reworks the artifact
+InProgress --> Resolved : the owner's upsert lands
+Resolved --> Verified : the originating lens calls resolve_artifact_finding
+Resolved --> InProgress : corrective action inadequate — re-recorded under its key, occurrence +1
+Verified --> Closed
+Open --> Escalated : deadline missed by one business day
+Assigned --> Escalated : deadline missed by one business day
+Escalated --> Assigned : re-prioritised by the Project Manager, or by the stakeholder where the grant is theirs
+
+note right of Open
+  Only the lens that emitted a record may close it.
+  A Review Record sentence saying "resolved"
+  is not a resolution — the ledger object is.
+end note
+note right of Escalated
+  Escalation targets:
+  Project Manager for review debt
+  Configuration and Change Management Board
+  for a systemic process failure
+  the stakeholder for a Critical or a grant
+end note
+note bottom of Verified
+  A Critical record escalates to the stakeholder
+  and no verdict may close the milestone
+  while one stands open.
+end note
+@enduml
+```
+
+#### Review debt
+
+| Measure | Value |
+|---|---|
+| Open lens records | 18 |
+| Distinct defects | 15 |
+| Overdue | 0 — no deadline has yet been set; all deadlines begin at this record |
+| Critical | 0 |
+| Major | 10 defects (13 lens records) |
+| Minor | 5 defects (6 lens records) |
+| Escalations raised | 0 — nothing is overdue, so nothing escalates. The stakeholder escalation of this milestone is the sanction question, recorded under Disposition, not review debt |
+
+Every record is assigned an owner at this close. Deadlines are **not** dates on a calendar: no start date has been measured on this project, so a deadline here is "the owner's next turn in corrective iteration 2", which is where the iteration's exit criteria bind. A record that misses that turn becomes overdue and escalates on the next business day.
+
+#### Corrective action plan — the order is the plan
+
+```plantuml
+@startuml
+title Corrective sequence — the order that stops the same defects being re-made
+skinparam shadowing false
+
+|#Pink|Premise|
+start
+:SI-2 — Coverage records the stakeholder's decision:\nthe two read-only claims are never settled by observation;
+note right
+  Fixing this last means fixing RL-2
+  and IP-5 twice: both quote the sentence.
+end note
+
+|#Orange|Disposal|
+:RL-2 — R002 and R011 restated accept,\nR002's Significant grant quoted verbatim,\nDocument Control and strategy split corrected;
+:IP-5 — R002 and R011 leave AR's retirement list;\nthe "observed rather than read" step deleted;
+:Sweep the plan for any other work item\nthat assumes the system can be run;
+
+|#LightBlue|Executability|
+:IP-2 — Business Reviewer removed from LCO and LCA;
+:IP-3 — System Analyst and Software Archaeologist\nadded to the Excavation profile;
+:Reconcile every risk owner in every milestone row\nagainst the role profile;
+:IP-4 — stakeholder gates booked at LCA and PR;
+:RL-1 — a risk bounds those gates at the 14-day ceiling\nwith the suspension rule;
+
+|#PaleGreen|Record errors|
+:IP-1 — criterion 1 restated; G2 stays at Consolidation 1's start;
+:SI-1 — 28 pins corrected to 30, plus the Provenance row;
+:DC-1 — CONTRIBUTING.md row replaced with the files that govern;
+
+|#LightGray|Minors — owner's next turn|
+:DC-2 · SI-3 · RL-3 · IP-6 · IP-7;
+stop
+@enduml
+```
+
+| Step | Defect | Owner | Action | Done when |
+|---|---|---|---|---|
+| 1 | SI-2 | Software Archaeologist | Replace the Coverage closing sentence with the stakeholder's decision in their own terms: the two read-only claims stand declared for the life of the project, carried as accepted risk, settled by no later reading. The declarations themselves stay unchanged | The sentence names the decision and no longer names running the system |
+| 2 | RL-2 | Project Manager | Restate R002 and R011 as `accept`; quote the stakeholder's 2026-11-14 answer verbatim as R002's Significant-band grant; give both a contingency for a reading-only claim proving wrong when the system is first run outside this project; correct the Document Control status line and the strategy distribution | Register, status line and strategy split state the same disposal |
+| 3 | IP-5 | Project Manager | Remove R002 and R011 from AR's retirement list; delete the "observed rather than read" step; then sweep every milestone for any other work item assuming the system can be run | No milestone retires a risk by an activity the project will not perform |
+| 4 | IP-2, IP-3 | Project Manager | Remove Business Reviewer from the LCO and LCA rows; add System Analyst and Software Archaeologist to the Excavation profile at the stages the process assigns them; reconcile every risk owner in every milestone row against the role profile | The register's owner column and the plan's role profile name one set of roles |
+| 5 | IP-4 | Project Manager | Book a stakeholder gate at PR for formal project acceptance — the event at which ownership passes — and one at LCA for the architecture baseline's acceptability. Record both as queue time: ceiling 14 days, estimate none, actual reported apart, process suspends rather than assuming | Every milestone whose exit condition is the stakeholder's acceptance has a gate |
+| 6 | RL-1 | Project Manager | Add a risk covering the stakeholder gates, with the 14-day ceiling and the suspension rule as its bound and mitigation, or delete the plan's claim that one exists | The plan and the register state the same control |
+| 7 | IP-1 | Project Manager | Restate criterion 1 to what SBC gates: the perimeter recorded with an anchor per element, the priorities ordered, the three stakeholder facts put and answered 2026-11-14. Cite G2 at Consolidation 1's start as where the perimeter is confirmed. **G2 does not move** — Excavation deepens the perimeter, so confirming it earlier confirms an incomplete record | The criterion is satisfiable without a sanction that has been withheld |
+| 8 | SI-1 | Software Archaeologist | Correct 28 to 30 pins in both places and in the matching Provenance row. No pin value changes | The tally matches `Directory.Packages.props` |
+| 9 | DC-1 | Process Engineer | Replace the `CONTRIBUTING.md` row with `Directory.Build.props` and `Directory.Packages.props` as the compiler-enforced conventions, owner Software Architect, stating that no written coding standard exists. A standard, if wanted, is authored under a Change Request | Every tool reference resolves in the tree |
+| 10 | DC-2, SI-3, RL-3, IP-6, IP-7 | Process Engineer, Software Archaeologist, Project Manager | The five Minors, in each owner's next turn | Each is fixed as its own record recommends |
+
+**Steps 1–3 are one root cause and must be done before the rest.** SI-2, RL-2 and IP-5 are not three defects: the plan and the register both assume the system can be run, the stakeholder has ruled it out, and the System Inventory is where that assumption is written down. Correcting them out of order produces three artifacts that disagree about the same two risks.
+
+**Steps 4–6 make the plan executable as a governing instrument.** None of them is an accuracy defect — each is a defect in whether the plan can be run: a role summoned that does not work on the project, an iteration assigned work with no one accountable for its risks, milestones that transfer ownership with no event at which it transfers. Adding the gates in step 5 without step 6 leaves the new gates unbounded, which is why they are ordered together and before the record errors.
+
+**Steps 7–9 are record corrections.** Small, independent, and each one is a claim a milestone or another role relies on.
+
+#### What is deliberately not an action
+
+- **An Iteration Assessment.** The Project Manager writes it against this verdict. It is not owed by this review and ordering it here would invert the sequence the process fixes.
+- **A Change Request.** None is required for any of the 15 defects. Each is a correction inside an artifact its owner already owns — no scope change, no baseline change, nothing for the CCB.
+- **Any schedule change.** Corrective iteration 2 is the iteration-count lever, which is the plan's own stated remedy for a milestone whose exit criteria do not pass. Declared scope is not reduced, no role is added in parallel, and no criterion is narrowed.
+
 ## Disposition
 ### Reviewer lens
 <!-- review: Survey I1 -->
