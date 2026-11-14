@@ -12,8 +12,8 @@ Milestone Target: End-of-Survey (SBC) — not yet achieved; the sanction is the 
 <!-- review: Survey I3 -->
 
 Phase: Survey
-Status: Draft — management lens of the SBC review, re-held at Survey iteration 3. Five findings of this lens closed Resolved against the corrected text and its anchors; 1 new finding (0 Critical, 0 Major, 1 Minor) on the Iteration Plan. Every artifact of the sprint zero is approved.
-Milestone Target: End-of-Survey (SBC) — sanctioned by the stakeholder on 2026-11-14; the four Major corrections that sanction required are landed and verified this iteration.
+Status: Draft — management lens of the SBC review, re-held at Survey iteration 3. Five findings of this lens closed Resolved against the corrected text and its anchors; 1 new finding of this lens (0 Critical, 0 Major, 1 Minor). Two Major records of the technical lens remain open on the Risk List and the Iteration Plan, both on the R005 row, and they hold the milestone.
+Milestone Target: End-of-Survey (SBC) — sanctioned by the stakeholder on 2026-11-14; the four Major corrections that sanction required are landed and verified. The artifact set is not yet clean: one restatement of one risk row, in two artifacts, stands between it and a clean gate.
 
 ### Review Coordinator lens
 <!-- review: Survey I2 -->
