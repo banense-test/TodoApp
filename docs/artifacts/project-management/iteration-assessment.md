@@ -195,19 +195,17 @@ The defects of this iteration were found by **review**, and the detection yield 
 
 The first build-and-test run this project will have occurs from Inception on, when the pipeline builds the solution and runs its suites. That run is the evidence path the plan now places at Elaboration for R011 and the observable statements of R002; nothing in this iteration could produce it, and no risk is declared retired by it.
 ## External Changes
-
-Three events arrived from outside the team in this iteration, all on **2026-11-14**, and each changed a premise of the plan.
+Three things arrived from outside the team, and each changed a premise of the plan.
 
 | # | External event | Source | Effect on the plan |
 |---|---|---|---|
-| 1 | Three scope dispositions: the `admin` branches are unreachable and role provisioning stays out of scope; external login is a configured-at-runtime edge with no use case recovered this cycle, to be revisited if credentials are supplied; the BFF-to-API trust gap is a known limitation of the single-host baseline carried as R012 | Stakeholder, answering G1 | Retired three scope markers at the source of truth and closed R007, R008 and R012 with quoted grants. No plan change — the answers confirmed the reading |
-| 2 | **The system will not be run in any phase** — not installed anywhere, nobody runs it here; the two statements marked read but not observed stay declared as such, with their risk | Stakeholder, at the gate | **Invalidated the retirement path three artifacts depended on.** R002 and R011 were avoided by running the system (RL-2), the AR milestone retired them the same way (IP-5), and Coverage named that settlement path (SI-2). The AR exit case, as planned, cannot be evidenced |
-| 3 | Sanction on SBC **refused** | Stakeholder, at the gate | The milestone does not close and the phase does not advance. Corrective Survey iteration 2 is required |
+| 1 | **Sanction granted** on SBC iteration 2, with the perimeter confirmed at this milestone and the instruction that there be no second confirmation at Consolidation's start | Stakeholder, at the gate | The perimeter became this milestone's evidence (criterion 1 restored to the process wording) and the confirmation gate was deleted from the roadmap, the gantt and the Resources gate list, leaving four |
+| 2 | **The earlier no-run sentence was narrowed by the stakeholder**: it applied to Survey, Excavation and Consolidation only. The system will be built and its tests run once the RUP phases start; the two read-only risks are accepted **until then**, not for the life of the project | Stakeholder, at the gate | Observation returns as a retirement path from Inception on. The register's two acceptances were bounded to the sprint zero, the plan's no-run property was scoped to the sprint zero, and R011 together with the observable half of R002 were placed at LCA where the first build-and-test run produces the evidence |
+| 3 | **The corrective order was set**: the System Inventory sentence first, then the Risk List and Iteration Plan statements that quote it, then the deleted gate; the three Minors in each owner's next turn | Stakeholder, at the gate | Fixes the sequence of Survey 3's fine plan so one overstatement is not narrowed three times |
 
-Event 2 is the iteration's largest variance and it was not a review finding in origin: it is a **constraint the process never obtained until the gate asked**. Nothing in the plan or the register had tested the assumption that observation was available; it was inherited from the fact that the code exists. The constraint now binds every later iteration — see the constraint table under Rework Required.
+Event 2 is this iteration's largest external change and it corrects a premise the iteration inherited. Iteration 1 recorded "the system will not be run" as a project-wide constraint; the stakeholder had said it about the sprint zero. The constraint had propagated into three artifacts before the correction arrived, which is why undoing it took one Major in each.
 
-The Business (BusinessReviewer) lens does not appear in the events above because it is inactive by tailoring: `business-process-led = false` stands it down for the whole project, and this gate ran two lenses instead of three. Its absence is a recorded tailoring decision, not a defect, and no finding is raised against it.
-
+The Business Reviewer lens does not appear above because it is inactive by tailoring: `business-process-led = false` stands that role down for the whole project, and this gate ran two lenses instead of three. Its absence is a recorded tailoring decision, not a defect.
 ## Rework Required
 **One more iteration inside Survey, at schedule cost.** The iteration-count lever is the plan's own stated remedy for a milestone whose exit criteria do not pass: declared scope is not narrowed, no agent role is added in parallel, and no criterion is re-interpreted to fit what was produced. No Change Request is required — all 15 defects are corrections inside an artifact its owner already holds.
 
