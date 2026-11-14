@@ -650,6 +650,20 @@ The rows below were found by opening the files the first reading left unread or 
 | The API's root route redirects to a Development-only page while its OpenAPI document is served in every environment | `Todo.Api/Program.cs` maps `"/"` to `Results.Redirect("/scalar/v1")` unconditionally, but `MapScalarApiReference` sits inside `if (app.Environment.IsDevelopment())`, while `app.MapOpenApi()` sits outside it | Certain | Low: outside Development `/` redirects to a route that is not mapped, and the API's schema is published at `/openapi` whether or not that is intended |
 | The API can be run with no database at all | `README.md` instructs running `Todo.Api` standalone for its Swagger UI; `Todo.Api/Program.cs` contains no migration or `EnsureCreated` call, and the database is created only by the AppHost and only when `.db` is absent (`TodoApp.AppHost/Extensions.cs`) | Certain | Medium: the standalone path the README documents is the one path on which the schema is never created, so a reader following the README reaches a failing `/todos` call |
 
+### Absences and the decisions the reading cannot make
+
+Absences recorded as findings rather than filled in: no architecture description, no ADR, no deployment instruction, no data dictionary, no API contract document, no operational runbook, no user guide, and no author to ask (`Source: .iari/README.md`).
+
+Three rows in the second table are not defects to be fixed by preference but scope decisions, and each changes what later phases may assume. The stakeholder decided all three on 2026-11-14; the decisions below are binding on Excavation and on every role that reads this artifact.
+
+| Decision | The stakeholder's answer | What it settles |
+|---|---|---|
+| The `admin` role | "Record the admin branches as unreachable in the delivered system and leave role provisioning out of scope for this cycle." | The owner-or-admin override in `GET/PUT/DELETE /todos/{id}` is recovered as code that exists and cannot be reached in the delivered system. No requirement for role provisioning or administration is added to scope this cycle. No use case is recovered for an administrator, and no actor is recorded for one. The admin branches remain anchored where they are, because a later cycle may revisit them |
+| The four external identity providers | "Record it as a configured-at-runtime edge and do not recover an external-login use case this cycle; revisit if credentials are supplied." | The external-provider edge stays in the perimeter as configured-at-runtime, exactly as the Perimeter section records it. Excavation recovers no external-login use case, and `/auth/login/{provider}`, `/auth/signin/{provider}` and `POST /users/token/{provider}` are recorded as endpoints with no recovered use case behind them. The external-login anomalies (dormancy, the name-from-email derivation, the silent failure path) stay recorded as findings against code that is present. Revisiting is conditional on credentials being supplied — that is the stakeholder's stated condition, and this artifact records nothing beyond it |
+| The BFF-to-API trust boundary | "Record it as a known limitation of the single-host baseline and carry it into the Risk List, out of scope for this cycle." | No service-to-service authentication requirement enters scope. The gap stays an anomaly and an explicit baseline limitation the Project Manager carries into the Risk List. The Software Architect records the boundary as single-host deployment accepts it; hardening it is not this cycle's work |
+
+These three decisions close the only scope questions the reading raised. Nothing else in this artifact is marked awaiting confirmation: the areas left unread in Coverage are declared as unread, not as open questions, and the remaining anomalies are findings about the code with no decision attached to them.
+
 ## Priorities
 Ordered by what the delivery makes load-bearing and by where the code concentrates its weight. The order drives the Excavation reading, and states per area what that reading must settle.
 
