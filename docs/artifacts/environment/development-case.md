@@ -47,7 +47,8 @@ stop
 | 26 agent roles are available; there is no human writing team, only human gates | Roles execute rather than coordinate; no ceremony whose value is human communication is retained |
 | The existing system carries a CI workflow, central package management and a test project | These are tool references, not work items — each is owned by its role and cited by path |
 | No running installation, no production data, no users (`Source: .iari/README.md`) | No migration, no backward-compatibility obligation, no deployment history to preserve |
-| The system is not run in any phase, by the stakeholder's decision of 2026-11-14 | No risk is retired, no claim verified and no pin confirmed by observation. Every recovered element rests on reading, and what reading cannot settle stays declared as read but not observed, carried as accepted risk |
+| The sprint zero is read-only — no process is run in Survey, Excavation or Consolidation, by the stakeholder's decision of 2026-11-14 | In those three milestones no risk is retired, no claim verified and no pin confirmed by observation. Every recovered element rests on reading, and what reading cannot settle stays declared as read but not observed, carried as accepted risk until the RUP phases start |
+| The repository's pipeline builds the solution and runs its test suites once the RUP phases start | From Inception on, a build or test result is available evidence: a phase may settle a claim by one and a risk may be retired by one. The sprint-zero read-only property stops at Consolidation |
 | The authors cannot be consulted (`Source: .iari/README.md`) | Every recovered element cites the file and lines it was read from; nothing is attributed to intent |
 
 ### Classification
