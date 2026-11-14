@@ -1098,3 +1098,12 @@ Every fact above has a row here. A fact whose anchor is a stakeholder answer nam
 | The perimeter is confirmed at the System Boundary Confirmed milestone and there is no second confirmation at Consolidation's start | Stakeholder answer, 2026-11-14, SBC review ("I confirm the perimeter now, at this milestone. There is no second confirmation at the start of Consolidation") |
 | The README claims the code contradicts — the Swagger UI it no longer serves, the providers it does not enable by default, the rate limit it never states, the badge repository name | `README.md`; `Todo.Api/Program.cs`; `Directory.Packages.props`; `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`; `Todo.Api/Extensions/RateLimitExtensions.cs`; commit `3308193` |
 
+### Provenance rows corrected this reading
+
+| Fact | Anchor |
+|---|---|
+| `docs/artifacts/environment/development-case.md` is 20371 bytes | SCM file metadata, 2026-11-14 |
+| The Development Case is revised within every iteration of this phase; the path's listing shows revisions at Survey 1, Survey 2, Survey 3 and Survey 4, the most recent `b5a8965`, and reports older history beyond the listing | `scm_list_commits` over `docs/artifacts/environment/development-case.md`, 2026-11-14 |
+| `docs/artifacts/project-management/risk-list.md` is 37006 bytes, `iteration-plan.md` 42585 bytes, `review-record.md` and `iteration-assessment.md` not measured | SCM file metadata, 2026-11-14 |
+| The two process-management records were opened as files at this reading, to check the statements each quotes from this artifact; opening them changed no fact this artifact records about the system | `docs/artifacts/project-management/risk-list.md`, `docs/artifacts/project-management/iteration-plan.md` |
+
