@@ -650,16 +650,6 @@ The rows below were found by opening the files the first reading left unread or 
 | The API's root route redirects to a Development-only page while its OpenAPI document is served in every environment | `Todo.Api/Program.cs` maps `"/"` to `Results.Redirect("/scalar/v1")` unconditionally, but `MapScalarApiReference` sits inside `if (app.Environment.IsDevelopment())`, while `app.MapOpenApi()` sits outside it | Certain | Low: outside Development `/` redirects to a route that is not mapped, and the API's schema is published at `/openapi` whether or not that is intended |
 | The API can be run with no database at all | `README.md` instructs running `Todo.Api` standalone for its Swagger UI; `Todo.Api/Program.cs` contains no migration or `EnsureCreated` call, and the database is created only by the AppHost and only when `.db` is absent (`TodoApp.AppHost/Extensions.cs`) | Certain | Medium: the standalone path the README documents is the one path on which the schema is never created, so a reader following the README reaches a failing `/todos` call |
 
-### Absences and the decisions the reading cannot make
-
-Absences recorded as findings rather than filled in: no architecture description, no ADR, no deployment instruction, no data dictionary, no API contract document, no operational runbook, no user guide, and no author to ask (`Source: .iari/README.md`).
-
-Three of the rows above are not defects to be fixed by preference but scope decisions only the stakeholder holds, and each changes what later phases may assume:
-
-- `[SCOPE_QUESTION — the `admin` role: the authorization rules in `Todo.Api/Todos/TodoApi.cs` implement an owner-or-admin override, but nothing in the delivered system can produce the `admin` claim. Is an administrator a capability of this product, or are those branches dead code to be recorded as such?]` Reading `Todo.Api/Program.cs` (no `AddRoles`, no seeding) and `Todo.Api.Tests/TokenService.cs` (the only claim producer) settles what the code does, not what the product is meant to have.
-- `[SCOPE_QUESTION — the four external identity providers: the code registers GitHub, Google, Microsoft and Auth0, and no delivered configuration supplies the sections that would enable any of them. Is external login part of this product's scope, or a dormant facility of the upstream sample?]` The answer decides whether Excavation recovers a use case for it or records the edge as configured-at-runtime only.
-- `[SCOPE_QUESTION — the BFF-to-API trust boundary: the API accepts a bearer token from any caller, and the code itself records the missing service-to-service authentication as a TODO. Is hardening this boundary in scope for this project, or is single-host deployment the accepted position?]` Security and integration boundary; it cannot be inferred from the code, which contains both the gap and its acknowledgement.
-
 ## Priorities
 Ordered by what the delivery makes load-bearing and by where the code concentrates its weight. The order drives the Excavation reading, and states per area what that reading must settle.
 
