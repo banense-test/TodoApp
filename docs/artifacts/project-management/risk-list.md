@@ -202,7 +202,7 @@ end note
 | R021 | The API's root maps a redirect to `/scalar/v1` unconditionally while `MapScalarApiReference` sits inside the Development branch, so outside Development `/` redirects to an unmapped route — and `/openapi` is published in every environment. | `Todo.Api/Program.cs` | 4 | 1 | 4 | Minor | avoid | SoftwareArchitect |
 
 ## Risk Mitigation and Contingency
-Every risk carries a mitigation — action the named owner takes — and, where acceptance or avoidance is chosen, a contingency: what happens if it materializes anyway. No acceptance above the Moderate band is outstanding, so nothing here awaits the stakeholder's grant.
+Every risk carries a mitigation — action the named owner takes — and a contingency: what happens if it materializes anyway. No risk in the High or Significant band rests on acceptance the Project Manager granted himself, so nothing here awaits the stakeholder's grant.
 
 ### Stakeholder grant — acceptance of the High-band risks
 
@@ -296,6 +296,8 @@ These three were put to the stakeholder on 2026-11-14 and answered. Their answer
 | R012 | Moderate | "Record it as a known limitation of the single-host baseline and carry it into the Risk List, out of scope for this cycle." | SoftwareArchitect records the boundary as an accepted limitation of single-host deployment in the SAD, and the Deployment Model states that deployment beyond one host requires service-to-service authentication first. | Deployment beyond a single host is blocked until a Change Request adds service-to-service authentication. |
 
 ### Accepted risks within the Project Manager's authority
+
+Each sits at Minor or Moderate, where acceptance is the Project Manager's to take.
 
 | Risk | Band | Mitigation | Contingency if it materializes |
 |---|---|---|---|
