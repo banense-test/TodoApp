@@ -791,39 +791,94 @@ I did not re-adjudicate any lens finding. Where a record quotes its evidence, th
 
 ## Resolutions and Actions
 ### Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-#### Closure ledger
+<!-- review: Survey I2 -->
 
-No prior finding exists from this lens: this is Survey iteration 1 and there is no earlier milestone. `read_artifact_findings` returned an empty list for all four artifacts, so nothing is resolved, deferred or rejected here.
+#### Closure ledger — the seven findings this lens carried in
 
-| Finding | Owner | Severity | Holds the milestone | Closes when |
-|---|---|---|---|---|
-| Development Case F1 — `CONTRIBUTING.md` cited, absent | Process Engineer | Major | Yes | The Tool references row is replaced with the files that actually govern, or a standard is authored under a Change Request |
-| System Inventory F1 — package-pin tally short by two | Software Archaeologist | Major | Yes | Both occurrences read 30, and the Provenance row is corrected |
-| Iteration Plan F1 — SBC criterion 1 claims an unevidenced confirmation | Project Manager | Major | Yes | Criterion 1 is restated to what SBC gates, and G2 is cited as the confirmation point |
-| Development Case F2 — ownership drawn as classes | Process Engineer | Minor | No | Redrawn when the artifact is next revised — tracked as R025 |
-| System Inventory F2 — `RateLimitExtensions.cs` marked read and unread | Software Archaeologist | Minor | No | The "(unread)" qualifier is dropped |
-| Risk List F1 — R018 mitigation writes into another role's artifact | Project Manager | Minor | No | The mitigation splits supplying the values from recording them |
-| Iteration Plan F2 — R023 absent from the risk-retirement map | Project Manager | Minor | No | A carried-accepted line accounts for the remaining risk |
+Each was re-tested against the corrected text **and** the file the correction cites, then closed by the tool call that materializes the state change. The table records what was verified; the calls were applied before this entry was written.
 
-#### Actions, in the order they gate the milestone
+| Finding | Severity | Correction found in the artifact | Closed |
+|---|---|---|---|
+| Development Case F1 — `CONTRIBUTING.md` cited, absent | Major | Tool references now names `Directory.Build.props` and `Directory.Packages.props` with `global.json`, and states no written standard exists | Resolved |
+| Development Case F2 — ownership drawn as class elements | Minor | Component and artifact view with dashed work-assignment arrows; ownership stated in prose and flagged as such in a note | Resolved |
+| System Inventory F1 — pin tally 28 against 30 | Major | 30 in Technology and Size, in Configuration read as documentation, and in Provenance; re-counted against the file | Resolved |
+| System Inventory F2 — `RateLimitExtensions.cs` read and unread | Minor | The "(unread)" qualifier is gone; Coverage is the single authority on what was read | Resolved |
+| Risk List F1 — R018 writes into another role's artifact | Minor | Supply separated from recording: Software Architect establishes and supplies, System Analyst records | Resolved |
+| Iteration Plan F1 — criterion 1 claims an unevidenced confirmation | Major | Criterion restated to recorded-and-put; G2 named as the confirmation point with its reason; the three answers denied as confirmation | Resolved |
+| Iteration Plan F2 — R023 absent from the retirement map | Minor | All 26 accounted for, 17 + 1 + 8, with R023 named in the carried-accepted list and in the diagram | Resolved |
 
-The three Majors are the only things standing between this iteration and its sanction. Each is a correction inside one artifact, and each is small — none of them requires re-deriving content, and none needs a further iteration to close.
+No finding of this lens persists into this iteration. The two findings recorded this iteration are new defects in the corrected text, not old ones re-recorded — each has its own finding key because neither existed when iteration 1 closed.
 
-1. **Software Archaeologist** — correct "28 pins" to "30 pins" in Technology and Size and in Configuration read as documentation, and in the matching Provenance row. The pin values themselves are right and need no change. This is the correction with the widest reach: the Software Architect anchors the SAD to that pin set.
-2. **Process Engineer** — replace the `CONTRIBUTING.md` row in Tool references with `Directory.Build.props` and `Directory.Packages.props` as the compiler-enforced conventions, owner Software Architect. This discharges R006 two milestones early, which is the right direction: the Code Reviewer is a lens of the very next milestone review and is currently pointed at a file that is not there.
-3. **Project Manager** — restate Iteration Plan criterion 1 to record the perimeter as *recorded, anchored and put to the stakeholder*, with the three scope answers cited as disposing of three specific facts, and cite G2 at Consolidation 1's start as where the perimeter is confirmed. **G2 does not move** — Excavation deepens the perimeter, so confirming it before that reading would confirm an incomplete record.
+```plantuml
+@startuml
+title Closure reconciliation — the 7 findings of this lens carried into Survey iteration 2
+skinparam shadowing false
 
-The four Minors are recorded and fixable in each owner's next turn. None holds the milestone and each artifact is approved by default on its Minors.
+state "Open at the start of the iteration" as OPEN
+state "Resolved — correction verified in the artifact" as RES
+state "Persisting — re-recorded under its findingKey" as PERSIST
 
-#### What is not an action
+state OPEN {
+  state "Development Case F1 Major\nCONTRIBUTING.md cited, absent" as A1
+  state "Development Case F2 Minor\nownership drawn as class elements" as A2
+  state "System Inventory F1 Major\npin tally 28 against 30" as A3
+  state "System Inventory F2 Minor\nRateLimitExtensions.cs read and unread" as A4
+  state "Risk List F1 Minor\nR018 writes into another role's artifact" as A5
+  state "Iteration Plan F1 Major\ncriterion 1 claims a confirmation" as A6
+  state "Iteration Plan F2 Minor\nR023 absent from the retirement map" as A7
+}
 
-Three classes of thing were considered and deliberately not raised as findings, recorded here so the omission is a decision rather than an oversight:
+[*] --> OPEN
 
-- **Risk scores.** R011's Impact 4 and R002's Probability 5 are judgements, and the Iteration Plan states explicitly that disagreement with a score does not fail the milestone. What must hold — that every magnitude is the band of its own exposure, and that no High or Significant risk rests on acceptance nobody granted — does hold. Reviewed and not contested.
-- **The Iteration Assessment's absence.** It is written by the Project Manager after this verdict and does not gate the phase. Its absence is correct and is not a finding.
-- **The empty trace graph.** `model_generate_rtm` and `get_trace_chain` both return no links. That is correct for a recovery phase: nothing recovered from the existing system has an upstream, so no link is registerable yet. The anchors verified above are what Excavation's recovered elements will hang from. No `trace-gap` finding arises, and the Risk List's 25 empty `Traces From` rows are the correct form for recovery elements, not a defect.
+A1 --> RES : Tool references now name Directory.Build.props\nand Directory.Packages.props, no written standard claimed
+A2 --> RES : component and artifact view, work assignments\nnot ownership
+A3 --> RES : 30 pins in all three places, re-counted\nagainst Directory.Packages.props
+A4 --> RES : the (unread) qualifier is gone
+A5 --> RES : supply separated from recording,\nSystem Analyst records
+A6 --> RES : criterion 1 restated, G2 named as\nwhere the perimeter is confirmed
+A7 --> RES : all 26 risks accounted for, R023 named
+
+note right of RES
+  A resolution is the tool call, not a sentence:
+  resolve_artifact_finding was applied to each of
+  the seven before this entry was written.
+end note
+
+RES --> [*]
+PERSIST --> [*]
+
+note bottom of PERSIST
+  No iteration-1 finding of this lens persists.
+  The two findings recorded this iteration are new
+  defects in the corrected text, not old ones.
+end note
+@enduml
+```
+
+#### Open findings and their actions
+
+| Finding | Artifact | Severity | Owner | Holds the milestone | Action |
+|---|---|---|---|---|---|
+| System Inventory F3 — Provenance counts 58 into a 57-file total | System Inventory | Minor | Software Archaeologist | No | Remove `RateLimitExtensions.cs` from the Provenance row's added-file list so it names the four the Coverage sentence names |
+| Risk List F2 — R023 cites a version policy the Development Case has no section for | Risk List | Minor | Project Manager | No | Cite what exists — the pins in `Directory.Packages.props`, owned by the Software Architect, raised by a Change Request — instead of a Development Case section that does not exist |
+
+Neither is owed before the milestone is ruled on. Both are corrections inside an artifact their owner already holds, each is a single sentence, and neither changes a single fact a later role builds on.
+
+#### What this lens deliberately did not raise
+
+Recorded so the omission is a decision rather than an oversight.
+
+- **The perimeter's content.** Twenty anchors have now been opened across the two iterations and every one but the pin tally — now corrected — says what the artifact claims. The stakeholder states nothing is missing from the perimeter. The content is not in dispute and re-verifying it would spend the gate's budget restating what iteration 1 established.
+- **Risk scores.** R002's probability 5 and R011's impact 4 are judgements. What must hold — that every magnitude is the band of its own exposure, and that no High or Significant risk rests on an acceptance nobody granted — holds across all 26 rows. The Iteration Plan states that disagreement with a score does not fail the milestone, and this lens concurs.
+- **The Iteration Assessment's state.** The Project Manager writes it after the Review Coordinator's verdict. At this point in the lens sequence it cannot describe this iteration, and its content — iteration 1 assessed against a refused sanction — is correct for what it can describe.
+- **The empty trace graph.** `model_generate_rtm` returns no links, correctly: Survey declares no element family from the trace chain, and nothing recovered from the existing system has an upstream. A blank graph at SBC is the right shape, not a `trace-gap`. The Risk List's 26 empty `Traces From` rows are the right form for recovered elements.
+- **The two iterations' rework cost.** Corrective iterations leave rework unmeasured until the phase closes. No figure is projected and none is invented.
+
+#### Pull requests
+
+`scm_list_pull_requests` over all states returns none. No branch carries work, no scaffolding awaits approval, nothing needs deferring out of phase, and no code-review evidence is withheld on those grounds. Survey produces no source code, so an empty pull-request set is the correct shape for this milestone rather than a gap.
 
 ### Management Reviewer lens
 <!-- review: Survey I1 -->
