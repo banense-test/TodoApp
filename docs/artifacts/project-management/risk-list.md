@@ -319,8 +319,7 @@ Each sits at Minor or Moderate, where acceptance is the Project Manager's to tak
 | R021 | Minor | The Software Architect records the Development-only mapping in the SAD's mechanisms section. | An unmapped `/` outside Development is answered from the recorded behaviour. |
 
 ## Traceability
-
-Every risk here is carried from an anomaly of the System Inventory, which is a reading of the existing system: its anchor is the source row cited in the register, and it has no declared upstream.
+Every risk here is carried from an anomaly of the System Inventory, which is a reading of the existing system: its anchor is the source row cited in the register, and it has no declared upstream. R026 is the exception — it is the bound the Iteration Plan's stakeholder gates rely on, and it is carried from those gates.
 
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
@@ -349,3 +348,5 @@ Every risk here is carried from an anomaly of the System Inventory, which is a r
 | R023 | — | — | — |
 | R024 | — | — | — |
 | R025 | — | — | — |
+| R026 | — | — | — |
+
