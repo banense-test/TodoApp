@@ -87,8 +87,7 @@ STRAT --> GRANT : accept of High or Significant needs
 Both High-band risks — R001 and R009 — are disposed of by `avoid`, because an artifact this process already produces retires each of them: the Test Case and the recovered Use-Case Model respectively. No risk in the High or Significant band rests on the Project Manager's own acceptance, so no acceptance is asked of the stakeholder this round. The three risks whose strategy is `accept` at Moderate — R007, R008 and R012 — were each put to the stakeholder on 2026-11-14 and their answers are cited in Risk Mitigation and Contingency.
 
 ## Risk Register
-
-Every risk below is an anomaly or a declared coverage limit of the System Inventory, carried with its anchor. Each names the role that acts on it. Exposure is probability × impact; magnitude is the band of that exposure.
+Every risk below is an anomaly, or a declared coverage limit, of the System Inventory, carried with its anchor and scored for this project. Each names the owner that acts on it.
 
 ```plantuml
 @startuml
@@ -117,26 +116,27 @@ package "Request pipeline" {
 }
 
 note right of A
-  Highest band: High — R001 at exposure 20,
-  R017 at 15. The only area carrying a trust
-  boundary, and it has no automated evidence
+  Carries both High-band risks: R001 at 16
+  and R017 at 12 Significant. This is the
+  only area holding a trust boundary, and
+  it is the area no automated test covers
 end note
 note right of B
   Highest band: Significant — R003, R004
   and R005 at 12 each. Each limits what a
-  green CI run proves
+  green CI run can be taken to prove
 end note
 note bottom of C
-  Highest band: Significant, R006 at 10
-  Nothing here changes the shape of the plan
+  Highest band: Moderate, R006 and R023 at 6
+  No entry here changes the shape of the plan
 end note
 note bottom of D
   Highest band: High, R009 at 15 — a recovered
-  API capability with no screen
+  API capability with no screen reaching it
 end note
 note bottom of E
   Highest band: Significant, R018 at 10 —
-  both values recorded, no action on the plan
+  both threshold sets recorded, no plan change
 end note
 @enduml
 ```
@@ -145,42 +145,42 @@ end note
 
 | ID | Risk | Anchor | P | I | Exposure | Magnitude | Strategy | Owner |
 |---|---|---|---|---|---|---|---|---|
-| R001 | No automated test covers `Todo.Web.Server`. The `/auth/*` contract, the cookie-to-Bearer translation and the external-login dance — the area with the most commits in the repository and the only trust boundary in the system — are verified by nothing. A change to the login path, or to how every `/todos` call is authenticated, can break the only working entry into the product while the CI gate stays green. | `TodoApp.sln` — the one test project references `Todo.Api` only, not `Todo.Web.Server` | 4 | 5 | 20 | High | accept | TestDesigner |
-| R007 | The `admin` role has no runtime producer, so the owner-or-admin branches of `GET/PUT/DELETE /todos/{id}` are dead in the delivered system. Any work that assumes an administrator exists rests on a capability nothing produces. | `Todo.Api/Program.cs` (`AddIdentityCore` with no `AddRoles`); `Todo.Api/Authorization/CurrentUser.cs`; only `Todo.Api.Tests/TokenService.cs` mints the claim | 1 | 5 | 5 | Moderate | accept | SoftwareArchitect |
-| R008 | The four external identity providers are registered only when their configuration section exists, and no delivered `appsettings` supplies one, so external login is dormant. The endpoints stand with no recovered use case behind them. | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`; both `Todo.Web/Server` appsettings files | 2 | 3 | 6 | Moderate | accept | SystemAnalyst |
-| R012 | Nothing binds an API call to the BFF: the API accepts any request carrying a valid Identity bearer token, and both hosts share a data-protection key ring under the discriminator `TodoApp`. A holder of a valid token, or of that key ring, reaches `Todo.Api` directly and skips every check the BFF performs. | `Todo.Api/Users/UsersApi.cs` TODO; `Todo.Api/Program.cs`; `Todo.Web/Server/Program.cs` | 1 | 5 | 5 | Moderate | accept | SoftwareArchitect |
-| R015 | The external-login path derives the account name from the provider's email claim with `Identity.Name` as fallback, both null-forgiven against a `[Required]` field, and reports failure as a redirect to `/` — so a failed external login is indistinguishable from a cancelled one. | `Todo.Web/Server/AuthApi.cs` — "TODO: We should have the user pick a user name", "TODO: Handle the failure somehow" | 1 | 4 | 4 | Minor | accept | Designer |
-| R016 | The API's authorization gate succeeds whenever the caller resolves from the store and asks nothing about lock-out. Whether a locked account keeps reaching `/todos` is undetermined, and the code records the gap itself. | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs` — "TODO: Check user if the user is locked out as well" | 3 | 3 | 9 | Significant | avoid | SoftwareArchitect |
-| R017 | Logout signs out only the cookie; the remote sign-out is commented out and the API exposes no revocation endpoint, so the bearer token inside the discarded cookie survives the logout until it expires. Any recovered logout use case overstates what the system does. | `Todo.Web/Server/AuthApi.cs` — "TODO: Support remote logout" | 3 | 5 | 15 | High | accept | SystemAnalyst |
+| R001 | No automated test covers `Todo.Web.Server`. The `/auth/*` contract, the cookie-to-Bearer translation and the external-login dance — the most committed area in the repository and its only trust boundary — are verified by nothing, so a change to the login path can break the only working entry into the product while CI stays green. | `TodoApp.sln` — the one test project references `Todo.Api` only, not `Todo.Web.Server` | 4 | 4 | 16 | High | avoid | TestDesigner |
+| R017 | Logout signs out only the cookie: the remote sign-out is commented out and the API exposes no revocation endpoint, so the bearer token inside the discarded cookie survives the logout until it expires. A recovered logout use case that does not say so would overstate the guarantee. | `Todo.Web/Server/AuthApi.cs` — "TODO: Support remote logout" | 4 | 3 | 12 | Significant | avoid | SystemAnalyst |
+| R016 | The API's authorization gate succeeds whenever the caller resolves from the store and asks nothing about lock-out, so whether a locked account keeps reaching `/todos` is undetermined — and the code records the gap itself. | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs` — "TODO: Check user if the user is locked out as well" | 3 | 3 | 9 | Significant | avoid | SoftwareArchitect |
+| R012 | Nothing binds an API call to the BFF: the API accepts any request carrying a valid Identity bearer token, and both hosts share a data-protection key ring under the discriminator `TodoApp`. A holder of a valid token, or of that key ring, reaches `Todo.Api` directly and skips every check the BFF performs. | `Todo.Api/Users/UsersApi.cs` TODO; `Todo.Api/Program.cs`; `Todo.Web/Server/Program.cs` | 1 | 5 | 5 | Moderate | accept — stakeholder grant, 2026-11-14 | SoftwareArchitect |
+| R007 | The `admin` role has no runtime producer, so the owner-or-admin branches of `GET/PUT/DELETE /todos/{id}` are dead in the delivered system. Work that assumes an administrator exists would rest on a capability nothing produces. | `Todo.Api/Program.cs` (`AddIdentityCore` with no `AddRoles`); `Todo.Api/Authorization/CurrentUser.cs`; only `Todo.Api.Tests/TokenService.cs` mints the claim | 1 | 2 | 2 | Low | accept — recorded as unreachable, stakeholder decision 2026-11-14 | SoftwareArchitect |
+| R008 | The four external identity providers register only when their configuration section exists, and no delivered `appsettings` supplies one, so external login is dormant and its endpoints have no recovered use case behind them. | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`; both `Todo.Web/Server` appsettings files | 2 | 2 | 4 | Minor | accept — configured-at-runtime only, stakeholder decision 2026-11-14 | SystemAnalyst |
+| R015 | The external-login path derives the account name from the provider's email claim with `Identity.Name` as fallback, both null-forgiven against a `[Required]` field, and reports failure as a redirect to `/`, so a failed external login is indistinguishable from a cancelled one. | `Todo.Web/Server/AuthApi.cs` — "TODO: We should have the user pick a user name", "TODO: Handle the failure somehow" | 2 | 2 | 4 | Minor | accept | Designer |
 
 ### The recovery's own evidence base
 
 | ID | Risk | Anchor | P | I | Exposure | Magnitude | Strategy | Owner |
 |---|---|---|---|---|---|---|---|---|
-| R002 | No process was run during the reading. Every perimeter, data and behaviour statement is read from source and configuration; the rate limiter's partition key under the real pipeline, the prerender path and the external-login dance are read, not observed. A recovered statement that is wrong in the code's runtime behaviour carries forward into the Use-Case Model and the architecture unchecked. | System Inventory, Coverage — "Runtime behaviour of any kind: no process was run" | 5 | 2 | 10 | Significant | avoid | SoftwareArchaeologist |
-| R003 | The test suite builds its schema with `EnsureCreated()` from the model, so the three committed migrations are exercised by nothing. A migration that no longer matches the model passes CI green and surfaces first at a real deployment. | `Todo.Api.Tests/TodoApplication.cs` | 3 | 4 | 12 | Significant | avoid | DatabaseDesigner |
-| R004 | The test suite asserts less than it appears to: field-level assertions are commented out in `UserApiTests`, and no test covers `PUT`'s `id != todo.Id` branch or the rate limiter. The CI gate is green but weaker than a reader would assume. | `Todo.Api.Tests/UserApiTests.cs` — "TODO: Follow up on the new errors" | 4 | 3 | 12 | Significant | avoid | TestManager |
-| R005 | Six files are declared unread, and one of them — `HttpAuthenticationStateProvider.cs` — blocks the login and logout scenarios. Recovering those use cases without it produces a state machine the code does not implement. | System Inventory, Coverage — declared unread | 4 | 3 | 12 | Significant | avoid | SystemAnalyst |
+| R003 | The test suite builds its schema with `EnsureCreated()` from the model, so the three committed migrations are exercised by nothing. A migration that no longer matches the model passes CI green and surfaces first at a real deployment. | `Todo.Api.Tests/TodoApplication.cs` | 4 | 3 | 12 | Significant | avoid | DatabaseDesigner |
+| R004 | The suite asserts less than it appears to: field-level assertions are commented out in `UserApiTests`, and no test covers `PUT`'s `id != todo.Id` branch or the rate limiter. The gate is green but weaker than a reader would assume. | `Todo.Api.Tests/UserApiTests.cs` — "TODO: Follow up on the new errors" | 4 | 3 | 12 | Significant | avoid | TestManager |
+| R005 | Six files are declared unread, and one — `HttpAuthenticationStateProvider.cs` — blocks the login and logout scenarios. Recovering those use cases without it produces a state machine the code does not implement. | System Inventory, Coverage — declared unread | 4 | 3 | 12 | Significant | avoid | SystemAnalyst |
+| R002 | No process was run during the reading. Every perimeter, data and behaviour statement is read from source and configuration; the rate limiter's partition key under the real pipeline, the prerender path and the external-login dance are read, not observed. A statement wrong about runtime behaviour carries into the Use-Case Model and the architecture unchecked. | System Inventory, Coverage — "Runtime behaviour of any kind: no process was run" | 5 | 2 | 10 | Significant | avoid | SoftwareArchaeologist |
 | R011 | The rate limiter partitions on `ClaimTypes.NameIdentifier` read with the null-forgiving operator, and `Todo.Api/Program.cs` writes no explicit `UseAuthentication()` before it. Whether the bucket is per-user or global is decided by implicit middleware order, settled only by running the API — and the README advertises per-user limiting. | `Todo.Api/Extensions/RateLimitExtensions.cs`; `Todo.Api/Program.cs` | 2 | 4 | 8 | Moderate | avoid | SoftwareArchitect |
 
 ### Structure, documentation and build
 
 | ID | Risk | Anchor | P | I | Exposure | Magnitude | Strategy | Owner |
 |---|---|---|---|---|---|---|---|---|
-| R006 | `CONTRIBUTING.md` is cited as the coding standard by the Development Case but does not exist, leaving the Software Architect and the Code Reviewer assigned an artifact that is not there. Conventions must be read off the code or re-authored. | `docs/artifacts/environment/development-case.md` Tool references; a read of `CONTRIBUTING.md` fails | 2 | 5 | 10 | Significant | avoid | ProcessEngineer |
+| R006 | `CONTRIBUTING.md` is cited as the coding standard by the Development Case but does not exist, leaving the Software Architect and the Code Reviewer assigned an artifact that is not there, so conventions must be read off the code or re-authored. | `docs/artifacts/environment/development-case.md` Tool references; a read of `CONTRIBUTING.md` fails | 2 | 3 | 6 | Moderate | avoid | ProcessEngineer |
 | R014 | The dev container pins SDK 8.0 while `global.json` requires 9.0.100 with `rollForward: latestFeature`; roll-forward does not bridge a major version, so the container cannot build the solution. | `.devcontainer/devcontainer.json`; `global.json` | 3 | 2 | 6 | Moderate | avoid | Integrator |
-| R022 | `.iari/README.md` states the only document is the root `README.md`, while `docs/` now holds the Development Case and the System Inventory. The delivery statement under-describes the tree it sits in. | `.iari/README.md`; tree listing | 5 | 1 | 5 | Moderate | avoid | TechnicalWriter |
 | R023 | `RazorLangVersion` is pinned at 8.0 while the target framework is `net9.0`. It builds as delivered; a Razor feature introduced after .NET 8 is unavailable in that project, and raising it is a behaviour change. | `Todo.Web/Server/Todo.Web.Server.csproj` | 3 | 2 | 6 | Moderate | accept | SoftwareArchitect |
+| R022 | `.iari/README.md` states the only document is the root `README.md`, while `docs/` now holds the Development Case and the System Inventory, so the delivery statement under-describes the tree it sits in. | `.iari/README.md`; tree listing | 5 | 1 | 5 | Moderate | avoid | TechnicalWriter |
 | R024 | The `README.md` badge links a differently-named repository (`davidfowl/TodoApi`) while the project is `TodoApp`. External link only. | `README.md`; commit `3308193` | 5 | 1 | 5 | Moderate | avoid | TechnicalWriter |
-| R025 | The Development Case expresses role and artifact ownership with class elements and arrows in a class diagram; downstream roles read that artifact as their process authority. | `docs/artifacts/environment/development-case.md`, Roles and Ownership | 5 | 1 | 5 | Moderate | avoid | ProcessEngineer |
+| R025 | The Development Case expresses role and artifact ownership with class elements and arrows in a class diagram, and downstream roles read that artifact as their process authority. | `docs/artifacts/environment/development-case.md`, Roles and Ownership | 5 | 1 | 5 | Moderate | avoid | ProcessEngineer |
 
 ### Todos surface, client and data lifecycle
 
 | ID | Risk | Anchor | P | I | Exposure | Magnitude | Strategy | Owner |
 |---|---|---|---|---|---|---|---|---|
-| R009 | A delivered API capability has no user-facing entry point: `PUT /todos/{id}` writes `IsComplete`, while `TodoList.razor` renders a checkbox with no `@bind` and `TodoClient` exposes no update call. A use case recovered from the API would have a screen trace on the API side only. | `Todo.Api/Todos/TodoApi.cs`; `Todo.Web/Client/Components/TodoList.razor`; `Todo.Web/Client/TodoClient.cs` | 3 | 5 | 15 | High | accept | SystemAnalyst |
-| R010 | The API can be run with no database at all: no migration or `EnsureCreated` call exists inside `Todo.Api`, and the database is created only by the AppHost when `.db` is absent — yet the `README.md` documents the standalone run. A reader following the README reaches a failing `/todos` call. | `README.md`; `Todo.Api/Program.cs`; `TodoApp.AppHost/Extensions.cs` | 4 | 2 | 8 | Moderate | avoid | Integrator |
-| R013 | The EF model snapshot declares `ProductVersion` 8.0.0 against 9.0.8 package pins, with no migration since 2023. The next `dotnet ef migrations add` may produce a snapshot diff unrelated to the intended change. | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs`; `Directory.Packages.props` | 2 | 3 | 6 | Moderate | avoid | DatabaseDesigner |
+| R009 | A delivered API capability has no user-facing entry point: `PUT /todos/{id}` writes `IsComplete`, while `TodoList.razor` renders a checkbox with no `@bind` and `TodoClient` exposes no update call. A use case recovered from the API alone would claim a screen that cannot reach it. | `Todo.Api/Todos/TodoApi.cs`; `Todo.Web/Client/Components/TodoList.razor`; `Todo.Web/Client/TodoClient.cs` | 5 | 3 | 15 | High | avoid | SystemAnalyst |
+| R010 | The API can be run with no database at all: no migration or `EnsureCreated` call exists inside `Todo.Api`, and the database is created only by the AppHost when `.db` is absent — yet the `README.md` documents the standalone run, so a reader following it reaches a failing `/todos` call. | `README.md`; `Todo.Api/Program.cs`; `TodoApp.AppHost/Extensions.cs` | 4 | 2 | 8 | Moderate | avoid | Integrator |
+| R013 | The EF model snapshot declares `ProductVersion` 8.0.0 against 9.0.8 package pins, with no migration since 2023, so the next `dotnet ef migrations add` may produce a snapshot diff unrelated to the intended change. | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs`; `Directory.Packages.props` | 2 | 3 | 6 | Moderate | avoid | DatabaseDesigner |
 | R019 | Server-side prerendering returns an empty list with status OK, so a first paint shows an empty task list rather than an error or a spinner. | `Todo.Web/Client/TodoClient.cs` — "This is a hack from hell" | 5 | 1 | 5 | Moderate | accept | Designer |
 | R020 | `EntityFrameworkCore.InMemory` is pinned, referenced and never used, so a reader assuming that provider misjudges what the suite proves — it exercises real SQLite semantics, which is stronger. | `Todo.Api.Tests/Todo.Api.Tests.csproj`; `Todo.Api.Tests/TodoApplication.cs` | 5 | 1 | 5 | Moderate | avoid | TestManager |
 
@@ -188,7 +188,7 @@ end note
 
 | ID | Risk | Anchor | P | I | Exposure | Magnitude | Strategy | Owner |
 |---|---|---|---|---|---|---|---|---|
-| R018 | Two rate-limit thresholds exist and neither is documented: code defaults are 100/100/100 with a 10-second replenishment, while only `appsettings.Development.json` sets 50/50/50. The effective limit differs by environment and no document states either. | `Todo.Api/Extensions/RateLimitExtensions.cs`; `Todo.Api/appsettings.json`; `Todo.Api/appsettings.Development.json` | 5 | 2 | 10 | Significant | avoid | SoftwareArchitect |
+| R018 | Two rate-limit thresholds exist and neither is documented: code defaults are 100/100/100 with a 10-second replenishment, while only `appsettings.Development.json` sets 50/50/50, so the effective limit differs by environment and no document states either. | `Todo.Api/Extensions/RateLimitExtensions.cs`; `Todo.Api/appsettings.json`; `Todo.Api/appsettings.Development.json` | 5 | 2 | 10 | Significant | avoid | SoftwareArchitect |
 | R021 | The API's root maps a redirect to `/scalar/v1` unconditionally while `MapScalarApiReference` sits inside the Development branch, so outside Development `/` redirects to an unmapped route — and `/openapi` is published in every environment. | `Todo.Api/Program.cs` | 4 | 1 | 4 | Minor | avoid | SoftwareArchitect |
 
 ## Risk Mitigation and Contingency
