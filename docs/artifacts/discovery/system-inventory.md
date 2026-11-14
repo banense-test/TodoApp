@@ -903,3 +903,11 @@ Two statements in Anomalies rest on reading alone and are marked as such there r
 | The README badge links `davidfowl/TodoApi`; the rename to `TodoApp` is `3308193` | `README.md`; commit `3308193` |
 | Anomaly table, priority order and the three scope questions | This reading — the evidence column of each row is its anchor; the order and the questions are the Software Archaeologist's judgement over that evidence and are answered by the stakeholder, not by a file |
 
+### Anchors added by the stakeholder decisions of 2026-11-14
+
+| Fact | Anchor |
+|---|---|
+| The `admin` branches are unreachable in the delivered system and role provisioning is out of scope for this cycle | Stakeholder answer, 2026-11-14 (question raised against `Todo.Api/Todos/TodoApi.cs`, `Todo.Api/Authorization/CurrentUser.cs`, `Todo.Api/Program.cs`, `Todo.Api.Tests/TokenService.cs`) |
+| External login is a configured-at-runtime edge; no external-login use case is recovered this cycle; revisit if credentials are supplied | Stakeholder answer, 2026-11-14 (question raised against `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`, both `Todo.Web/Server` appsettings files, `README.md`) |
+| The BFF-to-API trust boundary is a known limitation of the single-host baseline, out of scope for this cycle, carried into the Risk List | Stakeholder answer, 2026-11-14 (question raised against `Todo.Api/Users/UsersApi.cs` TODO, `Todo.Api/Program.cs`, `Todo.Web/Server/Program.cs`) |
+
