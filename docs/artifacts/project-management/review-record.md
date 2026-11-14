@@ -355,6 +355,98 @@ end note
 @enduml
 ```
 
+#### Iteration Plan
+
+Reviewed at SBC. Project Management discipline, Survey. Verdict: Approved with changes — one Major, one Minor.
+
+##### What the plan gets right
+
+| Checklist item | Verdict |
+|---|---|
+| No role or artifact named that the Survey process does not run | Pass |
+| Milestone order matches the process's phase sequence | Pass |
+| No invented size, token budget, forecast or calendar date | Pass |
+| Parallelism not claimed where the chain is sequentially dependent | Pass |
+| Every exit criterion gates the milestone it names | **Fail — F1** |
+| The risk-retirement map accounts for every scored risk | **Fail — F2** |
+| Both clocks reported apart and never summed | Pass |
+
+The plan's discipline on measurement is correct and worth recording: no work item carries a size, the gantt's bars are explicitly declared to be the renderer's unit step and not durations, no project start date is given because none has been measured, and human gates carry a 14-day ceiling with estimate none. The plan states plainly that it declares no token budget and cuts no declared scope to fit an estimate. That is the right behaviour and it is executed without hedging.
+
+The critical-chain reasoning also holds: six sequential agent stretches plus one gate, each link consuming the one before it, is the correct reading of a chain whose links are data dependencies.
+
+##### F1 — Major — criterion 1 claims a confirmation nothing at SBC asks for
+
+Criterion 1 reads: "The perimeter of the existing system is **confirmed by the stakeholder**", evidenced by "the three scope facts put to the stakeholder and answered 2026-11-14".
+
+Two things are wrong. First, the evidence does not support the claim: the three answers disposed of the `admin` role, the dormant external providers and the BFF-to-API boundary — three facts. They confirm nothing about the seven projects, the entry-point surface, the stores or the external systems, which is what "the perimeter" means. Second, the plan schedules the gate that does confirm the perimeter **two milestones after the SBC it is supposed to gate**: "G2 stakeholder confirms the perimeter happens at Consolidation 1's start".
+
+The plan contradicts itself here. Its own roadmap row for SBC states the weaker and correct condition — "The perimeter of the existing system is **recorded and put to the stakeholder**" — so the milestone description and the exit criterion disagree about whether confirmation is required at SBC.
+
+This is a Major because an SBC exit criterion cannot be satisfied as written, and the milestone's sanction would rest on an unevidenced claim. Recommendation: restate criterion 1 as "the perimeter is recorded with an anchor per element, the reading priorities are ordered, and the three facts whose disposition is the stakeholder's have been put to the stakeholder and answered (2026-11-14)", and cite G2 at Consolidation 1's start as where the perimeter is confirmed. **Do not move G2 into SBC** — Excavation deepens the perimeter, so confirming it before that reading would confirm an incomplete record.
+
+##### F2 — Minor — R023 is missing from the risk-retirement map
+
+The roadmap's per-milestone retirement rows account for 24 of the 25 scored risks: AR carries 11, GHR 4, LCO 2, LCA 3, IOC 2, PR 2. **R023** (`RazorLangVersion` 8.0 under `net9.0`, Moderate, strategy `accept`) appears in none of them, and the plan's note "No risk above the Moderate band is carried into Construction or Transition" says nothing about a Moderate risk that is carried accepted.
+
+A reader tracing all 25 risks through the plan finds one that stops at the Risk List. Recommendation: add a line recording that R023 and the other accepted risks (R007, R008, R012, R015, R019) are carried on the acceptance recorded in the Risk List rather than disposed of by an artifact, so the plan accounts for all 25. No schedule change follows.
+
+```plantuml
+@startuml
+title Iteration Plan — the six SBC exit criteria, each tested against what the artifacts actually evidence
+skinparam shadowing false
+skinparam componentStyle rectangle
+
+package "Criteria that hold" #PaleGreen {
+  component "2  Reading priorities ordered, each naming what the next reading must settle" as C2
+  component "3  Unread areas declared, not omitted" as C3
+  component "4  Every anomaly is a scored, banded, owned, disposed risk" as C4
+  component "5  The process is tailored and the tailoring auditable" as C5
+}
+
+package "Criterion with a finding" #Orange {
+  component "1  Perimeter confirmed by the stakeholder — MAJOR F1: nothing at SBC asks for it; G2 that does is at Consolidation 1's start" as C1
+}
+
+package "Criterion whose wording is correct" #LightBlue {
+  component "6  The plan instantiates the process and schedules no work the phase does not run" as C6
+}
+
+note right of C1
+  The roadmap's own SBC row states the correct, weaker
+  condition — "recorded and put to the stakeholder" —
+  while criterion 1 claims "confirmed". The two disagree,
+  and the three scope answers cited as evidence disposed
+  of three facts, not of the perimeter.
+end note
+note right of C2
+  Verified: the eight priorities were read against the
+  System Inventory and each names an open question for
+  the next reading.
+end note
+note right of C3
+  Verified, and this is the criterion the plan itself
+  flags as the one that can fail. It holds — the
+  declared-unread groups are real and the two statements
+  marked read-not-observed are honest.
+end note
+note right of C4
+  Verified against the Risk List: 25 risks, each scored,
+  banded, owned and disposed.
+end note
+note bottom of C6
+  No role or artifact the plan names is outside the Survey
+  process. No size, no token budget, no forecast and no
+  calendar date is invented anywhere in the artifact — and
+  the gantt says so in its own note.
+end note
+@enduml
+```
+
+##### No pull requests to dispose
+
+`scm_list_pull_requests` over all states returns none: no branch carries work, no scaffolding awaits approval, and nothing needs to be deferred out of phase. There is also no IARI build to report — the pipeline file does not exist in the repository yet, which says nothing about the repository's own `ci.yaml`. Nothing in this iteration is a code-review or integration question, so no review evidence is withheld on those grounds.
+
 ## Resolutions and Actions
 
 
