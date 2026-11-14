@@ -525,7 +525,40 @@ end note
 `scm_list_pull_requests` over all states returns none: no branch carries work, no scaffolding awaits approval, and nothing needs to be deferred out of phase. There is also no IARI build to report — the pipeline file does not exist in the repository yet, which says nothing about the repository's own `ci.yaml`. Nothing in this iteration is a code-review or integration question, so no review evidence is withheld on those grounds.
 
 ## Resolutions and Actions
+### Reviewer lens
+<!-- review: Survey I1 -->
 
+#### Closure ledger
+
+No prior finding exists from this lens: this is Survey iteration 1 and there is no earlier milestone. `read_artifact_findings` returned an empty list for all four artifacts, so nothing is resolved, deferred or rejected here.
+
+| Finding | Owner | Severity | Holds the milestone | Closes when |
+|---|---|---|---|---|
+| Development Case F1 — `CONTRIBUTING.md` cited, absent | Process Engineer | Major | Yes | The Tool references row is replaced with the files that actually govern, or a standard is authored under a Change Request |
+| System Inventory F1 — package-pin tally short by two | Software Archaeologist | Major | Yes | Both occurrences read 30, and the Provenance row is corrected |
+| Iteration Plan F1 — SBC criterion 1 claims an unevidenced confirmation | Project Manager | Major | Yes | Criterion 1 is restated to what SBC gates, and G2 is cited as the confirmation point |
+| Development Case F2 — ownership drawn as classes | Process Engineer | Minor | No | Redrawn when the artifact is next revised — tracked as R025 |
+| System Inventory F2 — `RateLimitExtensions.cs` marked read and unread | Software Archaeologist | Minor | No | The "(unread)" qualifier is dropped |
+| Risk List F1 — R018 mitigation writes into another role's artifact | Project Manager | Minor | No | The mitigation splits supplying the values from recording them |
+| Iteration Plan F2 — R023 absent from the risk-retirement map | Project Manager | Minor | No | A carried-accepted line accounts for the remaining risk |
+
+#### Actions, in the order they gate the milestone
+
+The three Majors are the only things standing between this iteration and its sanction. Each is a correction inside one artifact, and each is small — none of them requires re-deriving content, and none needs a further iteration to close.
+
+1. **Software Archaeologist** — correct "28 pins" to "30 pins" in Technology and Size and in Configuration read as documentation, and in the matching Provenance row. The pin values themselves are right and need no change. This is the correction with the widest reach: the Software Architect anchors the SAD to that pin set.
+2. **Process Engineer** — replace the `CONTRIBUTING.md` row in Tool references with `Directory.Build.props` and `Directory.Packages.props` as the compiler-enforced conventions, owner Software Architect. This discharges R006 two milestones early, which is the right direction: the Code Reviewer is a lens of the very next milestone review and is currently pointed at a file that is not there.
+3. **Project Manager** — restate Iteration Plan criterion 1 to record the perimeter as *recorded, anchored and put to the stakeholder*, with the three scope answers cited as disposing of three specific facts, and cite G2 at Consolidation 1's start as where the perimeter is confirmed. **G2 does not move** — Excavation deepens the perimeter, so confirming it before that reading would confirm an incomplete record.
+
+The four Minors are recorded and fixable in each owner's next turn. None holds the milestone and each artifact is approved by default on its Minors.
+
+#### What is not an action
+
+Three classes of thing were considered and deliberately not raised as findings, recorded here so the omission is a decision rather than an oversight:
+
+- **Risk scores.** R011's Impact 4 and R002's Probability 5 are judgements, and the Iteration Plan states explicitly that disagreement with a score does not fail the milestone. What must hold — that every magnitude is the band of its own exposure, and that no High or Significant risk rests on acceptance nobody granted — does hold. Reviewed and not contested.
+- **The Iteration Assessment's absence.** It is written by the Project Manager after this verdict and does not gate the phase. Its absence is correct and is not a finding.
+- **The empty trace graph.** `model_generate_rtm` and `get_trace_chain` both return no links. That is correct for a recovery phase: nothing recovered from the existing system has an upstream, so no link is registerable yet. The anchors verified above are what Excavation's recovered elements will hang from. No `trace-gap` finding arises, and the Risk List's 25 empty `Traces From` rows are the correct form for recovery elements, not a defect.
 
 ## Disposition
 
