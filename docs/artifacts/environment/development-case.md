@@ -65,8 +65,37 @@ All active disciplines run at the **canonical matrix intensities** — no deviat
 - **Discovery — ACTIVE, sprint zero only** (Survey Critical, Excavation High, Consolidation Low). It concludes before Inception; nothing after Consolidation reads the System Inventory as a live artifact.
 - **Environment — Survey High, Inception High, Elaboration Medium.** Per the baseline, the tailoring is stable after the Elaboration baseline. No Environment work is planned in Construction or Transition; a process question raised there is answered here as support, without an iteration-level DC revision unless a finding or CR requires one.
 
-**No intensity changes because the system is never run.** The stakeholder's decision of 2026-11-14 removes one class of activity from every discipline — no stage validates anything by executing the system, and no risk is disposed of by observation. It does not move a single intensity level, because the levels are the matrix's and the reading-based activities they cover remain the work: Analysis & Design stays Critical in Excavation on recovered reading, and Test stays at its matrix level with execution confined to what the repository's own test project can run.
+**The read-only property is the sprint zero's, and it stops at Consolidation.** In Survey, Excavation and Consolidation no process is run: no stage there validates anything by executing the system and no risk is retired by observation, so what reading cannot settle stays declared as read but not observed and carried as accepted risk. That moves no intensity level, because the levels are the matrix's and the reading-based activities they cover are the work — Analysis & Design stays Critical in Excavation on recovered reading.
 
+**From Inception on the pipeline runs the solution.** The repository's CI pipeline builds it and executes its test suites, so from Inception a stage may settle a claim by a build or test result and a risk may be retired by one. Test intensity is the matrix's on that basis. The sprint-zero read-only property is not carried past Consolidation, and no artifact of this tailoring states it over the RUP phases.
+
+```plantuml
+@startuml
+title The no-observation constraint — its scope, and where it stops
+skinparam shadowing false
+
+start
+partition "Sprint zero — reading only" {
+  :Survey · Excavation · Consolidation;
+  :Every recovered element rests on a cited anchor;
+  :What reading cannot settle stays declared as read but not observed, carried as accepted risk;
+  note right
+    No process is run in these three milestones.
+    No risk is retired here by observation.
+  end note
+}
+partition "RUP phases — the pipeline runs the solution" {
+  :Inception · Elaboration · Construction · Transition;
+  :The CI pipeline builds the solution and runs its test suites;
+  :A phase may settle a claim by a build or test result;
+  note right
+    The two sprint-zero acceptances run until the first
+    build-and-test run, not for the life of the project.
+  end note
+}
+stop
+@enduml
+```
 ## Artifacts and Templates
 
 The CORE catalogue is the baseline's. This section records only the project's conventions and the sprint-zero artifact's role.
