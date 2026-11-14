@@ -324,9 +324,11 @@ The process runs four disciplines in Excavation, and every one of them has its r
 | Software Architect | Analysis & Design, Critical | Software Architecture Document — Components and Connectors · Mechanisms, Technology and Deployment | Software Architecture Document | R007, R011, R012, R016, R018, R021, R023 |
 | Designer | Analysis & Design, Critical | Design Model — Domain Model · Packages and Classes | Design Model | R015, R019 |
 | Database Designer | Analysis & Design, Critical | Persistent Data — Entities, Keys and Associations · Enforced Rules | Design Model — persistent-data sections (Data Model not fired) | R003, R013 |
-| System Analyst | Requirements, High | Use-Case Model · Business Rules in the Use-Case Flows · Vision | Use-Case Model, Vision | R005, R017 |
+| System Analyst | Requirements, High | Use-Case Model · Business Rules in the Use-Case Flows · Vision | Use-Case Model, Vision | R017 |
 | Software Archaeologist | Discovery, High | System Inventory — Anomalies · History and Coverage | System Inventory | R002 |
 | Project Manager | Project Management, Low | Risk List · Iteration Plan | Risk List, Iteration Plan, Iteration Assessment | R026 |
+
+The System Analyst recovers the login and logout scenarios this iteration from the delivered code and the Provenance record the second reading wrote — the file that blocked them was opened at Survey 2 — so no reading work is booked here for R005, which that record retired.
 
 ### Consolidation 1 — GHR
 
@@ -343,7 +345,7 @@ The process runs four disciplines in Excavation, and every one of them has its r
 
 Inception adds the Integrator (Build Environment Setup; R010, R014), the Change Control Manager (Change Request ledger), the Configuration Manager (CM strategy), the Test Manager (Test Plan not fired; Test Evaluation Summary; R004, R020) and the Deployment Manager. Elaboration adds the Test Designer (Test Case; **R001**), the Tester — who produces the build-and-test evidence that settles R011 and the observable statements of R002 — the Test Analyst, the Code Reviewer and the User Interface Designer. Construction adds the Implementer and, for the Technical Writer, R022 and R024. Transition is deployment and acceptance closure.
 
-**Every one of the 26 risks has its owner at work in the milestone whose row retires it.** The two roles whose first appearance is later than their risk's entry are the Test Manager, at work from LCA, and the Integrator, at work from IOC — and neither risk is one that AR or GHR claims as retired.
+**Every one of the 26 risks has its owner at work in the milestone that carries it**, whether that milestone retires the risk or carries it on the register's acceptance. The two roles whose first appearance is later than their risk's entry are the Test Manager, at work from LCA, and the Integrator, at work from IOC — and neither risk is one that AR or GHR claims as retired.
 
 **Stood down for the whole project**, per the Development Case classification: Business Process Analyst and Business Reviewer (`business-process-led = false`), Capsule Designer (`real-time-system = false`). They execute no stage in any iteration and sit on no gate.
 
@@ -355,17 +357,20 @@ The perimeter is not one of those gates. The stakeholder confirmed it at the SBC
 
 | Role | Discipline and intensity | Stage in this iteration | Produces | Risks owned |
 |---|---|---|---|---|
-| Software Archaeologist | Discovery, Critical | System Inventory — Coverage · Provenance | System Inventory — the Coverage closing statement narrowed to the sprint zero, and the Provenance row | R002 |
-| Project Manager | Project Management, Low | Risk List · Iteration Plan · Iteration Assessment | Risk List (the acceptance bound, the R023 citation), Iteration Plan (criterion 1, the gate list, the retirement map, the accounting), the assessment written after the verdict | R026 |
+| Software Archaeologist | Discovery, Critical | System Inventory — Coverage | System Inventory — the Coverage closing statement narrowed to the sprint zero | R002 |
+| Project Manager | Project Management, Low | Risk List · Iteration Plan · Iteration Assessment | Risk List (the acceptance bound, the R005 row, the R023 citation), Iteration Plan (criterion 1, the gate list, the retirement map, the accounting, the Resources statement), the assessment written after the verdict | R026 |
+| Process Engineer | Environment, High | Development Case — Guidelines and Procedures | Development Case — the **Version policy** and **Measurement policy** subsections | R006, R025 |
 | Reviewer | Review lens | SBC milestone review, technical | Findings on the artifacts reviewed | — |
 | Management Reviewer | Review lens | SBC milestone review, management | Findings on the artifacts reviewed | — |
 | Review Coordinator | Review lens | SBC milestone review | The SBC verdict | — |
 
-No other role is at work: every open defect of this gate sits in an artifact the Software Archaeologist or the Project Manager holds, and the three lenses review. The Development Case carries no open record from either lens, so the Process Engineer executes no stage here — the Development Case corrections R006 and R025 name were performed at Survey 2 and are retired there.
+The Process Engineer executed a stage in this iteration and the fine plan's work-item table carries it: the Development Case's Guidelines and Procedures gained the Version policy and the Measurement policy, which the Management Reviewer's iteration-2 review recorded as absent. It is a revision of an existing artifact, not a new one — which is why it appears on the profile and in the work items, and why "no new artifact is produced this iteration" stays true.
+
+No other role is at work: every open defect of this gate sits in an artifact the Software Archaeologist, the Project Manager or the Process Engineer holds, and the three lenses review.
 
 The Review Coordinator decides whether the milestone closes. It does not decide the Iteration Assessment — the Project Manager writes that against the verdict.
 
-R005 and R011 have owners who first sit at AR — the System Analyst and the Software Architect. This iteration restates their strategy in the Risk List; it changes no owner, and no milestone row claims either as retired.
+R011's owner first sits at AR — the Software Architect. This iteration restates that risk's strategy in the Risk List; it changes no owner, and no milestone row claims it as retired. R005's owner, the System Analyst, carries no work here: that risk was retired at Survey 2 — SBC by the Provenance record, and the register and this plan now state one retirement.
 
 ## Use Cases and Scenarios Addressed
 
