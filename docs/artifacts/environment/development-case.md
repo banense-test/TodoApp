@@ -218,3 +218,15 @@ Three consequences hold from now on:
 - **Assessment-driven change.** A tailoring change is made only against evidence — a finding, a Change Request, or an Iteration Assessment entry naming the problem. Changes are recorded as deltas in this artifact with the evidence that caused them.
 - **Escalation of scope.** This case fixes process, not scope. A gap or contradiction in the declared scope goes to the stakeholder through the role that found it; it is never resolved by a tailoring decision here.
 
+### Measurement policy
+
+This project tracks the two quantities the process produces — **tokens** and **elapsed time**, the latter split into agent time and human queue time. Each has a named decision it enables; a quantity with no decision behind it is not collected.
+
+| Quantity | Decision it enables | Reader |
+|---|---|---|
+| Tokens per discipline per iteration | Whether a live artifact's surface is worth reading again next iteration or should be replaced so it is read once — on an existing system the cost is dominated by re-reading, not by writing | Process Engineer, at iteration close |
+| Agent time per stage | Whether a stage's scope is too large for one turn and should be split in the next Iteration Plan | Process Engineer and Project Manager |
+| Human queue time at each gate | Whether gates should be batched into fewer points in the phase | Project Manager |
+
+No token budget is declared for this project. Where none is declared, measured spend is recorded and no declared scope is cut to fit an estimate. Measured actuals are quoted only for closed phases, and the two clocks are reported apart and never summed.
+
