@@ -214,12 +214,11 @@ Scheduled jobs, batch processes and reports: none. `Source: TodoApp/` tree — n
 
 ### Perimeter completeness
 
-The stakeholder reviewed this perimeter record on 2026-11-14 and stated that nothing is missing from it. The record therefore claims no gap in what it enumerates: the seven projects, the two actors, the five external elements, the eight tables and the entry-point surface are what the delivered system is made of, read from the tree.
+The stakeholder reviewed this perimeter record on 2026-11-14 and stated that nothing is missing from it. They then confirmed it at the System Boundary Confirmed milestone: the seven projects, the two actors, the five external elements, the eight tables and the entry-point surface are, by that confirmation, the perimeter of the existing system. The record claims no gap in what it enumerates.
 
-Two limits on that completeness, both declared rather than assumed:
+One limit on that completeness, declared rather than assumed: nothing in this perimeter was **observed**. No process is run in Survey, Excavation or Consolidation — the system is not installed anywhere and nobody runs it here — so every element above is read from source, configuration and project files, and the two behaviours marked read-only in Anomalies stay marked. From Inception on the pipeline builds the solution and runs its test suites; the first such run is what can settle a read-only statement, and until then the residual uncertainty is carried as accepted risk.
 
-- The perimeter is **recorded and put to the stakeholder**, not confirmed by them. Confirmation is a later gate, deliberately after Excavation has deepened the reading, because confirming a perimeter that a further reading has not yet tested would confirm an incomplete record.
-- Nothing in this perimeter was **observed**. No process is run in any phase of this project: the system is not installed anywhere and nobody runs it here. Every element above is read from source, configuration and project files, and the two behaviours marked read-only in Anomalies stay marked.
+The perimeter is a record of the code at `307a1ead`. An element Excavation finds outside it goes back to the stakeholder at that point rather than being added to a confirmed record silently.
 
 ## Technology and Size
 | Concern | Value | Anchor |
