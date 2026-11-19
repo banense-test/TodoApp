@@ -208,6 +208,52 @@ end note
 @enduml
 ```
 
+How that store comes into existence is part of the same structure, because nothing else creates a schema or a file: the AppHost's gate and migration decide it, and both of the anomalies this iteration added on that path are read from those four files.
+
+```plantuml
+@startuml
+title The start-up path — where AN-021 and AN-022 sit
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+component "TodoApp.AppHost\nProgram.cs:3-28" as AH
+component "schema gate\nAddTodoDbMigration\nExtensions.cs:7-19\nregistered only when Todo.Api/.db is absent" as GATE
+component "COMP-016 migrate operation\ndotnet tool install --global dotnet-ef,\nthen dotnet ef database update --no-build\nExtensions.cs:26-35" as MIG
+component "COMP-007 / COMP-008 Todo.Api\nProgram.cs:23-24\nData Source=.db/Todos.db" as API
+database "Todos.db — one SQLite file" as DB
+component "sqliteweb\nProgram.cs:13-17\nbind mount Todo.Api/.db to /db" as SQLWEB
+component "COMP-017 integration tests\nin-memory connection" as TESTS
+
+AH --> GATE : every start
+GATE --> MIG : first start only
+MIG --> DB : creates the file once
+API --> DB : relative path, no directory check
+AH --> API : starts after the operation completes
+AH --> SQLWEB : mounts the project directory
+SQLWEB --> DB
+TESTS --> API
+
+note right of GATE
+  AN-021. The gate tests the directory, and the directory is
+  created before the migration is registered. A first start whose
+  migration fails leaves the directory behind, so every later start
+  skips the migration and the API opens whatever file it finds.
+  A migration added after the first start is never applied anywhere.
+end note
+note bottom of API
+  AN-022. The store's location is a relative path resolved against
+  the process working directory. The AppHost's bind mount assumes
+  that directory is the API project's; no file states it, and
+  running the API by hand gives a different one.
+end note
+note bottom of TESTS
+  The one executable proof never opens Todos.db: the connection is
+  replaced with a shared in-memory one (AN-020).
+end note
+@enduml
+```
+
 | Store | Kind | Data manager | Anchor |
 |---|---|---|---|
 | `Todos.db` — tables `Todos`, `AspNetUsers`, `AspNetRoles`, `AspNetUserRoles`, `AspNetUserClaims`, `AspNetRoleClaims`, `AspNetUserLogins`, `AspNetUserTokens`; indexes `IX_Todos_OwnerId`, `UserNameIndex` (unique), `EmailIndex`, `RoleNameIndex` (unique); cascade delete from `AspNetUsers` to `Todos.OwnerId` | Relational schema | EF Core 9.0.8 with `Microsoft.EntityFrameworkCore.Sqlite`, `TodoDbContext` deriving from `IdentityDbContext<TodoUser>`; connection from `ConnectionStrings:Todos`, defaulting to `Data Source=.db/Todos.db`; schema created by three migrations applied through `dotnet ef database update` | `Todo.Api/TodoDbContext.cs:7-21`; `Todo.Api/Program.cs:22-24`; `Todo.Api/Migrations/20221123071234_Initial.cs:16-330`; `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs:13-17`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:13-45`; `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs:12-18`; `.gitignore:462-463` |
