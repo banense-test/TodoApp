@@ -708,103 +708,109 @@ end note
 The two Minor findings open against the artifact set are the technical lens's, and this lens does not duplicate them: `Risk List#F2` (the trailing `R021` block still reads "offered for acceptance" while the acceptance table records the answer) and `Iteration Plan#F5` (the opening block of Plan and Milestones duplicates its Measure and forecast subsection). Neither touches an SBC criterion and neither is consumed by another role.
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-Every finding in the ledger has an owner, a severity and a deadline fixed here. Deadline is stated as the iteration in which the correction lands, not as a calendar date: no phase has closed, no spend has been measured, and a date derived from an estimate would read downstream as an observation.
+Every finding in the ledger carries an owner, a severity and a deadline fixed here. Deadline is stated as the phase in which the correction lands, not as a calendar date: no phase has closed, no spend has been measured, and a date derived from an estimate would read downstream as an observation.
+
+#### Action items, prioritized
+
+Twelve findings are closed and need no action. The two that remain open are the work order of this consolidation, and both are the Project Manager's.
+
+| Priority | Finding | Lens | Severity | Owner | Deadline | Holds the milestone |
+|---|---|---|---|---|---|---|
+| 1 | Risk List#F2 | Reviewer | Minor | Project Manager | Excavation — the next phase, under the stakeholder's order of 2026-11-19 | No |
+| 2 | Iteration Plan#F5 | Reviewer | Minor | Project Manager | Excavation — the next phase, under the stakeholder's order of 2026-11-19 | No |
+
+What closes each, stated so the owner executes a correction and not a discussion:
+
+| Finding | The corrective action | Where the correction lands |
+|---|---|---|
+| Risk List#F2 | Delete the trailing "R021 — the stakeholder gate, offered for acceptance" block, or restate it as the statement of the mitigation in force after the answer of 2026-11-19. The answer itself stays stated once, in the acceptance table where the other three grants sit. | Risk Mitigation and Contingency — the trailing block; the acceptance table is left as it stands |
+| Iteration Plan#F5 | Delete the opening block of "Plan and Milestones" and let the section open with "### Coarse roadmap". The no-forecast paragraph, the `6 ± 3` explanation, the budget-position table and the two-clock table stay once, in "### Measure and forecast". | Plan and Milestones — opening block only; nothing else in the section moves |
+
+Both deadlines are the next phase because the stakeholder set them, not because the process chose to defer. The order is: "Minor findings must be corrected in the next phase; they cannot be left unresolved." A Minor finding is normally the owner's turn after Critical and Major, in the phase it was raised; the stakeholder's order removes the option of its carrying past Excavation.
 
 ```plantuml
 @startuml
-title Finding lifecycle — the state each of the 12 findings sits in at SBC consolidation (Survey iteration 1)
+title Closure of the two open Minor findings — the actions this consolidation assigns, ordering only
 skinparam shadowing false
 skinparam defaultTextAlignment left
 
-[*] --> Open : record_artifact_finding\nby the evaluating lens
-Open --> Assigned : Review Coordinator fixes\nowner, severity, deadline
-Assigned --> InProgress : owner reworks the artifact
-InProgress --> Resolved : resolve_artifact_finding\nby the SAME lens that opened it
-Resolved --> Verified : coordinator checks the corrected content
-Verified --> Closed : Review Record entry states\nwhat the corrected content says
-Resolved --> Assigned : defect still stands —\nre-recorded under its findingKey
-Open --> Escalated : deadline missed
-Escalated --> Assigned : escalated to the Project Manager
+start
+partition "Reviewer lens — already recorded the defects" {
+  :Risk List#F2 — Minor, contained-defect;
+  :Iteration Plan#F5 — Minor, contained-defect;
+}
+partition "Project Manager — owner, next phase" {
+  :Risk List#F2 — delete the trailing R021 block, or restate it
+  as the mitigation in force after the answer of 2026-11-19;
+  :Iteration Plan#F5 — delete the opening block of Plan and Milestones,
+  leaving the matter once in Measure and forecast;
+}
+partition "Reviewer lens — the only lens that may close them" {
+  if (corrected content read against the finding?) then (defect gone)
+    :resolve_artifact_finding — Reviewer lens;
+  else (still stands)
+    :re-recorded under its findingKey, stays open;
+  endif
+}
+:Review Coordinator verifies and records what the corrected content now says;
+stop
 
-note right of Open
-  Where all 12 findings are at this
-  consolidation: 0 Critical, 7 Major,
-  5 Minor. No prior finding exists —
-  iteration 1 is the project's first
-  review, so nothing is closed here.
-end note
-note right of Resolved
-  Only the lens that emitted a finding
-  may close it. A Review Record
-  sentence saying "resolved" is not
-  a resolution.
+note right
+  Neither finding holds SBC: no other role builds on the
+  duplicated passage or on the pending-sounding R021 block,
+  and no SBC exit criterion depends on either.
+  The stakeholder ordered them corrected in the next phase
+  and they are not deferred past it. No ledger entry is opened:
+  the Change Control Manager does not work in the sprint zero,
+  so the order reaches its owner through the Work Order.
 end note
 @enduml
 ```
 
-#### Action items, prioritized
+#### Closure protocol for the two open findings
 
-Priority order is what closes the milestone gate first. All seven Majors are due in Survey iteration 2 and all seven must be closed before Excavation opens — the stakeholder's order of 2026-11-19 is explicit that all Major findings must be corrected, so no Major is deferred to a later phase and none is accepted as residual.
+Each is closed by two acts, in this order:
 
-| Priority | Finding | Lens | Owner | Deadline | Closes the gate |
-|---|---|---|---|---|---|
-| 1 | Development Case#F1 | Reviewer | Process Engineer | Survey iteration 2 | Yes |
-| 2 | Iteration Plan#F1 | Management Reviewer | Project Manager | Survey iteration 2, sequenced after priority 1 | Yes |
-| 3 | Risk List#F1 | Reviewer | Project Manager | Survey iteration 2 | Yes |
-| 4 | Risk List#F1 | Management Reviewer | Project Manager | Survey iteration 2 | Yes |
-| 5 | Risk List#F2 | Management Reviewer | Project Manager | Survey iteration 2 | Yes |
-| 6 | Iteration Plan#F1 | Reviewer | Project Manager | Survey iteration 2 | Yes |
-| 7 | System Inventory#F2 | Reviewer | Software Archaeologist | Survey iteration 2 | Yes |
-| 8 | System Inventory#F1 | Reviewer | Software Archaeologist | Survey iteration 2, after priority 7 | No |
-| 9 | Development Case#F2 | Reviewer | Process Engineer | Survey iteration 2, after priority 1 | No |
-| 10 | Iteration Plan#F2 | Reviewer | Project Manager | Survey iteration 2, after priority 6 | No |
-| 11 | Iteration Plan#F3 | Reviewer | Project Manager | Survey iteration 2, after priority 6 | No |
-| 12 | Iteration Plan#F4 | Reviewer | Project Manager | Survey iteration 2, after priority 6 | No |
+1. the Reviewer — the lens that raised it, and the only lens that may close it — calls `resolve_artifact_finding` after reading the corrected content against the finding;
+2. this Review Record gains an entry stating what the corrected content says.
 
-Priorities 1 and 2 are sequenced because they are ordered by dependency, not by severity: the Development Case correction must be **specified** before the plan can **schedule** it. Priority 7 before 8 for the same reason — the Perimeter row is restated first, then the coverage aggregate is recomputed against a settled perimeter.
+A defect that still stands after rework is re-recorded under its `findingKey` and stays open; it is not duplicated under a new key.
 
 #### Load per owner
 
-| Owner | Findings | Major | Minor | All at work in the phase |
+| Owner | Open findings | Major | Minor | At work in the phase the action lands in |
 |---|---|---|---|---|
-| Project Manager | 8 | 5 | 3 | Yes — its Survey stage produces exactly these two artifacts |
-| Process Engineer | 2 | 1 | 1 | Yes — Environment is active in Survey |
-| Software Archaeologist | 2 | 1 | 1 | Yes — Discovery is Critical in Survey |
+| Project Manager | 2 | 0 | 2 | Yes — its Excavation stage produces exactly the Risk List and the Iteration Plan |
+| Process Engineer | 0 | 0 | 0 | — closed its 2 this iteration |
+| Software Archaeologist | 0 | 0 | 0 | — closed its 2 this iteration |
 
-No finding is assigned to a role that does not work in Survey, and none is assigned to a role outside the active roster. This is the defect `Risk List#F1` Reviewer records inside the register; the corrections above do not repeat it.
+No finding is assigned to a role that does not work in the phase named, and none to a role outside the active roster. That defect class — the one `Risk List#F1` recorded in the previous milestone review — is empty.
 
 #### Escalation register
 
 | Item | Status |
 |---|---|
 | Open Critical findings | None — 0. No stakeholder escalation is raised by this consolidation. |
-| Overdue findings | None. Survey iteration 2 has not run; no deadline has passed. |
-| Non-compliance with procedure | None observed — all four artifacts were issued, all were reviewed by the lenses due at SBC. |
-| Systemic process failure | None at this milestone. One pattern is noted for AR: 8 of 12 findings land where an artifact was issued before its upstream was settled (plan before tailoring; Perimeter row before anomaly). If the same pattern appears at AR, it escalates to the Change Control Management as a process risk. |
+| Overdue findings | None. Twelve closed on their deadline of Survey iteration 2; the two that remain carry the next phase as their deadline by the stakeholder's order. |
+| Non-compliance with procedure | None observed — all four artifacts were issued, all were reviewed by the lenses due at SBC, and both executing lenses recorded a disposition. |
+| Systemic process failure | None raised to the Change Control Management Board at this milestone. The pattern noted at the previous review — artifacts issued before their upstream settled — did not recur in the correction pass: no corrected artifact contradicts another, and the one cross-artifact consequence (`R008` / `AN-008`) is closed on both sides. |
 
-#### Closure protocol for iteration 2
-
-Each of the twelve is closed by two acts, in this order:
-
-1. the owning lens calls `resolve_artifact_finding` for the finding it raised — only that lens may close it;
-2. this Review Record gains an entry stating what the corrected content says.
-
-A defect that still stands after rework is re-recorded under its `findingKey` and stays open; it is not duplicated under a new key. Findings the two lenses raised under the same key are closed independently, each by its own lens.
-
-#### Stakeholder orders carried into iteration 2
+#### Stakeholder orders carried out of this milestone
 
 Recorded here so no owner treats them as optional. Both are the stakeholder's own answers of 2026-11-19, and neither is a finding this review minted.
 
 | Order | Where it lands |
 |---|---|
-| "All major findings must be corrected." | The seven Majors above, all due in Survey iteration 2; the milestone does not re-ask for sanction until all seven are closed |
-| The perimeter drew no correction — no part of the system was asked to be added, removed or moved in priority | The perimeter as the System Inventory records it stands; `System Inventory#F2` corrects an internal contradiction, it does not alter the perimeter |
+| "All major findings must be corrected." | Executed — seven of seven Majors closed this iteration, each on corrected content, each by the lens that raised it |
+| "Minor findings must be corrected in the next phase; they cannot be left unresolved." | The two findings at priorities 1 and 2, due in Excavation. Neither may be carried past it |
+| The perimeter confirmed as the System Inventory records it — 7 projects plus the CI workflow, 26 entry points, the three exclusions of 2026-11-19 | Unchanged by both corrections. `System Inventory#F2` corrected an internal contradiction in the Perimeter's own wording; it altered no boundary, added no entry point and reopened no exclusion |
+| R021 accepted at Significant (12), with its mitigation and its 14-day ceiling | In force on each of the seven roadmap milestones; the Project Manager puts every stakeholder question with its recommended answer and the open findings inside it |
 
-The stakeholder declined to advance past SBC. That refusal is not read as a rejection of the recovered scope: they named the Major findings as their reason, and the scope they settled on 2026-11-19 is untouched by all twelve findings.
+The stakeholder sanctioned advancing past SBC on 2026-11-19. That sanction confirms the perimeter and advances the phase; it does not retire the two Minor findings, and it does not convert them into Accepted. They are corrective obligations with a deadline.
 
 ## Disposition
 ### Reviewer lens
