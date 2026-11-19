@@ -78,20 +78,18 @@ Both actors are named by the perimeter. No administrative actor exists: `admin` 
 **Actor coverage check.** Human actors who directly use the system: two, both named. External systems that integrate as actors: none in the recovered product. Time-based triggers: none — the delivery has no job, timer or scheduled report; `EP-026` is a start-up step of the orchestrator, not a schedule. Hardware devices: none. Administrative actors: none, recorded as an exclusion.
 
 ## Use-Case Survey
-
 | UC | Name | Primary actor | Source | Volatility | Scenarios recovered |
 |---|---|---|---|---|---|
-| UC-001 | Open an account and a session | Todo owner | `EP-017` · `EP-001` · `EP-002` | Medium | Register accepted; registration refused; registration accepted but sign-in fails |
-| UC-002 | Sign in to an existing account | Todo owner | `EP-018` · `EP-002` | Low | Credentials accepted; credentials refused |
+| UC-001 | Open an account and a session | Todo owner | `EP-017` · `EP-001` · `EP-002` | Medium | Register accepted; registration refused by Identity; registration accepted but the sign-in that follows fails; a field left empty and refused by the client without a request |
+| UC-002 | Sign in to an existing account | Todo owner | `EP-018` · `EP-002` | Low | Credentials accepted; credentials refused; the form's annotations refusing the input before anything is posted |
 | UC-003 | Sign out | Todo owner | `EP-019` | Low | Sign out with a valid session; sign out without one; session ending without a sign-out |
-| UC-004 | Review my todo list | Todo owner | `EP-023` · `EP-022` · `EP-012` | Medium | List with items; empty list; session no longer accepted |
-| UC-005 | Add a todo | Todo owner | `EP-022` · `EP-014` | Low | Title accepted; empty title refused by the page; empty title refused by the API |
-| UC-006 | Change a todo (title and completion) | Todo owner | `EP-022` · `EP-015` | **High** | API call for an owned item; call for another owner's item; id mismatch; **and the scenario the delivery cannot perform — no screen issues it** |
+| UC-004 | Review my todo list | Todo owner | `EP-023` · `EP-022` · `EP-012` | Medium | List with items; empty list; session no longer accepted; limiter exhausted; the prerendered empty list rendered before the real one |
+| UC-005 | Add a todo | Todo owner | `EP-022` · `EP-014` | Low | Title accepted; empty title refused by the page; empty title refused by the client guard; body refused by the API |
+| UC-006 | Change a todo (title and completion) | Todo owner | `EP-022` · `EP-015` | **High** | API call for an owned item; call for another owner's item; id mismatch; two concurrent saves overwrite silently; **and the scenario the delivery cannot perform — no screen issues it** |
 | UC-007 | Delete a todo | Todo owner | `EP-022` · `EP-016` | Low | Deletion of an owned item; deletion of another owner's item; deletion of a missing item |
 | UC-008 | Consult the API reference | Developer | `EP-024` | Medium | Development environment; any other environment |
 
 **Volatility** is read on the two axes: does this change for the same customer over time, does it differ between customers now. `UC-006` is High because it is the use case whose screen path is absent and whose exposure is accepted rather than repaired (AN-008) — any later declared requirement for completion will change it, and its realisation must therefore not be welded to the other four. `UC-001` and `UC-004` are Medium: `UC-001` because account creation is the step most likely to change once a real identity requirement exists (the excluded self-service surface sits directly beside it), and `UC-004` because the browser-facing half is the unstable area of the system (AN-013) and the list is its only screen. `UC-008` is Medium because its environment guard is inconsistent with the redirect that reaches it (AN-016). `UC-002`, `UC-003`, `UC-005` and `UC-007` are Low: their code is the most stable in the delivery and no excluded or missing requirement touches them.
-
 ## Use-Case Specifications
 ### UC-001 — Open an account and a session
 
