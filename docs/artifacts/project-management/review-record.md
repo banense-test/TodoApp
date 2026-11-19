@@ -1143,13 +1143,13 @@ end note
 
 #### Why the three Majors hold the milestone and the seven Minors do not
 
-A Major is a defect another role builds on or a milestone exit criterion fails. The three Majors are `trace-gap` against the AR exit criteria themselves: criterion 1 asks that every recovered element be anchored, criterion 3 that every table name the migration that declares it, and criterion 50 — the trace tree — that every link the artifact set carries be one the tree carries too. A SUSPECT row is the tree reporting its own claim as unverified, so a phase that closes with three of them closes on a claim it has not finished checking. That is the criterion failing, not a wording.
+A Major is a defect another role builds on, or a milestone exit criterion that fails. The three Majors fail two of the six AR exit criteria as the Iteration Plan states them: criterion 1, that every recovered use case "rests on an entry point inside the confirmed boundary" with the trace tree carrying the claim, and criterion 3, that "every table, key, index, cascade rule and association names the migration that declares it". A SUSPECT row is the trace tree reporting one of its own claims as unverified, so a phase closing with three of them closes on a claim it has not finished checking. That is the criterion failing, not a wording.
 
-The seven Minors are `contained-defect` by the same test read backwards: no role builds on the wrong part of any of them, and no exit criterion depends on any. A wrong method count, a second package total, a wrong timespan, an absent omission marker, a private interface numbering — each is a reader's problem inside one artifact, and each is fixed by its owner in its own turn without touching what another role consumes.
+The seven Minors are `contained-defect` by the same test read backwards: no role builds on the wrong part of any of them, and no exit criterion depends on any. A wrong method count, a second package total, a wrong timespan, an absent omission marker, a private interface numbering — each is a reader's problem inside one artifact, fixed by its owner in its own turn without touching what another role consumes.
 
 #### What this lens hands to Consolidation
 
-The next phase completes what this one recovered: every entry point of the perimeter carrying a use case or a recorded exclusion, the Supplementary Specification and the coverage statement closed out. Three things travel with it from this block:
+The next phase completes what this one recovered. Three things travel with it from this block:
 
 - **The three suspect links**, as priorities 1–3 of Resolutions and Actions, each with the owner who can close it and what closing it means. They are not deferrable: Consolidation is where the Use-Case Model, the Design Model and the System Inventory are completed, and each of the three artifacts has a stage there.
 - **The seven contained corrections**, as priorities 4–10, each in the artifact that states the figure or the identifier. Two of them are one correction each in two artifacts — the package count and the interface numbering — and the owners named must land them together or not at all.
