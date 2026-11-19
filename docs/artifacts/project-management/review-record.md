@@ -358,108 +358,235 @@ A Conditional would advance the phase while the conditions were discharged later
 
 ## Findings
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-<!-- review: Survey I2 -->
+Ten findings against nine artifacts: 0 Critical, 3 Major, 7 Minor. The three Majors are one defect class — a suspect trace link still open at phase close — and each is recorded against the artifact whose trace table fails to carry it.
 
-Survey iteration 2 is a correction pass: its subject is whether the seven Major findings of the previous milestone review were in fact corrected. Each artifact is entered below against the checklist that governs it, with the finding that was open against it and what the corrected content now says.
+```plantuml
+@plantuml
+@startuml
+title Annotated trace chain - where the three Major findings sit, and the suspect links the phase closes with
+skinparam shadowing false
+skinparam defaultTextAlignment left
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+hide empty members
+hide circle
 
-#### Development Case
+class "AN-003\nthe convention source the\nDevelopment Case once named" as AN003 <<anomaly>>
+class "R003\nSignificant (12)" as R003 <<risk>>
+class "Development Case\ncorrected in Survey I2" as DC <<artifact>>
+
+class "UC-001 .. UC-002\nUC-004 .. UC-005\nUC-007" as UCG <<use case>>
+class "COMP-006\nTodo.Web.Shared" as C006 <<component>>
+
+class "CLS-011\nTodoDbContext" as C011 <<class>>
+class "TBL-007\nAspNetUserLogins" as T007 <<table>>
+class "20221123071234_Initial.cs" as MIG <<source>>
+
+AN003 --> R003 : Refines
+DC ..> AN003 : corrected - the other end did not move
+UCG --> C006 : Realizes
+C011 --> T007 : Specifies
+T007 --> MIG : Generates
+
+note right of AN003
+  System Inventory#F3 - Major, trace-gap
+  AN-003 still describes the pre-correction
+  Development Case, and the Documentation
+  diagram still draws CONTRIB as a named source.
+  Recommendation: re-state it as the history the
+  correction closes, then retire or re-score
+  AN-003 and R003 and re-register the link.
+end note
+
+note right of C006
+  Use-Case Model#F1 - Major, trace-gap
+  Five Realizes edges SUSPECT to the System Analyst.
+  The UCM names no component at all, so the
+  realization set is confirmed nowhere in the
+  artifact that owns the use cases.
+  Recommendation: state per use case which web-side
+  DTO crosses the boundary and confirm COMP-006.
+end note
+
+note right of T007
+  Design Model#F1 - Major, trace-gap
+  Two links SUSPECT: CLS-011 to TBL-007 (Designer)
+  and TBL-007 to the migration (Implementer, not at
+  work in the sprint zero). TBL-007's only writer
+  sits on excluded EP-011.
+  Recommendation: re-read the Initial migration for
+  the table and clear both links from the Design
+  Model's own row.
+end note
+
+note bottom of DC
+  The correction itself is complete: the three convention
+  families are Undocumented with no fallback asserted. What
+  did not follow it is the anomaly and the link that recorded
+  the defect it fixed.
+end note
+@enduml
+@enduml
+```
+
+#### Use-Case Model
 
 | Checklist item | Result |
 |---|---|
-| No FORBIDDEN override of the IARI DC baseline — roster, CORE ownership, CORE omissions, artifact universe, role merging | Pass |
-| OPTIONAL trigger FIRED only where its §5.2 condition genuinely holds | Pass — Deployment Model alone is fired, on a three-service Aspire topology with per-project settings and a forwarder |
-| Every referenced path exists in the repository | Pass — the four tool-configuration paths and `.github/workflows/ci.yaml` all resolve |
-| Convention content with no file in the repository is declared as such, with no fallback asserted | Pass |
-| Cross-cutting mechanisms held out of the use-case model | Pass — authentication, registration, token issue, rate limiting, proxying and telemetry are Supplementary Specification constraints, each `<<include>>`d |
-| Co-owned artifact sections assigned to one owner each | Pass — Design Model split three ways, SAD sole |
+| Every `UC-NNN` cites the `EP-NNN` it is recovered from | Pass — eight use cases, twelve entry points, each `Source:` line naming them |
+| No use case recovered from an excluded entry point | Pass — `EP-004`…`EP-011`, `EP-020`, `EP-021` claimed by none |
+| No cross-cutting mechanism modelled as a use case | Pass — authentication, token issue, forwarding, limiting, validation and telemetry are Supplementary Specification entries |
+| No per-actor split of one declared process | Pass — one todo owner, seven goals; the developer actor carries one screen |
+| Every business rule cites its enforcement point and anchor | Pass — 38 rules, each with the file and line range |
+| Use cases with no delivered trigger state so | Pass — `UC-006` A4 records the absent screen path and cites `AN-008` |
+| Trace rows agree with the matrix | **Fail** — `Use-Case Model#F1` |
 
-Development Case#F1 and #F2 are corrected; the resolutions are recorded in Resolutions and Actions. No defect remains in this artifact from this lens.
+**Use-Case Model#F1 (Major, `trace-gap`).** Five `Realizes` links into this artifact are marked SUSPECT against the System Analyst at the phase close: `COMP-006` (`Todo.Web.Shared`) to UC-001, UC-002, UC-004, UC-005 and UC-007. The Use-Case Model names no component anywhere, so the edge exists only in the Software Architecture Document's rows; this artifact has never stated whether it accepts that realization set. The SAD fixes the set deliberately — `COMP-006` absent from UC-003 because sign-out sends no DTO, and from UC-006 because the forwarder carries that body as bytes — and ADR-011 fixes what `COMP-006` is: one of two independent declarations of the wire shape, since `Todo.Api` references `TodoApp.ServiceDefaults` alone. A suspect link left open at phase close leaves the realization of five use cases unconfirmed by the artifact that owns them. **Remediation:** add to this artifact's Traceability the confirmation of the five `Realizes` edges it shares with the SAD — for each, state which web-side DTO crosses the boundary and confirm that `COMP-006` realizes it, or record that it does not. No re-reading of code is required; the decision the model already made implicitly is what the suspect trace asks to be written down.
+
+#### Supplementary Specification
+
+| Checklist item | Result |
+|---|---|
+| Every mechanism an `<<include>>`, never a use case | Pass — eleven `SS-NNN`, each naming the use cases that include it |
+| Every threshold a figure some file states | Pass — the rate-limit budget, the queue depth, the token bucket; each cites `RateLimitExtensions.cs` or the Development settings |
+| What the delivery does not establish recorded as such | Pass — `PE-002`…`PE-006`, `RE-005`…`RE-007`, `SU-007` and `ST-008` each read "not established by the delivery" rather than inventing a target |
+| Exclusions carried with their entry points and their mechanism's surviving home | Pass — `EX-001`, `EX-002`, `EX-003`, each anchored and each naming where the mechanism still lives |
+| Interface identifiers belong to a declared family | **Fail** — `Supplementary Specification#F1` |
+
+**Supplementary Specification#F1 (Minor, `contained-defect`).** The `## Interfaces` table declares `IF-001` … `IF-010`, an identifier family this process does not define — interfaces are `INT-NNN`, and the Software Architecture Document assigns `INT-001` … `INT-012` to the same boundaries. The Deployment Model repeats the same `IF-` numbering, so three artifacts describe one set of boundaries under two schemes with no mapping stated. `IF-009` is the clearest instance: it is the excluded provider connector here and in the Deployment Model, and it appears in no `INT-` form in the architecture at all. **Remediation:** re-key the table to the SAD's `INT-NNN` identifiers, or state the mapping once above the table, in the same pass as the Deployment Model's connector table so the two carry one scheme.
+
+#### Software Architecture Document
+
+| Checklist item | Result |
+|---|---|
+| Every `COMP-NNN` cites the files it is read from | Pass — eighteen components, each with a path and line range |
+| Every component on a use-case path realizes it; absence stated where it is deliberate | Pass — the five components on no scenario path are named and justified; `COMP-006`'s absence from UC-003 and UC-006 is argued |
+| Only technology and versions the manifests declare | Pass — every entry read from `Directory.Packages.props`, `global.json` or a project's `Sdk` attribute; the version policy reconciled explicitly |
+| Mechanisms distinguished from components and from use cases | Pass — eleven `SS-NNN` with the pinned package carrying each |
+| Architectural decisions record the alternative not taken and the cost | Pass — twelve ADRs, each with its consequence in force |
+| Figures within this document agree with each other | **Fail** — `Software Architecture Document#F2` |
+| Counts stated over code agree with the code | **Fail** — `Software Architecture Document#F1` |
+
+**Software Architecture Document#F1 (Minor, `contained-defect`).** The `COMP-005` row of `## Logical View` describes `TodoClient` as carrying "five methods" and then enumerates six operations in the same cell: register, login, logout, `todos` GET, `todos` POST and `todos/{id}` DELETE. `Todo.Web/Client/TodoClient.cs:7-71` declares six public methods. The load-bearing claim beside the count is true — no update method exists, which is what `AN-008` rests on — but the sentence contradicts its own enumeration, and the Use-Case Model's UC-006 A4 repeats the wrong number when it cites the same class. **Remediation:** change "five methods" to "six methods" in the `COMP-005` row, leaving the enumeration as it stands, and make the same correction in UC-006 A4. No other figure in either artifact depends on the count.
+
+**Software Architecture Document#F2 (Minor, `contained-defect`).** `## Size and Performance` reports "27 declared rows in one file", while `## Implementation View → Packaging` reports "30 package rows" for the same file. `Directory.Packages.props` declares 30 `PackageVersion` rows: six in the first item group, nineteen in the second, five OpenTelemetry rows in the third. A reader checking each pin against the recorded version policy gets two denominators from one document, and the System Inventory's `Technology and Size` table carries the same wrong figure. **Remediation:** state 30 once, in `## Size and Performance`, and let `## Packaging` reference that figure instead of repeating a number; correct the System Inventory's row to the same value, since it counts the same file.
+
+#### Deployment Model
+
+| Checklist item | Result |
+|---|---|
+| The optional trigger genuinely holds against the project's facts | Pass — three addressable nodes, service discovery, a forwarder and per-project settings; the Development Case's FIRED verdict matches the code |
+| Every node and connector anchored | Pass — seven nodes, nine connectors, each with a path |
+| No environment declared that no file names | Pass — `CON-A06`; the model states the three shapes the delivery distinguishes and records two as declared-but-unestablished |
+| `AN-021` and `AN-022` have a home here, and it states them correctly | Pass — both confirmed against `Extensions.cs` and against the relative `Data Source` path |
+| Connector identifiers reference the architecture's boundaries | **Fail** — `Deployment Model#F1` |
+
+**Deployment Model#F1 (Minor, `contained-defect`).** The connector table declares `IF-001` … `IF-008` and `IF-010`, while the Software Architecture Document names the same boundaries `INT-001` … `INT-012`. A role reading this model against the architecture cannot tell whether `IF-004` and `INT-009` are one boundary or two, and the model's own note that "the identifiers are shared across the two artifacts" confirms the numbering is a private scheme rather than a reference to the architecture's. **Remediation:** either re-key the connector rows to the SAD's `INT-NNN` identifiers, or state in one line above the table that `IF-NNN` is this model's local numbering for the boundaries the SAD names `INT-NNN`, with the mapping per row.
+
+#### Design Model
+
+| Checklist item | Result |
+|---|---|
+| Every class, member and visibility anchored | Pass — thirty-four classes, each with the file and line range; `CLS-002` shown with no member of its own rather than one invented |
+| Every table, key, index and cascade read from a migration body | Pass — eight tables, three migrations, the model snapshot; no run-time database cited anywhere |
+| Where the code is silent, the silence is recorded rather than filled | Pass — `FN-011`'s missing concurrency token, the four tiers of enforcement, `N1`…`N5` |
+| Co-owned sections intact — the Database Designer's persistent-data sections | Pass — `## Persistent Data Classes` and its sub-blocks are the Database Designer's and were reviewed, not rewritten |
+| Capsule work declared omitted with its trigger | Pass — `[OMITTED: Capsules, Protocols and Signals — DC-D3]` |
+| Sections the document says it defers exist or are marked omitted | **Fail** — `Design Model#F2` |
+| Trace rows agree with the matrix | **Fail** — `Design Model#F1` |
+
+**Design Model#F1 (Major, `trace-gap`).** Two links on TBL-007 (`AspNetUserLogins`) are marked SUSPECT at the phase close: `CLS-011 → TBL-007` against the Designer, and `TBL-007 → 20221123071234_Initial.cs` against the Implementer. TBL-007 is the one table of the eight whose only writer sits on the excluded `EP-011` path — this artifact's own `Associations confirmed against the statements that issue them` table names `FindByLoginAsync` then `AddLoginAsync` as the statement that crosses it — so its four columns, its composite primary key and its cascading foreign key to TBL-002 have to be re-confirmed against the migration body rather than left as a doubt. The second link names a role that does not work in the sprint zero at all, so waiting cannot clear it: if this artifact does not discharge it by re-reading the migration, the phase closes with the link unconfirmed. **Remediation:** re-read `Todo.Api/Migrations/20221123071234_Initial.cs` for the `AspNetUserLogins` table and confirm or correct the four columns, the composite primary key and the cascading foreign key, then re-register both links. Since the Implementer is not at work in the sprint zero, the Design Model's own row must clear the second link by citing the migration line it rests on.
+
+**Design Model#F2 (Minor, `contained-defect`).** `## Design Overview`'s section table lists four entries for content the document does not carry. `Use-Case Realizations` and `Interface Contracts` are marked "Not yet recovered", but the document has no section under either title, and neither is a stage Excavation runs: the Designer's Excavation stages are Domain Model and Packages and Classes, while both sections belong to its Elaboration stages. `Boundary Classes and Navigation Map` is recorded as "Owned by the User Interface Designer" with no `[OMITTED]` marker and no section, although the Iteration Plan records that role's first stage as Elaboration. A reader using the table as a contents page is sent to three sections that do not exist and to an owner not at work in this phase; only the Capsules row states its omission correctly. **Remediation:** mark the three absent entries the way the Capsules row already does — `[OMITTED: Use-Case Realizations — not a Design Model stage in Excavation; the Designer's Analysis Model and Design Model stages in Elaboration]`, the same for `Interface Contracts`, and `[OMITTED: Boundary Classes and Navigation Map — the User Interface Designer's first stage is Elaboration]`.
 
 #### System Inventory
 
 | Checklist item | Result |
 |---|---|
-| Every high-consequence fact about the existing system rests on a file that says what the row claims | Pass — three anchors re-opened this iteration against the corrected `/users` rows and all three confirm them |
-| No perimeter row carries a size or count without its anchor | Pass |
-| Coverage reconciles with its own per-area rows, and every unread file carries a reason | Pass — Files 132, Read 72, unread 60, stated once as the sum of the Read column |
-| No top-level area of the tree left neither described nor declared unread | Pass |
-| Each of the three exclusions traced to the stakeholder's answer, and no use case claimed from an excluded entry point | Pass — `EP-011`, `EP-020`, `EP-021`, `EP-004` … `EP-010` |
-| One statement of whether `EP-003` supports a use case, and no contradiction between Perimeter and anomalies | Pass — the Perimeter states it once and `AN-015` carries the same fact |
+| Every high-consequence row rests on a file that says what it claims | Pass — five of the six anchors this review opened are this artifact's, all confirmed |
+| Coverage reconciles with its own rows; every unread file carries a reason | Pass — 83 of 138 read, 55 unread, each named with its reason; the aggregate stated as the sum of the Read column |
+| No top-level area of the tree neither described nor declared unread | Pass — eighteen rows, every area of the repository accounted for |
+| Each exclusion traced to the stakeholder's answer; no use case from an excluded entry point | Pass — `EP-004`…`EP-011`, `EP-020`, `EP-021` |
+| `EP-003` and `EP-013` kept in the perimeter with their anchors and no use case claimed | Pass — stated once in the Perimeter, referenced from the Components row |
+| Anomalies current with the artifact set they judge | **Fail** — `System Inventory#F3` |
+| Figures within this artifact agree with each other | **Fail** — `System Inventory#F4` |
 
-The anchors opened this iteration, against the corrected claim:
+**System Inventory#F3 (Major, `trace-gap`).** The `AN-003 → R003` link is marked SUSPECT against the Software Archaeologist at the phase close, and the reason is in this artifact's own text: AN-003 states that the Development Case "names `CONTRIBUTING.md` as the home of the coding standards, the UI patterns and the test conventions". That was true when Survey closed and is not true now — the Development Case was corrected in Survey iteration 2, its Templates rows re-pointed at five files that exist, the three convention families recorded as Undocumented with no fallback asserted. The `## Documentation` section still draws `DC ..> CONTRIB : names it the home of coding, UI and test conventions` with `CONTRIB <<missing>>`, and AN-003 keeps a `likely / moderate` reading for an exposure the correction has retired. One end of the link changed and the other did not, which is exactly what a suspect link records. **Remediation:** re-state AN-003 as the history the correction closes and remove `CONTRIB` from the Documentation diagram or mark it as a source that was named and has been withdrawn. Then either retire AN-003 with its reason and let the Project Manager re-score or retire R003, or keep it as a reading of the earlier state with its magnitude re-scored; re-register or retire the link.
 
-| Anchor opened | Claim it now carries | Verdict |
-|---|---|---|
-| `Todo.Api/Users/UsersApi.cs` | `MapIdentityApi<TodoUser>()` publishes the stock surface; the custom `/users/token/{provider}` is the only added endpoint | Confirmed — the seven excluded operations and the excluded provider endpoint are as the Perimeter draws them |
-| `Todo.Web/Server/AuthClient.cs` | Exactly three calls — `users/register`, `users/login`, `users/token/{provider}`; no refresh call | Confirmed — no caller for `EP-003` |
-| `Todo.Web/Server/Authentication/TokenNames.cs` | `AccessToken = "accessToken"` is the only token name the BFF holds | Confirmed — no refresh token is stored, so none can be redeemed |
-
-System Inventory#F1 and #F2 are corrected. No defect remains in this artifact from this lens.
+**System Inventory#F4 (Minor, `contained-defect`).** `## Persistent Data` states that `IsAdmin` "was a column for thirty-one minutes of the migration history", while two other places in this artifact say otherwise: AN-010 records "9 h 38 min after `d562d73` created it", and the `## History` row for `Todo.Api/Migrations` records the same span. The migration identifiers settle it — `20221123071234` to `20221123165051` is 9 h 38 min — and the Design Model's schema-evolution table reports the same. The thirty-one-minute figure is wrong and is the only occurrence of it in the artifact set. **Remediation:** change "thirty-one minutes" to "9 h 38 min" in `## Persistent Data`, the figure the migration timestamps give and the figure the rest of the artifact set already uses.
 
 #### Risk List
 
 | Checklist item | Result |
 |---|---|
-| Magnitude is the band of probability × impact on the declared IARI scale, not a scale of the artifact's own | Pass — R021 at 3 × 4 = 12, Significant |
-| Every anomaly of the System Inventory is a scored risk | Pass — `AN-001` … `AN-020` |
-| Every High or Significant acceptance rests on the stakeholder's own words, recorded verbatim with its date | Pass — four acceptances, each quoted |
-| Every avoidance action names a role at work in the phase the action lands in | Pass — the six Excavation actions re-owned to the System Analyst; R014's control part moved to Inception where the ledger opens |
-| The project's own binding constraint is bounded in the register, not only in the plan | Pass — R021 |
-| A mitigation lands in the stage that produces the artifact it names | Pass for R008 — the User Documentation the Technical Writer produces in Construction |
-| The register's statements about one acceptance agree with each other | **Fail** — Risk List#F2 |
+| Magnitude is the band of P × I on the declared scale | Pass — `R021` at 3 × 4 = 12, Significant; all twenty-five scored |
+| Every anomaly of the System Inventory is a scored risk | Pass — `AN-001`…`AN-024` → `R001`…`R025`, with `R021` the project's own exposure and stated as such |
+| Every High and Significant acceptance in the stakeholder's own words with its date | Pass — four, each quoted verbatim |
+| Every action owned by a role at work in the phase it lands in | Pass — the six Excavation actions the System Analyst's; R014's control part at Inception where the ledger opens |
+| A mitigation lands in the stage that produces the artifact it names | Pass — R008 at the User Documentation the Construction stage produces |
+| No acceptance presented as granted that was not | Pass — "The four are the whole of what the stakeholder granted" |
 
-**Risk List#F2 (Minor, `contained-defect`).** The closing "R021 — the stakeholder gate, offered for acceptance" block states the risk "stays OPEN until their answer is recorded here verbatim, with its date", lists three conditions said to hold "until then", and heads itself "offered for acceptance" — while the acceptance table in the same section records R021 at Significant (12) with the answer "Yes" dated 2026-11-19, and the Register row reads "Accept — granted by the stakeholder, 2026-11-19". Two statements of one fact sit in one section and disagree. A reader testing SBC exit criterion 4 reaches "pending" from the block and "granted" from the table and cannot tell which governs. **Remediation:** delete the trailing block, or restate it as the statement of the mitigation in force after the answer of that date; the answer itself is recorded once, in the acceptance table where the other three grants sit.
+No defect from this lens. The register's acceptance section no longer contradicts itself on `R021`, which was the one open finding of this lens against it.
 
 #### Iteration Plan
 
 | Checklist item | Result |
 |---|---|
 | One committed total, stated once | Pass — `2 + 1 + 1 + 1 + 2 + 2 + 1 = 10`, in the roadmap only |
-| No forecast, no velocity, no size before a measured actual exists | Pass |
-| No human gate carries an estimate or a span a reader can sum | Pass — every bar reads `lasts 0 day` |
-| Exit criteria judged against evidence, with no verdict the plan has no standing to give | Pass — the columns read "Evidence this plan supplies" and "What the review judges" |
-| Every role of the active roster either scheduled or given a stated reason for absence | Pass — six execute, one human gate, twenty with reasons |
-| The tailoring the plan's consumers depend on is corrected before they start | Pass — the Development Case correction is fine-plan item 1, sequenced first |
-| No stage scheduled that the IARI process does not run in the phase | Pass |
-| A section states its own content once | **Fail** — Iteration Plan#F5 |
+| No forecast, no velocity, no size before a measured actual | Pass — the Excavation band carries `[ASSUMPTION — requires validation]` and names Survey's measured actual as its whole basis |
+| No human gate carries a duration | Pass — every bar `lasts 0 day`, both titles ordering only |
+| Every role of the roster either scheduled or given a reason for absence | Pass — nine agents and the gate at work; twenty roles with stated reasons |
+| No stage scheduled that the process does not run in the phase | Pass — the eighteen work items are the Excavation stages and the review |
+| Figures summarising another artifact agree with it | **Fail** — `Iteration Plan#F6` |
 
-**Iteration Plan#F5 (Minor, `contained-defect`).** The opening block of "Plan and Milestones" duplicates its "Measure and forecast" subsection verbatim: the no-forecast paragraph, the `6 ± 3` ceiling paragraph, the budget-position table carrying the stakeholder's answer, and the two-clock table all appear twice in one section. The duplicate also carries a forward reference it cannot support — "The ten iterations above are a count of iterations" sits above the roadmap that states the ten. **Remediation:** delete the opening block and let the section open with "Coarse roadmap"; the duplicated matter stays once, in Measure and forecast, where "the ten iterations above" correctly refers to the roadmap.
+**Iteration Plan#F6 (Minor, `contained-defect`).** The `Use Cases and Scenarios Addressed` table gives scenario counts the Use-Case Model contradicts on two rows. UC-003 is recorded as "2", while the Use-Case Model's survey lists three, the third being "session ending without a sign-out", which its own A2 flow carries. UC-004 is recorded as "4", while the Use-Case Model lists five, the fifth being "the prerendered empty list rendered before the real one", which its A4 flow carries. The Use-Case Model is the trace-chain artifact and the authority for the scenario set; this table summarises it and is two scenarios short, which is the count a Test Designer would next read. **Remediation:** bring the two rows up to 3 and 5, or drop the count column and let the table reference the Use-Case Model's survey rather than restate it — the second option also stops the two artifacts drifting apart at the next correction.
 
-#### SCM evidence
+#### Vision
 
-`scm_list_pull_requests` in any state returns nothing, so there is no scaffolding to approve, no code to request changes on, and nothing to defer out of phase — correct for a phase that writes no code. `scm_get_build_status("main")` reports no IARI pipeline, correct for an iteration that builds nothing. No pull request, build or execution result is cited anywhere in this block, because none exists.
+| Checklist item | Result |
+|---|---|
+| Every claim anchored or marked not established | Pass — the two "Not established by the delivery" blocks name the business objective, the user population, the performance and recovery targets and the production posture |
+| Recovered capabilities cite `EP-NNN`, not a declared requirement | Pass — all eight features carry their entry points; the Vision cites no `FR-NNN` |
+| Nothing invented to fill what the delivery cannot establish | Pass — no market, competitor, business case or success measure is stated; each is named as absent |
+| The three exclusions held, no use case or class claiming through them | Pass — `EP-004`…`EP-011`, `EP-020`, `EP-021` claimed by none |
+| `AN-008`'s disclosure homes agree with the Risk List | Pass — the User Documentation of Construction, expressly not the Release Notes |
+
+No defect from this lens.
 
 ```plantuml
+@plantuml
 @startsalt
-title Compliance matrix — technical lens, SBC / Survey iteration 2
+title Compliance matrix - technical lens, AR / Excavation iteration 1
 {
   {#
-    . <b>Checklist item</b> | <b>Dev Case</b> | <b>Sys Inventory</b> | <b>Risk List</b> | <b>Iter Plan</b>
+    . <b>Checklist item</b> | <b>UCM</b> | <b>Spec</b> | <b>SAD</b> | <b>DepM</b> | <b>DesM</b> | <b>Inv</b> | <b>Risk</b> | <b>Plan</b>
     --
-    . Recovered elements carry the anchor they were read from | n/a | PASS | PASS | n/a
-    . Every perimeter fact rests on a file that says it | n/a | PASS | n/a | n/a
-    . Every top-level area described or declared unread | n/a | PASS | n/a | n/a
-    . Coverage aggregate reconciles with its own rows | n/a | PASS | n/a | n/a
-    . Exclusions traced to the stakeholder's answer | n/a | PASS | PASS | n/a
-    . Cross-cutting mechanism never modelled as a use case | PASS | PASS | n/a | n/a
-    . Every anomaly scored, magnitude from P x I | n/a | n/a | PASS | n/a
-    . High / Significant acceptances on the stakeholder's word | n/a | n/a | PASS | PASS
-    . Every action names a role at work in that phase | n/a | n/a | PASS | PASS
-    . No figure invented before a measured actual | PASS | n/a | n/a | PASS
-    . No human gate given an estimate or a day length | PASS | n/a | PASS | PASS
-    . One committed total, stated once | n/a | n/a | n/a | PASS
-    . Plan withholds a verdict it has no standing to give | n/a | n/a | n/a | PASS
-    . Roster accounted for, none silenced without a reason | PASS | n/a | n/a | PASS
-    . OPTIONAL trigger FIRED only where 5.2 condition holds | PASS | n/a | n/a | n/a
-    . No FORBIDDEN override of the IARI DC baseline | PASS | n/a | n/a | n/a
+    . Every UC cites the entry point it is recovered from | PASS | n/a | n/a | n/a | n/a | PASS | n/a | n/a
+    . No cross-cutting mechanism modelled as a use case | PASS | PASS | PASS | n/a | n/a | n/a | n/a | PASS
+    . No use case recovered from an excluded entry point | PASS | PASS | PASS | n/a | n/a | PASS | PASS | PASS
+    . Every component cites the files it is read from | n/a | n/a | PASS | PASS | n/a | n/a | n/a | n/a
+    . Only declared technology and versions appear | n/a | PASS | PASS | PASS | n/a | PASS | n/a | n/a
+    . Every component realizes the use cases on its path | n/a | n/a | PASS | n/a | n/a | n/a | n/a | n/a
+    . Every table, key and cascade read from a migration body | n/a | PASS | n/a | n/a | PASS | PASS | n/a | n/a
+    . Every class carries its anchor; none invented | n/a | n/a | PASS | n/a | PASS | n/a | n/a | n/a
+    . Coverage reconciles with its own rows | n/a | n/a | n/a | n/a | n/a | PASS | n/a | n/a
+    . Every area of the tree described or declared unread | n/a | n/a | n/a | n/a | n/a | PASS | n/a | n/a
+    . Every anomaly scored; magnitude is the band of P x I | n/a | n/a | n/a | n/a | n/a | n/a | PASS | n/a
+    . Every High and Significant acceptance in the stakeholder's words | n/a | n/a | n/a | n/a | n/a | n/a | PASS | PASS
+    . Every action names a role at work in the phase it lands in | n/a | n/a | n/a | n/a | n/a | n/a | PASS | PASS
+    . Suspect trace links cleared before the phase closes | FAIL | n/a | n/a | n/a | FAIL | FAIL | n/a | n/a
+    . Counts and figures agree across the artifact set | n/a | n/a | FAIL | FAIL | n/a | FAIL | n/a | FAIL
+    . No forecast before a measured actual | n/a | n/a | PASS | n/a | n/a | n/a | n/a | PASS
+    . No human gate given a duration | n/a | n/a | n/a | n/a | n/a | n/a | PASS | PASS
     --
-    . <b>Fails — open, non-blocking</b> | 0 | 0 | 1 | 1
-    . <b>Fails — open, holding the milestone</b> | 0 | 0 | 0 | 0
+    . <b>Fails - holding the milestone</b> | <b>1</b> | <b>0</b> | <b>0</b> | <b>0</b> | <b>1</b> | <b>1</b> | <b>0</b> | <b>0</b>
+    . <b>Fails - contained, not holding it</b> | 0 | 1 | 2 | 1 | 1 | 1 | 0 | 1
   }
 }
 @endsalt
+@enduml
 ```
 
 ### Management Reviewer lens
