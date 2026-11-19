@@ -11,14 +11,16 @@ The model is produced in stages. This iteration recovers the **domain model** an
 | Section | What its diagram fixes | Status this iteration |
 |---|---|---|
 | Domain Model | The classes the code declares as business objects, their members, and the one relationship that holds between them | Recovered |
-| Design Packages and Classes | The same classes grouped by the component that declares them, with every operation the code implements | Recovered |
+| Design Packages and Classes | The same classes grouped by the component that declares them, with every operation the code implements, and the classes of the host-configuration, orchestration and verification components | Recovered |
 | Use-Case Realizations | Which objects collaborate, in what order, for each of the eight recovered use cases | Not yet recovered |
 | Interface Contracts | Pre/postconditions on every operation a component boundary crosses | Not yet recovered |
 | Persistent Data Classes | Column, key, index and cascade detail of the eight tables | Owned by the Database Designer |
 | Boundary Classes and Navigation Map | The Razor components as boundary classes | Owned by the User Interface Designer |
 | Capsules, Protocols and Signals | — | `[OMITTED: Capsules, Protocols and Signals — Development Case DC-D3: real-time-system = false, so no capsule, protocol or signal work runs in any phase]` |
 
-**What is recovered and what is not.** Ten classes carry the product's own business objects and its declared wire shapes: one entity the project authored (`Todo`), the Identity-derived user, six DTO declarations that exist twice over — once in each host — plus the projection helper and one token record. Seventeen further classes carry the code that reads and writes those objects. Each is anchored where it is described; a class with no member the code declares is shown with none.
+**What is recovered and what is not.** Thirty-four classes carry the product and its declared wire shapes. Ten are business objects: one entity the project authored (`Todo`), the Identity-derived user, six DTO declarations that exist twice over — once in each host — plus the projection helper and one token record. Seventeen carry the code that reads and writes those objects. Seven more carry the host configuration, the orchestration, the migration and the test harness — the components the architecture summarises as carrying none. Each class is anchored where it is described; a class with no member the code declares is shown with none.
+
+**One component declares no class at all.** COMP-018 is a workflow document; `TodoApp.AppHost/Program.cs` is top-level statements. Neither is a compilation unit, so neither has a class to recover. Every other component of the architecture holds at least one.
 
 ## Domain Model
 The business objects the code declares are six: one entity the product authors, the Identity-derived user, and four DTO shapes. Three of those four exist twice over, because `Todo.Api` references `TodoApp.ServiceDefaults` alone and declares its own `TodoItem`, `UserInfo` and `ExternalUserInfo` while the two web projects share a second declaration through `Todo.Web.Shared` (ADR-011, CON-A10). There is one persistent relationship in the whole model and it is the ownership edge.
