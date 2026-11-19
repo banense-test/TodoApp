@@ -20,24 +20,7 @@ The three scope decisions of 2026-11-19 — external identity-provider sign-in o
 Two decisions of iteration 1 change the plan rather than merely inform it, and both stand: Excavation stays a single iteration with priorities 1–6 inside AR, which makes Elaboration's second iteration the only place a contradicted recovered statement is corrected; and no token budget is declared, so every iteration ends when its exit criteria pass and spend is measured, never bounded.
 
 ## Plan and Milestones
-No phase has closed. There is no measured actual, therefore there is no forecast: no token figure, no elapsed figure, and no per-iteration velocity appears in this plan. The ten iterations above are a count of iterations, not a duration, and no declared scope is cut or deferred to fit an estimate.
-
-**The count sits one above the `6 ± 3` heuristic's ceiling, and this is stated rather than absorbed.** The heuristic flags more than 9 iterations as over-engineered process overhead. The tenth is not process overhead added by choice: Survey's first iteration issued four artifacts, both review lenses found seven Major defects in them, and the milestone was not sanctioned. A phase whose milestone review leaves findings open runs another iteration — that is the mechanism, and it fired once. The alternative to the tenth iteration is closing the milestone with seven Major defects open, which the stakeholder refused on 2026-11-19. If a further iteration is added at any later milestone, the same test applies: it must be traceable to an open finding or a stakeholder order, or the roadmap is over-engineered and the count is the symptom.
-
-The budget position was put to the stakeholder in Survey iteration 1 and answered on 2026-11-19:
-
-| What was put | Their answer, verbatim | Recorded |
-|---|---|---|
-| Whether a token budget has been declared for this project, given that the Development Case records none and this plan commits to a cross-iteration horizon in which R020's contingency may add an iteration. | "No budget declared — record measured spend at each phase close and forecast from the measured actual, never from an assumption." | 2026-11-19 |
-
-So the project declares **no token budget**: there is no box, no figure was invented for the stakeholder to accept, and nothing is trimmed to fit one. Measured spend is recorded as observed at each phase close, and both clocks are reported apart:
-
-| Clock | What it measures | Where it is recorded | Ceiling |
-|---|---|---|---|
-| Agent work | Tokens consumed per stage and per role; elapsed agent time | Iteration Assessment, at phase close | No ceiling — measured, not bounded |
-| Human gates | Days of queue time waiting for the stakeholder | R021, in the Risk List's Risk Register and Risk Mitigation and Contingency sections | 14 days, then the process suspends; the actual is reported apart |
-
-The two are never added and never converted into one another. The gate is a risk with a bound, not a work item with an estimate: it carries no duration here and none is forecast for it.
+This section carries both levels of the plan: the cross-iteration roadmap with its milestone sequence, and this iteration's fine plan with its owners.
 
 ### Coarse roadmap — sprint zero then the RUP phases
 
@@ -183,7 +166,7 @@ end note
 
 ### Measure and forecast
 
-No phase has closed. There is no measured actual, therefore there is no forecast: no token figure, no elapsed figure, and no per-iteration velocity appears in this plan. The ten iterations above are a count of iterations, not a duration, and no declared scope is cut or deferred to fit an estimate.
+**No phase has closed.** There is no measured actual, therefore there is no forecast: no token figure, no elapsed figure, and no per-iteration velocity appears in this plan. The ten iterations above are a count of iterations, not a duration, and no declared scope is cut or deferred to fit an estimate.
 
 **The count sits one above the `6 ± 3` heuristic's ceiling, and this is stated rather than absorbed.** The heuristic flags more than 9 iterations as over-engineered process overhead. The tenth is not process overhead added by choice: Survey's first iteration issued four artifacts, both review lenses found seven Major defects in them, and the milestone was not sanctioned. A phase whose milestone review leaves findings open runs another iteration — that is the mechanism, and it fired once. The alternative to the tenth iteration is closing the milestone with seven Major defects open, which the stakeholder refused on 2026-11-19. If a further iteration is added at any later milestone the same test applies: it must trace to an open finding or a stakeholder order, or the roadmap is over-engineered and the count is the symptom.
 
@@ -201,6 +184,8 @@ So the project declares **no token budget**: there is no box, no figure was inve
 | Human gates | Days of queue time waiting for the stakeholder | R021, in the Risk List's Risk Register and Risk Mitigation and Contingency sections | 14 days, then the process suspends; the actual is reported apart |
 
 The two are never added and never converted into one another. The gate is a risk with a bound, not a work item with an estimate: it carries no duration here and none is forecast for it.
+
+**The first measured actual now exists.** Survey closes with both clocks recorded in the Iteration Assessment: 21,362,704 tokens and 1:12:20 of agent elapsed across the phase's two iterations, against 1:09:33 of stakeholder queue time. Those are phase totals, not a velocity, and no per-iteration rate is computed from two iterations of one phase. Every later phase's forecast is built from them; nothing in this plan is.
 
 ### Critical chain
 
@@ -244,9 +229,8 @@ carried as R021;
 :Iteration Assessment - written after the verdict;
 note right
   Every stretch above is a sequential agent
-  stretch. No phase has closed, so none carries
-  a spend figure: the first measured actual
-  replaces every assumed share.
+  stretch. The phase's measured spend is recorded
+  in the Iteration Assessment, not per stretch.
 end note
 stop
 @enduml
