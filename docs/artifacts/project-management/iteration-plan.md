@@ -20,24 +20,25 @@ The three stakeholder decisions of 2026-11-19 already taken — external identit
 ## Plan and Milestones
 ### Coarse roadmap — sprint zero then the RUP phases
 
-`6 ± 3` iterations across the project, and this roadmap commits to **8, or 9 if Elaboration needs its second**. The sprint zero adds no milestone of its own to the RUP sequence — it runs before Inception and produces the material Inception builds on. The sequence below is the cross-iteration horizon this plan commits to; nothing beyond the current iteration is planned in detail.
+`6 ± 3` iterations across the project, and this roadmap commits to **9**. The sprint zero adds no milestone of its own to the RUP sequence — it runs before Inception and produces the material Inception builds on. The sequence below is the cross-iteration horizon this plan commits to; nothing beyond the current iteration is planned in detail.
 
 | Order | Phase | Milestone | What the milestone closes | Iterations planned |
 |---|---|---|---|---|
 | 1 | Survey | **SBC** | The perimeter is drawn and confirmed, the anomalies are recorded, every one scored as a risk, and the tailoring for the sprint zero is issued. | 1 |
-| 2 | Excavation | **AR** | The recovered use cases, the recovered architecture, the design model with the persistent schema, and the Deployment Model exist for the priorities Excavation reads first. | 1 |
+| 2 | Excavation | **AR** | The recovered use cases, the recovered architecture, the design model with the persistent schema, and the Deployment Model exist — priorities 1–6 recovered in one iteration, 7 read as its cross-check. | 1 |
 | 3 | Consolidation | **GHR** | Every entry point of the recovered perimeter has a use case or a recorded exclusion; the Supplementary Specification and the coverage statement complete the set. | 1 |
 | 4 | Inception | **LCO** | The declared scope is agreed against the recovered baseline, the candidate architecture exists and the business case is settled. | 1 |
-| 5 | Elaboration | **LCA** | The architecture baseline is executable and the first assembled run of the topology has happened; test cases cover it. | 1–2 |
+| 5 | Elaboration | **LCA** | The architecture baseline is executable and the first assembled run of the topology has happened; test cases cover it. | 2 |
 | 6 | Construction | **IOC** | The declared scope is implemented, tested and baselined. | 2 |
 | 7 | Transition | **PR** | The product is deployed, acceptance-tested and documented; the release is baselined. | 1 |
 
-`1 + 1 + 1 + 1 + 1–2 + 2 + 1 = 8–9`. The profile is the rubber profile for a small project that is nonetheless **recovery-heavy**, and it bends in exactly two places, each against a named risk:
+`1 + 1 + 1 + 1 + 2 + 2 + 1 = 9`. The profile is the rubber profile for a small project that is nonetheless **recovery-heavy**, and each move away from it is made against a named risk:
 
-- **The sprint zero carries three of the eight.** Every requirement, component and table has to be read out of code before Inception can declare anything (R020, R009, R013). This is the whole reason the total sits above the median.
-- **Elaboration carries a second iteration, planned rather than optional,** because R020's accepted contingency — the first assembled run as the Integrator's Architecture Build — is the most likely event in the plan to contradict a recovered statement, and the phase must then re-derive the affected elements inside itself. If that run confirms the recovered topology, the second iteration is not spent.
+- **The sprint zero carries three of the nine.** Every requirement, component and table has to be read out of code before Inception can declare anything. This is the whole reason the total sits above the median.
+- **Excavation stays one iteration.** The stakeholder declined a second one on 2026-11-19, so priorities 1–6 are recovered in a single pass with priority 7 as its cross-check. The cost of that choice lands in Elaboration, not here.
+- **Elaboration takes two iterations, committed.** R020's accepted contingency is the first assembled run as the Integrator's Architecture Build, and with a single-pass sprint zero there is no other place a contradicted recovered statement can be corrected. The second iteration is planned work, not a reserve.
 - **Construction is not bent.** Nothing in the Inventory suggests a large declared scope: the recovered product is registration, login, logout and todo list / create / delete, over one aggregate and eight tables. Two iterations are the whole of it.
-- **Transition is not compressed either.** It is one iteration with no user training to carry, and the acceptance test is the only thing there that costs a full iteration.
+- **Transition is not compressed.** One iteration, no user training to carry, and the acceptance test is the only thing there that costs a full iteration.
 
 ```plantuml
 @startgantt
@@ -48,8 +49,8 @@ skinparam shadowing false
 [Sprint zero - Excavation AR] lasts 1 day
 [Sprint zero - Consolidation GHR] lasts 1 day
 [Inception LCO] lasts 1 day
-[Elaboration LCA - iteration 1] lasts 1 day
-[Elaboration LCA - second iteration if the first assembled run contradicts the recovered topology] lasts 1 day
+[Elaboration LCA - iteration 1 - architecture baseline] lasts 1 day
+[Elaboration LCA - iteration 2 - assembled run and correction] lasts 1 day
 [Construction IOC - iteration 1] lasts 1 day
 [Construction IOC - iteration 2] lasts 1 day
 [Transition PR] lasts 1 day
@@ -64,9 +65,9 @@ skinparam shadowing false
 [Sprint zero - Excavation AR] starts at [Sprint zero - Survey SBC]'s end
 [Sprint zero - Consolidation GHR] starts at [Sprint zero - Excavation AR]'s end
 [Inception LCO] starts at [Sprint zero - Consolidation GHR]'s end
-[Elaboration LCA - iteration 1] starts at [Inception LCO]'s end
-[Elaboration LCA - second iteration if the first assembled run contradicts the recovered topology] starts at [Elaboration LCA - iteration 1]'s end
-[Construction IOC - iteration 1] starts at [Elaboration LCA - second iteration if the first assembled run contradicts the recovered topology]'s end
+[Elaboration LCA - iteration 1 - architecture baseline] starts at [Inception LCO]'s end
+[Elaboration LCA - iteration 2 - assembled run and correction] starts at [Elaboration LCA - iteration 1 - architecture baseline]'s end
+[Construction IOC - iteration 1] starts at [Elaboration LCA - iteration 2 - assembled run and correction]'s end
 [Construction IOC - iteration 2] starts at [Construction IOC - iteration 1]'s end
 [Transition PR] starts at [Construction IOC - iteration 2]'s end
 
@@ -74,7 +75,7 @@ skinparam shadowing false
 [Stakeholder gate - AR] starts at [Sprint zero - Excavation AR]'s end
 [Stakeholder gate - GHR] starts at [Sprint zero - Consolidation GHR]'s end
 [Stakeholder gate - LCO] starts at [Inception LCO]'s end
-[Stakeholder gate - LCA] starts at [Elaboration LCA - iteration 1]'s end
+[Stakeholder gate - LCA] starts at [Elaboration LCA - iteration 2 - assembled run and correction]'s end
 [Stakeholder gate - IOC] starts at [Construction IOC - iteration 2]'s end
 [Stakeholder gate - PR] starts at [Transition PR]'s end
 
@@ -82,7 +83,7 @@ skinparam shadowing false
 [AR] happens at [Sprint zero - Excavation AR]'s end
 [GHR] happens at [Sprint zero - Consolidation GHR]'s end
 [LCO] happens at [Inception LCO]'s end
-[LCA] happens at [Elaboration LCA - iteration 1]'s end
+[LCA] happens at [Elaboration LCA - iteration 2 - assembled run and correction]'s end
 [IOC] happens at [Construction IOC - iteration 2]'s end
 [PR] happens at [Transition PR]'s end
 
