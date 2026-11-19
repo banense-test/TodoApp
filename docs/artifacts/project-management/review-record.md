@@ -179,221 +179,108 @@ Two notes on the calendar, and both are enforced in the ledger below rather than
 
 ## Findings
 ### Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-Nine findings across the four artifacts: four Major, five Minor, no Critical. Each Major is a place where a role in Excavation would consume wrong content; each Minor stays inside its own artifact.
+<!-- review: Survey I2 -->
 
-```plantuml
-@startuml
-title Compliance matrix — SBC checklist per artifact (Survey iteration 1)
-skinparam shadowing false
-skinparam classAttributeIconSize 0
-hide empty members
-hide circle
-
-package "Development Case" {
-  class "Development Case\nSurvey, Draft" as DC {
-    DC baseline conformance : Pass
-    Optional trigger verdicts justified : Pass
-    Inactive disciplines declared with trigger : Pass
-    Referenced tool configuration exists : FAIL
-    Trigger basis current at milestone : FAIL
-  }
-}
-
-package "System Inventory" {
-  class "System Inventory\nSurvey, Draft" as SI {
-    Perimeter components anchored : Pass
-    Every entry point carries an anchor : Pass
-    Every anomaly carries evidence : Pass
-    Unread areas declared with reason : Pass
-    Aggregates reconcile with rows : FAIL
-    Internal consistency across sections : FAIL
-  }
-}
-
-package "Risk List" {
-  class "Risk List\nSurvey, Draft" as RL {
-    Every anomaly scored as a risk : Pass
-    Magnitude is the band of P x I : Pass
-    High acceptances recorded verbatim : Pass
-    Declared scale used, none invented : Pass
-    Owning roles at work in named phase : FAIL
-  }
-}
-
-package "Iteration Plan" {
-  class "Iteration Plan\nSurvey, Draft" as IP {
-    Exit criteria mapped to evidence : Pass
-    Roadmap total stated once : FAIL
-    No elapsed figure before measured actual : FAIL
-    Resource roster accounted for : FAIL
-    Verdict left to the milestone review : Pass
-  }
-}
-
-note bottom of DC
-  F1 — the Templates table names CONTRIBUTING.md,
-  which is not in the repository.
-  F2 — the PoC trigger row still bases itself on
-  "no Risk List exists yet".
-end note
-
-note bottom of SI
-  F1 — 71 of 128 does not follow from the Read column.
-  F2 — the /users row says token refresh is used;
-  AN-015 says nothing redeems a refresh token.
-end note
-
-note bottom of RL
-  F1 — six Excavation avoidance actions are owned by
-  the Requirements Specifier, which does not work in
-  the sprint zero; one by the Change Control Manager.
-end note
-
-note bottom of IP
-  F1 — the roadmap commits to 9 and, later, to 8.
-  F2 — the six criteria are marked Met by a plan that
-  says the verdict is not its to give.
-  F3 — "six roles" against seven Yes rows; five roles unlisted.
-  F4 — every gantt bar is one day, including the human gates.
-end note
-@enduml
-```
-
-```plantuml
-@startuml
-title Defect distribution — severity x artifact (Survey iteration 1, technical lens)
-skinparam shadowing false
-skinparam defaultTextAlignment left
-skinparam classAttributeIconSize 0
-hide empty members
-hide circle
-
-class "Development Case" as DC {
-  Major : 1  (F1)
-  Minor : 1  (F2)
-  Info : 0
-}
-class "System Inventory" as SI {
-  Major : 1  (F2)
-  Minor : 1  (F1)
-  Info : 0
-}
-class "Risk List" as RL {
-  Major : 1  (F1)
-  Minor : 0
-  Info : 0
-}
-class "Iteration Plan" as IP {
-  Major : 1  (F1)
-  Minor : 3  (F2, F3, F4)
-  Info : 0
-}
-class "TOTAL 9" as T {
-  Critical : 0
-  Major : 4  — rework before consumption
-  Minor : 5  — owner fixes next turn
-}
-
-DC -right-> T
-SI -right-> T
-RL -right-> T
-IP -right-> T
-
-note bottom of T
-  No Critical finding: nothing here needs a scope decision,
-  a contradiction in what the stakeholder declared, or a risk
-  only they may accept. The three High risks were accepted
-  on 2026-11-19 and their acceptances are recorded verbatim.
-  The four Major findings all sit inside the artifacts themselves
-  and all are correctable by their author without a stakeholder answer.
-end note
-note right of RL
-  R001 … R020 trace to AN-001 … AN-020.
-  Twenty anomalies, twenty risks: no orphan, no invented risk.
-  The single Major is in the owning-role column, not the scoring.
-end note
-@enduml
-```
+Survey iteration 2 is a correction pass: its subject is whether the seven Major findings of the previous milestone review were in fact corrected. Each artifact is entered below against the checklist that governs it, with the finding that was open against it and what the corrected content now says.
 
 #### Development Case
 
-**Major — Development Case#F1 — `consumed-defect`.** The Templates table names `CONTRIBUTING.md` as the single home of the coding standards, the UI patterns and the test conventions, with three owners. The file is not in the repository. Four roles are directed to a convention source that does not exist, and the table gives no fallback. **Remediation:** re-point the rows at files that exist (`ci.yaml`, `global.json`, `Directory.Build.props`, `Directory.Packages.props`, `nuget.config`) and record the three convention families as undocumented until a declared requirement or Change Request puts a convention file in scope.
+| Checklist item | Result |
+|---|---|
+| No FORBIDDEN override of the IARI DC baseline — roster, CORE ownership, CORE omissions, artifact universe, role merging | Pass |
+| OPTIONAL trigger FIRED only where its §5.2 condition genuinely holds | Pass — Deployment Model alone is fired, on a three-service Aspire topology with per-project settings and a forwarder |
+| Every referenced path exists in the repository | Pass — the four tool-configuration paths and `.github/workflows/ci.yaml` all resolve |
+| Convention content with no file in the repository is declared as such, with no fallback asserted | Pass |
+| Cross-cutting mechanisms held out of the use-case model | Pass — authentication, registration, token issue, rate limiting, proxying and telemetry are Supplementary Specification constraints, each `<<include>>`d |
+| Co-owned artifact sections assigned to one owner each | Pass — Design Model split three ways, SAD sole |
 
-**Minor — Development Case#F2 — `contained-defect`.** The Architectural Proof-of-Concept row bases its verdict partly on "no Risk List exists yet". True when issued, false now: 20 scored risks exist, including R020 and R017. The verdict still holds on the phase requirement. **Remediation:** drop the stale clause and let the phase requirement be the whole basis.
-
-The two tailoring decisions this lens was required to audit both pass. Every FIRED optional was checked against its trigger condition: Deployment Model is FIRED and the condition genuinely holds — `TodoApp.AppHost/Program.cs` orchestrates two project services and a container, gated on a migration operation, joined by service discovery and a forwarder, across per-project settings files. Data Model is NOT FIRED and the condition genuinely fails — `IdentityDbContext<TodoUser>` plus `Todos` yields 8 entities, not more than 10. The remaining four NOT-FIRED verdicts hold. Nothing in the artifact redefines the 26-role roster, omits a CORE artifact, reassigns primary ownership, merges two roles, or lists an artifact outside the CORE + OPTIONAL universe plus the System Inventory.
+Development Case#F1 and #F2 are corrected; the resolutions are recorded in Resolutions and Actions. No defect remains in this artifact from this lens.
 
 #### System Inventory
 
-**Major — System Inventory#F2 — `consumed-defect`.** The Perimeter's `Todo.Api / Users` row states the delivered product uses "registration, login and token refresh only". AN-015 in the same artifact records that nothing redeems a refresh token — the BFF stores only `accessToken`, `TokenNames` names only `accessToken`, `AuthClient` has no refresh call. A role reading the Perimeter table concludes EP-003 has a caller and recovers a refresh use case; a role reading AN-015 concludes it has none. **Remediation:** restate the Perimeter row to agree with AN-015 and say once, in one place, whether a use case may be recovered from EP-003.
+| Checklist item | Result |
+|---|---|
+| Every high-consequence fact about the existing system rests on a file that says what the row claims | Pass — three anchors re-opened this iteration against the corrected `/users` rows and all three confirm them |
+| No perimeter row carries a size or count without its anchor | Pass |
+| Coverage reconciles with its own per-area rows, and every unread file carries a reason | Pass — Files 132, Read 72, unread 60, stated once as the sum of the Read column |
+| No top-level area of the tree left neither described nor declared unread | Pass |
+| Each of the three exclusions traced to the stakeholder's answer, and no use case claimed from an excluded entry point | Pass — `EP-011`, `EP-020`, `EP-021`, `EP-004` … `EP-010` |
+| One statement of whether `EP-003` supports a use case, and no contradiction between Perimeter and anomalies | Pass — the Perimeter states it once and `AN-015` carries the same fact |
 
-**Minor — System Inventory#F1 — `contained-defect`.** The Coverage aggregate does not reconcile with its own rows: the Read column sums to 72 while the text says 71 of 128 and 57 unread, and the four-category unread breakdown omits `GlobalUsings.cs` and the Inventory's own file. The per-area rows — which are what SBC exit criterion 3 rests on — are correct. **Remediation:** recompute the aggregate from the table, or drop the aggregate and let the per-area rows carry the count.
+The anchors opened this iteration, against the corrected claim:
 
-Anchor verification is the substance of this artifact and it holds: twelve of the thirteen anchors opened say what the artifact claims. Twenty-six entry points each carry a real anchor. Twenty anomalies each cite evidence. Coverage declares every unread area with a reason and no top-level area of the tree is left neither described nor declared unread. The three exclusions are recorded where the stakeholder's answers put them, each with the code anchor that stays as read.
+| Anchor opened | Claim it now carries | Verdict |
+|---|---|---|
+| `Todo.Api/Users/UsersApi.cs` | `MapIdentityApi<TodoUser>()` publishes the stock surface; the custom `/users/token/{provider}` is the only added endpoint | Confirmed — the seven excluded operations and the excluded provider endpoint are as the Perimeter draws them |
+| `Todo.Web/Server/AuthClient.cs` | Exactly three calls — `users/register`, `users/login`, `users/token/{provider}`; no refresh call | Confirmed — no caller for `EP-003` |
+| `Todo.Web/Server/Authentication/TokenNames.cs` | `AccessToken = "accessToken"` is the only token name the BFF holds | Confirmed — no refresh token is stored, so none can be redeemed |
+
+System Inventory#F1 and #F2 are corrected. No defect remains in this artifact from this lens.
 
 #### Risk List
 
-**Major — Risk List#F1 — `consumed-defect`.** Six Excavation avoidance actions name the Requirements Specifier as owning role (R002, R010, R011, R014, R015, R016), and R014 additionally names the Change Control Manager. Neither works in the sprint zero: Excavation's Requirements stage is the System Analyst's, the Requirements Specifier's first stage is Elaboration, and the Development Case records that the Change Control Manager opens no ledger there. A risk register whose avoidance actions are owned by roles absent from the phase is a register Excavation cannot execute. **Remediation:** re-own the Excavation actions to the System Analyst, keep the Software Architect parts in Excavation, move R014's control part to Inception.
+| Checklist item | Result |
+|---|---|
+| Magnitude is the band of probability × impact on the declared IARI scale, not a scale of the artifact's own | Pass — R021 at 3 × 4 = 12, Significant |
+| Every anomaly of the System Inventory is a scored risk | Pass — `AN-001` … `AN-020` |
+| Every High or Significant acceptance rests on the stakeholder's own words, recorded verbatim with its date | Pass — four acceptances, each quoted |
+| Every avoidance action names a role at work in the phase the action lands in | Pass — the six Excavation actions re-owned to the System Analyst; R014's control part moved to Inception where the ledger opens |
+| The project's own binding constraint is bounded in the register, not only in the plan | Pass — R021 |
+| A mitigation lands in the stage that produces the artifact it names | Pass for R008 — the User Documentation the Technical Writer produces in Construction |
+| The register's statements about one acceptance agree with each other | **Fail** — Risk List#F2 |
 
-Scoring, strategy and acceptance all pass. Twenty anomalies, twenty risks, no orphan and none invented — each R traces to its AN. Magnitude is the band of P × I throughout, on the declared scale, with no scale of the document's own. All three High risks (R008 16, R009 16, R020 20) were put to the stakeholder and accepted on 2026-11-19, recorded verbatim; all nine Significant risks are handled by avoidance, so no Significant acceptance was self-granted.
+**Risk List#F2 (Minor, `contained-defect`).** The closing "R021 — the stakeholder gate, offered for acceptance" block states the risk "stays OPEN until their answer is recorded here verbatim, with its date", lists three conditions said to hold "until then", and heads itself "offered for acceptance" — while the acceptance table in the same section records R021 at Significant (12) with the answer "Yes" dated 2026-11-19, and the Register row reads "Accept — granted by the stakeholder, 2026-11-19". Two statements of one fact sit in one section and disagree. A reader testing SBC exit criterion 4 reaches "pending" from the block and "granted" from the table and cannot tell which governs. **Remediation:** delete the trailing block, or restate it as the statement of the mitigation in force after the answer of that date; the answer itself is recorded once, in the acceptance table where the other three grants sit.
 
 #### Iteration Plan
 
-**Major — Iteration Plan#F1 — `consumed-defect`.** The plan commits to two different totals. The roadmap sums 1+1+1+1+2+2+1 and both the preamble and the profile bullets state 9 with Elaboration's second iteration "committed ... planned work, not a reserve". Evaluation Criteria then states "8 iterations, or 9 if Elaboration needs its second" — making conditional what the roadmap commits. Nothing downstream can read a single baseline. **Remediation:** state 9 once, in the roadmap, and delete the "8 or 9" sentence rather than reconciling it in a second place.
+| Checklist item | Result |
+|---|---|
+| One committed total, stated once | Pass — `2 + 1 + 1 + 1 + 2 + 2 + 1 = 10`, in the roadmap only |
+| No forecast, no velocity, no size before a measured actual exists | Pass |
+| No human gate carries an estimate or a span a reader can sum | Pass — every bar reads `lasts 0 day` |
+| Exit criteria judged against evidence, with no verdict the plan has no standing to give | Pass — the columns read "Evidence this plan supplies" and "What the review judges" |
+| Every role of the active roster either scheduled or given a stated reason for absence | Pass — six execute, one human gate, twenty with reasons |
+| The tailoring the plan's consumers depend on is corrected before they start | Pass — the Development Case correction is fine-plan item 1, sequenced first |
+| No stage scheduled that the IARI process does not run in the phase | Pass |
+| A section states its own content once | **Fail** — Iteration Plan#F5 |
 
-**Minor — Iteration Plan#F2 — `contained-defect`.** Evaluation Criteria marks all six criteria "Met — confirmed / recorded / issued" while the same section opens by disclaiming the verdict and the fine plan records the SBC review as "Not started — the reviewers' to give". The plan both withholds the verdict and exercises it. **Remediation:** replace the verdict words with the evidence supplied.
+**Iteration Plan#F5 (Minor, `contained-defect`).** The opening block of "Plan and Milestones" duplicates its "Measure and forecast" subsection verbatim: the no-forecast paragraph, the `6 ± 3` ceiling paragraph, the budget-position table carrying the stakeholder's answer, and the two-clock table all appear twice in one section. The duplicate also carries a forward reference it cannot support — "The ten iterations above are a count of iterations" sits above the roadmap that states the ten. **Remediation:** delete the opening block and let the section open with "Coarse roadmap"; the duplicated matter stays once, in Measure and forecast, where "the ten iterations above" correctly refers to the roadmap.
 
-**Minor — Iteration Plan#F3 — `contained-defect`.** Resources states six roles at work but marks seven rows "Yes"; five roles of the active roster appear in no row at all. **Remediation:** restate the profile as six agent roles plus the stakeholder gate, and list the unlisted roles with their exclusion reason.
+#### SCM evidence
 
-**Minor — Iteration Plan#F4 — `contained-defect`.** Every bar in both gantt diagrams is "lasts 1 day", including the seven human-gate bars, while Measure and forecast states that no elapsed figure appears in this plan. Summing the bars yields 16 days; the gates are held elsewhere to be a queue-time risk with a 14-day ceiling and "estimate NONE". **Remediation:** remove the day lengths, or keep the diagram carrying ordering only with no numeric duration.
-
-The substance of this plan passes: the six exit criteria each name the evidence they rest on, the no-forecast discipline is correct for a project with no closed phase and no declared budget, the stakeholder's four answers are recorded verbatim where they bind, and the roadmap respects the declined Excavation split by carrying orders 1-6 in one iteration with order 7 as cross-check. No work item names work the IARI process does not run in Survey.
+`scm_list_pull_requests` in any state returns nothing, so there is no scaffolding to approve, no code to request changes on, and nothing to defer out of phase — correct for a phase that writes no code. `scm_get_build_status("main")` reports no IARI pipeline, correct for an iteration that builds nothing. No pull request, build or execution result is cited anywhere in this block, because none exists.
 
 ```plantuml
-@startuml
-title Findings routed to the owner that must act, before any role consumes the artifact
-skinparam shadowing false
-skinparam defaultTextAlignment left
-skinparam classAttributeIconSize 0
-hide empty members
-hide circle
-
-package "Author must rework (Major)" {
-  class "Process Engineer\nDevelopment Case#F1" as PE
-  class "Software Archaeologist\nSystem Inventory#F2" as SA
-  class "Project Manager\nRisk List#F1\nIteration Plan#F1" as PM
+@startsalt
+title Compliance matrix — technical lens, SBC / Survey iteration 2
+{
+  {#
+    . <b>Checklist item</b> | <b>Dev Case</b> | <b>Sys Inventory</b> | <b>Risk List</b> | <b>Iter Plan</b>
+    --
+    . Recovered elements carry the anchor they were read from | n/a | PASS | PASS | n/a
+    . Every perimeter fact rests on a file that says it | n/a | PASS | n/a | n/a
+    . Every top-level area described or declared unread | n/a | PASS | n/a | n/a
+    . Coverage aggregate reconciles with its own rows | n/a | PASS | n/a | n/a
+    . Exclusions traced to the stakeholder's answer | n/a | PASS | PASS | n/a
+    . Cross-cutting mechanism never modelled as a use case | PASS | PASS | n/a | n/a
+    . Every anomaly scored, magnitude from P x I | n/a | n/a | PASS | n/a
+    . High / Significant acceptances on the stakeholder's word | n/a | n/a | PASS | PASS
+    . Every action names a role at work in that phase | n/a | n/a | PASS | PASS
+    . No figure invented before a measured actual | PASS | n/a | n/a | PASS
+    . No human gate given an estimate or a day length | PASS | n/a | PASS | PASS
+    . One committed total, stated once | n/a | n/a | n/a | PASS
+    . Plan withholds a verdict it has no standing to give | n/a | n/a | n/a | PASS
+    . Roster accounted for, none silenced without a reason | PASS | n/a | n/a | PASS
+    . OPTIONAL trigger FIRED only where 5.2 condition holds | PASS | n/a | n/a | n/a
+    . No FORBIDDEN override of the IARI DC baseline | PASS | n/a | n/a | n/a
+    --
+    . <b>Fails — open, non-blocking</b> | 0 | 0 | 1 | 1
+    . <b>Fails — open, holding the milestone</b> | 0 | 0 | 0 | 0
+  }
 }
-package "Author fixes next turn (Minor)" {
-  class "Process Engineer\nDevelopment Case#F2" as PE2
-  class "Software Archaeologist\nSystem Inventory#F1" as SA2
-  class "Project Manager\nIteration Plan#F2 · #F3 · #F4" as PM2
-}
-class "Next role to consume these artifacts" as NEXT {
-  System Analyst — Excavation
-  Software Architect — Excavation
-  Designer · Database Designer — Excavation
-}
-class "Review Coordinator\nholds the SBC verdict" as RC
-
-PE --> NEXT : cleared first
-SA --> NEXT : cleared first
-PM --> NEXT : cleared first
-PE2 ..> NEXT : does not hold the milestone
-SA2 ..> NEXT : does not hold the milestone
-PM2 ..> NEXT : does not hold the milestone
-NEXT --> RC : only an artifact set\ncleared of Major findings\nis consumed again
-
-note bottom of NEXT
-  Excavation reads the Perimeter to fix the set of
-  entry points a use case may come from, the
-  Priorities to fix its reading order, and the
-  Risk List for the avoidance actions it must
-  perform. All three are where the four Major
-  findings sit.
-end note
-@enduml
+@endsalt
 ```
 
 ### Management Reviewer lens
