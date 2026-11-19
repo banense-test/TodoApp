@@ -4,7 +4,6 @@
 - Milestone Target: end of Survey (SBC) — not yet achieved
 
 ## Iteration Objectives
-
 Survey is iteration 1 of the sprint zero. It runs on a system nobody here wrote and nobody can ask about: the delivery is a copy of `davidfowl/TodoApp` at `307a1ead`, and `.iari/README.md` records that it carries no requirements, design or architecture document, no database scripts, no manual, no running installation and no reachable authors. This iteration therefore does not build anything — it establishes what the existing system is, at a perimeter the stakeholder will confirm, before any RUP phase plans against it.
 
 | # | Objective | Basis |
@@ -14,8 +13,11 @@ Survey is iteration 1 of the sprint zero. It runs on a system nobody here wrote 
 | 3 | Read the system and record its anomalies — every place the delivery contradicts itself or the documents that describe it — and order the areas Excavation reads in. | System Inventory, Priorities (order 1–8) |
 | 4 | Score every anomaly as a project risk, choose a strategy, and put the High-risk acceptances to the stakeholder. | Risk List, all twenty scored |
 | 5 | Issue this plan: the cross-iteration roadmap to PR, and this iteration's work items with their owners. | Development Case DC-D1, DC-D7 |
+| 6 | Settle how much of the ordered recovery the AR milestone must contain, and whether a token budget bounds the plan. | The stakeholder's answers of 2026-11-19, recorded under Evaluation Criteria and Measure and forecast |
 
-The three stakeholder decisions of 2026-11-19 already taken — external identity-provider sign-in out of scope, the `admin` role as dead code, the self-service identity surface out — are **inputs** to this iteration, not objectives of it. Every one of them is recorded as an exclusion in the System Inventory's Perimeter and carried into R002, R010, R014 and R019.
+The three scope decisions already taken on 2026-11-19 — external identity-provider sign-in out of scope, the `admin` role as dead code, the self-service identity surface out — are **inputs** to this iteration, not objectives of it. Every one of them is recorded as an exclusion in the System Inventory's Perimeter and carried into R002, R010, R014 and R019.
+
+Two further decisions were taken in this iteration, and both change the plan rather than merely inform it: Excavation stays a single iteration with priorities 1–6 inside AR, which moves the correction of a contradicted recovered statement into Elaboration's committed second iteration; and no token budget is declared, so every iteration ends on its exit criteria and spend is measured, never bounded.
 
 ## Plan and Milestones
 ### Coarse roadmap — sprint zero then the RUP phases
