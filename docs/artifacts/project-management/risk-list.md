@@ -213,14 +213,6 @@ On 2026-11-19 the stakeholder declined splitting Excavation, so the AR milestone
 
 No risk is re-scored and no acceptance is re-requested: the decision changes where the exposure sits, not how large it is, and the three acceptances of 2026-11-19 stand as granted. The one consequence the plan absorbs is that Elaboration's second iteration is no longer merely likely — under a single-pass sprint zero it is the phase's only place to correct a recovered statement, so it is committed rather than held.
 
-### R021 — the stakeholder gate, offered for acceptance
-
-R021 is Significant (12) and accepted, which is not the Project Manager's to grant. The exposure is put to the stakeholder in this round and the risk stays OPEN until their answer is recorded here verbatim, with its date. Until then:
-
-- the mitigation is in force and costs nothing: every question is asked in the round that raises it, never parked in a document;
-- the contingency is the 14-day ceiling, quoted as a risk bound, never as an estimate or a forecast;
-- no milestone verdict is recorded before the answer arrives, and no work item advances on a self-granted decision.
-
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
