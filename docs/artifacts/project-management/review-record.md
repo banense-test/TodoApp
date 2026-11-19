@@ -575,3 +575,57 @@ What fails is four claims inside that material: a referenced file that does not 
 **No Critical finding is open, so nothing in this lens blocks the SBC on a stakeholder decision.** That is a statement about this lens only. The SBC verdict belongs to the Review Coordinator, which weighs this lens with the Management Reviewer's; this block does not declare the milestone met, and no iteration is closed here.
 
 The one thing this lens asks the Review Coordinator to carry forward: an artifact set cleared of its Major findings is the precondition for Excavation, not a formality. Excavation reads the Perimeter to fix the set of entry points a use case may come from, the Priorities to fix its reading order, and the Risk List for the actions it must perform — and all three of the artifacts carrying those are where the Major findings sit.
+
+### Management Reviewer lens
+<!-- review: Survey I1 -->
+
+**Management lens disposition: No-Go on the SBC milestone.**
+
+No artifact is approved for consumption unchanged, and the milestone is not sanctioned.
+
+Three of the six exit criteria are not met. Criterion 1 fails on the stakeholder's own answer: the perimeter was put to them and the sanction was refused. Criteria 4 and 5 fail on evidence this lens checked — the project's binding constraint, the stakeholder gate, is bounded in no risk and no plan, and the tailoring is issued but cannot be worked under by the two sprint-zero phases that consume it. Criteria 2, 3 and 6 hold.
+
+```plantuml
+@startuml
+title SBC milestone verdict — per artifact and for the milestone
+skinparam shadowing false
+
+class "Development Case\nSBC" as DC {
+  Technical lens : Approved with Changes — 1 Major, 1 Minor
+  Management lens : clean
+  Cleared for consumption : NO
+}
+class "System Inventory\nSBC" as SI {
+  Technical lens : Approved with Changes — 1 Major, 1 Minor
+  Management lens : clean — criteria 1, 2, 3 substantiated
+  Cleared for consumption : NO
+}
+class "Risk List\nSBC" as RL {
+  Technical lens : Approved with Changes — 1 Major
+  Management lens : rework — 2 Major
+  Cleared for consumption : NO
+}
+class "Iteration Plan\nSBC" as IP {
+  Technical lens : Approved with Changes — 1 Major, 3 Minor
+  Management lens : rework — 1 Major
+  Cleared for consumption : NO
+}
+class "SBC MILESTONE\nNo-Go" as M {
+  Criteria met : 2, 3, 6
+  Criteria not met : 1, 4, 5
+  Stakeholder sanction : REFUSED — 2026-11-19
+  Advances to Excavation : NO
+}
+
+DC -right-> M
+SI -right-> M
+RL -right-> M
+IP -right-> M
+@enduml
+```
+
+Why this is a No-Go and not a Conditional. A Conditional would advance the phase on conditions discharged later. The stakeholder refused exactly that: their order is that all Major findings be corrected, and the seven open Major findings are content other roles would act on the moment Excavation opens. Excavation reads the Perimeter to fix the set of entry points a use case may come from, the Priorities to fix its reading order, and the Risk List for the actions it must perform — and every one of those three artifacts carries an open Major. Opening Excavation on this set would build recovered use cases on a Perimeter row contradicted by the same artifact's own anomaly, and execute avoidance actions owned by roles absent from the phase.
+
+What the artifact set does establish, and what iteration 2 starts from. The perimeter is drawn from code with an anchor behind every one of 26 entry points and behind each of the three exclusions the stakeholder settled. Twenty anomalies are each a scored risk with its magnitude taken from the band of probability × impact on the declared scale, and the three High ones carry the stakeholder's own acceptance, recorded verbatim. The one fired optional genuinely holds and the Data Model verdict genuinely fails. The roadmap carries nine milestones with no invented forecast, and no declared scope was cut to fit a budget the project never declared. The material the recovery will rest on is substantially there; what fails is seven claims inside it.
+
+The next iteration of Survey is planned by these findings. When every Major is closed, both lenses re-review and the sanction is put to the stakeholder again. This block declares no milestone, iteration or phase complete, and the SBC verdict in the ledger remains the Review Coordinator's to record.
