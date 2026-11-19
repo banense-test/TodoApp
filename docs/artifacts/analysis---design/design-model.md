@@ -1,6 +1,6 @@
 ## Document Control
 - Phase: Excavation
-- Status: Draft — Domain Model and Domain Packages and Classes recovered; Persistent Data Classes recovered; Use-Case Realizations and Interface Contracts not yet recovered
+- Status: Draft — Domain Model, Design Packages and Classes and Persistent Data Classes recovered; Use-Case Realizations and Interface Contracts not yet recovered
 - Milestone Target: end of Excavation (AR) — not yet achieved
 
 ## Design Overview
