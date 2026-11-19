@@ -20,7 +20,7 @@ The three stakeholder decisions of 2026-11-19 already taken — external identit
 ## Plan and Milestones
 ### Coarse roadmap — sprint zero then the RUP phases
 
-`6 ± 3` iterations across the project; the sprint zero adds no milestone of its own to the RUP sequence — it runs before Inception and produces the material Inception builds on. The sequence below is the cross-iteration horizon this plan commits to; nothing beyond the current iteration is planned in detail.
+`6 ± 3` iterations across the project, and this roadmap commits to **8, or 9 if Elaboration needs its second**. The sprint zero adds no milestone of its own to the RUP sequence — it runs before Inception and produces the material Inception builds on. The sequence below is the cross-iteration horizon this plan commits to; nothing beyond the current iteration is planned in detail.
 
 | Order | Phase | Milestone | What the milestone closes | Iterations planned |
 |---|---|---|---|---|
@@ -29,60 +29,67 @@ The three stakeholder decisions of 2026-11-19 already taken — external identit
 | 3 | Consolidation | **GHR** | Every entry point of the recovered perimeter has a use case or a recorded exclusion; the Supplementary Specification and the coverage statement complete the set. | 1 |
 | 4 | Inception | **LCO** | The declared scope is agreed against the recovered baseline, the candidate architecture exists and the business case is settled. | 1 |
 | 5 | Elaboration | **LCA** | The architecture baseline is executable and the first assembled run of the topology has happened; test cases cover it. | 1–2 |
-| 6 | Construction | **IOC** | The declared scope is implemented, tested and baselined. | 2–3 |
+| 6 | Construction | **IOC** | The declared scope is implemented, tested and baselined. | 2 |
 | 7 | Transition | **PR** | The product is deployed, acceptance-tested and documented; the release is baselined. | 1 |
 
-The `1 + 1 + 1 + 1 + 1–2 + 2–3 + 1` distribution is the rubber profile for a small, low-risk-in-shape project that is nonetheless **recovery-heavy**: the sprint zero carries three of the nine iterations because every requirement, component and table has to be read out of code before Inception can declare anything. The profile bends one step further in Elaboration if the first assembled run contradicts the recovered topology (R020). It is not bent in Construction: nothing in the Inventory suggests a large declared scope, and the recovered product is registration, login, logout and todo read/create/delete.
+`1 + 1 + 1 + 1 + 1–2 + 2 + 1 = 8–9`. The profile is the rubber profile for a small project that is nonetheless **recovery-heavy**, and it bends in exactly two places, each against a named risk:
+
+- **The sprint zero carries three of the eight.** Every requirement, component and table has to be read out of code before Inception can declare anything (R020, R009, R013). This is the whole reason the total sits above the median.
+- **Elaboration carries a second iteration, planned rather than optional,** because R020's accepted contingency — the first assembled run as the Integrator's Architecture Build — is the most likely event in the plan to contradict a recovered statement, and the phase must then re-derive the affected elements inside itself. If that run confirms the recovered topology, the second iteration is not spent.
+- **Construction is not bent.** Nothing in the Inventory suggests a large declared scope: the recovered product is registration, login, logout and todo list / create / delete, over one aggregate and eight tables. Two iterations are the whole of it.
+- **Transition is not compressed either.** It is one iteration with no user training to carry, and the acceptance test is the only thing there that costs a full iteration.
 
 ```plantuml
 @startgantt
 title Project iteration sequence and its human gates (unanchored: no start date, no calendar dates)
 skinparam shadowing false
 
-[Sprint zero — Survey SBC] lasts 1 day
-[Sprint zero — Excavation AR] lasts 1 day
-[Sprint zero — Consolidation GHR] lasts 1 day
+[Sprint zero - Survey SBC] lasts 1 day
+[Sprint zero - Excavation AR] lasts 1 day
+[Sprint zero - Consolidation GHR] lasts 1 day
 [Inception LCO] lasts 1 day
-[Elaboration LCA] lasts 1 day
-[Construction IOC] lasts 1 day
-[Construction IOC — second iteration if the declared scope needs it] lasts 1 day
+[Elaboration LCA - iteration 1] lasts 1 day
+[Elaboration LCA - second iteration if the first assembled run contradicts the recovered topology] lasts 1 day
+[Construction IOC - iteration 1] lasts 1 day
+[Construction IOC - iteration 2] lasts 1 day
 [Transition PR] lasts 1 day
-[Stakeholder gate — SBC] lasts 1 day
-[Stakeholder gate — AR] lasts 1 day
-[Stakeholder gate — GHR] lasts 1 day
-[Stakeholder gate — LCO] lasts 1 day
-[Stakeholder gate — LCA] lasts 1 day
-[Stakeholder gate — IOC] lasts 1 day
-[Stakeholder gate — PR] lasts 1 day
+[Stakeholder gate - SBC] lasts 1 day
+[Stakeholder gate - AR] lasts 1 day
+[Stakeholder gate - GHR] lasts 1 day
+[Stakeholder gate - LCO] lasts 1 day
+[Stakeholder gate - LCA] lasts 1 day
+[Stakeholder gate - IOC] lasts 1 day
+[Stakeholder gate - PR] lasts 1 day
 
-[Sprint zero — Excavation AR] starts at [Sprint zero — Survey SBC]'s end
-[Sprint zero — Consolidation GHR] starts at [Sprint zero — Excavation AR]'s end
-[Inception LCO] starts at [Sprint zero — Consolidation GHR]'s end
-[Elaboration LCA] starts at [Inception LCO]'s end
-[Construction IOC] starts at [Elaboration LCA]'s end
-[Construction IOC — second iteration if the declared scope needs it] starts at [Construction IOC]'s end
-[Transition PR] starts at [Construction IOC — second iteration if the declared scope needs it]'s end
+[Sprint zero - Excavation AR] starts at [Sprint zero - Survey SBC]'s end
+[Sprint zero - Consolidation GHR] starts at [Sprint zero - Excavation AR]'s end
+[Inception LCO] starts at [Sprint zero - Consolidation GHR]'s end
+[Elaboration LCA - iteration 1] starts at [Inception LCO]'s end
+[Elaboration LCA - second iteration if the first assembled run contradicts the recovered topology] starts at [Elaboration LCA - iteration 1]'s end
+[Construction IOC - iteration 1] starts at [Elaboration LCA - second iteration if the first assembled run contradicts the recovered topology]'s end
+[Construction IOC - iteration 2] starts at [Construction IOC - iteration 1]'s end
+[Transition PR] starts at [Construction IOC - iteration 2]'s end
 
-[Stakeholder gate — SBC] starts at [Sprint zero — Survey SBC]'s end
-[Stakeholder gate — AR] starts at [Sprint zero — Excavation AR]'s end
-[Stakeholder gate — GHR] starts at [Sprint zero — Consolidation GHR]'s end
-[Stakeholder gate — LCO] starts at [Inception LCO]'s end
-[Stakeholder gate — LCA] starts at [Elaboration LCA]'s end
-[Stakeholder gate — IOC] starts at [Construction IOC — second iteration if the declared scope needs it]'s end
-[Stakeholder gate — PR] starts at [Transition PR]'s end
+[Stakeholder gate - SBC] starts at [Sprint zero - Survey SBC]'s end
+[Stakeholder gate - AR] starts at [Sprint zero - Excavation AR]'s end
+[Stakeholder gate - GHR] starts at [Sprint zero - Consolidation GHR]'s end
+[Stakeholder gate - LCO] starts at [Inception LCO]'s end
+[Stakeholder gate - LCA] starts at [Elaboration LCA - iteration 1]'s end
+[Stakeholder gate - IOC] starts at [Construction IOC - iteration 2]'s end
+[Stakeholder gate - PR] starts at [Transition PR]'s end
 
-[SBC] happens at [Sprint zero — Survey SBC]'s end
-[AR] happens at [Sprint zero — Excavation AR]'s end
-[GHR] happens at [Sprint zero — Consolidation GHR]'s end
+[SBC] happens at [Sprint zero - Survey SBC]'s end
+[AR] happens at [Sprint zero - Excavation AR]'s end
+[GHR] happens at [Sprint zero - Consolidation GHR]'s end
 [LCO] happens at [Inception LCO]'s end
-[LCA] happens at [Elaboration LCA]'s end
-[IOC] happens at [Construction IOC]'s end
+[LCA] happens at [Elaboration LCA - iteration 1]'s end
+[IOC] happens at [Construction IOC - iteration 2]'s end
 [PR] happens at [Transition PR]'s end
 
 note bottom
   No phase has closed, so no bar length is a forecast of duration and no
   calendar date exists anywhere in this plan. Each iteration ends when its
-  exit criteria pass; each gate is a human wait, quoted in days of queue
+  exit criteria pass. Each gate is a human wait, carried as days of queue
   time with a ceiling of 14 before the process suspends.
 end note
 @endgantt
