@@ -18,7 +18,6 @@ Survey iteration 1 was planned against three objectives. The Review Coordinator'
 The Iteration Plan's own objective table carried six rows. Rows 1, 2 and 4 correspond to the three objectives above; rows 3 (anomalies and priorities), 5 (this plan) and 6 (settle the Excavation scope and the budget position) were obligations the plan took on and all three were delivered — 20 anomalies with evidence and eight ordered recovery areas, the plan itself, and four stakeholder answers recorded verbatim.
 
 ## Adherence to Plan
-
 The plan carried nine work items. All nine were executed in the sequence it fixed; none slipped, none was added, none was cut. Items 1–7 completed before the gate, item 8 is the milestone review the reviewers ran, item 9 is this artifact.
 
 | Order | Work item | Owner | Planned exit condition | Outcome |
@@ -49,7 +48,7 @@ The gate's queue time exceeds the agent elapsed time. That is the shape of this 
 
 | Metric | Primitive measure | Goal — the decision it enables |
 |---|---|---|
-| Artifact surface | 5 artifacts, 162,463 characters (Development Case 23,617 · System Inventory 68,646 · Risk List 22,274 · Iteration Plan 24,728 · Review Record 72,198) | Sizes the re-reading the next iteration's roles face. Spend here scales with live artifact surface × times read, not with what an iteration emits — the Review Record alone is 44% of the surface, and every owner must read it to close a finding |
+| Artifact surface | 5 artifacts, 211,463 characters (Development Case 23,617 · System Inventory 68,646 · Risk List 22,274 · Iteration Plan 24,728 · Review Record 72,198) | Sizes the re-reading the next iteration's roles face. Spend here scales with live artifact surface × times read, not with what an iteration emits — the Review Record alone is 34% of the surface, and every owner must read it to close a finding |
 | Agent invocations | 9 | Tests whether the plan's stage count matched the process: nine work items, nine invocations, no stage duplicated and none missing |
 | Stakeholder interactions | 16 | Sizes the human gate. The plan enumerated four answers; 16 interactions were measured — the gate is wider than the plan modelled it, which is the defect Risk List#F1 (management lens) records |
 | Token spend | 13,629,333 | The only cost figure the project has. It is the baseline a closed phase will be forecast from; it is not a per-iteration rate and no rate is computed from one sample |
@@ -57,48 +56,6 @@ The gate's queue time exceeds the agent elapsed time. That is the shape of this 
 | Stakeholder queue time | 0:49:40 | Whether the gate or the work dominates the iteration; the actual against the 14-day ceiling |
 
 No metric here is reported without a decision behind it. Defect counts, page counts and defect density are deliberately absent: no lens measured page count, and a density on an unmeasured denominator would be invented.
-
-```plantuml
-@startuml
-title Survey iteration 1 — the chain that ran, measured, to the SBC verdict and this assessment
-skinparam shadowing false
-skinparam defaultTextAlignment left
-
-|Process Engineer|
-start
-:Development Case — Survey tailoring;
-|Software Archaeologist|
-:System Inventory — Documentation;
-:System Inventory — Perimeter;
-:System Inventory — Anomalies and Priorities;
-|Project Manager|
-:Risk List — 20 anomalies scored, 20 risks, strategy each;
-:Iteration Plan — 9-milestone roadmap, 9 work items;
-|Stakeholder|
-:Gate — 16 interactions;
-note right
-  Measured queue time 0:49:40, reported apart
-  from the agent clock and never added to it.
-  This is the project's only human wait.
-end note
-|Review|
-:Reviewer — technical lens, 9 findings;
-:Management Reviewer — management lens, 3 findings;
-:Review Coordinator — SBC verdict: No-Go, iteration required;
-|Project Manager|
-:Iteration Assessment — this artifact;
-note right
-  This iteration's measured spend: 13,629,333 tokens,
-  agent elapsed 0:48:48, over 5 artifacts and 9 agent
-  invocations. One figure for the whole iteration — no
-  stage was metered separately, so no stage carries a
-  share. It is the actual of a closed iteration, not a
-  velocity: no phase has closed, so nothing is
-  forecast from it.
-end note
-stop
-@enduml
-```
 
 ### Variances, their root cause, and the adjustment each forces
 
