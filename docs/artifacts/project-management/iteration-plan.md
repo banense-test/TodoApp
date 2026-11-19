@@ -108,15 +108,15 @@ Work items are the stages the IARI DEVELOPMENT PROCESS runs in Survey, each owne
 | 4 | System Inventory — Anomalies and Priorities | Software Archaeologist | The reading of 71 of 128 files | Twenty anomalies recorded with evidence; the eight areas ordered for Excavation | Done — issued |
 | 5 | Risk List — score, strategy, escalate | Project Manager | The twenty anomalies | Every anomaly a classified risk; the three High acceptances put to the stakeholder and answered | Done — R008, R009 and R020 accepted 2026-11-19 |
 | 6 | Iteration Plan — this artifact | Project Manager | System Inventory, Development Case, Risk List | Coarse roadmap and fine plan issued | Done — issued |
-| 7 | Stakeholder gate — perimeter confirmation | Stakeholder | System Inventory, Perimeter | The perimeter confirmed as drawn — seven projects, 26 entry points, the external systems and the three exclusions | **Done** — confirmed 2026-11-19 |
+| 7 | Stakeholder gate | Stakeholder | System Inventory, Perimeter, Risk List, this plan | Four decisions answered: the perimeter confirmed as drawn; R008, R009 and R020 accepted; the Excavation split declined; no token budget declared | **Done** — all four answered 2026-11-19 |
 | 8 | SBC milestone review | Reviewer → Management Reviewer → Review Coordinator | Every artifact above | Verdict on the SBC milestone | Not started — the reviewers' to give, not this plan's |
 | 9 | Iteration Assessment | Project Manager | The SBC verdict | Assessment written *after* the verdict records whether the objectives were met | Not started — blocked on item 8 |
 
-Items 1–7 are complete: the six agent stretches are issued and the one human gate on the iteration is answered. Item 8 is the milestone review, which this plan does not perform and cannot schedule on its own authority; item 9 follows it.
+Items 1–7 are complete: the six agent stretches are issued and the one human gate on the iteration is answered four times. Each answer is recorded where it binds — the perimeter under Evaluation Criteria, the three risk acceptances in the Risk List, the Excavation scope under Evaluation Criteria, the budget position under Measure and forecast. Item 8 is the milestone review, which this plan does not perform and cannot schedule on its own authority; item 9 follows it.
 
 ```plantuml
 @startgantt
-title Survey iteration — stage sequence and human gates (unanchored: no start date, no calendar dates)
+title Survey iteration — stage sequence and the human gate (unanchored: no start date, no calendar dates)
 skinparam shadowing false
 
 [Development Case — Survey tailoring] lasts 1 day
@@ -125,7 +125,7 @@ skinparam shadowing false
 [System Inventory — Anomalies and Priorities] lasts 1 day
 [Risk List — score, strategy, escalate] lasts 1 day
 [Iteration Plan] lasts 1 day
-[Stakeholder gate — perimeter confirmation — answered] lasts 1 day
+[Stakeholder gate — answered] lasts 1 day
 [SBC milestone review — Reviewer to Management Reviewer to Review Coordinator] lasts 1 day
 [Iteration Assessment — written after the verdict] lasts 1 day
 
@@ -134,19 +134,19 @@ skinparam shadowing false
 [System Inventory — Anomalies and Priorities] starts at [System Inventory — Perimeter]'s end
 [Risk List — score, strategy, escalate] starts at [System Inventory — Anomalies and Priorities]'s end
 [Iteration Plan] starts at [Risk List — score, strategy, escalate]'s end
-[Stakeholder gate — perimeter confirmation — answered] starts at [Iteration Plan]'s end
-[SBC milestone review — Reviewer to Management Reviewer to Review Coordinator] starts at [Stakeholder gate — perimeter confirmation — answered]'s end
+[Stakeholder gate — answered] starts at [Iteration Plan]'s end
+[SBC milestone review — Reviewer to Management Reviewer to Review Coordinator] starts at [Stakeholder gate — answered]'s end
 [Iteration Assessment — written after the verdict] starts at [SBC milestone review — Reviewer to Management Reviewer to Review Coordinator]'s end
 
-[SBC] happens at [Stakeholder gate — perimeter confirmation — answered]'s end
+[SBC] happens at [Stakeholder gate — answered]'s end
 
 note bottom
   Bar length carries ordering only. No stage here has been measured,
   so no bar is a forecast of its duration: each stage ends when its
   exit condition passes.
-  The stakeholder gate is answered: the acceptances are in the Risk List,
-  the perimeter confirmation in the Evaluation Criteria. It was a human
-  wait — days of queue time, ceiling 14.
+  The gate is answered four times: perimeter, the three risk
+  acceptances, the Excavation split, the budget position. It was a
+  human wait — days of queue time, ceiling 14.
 end note
 @endgantt
 ```
