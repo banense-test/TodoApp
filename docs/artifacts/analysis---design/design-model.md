@@ -588,7 +588,7 @@ end note
 `CLS-033` is the only class in the whole model that mints the `admin` role claim (`TokenService.cs:16-21`). No product class can: `CLS-012.IsAdmin` reads a claim only this test type writes, and `AspNetRoles`/`AspNetUserRoles` are written by nothing (AN-010, `EX-002`). The claim's existence in the model is evidence of a test fixture, not of a capability.
 
 ## Persistent Data Classes
-Eight tables exist and every one of them is declared by `Todo.Api/Migrations`. No DDL script, no schema file and no database instance is delivered (`AN-004`): the schema is read out of three migrations and a model snapshot whose `ProductVersion` is `8.0.0` against an EF Core 9.0.8 runtime (`AN-007`). The engine is recorded, not chosen — SQLite through `Microsoft.EntityFrameworkCore.Sqlite` 9.0.8, one file at `Data Source=.db/Todos.db` or whatever `ConnectionStrings:Todos` supplies. `[OMITTED: Data Model — DC §5.2 trigger not fired for this project; the persistent structures are recorded here, inline in the Design Model]`
+Eight tables exist and every one of them is declared by `Todo.Api/Migrations`. No DDL script, no schema file and no database instance is delivered (`AN-A004` aside: `AN-004`): the schema is read out of three migrations and a model snapshot whose `ProductVersion` is `8.0.0` against an EF Core 9.0.8 runtime (`AN-007`). The engine is recorded, not chosen — SQLite through `Microsoft.EntityFrameworkCore.Sqlite` 9.0.8, one file at `Data Source=.db/Todos.db` or whatever `ConnectionStrings:Todos` supplies. `[OMITTED: Data Model — DC §5.2 trigger not fired for this project; the persistent structures are recorded here, inline in the Design Model]`
 
 ```plantuml
 @startuml
@@ -707,7 +707,7 @@ note bottom of USERLOGINS
   TBL-007 is the table the excluded external-provider flow
   would have written. Composite PK (LoginProvider, ProviderKey),
   index IX_AspNetUserLogins_UserId on (UserId), CASCADE.
-  No product code path writes it. EX-001 / AN-002.
+  No recovered use case reaches it — EX-001 / AN-002.
   TBL-008 AspNetUserTokens likewise: composite PK
   (UserId, LoginProvider, Name), no secondary index, unwritten.
 end note
@@ -887,7 +887,7 @@ end note
 @enduml
 ```
 
-Each migration carries a `Down` that reverses it, so the schema is reversible as delivered. `RemoveIsAdmin.Down` re-adds the column with `defaultValue: false`; `ForeignKeyChange.Down` restores the `UserName` principal and its unique constraint. The applied order is fixed by the migration id prefix and tracked in the `__EFMigrationsHistory` table the provider creates — the one table in a created database that no migration body declares.
+Each migration carries a `Down` that reverses it, so the schema is reversible as delivered. `RemoveIsAdmin.Down` re-adds the column with `defaultValue: false`; `ForeignKeyChange.Down` restores the `UserName` principal and its unique constraint, and to do so it writes `defaultValue: ""` on every nullable `UserName` — the one place a default value appears in the whole schema. The applied order is fixed by the migration id prefix and tracked in the `__EFMigrationsHistory` table the provider creates — the one table in a created database that no migration body declares.
 
 | Interval | Length | What it fixes in the schema |
 |---|---|---|
@@ -903,7 +903,7 @@ Eight secondary indexes exist. Three are issued by a query a recovered use case 
 
 | Index | Table, column(s) | Unique | The query that issues it | Anchor |
 |---|---|---|---|---|
-| `IX_Todos_OwnerId` | TBL-001 (`OwnerId`) | no — one user owns many todos | `EP-012` list: `db.Todos.Where(todo => todo.OwnerId == owner.Id)`, one index range per caller | `Todo.Api/Todos/TodoApi.cs:24-27` |
+| `IX_Todos_OwnerId` | TBL-001 (`OwnerId`) | no — one user owns many todos | `EP-012` list: `db.Todos.Where(todo => todo.OwnerId == owner.Id)`, one index range per caller; also the access path of the update and delete predicates, which filter on `Id` first and `OwnerId` second | `Todo.Api/Todos/TodoApi.cs:24-27` |
 | `PK_Todos` (rowid index) | TBL-001 (`Id`) | yes | `EP-013` read-one: `db.Todos.FindAsync(id)`; `EP-015`/`EP-016`: `Where(t => t.Id == id && …)` | `Todo.Api/Todos/TodoApi.cs:29-36,52-73` |
 | `UserNameIndex` | TBL-002 (`NormalizedUserName`) | yes | The Identity user lookup issued on every `EP-002` sign-in and on `EP-001`'s duplicate-name check — `FindByNameAsync` behind `MapIdentityApi<TodoUser>()` | `Todo.Api/Users/UsersApi.cs:12,20` |
 | `EmailIndex` | TBL-002 (`NormalizedEmail`) | no | None — the user-by-email lookup belongs to `/users/manage/info` (`EP-009`), an excluded operation. Declared by the framework's model, not by this delivery | `EX-003`; `Todo.Api/Users/UsersApi.cs:12,20` |
@@ -940,17 +940,241 @@ Column mapping is by member name throughout: no `HasColumnName`, `HasConversion`
 
 | Persistent class | Table | Identity strategy | Nullability in the store | Loading policy the code applies |
 |---|---|---|---|---|
-| CLS-001 `Todo` | TBL-001 | `Id` store-generated (`ValueGeneratedOnAdd`); `IsComplete` written from the request body, never defaulted in the store | `Title`, `OwnerId`, `IsComplete` NOT NULL | List projected with `AsNoTracking()` and a `Select` onto the wire shape; read-one tracked through `FindAsync`; update and delete never materialise an entity — `ExecuteUpdateAsync` and `ExecuteDeleteAsync` issue one statement each |
-| CLS-002 `TodoUser` | TBL-002 | `Id` supplied by the Identity store before insert | `UserName`, `NormalizedUserName`, `Email`, `NormalizedEmail`, `PasswordHash`, `SecurityStamp`, `ConcurrencyStamp`, `PhoneNumber`, `LockoutEnd` all NULLable | Resolved once per request by `ClaimsTransformation` into `CurrentUser.User`; on sign-in by `UserManager` |
-| `IdentityUserRole<string>`, `IdentityUserClaim<string>`, `IdentityUserLogin<string>`, `IdentityUserToken<string>`, `IdentityRole` | TBL-003 … TBL-008 | composite or store-supplied, per the Keys table | as declared per table | Never loaded by product code: the role, claim and login stores are called by nothing (`AN-010`, `EX-001`, `EX-003`) |
+| CLS-001 `Todo` | TBL-001 | `Id` store-generated (`ValueGeneratedOnAdd`); `IsComplete` written from the request body, never defaulted in the store | `Title`, `OwnerId`, `IsComplete` NOT NULL | List projected with `AsNoTracking()` and a `Select` onto the wire shape; read-one tracked through `FindAsync`; update and delete never materialise an entity — `ExecuteUpdateAsync` and `ExecuteDeleteAsync` issue one statement each, so no change tracker participates in either and no concurrency check can run on them |
+| CLS-002 `TodoUser` | TBL-002 | `Id` supplied by the Identity store before insert; the test harness supplies the user name as the id | `UserName`, `NormalizedUserName`, `Email`, `NormalizedEmail`, `PasswordHash`, `SecurityStamp`, `ConcurrencyStamp`, `PhoneNumber`, `LockoutEnd` all NULLable | Resolved once per request by `ClaimsTransformation` into `CurrentUser.User`; on sign-in by `UserManager` |
+| `IdentityUserRole<string>`, `IdentityUserClaim<string>`, `IdentityUserLogin<string>`, `IdentityUserToken<string>`, `IdentityRole` | TBL-003 … TBL-008 | composite or store-supplied, per the Keys table | as declared per table | Never loaded by product code: the role, claim and login stores are called by nothing (`AN-010`, `EX-001`, `EX-003`). `UserManager.FindByLoginAsync` on the excluded `EP-011` path is the one Identity store call outside sign-in and registration |
 
 There is no navigation property on either side of the ownership edge, so no loading policy can be lazy or eager: a user's todos are reachable only by a query that filters on `OwnerId`, and `Todo` exposes no `TodoUser` reference at all even though the column that carries it is NOT NULL.
 
 ### Storage parameters
 
-SQLite imposes its own physical model and the delivery sets none of it: one file opened as `Data Source=.db/Todos.db`, one ROWID table per declared table, TEXT and INTEGER column affinity, and `autoincrement` on the three integer surrogate keys (`Todos.Id`, `AspNetUserClaims.Id`, `AspNetRoleClaims.Id`). There is no tablespace, no partitioned table, no cluster key, no fill factor and no compression option to record, because the engine has none of them. No journal mode, page size, cache size or pragma is configured by the delivery, so every storage-level parameter in force is the provider's default. `PE-005` records that no resource sizing is stated anywhere and no container resource limit is declared.
+SQLite imposes its own physical model and the delivery sets none of it: one file opened as `Data Source=.db/Todos.db`, one ROWID table per declared table, TEXT and INTEGER column affinity, and `autoincrement` on the three integer surrogate keys (`Todos.Id`, `AspNetUserClaims.Id`, `AspNetRoleClaims.Id`). There is no tablespace, no partitioned table, no cluster key, no fill factor and no compression option to record, because the engine has none of them. No journal mode, page size, cache size, `foreign_keys` pragma or busy timeout is configured by the delivery, so every storage-level parameter in force is the provider's default — and that default is what decides whether the seven cascade rules are evaluated at run time (`N4` above). `PE-005` records that no resource sizing is stated anywhere and no container resource limit is declared.
 
 Nothing in the schema carries a retention, archive, validity-interval or audit column, so no retention rule can be expressed against it. `Todos` rows persist until a `DELETE` removes them, and no endpoint restores one.
+
+### Enforced rules — the four tiers, and which tier each rule sits in
+
+The delivery holds no view, no trigger, no stored procedure, no function and no `CHECK` constraint; there is no `.sql` file in the repository and no `HasDbFunction`, `ToView` or trigger declaration in `CLS-011` (`AN-004`). Every integrity rule the schema states is therefore carried by one of four tiers, and which tier carries it decides what a rule can promise.
+
+```plantuml
+@startuml
+title Enforced rules — four tiers, and the tier each integrity rule of the schema sits in
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+hide empty members
+hide circle
+
+package "Tier 1 — evaluated by SQLite" {
+  class "PK_Todos\nTBL-001 (Id)" as R1 <<primary key>>
+  class "UserNameIndex\nTBL-002 (NormalizedUserName)" as R2 <<unique index>>
+  class "RoleNameIndex · composite PKs\nTBL-003 … TBL-008" as R3 <<unique index and primary keys>>
+  class "NOT NULL\nTBL-001 Title, IsComplete, OwnerId" as R4 <<column constraint>>
+  class "FK_Todos_AspNetUsers_OwnerId\nplus six Identity foreign keys" as R5 <<foreign key, CASCADE>>
+}
+
+package "Tier 2 — evaluated by the issuing statement" {
+  class "list and create\nWHERE OwnerId = @owner" as S1 <<WHERE / column list>>
+  class "update and delete\nWHERE Id = @id AND (OwnerId = @owner OR admin)" as S2 <<WHERE>>
+  class "EF concurrency compare\nWHERE ConcurrencyStamp = @original" as S3 <<TBL-002, TBL-003 only>>
+}
+
+package "Tier 3 — evaluated in the API process" {
+  class "route id equals body id\nelse BadRequest" as A1 <<CLS-020>>
+  class "ownership after the fetch\nFindAsync(id) then OwnerId == Id" as A2 <<in-memory compare>>
+  class "MiniValidator over TodoItem\nnot over UserInfo" as A3 <<CLS-016>>
+  class "RequireCurrentUser\nuser row must resolve" as A4 <<CLS-014, CLS-013>>
+  class "UserManager and UserValidator\npassword policy, user name well-formed" as A5 <<Identity, stock>>
+}
+
+package "Tier 4 — enforced by nothing" {
+  class "two concurrent todo writes refuse the stale one" as N1
+  class "Email is unique per account" as N2
+  class "UserName is non-null in the store" as N3
+  class "OwnerId references a live row at run time" as N4
+  class "IsComplete is reachable from a delivered screen" as N5
+}
+
+R1 ..> S1 : serves the id predicate
+R2 ..> A4 : resolves the caller by name
+R5 ..> N4 : declared, pragma unset
+
+note right of S3
+  TBL-002 and TBL-003 declare ConcurrencyStamp with
+  IsConcurrencyToken, and Identity's UserManager issues the
+  compare on a user update. TBL-001 declares no token, so the
+  todo table has no stale-write refusal at any tier.
+  TodoDbContextModelSnapshot.cs — AspNetUsers, AspNetRoles blocks
+end note
+
+note bottom of N4
+  Todo.Api/Program.cs:22-24 sets the connection string and nothing else:
+  no pragma, no journal mode, no page size, no foreign-keys setting. Whether
+  the seven cascade rules are evaluated at run time is the provider's default
+  and has never been observed — no assembled run exists. AN-020.
+end note
+
+note bottom of A2
+  The only path that reads TBL-001 without an owner predicate
+  (Todo.Api/Todos/TodoApi.cs:29-36). The row is materialised into the
+  API process and compared there, so ownership on this path is a Tier 3
+  rule rather than a predicate the store evaluates.
+end note
+@enduml
+```
+
+| Rule the schema states | Tier | Where it is enforced | Anchor |
+|---|---|---|---|
+| A todo row is identified by one integer id | 1 | `PK_Todos` | `20221123071234_Initial.cs` |
+| `Todos.Title`, `IsComplete` and `OwnerId` are present in every row | 1 | column `nullable: false` | same |
+| No two accounts share a normalized user name | 1 | `UserNameIndex`, unique — this is the constraint the register path relies on for its duplicate-name rejection | same |
+| No two roles share a normalized name | 1 | `RoleNameIndex`, unique | same |
+| A user-role pair, a provider binding and a token row each appear once | 1 | composite primary keys on TBL-004, TBL-007, TBL-008 | same |
+| `OwnerId` names an existing account | 1, conditionally | `FK_Todos_AspNetUsers_OwnerId`; conditional because the pragma that evaluates it is configured nowhere — see `N4` above | `20230714032431_ForeignKeyChange.cs:27-34` |
+| Deleting an account takes its todos, claims, logins, roles and tokens with it | 1, conditionally | seven `ReferentialAction.Cascade` rules; same condition, and no endpoint deletes an account | `20221123071234_Initial.cs` |
+| A caller is listed only their own todos | 2 | `Where(todo => todo.OwnerId == owner.Id)` | `Todo.Api/Todos/TodoApi.cs:24-27` |
+| A new todo is stamped with the caller's id, never with a body-supplied owner | 2 | the `INSERT` column list is built from `owner.Id`; `TodoItem` declares no `OwnerId` member to supply one | `TodoApi.cs:38-50`; `Todo.cs:14-19` |
+| An update or a delete reaches only the caller's row | 2 | `Where(t => t.Id == id && (t.OwnerId == owner.Id \|\| owner.IsAdmin))` on both the `UPDATE` and the `DELETE`; the second disjunct is dead (AN-010, `EX-002`) | `TodoApi.cs:52-73` |
+| A stale update of an account or a role is refused | 2 | EF's concurrency compare on `ConcurrencyStamp`, TBL-002 and TBL-003 | `TodoDbContextModelSnapshot.cs` |
+| An update's route id must equal the id in its body | 3 | `if (id != todo.Id) return TypedResults.BadRequest();` | `TodoApi.cs:54-57` |
+| Reading one todo returns it only to its owner | 3 | row fetched by key, then `todo.OwnerId == owner.Id` in memory | `TodoApi.cs:29-36` |
+| The caller resolves to a stored account before any todo operation runs | 3 | `RequireCurrentUser()` on the group; `ClaimsTransformation` sets `CurrentUser.User` from the `NameIdentifier` | `TodoApi.cs:17`; `CurrentUserExtensions.cs:14-35`; `CheckCurrentUserAuthHandler.cs:17-39` |
+| A todo body is model-valid — `Title` neither null nor whitespace | 3 | `MiniValidator` over `TodoItem`, attached to the `/todos` group only | `ValidationFilter.cs:7-58`; `TodoApi.cs:22` |
+| A password meets the Identity policy and a user name is well-formed | 3 | stock `UserManager` validators; the test harness relaxes the password rules | `TodoApi/Program.cs:16-19`; `Todo.Api.Tests/TodoApplication.cs:44-55` |
+| A stale update of a todo is refused | 4 | nothing — TBL-001 carries no token and no version column | `BR-036`, `FN-011` |
+| An account's email address is unique | 4 | nothing — `EmailIndex` is not unique and `RequireUniqueEmail` is left at its default false | `20221123071234_Initial.cs` |
+| A stored account's user name is present | 4 | nothing in the store — the column is NULLable since v3; only `UserValidator` rejects a missing name, in the API | `20230714032431_ForeignKeyChange.cs:23-33` |
+
+No rule of this schema is expressed in a stored procedure, a trigger or a view, because the delivery contains none. A reader who looks for the enforcement of any rule above in the database definition will find a constraint (tier 1) or nothing; the second, third and fourth tiers are the API's statements and its process.
+
+### Associations confirmed against the statements that issue them
+
+Each of the seven associations is declared by a migration and by the model snapshot. What confirms it as a live part of the design is a statement that crosses it — and only one of the seven is crossed by a statement a recovered use case reaches.
+
+```plantuml
+@startuml
+title Which association a delivered statement crosses — one crossed by the product path, six carried by the schema alone
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+hide empty members
+hide circle
+
+class "TBL-001 Todos" as T1 <<table>>
+class "TBL-002 AspNetUsers" as T2 <<table>>
+class "TBL-003 AspNetRoles" as T3 <<table>>
+class "TBL-004 AspNetUserRoles" as T4 <<table>>
+class "TBL-005 AspNetUserClaims" as T5 <<table>>
+class "TBL-006 AspNetRoleClaims" as T6 <<table>>
+class "TBL-007 AspNetUserLogins" as T7 <<table>>
+class "TBL-008 AspNetUserTokens" as T8 <<table>>
+
+class "list\nSELECT ... WHERE OwnerId = @owner" as S1 <<UC-004>>
+class "read one\nFindAsync(id), then compare in memory" as S2 <<UC-005>>
+class "create\nINSERT (Title, IsComplete, OwnerId)" as S3 <<UC-006>>
+class "update\nUPDATE ... WHERE Id AND owner" as S4 <<UC-007>>
+class "delete\nDELETE ... WHERE Id AND owner" as S5 <<UC-007>>
+class "register and sign-in\nFindByNameAsync(NormalizedUserName)" as S6 <<UC-001, UC-002>>
+class "external token\nFindByLoginAsync(provider, key)" as S7 <<EP-011 — excluded>>
+class "resolve caller per request\nFindByIdAsync(NameIdentifier)" as S8 <<every todo use case>>
+
+T1 "0..*" --> "1" T2 : FK CASCADE
+T4 "0..*" --> "1" T2 : FK CASCADE
+T4 "0..*" --> "1" T3 : FK CASCADE
+T5 "0..*" --> "1" T2 : FK CASCADE
+T6 "0..*" --> "1" T3 : FK CASCADE
+T7 "0..*" --> "1" T2 : FK CASCADE
+T8 "0..*" --> "1" T2 : FK CASCADE
+
+S1 ..> T1 : filters OwnerId
+S2 ..> T1 : key only
+S3 ..> T1 : writes OwnerId
+S4 ..> T1 : filters OwnerId
+S5 ..> T1 : filters OwnerId
+S6 ..> T2 : unique index lookup
+S7 ..> T7 : composite key lookup
+S7 ..> T2 : INSERT on a miss
+S8 ..> T2 : primary key lookup
+
+note right of S1
+  Todo.Api/Todos/TodoApi.cs:24-27, 29-36, 38-50,
+  52-65, 67-73. Four statements touch TBL-001 and every
+  one of them carries the association — in its predicate
+  or in its column list. This is the only one of the seven
+  associations that a recovered use case's path crosses.
+end note
+
+note right of S7
+  Todo.Api/Users/UsersApi.cs:30-62. The only delivered
+  writer of TBL-007: it reads a binding and, on a miss,
+  inserts a user and then the binding. Reached through
+  EP-011, which the stakeholder excluded on 2026-11-19 —
+  so the statement exists and no delivered actor drives it.
+end note
+
+note bottom of T4
+  TBL-003, TBL-004, TBL-005, TBL-006 and TBL-008 are crossed by
+  no statement of the delivery. Their four associations are declared,
+  cascade on delete, and exercised by nothing: no code path creates a
+  role, writes a claim or stores a token. AN-010, EX-001, EX-003.
+end note
+
+note bottom of T2
+  Every one of the seven foreign keys terminates at TBL-002, so deleting
+  one account row is the only operation that would exercise all seven
+  cascade rules at once — and no endpoint deletes an account
+  (Todo.Api/Users/UsersApi.cs:12-22 publishes none). The rules stand; the
+  operation that would prove them in the store does not exist.
+end note
+@enduml
+```
+
+| Association | Declared by | Confirmed by the statement | What the statement proves |
+|---|---|---|---|
+| TBL-001 `OwnerId` → TBL-002 `Id` | `TodoDbContext.cs:11-15` — `HasOne<TodoUser>().WithMany().HasForeignKey(t => t.OwnerId).HasPrincipalKey(u => u.Id)`; `ForeignKeyChange.cs:27-34` | list, read-one, create, update, delete | The column is written from `owner.Id` and filtered against `owner.Id` on all five paths, so the parent key the association names is the one the code supplies. `WithMany()` declares no inverse navigation, which is why no query joins the two tables: a user's todos are reached by the `OwnerId` column alone |
+| TBL-004 → TBL-002, TBL-004 → TBL-003 | `20221123071234_Initial.cs` — two foreign keys on the join table; snapshot `OnDelete(DeleteBehavior.Cascade).IsRequired()` | none | Nothing reads or writes a role; the association exists exactly as the framework's model declares it (`AN-010`, `EX-002`) |
+| TBL-005 → TBL-002 | same | none | No product code path reads or writes a user claim; `ClaimsTransformation` derives the principal from the authenticated ticket, not from this table (`CurrentUserExtensions.cs:14-35`) |
+| TBL-006 → TBL-003 | same | none | No product code path reads or writes a role claim |
+| TBL-007 → TBL-002 | same | `FindByLoginAsync(provider, providerKey)` then `AddLoginAsync` | The association is crossed, by a statement `EP-011` reaches — and `EP-011` is an exclusion, so no recovered use case drives it (`EX-001`) |
+| TBL-008 → TBL-002 | same | none | No product code path writes an Identity token; the bearer token the API issues is never persisted (`AN-015`) |
+
+One consequence the confirmation fixes: the ownership edge is the only association with a two-way correspondence between the class model and the statements, and it is also the only one declared in `CLS-011`'s own `OnModelCreating`. The other six come from `base.OnModelCreating(builder)` — the Identity base class — so they are the framework's model, adopted by this delivery rather than designed in it.
+
+### Rules no tier enforces
+
+Four rules a reader would expect of this schema are enforced at no tier. Each is a fact of the delivered system, recorded as such and not as a gap this design fills; the ones that carry a risk are scored in the Risk List.
+
+| Rule | Why no tier enforces it | Consequence in the delivered product | Anchor |
+|---|---|---|---|
+| A second, concurrent update of the same todo does not overwrite the first | TBL-001 declares no concurrency token, no version column and no timestamp; `ExecuteUpdateAsync` issues a bare `UPDATE … WHERE` | Two concurrent `PUT`s both match their predicate and the later write wins silently. No response distinguishes the two | `BR-036`, `FN-011`; `TodoApi.cs:52-65` |
+| Two accounts cannot share an email address | `EmailIndex` on `NormalizedEmail` is not unique, and `RequireUniqueEmail` is never set, so it holds its default `false` | Uniqueness is enforced on the normalized user name alone. Two accounts may carry one address | `20221123071234_Initial.cs`; `TodoApi/Program.cs:16-19` |
+| A stored account always has a user name | `UserName` and `NormalizedUserName` became NULLable in v3, and SQLite admits repeated NULLs under a unique index | The register path supplies the email as the user name, so rows written through it carry one; a row written by other means need not | `20230714032431_ForeignKeyChange.cs:23-33` |
+| `Todos.Title` is not the empty string in the store | No `CHECK` exists. `[Required]` yields NOT NULL, and the empty string is rejected only by `MiniValidator` in the API | The rule holds on both `POST` and `PUT` because `CLS-016` covers the `/todos` group; a write that bypasses the API can store `''` | `ValidationFilter.cs:7-58`; `TodoApi.cs:22`; `Todo.cs:6-7` |
+
+### The declarations the store carries
+
+The inventory of what the migrations declare, as distinct from what enforces them at run time.
+
+| Constraint kind | Declared | Where it lands |
+|---|---|---|
+| NOT NULL | `Todos.Title`, `Todos.IsComplete`, `Todos.OwnerId`; on `AspNetUsers` the four non-nullable booleans (`EmailConfirmed`, `PhoneNumberConfirmed`, `TwoFactorEnabled`, `LockoutEnabled`), `AccessFailedCount` and `Id`; `AspNetRoles.Id`; and every foreign-key column of TBL-004 … TBL-008 | `20221123071234_Initial.cs`; `TodoDbContextModelSnapshot.cs` (`IsRequired()`) |
+| UNIQUE | `UserNameIndex` on `AspNetUsers(NormalizedUserName)`; `RoleNameIndex` on `AspNetRoles(NormalizedName)` | same |
+| CHECK | none | — |
+| DEFAULT | none in the current schema — the only default the history carried, `IsAdmin = false`, left with the column in v2 | `20221123165051_RemoveIsAdmin.cs:13-17` |
+| FOREIGN KEY | seven, all `ON DELETE CASCADE`, none `ON UPDATE` | `20230714032431_ForeignKeyChange.cs:27-34`; `20221123071234_Initial.cs` |
+| Concurrency token | `AspNetUsers.ConcurrencyStamp` and `AspNetRoles.ConcurrencyStamp` are declared `IsConcurrencyToken()`; `Todos` carries none | `TodoDbContextModelSnapshot.cs`; `BR-036` |
+| View, trigger, stored procedure, function | none — the delivery has no `.sql` file and no `HasDbFunction`, `ToView` or trigger declaration | `AN-004` |
+
+### How the schema is created — two paths, and which definition governs
+
+Two code paths build these eight tables, and they do not build them from the same definition.
+
+| Path | What it issues | Which definition governs the result | Anchor |
+|---|---|---|---|
+| Deployment and development | `dotnet ef database update` against the migration chain, chained by the orchestrator behind the `Todos.db` directory's absence | The three migration bodies and the model snapshot together; `__EFMigrationsHistory` records the applied set | `TodoApp.AppHost/Extensions.cs:1-38` (`AddEfMigration`, `AddTodoDbMigration`); `Todo.Api/Program.cs:22-24` |
+| The test harness | `Database.EnsureCreated()` over a held-open `Filename=:memory:` connection | The current EF model, built from `CLS-011` and `base.OnModelCreating` — the migrations are not replayed and `__EFMigrationsHistory` is not created | `Todo.Api.Tests/TodoApplication.cs:10-15,37-56` |
+
+The consequence for anyone reading a schema fact: the migrations are the only record of what the deployed file holds, and the test harness proves the model, not the migration chain. `EnsureCreated` and the migrations agree today — the migrations were generated from this model — but nothing makes them agree if a model change lands without its migration, and `AN-007` records that the next migration will be generated from a snapshot two model versions behind.
 
 ## Traceability
 Every class below is recovered from code, and the anchor cited where it is described is its source. A class the code declares but no recovered use case crosses carries no upstream and none is composed for it: `CLS-005` and `CLS-008` (`ExternalUserInfo` on each side — `EP-011` is an exclusion), `CLS-023` (`ExternalProviders`, whose list no shipped configuration populates), `CLS-026` (`AuthenticationSchemes`, whose only member names the external-cookie scheme the excluded provider flow uses), and `CLS-029` … `CLS-034` — the host-configuration, orchestration and test classes, which lie on no actor's path. The architecture records COMP-014 … COMP-017 as realizing no use case; the classes those components declare inherit that absence.
