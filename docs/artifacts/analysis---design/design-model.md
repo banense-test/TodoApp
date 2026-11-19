@@ -1,7 +1,8 @@
 ## Document Control
 - Phase: Excavation
-- Status: Draft — Domain Model and Design Packages and Classes recovered; Use-Case Realizations and Interface Contracts not yet recovered
+- Status: Draft — Domain Model and Domain Packages and Classes recovered; Persistent Data Classes recovered; Use-Case Realizations and Interface Contracts not yet recovered
 - Milestone Target: end of Excavation (AR) — not yet achieved
+
 ## Design Overview
 This document records the design the delivered code already holds. Nothing here is designed by this project: every class, member, visibility modifier and relationship is read out of the file named beside it, and no member is named that the code does not declare. Where the code is silent — a concurrency token, a lifecycle state an operation would need but no operation exists to reach — the silence is recorded as such, not filled.
 
@@ -13,7 +14,7 @@ The model is produced in stages. This iteration recovers the **domain model** an
 | Design Packages and Classes | The same classes grouped by the component that declares them, with every operation the code implements, and the classes of the host-configuration, orchestration and verification components | Recovered |
 | Use-Case Realizations | Which objects collaborate, in what order, for each of the eight recovered use cases | Not yet recovered |
 | Interface Contracts | Pre/postconditions on every operation a component boundary crosses | Not yet recovered |
-| Persistent Data Classes | Column, key, index and cascade detail of the eight tables | Owned by the Database Designer |
+| Persistent Data Classes | Column, key, index, constraint and cascade detail of the eight tables | Recovered — owned by the Database Designer |
 | Boundary Classes and Navigation Map | The Razor components as boundary classes | Owned by the User Interface Designer |
 | Capsules, Protocols and Signals | — | `[OMITTED: Capsules, Protocols and Signals — Development Case DC-D3: real-time-system = false, so no capsule, protocol or signal work runs in any phase]` |
 
@@ -586,6 +587,361 @@ end note
 
 `CLS-033` is the only class in the whole model that mints the `admin` role claim (`TokenService.cs:16-21`). No product class can: `CLS-012.IsAdmin` reads a claim only this test type writes, and `AspNetRoles`/`AspNetUserRoles` are written by nothing (AN-010, `EX-002`). The claim's existence in the model is evidence of a test fixture, not of a capability.
 
+## Persistent Data Classes
+
+Eight tables exist and every one of them is declared by `Todo.Api/Migrations`. No DDL script, no schema file and no database instance is delivered (`AN-004`): the schema is read out of three migrations and a model snapshot whose `ProductVersion` is `8.0.0` against an EF Core 9.0.8 runtime (`AN-007`). The engine is recorded, not chosen — SQLite through `Microsoft.EntityFrameworkCore.Sqlite` 9.0.8, one file at `Data Source=.db/Todos.db`. `[OMITTED: Data Model — DC §5.2 trigger not fired for this project; the persistent structures are recorded here, inline in the Design Model]`
+
+```plantuml
+@startuml
+title Persistent schema — eight tables as the three EF Core migrations declare them
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+hide empty members
+hide circle
+
+package "SQLite — Todos.db, built only by Todo.Api/Migrations" {
+
+  class "Todos\nTBL-001" as TODOS <<table>> {
+    PK Id : int [INTEGER, autoincrement]
+    Title : string [TEXT, NOT NULL]
+    IsComplete : bool [INTEGER, NOT NULL]
+    FK OwnerId : string [TEXT, NOT NULL]
+  }
+
+  class "AspNetUsers\nTBL-002" as USERS <<table>> {
+    PK Id : string [TEXT]
+    UserName : string [TEXT 256, NULL]
+    NormalizedUserName : string [TEXT 256, NULL]
+    Email : string [TEXT 256, NULL]
+    NormalizedEmail : string [TEXT 256, NULL]
+    EmailConfirmed : bool [INTEGER, NOT NULL]
+    PasswordHash : string [TEXT, NULL]
+    SecurityStamp : string [TEXT, NULL]
+    ConcurrencyStamp : string [TEXT, NULL, concurrency token]
+    PhoneNumber : string [TEXT, NULL]
+    PhoneNumberConfirmed : bool [INTEGER, NOT NULL]
+    TwoFactorEnabled : bool [INTEGER, NOT NULL]
+    LockoutEnd : DateTimeOffset? [TEXT, NULL]
+    LockoutEnabled : bool [INTEGER, NOT NULL]
+    AccessFailedCount : int [INTEGER, NOT NULL]
+  }
+
+  class "AspNetRoles\nTBL-003" as ROLES <<table>> {
+    PK Id : string [TEXT]
+    Name : string [TEXT 256, NULL]
+    NormalizedName : string [TEXT 256, NULL]
+    ConcurrencyStamp : string [TEXT, NULL, concurrency token]
+  }
+
+  class "AspNetUserRoles\nTBL-004" as USERROLES <<table>> {
+    PK FK UserId : string [TEXT]
+    PK FK RoleId : string [TEXT]
+  }
+
+  class "AspNetUserClaims\nTBL-005" as USERCLAIMS <<table>> {
+    PK Id : int [INTEGER, autoincrement]
+    FK UserId : string [TEXT, NOT NULL]
+    ClaimType : string [TEXT, NULL]
+    ClaimValue : string [TEXT, NULL]
+  }
+
+  class "AspNetRoleClaims\nTBL-006" as ROLECLAIMS <<table>> {
+    PK Id : int [INTEGER, autoincrement]
+    FK RoleId : string [TEXT, NOT NULL]
+    ClaimType : string [TEXT, NULL]
+    ClaimValue : string [TEXT, NULL]
+  }
+
+  class "AspNetUserLogins\nTBL-007" as USERLOGINS <<table>> {
+    PK FK LoginProvider : string [TEXT]
+    PK FK ProviderKey : string [TEXT]
+    FK UserId : string [TEXT]
+    ProviderDisplayName : string [TEXT, NULL]
+  }
+
+  class "AspNetUserTokens\nTBL-008" as USERTOKENS <<table>> {
+    PK FK UserId : string [TEXT]
+    PK FK LoginProvider : string [TEXT]
+    PK FK Name : string [TEXT]
+    Value : string [TEXT, NULL]
+  }
+}
+
+TODOS "0..*" --> "1" USERS : OwnerId to Id\nFK_Todos_AspNetUsers_OwnerId CASCADE
+USERROLES "0..*" --> "1" USERS : UserId CASCADE
+USERROLES "0..*" --> "1" ROLES : RoleId CASCADE
+USERCLAIMS "0..*" --> "1" USERS : UserId CASCADE
+ROLECLAIMS "0..*" --> "1" ROLES : RoleId CASCADE
+USERLOGINS "0..*" --> "1" USERS : UserId CASCADE
+USERTOKENS "0..*" --> "1" USERS : UserId CASCADE
+
+note right of TODOS
+  TBL-001 stores CLS-001 Todo and nothing else.
+  Index IX_Todos_OwnerId on (OwnerId), non-unique.
+  No concurrency token, no timestamp, no soft-delete
+  column: BR-036 / FN-011.
+  Todo.Api/Migrations/20221123071234_Initial.cs
+  Todo.Api/Todos/Todo.cs:3-12
+  Todo.Api/TodoDbContext.cs:11-15
+end note
+
+note right of USERS
+  TBL-002 stores CLS-002 TodoUser (: IdentityUser).
+  Unique index UserNameIndex on (NormalizedUserName);
+  index EmailIndex on (NormalizedEmail).
+  IsAdmin was a NOT NULL column here for 9 h 38 min of
+  migration history; 20221123165051_RemoveIsAdmin dropped it.
+  UserName is NULLable since 20230714032431_ForeignKeyChange,
+  which dropped AK_AspNetUsers_UserName.
+end note
+
+note bottom of ROLES
+  TBL-003 and TBL-004 are written by nothing in the delivery.
+  Unique index RoleNameIndex on (NormalizedName);
+  index IX_AspNetUserRoles_RoleId on (RoleId).
+  CurrentUser.IsAdmin reads the role claim "admin", which only
+  the test fixture TokenService mints. EX-002 / AN-010.
+end note
+
+note bottom of USERLOGINS
+  TBL-007 is the table the excluded external-provider flow
+  would have written. Composite PK (LoginProvider, ProviderKey),
+  index IX_AspNetUserLogins_UserId on (UserId), CASCADE.
+  No product code path writes it. EX-001 / AN-002.
+  TBL-008 AspNetUserTokens likewise: composite PK
+  (UserId, LoginProvider, Name), no secondary index, unwritten.
+end note
+
+note bottom of TODOS
+  No PK is a natural key. TBL-001 keys on a store-generated
+  surrogate int; every Identity table keys on CLS-002's string
+  Id (a GUID the framework generates), except the three
+  junction tables, which key on the pair or triple they join.
+  Every association in the schema carries ON DELETE CASCADE.
+  No CHECK constraint, view, trigger or stored procedure exists
+  anywhere: AN-004.
+end note
+@enduml
+```
+
+### Tables and the classes that own them
+
+One table stores a product entity; six are the framework's Identity composition around the user entity; one stores nothing the delivery ever writes. No table carries a column no class declares, and no class in the Design Model declares a persistent member with no column — the mapping is one-to-one in both directions.
+
+| Table | Columns | What it stores | Persistent class | Traces From | Anchor |
+|---|---|---|---|---|---|
+| TBL-001 `Todos` | 4 | The todo entity, one row per item | CLS-001 `Todo` | CLS-001 | `Todo.Api/Todos/Todo.cs:3-12`; `Todo.Api/TodoDbContext.cs:9-15`; `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| TBL-002 `AspNetUsers` | 15 | The user entity and its credential state | CLS-002 `TodoUser` | CLS-002 | `Todo.Api/Users/TodoUser.cs:7-9`; `20221123071234_Initial.cs`; `20230714032431_ForeignKeyChange.cs` |
+| TBL-003 `AspNetRoles` | 4 | Role definitions | none — composed by `IdentityDbContext<TodoUser>`, the base type of CLS-011; no product class declares a role | CLS-011 | `20221123071234_Initial.cs`; `Todo.Api/TodoDbContext.cs:7` |
+| TBL-004 `AspNetUserRoles` | 2 | User-to-role join | none — same base type | CLS-011 | `20221123071234_Initial.cs` |
+| TBL-005 `AspNetUserClaims` | 4 | Per-user claims | none — same base type | CLS-011 | `20221123071234_Initial.cs` |
+| TBL-006 `AspNetRoleClaims` | 4 | Per-role claims | none — same base type | CLS-011 | `20221123071234_Initial.cs` |
+| TBL-007 `AspNetUserLogins` | 4 | External-login bindings | none — same base type | CLS-011 | `20221123071234_Initial.cs` |
+| TBL-008 `AspNetUserTokens` | 4 | Tokens the identity store persists (not the bearer tokens the API issues) | none — same base type | CLS-011 | `20221123071234_Initial.cs` |
+
+`CLS-003`, `CLS-006`, `CLS-008` and `CLS-009` are wire shapes and are stored nowhere: the API projects `Todo` onto `TodoItem` per response (`Todo.Api/Todos/Todo.cs:27-40`), and the bearer token lives in a cookie the API never sees (`EX-001`, `AN-015`). `CLS-010` is a static projection helper with no state.
+
+### Keys
+
+Every primary key is either a store-generated surrogate or the identity the schema already carries; no natural business key is used as a primary key anywhere, and no table has a foreign key outside the eight.
+
+| Table | Primary key | Strategy | Anchor |
+|---|---|---|---|
+| TBL-001 | `Id` INTEGER | store-generated surrogate, `Sqlite:Autoincrement` | `20221123071234_Initial.cs`; `TodoDbContextModelSnapshot.cs` (`ValueGeneratedOnAdd`) |
+| TBL-002 | `Id` TEXT | supplied by the Identity user store before insert; no autoincrement annotation | same |
+| TBL-003 | `Id` TEXT | supplied by the role store; nothing in the delivery calls it | same |
+| TBL-004 | (`UserId`, `RoleId`) | composite — the association itself is the key | same |
+| TBL-005 | `Id` INTEGER | store-generated surrogate; the claim is not unique per user | same |
+| TBL-006 | `Id` INTEGER | store-generated surrogate | same |
+| TBL-007 | (`LoginProvider`, `ProviderKey`) | composite natural key — one binding per provider identity | same |
+| TBL-008 | (`UserId`, `LoginProvider`, `Name`) | composite natural key | same |
+
+| Foreign key | Child → parent | Column → principal column | On delete | Anchor |
+|---|---|---|---|---|
+| FK_Todos_AspNetUsers_OwnerId | TBL-001 → TBL-002 | `OwnerId` → `Id` | CASCADE | `20230714032431_ForeignKeyChange.cs:27-34` |
+| FK_AspNetUserClaims_AspNetUsers_UserId | TBL-005 → TBL-002 | `UserId` → `Id` | CASCADE | `20221123071234_Initial.cs` |
+| FK_AspNetUserLogins_AspNetUsers_UserId | TBL-007 → TBL-002 | `UserId` → `Id` | CASCADE | same |
+| FK_AspNetUserRoles_AspNetUsers_UserId | TBL-004 → TBL-002 | `UserId` → `Id` | CASCADE | same |
+| FK_AspNetUserRoles_AspNetRoles_RoleId | TBL-004 → TBL-003 | `RoleId` → `Id` | CASCADE | same |
+| FK_AspNetUserTokens_AspNetUsers_UserId | TBL-008 → TBL-002 | `UserId` → `Id` | CASCADE | same |
+| FK_AspNetRoleClaims_AspNetRoles_RoleId | TBL-006 → TBL-003 | `RoleId` → `Id` | CASCADE | same |
+
+All seven carry `ReferentialAction.Cascade` and none carries `RESTRICT`, `SET NULL` or `NO ACTION`, so an account deletion removes that account's todos, claims, logins, roles and tokens. No endpoint deletes a user, so the rule is declared and the operation that would exercise it does not exist.
+
+### How inheritance is stored
+
+The model declares exactly one inheritance pair, and the schema stores it flattened into one table.
+
+```plantuml
+@startuml
+title How inheritance is stored — one class hierarchy in the model, flattened into one table
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide empty members
+hide circle
+
+class "IdentityUser&lt;string&gt;\nframework type — not an entity type" as BASE {
+  + Id : string
+  + UserName : string?
+  + NormalizedUserName : string?
+  + Email : string?
+  + PasswordHash : string?
+  + SecurityStamp : string?
+  + ConcurrencyStamp : string?
+  + the remaining Identity columns
+}
+class "TodoUser\nCLS-002 — declares no member of its own" as TU <<entity>>
+class "AspNetUsers\nTBL-002 — 15 columns, one row per user" as TBL2 <<table>>
+
+BASE <|-- TU : : IdentityUser
+TU ..> TBL2 : mapped as a single entity type
+
+note right of TU
+  Todo.Api/Users/TodoUser.cs:7-9 —
+  public class TodoUser : IdentityUser { }
+end note
+
+note bottom of TBL2
+  One table, no discriminator column, no derived-type registration.
+  IdentityDbContext&lt;TodoUser&gt; registers TodoUser alone as an entity type;
+  IdentityUser is its base class, never a table of its own. The hierarchy
+  therefore stores as a single row per user, and every Identity column
+  sits in TBL-002. The other six Identity tables are composition the
+  framework's model supplies (TBL-003 .. TBL-008), not inheritance.
+  Todo.Api/TodoDbContext.cs:7
+  Todo.Api/Migrations/TodoDbContextModelSnapshot.cs — no HasDiscriminator,
+  no derived-type block, ProductVersion 8.0.0
+end note
+
+note bottom of BASE
+  No second hierarchy exists anywhere in the eight tables. CLS-003, CLS-006,
+  CLS-008 and CLS-009 are wire shapes with no table; CLS-010 is a static
+  projection helper. The only inheritance the code declares is this one pair,
+  and it is the only one the schema has to store.
+end note
+@enduml
+```
+
+No table-per-type, no table-per-concrete, no discriminator: the strategy is one table for the hierarchy, which is the framework's own registration and needs no `OnModelCreating` rule of the delivery's. `CLS-011` adds one entity configuration to it — the ownership foreign key — and calls `base.OnModelCreating(builder)`, which is where the six Identity tables and the `TodoUser` map come from.
+
+### Schema evolution — three migrations, two structural changes
+
+```plantuml
+@startuml
+title Key provenance — the two structural changes three migrations made, and what each left behind
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+state "v1 · Initial\n20221123071234" as V1 {
+  V1 : 8 tables created
+  V1 : Todos.OwnerId FK to AspNetUsers.UserName
+  V1 : AK_AspNetUsers_UserName unique constraint
+  V1 : AspNetUsers.IsAdmin bool NOT NULL
+  V1 : 7 FKs, all ON DELETE CASCADE
+  V1 : 8 secondary indexes, 2 of them unique
+}
+state "v2 · RemoveIsAdmin\n20221123165051" as V2 {
+  V2 : AspNetUsers.IsAdmin dropped
+  V2 : authority moves to a role claim
+}
+state "v3 · ForeignKeyChange\n20230714032431" as V3 {
+  V3 : FK_Todos_AspNetUsers_OwnerId dropped and re-added
+  V3 : principal column UserName to Id
+  V3 : AK_AspNetUsers_UserName dropped
+  V3 : AspNetUsers.UserName becomes NULLable
+  V3 : current schema
+}
+
+[*] --> V1
+V1 --> V2 : DropColumn IsAdmin
+V2 --> V3 : DropForeignKey, DropUniqueConstraint,\nAlterColumn UserName, AddForeignKey
+V3 --> [*]
+
+note right of V1
+  Todos.OwnerId was a string matching UserName for
+  7 months 20 days. Every row written in that window
+  keyed on a mutable column.
+  Todo.Api/Migrations/20221123071234_Initial.cs
+end note
+
+note right of V2
+  The Down migration re-adds IsAdmin with
+  defaultValue false, so the flag is recoverable
+  only by naming a value.
+  Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs:13-17
+end note
+
+note right of V3
+  The re-add restores the same cascade rule on the
+  new principal column; the unique constraint that
+  the FK depended on is dropped and not replaced.
+  Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:13-45
+end note
+
+note bottom of V3
+  No migration has been authored since 2023-07-14. The model snapshot
+  still declares ProductVersion 8.0.0 against an EF Core 9.0.8 runtime,
+  so a future migration is generated from a stale baseline: AN-007.
+end note
+@enduml
+```
+
+Each migration carries a `Down` that reverses it, so the schema is reversible as delivered. `RemoveIsAdmin.Down` re-adds the column with `defaultValue: false`; `ForeignKeyChange.Down` restores the `UserName` principal and its unique constraint. The applied order is fixed by the migration id prefix and enforced by the `__EFMigrationsHistory` table the provider creates; that table is the ninth table in any created database and it is the only one not declared by a migration body.
+
+### Index strategy — each index against the query that issues it
+
+Eight secondary indexes exist. Four are issued by a delivered query, four by none.
+
+| Index | Table, column(s) | Unique | The query that issues it | Anchor |
+|---|---|---|---|---|
+| `IX_Todos_OwnerId` | TBL-001 (`OwnerId`) | no — one user owns many todos | `EP-012` list: `db.Todos.Where(todo => todo.OwnerId == owner.Id)`, one index range per caller | `Todo.Api/Todos/TodoApi.cs:24-27` |
+| `PK_Todos` (the rowid index) | TBL-001 (`Id`) | yes | `EP-013` read-one: `db.Todos.FindAsync(id)`; `EP-015`/`EP-016`: `Where(t => t.Id == id && …)` | `Todo.Api/Todos/TodoApi.cs:29-36,52-73` |
+| `UserNameIndex` | TBL-002 (`NormalizedUserName`) | yes | The Identity user lookup issued on every `EP-002` sign-in and on `EP-001`'s duplicate-name check — `UserManager.FindByNameAsync` behind `MapIdentityApi<TodoUser>()` | `Todo.Api/Users/UsersApi.cs:12,20` |
+| `EmailIndex` | TBL-002 (`NormalizedEmail`) | no | No in-scope query: the user-by-email lookup belongs to `/users/manage/info` (`EP-009`), an excluded operation. Kept because the framework's model declares it | `EX-003`; `Todo.Api/Users/UsersApi.cs:12,20` |
+| `IX_AspNetUserClaims_UserId` | TBL-005 (`UserId`) | no | None — no product code path reads or writes a user claim | `20221123071234_Initial.cs` |
+| `IX_AspNetUserLogins_UserId` | TBL-007 (`UserId`) | no | None — the external-login lookup is `EX-001` | same |
+| `IX_AspNetUserRoles_RoleId` | TBL-004 (`RoleId`) | no | None — no code path grants or reads a role | same; `AN-010` |
+| `IX_AspNetRoleClaims_RoleId` | TBL-006 (`RoleId`) | no | None — no code path reads or writes a role claim | same |
+| `RoleNameIndex` | TBL-003 (`NormalizedName`) | yes | None — nothing creates a role | same |
+
+The three composite primary keys double as indexes, each usable by its leading column: TBL-004 by `UserId`, TBL-008 by `UserId`. No covering index exists and no wider index on `Todos` is issued by a delivered query — the list filters on `OwnerId` alone and projects `Title` and `IsComplete`, which the index does not carry, so a wider index would serve nothing the delivery asks for.
+
+### Constraints — what the store enforces and what it does not
+
+| Constraint kind | Declared | Where it lands |
+|---|---|---|
+| NOT NULL | `Todos.Title`, `Todos.IsComplete`, `Todos.OwnerId`, the five non-nullable `AspNetUsers` booleans and its `AccessFailedCount`, `AspNetUsers.Id`, `AspNetRoles.Id`, and every foreign-key column of TBL-004 … TBL-008 | `20221123071234_Initial.cs`; `TodoDbContextModelSnapshot.cs` (`IsRequired()`) |
+| UNIQUE | `UserNameIndex` on `AspNetUsers(NormalizedUserName)`; `RoleNameIndex` on `AspNetRoles(NormalizedName)` | same |
+| CHECK | none | — |
+| DEFAULT | none in the current schema — the only default the history carried, `IsAdmin = false`, left with the column in v2 | `20221123165051_RemoveIsAdmin.cs:13-17` |
+| FOREIGN KEY | seven, all `ON DELETE CASCADE`, none `ON UPDATE` | `20230714032431_ForeignKeyChange.cs:27-34`; `20221123071234_Initial.cs` |
+| Concurrency token | `AspNetUsers.ConcurrencyStamp` and `AspNetRoles.ConcurrencyStamp` are declared `IsConcurrencyToken()`; `Todos` carries none | `TodoDbContextModelSnapshot.cs`; `BR-036` |
+| View, trigger, stored procedure, function | none — the delivery has no `.sql` file and no `HasDbFunction`, `ToView` or trigger declaration | `AN-004` |
+
+Four domain rules are therefore not enforced by the store, and each is stated as a fact of the delivered schema rather than a gap to fill here:
+
+- **`Todos.Title` may be the empty string.** `[Required]` gives NOT NULL; nothing rejects `''`. The only check is the parameter-validation filter attached to the `/todos` group (`CLS-016`), which runs in the API and not in the store.
+- **`AspNetUsers.Email` is not unique.** `EmailIndex` is a non-unique index; two accounts may carry the same address. Uniqueness is enforced on `NormalizedUserName` alone, and the register endpoint supplies the email as the username.
+- **`Todos.IsComplete` is an INTEGER with no domain check.** Any integer the provider accepts would be stored; the API only ever writes a `bool`.
+- **Referential integrity depends on a connection setting the delivery does not make.** The seven cascade rules are declared in the schema, and no pragma, journal mode or connection setting is configured anywhere in the delivery, so whether the engine enforces them at run time is the provider's default rather than a value this project chose.
+
+### O/R mapping specification
+
+Column mapping is by member name throughout: no `HasColumnName`, `HasConversion`, `HasColumnType` beyond the provider's own inference, or owned-type declaration appears in `CLS-011`, so every column name equals the property name it stores.
+
+| Persistent class | Table | Identity strategy | Nullability in the store | Loading policy the code applies |
+|---|---|---|---|---|
+| CLS-001 `Todo` | TBL-001 | `Id` store-generated (`ValueGeneratedOnAdd`); `IsComplete` written from the request body, never defaulted in the store | `Title`, `OwnerId`, `IsComplete` NOT NULL | List projected with `AsNoTracking()` and a `Select` onto the wire shape; read-one tracked through `FindAsync`; update and delete never materialise an entity — `ExecuteUpdateAsync` and `ExecuteDeleteAsync` issue one statement each |
+| CLS-002 `TodoUser` | TBL-002 | `Id` supplied by the Identity store before insert | `UserName`, `Email`, `PasswordHash`, `SecurityStamp`, `ConcurrencyStamp`, `PhoneNumber`, `LockoutEnd` all NULLable | Resolved once per request by `ClaimsTransformation` into `CurrentUser.User`; on sign-in by `UserManager` |
+| `IdentityUserRole<string>`, `IdentityUserClaim<string>`, `IdentityUserLogin<string>`, `IdentityUserToken<string>`, `IdentityRole` | TBL-003 … TBL-008 | composite or store-supplied, as in the Keys table | as declared per table | Never loaded by product code: the role, claim and login stores are called by nothing (`AN-010`, `EX-001`, `EX-003`) |
+
+There is no navigation property on either side of the ownership edge, so no loading policy can be lazy or eager: a user's todos are reachable only by a query that filters on `OwnerId`, and `Todo` exposes no `TodoUser` reference at all even though the column that carries it is NOT NULL.
+
+### Storage parameters
+
+SQLite imposes its own physical model and the delivery sets none of it: one file opened as `Data Source=.db/Todos.db`, one ROWID table per declared table, TEXT and INTEGER column affinity, and `autoincrement` on the two integer surrogate keys. There is no tablespace, no partitioned table, no cluster key, no fill factor and no compression option to record, because the engine has none of them. No journal mode, page size, cache size or pragma is configured by the delivery, so every storage-level parameter in force is the provider's default. Nothing in the schema carries a retention, archive, validity-interval or audit column, so no retention rule can be expressed against it — `Todos` rows persist until a `DELETE` removes them and no endpoint restores one.
+
 ## Traceability
 Every class below is recovered from code, and the anchor cited where it is described is its source. A class the code declares but no recovered use case crosses carries no upstream and none is composed for it: `CLS-005` and `CLS-008` (`ExternalUserInfo` on each side — `EP-011` is an exclusion), `CLS-023` (`ExternalProviders`, whose list no shipped configuration populates), `CLS-026` (`AuthenticationSchemes`, whose only member names the external-cookie scheme the excluded provider flow uses), and `CLS-029` … `CLS-034` — the host-configuration, orchestration and test classes, which lie on no actor's path. The architecture records COMP-014 … COMP-017 as realizing no use case; the classes those components declare inherit that absence.
 
@@ -629,4 +985,11 @@ Three pairs are one fact declared twice, not six facts: `CLS-003`/`CLS-006`, `CL
 | CLS-032 | — | — | CLS-033 |
 | CLS-033 | — | — | CLS-002 |
 | CLS-034 | — | — | — |
-
+| TBL-001 | CLS-001 | Specifies | — |
+| TBL-002 | CLS-002 | Specifies | — |
+| TBL-003 | CLS-011 | Specifies | — |
+| TBL-004 | CLS-011 | Specifies | — |
+| TBL-005 | CLS-011 | Specifies | — |
+| TBL-006 | CLS-011 | Specifies | — |
+| TBL-007 | CLS-011 | Specifies | — |
+| TBL-008 | CLS-011 | Specifies | — |
