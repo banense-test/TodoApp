@@ -203,17 +203,18 @@ end note
 A role working in Excavation or Consolidation is bound by what the build already enforces — `Nullable`, `LangVersion preview`, the analyzer and warning settings in `Directory.Build.props` — and by the conventions visible in the existing code, and by nothing else. A role that needs a convention the existing code does not exhibit raises it as a process question in the iteration that raises it; it does not assume one, and it does not treat this document as its source. A convention file enters the project only when a declared requirement or a Change Request puts one in scope, and this table is corrected in the same iteration that change is approved.
 
 ## Optional Artifact Triggers
-
 Evaluated against this project's facts. Re-evaluated at every iteration; the recorded set is replaced, never appended to.
 
 | OPTIONAL artifact | Verdict | Basis |
 |---|---|---|
 | Glossary | NOT TRIGGERED | The vocabulary is ordinary product English — user, todo, title, complete — plus technology names (.NET, Aspire, EF Core, YARP) that the platform documentation defines. No specialist, regulated, legal, medical or financial term needs a stakeholder-validated definition. |
-| Architectural Proof-of-Concept | NOT TRIGGERED | The trigger requires the Elaboration phase and a technical risk needing empirical validation. Neither holds now: the phase is Survey and no Risk List exists yet. Re-evaluated at Elaboration against the scored technical risks. |
+| Architectural Proof-of-Concept | NOT TRIGGERED | The trigger requires the Elaboration phase. The phase is Survey, so the condition does not hold and the verdict does not rest on any reading of the technical risks. Re-evaluated at Elaboration, where the trigger's second clause — at least one technical risk requiring empirical validation — is judged against the Risk List as it then stands. |
 | Data Model | NOT TRIGGERED | Not >10 entities: `TodoDbContextModelSnapshot` yields 8 — `Todo`, `TodoUser`, `IdentityRole`, `IdentityRoleClaim`, `IdentityUserClaim`, `IdentityUserLogin`, `IdentityUserRole`, `IdentityUserToken`. Not data-centric: the system is a two-aggregate CRUD application over SQLite, not a warehouse or analytical store. No data migration in scope: the three EF Core migrations are schema evolution in code and `.iari/README.md` records that there is no production data to migrate. The relational schema, its keys, indexes and cascade rules are recovered **inline in the Design Model** by the Database Designer's persistent-data stages. |
 | Deployment Model | **TRIGGERED** | Distributed / multi-node topology: `TodoApp.AppHost/Program.cs` orchestrates a `todoapi` service, a `todo-web-server` service and a `sqliteweb` container, wired through Aspire service discovery, with the container explicitly excluded from the manifest and the API gated on a migration operation; the Blazor client reaches the API through a YARP forwarder rather than a direct route. Non-trivial across environments: each project carries its own `appsettings.json` and `appsettings.Development.json`, and `Todo.Api.csproj` declares a container image name and tag. |
 | User-Interface Prototype | NOT TRIGGERED | UI complexity is low and the UI already exists in code (`TodoList.razor`, `LogInForm.razor` over Bootstrap). There is no UX-critical interaction and nothing for a stakeholder to validate before implementation — the UI is recovered, not designed. |
 | Test Plan | NOT TRIGGERED | No formal delivery, regulatory audit or contractual test reporting applies. Per-iteration test scope is defined by the Iteration Plan, and the Test Evaluation Summary reports the outcome. |
+
+The verdicts above are the set in force. One is fired, five are not, and each NOT-TRIGGERED verdict states the condition that fails rather than the state of a document.
 
 ## Roles and Ownership
 Roster, primary artifact ownership and the ownership rule are per the IARI DC baseline and are **not restated or modified** here. Recorded below: which roles the project's trigger decisions silence, which roles are at work in the sprint zero, and who owns each referenced tool configuration.
