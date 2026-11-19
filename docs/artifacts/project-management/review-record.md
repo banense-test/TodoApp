@@ -31,17 +31,17 @@
 - SCM evidence: no pull request in any state; no IARI build on `main`
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
 - Phase: Survey
-- Status: Draft — consolidated coordination block of the end-of-Survey milestone review
-- Milestone Target: end of Survey (SBC) — not achieved; the phase iterates
+- Status: Draft — consolidated coordination block of the end-of-Survey milestone review, iteration 2
+- Milestone Target: end of Survey (SBC) — 0 open Critical, 0 open Major on both executing lenses, perimeter confirmed, Stakeholder sanction GRANTED; the phase advances and the Iteration Assessment follows this verdict
 - Review type: Milestone review (SBC), consolidation of the executing lenses
 - Lenses executed: Reviewer (technical), Management Reviewer (management)
 - Lens not executed: Business Reviewer — INACTIVE, did not evaluate this review
-- Verdict: No-Go — 7 open Major, 0 open Critical; requiresIteration true
+- Verdict: Go — requiresIteration false; the 2 open Minor findings carried to the next phase under the stakeholder's order of 2026-11-19
 
 ## Review Scope and Criteria
 ### Reviewer lens
