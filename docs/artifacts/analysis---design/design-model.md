@@ -1,0 +1,3 @@
+- Phase: Excavation
+- Status: Draft — Domain Model and Design Packages recovered; Use-Case Realizations, Interface Contracts and Persistent Data Classes not yet recovered
+- Milestone Target: end of Excavation (AR) — not yet achieved
