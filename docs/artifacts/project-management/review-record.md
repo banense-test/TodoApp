@@ -504,137 +504,118 @@ What each artifact now carries on the governance test:
 The two Minor findings the technical lens raises this iteration — `Risk List#F2` and `Iteration Plan#F5`, both `contained-defect` — stay inside their artifacts: no other role builds on the duplicated passage or on the trailing `R021` block, and no SBC criterion depends on either. They are recorded against their owner and neither holds this milestone.
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-Consolidated ledger at SBC. Twelve findings across two executing lenses; every one open, none resolved, no prior review exists to reconcile against.
+This consolidation mints no finding. Every finding in the ledger was recorded by the lens that evaluated the defect, and this block adds no defect of its own: coordination records what the lenses found, assigns it, and counts it.
+
+#### What the two executing lenses found together
+
+Fourteen findings across four artifacts, in two milestone reviews of Survey. Twelve closed, two open, no Critical in either. The previous milestone review ran on the artifacts as first issued; this one ran on the corrected content.
+
+| Review event | Findings recorded | Critical | Major | Minor | Closed at the event's close |
+|---|---|---|---|---|---|
+| Survey I1 — SBC milestone review, first pass | 12 | 0 | 7 | 5 | 0 — the stakeholder refused the sanction with the order to correct all Major findings |
+| Survey I2 — SBC milestone review, correction pass | 2 | 0 | 0 | 2 | 12 of the previous pass, both new ones open |
+| **On record at this consolidation** | **14** | **0** | **0 open** | **2 open** | **12** |
+
+The correction pass records fewer findings than the pass it corrected. That is the expected shape: a lens that finds as much in corrected content as in first-issued content is not correcting anything, and a lens that finds nothing is not reading. Two contained defects in two independently reworked artifacts is a correction pass that worked.
+
+#### Defect density — counted from the ledger
+
+| Artifact | Findings | Major | Minor | Crit. | Density (findings/artifact) |
+|---|---|---|---|---|---|
+| Development Case | 2 | 1 | 1 | 0 | 2.00 |
+| System Inventory | 2 | 1 | 1 | 0 | 2.00 |
+| Risk List | 4 | 3 | 1 | 0 | 4.00 |
+| Iteration Plan | 6 | 2 | 4 | 0 | 6.00 |
+| **Total** | **14** | **7** | **7** | **0** | **3.50 mean** |
+
+Density per page is **not reported**: no lens measured the page count of the four artifacts, and a density computed on an unmeasured denominator would be invented. The figures above are counted entries from `read_artifact_findings`, not estimates.
+
+The Iteration Plan carries the largest load and the only Minor cluster — 4 of its 6 findings are Minor, and both defects that remain open land there or in the Risk List's acceptance section. Both artifacts are the Project Manager's, and both were issued before the tailoring they must carry was stable. That is one signal observed twice, not a trend: two review events are not a series, and this report draws none.
+
+#### Review effectiveness — current metrics only
 
 ```plantuml
 @startuml
-title Finding ledger — 12 findings consolidated across 2 executing lenses (Survey iteration 1)
+title Review effectiveness — SBC / Survey iteration 2, current metrics only, no trend drawn
 skinparam shadowing false
 skinparam defaultTextAlignment left
 skinparam classAttributeIconSize 0
 hide empty members
 hide circle
 
-package "Reviewer lens — 9 findings (4 Major, 5 Minor)" {
-  class "Development Case\nF1 Major · F2 Minor" as DC
-  class "System Inventory\nF2 Major · F1 Minor" as SI
-  class "Risk List\nF1 Major" as RL
-  class "Iteration Plan\nF1 Major · F2 F3 F4 Minor" as IP
+class "Defect density" as DD {
+  Development Case : 2 findings (1 Major, 1 Minor)
+  System Inventory : 2 findings (1 Major, 1 Minor)
+  Risk List : 4 findings (3 Major, 1 Minor)
+  Iteration Plan : 6 findings (2 Major, 4 Minor)
+  Mean across 4 artifacts : 3.50
+  Per-page density : not reported — no page count was measured
 }
-package "Management Reviewer lens — 3 findings (3 Major)" {
-  class "Risk List\nF1 Major · F2 Major" as MRL
-  class "Iteration Plan\nF1 Major" as MIP
+class "Review coverage" as RC {
+  Survey artifacts formally reviewed : 4 of 4 — 100%
+  Executing lenses : 2 of 3 — 67%, Business INACTIVE
+  Exit criteria answered by at least one lens : 6 of 6 — 100%
+  Exit criteria surviving BOTH lenses : 6 of 6 — 100%
+  Artifacts cleared for consumption : 4 of 4
 }
-package "Business Reviewer lens" {
-  class "INACTIVE\nno verdict recorded" as BR
+class "Defect removal efficiency" as DRE {
+  Reviews to date : 2 (Survey I1, Survey I2)
+  Defects found in review : 14
+  Defects found in test : 0 — no test execution exists
+  Ratio : NOT COMPUTABLE
+}
+class "Rework effort" as RE {
+  Measured currencies : tokens, elapsed time
+  Tokens metered for this review : no
+  Hours of rework : a unit this system cannot produce
+  Proxy — findings closed this iteration : 12 of 14
+  Proxy — findings open by owner : Project Manager 2
+}
+class "Milestone" as M {
+  Critical : 0
+  Major open : 0
+  Minor open : 2, both contained
+  Verdict : Go
 }
 
-DC --> RL : same artifact set,\nno overlapping defect
-SI -right-> MRL
-RL -right-> MRL : distinct defect under\nthe same key F1
-IP --> MIP : same artifact,\ndistinct defect
+DD -right-> M
+RC -right-> M
+DRE -right-> M
+RE -right-> M
 
-note bottom of MRL
-  Finding keys are per artifact AND per lens.
-  Risk List#F1 is two findings: the Reviewer's
-  names roles absent from Excavation; the
-  Management Reviewer's names the unbounded
-  stakeholder gate. Both stay open, both are
-  the Project Manager's.
-end note
-note bottom of MIP
-  Iteration Plan#F1 appears twice as well: the
-  Reviewer's is two committed totals (8 vs 9);
-  the Management Reviewer's is the tailoring
-  that Excavation consumes before it is corrected.
+note bottom of DD
+  Density is counted from the ledger, not estimated. The Iteration Plan
+  carries the largest load and the only Minor cluster (4 of 7) — the
+  artifact issued before the tailoring it must carry was stable. Same
+  signal as the previous milestone, recorded once here rather than
+  drawn as a trend: two review events are not a series.
 end note
 @enduml
 ```
 
-#### The consolidated finding ledger
-
-Copied from the ledger; owner, severity and the corrective action are set here. `#F1` is not a unique key across lenses — read the Lens column with the key.
-
-| # | Artifact | Key | Lens | Severity | Owner | What closes it |
-|---|---|---|---|---|---|---|
-| 1 | Development Case | F1 | Reviewer | Major | Process Engineer | Templates rows re-pointed at files that exist; coding standards, UI patterns, test conventions recorded as undocumented |
-| 2 | System Inventory | F2 | Reviewer | Major | Software Archaeologist | Perimeter `/users` row restated to agree with AN-015; one statement of whether EP-003 supports a use case |
-| 3 | Risk List | F1 | Reviewer | Major | Project Manager | Six Excavation avoidance actions re-owned to the System Analyst; R014's control part moved to Inception |
-| 4 | Risk List | F1 | Management Reviewer | Major | Project Manager | The stakeholder gate scored as a risk of its own, with the 14-day ceiling as trigger indicator, cross-referenced from the plan by its `RNNN` |
-| 5 | Risk List | F2 | Management Reviewer | Major | Project Manager | R008's Construction mitigation re-homed to the artifact that stage produces (User Documentation), or the Release Notes part moved to Transition |
-| 6 | Iteration Plan | F1 | Reviewer | Major | Project Manager | One committed total stated once in the roadmap; the "8 or 9" sentence deleted |
-| 7 | Iteration Plan | F1 | Management Reviewer | Major | Project Manager | A Development Case correction work item in the sprint-zero fine plan, sequenced before Excavation |
-| 8 | Development Case | F2 | Reviewer | Minor | Process Engineer | Stale "no Risk List exists yet" clause removed from the PoC trigger row |
-| 9 | System Inventory | F1 | Reviewer | Minor | Software Archaeologist | Coverage aggregate recomputed from the Read column, or dropped for the per-area rows |
-| 10 | Iteration Plan | F2 | Reviewer | Minor | Project Manager | Evidence-supplied wording in place of "Met — …" |
-| 11 | Iteration Plan | F3 | Reviewer | Minor | Project Manager | Assignment profile and role table made consistent; unlisted roles given their exclusion reason |
-| 12 | Iteration Plan | F4 | Reviewer | Minor | Project Manager | Day lengths removed from the gantt bars and from the gate bars |
-
-Severity totals: **Critical 0 · Major 7 · Minor 5.** Seven Majors sit on four artifacts; three of them on the Risk List, two on the Iteration Plan.
-
-#### Conflicts across the executing lenses, and how each resolves
-
-Five points where the two lenses met and did not simply agree. Each resolution changes what an owner must do, so each is stated as a decision rather than reconciled in the narrative.
-
-| # | The disagreement | Resolution |
-|---|---|---|
-| 1 | **Same key, two defects.** `Risk List#F1` and `Iteration Plan#F1` each carry two findings under one key. | Both stay open and both are the Project Manager's. Neither subsumes the other: re-owning six avoidance actions does not bound the stakeholder gate, and stating one iteration total does not schedule the tailoring correction. The ledger rows 3/4 and 6/7 are four distinct corrective obligations. |
-| 2 | **Overlapping defect or two defects?** `Development Case#F1` (rows point at a file that does not exist) and `Iteration Plan#F1` Management (its correction is deferred past the phases that consume it). | Two defects, two owners, and they close in a fixed order. `Development Case#F1` **defines** the correction; `Iteration Plan#F1` Management **schedules** it. Either alone is insufficient — the rows can be re-pointed with no work item before Excavation, or a work item can be scheduled for a correction no one has specified. Closed in order: Development Case first. |
-| 3 | **The same criterion passed by one lens and failed by the other.** C4 (risk scoring) and C5 (tailoring issued) pass the technical lens and fail the management lens. | Not a contradiction — two different tests on one criterion. The technical lens audited whether each magnitude is the band of P × I on the declared scale and whether each optional verdict holds against the project's facts: both pass. The management lens tested whether the actions can be executed by the role and phase named, and whether the phases that receive the tailoring can work under it: both fail. **The stricter test governs a milestone exit criterion.** A criterion is met only when it survives both, so C4 and C5 are **not met**. |
-| 4 | **No severity was disputed.** Where both lenses examined the same artifact (Risk List, Iteration Plan, Development Case, System Inventory) neither downgraded or upgraded the other's grading. | Accepted as recorded. There is no severity conflict to arbitrate, and this is a real signal: both lenses agreed on what stops consumption and what stays inside an artifact. |
-| 5 | **Artifact disposition vs milestone verdict.** The technical lens records "Approved with Changes" on all four artifacts; the management lens records "No-Go" on the milestone. | Both stand, at different levels. "Approved with Changes" is an artifact-level disposition and correctly says each artifact's substance survives while four claims inside them do not. The milestone verdict is mine and it is **No-Go**: no artifact is cleared for consumption while it carries an open Major, and C1/C4/C5 fail. Neither lens's verdict is overruled. |
-
-One cross-artifact consequence, recorded so it is not lost: `Risk List#F2` Management re-homes R008's mitigation away from the Release Notes, and `System Inventory` AN-008 also names the Release Notes as where the absent completion control is disclosed. Whichever home the Project Manager chooses, the Inventory's AN-008 reference must agree with it in the same iteration — otherwise the artifact set ships with two homes for one accepted exposure.
-
-#### Defect density
-
-| Artifact | Findings | Major | Minor | Crit. | Density (findings/artifact) |
-|---|---|---|---|---|---|
-| Development Case | 2 | 1 | 1 | 0 | 2.00 |
-| System Inventory | 2 | 1 | 1 | 0 | 2.00 |
-| Risk List | 3 | 3 | 0 | 0 | 3.00 |
-| Iteration Plan | 5 | 2 | 3 | 0 | 5.00 |
-| **Total** | **12** | **7** | **5** | **0** | **3.00 mean** |
-
-Page-count normalized density (defects per page) is **not reported**: no lens measured the page count of the four artifacts, and a density computed on an unmeasured denominator would be invented. The per-artifact figures above are counted from the ledger and are exact.
-
-The Iteration Plan carries the highest load and the only Minor cluster (3 of 5). It is also the artifact two of the seven Majors land on. Both signals point the same way: the plan was issued before the tailoring it must carry was stable.
-
-#### Review coverage
-
 | Coverage measure | Value | Basis |
 |---|---|---|
 | Survey artifacts receiving formal review | 4 of 4 — **100%** | All four artifacts of the phase were in scope of both executing lenses |
-| Executing lenses | 2 of 3 — **67%** | Business Reviewer INACTIVE; not due at SBC, joins at LCO |
+| Executing lenses | 2 of 3 — **67%** | Business Reviewer INACTIVE; not due before LCO |
 | Exit criteria evaluated by at least one lens | 6 of 6 — **100%** | Every criterion answered by a lens, none left to inference |
-| Exit criteria substantiated by **both** executing lenses | 3 of 6 — **50%** | C2, C3, C6 |
-| Anchors opened rather than trusted | 13 opened, 12 confirmed, 1 contradicted | Technical lens, evidence table in its scope block |
-| Artifacts cleared for consumption | **0 of 4** | Each carries at least one open Major |
+| Exit criteria substantiated by **both** executing lenses | 6 of 6 — **100%** | Up from 3 of 6 at the previous milestone review |
+| Anchors opened rather than trusted, this pass | 3 opened, 3 confirmed | `UsersApi.cs`, `AuthClient.cs`, `TokenNames.cs` — each re-read against the claim the correction changed |
+| Artifacts cleared for consumption | **4 of 4** | Up from 0 of 4 |
 
-Coverage of the artifact surface is complete; what the coverage found is that half the criteria do not survive a second test. Full coverage that returns failures is a working review process, not a failing one.
-
-#### Defect removal efficiency and rework effort
-
-Neither is computable at this milestone, and neither is estimated here:
+Two metrics are not computable at this milestone and neither is estimated here:
 
 - **Defect removal efficiency** compares defects found in review against defects found in test. Survey produces no code and no test execution — the denominator is zero, not small. The first review-versus-test comparison becomes available when Construction test execution exists.
-- **Rework effort** is measured here in the only two currencies the process produces: tokens and elapsed time. Neither was metered for this review, and hours of rework is a unit this system cannot produce. The proxy carried forward is the count of open findings by owner, and it is exact: Project Manager 6 (rows 3, 4, 5, 6, 7, 10, 11, 12 — 8 actually, see below), Process Engineer 2, Software Archaeologist 2.
+- **Rework effort** is measurable only in tokens and elapsed time. Neither was metered for this review, and hours of rework is a unit this system cannot produce. The proxy carried forward is the count of open findings by owner, and it is exact: Project Manager 2.
 
-Correction to that proxy, counted from the ledger rather than asserted: **Project Manager 8** (rows 3–7 and 10–12), **Process Engineer 2** (rows 1, 8), **Software Archaeologist 2** (rows 2, 9). Twelve in total, consistent with the ledger.
+#### What the data says without a comparison
 
-#### Review effectiveness — current metrics only
-
-This is the project's first formal review. No prior iteration, cycle or milestone exists to compare against, so no trend is drawn and none is implied: the figures above are the baseline the AR milestone will be measured from, not a movement.
-
-Three observations stand on this milestone's own data without any comparison:
-
-1. **All seven Majors are correctable by their authors without a stakeholder decision.** None reopens the scope settled on 2026-11-19, none contradicts what was declared, and none names a risk only the stakeholder may accept. That is why this milestone needs no Critical escalation.
-2. **The four Major findings the technical lens raised sit in the three artifacts Excavation reads first** — the Perimeter, the Risk List's avoidance actions, and the plan's committed total. The reading order and the defect locations coincide.
-3. **Both executing lenses landed on the same two artifacts.** Risk List and Iteration Plan carry 8 of the 12 findings and 5 of the 7 Majors. Development Case and System Inventory were each faulted on a single Major.
+1. **The correction pass closed every finding that stopped consumption.** Seven of seven Majors closed, on corrected content each verified by reading the section that carried it. Nothing was closed on an owner's description alone, and nothing was closed as Deferred or Rejected.
+2. **The two findings that remain are both `contained-defect`.** Neither names a claim another role builds on, and neither fails an SBC exit criterion. That is why the milestone does not need a third iteration.
+3. **The artifact that failed most at the previous milestone review improved most.** The Iteration Plan carried 5 of 12 findings and 2 of 7 Majors then; it now carries 0 Major open and 2 Minor open, one of them new and created by the correction itself (duplicated block).
 
 ## Resolutions and Actions
 ### Reviewer lens
