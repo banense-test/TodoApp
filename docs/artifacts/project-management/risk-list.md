@@ -222,7 +222,6 @@ R021 is Significant (12) and accepted, which is not the Project Manager's to gra
 - no milestone verdict is recorded before the answer arrives, and no work item advances on a self-granted decision.
 
 ## Traceability
-
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
 | R001 | AN-001 | Refines | — |
@@ -245,3 +244,6 @@ R021 is Significant (12) and accepted, which is not the Project Manager's to gra
 | R018 | AN-018 | Refines | — |
 | R019 | AN-019 | Refines | — |
 | R020 | AN-020 | Refines | — |
+| R021 | — | — | — |
+
+R021 refines no anomaly: it is the project's own exposure — a human gate unanswered past its ceiling — not a reading of the existing system, and it therefore has no upstream end.
