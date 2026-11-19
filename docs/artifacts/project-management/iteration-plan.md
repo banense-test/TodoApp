@@ -234,7 +234,6 @@ stop
 ```
 
 ## Resources
-
 The team is the agents the IARI DC baseline activates, and the plan selects which of them work in this iteration. The roster is not this plan's to change; the Development Case records two roles as silenced by its trigger decisions and neither is scheduled here.
 
 | Role | At work in Survey | Stage it runs | Produces | Notes |
@@ -245,7 +244,7 @@ The team is the agents the IARI DC baseline activates, and the plan selects whic
 | Reviewer | Yes | Milestone review SBC | Review Record | First lens of the SBC review. |
 | Management Reviewer | Yes | Milestone review SBC | Review Record | Second lens of the SBC review. |
 | Review Coordinator | Yes | Milestone review SBC | Review Record, milestone verdict | Holds the verdict; convenes without the Business Reviewer. |
-| Stakeholder | Yes — human gate | Perimeter confirmation and High-risk acceptance | Answer recorded verbatim in the Risk List | The only human in this process. Its wait is quoted in days of queue time, never in the agent clock. |
+| Stakeholder | Yes — human gate | Perimeter confirmation, High-risk acceptance, Excavation scope, budget position | Four answers recorded verbatim in the Risk List and this plan | The only human in this process. Its wait is quoted in days of queue time, never in the agent clock. |
 | Business Process Analyst, Business Reviewer | No | — | — | `business-process-led = false` (Development Case DC-D2). |
 | Capsule Designer | No | — | — | `real-time-system = false` (Development Case DC-D3). |
 | System Analyst, Software Architect, Designer, Database Designer | Not in Survey | — | — | First at work in Excavation, per the process. Nothing in this plan schedules them earlier. |
