@@ -314,7 +314,6 @@ UC-006 is drawn separately because it is the use case the architecture must keep
 Five components are absent from every row, and that is the finding rather than an omission. COMP-014 carries the shared host configuration, and SS-009 records that no use case depends on telemetry. COMP-015 and COMP-016 are the orchestrator and the migrator — platform operations, not actor goals. COMP-017 and COMP-018 verify the system from outside it. They are in the Logical View because a change to any of them crosses a boundary the use cases depend on; they are on no scenario path, and no trace claims otherwise.
 
 ## Logical View
-
 The decomposition is by area of change, not by feature. The API's two endpoint groups could have been one component — they share a host, a `DbContext` and an authorization policy — and they are separated because they change for different reasons: `/todos` is stable and owner-scoped, `/users` is the surface the excluded identity work would reopen. The five mechanism components are separated from the handlers because each is registered once and applied by convention, so a change to the rate-limit policy is not a change to a todo handler.
 
 ```plantuml
@@ -339,8 +338,8 @@ package "Web host — Todo.Web.Server (the BFF)" {
   component "COMP-003\nTodo forwarder\n/todos · YARP · token re-sign" as FWD
 }
 
-package "Shared contract library" {
-  component "COMP-006\nTodo.Web.Shared\nTodoItem · UserInfo · AuthToken" as SHARED
+package "Shared contract library — referenced by the two web projects only" {
+  component "COMP-006\nTodo.Web.Shared\nTodoItem · UserInfo · ExternalUserInfo · AuthToken" as SHARED
 }
 
 package "API host — Todo.Api" {
@@ -391,24 +390,23 @@ REF --> USERS
 SHARED ..> UI : DTOs
 SHARED ..> TC : DTOs
 SHARED ..> SES : DTOs
-SHARED ..> USERS : DTOs
-SHARED ..> TODOS : DTOs
 
-SD ..> PAGE : discovery · resilience · telemetry
-SD ..> FWD : discovery
-SD ..> USERS : telemetry · discovery
-AH --> MIG : starts first
-AH --> PAGE : starts, injects the API endpoint
-MIG --> DB : creates the schema
-TESTS ..> USERS : boots in-process
-TESTS ..> TODOS
-CI ..> TESTS
-
+note right of SHARED
+  INT-010 ends here. Todo.Api does not reference this
+  library: it declares its own TodoItem, UserInfo and
+  ExternalUserInfo, and the web host declares its own
+  through this project. Two declarations of one wire
+  shape, agreeing today by inspection and coupled by no
+  compiler (ADR-011).
+end note
 note right of SES
   Mechanisms, by the capability they provide —
-  Supplementary Specification SS-001 cookie session,
-  SS-002 bearer issue, SS-007 data protection under the
-  discriminator TodoApp, SS-011 error collapse.
+  SS-001 cookie session, SS-002 bearer issue, SS-007 data
+  protection under the discriminator TodoApp, SS-011 error
+  collapse. Packages: Yarp.ReverseProxy 2.3.0,
+  Microsoft.Extensions.ServiceDiscovery.Yarp 9.5.0,
+  AspNet.Security.OAuth.GitHub 9.4.0,
+  Auth0.AspNetCore.Authentication 1.5.0.
 end note
 note right of FWD
   SS-004 forwarding with token re-signing. The transform
@@ -418,11 +416,13 @@ end note
 note bottom of PERS
   SS-010 — the schema must exist before the API serves a
   request, and the migration set is its only definition.
+  Packages: Microsoft.EntityFrameworkCore.Sqlite 9.0.8,
+  Microsoft.AspNetCore.Identity.EntityFrameworkCore 9.0.8.
 end note
 note bottom of AH
   AN-012: without the AppHost the forwarder has no route to
   the API, because http://todoapi resolves under service
-  discovery only.
+  discovery only. Aspire.AppHost.Sdk 13.1.1.
 end note
 @enduml
 ```
@@ -436,7 +436,7 @@ end note
 | COMP-003 | Todo forwarder | Infrastructure, web host | Forwards every verb under `/todos` to `http://todoapi` through YARP, replacing the `Authorization` header with the stored bearer token | `/todos/{*path}` — `EP-022` | `Todo.Web/Server/TodoApi.cs:9-28`; `Program.cs:24-30` |
 | COMP-004 | UI components | Presentation, browser | The delivered screens: a shell switching between the login form and the list, a form with two controls and a provider list, a list with an entry field and a per-item delete link | rendered by COMP-001 at `/` | `Todo.Web/Client/TodoApp.razor:1-44`; `Components/LogInForm.razor:1-89`; `Components/TodoList.razor:1-100` |
 | COMP-005 | TodoClient | Application, browser | The browser's whole reachable surface: five methods over `auth/register`, `auth/login`, `auth/logout`, `todos` GET and POST, and `todos/{id}` DELETE. No update method exists | consumes COMP-001's routes | `Todo.Web/Client/TodoClient.cs:7-71` |
-| COMP-006 | Shared contracts | Contract | `TodoItem`, `UserInfo`, `ExternalUserInfo`, `AuthToken` — the only types both hosts compile against | the DTO boundary across the host split | `Todo.Web/Shared/SharedClass.cs:3-37` |
+| COMP-006 | Shared contracts | Contract, web host and browser only | `TodoItem`, `UserInfo`, `ExternalUserInfo`, `AuthToken` as the **web projects'** declaration of the wire shapes. `Todo.Api` does not reference this library and carries its own three DTO declarations instead, so this component is one of two declarations and not the single contract point | the DTO boundary between COMP-004, COMP-005 and COMP-002 | `Todo.Web/Shared/SharedClass.cs:3-37`; `Todo.Web/Shared/Todo.Web.Shared.csproj:1-7`; ADR-011 |
 | COMP-007 | Users surface | Application, API host | ASP.NET Core Identity over EF Core, the stock identity endpoint group, and the custom external-token endpoint. The product calls registration and login; the rest are excluded | `EP-001`, `EP-002`; `EP-003`…`EP-011` published | `Todo.Api/Users/UsersApi.cs:10-64`; `Users/TodoUser.cs:7-29`; `Todo.Api/Program.cs:14-20` |
 | COMP-008 | Todos surface | Application, API host | Five handlers over the `Todos` table — list, read one, create, update, delete — each owner-scoped inside its own statement | `EP-012`…`EP-016` | `Todo.Api/Todos/TodoApi.cs:8-77`; `Todos/Todo.cs:1-40` |
 | COMP-009 | Caller resolution | Mechanism, API host | A claims transformation resolving `NameIdentifier` against `TodoUser` onto a scoped `CurrentUser`, plus the authorization requirement that fails when nothing resolved | `RequireCurrentUser()` | `Authorization/CurrentUserExtensions.cs:8-35`; `Authorization/CheckCurrentUserAuthHandler.cs:8-40`; `Authorization/CurrentUser.cs:6-15` |
@@ -458,34 +458,34 @@ Every boundary between components is named by an interface; no component reaches
 |---|---|---|---|---|---|
 | INT-001 | `GET /` — the page | COMP-001 | the browser, which mounts COMP-004 | HTTP screen; the host renders the shell and hands over the bundle | `App.razor:5-25`; `Program.cs:36-37` |
 | INT-002 | `/auth/register`, `/auth/login`, `/auth/logout` | COMP-002 | COMP-005 | HTTP POST, JSON `UserInfo`, `Set-Cookie` on success, `401` with no reason | `AuthApi.cs:14-52`; `TodoClient.cs:42-69` |
-| INT-003 | `users/register`, `users/login` | COMP-007 | COMP-002 through COMP-006's DTOs | HTTP POST over `http://todoapi`, no `Authorization` header, `AccessTokenResponse` returned | `AuthClient.cs:5-29`; `IF-002` |
+| INT-003 | `users/register`, `users/login` | COMP-007 | COMP-002 through `AuthClient` and the web projects' `UserInfo` and `AuthToken` types | HTTP POST over `http://todoapi`, no `Authorization` header, `AccessTokenResponse` returned and read as `accessToken` | `AuthClient.cs:5-29`; `SharedClass.cs:12-37`; `TodoUser.cs:12-19` |
 | INT-004 | `/todos/{*path}` — the forward | COMP-003 | COMP-005 | HTTP, every verb, `Authorization: Bearer <token>` written by a request transform | `Todo.Web/Server/TodoApi.cs:14-26`; `IF-003` |
 | INT-005 | `/todos` — the resource group | COMP-008 | COMP-003 | HTTP JSON; five operations; `401`/`403` unauthorised, `404` not owned, `400` problem details, `429` limited | `Todo.Api/Todos/TodoApi.cs:8-77`; `EP-012`…`EP-016` |
 | INT-006 | `RequireCurrentUser()` | COMP-009 | COMP-008 | authorization policy builder extension; fails the request before the handler runs | `CheckCurrentUserAuthHandler.cs:17-39` |
 | INT-007 | `RequirePerUserRateLimit()` | COMP-010 | COMP-008 | endpoint convention attaching the named policy | `RateLimitExtensions.cs:60-71` |
 | INT-008 | `WithParameterValidation(Type…)` | COMP-011 | COMP-007, COMP-008 | endpoint convention matching parameters by exact declared type | `ValidationFilter.cs:11-58` |
 | INT-009 | `DbContext` | COMP-012 | COMP-007, COMP-008, COMP-009 | EF Core service resolved into handlers and into the claims transformation | `TodoDbContext.cs:7-21` |
-| INT-010 | `TodoItem`, `UserInfo`, `AuthToken` | COMP-006 | both hosts, both sides of the browser boundary | compile-time types; the contract is the type, not a schema | `SharedClass.cs:3-37` |
+| INT-010 | `TodoItem`, `UserInfo`, `ExternalUserInfo`, `AuthToken` | COMP-006 | COMP-004, COMP-005, COMP-002 — **not COMP-007 or COMP-008** | compile-time types within the two web projects and across the browser boundary. The API host's side of this boundary is a second, independent declaration of the same member names (`Todo.Api/Todos/Todo.cs:14-19`; `Todo.Api/Users/TodoUser.cs:12-27`), so the contract is agreed by convention and by member name, not by a shared type | `SharedClass.cs:3-37`; `Todo.Api/Todo.Api.csproj:22-24`; ADR-011 |
 | INT-011 | `/openapi/v1.json`, `/scalar/v1` | COMP-013 | the developer actor | HTTP; JSON document unguarded, HTML UI in Development only | `Todo.Api/Program.cs:49-62` |
 | INT-012 | `AddServiceDefaults()`, `MapDefaultEndpoints()` | COMP-014 | COMP-001, COMP-002, COMP-003, COMP-007, COMP-008 | builder extensions applied at host start; no runtime contract between components | `ServiceDefaults/Extensions.cs:16-24,101-117` |
 
 ### Mechanisms, by the capability they provide
 
-A mechanism is named by what it does and what it must hold, not by the package that happens to implement it. The Supplementary Specification carries the thresholds; this table records where each mechanism sits in the architecture.
+A mechanism is named by what it does and what it must hold, not by the package that happens to implement it. The Supplementary Specification carries the thresholds; this table records where each mechanism sits in the architecture, and which declared package carries it at which pinned version.
 
-| ID | Capability | Properties it must hold | Realised in | Anchor |
-|---|---|---|---|---|
-| SS-001 | A browser-held session that never exposes a token to the page's scripts | The cookie is the only credential the page presents; claims are the email twice; the token store holds one entry | COMP-002 | `AuthApi.cs:105-127`; `TokenNames.cs:3-6` |
-| SS-002 | Credential exchange for a bearer token | Token issued on success; lifetime and refresh are framework defaults nothing configured | COMP-007 | `Todo.Api/Program.cs:14-20` |
-| SS-003 | Caller authenticity beyond token validity | The principal must resolve to a stored row before any handler runs | COMP-009 | `CurrentUserExtensions.cs:14-35`; `CheckCurrentUserAuthHandler.cs:33-39` |
-| SS-004 | Cross-host forwarding that carries identity | Every verb forwarded; the header replaced, never appended; no check that a token is present or current | COMP-003 | `Todo.Web/Server/TodoApi.cs:14-26` |
-| SS-005 | Fair use of the API per account | Partition key is the account; rejection is `429`; the budget is environment-dependent | COMP-010 | `RateLimitExtensions.cs:11-71`; `Todo.Api/appsettings.Development.json:9-13` |
-| SS-006 | Rejection of a malformed body with the failing member named | Opt-in per group, matched on the declared parameter type | COMP-011 | `ValidationFilter.cs:7-58` |
-| SS-007 | Cross-host readability of protected payloads | One discriminator shared by both hosts; no key repository | COMP-001, COMP-002, COMP-007 | `Todo.Api/Program.cs:10-11`; `Todo.Web/Server/Program.cs:12-13` |
-| SS-008 | A published API document and an interactive reference | Document published unconditionally; UI Development-only; no server preset; bearer preferred | COMP-013 | `Todo.Api/Program.cs:49-58`; `OpenApiOptionsExtensions.cs:7-47` |
-| SS-009 | Observability of a running host | Traces, metrics and logs on one OTLP path, enabled by configuration; probes mapped in Development | COMP-014 | `ServiceDefaults/Extensions.cs:16-117` |
-| SS-010 | The schema existing before the first request | One ordered migration, gated on the database directory's absence | COMP-016, COMP-012 | `TodoApp.AppHost/Program.cs:19-25`; `Extensions.cs:5-16` |
-| SS-011 | One answer for every failure below the boundary | Any non-success becomes `401` and one fixed message per control | COMP-002 | `AuthClient.cs:5-29`; `LogInForm.razor:79-96` |
+| ID | Capability | Properties it must hold | Realised in | Technology carrying it | Anchor |
+|---|---|---|---|---|---|
+| SS-001 | A browser-held session that never exposes a token to the page's scripts | The cookie is the only credential the page presents; claims are the email twice; the token store holds one entry | COMP-002 | ASP.NET Core cookie authentication from the shared `Microsoft.AspNetCore.App` framework; no separately pinned package | `AuthApi.cs:105-127`; `TokenNames.cs:3-6` |
+| SS-002 | Credential exchange for a bearer token | Token issued on success; lifetime and refresh are framework defaults nothing configured | COMP-007 | `Microsoft.AspNetCore.Identity.EntityFrameworkCore` 9.0.8 with the `IdentityConstants.BearerScheme` handler from the shared framework | `Todo.Api/Program.cs:14-20` |
+| SS-003 | Caller authenticity beyond token validity | The principal must resolve to a stored row before any handler runs | COMP-009 | Framework authorization over `EntityFrameworkCore.Sqlite` 9.0.8 | `CurrentUserExtensions.cs:14-35`; `CheckCurrentUserAuthHandler.cs:33-39` |
+| SS-004 | Cross-host forwarding that carries identity | Every verb forwarded; the header replaced, never appended; no check that a token is present or current | COMP-003 | `Yarp.ReverseProxy` 2.3.0 with `Microsoft.Extensions.ServiceDiscovery.Yarp` 9.5.0 | `Todo.Web/Server/TodoApi.cs:14-26` |
+| SS-005 | Fair use of the API per account | Partition key is the account; rejection is `429`; the budget is environment-dependent | COMP-010 | The framework's rate-limiting middleware from the shared framework | `RateLimitExtensions.cs:11-71`; `Todo.Api/appsettings.Development.json:9-13` |
+| SS-006 | Rejection of a malformed body with the failing member named | Opt-in per group, matched on the declared parameter type | COMP-011 | `MiniValidation` 0.9.2 | `ValidationFilter.cs:7-58` |
+| SS-007 | Cross-host readability of protected payloads | One discriminator shared by both hosts; no key repository | COMP-001, COMP-002, COMP-007 | ASP.NET Core Data Protection from the shared framework | `Todo.Api/Program.cs:10-11`; `Todo.Web/Server/Program.cs:12-13` |
+| SS-008 | A published API document and an interactive reference | Document published unconditionally; UI Development-only; no server preset; bearer preferred | COMP-013 | `Microsoft.AspNetCore.OpenApi` 9.0.8 with `Microsoft.OpenApi` 1.6.22; `Scalar.AspNetCore` 2.6.8 | `Todo.Api/Program.cs:49-58`; `OpenApiOptionsExtensions.cs:7-47` |
+| SS-009 | Observability of a running host | Traces, metrics and logs on one OTLP path, enabled by configuration; probes mapped in Development | COMP-014 | `OpenTelemetry.Extensions.Hosting`, `Exporter.OpenTelemetryProtocol` and three instrumentation packages, all 1.12.0; `Microsoft.Extensions.ServiceDiscovery` 9.5.0 and `Microsoft.Extensions.Http.Resilience` 9.7.0 for the host wiring | `ServiceDefaults/Extensions.cs:16-117` |
+| SS-010 | The schema existing before the first request | One ordered migration, gated on the database directory's absence | COMP-016, COMP-012 | `Microsoft.EntityFrameworkCore.Sqlite` 9.0.8; `dotnet ef` global tool | `TodoApp.AppHost/Program.cs:19-25`; `Extensions.cs:5-16` |
+| SS-011 | One answer for every failure below the boundary | Any non-success becomes `401` and one fixed message per control | COMP-002 | `Microsoft.Extensions.Http` 9.0.8 through the typed client | `AuthClient.cs:5-29`; `LogInForm.razor:79-96` |
 
 ## Process View
 
