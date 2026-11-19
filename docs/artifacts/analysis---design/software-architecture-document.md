@@ -920,6 +920,99 @@ Two architectural facts bear on performance, both consequences of decisions reco
 **Cost of the architecture to the project itself.** Survey closed at 24 minutes of agent time and 20 minutes of stakeholder queue across 2 iterations and 6 artifacts. No Excavation phase has closed, so this document records no figure for its own production; an estimate would be `[ASSUMPTION — requires validation]` with no comparable closed unit behind it, and the Survey figures are not that unit — Excavation re-reads code, where Survey read an artifact surface. The first measured point is the phase close.
 
 ## Quality
+```plantuml
+@startuml
+title Quality — each attribute the delivery can answer for, the tactic that serves it, and the component that carries it
+skinparam shadowing false
+skinparam defaultTextAlignment left
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+
+package "Quality attributes the delivery answers" {
+  component "Ownership isolation\nFN-001 · RE-002" as Q1
+  component "Caller authenticity\nRE-003 · BR-010" as Q2
+  component "Admission control on /todos\nRE-001 · PE-001" as Q3
+  component "Rejection with a reason\nRE-008 · ST-001" as Q4
+  component "Schema available at start\nRE-004" as Q5
+  component "Observability\nSU-005 · ST-006" as Q6
+  component "Modifiability within the web half\nAN-013" as Q7
+  component "Build reproducibility\nCON-A01 · CON-A08" as Q8
+}
+
+package "Tactics as the code implements them" {
+  component "Predicate in the statement,\nnot a filter after the fetch" as T1
+  component "Principal resolved against\nthe store before any handler" as T2
+  component "Token bucket partitioned\non the account claim" as T3
+  component "Endpoint filter keyed on\nthe declared body type" as T4
+  component "Ordered start: migrate,\nthen serve" as T5
+  component "Instrumentation in a shared\nhost-configuration layer" as T6
+  component "One DTO library across the\nclient and the BFF" as T7
+  component "Central package management:\none version home, no per-project pin" as T8
+}
+
+package "Components that carry them" {
+  component "COMP-008 todos surface" as C8
+  component "COMP-012 persistence" as C12
+  component "COMP-009 caller resolution" as C9
+  component "COMP-010 rate limiter" as C10
+  component "COMP-011 validation" as C11
+  component "COMP-016 migrator" as C16
+  component "COMP-014 ServiceDefaults" as C14
+  component "COMP-006 shared contracts\nweb projects only" as C6
+  component "COMP-018 CI pipeline" as C18
+}
+
+package "What the delivery does NOT answer" {
+  component "Performance targets\nPE-002 — not stated" as G1
+  component "Concurrency and scale\nPE-003 · PE-004 — not stated" as G2
+  component "Availability, RTO, RPO\nRE-006 — not stated" as G3
+  component "Session lifetime\nPE-006 — not stated" as G4
+  component "Lost-update protection\nFN-011 — absent" as G5
+  component "Verification of the BFF\nSU-001 — 0 tests" as G6
+  component "Wire shape across the host split\nADR-011 — declared twice, no compiler holds it" as G7
+  component "Enforcement of the SDK pin\nAN-006 — CI passes no dotnet-version" as G8
+}
+
+Q1 --> T1
+Q2 --> T2
+Q3 --> T3
+Q4 --> T4
+Q5 --> T5
+Q6 --> T6
+Q7 --> T7
+Q8 --> T8
+
+T1 --> C8
+T1 --> C12
+T2 --> C9
+T3 --> C10
+T4 --> C11
+T5 --> C16
+T6 --> C14
+T7 --> C6
+T8 --> C18
+
+note right of G1
+  These are not gaps a later design fills: no file in the
+  delivery states a figure, so no tactic can be judged
+  sufficient. They are recorded as not established, not as
+  work in hand.
+end note
+note bottom of G5
+  The statement-per-operation shape removes the read-then-write
+  gap, and it removes it in a way that also removes the
+  concurrency check. Making the write conditional needs a
+  declared requirement, not a design decision (FN-011).
+end note
+note bottom of G7
+  The forwarder carries bytes between the hosts, so the boundary
+  survives on member-name agreement alone. Todo.Api carries its
+  own TodoItem, UserInfo and ExternalUserInfo; Todo.Web.Shared
+  serves the two web projects. No reference edge joins them.
+end note
+@enduml
+```
+
 | Attribute | Requirement it serves | How the architecture serves it | Where it fails or is silent |
 |---|---|---|---|
 | Security — isolation | FN-001, RE-002 | Owner predicate inside every statement; `404` for another owner's item, so the answer never discloses existence | No test covers the BFF side of the identity boundary (SU-001) |
