@@ -1019,49 +1019,52 @@ end note
 | `R008`, `R009`, `R020` — accepted exposures, with their mitigation homes fixed | Their named owners | Excavation and Elaboration |
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-**SBC milestone verdict: No-Go. The Survey phase iterates; it does not advance to Excavation.**
+**SBC milestone verdict: Go. The Survey phase is complete and advances to Excavation; the two open Minor findings travel to their owner in the next phase under the stakeholder's order.**
 
-The verdict rests on four facts, each counted rather than judged: 0 open Critical findings; 7 open Major findings; three of six SBC exit criteria not substantiated by both executing lenses; and the stakeholder's sanction REFUSED on 2026-11-19 with the reason that all Major findings must be corrected.
+The verdict rests on five facts, each counted rather than judged: 0 open Critical findings; 0 open Major findings; six of six SBC exit criteria substantiated by both executing lenses; the perimeter confirmed by the stakeholder on 2026-11-19; and the stakeholder's sanction GRANTED. The refusal of 2026-11-19 named the Major findings as its reason, and that reason no longer stands.
 
 ```plantuml
 @startuml
-title SBC disposition — the milestone and each artifact (Survey iteration 1)
+title SBC milestone verdict — the guard chain this consolidation walked, on data
 skinparam shadowing false
 skinparam defaultTextAlignment left
 
-[*] --> Milestone_Assessment
-state "SBC milestone review executed" as Milestone_Assessment {
-  Milestone_Assessment : Reviewer — 9 findings, 4 Major
-  Milestone_Assessment : Business Reviewer — INACTIVE
-  Milestone_Assessment : Management Reviewer — 3 findings, 3 Major, sanction REFUSED
+[*] --> LedgerRead
+state "Ledger read, per artifact" as LedgerRead {
+  LedgerRead : read_artifact_findings on all four Survey artifacts
+  LedgerRead : 14 findings on record, 12 carrying a resolution object, 2 not
+  LedgerRead : Critical 0 · Major 0 · Minor 2
 }
-Milestone_Assessment --> Criterion_Test
-state "Criterion test — both executing lenses must substantiate" as Criterion_Test {
-  Criterion_Test : C2 Priorities — pass / pass — MET
-  Criterion_Test : C3 Unread — pass / pass — MET
-  Criterion_Test : C6 Roadmap — pass / pass — MET
-  Criterion_Test : C1 Perimeter — pass / not met — FAIL
-  Criterion_Test : C4 Risk scoring — pass / not met — FAIL
-  Criterion_Test : C5 Tailoring — pass / not met — FAIL
+LedgerRead --> GuardTest
+state "Guard test" as GuardTest {
+  GuardTest : artifacts unread — none
+  GuardTest : open Critical — 0
+  GuardTest : open Major — 0
+  GuardTest : perimeter confirmed by the stakeholder — yes, 2026-11-19
+  GuardTest : sanction line present and GRANTED — yes
 }
-Criterion_Test --> Verdict
-state Verdict {
-  Verdict : 0 Critical — no stakeholder escalation on a Critical
-  Verdict : 7 Major open — no artifact cleared for consumption
-  Verdict : sanction REFUSED 2026-11-19
-  Verdict : No-Go — the phase iterates
+GuardTest --> Escalate : any Critical unresolved
+GuardTest --> Iterate : any Major open, or a guard false
+GuardTest --> Go : every guard true
+state "Go — phase scope complete" as Go {
+  Go : record_milestone_auto_iterate requiresIteration false
+  Go : the two Minor findings travel to their owner in the next phase
+  Go : under the stakeholder's order of 2026-11-19
 }
-Verdict --> Iteration2
-state "Survey iteration 2" as Iteration2 {
-  Iteration2 : the seven Majors are its plan
-  Iteration2 : each closed by the lens that raised it
-  Iteration2 : then both lenses re-review, sanction asked again
+state "Iterate — the phase repeats" as Iterate {
+  Iterate : record_milestone_auto_iterate requiresIteration true
 }
-Iteration2 --> [*] : the milestone closes only on a granted sanction
+state "Escalate to the stakeholder" as Escalate {
+  Escalate : the Critical findings travel inside the question
+  Escalate : R021 bounds the wait at 14 days
+}
+Go --> [*]
+Iterate --> [*]
+Escalate --> [*]
 @enduml
 ```
 
@@ -1069,26 +1072,19 @@ Iteration2 --> [*] : the milestone closes only on a granted sanction
 
 | Artifact | Reviewer lens | Management lens | Disposition from this review |
 |---|---|---|---|
-| Development Case | Approved with Changes — F1 Major, F2 Minor | Clean of management defect | **Not cleared** — 1 open Major |
-| System Inventory | Approved with Changes — F2 Major, F1 Minor | Clean — criteria 1, 2, 3 substantiated | **Not cleared** — 1 open Major |
-| Risk List | Approved with Changes — F1 Major | Rework — F1, F2 Major | **Not cleared** — 3 open Major |
-| Iteration Plan | Approved with Changes — F1 Major, F2–F4 Minor | Rework — F1 Major | **Not cleared** — 2 open Major |
+| Development Case | Approved — F1 Major and F2 Minor closed | Pass on all four governance tests | **Cleared** |
+| System Inventory | Approved — F2 Major and F1 Minor closed; three anchors re-opened, all confirmed | Pass — the perimeter's three exclusions where the stakeholder put them | **Cleared** |
+| Risk List | Approved with Changes — F1 Major closed, F2 Minor open | Approved — F1 and F2 Major closed | **Cleared** — the open Minor is `contained-defect` and holds nothing |
+| Iteration Plan | Approved with Changes — F1 Major and F2–F4 Minor closed, F5 Minor open | Approved — F1 Major closed | **Cleared** — the open Minor is `contained-defect` and holds nothing |
 
-No artifact is rejected. Every artifact's substance survives: the perimeter is drawn from code with an anchor behind each of 26 entry points and behind each of the three exclusions the stakeholder settled; twenty anomalies are each a scored risk whose magnitude is the band of probability × impact on the declared scale, with the three High ones carrying the stakeholder's own acceptance verbatim; the one fired optional genuinely holds and the Data Model verdict genuinely fails; the roadmap carries nine milestones with no invented forecast and no declared scope cut to fit a budget the project never declared. What fails is seven claims inside that material, and seven claims are correctable in one iteration.
+No artifact is rejected and none is retained. "Approved with Changes" is an artifact-level disposition and correctly says each artifact's substance survives while one wording inside it does not; it does not withhold the artifact from consumption, and the roles that open Excavation consume all four.
 
-#### Why No-Go rather than Conditional
+#### Why Go rather than Conditional
 
-A Conditional would advance the phase on conditions discharged later. The stakeholder refused exactly that form of advancement, and their stated reason is the Major findings. Opening Excavation on this set would put recovered use cases on a Perimeter row the same artifact's own anomaly contradicts, and set Excavation to execute avoidance actions owned by roles that do not work in the phase. Neither is a formality an author can discharge in parallel with the work that consumes it.
+A Conditional would advance the phase on conditions discharged later, and the previous milestone review rejected that form for the right reason: the defects then open would have put recovered use cases on a Perimeter row its own anomaly contradicted, and set Excavation to execute avoidance actions owned by roles not at work in the sprint zero. Neither condition survives — both are closed on corrected content.
 
-#### What iteration 2 must produce before the sanction is put again
-
-1. All seven Major findings closed — each by the lens that raised it, each with a Review Record entry stating what the corrected content says.
-2. The five Minor findings closed by their owners in the same iteration; they do not hold the milestone but they are the same authors' turn.
-3. Both executing lenses re-review the corrected set and record their dispositions.
-4. The sanction is put to the stakeholder again, with the open-finding count inside the question, exactly as it was at this milestone.
-
-The Business Reviewer is not added to this list. Its lens is not due until LCO, and nothing in iteration 2 depends on it.
+What remains is two wordings, both `contained-defect`: a duplicated passage inside one section, and a trailing block that contradicts its own section's acceptance table. No role consumes either, no exit criterion depends on either, and the acceptance of `R021` itself is recorded verbatim in two places that agree. Holding a phase gate on two wordings is not what a Minor finding means; the stakeholder ordered them corrected in the next phase, which is the deadline this verdict carries forward.
 
 #### Record status
 
-This block records the SBC milestone review's coordination only: the participation of the lenses actually executed, the consolidated ledger, the conflicts across those lenses, the action priorities, the effectiveness metrics for this milestone alone, and the verdict. It declares no milestone, iteration or phase complete — SBC is not achieved, and the phase iterates.
+This block records the SBC milestone review's coordination only: the participation of the lenses actually executed, the consolidated ledger read from `read_artifact_findings`, the conflicts across those lenses, the action priorities with owner and deadline, the effectiveness metrics for this milestone, and the verdict. The Business Reviewer is recorded INACTIVE — did not evaluate this review — and no verdict is inferred from its silence. The Iteration Assessment follows this verdict; it does not precede it, and this block declares no phase complete on its own authority beyond the milestone verdict stated here.
