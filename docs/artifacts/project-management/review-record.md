@@ -20,6 +20,19 @@
 - Verdict: No-Go on the SBC milestone
 - Stakeholder sanction: REFUSED
 
+### Review Coordinator lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+- Phase: Survey
+- Status: Draft — consolidated coordination block of the end-of-Survey milestone review
+- Milestone Target: end of Survey (SBC) — not achieved; the phase iterates
+- Review type: Milestone review (SBC), consolidation of the executing lenses
+- Lenses executed: Reviewer (technical), Management Reviewer (management)
+- Lens not executed: Business Reviewer — INACTIVE, did not evaluate this review
+- Verdict: No-Go — 7 open Major, 0 open Critical; requiresIteration true
+
 ## Review Scope and Criteria
 ### Reviewer lens
 <!-- review: Survey I1 -->
