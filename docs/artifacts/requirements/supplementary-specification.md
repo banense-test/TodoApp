@@ -140,16 +140,19 @@ end note
 
 | ID | Constraint | Anchor |
 |---|---|---|
-| FN-001 | One item belongs to exactly one account, and every read, update and delete is owner-scoped inside the statement that performs it. There is no cross-user path. | `TodoApi.cs:24-73` |
-| FN-002 | Session lifetime is a framework default that nobody chose, and no refresh token is redeemed. A session ends at an unstated access-token lifetime; the first `401` or `403` on a todo call signs the user out silently. | AN-015; `TokenNames.cs:3-6`; `TodoList.razor:66-73` — **not established by the delivery**: the actual lifetime |
-| FN-003 | The `/users` group carries no rate limiter and no lock-out, so the endpoints that accept credentials are the only endpoints protected by nothing but Identity's password check. | AN-011; `UsersApi.cs:12-22` |
-| FN-004 | Deleting an account is not exposed by any endpoint; deleting an owner would cascade to their items. The cascade rule exists; the operation does not. | `TodoDbContext.cs:14-18`; `UsersApi.cs:12-22` — no delete-user endpoint |
-| FN-005 | No list is paginated, filtered, sorted by a requested order or limited in size. `GET /todos` returns every item the caller owns. | `TodoApi.cs:24-27` |
+| FN-001 | One item belongs to exactly one account, and every read, update and delete is owner-scoped inside the statement that performs it. There is no cross-user path in the recovered product. | `TodoApi.cs:24-73`; BR-009, BR-017, BR-022 |
+| FN-002 | Session lifetime is a framework default that nobody chose, and no refresh token is redeemed. A session ends at an unstated access-token lifetime; the first `401` or `403` on a todo call signs the user out silently. | AN-015; `TokenNames.cs:3-6`; PE-006 — **not established by the delivery**: the actual lifetime |
+| FN-003 | The `/users` group carries no rate limiter, no lock-out policy and no service-to-service check, so the endpoints that accept credentials are the only endpoints protected by nothing but Identity's password check, and repeated attempts are unlimited and uncounted. | AN-011; AN-018; `UsersApi.cs:12-22`; BR-031, BR-038; PE-007 |
+| FN-004 | Deleting an account is not exposed by any endpoint; deleting an owner would cascade to their items. The cascade rule exists; the operation does not. | `TodoDbContext.cs:14-18`; `UsersApi.cs:12-22` — no delete-user endpoint; BR-024 |
+| FN-005 | No list is paginated, filtered, sorted by a requested order or limited in size. `GET /todos` returns every item the caller owns and guarantees no order. | `TodoApi.cs:24-27`; BR-035; PE-003 |
 | FN-006 | A title is the whole item model: no due date, note, priority, tag, ordering or attachment exists in the entity or the DTO. | `Todo.cs:1-34` |
 | FN-007 | There is no sharing, assignment, ownership transfer or second reader of any item. | `Todo.cs:9-11`; `TodoApi.cs:24-73` |
 | FN-008 | No export, import or bulk operation exists on any surface. | `TodoClient.cs:7-71`; `TodoApi.cs:24-73` |
 | FN-009 | No audit trail is kept: HTTP logging records response bodies and headers in Development only, and nothing records who changed which item. | `Todo.Api/Program.cs:37-44` — **not established by the delivery**: any retention requirement |
-| FN-010 | The product's own capability set is registration, sign-in, sign-out, list, add, change and delete. A completion control is not among the delivered screens (AN-008, accepted exposure 2026-11-19). | `TodoList.razor:31`; `TodoClient.cs:7-71` |
+| FN-010 | The product's own capability set is registration, sign-in, sign-out, list, add, change and delete. A completion control is not among the delivered screens (AN-008, accepted exposure 2026-11-19). | `TodoList.razor:31`; `TodoClient.cs:7-71`; BR-023 |
+| FN-011 | Update carries no lost-update protection: no row version, `ETag` or last-write guard exists, so concurrent saves of one item overwrite silently and the later write wins. | `TodoApi.cs:59-63`; BR-036 |
+| FN-012 | Registration is unvalidated at both ends: the page's annotations do not run on the **Create User** path, and no API filter covers `UserInfo`. Identity's unconfigured framework defaults are the only admission rule. | `LogInForm.razor:19-20`; `UsersApi.cs:12-22`; `Todo.Api/Program.cs:17-20`; BR-029, BR-032, BR-037 |
+| FN-013 | No reason is ever carried from the API to the person: every failure surfaces as one fixed message per control, so a duplicate account, a rejected password and a backend outage are indistinguishable. | `AuthClient.cs:5-29`; `LogInForm.razor:79-96`; BR-033 |
 
 ## Usability
 
