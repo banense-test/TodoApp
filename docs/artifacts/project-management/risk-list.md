@@ -188,15 +188,16 @@ Every avoidance action above names a role at work in the phase it lands in: Exca
 
 ### Acceptance granted by the stakeholder
 
-All three High risks were put to the stakeholder in Survey iteration 1 and accepted on 2026-11-19. The proposition put, and the answer received:
+All four accepted risks were put to the stakeholder and granted. Each proposition and the answer received:
 
 | ID | Magnitude | The proposition put to the stakeholder | Their answer, verbatim | Recorded |
 |---|---|---|---|---|
 | R008 | High (16) | Accept the exposure that the delivered product cannot mark a todo complete from any screen, with the gap recorded beside the recovered update use case and in the user-facing product documentation rather than repaired without a Change Request. | "Yes" | 2026-11-19 |
 | R009 | High (16) | Accept the exposure that the BFF carries no automated tests, with first coverage planned for the first Elaboration iteration before any change to it is accepted. | "Yes" | 2026-11-19 |
 | R020 | High (20) | Accept the exposure that the assembled system has never been run, with the first assembled run planned as the Integrator's Architecture Build in Elaboration. | "Yes" | 2026-11-19 |
+| R021 | Significant (12) | Accept the exposure that a human gate unanswered past its ceiling suspends the process with the milestone unsanctioned, with the mitigation and the contingency stated above. | "Yes" | 2026-11-19 |
 
-The three are closed as accepted on that answer. No condition beyond the proposition they affirmed is read into the acceptance, and nothing else in this register is thereby granted.
+The four are closed as accepted on those answers. No condition beyond the proposition each affirmed is read into the acceptance, and nothing else in this register is thereby granted.
 
 R008's disclosure home is fixed here at the two places the process actually produces: the System Analyst's note beside the recovered update use case, in Excavation, and the User Documentation the Technical Writer produces in Construction. The System Inventory's AN-008 records the same two homes. What was accepted on 2026-11-19 — the exposure, rather than a completion control repaired into scope without a Change Request — is unchanged; only the artifact the gap is disclosed in is corrected.
 
