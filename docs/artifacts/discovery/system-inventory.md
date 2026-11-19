@@ -4,7 +4,14 @@
 - Milestone Target: end of Survey (SBC) — not yet achieved
 
 ## Perimeter
-The boundary is drawn by the code, not by the README. Inside it sit seven projects of `TodoApp.sln` plus the CI workflow that builds them. The browser is outside and reaches the web server only; it never calls the API directly, because the web server proxies `/todos` through YARP and re-signs each request with the stored bearer token. Two facts bound what can be read from this perimeter: nothing is deployed anywhere (`.iari/README.md`), and no external identity provider is active as delivered — `AuthenticationExtensions` registers a provider only when `Authentication:Schemes:<provider>` exists in configuration, and no shipped `appsettings.json` carries that section, so the four provider schemes in the code are reachable in principle and inert in practice.
+The boundary is drawn by the code, not by the README. Inside it sit seven projects of `TodoApp.sln` plus the CI workflow that builds them. The browser is outside and reaches the web server only; it never calls the API directly, because the web server proxies `/todos` through YARP and re-signs each request with the stored bearer token. Nothing is deployed anywhere (`.iari/README.md`).
+
+Two parts of the code are outside the recovered product scope by stakeholder decision of 2026-11-19, and are recorded as exclusions:
+
+- **External identity-provider sign-in.** `AuthenticationExtensions` registers GitHub, Google, Microsoft and Auth0 only when `Authentication:Schemes:<provider>` exists in configuration; no shipped `appsettings.json` carries that section, so the four schemes are reachable in principle and inert in practice. The mechanism is out of the recovered product scope — recorded as an exclusion, specified at most as an unconfigured option in the Supplementary Specification — and no use case covers `EP-011`, `EP-020` or `EP-021`.
+- **The `admin` role.** `CurrentUser.IsAdmin` reads the role claim `admin` and widens read, update and delete to any owner, but no code path grants the role and migration `RemoveIsAdmin` dropped the persisted flag. It is dead code, recorded as an exclusion, until a declared requirement names who grants the role; no use case claims cross-user access.
+
+Both exclusions concern what the next phases may claim, not what exists: the code anchors below stay as read.
 
 ```plantuml
 @startuml
@@ -25,7 +32,7 @@ package "Todo App — existing system (as delivered)" {
 }
 
 component "SQLite Todos.db\nRelational schema" as DB
-component "External identity providers\nGitHub / Google / Microsoft / Auth0" as IDP
+component "External identity providers\nGitHub / Google / Microsoft / Auth0\nEXCLUDED from product scope" as IDP
 component "OTLP collector\nAspire dashboard" as OTLP
 component "sqliteweb container\ntomdesinto/sqliteweb — dev only" as SQLITEWEB
 
@@ -34,7 +41,7 @@ WEBSRV --> WEBUI : serves the WASM bundle
 WEBUI --> WEBSRV : XHR /todos, /auth
 WEBSRV --> API : HTTP /users (AuthClient)
 WEBSRV --> API : HTTP /todos (YARP forwarder, bearer)
-WEBSRV --> IDP : OAuth2 / OIDC redirect
+WEBSRV ..> IDP : OAuth2 / OIDC redirect — registered only
 API --> DB : EF Core
 SQLITEWEB --> DB : bind mount of the .db directory
 APPHOST --> API : starts, gated on the migration
@@ -55,8 +62,9 @@ end note
 
 note bottom of IDP
   Registered only when Authentication:Schemes:<provider>
-  exists in configuration. No such section ships in
-  appsettings.json, so no provider is active as delivered.
+  exists in configuration; no such section ships.
+  Stakeholder, 2026-11-19: out of the recovered
+  product scope — an exclusion, not a requirement.
 end note
 
 note right of DB
@@ -67,7 +75,6 @@ end note
 ```
 
 ### Components
-
 | Component | Kind | Responsibility | Implemented by |
 |---|---|---|---|
 | Todo.Web.Server | Subsystem | Browser-facing host (the BFF): serves the Blazor page, owns the authentication cookie, mints it against the API's bearer token, exposes `/auth`, and forwards every `/todos` request to the API with the bearer token attached. Also the only consumer of the external identity providers. | `Todo.Web/Server/Program.cs:6-58`; `Todo.Web/Server/TodoApi.cs:9-28` |
@@ -75,7 +82,7 @@ end note
 | Todo.Web.Shared | Component | DTO library referenced by both the client and the server: `TodoItem`, `UserInfo`, `ExternalUserInfo`, `AuthToken`. | `Todo.Web/Shared/SharedClass.cs:3-37` |
 | Todo.Api | Subsystem | The backend: minimal-API hosts the `/users` identity surface and the `/todos` CRUD surface, enforces bearer authentication, per-user rate limiting and parameter validation, serves the OpenAPI document and the Scalar UI. | `Todo.Api/Program.cs:5-68` |
 | Todo.Api / Users | Component | ASP.NET Core Identity user store and bearer-token issue: the stock identity endpoints plus a custom `/users/token/{provider}` endpoint that creates or finds a user by external login. | `Todo.Api/Users/UsersApi.cs:10-64`; `Todo.Api/Users/TodoUser.cs:7-29` |
-| Todo.Api / Todos | Component | Todo read, create, update and delete, scoped to the owning user; the `admin` role widens read, update and delete to any owner. | `Todo.Api/Todos/TodoApi.cs:8-77`; `Todo.Api/Todos/Todo.cs:1-40` |
+| Todo.Api / Todos | Component | Todo read, create, update and delete, scoped to the owning user. | `Todo.Api/Todos/TodoApi.cs:8-77`; `Todo.Api/Todos/Todo.cs:1-40` |
 | Todo.Api / Authorization | Component | Resolves the caller into a `CurrentUser` (claims transformation against the database) and supplies the authorization requirement that a valid token alone does not satisfy. | `Todo.Api/Authorization/CurrentUser.cs:6-15`; `Todo.Api/Authorization/CurrentUserExtensions.cs:8-35`; `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:8-40` |
 | Todo.Api / Persistence | Component | EF Core `DbContext` over ASP.NET Core Identity, the `Todo` entity with its owner foreign key, and the three migrations that define the schema. | `Todo.Api/TodoDbContext.cs:7-21`; `Todo.Api/Migrations/20221123071234_Initial.cs`; `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs` |
 | Todo.Api / Cross-cutting | Component | Request-level mechanisms shared by the endpoints: per-user token-bucket rate limiting, parameter validation returning problem details, OpenAPI bearer-scheme metadata, HTTP logging. | `Todo.Api/Extensions/RateLimitExtensions.cs:11-71`; `Todo.Api/Filters/ValidationFilter.cs:7-58`; `Todo.Api/Extensions/OpenApiOptionsExtensions.cs:7-47` |
@@ -88,7 +95,7 @@ end note
 | External actor or system | Reached through | Anchor |
 |---|---|---|
 | End user in a browser | Remote call — HTTPS to `Todo.Web.Server` (`/`, `/auth/*`, `/todos/*`); never to the API directly | `Todo.Web/Server/App.razor:5`; `Todo.Web/Client/TodoClient.cs:8-71`; `Todo.Web/Server/Program.cs:20-37` |
-| External identity providers — GitHub, Google, Microsoft, Auth0 | Remote call — OAuth2/OIDC authorization-code redirect, registered by scheme name and active only when `Authentication:Schemes:<provider>` is configured. Excluded from the recovered product scope by stakeholder decision of 2026-11-19: no shipped configuration activates any provider, the mechanism is recorded as an exclusion, and it stays in the Supplementary Specification as an unconfigured option | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:40-52`; `Todo.Web/Server/AuthApi.cs:55-64`; stakeholder decision, 2026-11-19 |
+| GitHub, Google, Microsoft, Auth0 — external identity providers. Excluded from the recovered product scope by stakeholder decision of 2026-11-19: the mechanism is an exclusion, specified at most as an unconfigured option | Remote call — OAuth2/OIDC authorization-code redirect, registered by scheme name and active only when `Authentication:Schemes:<provider>` is configured; no shipped configuration supplies that section | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:40-52`; `Todo.Web/Server/AuthApi.cs:55-64`; stakeholder decision, 2026-11-19 |
 | OTLP collector — the Aspire dashboard locally, any endpoint named by `OTEL_EXPORTER_OTLP_ENDPOINT` | Messaging — OTLP export of logs, metrics and traces, enabled only when that setting is non-empty | `TodoApp.ServiceDefaults/Extensions.cs:73-90`; `Directory.Packages.props:37-41` |
 | Container runtime (Docker/Podman) as driven by the Aspire AppHost | Service — the AppHost asks it to run the sqliteweb container | `TodoApp.AppHost/Program.cs:13-17` |
 | `tomdesinto/sqliteweb` container image | File — bind mount of `Todo.Api/.db` as `/db`, opened as `Todos.db`; excluded from the published manifest | `TodoApp.AppHost/Program.cs:10-17` |
@@ -108,7 +115,7 @@ end note
 | EP-008 | `POST /users/manage/2fa` — enable or disable two-factor authentication | Service operation | Authenticated user | `Todo.Api/Users/UsersApi.cs:12,20` |
 | EP-009 | `GET /users/manage/info` — read the caller's account information | Service operation | Authenticated user | `Todo.Api/Users/UsersApi.cs:12,20` |
 | EP-010 | `POST /users/manage/info` — change the caller's email or password | Service operation | Authenticated user | `Todo.Api/Users/UsersApi.cs:12,20` |
-| EP-011 | `POST /users/token/{provider}` — exchange an externally authenticated identity for a bearer token, creating the user on first use. Excluded from the recovered product scope by stakeholder decision of 2026-11-19: it belongs to the external-provider mechanism, which no use case covers | Service operation | Web server BFF only (the provider key is data-protected with the provider name) | `Todo.Api/Users/UsersApi.cs:24-54`; `Todo.Web/Server/AuthClient.cs:31-42`; stakeholder decision, 2026-11-19 |
+| EP-011 | `POST /users/token/{provider}` — exchange an externally authenticated identity for a bearer token, creating the user on first use. Excluded from the recovered product scope by stakeholder decision of 2026-11-19, with the external-provider mechanism: no use case covers it | Service operation | Web server BFF only (the provider key is data-protected with the provider name) | `Todo.Api/Users/UsersApi.cs:24-54`; `Todo.Web/Server/AuthClient.cs:31-42`; stakeholder decision, 2026-11-19 |
 | EP-012 | `GET /todos` — list the caller's todos | Service operation | Authenticated user, through the forwarder | `Todo.Api/Todos/TodoApi.cs:24-27` |
 | EP-013 | `GET /todos/{id}` — read one todo; 404 unless the caller owns it | Service operation | Authenticated user, through the forwarder | `Todo.Api/Todos/TodoApi.cs:29-36` |
 | EP-014 | `POST /todos` — create a todo owned by the caller | Service operation | Authenticated user, through the forwarder | `Todo.Api/Todos/TodoApi.cs:38-50` |
@@ -117,8 +124,8 @@ end note
 | EP-017 | `POST /auth/register` — register through the UI and open a session | Service operation | Browser (Blazor client) | `Todo.Web/Server/AuthApi.cs:14-25`; `Todo.Web/Client/TodoClient.cs:55-63` |
 | EP-018 | `POST /auth/login` — log in through the UI and open a session | Service operation | Browser (Blazor client) | `Todo.Web/Server/AuthApi.cs:27-38`; `Todo.Web/Client/TodoClient.cs:47-53` |
 | EP-019 | `POST /auth/logout` — end the cookie session | Service operation | Browser (Blazor client) | `Todo.Web/Server/AuthApi.cs:40-52`; `Todo.Web/Client/TodoClient.cs:65-69` |
-| EP-020 | `GET /auth/login/{provider}` — challenge the named external provider. Excluded from the recovered product scope by stakeholder decision of 2026-11-19, with the rest of the external-provider mechanism | Service operation | Browser, following the provider button rendered by the login form | `Todo.Web/Server/AuthApi.cs:55-62`; `Todo.Web/Client/Components/LogInForm.razor:34-40`; stakeholder decision, 2026-11-19 |
-| EP-021 | `GET /auth/signin/{provider}` — external-login callback: resolve or create the user, obtain a token, write the cookie. Excluded from the recovered product scope by stakeholder decision of 2026-11-19, with the rest of the external-provider mechanism | Service operation | External identity provider redirect | `Todo.Web/Server/AuthApi.cs:64-101`; stakeholder decision, 2026-11-19 |
+| EP-020 | `GET /auth/login/{provider}` — challenge the named external provider. Excluded from the recovered product scope by stakeholder decision of 2026-11-19, with the external-provider mechanism: no use case covers it | Service operation | Browser, following the provider button rendered by the login form | `Todo.Web/Server/AuthApi.cs:55-62`; `Todo.Web/Client/Components/LogInForm.razor:34-40`; stakeholder decision, 2026-11-19 |
+| EP-021 | `GET /auth/signin/{provider}` — external-login callback: resolve or create the user, obtain a token, write the cookie. Excluded from the recovered product scope by stakeholder decision of 2026-11-19, with the external-provider mechanism: no use case covers it | Service operation | External identity provider redirect | `Todo.Web/Server/AuthApi.cs:64-101`; stakeholder decision, 2026-11-19 |
 | EP-022 | `/todos/{*path}` — YARP forwarder for every verb, re-signed with the stored access token | Service operation | Browser (Blazor client) | `Todo.Web/Server/TodoApi.cs:14-26` |
 | EP-023 | `/` — the application page: renders the login form or the todo list for the session | Screen | End user in a browser | `Todo.Web/Server/App.razor:5-25`; `Todo.Web/Client/TodoApp.razor:3-16` |
 | EP-024 | `/scalar/v1`, with `/` redirecting to it — API reference and try-it-out console | Screen | Developer, development environment only | `Todo.Api/Program.cs:49-56,62`; `Todo.Api/Properties/launchSettings.json:10-24` |
