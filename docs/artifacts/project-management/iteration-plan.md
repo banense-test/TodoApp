@@ -287,38 +287,41 @@ end note
 ## Resources
 The team is the 26 roles the IARI DC baseline activates, and the plan selects which of them work in this iteration. The roster is not this plan's to change.
 
-**Assignment profile: six agent roles plus the stakeholder gate.** Six agents execute the iteration — Process Engineer, Software Archaeologist, Project Manager, Reviewer, Management Reviewer, Review Coordinator — and the Stakeholder is the one human the iteration waits on, counted separately and never as a role of the agent roster. Seven rows carry "Yes" in total and six of them are agents; the discrepancy the earlier profile left is closed by counting the gate apart from the roster.
+**Assignment profile: eight agent roles plus the stakeholder gate.** Excavation activates five disciplines — Requirements (High), Analysis and Design (Critical), Discovery (Critical), Project Management (Medium) and the milestone review — and eight agent roles run stages inside them: System Analyst, Software Architect, Designer, Database Designer, Software Archaeologist, Project Manager, Reviewer, Management Reviewer, and the Review Coordinator. The Stakeholder is the one human the iteration waits on, counted separately and never as a role of the agent roster.
 
-The plan adds no agent to accelerate this iteration. The stages that dominate its length are sequential by nature: the tailoring must be corrected before the phases that work under it are planned for, the Inventory must be read before it can be scored, and no verdict can precede the review. Parallelism buys no clock here and costs coordination across artifacts that cite each other's labels.
+Analysis and Design is the phase's Critical discipline and it is where the plan puts the most roles: three of them (Architect, Designer, Database Designer) work the same stage, in the order their artifacts depend on each other. Discovery is Critical too, and the Software Archaeologist's second stage scores the recovered models against the code — which is why it runs after them and not before.
 
-| Role | At work in Survey iteration 2 | Stage it runs | Produces |
+| Role | At work in Excavation iteration 1 | Stage it runs | Produces |
 |---|---|---|---|
-| Process Engineer | Yes | Development Case — sprint-zero correction | Development Case |
-| Software Archaeologist | Yes | System Inventory — perimeter row and coverage aggregate | System Inventory |
+| System Analyst | Yes | Vision; Use-Case Model; Business Rules in the Use-Case Flows; Supplementary Specification | Vision, Use-Case Model, Supplementary Specification |
+| Software Architect | Yes | SAD — components and connectors; SAD — mechanisms, technology and deployment; Deployment Model | Software Architecture Document, Deployment Model |
+| Designer | Yes | Design Model — domain model; Design Model — packages and classes | Design Model |
+| Database Designer | Yes | Persistent Data — entities, keys and associations; Persistent Data — enforced rules | Design Model (its persistent-data sections) |
+| Software Archaeologist | Yes | System Inventory — anomalies; System Inventory — history and coverage | System Inventory |
 | Project Manager | Yes | Risk List; Iteration Plan; Iteration Assessment | Risk List, Iteration Plan, Iteration Assessment |
-| Reviewer | Yes | SBC milestone review — technical lens | Review Record |
-| Management Reviewer | Yes | SBC milestone review — governance lens | Review Record |
-| Review Coordinator | Yes | SBC milestone review — verdict | Review Record, milestone verdict |
-| Stakeholder (human, outside the agent roster) | Yes — human gate | Sanction of the SBC milestone | One answer recorded verbatim, carried as R021 |
+| Reviewer | Yes | AR milestone review — technical lens | Review Record |
+| Management Reviewer | Yes | AR milestone review — governance lens | Review Record |
+| Review Coordinator | Yes | AR milestone review — verdict | Review Record, milestone verdict |
+| Stakeholder (human, outside the agent roster) | Yes — human gate | Sanction of the AR milestone | One answer recorded verbatim, carried as `R021` |
 
-Roles not at work in Survey, each with its reason:
+The role count is nine agents, and the two reviewers plus the coordinator are the milestone-review trio the process fixes for AR — not additional capacity. Six roles do the recovery work; three judge it.
+
+Roles not at work in Excavation, each with its reason:
 
 | Role | Reason |
 |---|---|
 | Business Process Analyst, Business Reviewer | `business-process-led = false` (Development Case DC-D2). Neither has a stage in this project. |
 | Capsule Designer | `real-time-system = false` (Development Case DC-D3). No capsule, protocol or signal exists to design. |
-| System Analyst | First at work in Excavation, where Requirements is High and the recovered use cases, Business Rules and Supplementary Specification are written. Nothing in Survey produces those artifacts. |
-| Requirements Specifier | First at work in Elaboration, where Use-Case Detail and NFR Thresholds are specified. It is not the sprint zero's Requirements role — Excavation's Requirements stage belongs to the System Analyst, which is why no risk action here may name it. |
-| Software Architect | First at work in Excavation, where Analysis and Design is Critical and the Software Architecture Document and Deployment Model are recovered. |
-| Designer, Database Designer | First at work in Excavation, where the Design Model and its persistent-data sections are recovered. |
-| User Interface Designer | First at work in Elaboration, where the navigation map and boundary classes are designed. Survey produces no screen design. |
-| Implementer, Integrator, Code Reviewer | First at work in Inception, where the build environment is set up, and in Elaboration's Executable Architecture. The sprint zero writes no code. |
-| Test Manager, Test Analyst, Test Designer, Tester | First at work in Inception (Test Plan) and Elaboration (test cases and architecture test execution). Survey executes no test. |
-| Deployment Manager, Technical Writer | First at work in Inception and Construction respectively. No deployment or user documentation exists in Survey. |
-| Change Control Manager | First at work in Inception, where the ledger opens. The sprint zero opens no ledger entry — a stakeholder order reaches its owner through the Work Order. |
+| Requirements Specifier | First at work in Elaboration, where Use-Case Detail and NFR Thresholds are specified. Excavation's Requirements stage is the System Analyst's, not this role's. |
+| User Interface Designer | First at work in Elaboration, where the navigation map and boundary classes are designed. The screens are recovered, not designed, in Excavation. |
+| Implementer, Integrator, Code Reviewer | First at work in Inception (build environment) and Elaboration (Executable Architecture). The sprint zero writes no code and builds nothing. |
+| Test Manager, Test Analyst, Test Designer, Tester | First at work in Inception (Test Plan) and Elaboration (test cases, architecture test execution). Excavation executes no test. |
+| Deployment Manager, Technical Writer | First at work in Inception and Construction respectively. Excavation produces no deployment and no user documentation. |
+| Change Control Manager | First at work in Inception, where the ledger opens. The sprint zero opens no ledger entry. |
 | Configuration Manager | First at work in Inception, where the CM strategy is set up. The sprint zero baselines nothing. |
 
-Every role of the active roster is therefore accounted for: six execute, one human gate is answered, and the remaining twenty carry a stated reason for their absence. None is silenced by a trigger decision that contradicts the Development Case.
+Every role of the active roster is therefore accounted for: nine agents execute or judge, one human gate is answered, and the remaining roles carry a stated reason for their absence.
+
 ## Use Cases and Scenarios Addressed
 
 **None.** No use case is analysed, designed or implemented in Survey. The system's use cases are recovered from the entry points in Excavation and completed in Consolidation — the Use-Case Model does not exist yet, and no `UC-NNN` has been minted.
