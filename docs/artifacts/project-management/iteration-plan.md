@@ -250,14 +250,24 @@ The Survey (SBC) exit criteria. They are what the milestone review judges this i
 
 | # | Criterion | Evidence it rests on | Status |
 |---|---|---|---|
-| 1 | The perimeter of the existing system is **confirmed by the stakeholder** — the seven projects, the components, the external systems, and the three exclusions. | System Inventory, Perimeter; stakeholder's answer to the gate | **Open** — the three exclusions were decided by the stakeholder on 2026-11-19; the perimeter as a whole has not been confirmed |
+| 1 | The perimeter of the existing system is **confirmed by the stakeholder** — the seven projects, the components, the external systems, and the three exclusions. | System Inventory, Perimeter; the stakeholder's confirmation of 2026-11-19 | Met — confirmed |
 | 2 | The **priorities are ordered** for the remaining recovery. | System Inventory, Priorities — eight areas, each with its reason and anchor | Met — recorded |
 | 3 | The **unread areas are declared** with the reason each is unread. | System Inventory, Coverage — 71 of 128 files read; the 57 unread named and justified | Met — recorded |
 | 4 | Every anomaly the reading recorded is a **classified risk** with a strategy, and the High ones carry the stakeholder's acceptance. | Risk List — 20 anomalies, 20 risks, magnitude by exposure; R008, R009 and R020 accepted by the stakeholder on 2026-11-19, recorded verbatim | Met — recorded |
 | 5 | The tailoring governing the sprint zero is issued and its trigger decisions are recorded. | Development Case — §4 decision record DC-D1…DC-D7, §5 optional verdicts | Met — issued |
 | 6 | The plan carries the **cross-iteration roadmap** and this iteration's fine plan, with no forecast invented before a measured actual exists. | This artifact, Plan and Milestones | Met — issued |
 
-Criterion 1 is the one SBC turns on. Criteria 2–6 rest on artifacts that are issued; the review judges whether they are adequate, which is not this plan's call.
+### Confirmation of the perimeter
 
-No criterion is added that the stakeholder did not declare: criteria 1, 2 and 3 are Survey's exit criteria as the process defines them, and 4–6 are the obligations this plan carries to the review. A criterion failing at SBC does not close the milestone — it returns to the next iteration of Survey, whose plan is the Review Record's open findings and the stakeholder's orders.
+Criterion 1 was put to the stakeholder in Survey iteration 1 and answered on 2026-11-19. The proposition put, and the answer received:
+
+| What was put | Their answer, verbatim | Recorded |
+|---|---|---|
+| The perimeter of the existing system as the System Inventory draws it: the seven projects of `TodoApp.sln` (`Todo.Web.Server`, `Todo.Web.Client`, `Todo.Web.Shared`, `Todo.Api`, `TodoApp.AppHost`, `TodoApp.ServiceDefaults`, `Todo.Api.Tests`) plus the CI workflow; the external systems reached (browser, OTLP collector, container runtime, sqliteweb image, `dotnet-ef` CLI, NuGet feed); 26 entry points; and the three exclusions of 2026-11-19 — external provider sign-in, the admin role, the self-service identity surface. | "Yes" | 2026-11-19 |
+
+That boundary is what Excavation recovers within: a use case comes from an entry point inside it, and a component or table outside it is not recovered at all.
+
+Criterion 1 is met on that answer. All six exit criteria now rest on issued artifacts and recorded stakeholder decisions — whether the artifacts are adequate is the milestone review's judgment, not this plan's claim, and no milestone or iteration is marked complete here.
+
+No criterion was added that the stakeholder did not declare: criteria 1, 2 and 3 are Survey's exit criteria as the process defines them, and 4–6 are the obligations this plan carries to the review. A criterion failing at SBC does not close the milestone — it returns to the next iteration of Survey, whose plan is the Review Record's open findings and the stakeholder's orders.
 
