@@ -1,8 +1,7 @@
 ## Document Control
 - Phase: Survey
-- Status: Draft — issued for the end-of-Survey milestone review
+- Status: Draft — corrected in iteration 2 against the open findings of the SBC review
 - Milestone Target: end of Survey (SBC) — not yet achieved
-
 ## Iteration Objectives
 Survey is iteration 1 of the sprint zero. It runs on a system nobody here wrote and nobody can ask about: the delivery is a copy of `davidfowl/TodoApp` at `307a1ead`, and `.iari/README.md` records that it carries no requirements, design or architecture document, no database scripts, no manual, no running installation and no reachable authors. This iteration therefore does not build anything — it establishes what the existing system is, at a perimeter the stakeholder will confirm, before any RUP phase plans against it.
 
