@@ -766,45 +766,113 @@ Two metrics are not computable at this milestone and neither is estimated here:
 
 ## Resolutions and Actions
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-<!-- review: Survey I2 -->
+Two findings of this lens were open when Excavation opened, both ordered corrected by the stakeholder on 2026-11-19 — "Minor findings must be corrected in the next phase; they cannot be left unresolved". Both are closed here, each on corrected content read in the artifact and each with the `resolve_artifact_finding` call that moved its state.
 
-Nine findings of this lens were open against four artifacts at the previous milestone review. All nine are closed here, each on the corrected content and each with the `resolve_artifact_finding` call that moved its state. Two new contained defects were found in the corrected content and are recorded open.
-
-#### Closed by this lens
+#### Closed at the opening of this milestone
 
 | Finding | Was | What the corrected content now says | Where it was checked |
 |---|---|---|---|
-| Development Case#F1 (Major) | Three convention families pointed at `CONTRIBUTING.md`, absent from the repository | Five tool-configuration files attributed by path and owner; coding standards, UI patterns and test conventions recorded as Undocumented with no fallback asserted, bound only by what the build enforces | Artifacts and Templates — Guideline content table and its diagram |
-| Development Case#F2 (Minor) | PoC trigger row rested partly on "no Risk List exists yet" | The phase requirement alone is the basis; the second clause is judged at Elaboration against the Risk List as it then stands | Optional Artifact Triggers — Architectural Proof-of-Concept row |
-| System Inventory#F2 (Major) | Perimeter `/users` row said the product uses token refresh; `AN-015` said nothing redeems a token | Perimeter states the product reaches registration and login, `EP-003` is published with no caller, and no use case is recovered from it; the Components row references that statement rather than contradicting it | Perimeter text, Components table, Entry points `EP-003` row |
-| System Inventory#F1 (Minor) | Coverage aggregate off by one and its four-category breakdown omitted two files | Aggregate stated as the sum of the Read column: 72 of 132, 60 unread, every unread file named in a row with its reason | Coverage — per-area table; Files column sums to 132, Read column to 72 |
-| Risk List#F1 (Major) | Six Excavation actions owned by the Requirements Specifier, which does not work in the sprint zero; R014 also named the Change Control Manager there | The six re-owned to the System Analyst; the Software Architect's Excavation parts kept; R014's control part moved to Inception where the ledger opens; the section closes with the role-phase mapping stated once | Risk Mitigation and Contingency — owning-role column and its closing paragraph |
-| Iteration Plan#F1 (Major) | Two committed totals — 9 in the roadmap, "8 or 9" in Evaluation Criteria | `2 + 1 + 1 + 1 + 2 + 2 + 1 = 10`, stated once, in the roadmap; Elaboration's second iteration committed unconditionally | Plan and Milestones — coarse roadmap and profile bullets |
-| Iteration Plan#F2 (Minor) | Evaluation Criteria returned a verdict in a Status column the plan disclaimed | The column now reports "Evidence this plan supplies" and "What the review judges" | Evaluation Criteria — table headers and opening paragraph |
-| Iteration Plan#F3 (Minor) | Profile said six roles while seven rows read "Yes"; five roles unaccounted for | "Six agent roles plus the stakeholder gate"; all twenty absent roles carry a stated reason | Resources — assignment profile and the not-at-work table |
-| Iteration Plan#F4 (Minor) | Every gantt bar carried a one-day length, the seven gates included — 16 days a reader could sum | Every bar reads `lasts 0 day`, both titles read "ordering only", and each note states no bar is a forecast of duration | Plan and Milestones — both gantt diagrams |
+| `Risk List#F2` (Minor, `contained-defect`) | A trailing "R021 — the stakeholder gate, offered for acceptance" block stated the risk "stays OPEN until their answer is recorded here verbatim", while the same section's acceptance table recorded the answer "Yes" of 2026-11-19 | The block is gone. The acceptance is stated once, in `### Acceptance granted by the stakeholder`, as a four-row table naming each proposition, the answer and the date, closing "The four are the whole of what the stakeholder granted." The "holds OPEN" wording and its three "until then" conditions appear nowhere in the artifact | `## Risk Mitigation and Contingency` — the acceptance table and its closing paragraph; `## Risk Register`, row R021 |
+| `Iteration Plan#F5` (Minor, `contained-defect`) | The opening block of `## Plan and Milestones` duplicated its `### Measure and forecast` subsection verbatim, including the forward reference "the ten iterations above" before any iteration had been stated | The block is deleted. The section opens with a one-sentence statement of what it carries and proceeds to `### Coarse roadmap`, where the total 10 is stated. The no-forecast statement, the budget-position table and the two-clock table appear once, inside Measure and forecast | `## Plan and Milestones` — opening paragraph and `### Coarse roadmap` |
 
-#### Open, recorded this iteration
+#### Open, recorded at this milestone
 
-| Finding | Owner | What closes it | Holds the milestone |
-|---|---|---|---|
-| Risk List#F2 (Minor) | Project Manager | The trailing "R021 — offered for acceptance" block deleted, or restated as the mitigation in force after the answer of 2026-11-19 | No |
-| Iteration Plan#F5 (Minor) | Project Manager | The duplicated opening block of Plan and Milestones deleted, leaving the matter once in Measure and forecast | No |
+Three Major and seven Minor findings stand against nine artifacts. The three Majors are one defect class and all three are `trace-gap`: a suspect link the phase cannot close without the owning artifact acting.
 
-Both are contained defects: no other role builds on the duplicated paragraph or on the pending-sounding restatement, and no SBC exit criterion depends on either. The acceptance of R021 itself is not in doubt — it is recorded verbatim in the acceptance table and in the Register row — so nothing downstream is blocked by the wording that contradicts it.
+| Priority | Finding | Severity | Criterion | Owner | What closes it |
+|---|---|---|---|---|---|
+| 1 | `Use-Case Model#F1` | Major | `trace-gap` | System Analyst | The five `Realizes` edges from `COMP-006` confirmed per use case, or recorded as not accepted, in this artifact's Traceability |
+| 2 | `Design Model#F1` | Major | `trace-gap` | Designer | `TBL-007` re-read from the Initial migration; both suspect links re-registered from the Design Model's own row, the migration link citing the line it rests on |
+| 3 | `System Inventory#F3` | Major | `trace-gap` | Software Archaeologist | `AN-003` re-stated as the history the correction closes; `CONTRIB` removed from the Documentation diagram; `AN-003`/`R003` retired or re-scored and the link re-registered |
+| 4 | `Software Architecture Document#F2` | Minor | `contained-defect` | Software Architect | 30 stated once in `## Size and Performance`; `## Packaging` references it instead of repeating a number |
+| 5 | `Software Architecture Document#F1` | Minor | `contained-defect` | Software Architect | `COMP-005` row reads "six methods", matching its own enumeration and `TodoClient.cs` |
+| 6 | `System Inventory#F4` | Minor | `contained-defect` | Software Archaeologist | "thirty-one minutes" changed to "9 h 38 min" in `## Persistent Data` |
+| 7 | `Design Model#F2` | Minor | `contained-defect` | Designer | The three absent rows of the `## Design Overview` table carry `[OMITTED: …]` markers with their phase reason, in the form the Capsules row already uses |
+| 8 | `Supplementary Specification#F1` | Minor | `contained-defect` | System Analyst | The `## Interfaces` table re-keyed to `INT-NNN`, or the `IF-NNN` → `INT-NNN` mapping stated once above it |
+| 9 | `Deployment Model#F1` | Minor | `contained-defect` | Software Architect | The connector table re-keyed to `INT-NNN`, or its local numbering declared with the mapping per row — in the same pass as #8 |
+| 10 | `Iteration Plan#F6` | Minor | `contained-defect` | Project Manager | The UC-003 and UC-004 scenario counts brought to 3 and 5, or the count column dropped in favour of a reference to the Use-Case Model's survey |
 
-#### Closure state at this milestone
+The three Majors sit at priorities 1–3 because a suspect link at phase close is the one defect class this lens cannot leave: the trace tree is the artifact set's claim that every element is justified, and a link marked suspect is a claim the tree itself reports as unverified. The seven Minors are all `contained-defect` — each stays inside its artifact and none blocks consumption.
 
-| | Count |
+#### Two corrections that touch more than one artifact
+
+`Software Architecture Document#F2` and `System Inventory#F4` each state a figure a second artifact restates: the package count appears in the SAD and the Inventory, and the wrong `IsAdmin` span appears once only while the correct one appears in the Inventory's AN-010 and its History row and in the Design Model's schema-evolution table. The owner named in the table above corrects its own artifact; where the same figure appears in another artifact the row names that owner too, so the correction lands everywhere the figure is stated or nowhere.
+
+#### Closure protocol
+
+Each finding is closed by two acts, in this order: the Reviewer — the lens that raised it, and the only lens that may close it — calls `resolve_artifact_finding` after reading the corrected content against the finding; then this Review Record gains an entry stating what the corrected content says. A defect that still stands after rework is re-recorded under its `findingKey` and stays open; it is not duplicated under a new key.
+
+```plantuml
+@startuml
+title Closure of the ten findings of this milestone - what the owner does, and what the lens does next
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+start
+partition "Recorded this milestone - 3 Major, 7 Minor" {
+  :Use-Case Model#F1 - five Realizes edges SUSPECT, System Analyst;
+  :Design Model#F1 - two links on TBL-007 SUSPECT, Designer;
+  :System Inventory#F3 - AN-003 to R003 SUSPECT, Software Archaeologist;
+  :seven contained defects, one owner each;
+}
+partition "Owner reworks the artifact it owns" {
+  :Major - state the confirmation the trace asks for,
+  or re-read the migration the link rests on,
+  or re-state the anomaly the correction retired;
+  :Minor - correct the figure, the count,
+  the identifier family or the omission marker;
+}
+partition "Reviewer lens - the only lens that may close it" {
+  if (corrected content read against the finding?) then (defect gone)
+    :resolve_artifact_finding - Reviewer lens;
+  else (still stands)
+    :re-recorded under its findingKey - stays open;
+  endif
+}
+partition "Review Coordinator" {
+  :counts the ledger, weighs it with the other lenses,
+  and issues the AR verdict;
+}
+stop
+
+note right
+  A suspect link is the one thing this lens cannot
+  carry into the next phase: the trace tree is the
+  artifact set's claim that every element is
+  justified, and a SUSPECT row is the tree reporting
+  its own claim as unverified.
+end note
+@enduml
+```
+
+#### Load per owner
+
+| Owner | Open findings | Major | Minor | At work in the phase the action lands in |
+|---|---|---|---|---|
+| System Analyst | 2 | 1 | 1 | Yes — its Consolidation stage produces the Use-Case Model and the Supplementary Specification |
+| Designer | 2 | 1 | 1 | Yes — its Consolidation stage produces the Design Model |
+| Software Archaeologist | 2 | 1 | 1 | Yes — Discovery is Critical in Consolidation |
+| Software Architect | 3 | 0 | 3 | Yes — its Consolidation stage produces the SAD and the Deployment Model |
+| Project Manager | 1 | 0 | 1 | Yes — its Consolidation stage produces the Iteration Plan |
+| Process Engineer | 0 | — | — | — its two findings closed at Survey iteration 2 |
+
+Every owner named above has a stage in Consolidation, which is the phase that runs next. No finding is assigned to a role that does not work in the phase named, and none to a role outside the active roster.
+
+#### Escalation register
+
+| Item | Status |
 |---|---|
-| Critical open, this lens | 0 |
-| Major open, this lens | 0 |
-| Minor open, this lens | 2 |
-| Closed by this lens this iteration | 9 |
+| Open Critical findings | None — 0. No stakeholder escalation is raised by this lens. |
+| Findings requiring a stakeholder decision | None. Every finding recorded here is a correction its owner can make against the code; none needs scope added or dropped, and none reopens the three exclusions of 2026-11-19. |
+| Overdue findings | None. The two carried in from Survey closed at the opening of this milestone, on the deadline the stakeholder's order set. |
+| Suspect trace links open | Three groups, recorded as the three Major findings. None is deferred. |
+| Non-compliance with procedure | None observed — the nine artifacts of the phase were issued, all were reviewed, and the Development Case's optional-trigger verdict for the Deployment Model was audited against the project's own facts and holds. |
 
-No resolution here cites a stakeholder answer it does not have. Every one rests on content read in the artifact, and the two defects left open are named with the section that carries them.
+#### What this milestone does not decide
+
+The AR verdict is the Review Coordinator's, taken on this lens and the Management Reviewer's together, after the stakeholder answers the sanction question. This block records the technical state of the artifact set and the actions that follow from it; it declares no milestone met and no phase complete.
 
 ### Management Reviewer lens
 <!-- review: Survey I2 -->
