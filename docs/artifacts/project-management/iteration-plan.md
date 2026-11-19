@@ -291,3 +291,26 @@ The process fixes what AR *produces* — Vision, Use-Case Model, the recovered a
 
 The question is open with the stakeholder. Option A is what the roadmap above commits to; option B is one iteration more and stays inside nothing that has been measured. Whichever is answered, it is answered before Excavation is planned — this iteration does not schedule it.
 
+### Excavation scope — decided by the stakeholder
+
+The AR milestone closes with priority areas **1–6 recovered in a single Excavation iteration**, on the order the System Inventory's Priorities fix:
+
+| Order | Area | Where it is recovered |
+|---|---|---|
+| 1 | `Todo.Api/Todos` + `Todo.Api/Users` | Excavation — the endpoint groups the whole product arrives through |
+| 2 | `Todo.Web/Server` — the BFF | Excavation — identity is decided here; AN-009 and AN-013 |
+| 3 | `Todo.Api` cross-cutting — authorization, rate limiting, validation, OpenAPI | Excavation — Supplementary Specification mechanisms |
+| 4 | `Todo.Web/Client` — the screens | Excavation — AN-008 is a fact about this layer |
+| 5 | `Todo.Api/Migrations` and `TodoDbContext` — the schema | Excavation — the Design Model carries it; no Data Model exists |
+| 6 | `TodoApp.AppHost` + `TodoApp.ServiceDefaults` — topology | Excavation — the triggered Deployment Model |
+| 7 | `Todo.Api.Tests` | Excavation — read as the cross-check on orders 1 and 2 |
+| 8 | Build, environment and tooling | Inception — the Integrator's Build Environment Setup |
+
+The proposition put and the answer received:
+
+| What was put | Their answer, verbatim | Recorded |
+|---|---|---|
+| Excavation closing with areas 1–4 recovered and the schema and AppHost topology recovered in a second Excavation iteration before GHR, at 9–10 iterations total. | "No" | 2026-11-19 |
+
+Option A is therefore the roadmap this plan commits to: **8 iterations, or 9 if Elaboration needs its second.** No second Excavation iteration is planned, and no condition beyond the answer is read into it. The single Excavation iteration carries orders 1–6; order 7 is its cross-check and order 8 opens Inception. Nothing in this iteration schedules that work — it is Excavation's plan to issue.
+
