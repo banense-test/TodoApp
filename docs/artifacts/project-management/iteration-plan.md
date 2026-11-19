@@ -184,11 +184,12 @@ R008, R009 and R020;
 and this iteration's work items;
 
 |Stakeholder|
-:Perimeter confirmed;
-:High-risk acceptances granted or refused;
+:R008, R009 and R020 accepted — 2026-11-19;
+:Perimeter confirmed as drawn;
 note right
-  Human gate — days of queue time.
-  Ceiling 14 days, then the process
+  The acceptances are answered. What remains
+  is the perimeter itself: a human gate, days
+  of queue time, ceiling 14 before the process
   suspends. Never forecast.
 end note
 
