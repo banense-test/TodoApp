@@ -284,19 +284,6 @@ Criterion 1 is met on that answer. All six exit criteria now rest on issued arti
 
 No criterion was added that the stakeholder did not declare: criteria 1, 2 and 3 are Survey's exit criteria as the process defines them, and 4–6 are the obligations this plan carries to the review. A criterion failing at SBC does not close the milestone — it returns to the next iteration of Survey, whose plan is the Review Record's open findings and the stakeholder's orders.
 
-### Carried forward to the next iteration's plan
-
-Criterion 2 above records that the Inventory's eight priority areas are **ordered**. It does not record that the order settles how much of them the AR milestone must have recovered, and that is the one thing this plan cannot decide for the stakeholder.
-
-The process fixes what AR *produces* — Vision, Use-Case Model, the recovered architecture, the Design Model carrying the persistent schema, and the triggered Deployment Model. Applied to the eight areas it means orders 1–6 are all inside Excavation (the two endpoint groups, the BFF, the cross-cutting mechanisms, the client screens, and the schema and topology), with order 7 (`Todo.Api.Tests`) read as the cross-check on orders 1 and 2 and order 8 (build and tooling) belonging to Inception's Build Environment Setup. The alternative is to split Excavation and let the schema and topology recover in a second iteration.
-
-| Option | AR closes with | Iterations | Cost |
-|---|---|---|---|
-| A — as planned | Orders 1–6 recovered in one Excavation iteration; 7 as cross-check; 8 at Inception | 8–9, unchanged | The single Excavation iteration carries the whole recovery. R020 and R009 make the BFF half the heaviest reading |
-| B — split Excavation | Orders 1–4 at AR; schema and topology in a second Excavation iteration before GHR | 9–10 | One more iteration, against a ceiling of 9 |
-
-The question is open with the stakeholder. Option A is what the roadmap above commits to; option B is one iteration more and stays inside nothing that has been measured. Whichever is answered, it is answered before Excavation is planned — this iteration does not schedule it.
-
 ### Excavation scope — decided by the stakeholder
 
 The AR milestone closes with priority areas **1–6 recovered in a single Excavation iteration**, on the order the System Inventory's Priorities fix:
