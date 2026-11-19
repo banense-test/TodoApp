@@ -1,12 +1,16 @@
 ## Document Control
 ### Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
+
+<!-- review: Survey I2 -->
 
 - Phase: Survey
-- Status: Draft — technical lens of the end-of-Survey milestone review
-- Milestone Target: end of Survey (SBC) — not yet achieved
+- Status: Draft — technical lens of the end-of-Survey milestone review, iteration 2
+- Milestone Target: end of Survey (SBC) — not yet achieved; the sanction has not been asked again
 - Review type: Milestone review (SBC), technical lens — formal inspection against the artifact-type checklists
-- Reviewed: Development Case, System Inventory, Risk List, Iteration Plan — all Survey, Draft, iteration 1
+- Reviewed: Development Case, System Inventory, Risk List, Iteration Plan — all Survey, Draft, corrected in iteration 2
+- Prior findings of this lens: 9 open at the previous milestone review, 9 closed here
+- Findings recorded this iteration: 2, both Minor
 - SCM evidence: no pull request in any state; no IARI build on `main`
 
 ### Management Reviewer lens
