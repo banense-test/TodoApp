@@ -791,24 +791,74 @@ The stakeholder declined to advance past SBC. That refusal is not read as a reje
 
 ## Disposition
 ### Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-**Technical lens disposition: Approved with Changes.** No artifact is rejected and none is approved for consumption unchanged.
+<!-- review: Survey I2 -->
 
-The distinction that matters at SBC: all four artifacts supply the evidence the six exit criteria name, and the evidence itself survived checking. Thirteen anchors were opened against their claims and twelve confirm them. The perimeter is drawn from code, the entry points each carry a real anchor, twenty anomalies each cite evidence, twenty risks each trace to their anomaly, the three High acceptances are recorded verbatim, and every optional trigger verdict holds against the project's real facts. The material the recovery will rest on is substantially there.
+**Technical lens disposition: Approved.** All four artifacts are cleared for consumption by the roles that open Excavation.
 
-What fails is four claims inside that material: a referenced file that does not exist, a Perimeter row contradicted by the artifact's own anomaly, six avoidance actions owned by roles absent from the phase that must perform them, and two different committed iteration totals in one plan. Each of those is content another role would act on, so each must be corrected before Excavation reads the artifact again.
+No Critical and no Major finding is open against any artifact from this lens. The seven Majors the previous milestone review recorded are closed on the corrected content, each verified by reading the section that carried it, and three anchors were re-opened against the corrected Perimeter claims and all three confirm them. The two defects this iteration records are Minor, contained inside their artifacts, and hold nothing.
 
-| Artifact | Disposition from this lens |
-|---|---|
-| Development Case | Approved with Changes — Major F1 before the tailoring governs any role's work |
-| System Inventory | Approved with Changes — Major F2 before Excavation fixes the recoverable entry-point set |
-| Risk List | Approved with Changes — Major F1 before Excavation executes any avoidance action |
-| Iteration Plan | Approved with Changes — Major F1 before any downstream artifact cites an iteration count |
+| Artifact | Disposition from this lens | Why |
+|---|---|---|
+| Development Case | **Approved** | The tailoring governs the sprint zero without pointing a role at a source that is not there, and every FIRED verdict holds against the project's facts |
+| System Inventory | **Approved** | The perimeter is drawn from code and every high-consequence row says what its anchor says; Coverage reconciles with its own rows |
+| Risk List | **Approved with Changes** | Every action names a role at work where it lands and every Significant acceptance rests on the stakeholder's own words; one Minor remains inside the acceptance section (F2) |
+| Iteration Plan | **Approved with Changes** | One committed total, no invented forecast, no day length on any bar, the roster fully accounted for; one Minor remains inside Plan and Milestones (F5) |
 
-**No Critical finding is open, so nothing in this lens blocks the SBC on a stakeholder decision.** That is a statement about this lens only. The SBC verdict belongs to the Review Coordinator, which weighs this lens with the Management Reviewer's; this block does not declare the milestone met, and no iteration is closed here.
+```plantuml
+@startuml
+title Defect distribution — SBC / Survey iteration 2, technical lens
+skinparam shadowing false
+skinparam defaultTextAlignment left
+skinparam classAttributeIconSize 0
+hide empty members
+hide circle
 
-The one thing this lens asks the Review Coordinator to carry forward: an artifact set cleared of its Major findings is the precondition for Excavation, not a formality. Excavation reads the Perimeter to fix the set of entry points a use case may come from, the Priorities to fix its reading order, and the Risk List for the actions it must perform — and all three of the artifacts carrying those are where the Major findings sit.
+class "Development Case" as DC {
+  Major : 0
+  Minor : 0
+  Closed this iteration : F1 (Major), F2 (Minor)
+}
+class "System Inventory" as SI {
+  Major : 0
+  Minor : 0
+  Closed this iteration : F2 (Major), F1 (Minor)
+}
+class "Risk List" as RL {
+  Major : 0
+  Minor : 1 — F2 open
+  Closed this iteration : F1 (Major)
+}
+class "Iteration Plan" as IP {
+  Major : 0
+  Minor : 1 — F5 open
+  Closed this iteration : F1 (Major), F2, F3, F4 (Minor)
+}
+class "SBC milestone" as M {
+  Critical : 0
+  Major : 0 — all seven closed
+  Minor : 2 — contained, do not hold the milestone
+  Cleared for consumption : YES
+}
+
+DC -right-> M
+SI -right-> M
+RL -right-> M
+IP -right-> M
+
+note bottom of M
+  The lens's own count only. The milestone
+  verdict belongs to the Review Coordinator,
+  which weighs this lens with the Management
+  Reviewer's; nothing here declares SBC met.
+end note
+@enduml
+```
+
+**What this lens does not decide.** The SBC verdict is the Review Coordinator's, taken on this lens and the Management Reviewer's together. Two facts the coordinator weighs and this block does not: the stakeholder refused the sanction on 2026-11-19 with the order that all Major findings be corrected, and the seven Majors are now closed — so the refusal's stated reason no longer stands, while the sanction itself has not been asked again. This block records the technical state of the artifact set and nothing about the milestone's standing.
+
+**What Excavation inherits from this set.** The entry-point set a use case may be recovered from: `EP-001`, `EP-002`, `EP-012` … `EP-019`, `EP-022` … `EP-026`, with `EP-003` excluded for want of a caller and the eleven identity-surface entry points excluded by the stakeholder. The reading order: Priorities orders 1–6 inside the single Excavation iteration. The actions it must execute: the Risk List's avoidance column, now every one of them owned by a role at work in Excavation.
 
 ### Management Reviewer lens
 <!-- review: Survey I1 -->
