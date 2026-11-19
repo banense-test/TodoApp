@@ -898,21 +898,21 @@ The two intervals the migration history fixes, both read from the migration ids:
 
 ### Index strategy — each index against the query that issues it
 
-Eight secondary indexes exist. Four are issued by a delivered query, four by none.
+Eight secondary indexes exist. Two are issued by a query a recovered use case reaches; six by nothing in the delivered product. The primary-key indexes of the eight tables are listed because the `/todos` endpoints address rows by id.
 
 | Index | Table, column(s) | Unique | The query that issues it | Anchor |
 |---|---|---|---|---|
 | `IX_Todos_OwnerId` | TBL-001 (`OwnerId`) | no — one user owns many todos | `EP-012` list: `db.Todos.Where(todo => todo.OwnerId == owner.Id)`, one index range per caller | `Todo.Api/Todos/TodoApi.cs:24-27` |
 | `PK_Todos` (the rowid index) | TBL-001 (`Id`) | yes | `EP-013` read-one: `db.Todos.FindAsync(id)`; `EP-015`/`EP-016`: `Where(t => t.Id == id && …)` | `Todo.Api/Todos/TodoApi.cs:29-36,52-73` |
-| `UserNameIndex` | TBL-002 (`NormalizedUserName`) | yes | The Identity user lookup issued on every `EP-002` sign-in and on `EP-001`'s duplicate-name check — `UserManager.FindByNameAsync` behind `MapIdentityApi<TodoUser>()` | `Todo.Api/Users/UsersApi.cs:12,20` |
-| `EmailIndex` | TBL-002 (`NormalizedEmail`) | no | No in-scope query: the user-by-email lookup belongs to `/users/manage/info` (`EP-009`), an excluded operation. Kept because the framework's model declares it | `EX-003`; `Todo.Api/Users/UsersApi.cs:12,20` |
+| `UserNameIndex` | TBL-002 (`NormalizedUserName`) | yes | The Identity user lookup issued on every `EP-002` sign-in and on `EP-001`'s duplicate-name check — `FindByNameAsync` behind `MapIdentityApi<TodoUser>()` | `Todo.Api/Users/UsersApi.cs:12,20` |
+| `EmailIndex` | TBL-002 (`NormalizedEmail`) | no | None — the user-by-email lookup belongs to `/users/manage/info` (`EP-009`), an excluded operation. Declared by the framework's model, not by this delivery | `EX-003`; `Todo.Api/Users/UsersApi.cs:12,20` |
 | `IX_AspNetUserClaims_UserId` | TBL-005 (`UserId`) | no | None — no product code path reads or writes a user claim | `20221123071234_Initial.cs` |
 | `IX_AspNetUserLogins_UserId` | TBL-007 (`UserId`) | no | None — the external-login lookup is `EX-001` | same |
 | `IX_AspNetUserRoles_RoleId` | TBL-004 (`RoleId`) | no | None — no code path grants or reads a role | same; `AN-010` |
 | `IX_AspNetRoleClaims_RoleId` | TBL-006 (`RoleId`) | no | None — no code path reads or writes a role claim | same |
 | `RoleNameIndex` | TBL-003 (`NormalizedName`) | yes | None — nothing creates a role | same |
 
-The three composite primary keys double as indexes, each usable by its leading column: TBL-004 by `UserId`, TBL-008 by `UserId`. No covering index exists and no wider index on `Todos` is issued by a delivered query — the list filters on `OwnerId` alone and projects `Title` and `IsComplete`, which the index does not carry, so a wider index would serve nothing the delivery asks for.
+The three composite primary keys also serve as indexes, each usable by its leading column: TBL-004 by `UserId`, TBL-007 by `LoginProvider`, TBL-008 by `UserId`. No covering index exists. No wider index on `Todos` is issued by a delivered query: the list filters on `OwnerId` alone and projects `Title` and `IsComplete`, which `IX_Todos_OwnerId` does not carry, and the delivery's read path tolerates the row lookup that follows. Nothing in the Supplementary Specification states a response-time or throughput target for either endpoint, so no index beyond what the queries need is justified by an NFR — `AN-020` records that no run has ever measured one.
 
 ### Constraints — what the store enforces and what it does not
 
