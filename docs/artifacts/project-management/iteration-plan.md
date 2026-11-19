@@ -21,11 +21,11 @@ Two decisions of iteration 1 change the plan rather than merely inform it, and b
 ## Plan and Milestones
 ### Coarse roadmap — sprint zero then the RUP phases
 
-`6 ± 3` iterations across the project. This roadmap commits to **9**, and 9 is stated once, here, as the whole of the plan's iteration total. The sprint zero adds no milestone of its own to the RUP sequence — it runs before Inception and produces the material Inception builds on.
+`6 ± 3` iterations is the rubber profile; this roadmap commits to **10**, and 10 is stated once, here, as the whole of the plan's iteration total. The sprint zero adds no milestone of its own to the RUP sequence — it runs before Inception and produces the material Inception builds on.
 
 | Order | Phase | Milestone | What the milestone closes | Iterations planned |
 |---|---|---|---|---|
-| 1 | Survey | **SBC** | The perimeter is drawn and confirmed, the anomalies are recorded, every one scored as a risk, and the tailoring for the sprint zero is issued and usable by the phases that work under it. | 1 (iteration 2 is this plan's own) |
+| 1 | Survey | **SBC** | The perimeter is drawn and confirmed, the anomalies are recorded, every one scored as a risk, and the tailoring for the sprint zero is issued and usable by the phases that work under it. | 2 |
 | 2 | Excavation | **AR** | The recovered use cases, the recovered architecture, the design model with the persistent schema, and the Deployment Model exist — priorities 1–6 recovered in one iteration, 7 read as its cross-check. | 1 |
 | 3 | Consolidation | **GHR** | Every entry point of the recovered perimeter has a use case or a recorded exclusion; the Supplementary Specification and the coverage statement complete the set. | 1 |
 | 4 | Inception | **LCO** | The declared scope is agreed against the recovered baseline, the candidate architecture exists and the business case is settled. | 1 |
@@ -33,11 +33,15 @@ Two decisions of iteration 1 change the plan rather than merely inform it, and b
 | 6 | Construction | **IOC** | The declared scope is implemented, tested and baselined. | 2 |
 | 7 | Transition | **PR** | The product is deployed, acceptance-tested and documented; the release is baselined. | 1 |
 
-`1 + 1 + 1 + 1 + 2 + 2 + 1 = 9` — the same 9, not a second count. The profile is the rubber profile for a small project that is nonetheless **recovery-heavy**, and each move away from it is made against a named risk:
+`2 + 1 + 1 + 1 + 2 + 2 + 1 = 10`. The table is the only statement of the total and the arithmetic is its whole derivation.
 
-- **The sprint zero carries three of the nine.** Every requirement, component and table has to be read out of code before Inception can declare anything. This is the whole reason the total sits above the median.
+**Why Survey carries 2.** Its first iteration issued the four artifacts and both review lenses found seven Major defects in them, so the milestone was not sanctioned and the stakeholder declined to advance on 2026-11-19. The correction pass is iteration 2, planned here. A phase whose milestone review leaves findings open runs another iteration; that is the only mechanism by which this total moves, and it has moved once.
+
+The profile is the rubber profile for a small project that is nonetheless **recovery-heavy**, and each move away from it is made against a named risk:
+
+- **The sprint zero carries four of the ten.** Every requirement, component and table has to be read out of code before Inception can declare anything, and the first Survey iteration's defects had to be corrected before any downstream phase could consume the set. This is the whole reason the total sits above the median.
 - **Excavation stays one iteration.** The stakeholder declined a second one on 2026-11-19, so priorities 1–6 are recovered in a single pass with priority 7 as its cross-check. The cost of that choice lands in Elaboration, not here.
-- **Elaboration takes two iterations, unconditionally committed.** R020's accepted contingency is the first assembled run as the Integrator's Architecture Build, and with a single-pass sprint zero there is no other place a contradicted recovered statement can be corrected. The second iteration is planned work, not a reserve, and no reading of this roadmap makes the total 8.
+- **Elaboration takes two iterations, unconditionally committed.** R020's accepted contingency is the first assembled run as the Integrator's Architecture Build, and with a single-pass sprint zero there is no other place a contradicted recovered statement can be corrected. The second iteration is planned work, not a reserve.
 - **Construction is not bent.** Nothing in the Inventory suggests a large declared scope: the recovered product is registration, login, logout and todo list / create / delete, over one aggregate and eight tables. Two iterations are the whole of it.
 - **Transition is not compressed.** One iteration, no user training to carry, and the acceptance test is the only thing there that costs a full iteration.
 
@@ -46,8 +50,10 @@ Two decisions of iteration 1 change the plan rather than merely inform it, and b
 title Project iteration sequence and its human gates - ordering only, every bar a zero span
 skinparam shadowing false
 
-[Sprint zero - Survey SBC] lasts 0 day
+[Sprint zero - Survey iteration 1] lasts 0 day
 [Stakeholder gate - SBC] lasts 0 day
+[Sprint zero - Survey iteration 2 - correction pass] lasts 0 day
+[Stakeholder gate - SBC sanction] lasts 0 day
 [Sprint zero - Excavation AR] lasts 0 day
 [Stakeholder gate - AR] lasts 0 day
 [Sprint zero - Consolidation GHR] lasts 0 day
@@ -63,8 +69,9 @@ skinparam shadowing false
 [Transition PR] lasts 0 day
 [Stakeholder gate - PR] lasts 0 day
 
-[Stakeholder gate - SBC] starts at [Sprint zero - Survey SBC]'s end
-[Sprint zero - Excavation AR] starts at [Stakeholder gate - SBC]'s end
+[Sprint zero - Survey iteration 2 - correction pass] starts at [Sprint zero - Survey iteration 1]'s end
+[Stakeholder gate - SBC] starts at [Sprint zero - Survey iteration 2 - correction pass]'s end
+[Sprint zero - Excavation AR] starts at [Stakeholder gate - SBC sanction]'s end
 [Stakeholder gate - AR] starts at [Sprint zero - Excavation AR]'s end
 [Sprint zero - Consolidation GHR] starts at [Stakeholder gate - AR]'s end
 [Stakeholder gate - GHR] starts at [Sprint zero - Consolidation GHR]'s end
@@ -79,7 +86,7 @@ skinparam shadowing false
 [Transition PR] starts at [Stakeholder gate - IOC]'s end
 [Stakeholder gate - PR] starts at [Transition PR]'s end
 
-[SBC] happens at [Stakeholder gate - SBC]'s end
+[SBC] happens at [Stakeholder gate - SBC sanction]'s end
 [AR] happens at [Stakeholder gate - AR]'s end
 [GHR] happens at [Stakeholder gate - GHR]'s end
 [LCO] happens at [Stakeholder gate - LCO]'s end
@@ -88,7 +95,7 @@ skinparam shadowing false
 [PR] happens at [Stakeholder gate - PR]'s end
 
 note bottom
-  Nine iterations, seven milestones, seven human gates.
+  Ten iterations, seven milestones, seven human gates.
   Every bar is a zero span: PlantUML requires the root bar's span to be
   declared, and it is declared zero. No bar carries a duration and no
   calendar date exists anywhere in this plan. An iteration ends when its
