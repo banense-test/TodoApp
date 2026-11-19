@@ -54,7 +54,6 @@ stop
 ```
 
 ## Adherence to Plan
-
 The plan committed seven work items when the iteration opened. All seven were executed in the sequence it fixed; none slipped and none was cut. An eighth correction — the two contained defects this iteration's own rework created — was covered by no work item, because the plan was issued before anyone had read the corrected content. It is recorded as variance W2 and is now item 5 of the plan.
 
 | Order | Work item | Owner | Planned exit condition | Outcome |
@@ -86,7 +85,7 @@ The project declares no token budget: there is no box, no ceiling, and no declar
 |---|---|---|
 | Artifact surface | 6 artifacts, 254,752 characters (System Inventory 71,134 · Review Record 76,870 · Iteration Plan 32,015 · Development Case 26,485 · Risk List 26,433 · Iteration Assessment 21,815) | Sizes the re-reading every role in Excavation faces before it can cite anything. Spend here scales with live-artifact surface × times read, not with what an iteration emits — the Review Record alone is 30% of it, and each of three owners had to read it to close a finding |
 | Artifact count | 6 | Whether the phase produced the set SBC requires. Survey's floor is the Development Case, the System Inventory and the three management artifacts plus this record; nothing beyond them was produced |
-| Agent invocations | 9 | Tests whether the plan's stage count matched the process. Eight work items plus the milestone review's consolidation; no stage duplicated and none missing |
+| Agent invocations | 9, against 8 planned work items | Tests whether the plan's stage count matched the process. The excess is the Review Coordinator's consolidation stage, which runs after the two reviewer lenses and is work the plan's item 6 implied without counting. No stage was duplicated and none missing |
 | Stakeholder interactions | 11 | Sizes the human gate. Down from 16 in iteration 1 — the correction pass asked only what was still open. The gate is carried as `R021`, and the ceiling is 14 days of queue time |
 | Token spend | 7,733,371 this iteration; 21,362,704 for the phase | The only cost figure the project has, and now the measured actual every later phase is forecast from. The correction pass cost 57% of the pass that issued the artifacts — recorded as an observation of one pair, not a rate |
 | Agent elapsed | 0:23:32 this iteration; 1:12:20 for the phase | Same purpose on the other clock |
