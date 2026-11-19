@@ -761,13 +761,13 @@ end note
 
 | Project | SDK, and the properties that shape the build | Project references | Anchor |
 |---|---|---|---|
-| TodoApp.AppHost | `Aspire.AppHost.Sdk` 13.1.1; `OutputType Exe`, `IsAspireHost`; carries a `UserSecretsId` | `Todo.Web.Server`, `Todo.Api` | `TodoApp.AppHost/TodoApp.AppHost.csproj:1-16` |
-| Todo.Web.Server | `Microsoft.NET.Sdk.Web`; `RazorLangVersion` 8.0; `UserSecretsId`; declares `ContainerImageName` `todo-web-server`, tag `latest` | `TodoApp.ServiceDefaults`, `Todo.Web.Client`, `Todo.Web.Shared` | `Todo.Web/Server/Todo.Web.Server.csproj:1-30` |
-| Todo.Web.Client | `Microsoft.NET.Sdk.BlazorWebAssembly`; no properties beyond the SDK | `Todo.Web.Shared` | `Todo.Web/Client/Todo.Web.Client.csproj:1-13` |
+| TodoApp.AppHost | `Aspire.AppHost.Sdk` 13.1.1; `OutputType Exe`, `IsAspireHost`; carries a `UserSecretsId` | `Todo.Web.Server`, `Todo.Api` | `TodoApp.AppHost/TodoApp.AppHost.csproj:1-14` |
+| Todo.Web.Server | `Microsoft.NET.Sdk.Web`; `RazorLangVersion` 8.0; `UserSecretsId`; declares `ContainerImageName` `todo-web-server`, tag `latest` | `TodoApp.ServiceDefaults`, `Todo.Web.Client`, `Todo.Web.Shared` | `Todo.Web/Server/Todo.Web.Server.csproj:1-26` |
+| Todo.Web.Client | `Microsoft.NET.Sdk.BlazorWebAssembly`; no properties beyond the SDK | `Todo.Web.Shared` | `Todo.Web/Client/Todo.Web.Client.csproj:1-11` |
 | Todo.Web.Shared | `Microsoft.NET.Sdk`; `SupportedPlatform browser`; no package reference | none | `Todo.Web/Shared/Todo.Web.Shared.csproj:1-7` |
-| Todo.Api | `Microsoft.NET.Sdk.Web`; `UserSecretsId`; `Using Include="TodoApi"`; `InternalsVisibleTo` `Todo.Api.Tests`; declares `ContainerImageName` `todo-api`, tag `latest` | `TodoApp.ServiceDefaults` — **and nothing else** | `Todo.Api/Todo.Api.csproj:1-25` |
-| TodoApp.ServiceDefaults | `Microsoft.NET.Sdk`; `IsAspireSharedProject`; `FrameworkReference Microsoft.AspNetCore.App` | none | `TodoApp.ServiceDefaults/TodoApp.ServiceDefaults.csproj:1-23` |
-| Todo.Api.Tests | `Microsoft.NET.Sdk`; global usings for `Xunit`, `System.Net.Http.Json` | `Todo.Api` only | `Todo.Api.Tests/Todo.Api.Tests.csproj:1-23` |
+| Todo.Api | `Microsoft.NET.Sdk.Web`; `UserSecretsId`; `Using Include="TodoApi"`; `InternalsVisibleTo` `Todo.Api.Tests`; declares `ContainerImageName` `todo-api`, tag `latest` | `TodoApp.ServiceDefaults` — **and nothing else** | `Todo.Api/Todo.Api.csproj:1-28`; the sole reference at `:24-26`; `InternalsVisibleTo` at `:21` |
+| TodoApp.ServiceDefaults | `Microsoft.NET.Sdk`; `IsAspireSharedProject`; `FrameworkReference Microsoft.AspNetCore.App` | none | `TodoApp.ServiceDefaults/TodoApp.ServiceDefaults.csproj:1-19` |
+| Todo.Api.Tests | `Microsoft.NET.Sdk`; global usings for `Xunit`, `System.Net.Http.Json` | `Todo.Api` only | `Todo.Api.Tests/Todo.Api.Tests.csproj:1-19`; the sole reference at `:9` |
 
 **The reference graph has one edge fewer than the logical decomposition suggests, and that is ADR-011.** `Todo.Api` references `TodoApp.ServiceDefaults` alone. It does not reference `Todo.Web.Shared`, so COMP-006's DTOs reach the BFF and the client but never the API. The API carries its own copy of every wire type: `TodoItem` in `Todo.Api/Todos/Todo.cs:14-19`, `UserInfo` and `ExternalUserInfo` in `Todo.Api/Users/TodoUser.cs:12-27`. The web host carries the matching declarations through `Todo.Web.Shared/SharedClass.cs:5-37`. Serialization is by member name on both sides, so the shapes agree as they stand; nothing makes them agree.
 
@@ -780,58 +780,58 @@ Every version below is read from `Directory.Packages.props`, from `global.json`,
 | .NET (target framework) | `net9.0` | `Directory.Build.props:4` | Pinned — framework major 9.0 `.NET` |
 | .NET SDK | `9.0.100`, `rollForward latestFeature`, `allowPrerelease true` | `global.json:1-8` | Pinned — same entry; not enforced by CI (AN-006) |
 | C# language version | `preview`; `Nullable` enabled; `ImplicitUsings` enabled | `Directory.Build.props:5-7` | Not separately pinned — a compiler setting of the SDK above |
-| Version management | `ManagePackageVersionsCentrally` — no project file carries a version | `Directory.Packages.props:2-4` | Constraint — single source for every package (ADR-012) |
+| Version management | `ManagePackageVersionsCentrally` — no project file carries a version | `Directory.Packages.props:3` | Constraint — single source for every package (ADR-012) |
 | Aspire AppHost SDK | `Aspire.AppHost.Sdk/13.1.1` | `TodoApp.AppHost/TodoApp.AppHost.csproj:1` | Not in the policy's package list; declared by the SDK attribute and recorded as read |
-| Microsoft.EntityFrameworkCore.Sqlite | `9.0.8` | `Directory.Packages.props:17` | Pinned — 9.0.8 |
-| Microsoft.EntityFrameworkCore.Design | `9.0.8` | `Directory.Packages.props:16` | Pinned — 9.0.8 |
-| Microsoft.EntityFrameworkCore.InMemory | `9.0.8` | `Directory.Packages.props:8` | Pinned — 9.0.8 |
+| Microsoft.AspNetCore.Mvc.Testing | `9.0.8` | `Directory.Packages.props:6` | Pinned — 9.0.8 |
+| Microsoft.EntityFrameworkCore.InMemory | `9.0.8` | `Directory.Packages.props:7` | Pinned — 9.0.8 |
+| Microsoft.NET.Test.Sdk | `17.14.1` | `Directory.Packages.props:8` | Pinned — 17.14.1 |
+| xunit | `2.9.3` | `Directory.Packages.props:9` | Pinned — 2.9.3 |
+| xunit.runner.visualstudio | `3.1.3` | `Directory.Packages.props:10` | Pinned — 3.1.3 |
+| coverlet.collector | `6.0.4` | `Directory.Packages.props:11` | Pinned — 6.0.4 |
 | Microsoft.AspNetCore.Identity.EntityFrameworkCore | `9.0.8` | `Directory.Packages.props:14` | Pinned — 9.0.8 |
 | Microsoft.AspNetCore.OpenApi | `9.0.8` | `Directory.Packages.props:15` | Pinned — 9.0.8 |
-| Microsoft.OpenApi | `1.6.22` | `Directory.Packages.props:18` | Pinned — 1.6.22; the 2.x line is not compatible with OpenApi 9.0.8 |
-| Scalar.AspNetCore | `2.6.8` | `Directory.Packages.props:32` | Pinned — 2.6.8 |
+| Microsoft.EntityFrameworkCore.Design | `9.0.8` | `Directory.Packages.props:16` | Pinned — 9.0.8 |
+| Microsoft.EntityFrameworkCore.Sqlite | `9.0.8` | `Directory.Packages.props:17` | Pinned — 9.0.8 |
+| Microsoft.OpenApi | `1.6.22` | `Directory.Packages.props:18` | Pinned — 1.6.22; the 2.x line is not compatible with AspNetCore.OpenApi 9.0.8 |
 | MiniValidation | `0.9.2` | `Directory.Packages.props:19` | Pinned — 0.9.2 |
-| Yarp.ReverseProxy | `2.3.0` | `Directory.Packages.props:26` | Pinned — 2.3.0 |
+| AspNet.Security.OAuth.GitHub | `9.4.0` | `Directory.Packages.props:20` | Pinned — 9.4.0 |
+| Auth0.AspNetCore.Authentication | `1.5.0` | `Directory.Packages.props:21` | Pinned — 1.5.0 |
+| Microsoft.AspNetCore.Authentication.Google | `9.0.8` | `Directory.Packages.props:22` | No policy pin governs it; declared 9.0.8 while the registry's latest is 11.0.0 — the delivered version stands |
+| Microsoft.AspNetCore.Authentication.MicrosoftAccount | `9.0.8` | `Directory.Packages.props:23` | Not in the policy's package list; declared 9.0.8 |
+| Microsoft.AspNetCore.Components.WebAssembly.Server | `9.0.8` | `Directory.Packages.props:24` | Pinned — 9.0.8 |
+| Yarp.ReverseProxy | `2.3.0` | `Directory.Packages.props:25` | Pinned — 2.3.0 |
+| Microsoft.AspNetCore.Components.WebAssembly | `9.0.8` | `Directory.Packages.props:26` | Pinned — 9.0.8 |
+| Microsoft.AspNetCore.Components.WebAssembly.DevServer | `9.0.0` | `Directory.Packages.props:27` | Not in the policy's package list; declared 9.0.0 |
+| Microsoft.Extensions.Http | `9.0.8` | `Directory.Packages.props:28` | Not in the policy's package list; declared 9.0.8 |
+| Microsoft.Extensions.Http.Resilience | `9.7.0` | `Directory.Packages.props:29` | Pinned — 9.7.0 |
 | Microsoft.Extensions.ServiceDiscovery | `9.5.0` | `Directory.Packages.props:30` | Pinned — 9.5.0 |
 | Microsoft.Extensions.ServiceDiscovery.Yarp | `9.5.0` | `Directory.Packages.props:31` | Pinned — 9.5.0; must track the base discovery version |
-| Microsoft.Extensions.Http.Resilience | `9.7.0` | `Directory.Packages.props:29` | Pinned — 9.7.0 |
-| Microsoft.Extensions.Http | `9.0.8` | `Directory.Packages.props:28` | Not in the policy's package list; declared 9.0.8 |
-| Microsoft.AspNetCore.Components.WebAssembly | `9.0.8` | `Directory.Packages.props:27` | Pinned — 9.0.8 |
-| Microsoft.AspNetCore.Components.WebAssembly.Server | `9.0.8` | `Directory.Packages.props:25` | Pinned — 9.0.8 |
-| Microsoft.AspNetCore.Components.WebAssembly.DevServer | `9.0.0` | `Directory.Packages.props:27` (DevServer row) | Not in the policy's package list; declared 9.0.0 |
-| Microsoft.AspNetCore.Authentication.Google | `9.0.8` | `Directory.Packages.props:21` | No policy pin governs it; declared 9.0.8, registry latest is 11.0.0 — the pin holds the delivered version |
-| Microsoft.AspNetCore.Authentication.MicrosoftAccount | `9.0.8` | `Directory.Packages.props:22` | Not in the policy's package list; declared 9.0.8 |
-| AspNet.Security.OAuth.GitHub | `9.4.0` | `Directory.Packages.props:20` | Pinned — 9.4.0 |
-| Auth0.AspNetCore.Authentication | `1.5.0` | `Directory.Packages.props:20` (Auth0 row) | Pinned — 1.5.0 |
+| Scalar.AspNetCore | `2.6.8` | `Directory.Packages.props:33` | Pinned — 2.6.8 |
 | OpenTelemetry.Exporter.OpenTelemetryProtocol | `1.12.0` | `Directory.Packages.props:37` | Not in the policy's package list; declared 1.12.0 |
 | OpenTelemetry.Extensions.Hosting | `1.12.0` | `Directory.Packages.props:38` | Pinned — 1.12.0 |
 | OpenTelemetry.Instrumentation.AspNetCore | `1.12.0` | `Directory.Packages.props:39` | Pinned — 1.12.0 |
 | OpenTelemetry.Instrumentation.Http | `1.12.0` | `Directory.Packages.props:40` | Not in the policy's package list; declared 1.12.0 |
 | OpenTelemetry.Instrumentation.Runtime | `1.12.0` | `Directory.Packages.props:41` | Not in the policy's package list; declared 1.12.0 |
-| Microsoft.AspNetCore.Mvc.Testing | `9.0.8` | `Directory.Packages.props:7` | Pinned — 9.0.8 |
-| Microsoft.NET.Test.Sdk | `17.14.1` | `Directory.Packages.props:9` | Pinned — 17.14.1 |
-| xunit | `2.9.3` | `Directory.Packages.props:10` | Pinned — 2.9.3 |
-| xunit.runner.visualstudio | `3.1.3` | `Directory.Packages.props:11` | Pinned — 3.1.3 |
-| coverlet.collector | `6.0.4` | `Directory.Packages.props:12` | Pinned — 6.0.4 |
-| SQLite | Provider-supplied by `Microsoft.EntityFrameworkCore.Sqlite` 9.0.8; no separate package version exists | — | No separate pin; the provider carries the engine |
+| SQLite engine | Supplied by the `Microsoft.EntityFrameworkCore.Sqlite` 9.0.8 provider; no separate package version exists | — | No separate pin; the provider carries the engine |
 | NuGet source | `https://api.nuget.org/v3/index.json`, the single mapped source | `nuget.config:3-12` | Constraint — no other source is configured |
 
-**The stack is reconciled against the recorded policy, and nothing advances.** Every pin the policy names is at the version the delivery declares. Two packages the policy lists are additionally present: `Microsoft.AspNetCore.Mvc.Testing` and `Microsoft.EntityFrameworkCore.InMemory`, both at 9.0.8. `Microsoft.AspNetCore.Authentication.Google` is the one entry where the registry's latest (11.0.0) is far ahead of the delivered 9.0.8; no policy pin governs it, and the delivered version stands — a recovery project records the stack it found.
+**The stack is reconciled against the recorded policy, and nothing advances.** Every package the policy pins is at the version the delivery declares — `Yarp.ReverseProxy` 2.3.0, `Microsoft.EntityFrameworkCore.Sqlite` 9.0.8, `MiniValidation` 0.9.2, `Scalar.AspNetCore` 2.6.8, `xunit` 2.9.3 and the rest. `Microsoft.AspNetCore.Authentication.Google` is the one entry where the registry's latest (11.0.0) is far ahead of the delivered 9.0.8; no policy pin governs it, and the delivered version stands — a recovery project records the stack it found. The framework major is pinned at 9.0 and is not moved.
 
-**What the manifest set does not declare.** No package declares a version in a project file, so the pin cannot be read project by project and must be read once from `Directory.Packages.props`. The AppHost SDK version is an attribute of the project's `Sdk`, outside central management. And the CI workflow passes no `dotnet-version` to `actions/setup-dotnet`, so the SDK the build runs under is the runner image's, not the pinned `9.0.100` (ADR-012, AN-006).
+**What the manifest set does not declare.** No package declares a version in a project file, so the pin cannot be read project by project and must be read once from `Directory.Packages.props`. The AppHost SDK version is an attribute of the project's `Sdk`, outside central management (CON-A09). And the CI workflow passes no `dotnet-version` to `actions/setup-dotnet`, so the SDK the build runs under is the runner image's, not the pinned `9.0.100` (ADR-012, AN-006).
 
 ### Packaging
 
 | Aspect | What the delivery declares | Anchor |
 |---|---|---|
-| Central package management | Enabled once, at the solution root; every project reference is version-less | `Directory.Packages.props:2-4`; every `.csproj` `PackageReference` |
+| Central package management | Enabled once, at the solution root; 30 package rows and every project reference version-less | `Directory.Packages.props:1-43`; every `.csproj` `PackageReference` |
 | Container images | Two: `todo-api` and `todo-web-server`, both tag `latest`. Neither is used by the only run mode the delivery supports — the AppHost adds both as projects | `Todo.Api/Todo.Api.csproj:5-6`; `Todo.Web/Server/Todo.Web.Server.csproj:4-5`; `TodoApp.AppHost/Program.cs:5-8` |
-| Test reach | One test project, one project reference; `InternalsVisibleTo` grants it the API's internals. Nothing references either web project | `Todo.Api.Tests/Todo.Api.Tests.csproj:14`; `Todo.Api/Todo.Api.csproj:21` |
+| Test reach | One test project, one project reference; `InternalsVisibleTo` grants it the API's internals. Nothing references either web project | `Todo.Api.Tests/Todo.Api.Tests.csproj:9`; `Todo.Api/Todo.Api.csproj:21` |
 | Build definition | `dotnet restore` → `dotnet build -c Release --no-restore` → `dotnet test -c Release --no-build` over `TodoApp.sln` | `.github/workflows/ci.yaml:14-20` |
 | Solution layout | `src` and `tests` solution folders; 7 projects | `TodoApp.sln:1-14` |
 
 **The project boundary is not the component boundary, and that is deliberate.** Three components live in `Todo.Web/Server` — COMP-001, COMP-002, COMP-003 — because they share a host and a pipeline. Five live in `Todo.Api` beyond the two surfaces — COMP-009 to COMP-013 — because each is a registration applied to route groups rather than a folder. The decomposition is held by the interfaces in the Logical View, not by project files; which is also why the version policy sits in `Directory.Packages.props` and the architecture in this document rather than in the shape of the solution.
 
-**One coupling is structural and worth naming.** `Todo.Web.Server` references `Todo.Web.Client` and `Todo.Web.Shared`; `Todo.Web.Client` references `Todo.Web.Shared`. A change to `UserInfo` or `AuthToken` therefore reaches the client and the BFF together and cannot half-land between them. It does **not** reach the API — the API's own copies are separate declarations — so a change to the wire shape half-lands at the host boundary and no compiler reports it (ADR-011).
+**One coupling is structural and worth naming.** `Todo.Web.Server` references `Todo.Web.Client` and `Todo.Web.Shared`; `Todo.Web.Client` references `Todo.Web.Shared`. A change to `UserInfo` or `AuthToken` therefore reaches the client and the BFF together and cannot half-land between them. It does **not** reach the API — the API's own copies are separate declarations — so a change to the wire shape half-lands at the host boundary and no compiler reports it (ADR-011, CON-A10).
 
 **The build's definition of green covers the API and not the BFF.** `dotnet test` runs whatever the solution contains, and the solution contains one test project, which references `Todo.Api` alone. No reference exists from any test project to `Todo.Web.Server` — so the web host compiles and nothing executes it (AN-009, AN-020).
 
