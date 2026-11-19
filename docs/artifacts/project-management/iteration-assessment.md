@@ -69,7 +69,7 @@ The plan committed seven work items when the iteration opened. All seven were ex
 
 ### Measured spend
 
-The iteration's two clocks, reported apart and never added. No phase had closed when this iteration began, so iteration 1's figures and this iteration's are the project's first measured actuals; the Survey phase total below is their sum **within each clock separately** and is the basis every later forecast is built from.
+The iteration's two clocks, reported apart and never added. Survey has now closed, so these are the project's first measured actuals: iteration 2's figures below, with iteration 1's beside them, summed **within each clock separately** into the phase total every later forecast is built from.
 
 | Clock | Iteration 1 | Iteration 2 | Survey phase, measured | What it counts |
 |---|---|---|---|---|
