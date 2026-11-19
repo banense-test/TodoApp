@@ -299,6 +299,172 @@ end note
 @enduml
 ```
 
+### Management Reviewer lens
+<!-- review: Survey I1 -->
+
+Three findings from this lens, all Major, all open. No Critical: nothing here needs a scope decision, a contradiction in what the stakeholder declared, or a risk only they may accept. The seven Major findings open at this milestone — these three and the technical lens's four — are content another role would act on, and none is closed.
+
+```plantuml
+@startuml
+title SBC exit criteria — evidence, and the outcome of this milestone review (Survey iteration 1)
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide empty members
+hide circle
+
+class "C1 — Perimeter confirmed\nby the stakeholder" as C1 {
+  Evidence : 7 projects + CI · 26 entry points · 3 exclusions, each anchored
+  Technical lens : Pass
+  Management lens : NOT MET — sanction REFUSED at this review
+  Stakeholder : no correction to the perimeter was requested
+}
+class "C2 — Priorities ordered for\nthe remaining recovery" as C2 {
+  Evidence : Priorities — 8 areas, each with its reason and its anchor
+  Technical lens : Pass
+  Management lens : Pass — order checked against the declined Excavation split
+}
+class "C3 — Unread areas declared\nwith their reason" as C3 {
+  Evidence : Coverage — per-area rows; 57 unread files named and justified
+  Technical lens : Pass — rows correct, the aggregate does not reconcile (Minor)
+  Management lens : Pass — criterion 3 rests on the rows, and the rows hold
+}
+class "C4 — Every anomaly a scored risk;\nHigh ones accepted" as C4 {
+  Evidence : 20 AN → 20 R by Refines · R008 16 · R009 16 · R020 20, accepted verbatim
+  Technical lens : Pass — scoring, strategy and acceptance all hold
+  Management lens : NOT MET — the stakeholder gate is bounded nowhere (Risk List#F1)
+}
+class "C5 — Tailoring issued; trigger\ndecisions recorded" as C5 {
+  Evidence : DC-D1 … DC-D7 · six optional verdicts, one fired
+  Technical lens : Pass — baseline conformance and every trigger audited
+  Management lens : NOT MET — issued, but its consumers cannot use it (Iteration Plan#F1)
+}
+class "C6 — Roadmap and this iteration's\nfine plan; no invented forecast" as C6 {
+  Evidence : 9-milestone roadmap · 9 work items · no token and no elapsed figure
+  Technical lens : Pass
+  Management lens : Pass — no budget declared, so no box was fitted to scope
+}
+
+C1 -[hidden]right-> C2
+C2 -[hidden]right-> C3
+C4 -[hidden]right-> C5
+
+note bottom of C1
+  Three criteria are not met at this review. The milestone
+  is not sanctioned: the burden of proof sits on the
+  artifact set, and it did not discharge it.
+end note
+@enduml
+```
+
+```plantuml
+@startuml
+title Project health at SBC — four axes (Survey iteration 1)
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide empty members
+hide circle
+
+class "SCOPE" as S {
+  State : AMBER
+  Recovered perimeter : complete, 26 entry points, anchored
+  Recovered product : register, login, logout, todo read/create/delete
+  Exclusions : 3, each by stakeholder decision, each anchored
+  Open : the perimeter is not confirmed — sanction refused
+}
+class "SCHEDULE" as T {
+  State : RED
+  Measured elapsed : none — no phase has closed
+  Budget : none declared, so no box exists
+  Committed : 9 iterations, Survey at 1
+  Reached : Survey not closed — iteration 2 is now required
+}
+class "COST" as C {
+  State : NOT MEASURABLE
+  Tokens spent : not reported at this review
+  Human queue time : the gate was answered — actual not reported here
+  Forecast : none — a forecast needs a closed phase
+}
+class "QUALITY" as Q {
+  State : RED
+  Major open : 7 — 4 technical lens, 3 management lens
+  Minor open : 5
+  Critical : 0
+  Artifacts cleared for consumption : 0 of 4
+}
+
+S -[hidden]right-> T
+C -[hidden]right-> Q
+
+note bottom of T
+  No axis is scored green. A set green on three axes
+  and red on one is not a green project, and here two
+  are red and one cannot be measured at all.
+end note
+@enduml
+```
+
+```plantuml
+@startuml
+title Risk posture at SBC — magnitude, acceptance, and whether each action is executable where it lands
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide empty members
+hide circle
+
+package "High 15-25 — accepted by the stakeholder, 2026-11-19 (3)" {
+  class "R008 — exposure 16\ntodo cannot be completed from any screen" as R008 {
+    Excavation part : System Analyst — executable
+    Construction part : Technical Writer via Release Notes — that stage produces User Documentation
+    Open : Risk List#F2
+  }
+  class "R009 — exposure 16\nBFF carries no automated test" as R009 {
+    Elaboration part : Test Designer, Tester — executable
+  }
+  class "R020 — exposure 20\nassembled system has never run" as R020 {
+    Elaboration part : Integrator, Tester — executable
+    Contingency : first assembled run, the Architecture Build
+  }
+}
+
+package "Significant 9-12 — avoidance, each naming an action (9)" {
+  class "R003 R004 R005 R006 R007\nR012 R015 R017 R018" as SIG {
+    R012 R017 R018 : Software Architect, Excavation — executable
+  }
+}
+
+package "Moderate 5-8 (7) and Minor 3-4 (1); Low 0" {
+  class "R001 R002 R010 R011\nR013 R014 R019 — R016" as MOD {
+    R002 R010 R011 R014 R015 R016 name the Requirements Specifier or the Change Control Manager
+    Neither works in the phase named — Risk List#F1
+  }
+}
+
+R008 -[hidden]right-> R009
+R009 -[hidden]right-> R020
+
+note bottom of MOD
+  No trend line is drawn and none can be: this is Survey,
+  the first review of the project, and every magnitude is
+  the magnitude at issue. Retirement is measured from AR
+  onward against these twenty figures as its baseline.
+end note
+@enduml
+```
+
+#### Risk List
+
+**Major — Risk List#F1 (management lens) — `consumed-defect`.** The project's only external dependency — the stakeholder gate — is bounded nowhere in the register. The Iteration Plan states that a human gate is "recorded: Risk List, as the gate's trigger indicator", with a ceiling of 14 days before the process suspends. The register carries no such entry: its twenty risks are each refined from an anomaly, and the Actor check paragraph acknowledges "the only human it waits on is the stakeholder" without scoring the wait. Seven gates sit on the roadmap, each able to suspend the process, and none has a probability, an impact, a magnitude or a contingency. The roadmap is weighed against a bound the plan believes exists and the register does not carry. **Remediation:** add the stakeholder gate as a risk in its own right, scored on the IARI scale like every other — strategy accept, mitigation (each question put in the round that raises it, with the verdict lean and the open defects inside it), contingency (the 14-day ceiling, after which the process suspends and nothing is auto-filled). Give it its `RNNN` and cross-reference it from the plan's Measure and forecast row by that id instead of describing it as already recorded.
+
+**Major — Risk List#F2 (management lens) — `consumed-defect`.** R008's only mitigation for an accepted High risk lands in a phase that does not produce the artifact it names. The action reads "Technical Writer — Construction (Release Notes)", but the process produces Release Notes only from Transition onward: Construction's Deployment stage produces User Documentation, and Release Notes are marked *from Transition*. The gap this accepted exposure exists to record therefore has no executable home in the plan, and a Technical Writer working Construction is directed at an artifact its stage does not produce. The System Inventory's part of the same risk, AN-008, also names the Release Notes as where the missing control is disclosed. **Remediation:** re-home the mitigation against the stage that produces the artifact — name the User Documentation the Technical Writer produces in Construction as where the absent completion control is disclosed, or move the Release Notes part to Transition where that artifact is first produced — and keep the System Analyst's Excavation part unchanged. State the phase against the stage the IARI process actually runs there.
+
+#### Iteration Plan
+
+**Major — Iteration Plan#F1 (management lens) — `consumed-defect`.** The plan schedules the Development Case's correction at Inception and sends both sprint-zero phases that consume it — Excavation and Consolidation — into it first. Resources states for the Process Engineer: "Re-prepared at the next Environment phase, not before — no finding or Change Request demands a tailoring change yet". The tailoring those two phases would work under points three convention families (coding standards, UI patterns, test conventions) at `CONTRIBUTING.md`, which is not in the repository (Development Case#F1, technical lens), so the roles Excavation and Consolidation put to work have no convention source and no fallback, and no work item in the sprint-zero plan puts one in place before they start. Exit criterion 5 sanctions a tailoring as "issued" without regard to whether the phases that consume it can use it. **Remediation:** add a Development Case correction work item to the sprint-zero fine plan, owned by the Process Engineer and sequenced before Excavation, replacing the "no finding … demands a tailoring change yet" clause with the correction this review requires; the Inception re-preparation stays as a separate, later Environment stage rather than as the deferral that carries this one. Alternatively, state in Evaluation Criteria that criterion 5 is met on issuance alone, and that the corrections Excavation depends on are a precondition verified before AR.
+
+#### Development Case and System Inventory — clean from this lens
+
+Both were checked against the SBC criteria and against the governance question and carry no management defect. The tailoring is a valid delta: no role omitted without its trigger condition, no CORE artifact dropped, no ownership reassigned, no artifact outside the CORE + OPTIONAL universe plus the System Inventory, and the one fired optional genuinely holds against the AppHost topology while the Data Model verdict genuinely fails at 8 entities. The System Inventory draws its perimeter from code with an anchor per row and puts each of the three exclusions where the stakeholder's own answers put them. Their defects are the technical lens's, recorded in its block, and this lens does not duplicate them.
+
 ## Resolutions and Actions
 ### Reviewer lens
 <!-- review: Survey I1 -->
