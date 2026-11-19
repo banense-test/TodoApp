@@ -14,15 +14,19 @@
 - SCM evidence: no pull request in any state; no IARI build on `main`
 
 ### Management Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
+
+<!-- review: Survey I2 -->
 
 - Phase: Survey
-- Status: Draft — management lens of the end-of-Survey milestone review
-- Milestone Target: end of Survey (SBC) — not achieved
-- Review type: Milestone review (SBC), management lens
-- Reviewed: Development Case, System Inventory, Risk List, Iteration Plan — all Survey, Draft, iteration 1
-- Verdict: No-Go on the SBC milestone
-- Stakeholder sanction: REFUSED
+- Status: Draft — governance lens of the end-of-Survey milestone review, iteration 2
+- Milestone Target: end of Survey (SBC) — not yet achieved; the sanction is asked in this round
+- Review type: Milestone review (SBC), governance lens
+- Reviewed: Development Case, System Inventory, Risk List, Iteration Plan — all Survey, Draft, corrected in iteration 2
+- Prior findings of this lens: 3 Major open at the previous milestone review, 3 closed here
+- Findings recorded this iteration: none from this lens
+- Cross-artifact consequence carried from iteration 1: closed — `AN-008` and `R008` name the same two disclosure homes
+- SCM evidence: no pull request in any state; no IARI build on `main`
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
