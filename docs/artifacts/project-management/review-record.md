@@ -794,58 +794,139 @@ end note
 **What Excavation inherits from this set.** Of the 26 recorded entry points, fifteen carry a recoverable use case: `EP-001`, `EP-002`, `EP-012` … `EP-019`, `EP-022` … `EP-026`. Ten are excluded by the stakeholder's decisions of 2026-11-19 — `EP-004` … `EP-010`, `EP-011`, `EP-020`, `EP-021` — and `EP-003` carries none for want of a caller. The reading order is Priorities orders 1–6 inside the single Excavation iteration. The actions it must execute are the Risk List's avoidance column, now every one of them owned by a role at work in Excavation.
 
 ### Management Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-**Management lens disposition: No-Go on the SBC milestone.**
+<!-- review: Survey I2 -->
 
-No artifact is approved for consumption unchanged, and the milestone is not sanctioned.
+**Disposition of the governance lens: Approved.** The artifact set satisfies all six SBC exit criteria on the governance test, and the three Major findings this lens carried into the correction pass are closed on evidence in the artifacts. The SBC milestone verdict is the Review Coordinator's to issue after both lens blocks; this block records the lens's disposition, not the milestone's.
 
-Three of the six exit criteria are not met. Criterion 1 fails on the stakeholder's own answer: the perimeter was put to them and the sanction was refused. Criteria 4 and 5 fail on evidence this lens checked — the project's binding constraint, the stakeholder gate, is bounded in no risk and no plan, and the tailoring is issued but cannot be worked under by the two sprint-zero phases that consume it. Criteria 2, 3 and 6 hold.
+Stakeholder sanction: GRANTED
+
+Stakeholder acceptance: "Yes" — to the sanction proposition put on 2026-11-19, which confirmed the perimeter as the System Inventory records it (the seven projects of TodoApp.sln plus the CI workflow, 26 entry points, and the three exclusions of 2026-11-19: external provider sign-in, the admin role, the self-service identity surface) and sanctioned advancing past the System Boundary Confirmed milestone.
+
+Stakeholder order, verbatim: "Minor findings must be corrected in the next phase; they cannot be left unresolved." The two Minor findings open against the artifact set — `Risk List#F2` and `Iteration Plan#F5` — are corrected by their owner in the next phase and are not deferred past it. No ledger entry is opened for this order: the Change Control Manager does not work in the sprint zero, and the order reaches its owner through the Work Order.
 
 ```plantuml
 @startuml
-title SBC milestone verdict — per artifact and for the milestone
+title The SBC gate - what must hold before the sanction token is written
 skinparam shadowing false
 
-class "Development Case\nSBC" as DC {
-  Technical lens : Approved with Changes — 1 Major, 1 Minor
-  Management lens : clean
-  Cleared for consumption : NO
-}
-class "System Inventory\nSBC" as SI {
-  Technical lens : Approved with Changes — 1 Major, 1 Minor
-  Management lens : clean — criteria 1, 2, 3 substantiated
-  Cleared for consumption : NO
-}
-class "Risk List\nSBC" as RL {
-  Technical lens : Approved with Changes — 1 Major
-  Management lens : rework — 2 Major
-  Cleared for consumption : NO
-}
-class "Iteration Plan\nSBC" as IP {
-  Technical lens : Approved with Changes — 1 Major, 3 Minor
-  Management lens : rework — 1 Major
-  Cleared for consumption : NO
-}
-class "SBC MILESTONE\nNo-Go" as M {
-  Criteria met : 2, 3, 6
-  Criteria not met : 1, 4, 5
-  Stakeholder sanction : REFUSED — 2026-11-19
-  Advances to Excavation : NO
-}
+[*] --> CorrectionsOpen : 7 Major open, sanction REFUSED on 2026-11-19
+CorrectionsOpen --> CorrectionsOpen : a defect persists - re-recorded under its findingKey
+CorrectionsOpen --> CriteriaTested : all 3 management Major findings resolved
+CriteriaTested --> CorrectionsOpen : a criterion fails the stricter of the two lenses
+CriteriaTested --> SanctionAsked : C2 to C6 pass both lenses, C1 put to the stakeholder
+SanctionAsked --> Sanctioned : the stakeholder answers Yes
+SanctionAsked --> Refused : the stakeholder answers No - every reason recorded as a finding
+Refused --> CorrectionsOpen
+Sanctioned --> [*] : "Stakeholder sanction: GRANTED" written, then the Disposition
 
-DC -right-> M
-SI -right-> M
-RL -right-> M
-IP -right-> M
+note right of SanctionAsked
+  The verdict lean and every open
+  Critical or Major defect travel
+  inside the question. R021 carries
+  the wait: ceiling 14 days, then the
+  process suspends and nothing is
+  auto-filled.
+end note
 @enduml
 ```
 
-Why this is a No-Go and not a Conditional. A Conditional would advance the phase on conditions discharged later. The stakeholder refused exactly that: their order is that all Major findings be corrected, and the seven open Major findings are content other roles would act on the moment Excavation opens. Excavation reads the Perimeter to fix the set of entry points a use case may come from, the Priorities to fix its reading order, and the Risk List for the actions it must perform — and every one of those three artifacts carries an open Major. Opening Excavation on this set would build recovered use cases on a Perimeter row contradicted by the same artifact's own anomaly, and execute avoidance actions owned by roles absent from the phase.
+```plantuml
+@startuml
+title Project health at SBC - four axes, governance lens
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide empty members
+hide circle
 
-What the artifact set does establish, and what iteration 2 starts from. The perimeter is drawn from code with an anchor behind every one of 26 entry points and behind each of the three exclusions the stakeholder settled. Twenty anomalies are each a scored risk with its magnitude taken from the band of probability × impact on the declared scale, and the three High ones carry the stakeholder's own acceptance, recorded verbatim. The one fired optional genuinely holds and the Data Model verdict genuinely fails. The roadmap carries nine milestones with no invented forecast, and no declared scope was cut to fit a budget the project never declared. The material the recovery will rest on is substantially there; what fails is seven claims inside it.
+class "SCOPE" as S {
+  State : GREEN
+  Recovered perimeter : 7 projects + CI, 26 entry points, each anchored
+  Recovered product : register, login, logout, todo read/create/delete
+  Exclusions : 3, each by stakeholder decision, each anchored
+  Confirmation : the stakeholder's Yes, 2026-11-19
+}
+class "SCHEDULE" as T {
+  State : AMBER
+  Measured elapsed : none - no phase has closed
+  Budget : none declared, so no box exists and none was fitted
+  Committed : 10 iterations, stated once
+  Reached : Survey used 2 - the second is the correction pass the gate required
+}
+class "COST" as C {
+  State : NOT MEASURABLE
+  Tokens : not metered for this review
+  Human queue time : the gate was answered; the actual is reported apart
+  Forecast : none - a forecast needs a closed phase
+}
+class "QUALITY" as Q {
+  State : GREEN
+  Mgmt Major open : 0 in 3 carried in
+  Tech Major open : 0 in 4 carried in
+  Minor open : 2, both contained in their artifact, both ordered corrected
+  Critical : 0
+  Artifacts cleared for consumption : 4 of 4 on this lens
+}
 
-The next iteration of Survey is planned by these findings. When every Major is closed, both lenses re-review and the sanction is put to the stakeholder again. This block declares no milestone, iteration or phase complete, and the SBC verdict in the ledger remains the Review Coordinator's to record.
+S -[hidden]right-> T
+C -[hidden]right-> Q
+
+note bottom of T
+  Amber, not green: no phase has closed and elapsed time is
+  not measurable yet. The second Survey iteration is not slippage —
+  it is the gate holding and the correction pass that followed
+  from the refusal of 2026-11-19.
+end note
+note bottom of Q
+  Two Minor findings remain open and the stakeholder ordered
+  them corrected in the next phase. Neither blocks consumption
+  and neither fails an exit criterion.
+end note
+@enduml
+```
+
+```plantuml
+@startuml
+title SBC milestone review - the sequence that closed the governance lens and obtained the sanction
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+participant "Reviewer\n(technical lens)" as T
+participant "Management Reviewer\n(governance lens)" as M
+participant "Review Coordinator" as C
+participant "Stakeholder" as S
+
+T -> T : Review the four corrected artifacts
+M -> M : reconcile the 3 Major findings of iteration 1
+M -> M : Risk List#F1 - the gate scored as R021
+M -> M : Risk List#F2 - R008 homed at User Documentation
+M -> M : Iteration Plan#F1 - DC correction sequenced first
+M -> M : test all 6 SBC criteria against the governance test
+M -> S : put the sanction question with the verdict lean and every open defect inside it
+S --> M : "Yes"
+M -> M : write "Stakeholder sanction: GRANTED"
+M -> M : record the order that the Minor findings be corrected in the next phase
+M -> C : the lens is closed - 0 Critical, 0 Major open on this lens
+C -> C : consolidate both lenses and issue the SBC verdict
+
+note right of C
+  Consolidated verdict after both lens
+  blocks. The Iteration Assessment is
+  written after it, never before.
+end note
+@enduml
+```
+
+#### What this milestone settles, and what it hands on
+
+| Handed on | To whom | In which phase |
+|---|---|---|
+| `Risk List#F2` — the trailing `R021` block still reads "offered for acceptance" while the acceptance table records the answer | Project Manager | The next phase, under the stakeholder's order above |
+| `Iteration Plan#F5` — the opening block of Plan and Milestones duplicates its Measure and forecast subsection | Project Manager | The next phase, under the stakeholder's order above |
+| Priorities 1–6 to be recovered in one pass, priority 7 read as its cross-check | Software Archaeologist, System Analyst, Software Architect, Designer, Database Designer | Excavation |
+| `R021` carried forward as the gate on each of the seven roadmap milestones | Project Manager | Every phase |
+| `R008`, `R009`, `R020` — accepted exposures, with their mitigation homes fixed | Their named owners | Excavation and Elaboration |
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
