@@ -1029,74 +1029,135 @@ The stakeholder sanctioned advancing past SBC on 2026-11-19. That sanction confi
 
 ## Disposition
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-<!-- review: Survey I2 -->
+**Technical lens disposition: Approved with Changes.** All nine Excavation artifacts are consumable by the roles that open Consolidation and Inception; the milestone is not clear on this lens until the three `trace-gap` Majors are closed.
 
-**Technical lens disposition: Approved.** All four artifacts are cleared for consumption by the roles that open Excavation.
-
-No Critical and no Major finding is open against any artifact from this lens. The seven Majors the previous milestone review recorded are closed on the corrected content, each verified by reading the section that carried it, and three anchors were re-opened against the corrected Perimeter claims and all three confirm them. The two defects this iteration records are Minor, contained inside their artifacts, and hold nothing.
+Nothing this lens found is wrong content that a downstream role would build on. The three Majors are one defect class — a suspect trace link open at phase close — and each asks its owner to write down a confirmation the artifact set already asserts, or to re-read the one migration it has not re-read. No artifact is rejected: every one states what its anchors say, and the seven anchors this review opened independently confirm the claims that carry the most weight.
 
 | Artifact | Disposition from this lens | Why |
 |---|---|---|
-| Development Case | **Approved** | The tailoring governs the sprint zero without pointing a role at a source that is not there, and every FIRED verdict holds against the project's facts |
-| System Inventory | **Approved** | The perimeter is drawn from code and every high-consequence row says what its anchor says; Coverage reconciles with its own rows |
-| Risk List | **Approved with Changes** | Every action names a role at work where it lands and every Significant acceptance rests on the stakeholder's own words; one Minor remains inside the acceptance section (F2) |
-| Iteration Plan | **Approved with Changes** | One committed total, no invented forecast, no day length on any bar, the roster fully accounted for; one Minor remains inside Plan and Milestones (F5) |
+| Vision | **Approved** | Every claim anchored or named not established; no business objective invented in a delivery that states none; the three exclusions held |
+| Use-Case Model | **Approved with Changes** | Eight use cases, each anchored to the entry points that perform them; mechanisms held out of the model; one Major open — the realization set it shares with the SAD is confirmed nowhere in it (`F1`) |
+| Supplementary Specification | **Approved with Changes** | Every mechanism an `<<include>>`; every threshold a figure a file states; each unstated requirement recorded as unstated; one Minor open — its own `IF-` identifier family (`F1`) |
+| Software Architecture Document | **Approved with Changes** | Eighteen components and twelve interfaces, each anchored; twelve ADRs each with its alternative and its cost; two Minors open, both a figure contradicting the document's own text (`F1`, `F2`) |
+| Deployment Model | **Approved with Changes** | The optional trigger genuinely holds and the FIRED verdict was audited against it; three shapes distinguished and two recorded as declared-but-unestablished; one Minor open — connector identifiers that reference no architecture boundary (`F1`) |
+| Design Model | **Approved with Changes** | Thirty-four classes and eight tables, each read from the file named; the Database Designer's persistent-data sections reviewed intact; one Major and one Minor open (`F1`, `F2`) |
+| System Inventory | **Approved with Changes** | Coverage reconciles with its own rows, no area of the tree unaccounted for, five of this review's seven anchors confirmed against it; one Major and one Minor open (`F3`, `F4`) |
+| Risk List | **Approved** | Twenty-five risks, every magnitude the band of P × I on the declared scale, four acceptances in the stakeholder's own words, every action owned by a role at work where it lands. The one finding this lens held against it from Survey is closed on corrected content |
+| Iteration Plan | **Approved with Changes** | One committed total; no forecast before a measured actual; every gate a zero span; the roster fully accounted for; one Minor open — two scenario counts short of the Use-Case Model's survey (`F6`) |
 
 ```plantuml
 @startuml
-title Defect distribution — SBC / Survey iteration 2, technical lens
+title Defect distribution - technical lens, AR / Excavation iteration 1
 skinparam shadowing false
 skinparam defaultTextAlignment left
 skinparam classAttributeIconSize 0
 hide empty members
 hide circle
 
-class "Development Case" as DC {
-  Major : 0
-  Minor : 0
-  Closed this iteration : F1 (Major), F2 (Minor)
-}
-class "System Inventory" as SI {
-  Major : 0
-  Minor : 0
-  Closed this iteration : F2 (Major), F1 (Minor)
-}
-class "Risk List" as RL {
-  Major : 0
-  Minor : 1 — F2 open
-  Closed this iteration : F1 (Major)
-}
-class "Iteration Plan" as IP {
-  Major : 0
-  Minor : 1 — F5 open
-  Closed this iteration : F1 (Major), F2, F3, F4 (Minor)
-}
-class "SBC milestone" as M {
+class "Vision" as V <<artifact>> {
   Critical : 0
-  Major : 0 — all seven closed
-  Minor : 2 — contained, do not hold the milestone
-  Cleared for consumption : YES
+  Major : 0
+  Minor : 0
+  Disposition : Approved
+}
+class "Use-Case Model" as UCM <<artifact>> {
+  Critical : 0
+  Major : 1 - F1 trace-gap, open
+  Minor : 0
+  Disposition : Approved with Changes
+}
+class "Supplementary Specification" as SS <<artifact>> {
+  Critical : 0
+  Major : 0
+  Minor : 1 - F1 identifier family
+  Disposition : Approved with Changes
+}
+class "Software Architecture Document" as SAD <<artifact>> {
+  Critical : 0
+  Major : 0
+  Minor : 2 - F1 method count, F2 package count
+  Disposition : Approved with Changes
+}
+class "Deployment Model" as DM <<artifact>> {
+  Critical : 0
+  Major : 0
+  Minor : 1 - F1 connector numbering
+  Disposition : Approved with Changes
+}
+class "Design Model" as DES <<artifact>> {
+  Critical : 0
+  Major : 1 - F1 trace-gap on TBL-007
+  Minor : 1 - F2 absent section markers
+  Disposition : Approved with Changes
+}
+class "System Inventory" as INV <<artifact>> {
+  Critical : 0
+  Major : 1 - F3 trace-gap on AN-003
+  Minor : 1 - F4 IsAdmin span
+  Disposition : Approved with Changes
+}
+class "Risk List" as RISK <<artifact>> {
+  Critical : 0
+  Major : 0
+  Minor : 0 - F2 closed at this milestone
+  Disposition : Approved
+}
+class "Iteration Plan" as PLAN <<artifact>> {
+  Critical : 0
+  Major : 0
+  Minor : 1 - F6 scenario counts
+  Disposition : Approved with Changes
 }
 
-DC -right-> M
-SI -right-> M
-RL -right-> M
-IP -right-> M
+class "AR milestone - technical lens" as AR <<milestone>> {
+  Critical : 0
+  Major : 3 open - all trace-gap
+  Minor : 7 open - all contained
+  Cleared for consumption : 9 of 9
+  Holds the milestone : 3 Majors
+}
 
-note bottom of M
-  The lens's own count only. The milestone
-  verdict belongs to the Review Coordinator,
-  which weighs this lens with the Management
-  Reviewer's; nothing here declares SBC met.
+V --> AR
+UCM --> AR
+SS --> AR
+SAD --> AR
+DM --> AR
+DES --> AR
+INV --> AR
+RISK --> AR
+PLAN --> AR
+
+note bottom of AR
+  Every artifact is consumable: no Major leaves a downstream
+  role building on wrong content, because the three Majors are
+  a missing confirmation of a link the artifact set already
+  asserts, not wrong content. What they hold is the milestone:
+  a trace tree with a SUSPECT row has not finished verifying
+  itself, and no phase closes on an unverified claim.
+  The verdict is the Review Coordinator's.
 end note
 @enduml
 ```
 
-**What this lens does not decide.** The SBC verdict is the Review Coordinator's, taken on this lens and the Management Reviewer's together. Two facts the coordinator weighs and this block does not: the stakeholder refused the sanction on 2026-11-19 with the order that all Major findings be corrected, and the seven Majors are now closed — so the refusal's stated reason no longer stands, while the sanction itself has not been asked again. This block records the technical state of the artifact set and nothing about the milestone's standing.
+#### Why the three Majors hold the milestone and the seven Minors do not
 
-**What Excavation inherits from this set.** Of the 26 recorded entry points, fifteen carry a recoverable use case: `EP-001`, `EP-002`, `EP-012` … `EP-019`, `EP-022` … `EP-026`. Ten are excluded by the stakeholder's decisions of 2026-11-19 — `EP-004` … `EP-010`, `EP-011`, `EP-020`, `EP-021` — and `EP-003` carries none for want of a caller. The reading order is Priorities orders 1–6 inside the single Excavation iteration. The actions it must execute are the Risk List's avoidance column, now every one of them owned by a role at work in Excavation.
+A Major is a defect another role builds on or a milestone exit criterion fails. The three Majors are `trace-gap` against the AR exit criteria themselves: criterion 1 asks that every recovered element be anchored, criterion 3 that every table name the migration that declares it, and criterion 50 — the trace tree — that every link the artifact set carries be one the tree carries too. A SUSPECT row is the tree reporting its own claim as unverified, so a phase that closes with three of them closes on a claim it has not finished checking. That is the criterion failing, not a wording.
+
+The seven Minors are `contained-defect` by the same test read backwards: no role builds on the wrong part of any of them, and no exit criterion depends on any. A wrong method count, a second package total, a wrong timespan, an absent omission marker, a private interface numbering — each is a reader's problem inside one artifact, and each is fixed by its owner in its own turn without touching what another role consumes.
+
+#### What this lens hands to Consolidation
+
+The next phase completes what this one recovered: every entry point of the perimeter carrying a use case or a recorded exclusion, the Supplementary Specification and the coverage statement closed out. Three things travel with it from this block:
+
+- **The three suspect links**, as priorities 1–3 of Resolutions and Actions, each with the owner who can close it and what closing it means. They are not deferrable: Consolidation is where the Use-Case Model, the Design Model and the System Inventory are completed, and each of the three artifacts has a stage there.
+- **The seven contained corrections**, as priorities 4–10, each in the artifact that states the figure or the identifier. Two of them are one correction each in two artifacts — the package count and the interface numbering — and the owners named must land them together or not at all.
+- **What the anchors confirmed**, so that Consolidation does not re-open what this review has settled: `AN-008`'s missing screen path, `AN-015`'s unredeemed refresh token, `BR-031`/`BR-032`'s unguarded `/users` group and unvalidated `UserInfo`, `AN-021`'s self-closing migration gate, and the ownership predicate inside every todo statement with its dead admin disjunct. All five confirmed against the files, none needing a second reading.
+
+#### What this lens does not decide
+
+The AR verdict belongs to the Review Coordinator, taken on this lens with the Management Reviewer's and after the stakeholder answers the sanction question carried as `R021`. This block records the technical state of the artifact set and nothing about the milestone's standing; it declares no phase complete.
 
 ### Management Reviewer lens
 <!-- review: Survey I2 -->
