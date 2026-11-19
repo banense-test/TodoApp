@@ -576,70 +576,52 @@ Both are contained defects: no other role builds on the duplicated paragraph or 
 No resolution here cites a stakeholder answer it does not have. Every one rests on content read in the artifact, and the two defects left open are named with the section that carries them.
 
 ### Management Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-**Stakeholder sanction: REFUSED**
+<!-- review: Survey I2 -->
 
-The sanction proposition and the answer received, verbatim:
+The three Major findings this lens carried into the correction pass are closed, each by a `resolve_artifact_finding` call against the evidence in the corrected artifact. Nothing is closed on the strength of the owner's description alone.
 
-| What was put | Their answer, verbatim | Recorded |
-|---|---|---|
-| My verdict lean — Conditional — with all 7 open Major and 5 Minor findings stated inside the question, and the request to confirm the perimeter as the System Inventory records it and sanction advancing past SBC. | "No" | 2026-11-19 |
-| Anything the team must know before Excavation opens — a part of the system missing from the perimeter, a correction, a priority to move. | "All major findings must be corrected." | 2026-11-19 |
+| Finding | Severity | Criterion | Closed by | The evidence the closure rests on |
+|---|---|---|---|---|
+| `Risk List#F1` (management lens) | Major | `consumed-defect` | Resolved | `R021` is scored at Significant (12 — probability 3 × impact 4), strategy accept, with a mitigation (every question put in the round that raises it, with the recommended answer and the open findings inside it, and no milestone verdict before the answer), an owning role at work in every phase, a trigger indicator and the 14-day contingency. The plan's Measure and forecast row now names `R021` rather than describing the gate as already recorded. |
+| `Risk List#F2` (management lens) | Major | `consumed-defect` | Resolved | `R008`'s mitigation reads "System Analyst — Excavation; Technical Writer — Construction (User Documentation)". User Documentation is the artifact the Construction Deployment stage produces. The section states the disclosure home once, at the two places the process produces it. |
+| `Iteration Plan#F1` (management lens) | Major | `consumed-defect` | Resolved | Development Case correction is fine-plan item 1, owned by the Process Engineer and sequenced before Excavation. The Resources table records that role at work in Survey iteration 2 running the sprint-zero correction stage. The "no finding or Change Request demands a tailoring change yet" clause is gone. |
 
-**What the refusal establishes.** The perimeter itself drew no correction from the stakeholder: no part of the system was asked to be added, removed or moved in priority. What they refused is advancement, and their stated reason is the seven open Major findings. Nothing beyond that sentence is read into their answer.
+One cross-artifact consequence recorded in the previous review is closed on both sides: `R008` and `AN-008` now name the same two disclosure homes — the System Analyst's note beside the recovered update use case, and the User Documentation the Technical Writer produces in Construction — and `AN-008` states expressly that the Release Notes are not its home.
 
-**No new finding was minted against the refusal.** Every Major defect the order names already has its ledger entry — four from the technical lens, three from this one — and re-recording one would duplicate the same logical defect under a second key. Those seven entries are the statement of what must be corrected, and the table below is the whole of the correction work.
+No finding is closed as Deferred and none as Rejected. The stakeholder's order of 2026-11-19 — "All major findings must be corrected" — was carried out rather than deferred.
 
 ```plantuml
-@startuml
-title SBC gate — where the milestone stands after the stakeholder's answer
+@startgantt
+title Management lens - the three closures and what each one releases, ordering only
 skinparam shadowing false
 
-[*] --> Issued
-state "Artifacts issued" as Issued {
-  Issued : Development Case · System Inventory · Risk List · Iteration Plan
-  Issued : Review Record — technical lens and management lens written
-}
-Issued --> Lenses
-state "Lenses run" as Lenses {
-  Lenses : Reviewer — Approved with Changes, 4 Major
-  Lenses : Management Reviewer — No-Go, 3 Major
-}
-Lenses --> Gate
-state "Gate ledger" as Gate {
-  Gate : Critical 0
-  Gate : Major 7 open · Minor 5 open
-}
-Gate --> Sanction
-state "Stakeholder sanction — 2026-11-19" as Sanction {
-  Sanction : asked with every open Major inside the question
-  Sanction : answer — No
-  Sanction : reason — all major findings must be corrected
-}
-Sanction --> SecondPass : refused
-state "Survey iteration 2" as SecondPass {
-  SecondPass : the seven open Major findings are its plan
-  SecondPass : then both lenses re-review, and the sanction is asked again
-}
-SecondPass --> Lenses : when every Major is closed
-SecondPass --> [*] : the milestone closes only on a granted sanction
-@enduml
+[Risk List - R021 scored and accepted] lasts 0 day
+[Risk List - R008 homed at User Documentation] lasts 0 day
+[Iteration Plan - DC correction sequenced first] lasts 0 day
+[AN-008 agrees with R008 - cross-artifact consequence] lasts 0 day
+[All six SBC criteria pass both lenses] lasts 0 day
+[Stakeholder sanction of SBC] lasts 0 day
+
+[Risk List - R008 homed at User Documentation] starts at [Risk List - R021 scored and accepted]'s end
+[Iteration Plan - DC correction sequenced first] starts at [Risk List - R008 homed at User Documentation]'s end
+[AN-008 agrees with R008 - cross-artifact consequence] starts at [Iteration Plan - DC correction sequenced first]'s end
+[All six SBC criteria pass both lenses] starts at [AN-008 agrees with R008 - cross-artifact consequence]'s end
+[Stakeholder sanction of SBC] starts at [All six SBC criteria pass both lenses]'s end
+
+[SBC] happens at [Stakeholder sanction of SBC]'s end
+
+note bottom
+  Every bar is a zero span - ordering only, no duration and no date.
+  The three closures are independent of each other; the sequence shown
+  is the order this lens verified them in. The sanction is a human wait,
+  carried as R021 with its 14-day ceiling.
+end note
+@endgantt
 ```
 
-| Finding | Lens | Owner | What closes it |
-|---|---|---|---|
-| Development Case#F1 | Reviewer | Process Engineer | Templates rows re-pointed at files that exist; the three convention families recorded as undocumented |
-| System Inventory#F2 | Reviewer | Software Archaeologist | Perimeter `/users` row restated to agree with AN-015; one statement of whether EP-003 supports a use case |
-| Risk List#F1 | Reviewer | Project Manager | Six Excavation avoidance actions re-owned to the System Analyst; R014's control part moved to Inception |
-| Iteration Plan#F1 | Reviewer | Project Manager | One committed total stated once in the roadmap; the "8 or 9" sentence deleted |
-| Risk List#F1 | Management Reviewer | Project Manager | The stakeholder gate scored as a risk of its own with its 14-day ceiling as trigger indicator and its contingency; cross-referenced by `RNNN` from the plan |
-| Risk List#F2 | Management Reviewer | Project Manager | R008's Construction mitigation re-homed to the artifact that stage produces (User Documentation), or the Release Notes part moved to Transition |
-| Iteration Plan#F1 | Management Reviewer | Project Manager | A Development Case correction work item in the sprint-zero plan owned by the Process Engineer and sequenced before Excavation |
-
-Not holding the milestone, but open: Development Case#F2, System Inventory#F1, Iteration Plan#F2, #F3, #F4 — all Minor, all owned, all fixed by their author in its next turn after the Major findings.
-
-This lens has no prior finding to close: iteration 1 is the first review of this project, and no finding was resolved, deferred or rejected. Closure in iteration 2 has two parts — the `resolve_artifact_finding` call that moves the state, and the entry that records what the corrected content says. A defect that still stands is re-recorded under its key, not duplicated.
+The two Minor findings open against the artifact set are the technical lens's, and this lens does not duplicate them: `Risk List#F2` (the trailing `R021` block still reads "offered for acceptance" while the acceptance table records the answer) and `Iteration Plan#F5` (the opening block of Plan and Milestones duplicates its Measure and forecast subsection). Neither touches an SBC criterion and neither is consumed by another role.
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
