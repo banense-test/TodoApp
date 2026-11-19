@@ -353,16 +353,16 @@ Entry points that carry no use case, by decision and by reading:
 No use case is named after a cross-cutting mechanism. Authentication, token issue, forwarding, rate limiting, validation and telemetry are Supplementary Specification entries that the eight above `<<include>>`.
 
 ## Evaluation Criteria
-The Survey (SBC) exit criteria. They are what the milestone review judges this iteration against. This table supplies the evidence each criterion rests on; it does not declare a criterion passed, because the verdict belongs to the milestone review and the Review Coordinator holds it.
+The Excavation (AR) exit criteria. They are what the milestone review judges this iteration against. This table supplies the evidence each criterion rests on; it does not declare a criterion passed, because the verdict belongs to the milestone review and the Review Coordinator holds it.
 
 | # | Criterion | Evidence this plan supplies | What the review judges |
 |---|---|---|---|
-| 1 | The perimeter of the existing system is **confirmed by the stakeholder** — the seven projects, the components, the external systems, and the three exclusions. | System Inventory, Perimeter — seven projects, the external systems reached, 26 anchored entry points, three exclusions; the stakeholder's answer of 2026-11-19 | Whether the confirmed perimeter is drawn correctly and completely |
-| 2 | The **priorities are ordered** for the remaining recovery. | System Inventory, Priorities — eight areas, each with its reason and its anchor | Whether the order serves the recovery Excavation must perform |
-| 3 | The **unread areas are declared** with the reason each is unread. | System Inventory, Coverage — per-area rows naming every unread area with its reason | Whether the declarations are complete and reconcile |
-| 4 | Every anomaly the reading recorded is a **classified risk** with a strategy, and the High ones carry the stakeholder's acceptance. | Risk List — 20 anomalies, 21 risks with R021 the project's own, magnitude as the band of P × I; R008, R009, R020 and R021 accepted by the stakeholder on 2026-11-19, recorded verbatim | Whether each action names a role at work in the phase it lands in, and whether every High or Significant acceptance rests on the stakeholder's own answer |
-| 5 | The tailoring governing the sprint zero is **issued and usable by the phases that work under it**. | Development Case — the decision record, the optional verdicts, and the templates table citing files that exist | Whether the sprint-zero phases that consume the tailoring can work under it |
-| 6 | The plan carries the **cross-iteration roadmap** and this iteration's fine plan, with no forecast invented before a measured actual exists. | This artifact, Plan and Milestones — 10 iterations stated once with its arithmetic, the fine plan with owners, no size and no day length on any bar | Whether the plan is single-valued and free of invented forecast |
+| 1 | The **use cases are recovered** from the confirmed perimeter, each anchored to the entry point that performs it, and every entry point carries a use case or a recorded exclusion. | Use-Case Model — eight `UC-NNN`, each with its `Source:` entry-point line; the why-these-eight table naming `EP-003`, `EP-013`, `EP-004`…`EP-011`, `EP-020`, `EP-021`, `EP-025`, `EP-026` with their treatment | Whether every use case rests on an entry point inside the confirmed boundary, and whether any delivered goal was left unrecovered |
+| 2 | The **architecture is recovered and checked against the use cases** — every component named, every mechanism the use cases include specified, and nothing modelled as a use case that is a mechanism. | Software Architecture Document — `COMP-NNN` with their file anchors; the mechanisms table; Supplementary Specification — each mechanism as an `<<include>>` | Whether the component model accounts for the path each use case takes through the code, and whether any cross-cutting mechanism was promoted to a use case |
+| 3 | The **data is recovered with its anchors**: every table, key, index, cascade rule and association read from a migration body, never from a declared schema or a run-time database. | Design Model — persistent-data sections by the Database Designer; no Data Model exists (Development Case §5, `R004`) | Whether every persistent element names the migration that declares it, and whether any is described as designed rather than recovered |
+| 4 | The **coverage is measured** and reconciles with its own rows: every area of the tree described or declared unread with its reason, and each renamed area read through both its paths. | System Inventory — Coverage table and its aggregate; History — the union counts (`R025`) | Whether the aggregate is the sum of its rows, and whether any unread area is left without a reason |
+| 5 | The **new anomalies are scored** and every action names a role at work in the phase it lands in. | Risk List — `R022` … `R025` refining `AN-021` … `AN-024`, with magnitude as the band of P × I and an owning role per action | Whether any new exposure needed the stakeholder's acceptance and was self-granted, and whether every action is executable where it lands |
+| 6 | The **stakeholder confirms** what the recovery recorded — the use cases, the exclusions and the accepted exposures. | The three exclusions of 2026-11-19 carried unchanged; `R008`, `R009`, `R020`, `R021` accepted on their answers | Whether the recovery stayed inside the boundary the stakeholder confirmed, and whether anything now needs a decision they have not been asked for |
 
 ### Confirmation of the perimeter
 
@@ -400,4 +400,18 @@ The proposition put and the answer received:
 The single Excavation iteration therefore carries orders 1–6; order 7 is its cross-check and order 8 opens Inception. Nothing in this iteration schedules that work — it is Excavation's plan to issue.
 
 No criterion here was added that the stakeholder did not declare: criteria 1, 2 and 3 are Survey's exit criteria as the process defines them, and 4–6 are the obligations this plan carries to the review. A criterion that fails at SBC does not close the milestone — it returns to the next iteration of Survey, whose plan is the Review Record's open findings and the stakeholder's orders.
+
+### What AR does not claim
+
+Three things the milestone must not be read as establishing, because no evidence for them exists:
+
+- **That the recovered system has been shown to work.** It has never run (`R020`). Every statement in every artifact of this phase is a static reading of source, and the first assembled run is planned as the Integrator's Architecture Build in Elaboration.
+- **That the browser-facing half is verified.** Nothing tests it (`R009`), and it is the area the history shows moving most (`R013`). Its recovered behaviour rests on reading alone.
+- **That the product can mark a todo complete from any screen.** It cannot (`R008`). The use case is recovered with that stated inside it; the capability needs a Change Request before any plan may deliver it.
+
+### The stakeholder gate
+
+The sanction of AR is asked once, on the artifacts as the review lenses leave them. It is carried as `R021`: days of queue time on the human clock, ceiling 14, and if the ceiling is reached the process suspends with the milestone unsanctioned and nothing auto-filled. The actual queue time is reported at phase close, apart from the agent clock, and is never added to it.
+
+No criterion here was invented. Each is an obligation the AR milestone places on this phase: 1–3 are the recovery the sprint zero exists to perform, 4–5 are the reading's own completeness and its scoring, and 6 is the human confirmation the process requires before a milestone advances. A criterion that fails at AR returns to a second Excavation iteration only if the review leaves findings open — and that iteration's plan is then the Review Record's findings and the stakeholder's orders, not a re-issue of this one.
 
