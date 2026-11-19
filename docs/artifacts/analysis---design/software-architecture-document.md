@@ -1024,6 +1024,8 @@ Each component realizes the use cases whose path through the code it carries, co
 
 COMP-011 is absent from UC-001 and UC-002 deliberately: the validation filter is keyed on the declared parameter type, and `UserInfo` — the body of registration and sign-in — is named by no route group, so the filter is on no path through those two use cases (ADR-004, BR-032).
 
+COMP-006 is absent from UC-006 deliberately: no delivered screen enters that use case, so no web-side DTO is on its path — the request body is the API host's own `TodoItem` declaration, and the BFF forwards it without deserializing into anything. The component's edges are the web projects' paths only, which is what ADR-011 makes it: one of two declarations of the wire shape, not the single contract point.
+
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
 | COMP-001 | UC-001, UC-002, UC-003, UC-004 | Realizes | COMP-014 |
@@ -1031,7 +1033,7 @@ COMP-011 is absent from UC-001 and UC-002 deliberately: the validation filter is
 | COMP-003 | UC-004, UC-005, UC-006, UC-007 | Realizes | COMP-006, COMP-008 |
 | COMP-004 | UC-001, UC-002, UC-003, UC-004, UC-005, UC-007 | Realizes | — |
 | COMP-005 | UC-001, UC-002, UC-003, UC-004, UC-005, UC-007 | Realizes | — |
-| COMP-006 | UC-001, UC-002, UC-004, UC-005, UC-006, UC-007 | Realizes | — |
+| COMP-006 | UC-001, UC-002, UC-004, UC-005, UC-007 | Realizes | — |
 | COMP-007 | UC-001, UC-002 | Realizes | COMP-012, COMP-014 |
 | COMP-008 | UC-004, UC-005, UC-006, UC-007 | Realizes | COMP-009, COMP-010, COMP-011, COMP-012 |
 | COMP-009 | UC-004, UC-005, UC-006, UC-007 | Realizes | COMP-012 |
@@ -1044,4 +1046,3 @@ COMP-011 is absent from UC-001 and UC-002 deliberately: the validation filter is
 | COMP-016 | — | — | COMP-012 |
 | COMP-017 | — | — | COMP-007, COMP-008 |
 | COMP-018 | — | — | COMP-017 |
-
