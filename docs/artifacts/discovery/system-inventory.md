@@ -147,9 +147,54 @@ end note
 
 Total: 7 projects of `TodoApp.sln`, 128 files counted from the repository tree (165 entries including directories), of which 46 under `Todo.Web/Client/wwwroot` are a vendored Bootstrap distribution and not project code.
 ## Persistent Data
+The delivery contains no database scripts and no data. The only relational schema the system has is the one `Todo.Api/Migrations` builds at run time through EF Core, and the only instance of it anyone has ever run is the empty `Todo.Api/.db/Todos.db` that `gitignore` excludes from the repository (`*.db`). Eight entities, matching what `TodoDbContextModelSnapshot` declares: `Todo`, `TodoUser`, `IdentityRole`, `IdentityRoleClaim`, `IdentityUserClaim`, `IdentityUserLogin`, `IdentityUserRole`, `IdentityUserToken`. The `Todo` → `TodoUser` foreign key on `OwnerId` changed principal column between migrations 1 and 3 — from `AspNetUsers.UserName` to `AspNetUsers.Id` — and `IsAdmin` was a column for thirty-one minutes of the migration history before `RemoveIsAdmin` dropped it, which is why authority today is carried by a role claim rather than a persisted flag.
+
+```plantuml
+@startuml
+title Stores the system reads and writes, and what manages each one
+skinparam shadowing false
+
+package "Runtime" {
+  component "Todo.Api" as API
+  component "Todo.Web.Server" as WEBSRV
+}
+package "Verification" {
+  component "Todo.Api.Tests" as TESTS
+}
+
+database "Todos.db\nSQLite — 8 tables" as DB
+database "Shared in-memory SQLite\nFilename=:memory:" as MEMDB
+artifact "Data protection key ring\nXML key files — default location" as KEYS
+artifact "Configuration sources\nappsettings*.json · user secrets · env vars" as CFG
+
+API --> DB : EF Core 9.0.8 / Sqlite provider
+API --> KEYS : write and read keys,\nApplicationDiscriminator "TodoApp"
+WEBSRV --> KEYS : read the same discriminator
+API --> CFG : ConnectionStrings:Todos,\nRateLimiting
+WEBSRV --> CFG : Authentication:Schemes:<provider>
+TESTS --> MEMDB : open connection held\nfor the host's lifetime
+TESTS --> API : boots in-process,\noverrides the DbContext options
+
+note bottom of DB
+  The only instance path: Data Source=.db/Todos.db
+  Todo.Api/Program.cs:23-24. .db/ is gitignored.
+end note
+
+note bottom of CFG
+  No shipped settings file carries
+  Authentication:Schemes. Provider
+  credentials would come from user secrets
+  or environment variables only.
+end note
+@enduml
+```
+
 | Store | Kind | Data manager | Anchor |
 |---|---|---|---|
-
+| `Todos.db` — tables `Todos`, `AspNetUsers`, `AspNetRoles`, `AspNetUserRoles`, `AspNetUserClaims`, `AspNetRoleClaims`, `AspNetUserLogins`, `AspNetUserTokens`; indexes `IX_Todos_OwnerId`, `UserNameIndex` (unique), `EmailIndex`, `RoleNameIndex` (unique); cascade delete from `AspNetUsers` to `Todos.OwnerId` | Relational schema | EF Core 9.0.8 with `Microsoft.EntityFrameworkCore.Sqlite`, `TodoDbContext` deriving from `IdentityDbContext<TodoUser>`; connection from `ConnectionStrings:Todos`, defaulting to `Data Source=.db/Todos.db`; schema created by three migrations applied through `dotnet ef database update` | `Todo.Api/TodoDbContext.cs:7-21`; `Todo.Api/Program.cs:22-24`; `Todo.Api/Migrations/20221123071234_Initial.cs:16-330`; `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs:13-17`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:13-45`; `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs:12-18`; `.gitignore:462-463` |
+| `Filename=:memory:` — the same schema inside a SQLite connection the test host holds open for its lifetime | Relational schema | `TodoApplication` opens the connection and replaces the registered `DbContextOptions<TodoDbContext>` with it; `EnsureCreated` builds the schema, and Identity's password rules are relaxed for the fixtures | `Todo.Api.Tests/TodoApplication.cs:12,37-56`; `Todo.Api.Tests/DbContextExtensions.cs:5-30` |
+| Data protection key ring — XML key files at the framework's default per-user location | Structured document | ASP.NET Core Data Protection, configured only with `ApplicationDiscriminator = "TodoApp"` on both hosts so a key minted by one is accepted by the other; no explicit key repository, so the default file-system location applies | `Todo.Api/Program.cs:10-11`; `Todo.Web/Server/Program.cs:12-13`; `Todo.Api/Users/UsersApi.cs:26-28`; `Todo.Web/Server/AuthApi.cs:70-72` |
+| Configuration sources read at start — `appsettings.json` and `appsettings.Development.json` of both hosts, the per-project user-secret stores, environment variables | Structured document | .NET configuration: JSON providers plus `UserSecretsId` on `Todo.Api`, `Todo.Web.Server` and `TodoApp.AppHost`. Carries the connection string, the rate-limit tokens and the identity-provider credentials the code expects but no shipped file supplies | `Todo.Api/appsettings.json:1-8`; `Todo.Api/appsettings.Development.json:1-12`; `Todo.Web/Server/appsettings.json:1-9`; `Todo.Api/Todo.Api.csproj:4-6`; `Todo.Web/Server/Todo.Web.Server.csproj:3-8`; `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:40-46` |
 ## Documentation
 
 The delivery carries no requirements, design or architecture document written by its authors: `.iari/README.md` states this and the tree agrees. What it does carry is the upstream sample's own README, a request file, a CI workflow and the MIT licence — documents of the code as it was published, not of the system as it is installed anywhere. Each was read against the code it describes.
