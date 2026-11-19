@@ -6,7 +6,7 @@
 ## Design Overview
 This document records the design the delivered code already holds. Nothing here is designed by this project: every class, member, visibility modifier and relationship is read out of the file named beside it, and no member is named that the code does not declare. Where the code is silent — a concurrency token, a lifecycle state an operation would need but no operation exists to reach — the silence is recorded as such, not filled.
 
-The model is produced in stages. This iteration recovers the **domain model** and the **design packages and classes**; the use-case realizations and the interface contracts follow in later stages of this phase, and each section below states its own status.
+The model is produced in stages. This iteration recovers the **domain model**, the **design packages and classes** and the **persistent data classes**; the use-case realizations and the interface contracts follow in later stages of this phase, and each section below states its own status.
 
 | Section | What its diagram fixes | Status this iteration |
 |---|---|---|
