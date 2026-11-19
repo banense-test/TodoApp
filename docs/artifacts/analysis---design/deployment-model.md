@@ -104,7 +104,6 @@ package "Shape 3 — a container deployment: images declared, topology unstated"
 Both hosts read `appsettings.json` and `appsettings.Development.json`, and three projects carry a `UserSecretsId`. No shipped file carries a credential, and no shipped file carries an `Authentication:Schemes` section (SU-006; AN-002).
 
 ## Nodes and Connectors
-
 | ID | Connector | Between | Protocol and form | Properties the deployment must hold | Anchor |
 |---|---|---|---|---|---|
 | IF-001 | Browser ↔ web host | Client machine → `todo-web-server` | HTTPS; routes `/`, `/auth/register`, `/auth/login`, `/auth/logout`, `/todos/{*path}` | TLS terminates at the web host (`UseHttpsRedirection`, HSTS outside Development); the API's port needs no client route | `Todo.Web/Server/Program.cs:20-37`; `EP-017`…`EP-023` |
@@ -120,6 +119,12 @@ Both hosts read `appsettings.json` and `appsettings.Development.json`, and three
 **The one connector with no fallback.** IF-002 and IF-003 both depend on the name `todoapi` resolving. Nothing in the delivery supplies that resolution except Aspire's service discovery, which the web host obtains from `AddHttpForwarderWithServiceDiscovery()` and `ConfigureHttpClientDefaults(http => http.AddServiceDiscovery())`. Started outside the AppHost, the browser-facing half has no route to its backend and no configuration key can give it one (AN-012, ADR-007).
 
 **The one connector with no shared state.** IF-002 carries a data-protected provider key on the external-provider path, and the cookie itself is protected by the web host and never read by the API. Both hosts therefore need a key ring that agrees, and IF-004's sibling — the key ring — is a store no connector carries (AN-017, ADR-008).
+
+### Connectors the numbering omits
+
+| ID | Connector | Where it is defined | Why it is not in the table above |
+|---|---|---|---|
+| IF-009 | Web host → external identity provider — OAuth2/OIDC authorization-code redirect, registered only when `Authentication:Schemes:<provider>` exists | Supplementary Specification, Interfaces | It is not a connector of the recovered product. No shipped configuration supplies the scheme section, and the stakeholder excluded the mechanism on 2026-11-19 (`EX-001`). The identifiers are shared across the two artifacts, so the jump from IF-008 to IF-010 marks the excluded connector rather than a missing row |
 
 ## Environment Mapping
 
