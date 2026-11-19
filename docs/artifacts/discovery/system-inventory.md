@@ -570,3 +570,10 @@ What the coverage does **not** establish, and no further reading can: the system
 | AN-011 | — | DependsOn | EP-001, EP-002, EP-003, EP-006, EP-007, EP-011 |
 | AN-012 | — | DependsOn | EP-022 |
 | AN-013 | — | — | — |
+| AN-014 | — | DependsOn | EP-004, EP-005, EP-006, EP-007 |
+| AN-015 | — | DependsOn | EP-003, EP-018, EP-022 |
+| AN-016 | — | DependsOn | EP-024 |
+| AN-017 | — | DependsOn | EP-011, EP-018 |
+| AN-018 | — | DependsOn | EP-011 |
+| AN-019 | — | DependsOn | EP-008, EP-009, EP-010 |
+| AN-020 | — | DependsOn | EP-022, EP-026 |
