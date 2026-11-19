@@ -216,7 +216,7 @@ end note
 | Deleted | `DELETE /todos/{id}` | Owner matches, single `DELETE ... WHERE` | No restore path exists |
 
 ## Design Packages and Classes
-The classes group by the component that declares them, and the grouping is not the project grouping: five packages sit inside `Todo.Api`'s one project because each mechanism is a registration applied to route groups rather than a folder; the BFF package holds seven classes because they share a host and a pipeline; and the remaining four projects each contribute one package. Eleven packages across six projects. The decomposition is held by the interfaces the Software Architecture Document names (`INT-001` … `INT-012`), not by the `.csproj` files.
+The classes group by the component that declares them, and the grouping is not the project grouping: five packages sit inside `Todo.Api`'s one project because each mechanism is a registration applied to route groups rather than a folder; the BFF package holds seven classes because they share a host and a pipeline; and the remaining five projects each contribute one package. Eleven packages across seven projects. The decomposition is held by the interfaces the Software Architecture Document names (`INT-001` … `INT-012`), not by the `.csproj` files.
 
 Every class below is read out of the file named beside it, and none is named that the code does not declare. Where the code declares a class the architecture's component summary does not mention, it is recorded here: a component is a unit of change, not a unit of source files, and the class set is what the compiler holds.
 
