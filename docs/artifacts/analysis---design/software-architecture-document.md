@@ -65,6 +65,248 @@ Every row below is a fact about the delivery. None is a preference of this proje
 | CON-A10 | `Todo.Api` references `TodoApp.ServiceDefaults` and nothing else. It does not reference `Todo.Web.Shared`, so its `TodoItem`, `UserInfo` and `ExternalUserInfo` are independent declarations of the wire shapes the web projects also declare. | `Todo.Api/Todo.Api.csproj:22-24`; `Todo.Api/Todos/Todo.cs:14-19`; `Todo.Api/Users/TodoUser.cs:12-27`; ADR-011 |
 | CON-A11 | The CI workflow passes no `dotnet-version`, so the SDK that builds the solution is the runner image's and not the pinned `9.0.100`. Green in CI does not evidence the pin. | `.github/workflows/ci.yaml:12-13`; `global.json:3`; AN-006 |
 ## Use-Case View
+The architecture is validated against the recovered use cases, not against a scenario of this document's own naming. Three runs carry that validation, chosen because between them they cross every layer and every connector in the Logical View.
+
+```plantuml
+@startuml
+title Use-Case View — UC-004 review my todo list: the scenario that crosses every component of the recovered architecture
+skinparam shadowing false
+skinparam defaultTextAlignment left
+autonumber "<b>[00]"
+
+actor "Todo owner" as OWNER
+participant "COMP-004\nUI components" as UI
+participant "COMP-005\nTodoClient" as TC
+participant "COMP-001\npage host" as PAGE
+participant "COMP-002\nsession authority" as SES
+participant "COMP-003\ntodo forwarder" as FWD
+participant "COMP-009\ncaller resolution" as CALLER
+participant "COMP-010\nrate limiter" as RL
+participant "COMP-011\nvalidation" as VAL
+participant "COMP-008\ntodos surface" as TODOS
+participant "COMP-012\npersistence" as PERS
+database "Todos.db" as DB
+
+OWNER -> PAGE : [00] GET /
+activate PAGE
+PAGE -> PAGE : [01] resolve the cookie into a user name
+PAGE --> OWNER : [02] the shell and the WASM bundle
+deactivate PAGE
+
+OWNER -> UI : [03] the page becomes interactive
+activate UI
+UI -> TC : [04] GetTodosAsync
+activate TC
+note right
+  [05] UC-004 A4 / BR-035. During prerendering
+  BaseAddress is null and the call answers an empty
+  list without reaching the host, so an empty list
+  may render before the real one.
+end note
+TC -> FWD : [06] GET /todos
+deactivate TC
+activate FWD
+FWD -> FWD : [07] SS-001 require a cookie session
+alt no valid session
+  FWD --> TC : [08a] 401
+  TC --> UI : [08b] the status is Unauthorized or Forbidden
+  UI -> SES : [08c] OnForbidden — sign out, silently
+  note right : UC-004 A2. A server outage and an expired token read the same.
+else session present
+  FWD -> FWD : [09] SS-004 read accessToken from the token store, unchecked
+  FWD -> CALLER : [10] forward to http://todoapi with Authorization Bearer
+  activate CALLER
+  CALLER -> PERS : [11] resolve NameIdentifier against TodoUser
+  PERS --> CALLER : [12] the user, or nothing
+  alt the user does not exist
+    CALLER --> FWD : [13a] SS-003 the requirement fails
+    FWD --> TC : [13b] 403
+  else the user exists
+    CALLER -> RL : [14] SS-005 admit for this partition key
+    activate RL
+    alt bucket exhausted
+      RL --> FWD : [15a] 429
+      note right : UC-004 A3. The component tests for 401 and 403 only,\nso the spinner stays indefinitely.
+    else admitted
+      RL -> VAL : [16] SS-006 validate the declared body types
+      VAL -> TODOS : [17] run the handler
+      deactivate RL
+      activate TODOS
+      TODOS -> PERS : [18] BR-009 select where OwnerId = caller, AsNoTracking
+      PERS -> DB : [19] one SELECT, no ORDER BY, no page size
+      DB --> PERS : [20] the owner's rows
+      PERS --> TODOS : [21] TodoItem projections
+      TODOS --> FWD : [22] 200 with the items
+      deactivate TODOS
+      FWD --> TC : [23] 200
+      TC --> UI : [24] the list
+      UI --> OWNER : [25] each title beside a checkbox that binds nothing
+      note right : AN-008. The completion state has no\nscreen path into UC-006.
+    end
+  end
+  deactivate CALLER
+end
+
+deactivate FWD
+deactivate UI
+@enduml
+```
+
+UC-004 is the validation the Logical View needed: it enters at COMP-001, crosses the cookie boundary at COMP-002 and COMP-003, crosses the host boundary at the forwarder, and leaves through COMP-008 and COMP-012 to the store. A component absent from this path would be an element with no scenario behind it.
+
+```plantuml
+@startuml
+title Use-Case View — UC-001 open an account and a session, and UC-002 sign in: both cross the two hosts and return with a cookie
+skinparam shadowing false
+skinparam defaultTextAlignment left
+autonumber "<b>[00]"
+
+actor "Todo owner" as OWNER
+participant "COMP-004\nUI components" as UI
+participant "COMP-005\nTodoClient" as TC
+participant "COMP-002\nsession authority" as SES
+participant "COMP-007\nusers surface" as USERS
+participant "COMP-012\npersistence" as PERS
+database "Todos.db" as DB
+
+== UC-001 · Create User — the annotation-free path (BR-029) ==
+OWNER -> UI : [00] fill email and password, press Create User
+UI -> UI : [01] type="button" with @onclick — no submit, so no annotation runs
+UI -> TC : [02] CreateUserAsync(email, password)
+activate TC
+TC -> TC : [03] refuse an empty value locally
+TC -> SES : [04] POST /auth/register
+deactivate TC
+activate SES
+SES -> SES : [05] SS-001 — inside /auth this endpoint requires no session (BR-030)
+SES -> USERS : [06] POST users/register, body UserInfo
+activate USERS
+USERS -> USERS : [07] SS-006 names ExternalUserInfo, not UserInfo — no filter runs (BR-032)
+USERS -> PERS : [08] Identity enforces a unique user name and its own password defaults
+PERS -> DB : [09] INSERT AspNetUsers
+alt refused — duplicate name or rejected password
+  USERS --> SES : [10a] 400
+  SES --> UI : [10b] 401 with one fixed message
+  UI --> OWNER : [10c] "Failed to create user"
+else created
+  USERS --> SES : [11] 200
+  SES -> USERS : [12] POST users/login, same credentials (BR-004)
+  USERS --> SES : [13] AccessTokenResponse — accessToken, tokenType, expiresIn, refreshToken
+  SES -> SES : [14] SignIn — NameIdentifier and Name both the email (BR-005);\nStoreTokens holds accessToken alone (BR-006)
+  SES --> UI : [15] 200 with the Set-Cookie header
+  UI --> OWNER : [16] the todo list renders for the session
+end
+deactivate USERS
+deactivate SES
+
+== UC-002 · Login — the annotated path ==
+OWNER -> UI : [20] fill email and password, press Login
+UI -> UI : [21] the form's annotations run (BR-002, BR-003)
+alt annotations fail
+  UI --> OWNER : [22a] the field message; nothing is posted
+else annotations pass
+  UI -> SES : [22b] POST /auth/login
+  activate SES
+  SES -> USERS : [23] POST users/login
+  activate USERS
+  USERS -> PERS : [24] verify the credentials
+  PERS --> USERS : [25] the user, or nothing
+  alt refused
+    USERS --> SES : [26a] 401
+    SES --> UI : [26b] 401 — "Login failed" (BR-033)
+  else issued
+    USERS --> SES : [26c] AccessTokenResponse
+    SES -> SES : [27] SignIn writes the cookie
+    SES --> UI : [28] 200
+    UI --> OWNER : [29] the list renders
+  end
+  deactivate USERS
+  deactivate SES
+end
+
+note over USERS
+  SS-002 bearer issue: no lifetime, clock skew or refresh
+  setting exists in the delivery, so every value is a framework
+  default nobody chose (AN-015, PE-006).
+end note
+@enduml
+```
+
+This pair is where reading the code contradicted the hypothesis. The mechanism list for the `/users` surface looked obvious — bearer issue plus validation — and the validation filter turned out not to be on the registration path at all, because it is keyed on parameter type and `UserInfo` is named by no group. COMP-011 is therefore absent from UC-001's path, and the Logical View records it as realizing only UC-005 and UC-006.
+
+The pair also carries the wire shape across the host split. The BFF serializes `UserInfo` from `Todo.Web.Shared` and the API deserializes `UserInfo` from `Todo.Api/Users/TodoUser.cs` — two independent declarations that agree on `Email` and `Password` by inspection. Every field that crosses this boundary, in both directions, depends on that agreement rather than on a shared type (ADR-011).
+
+```plantuml
+@startuml
+title Use-Case View — UC-006 change a todo: the High-volatility scenario whose only path is the API's own, entered by no delivered screen
+skinparam shadowing false
+skinparam defaultTextAlignment left
+autonumber "<b>[00]"
+
+actor "Integration-test harness\nthe only caller in the delivery" as TEST
+participant "COMP-003\ntodo forwarder" as FWD
+participant "COMP-009\ncaller resolution" as CALLER
+participant "COMP-010\nrate limiter" as RL
+participant "COMP-011\nvalidation" as VAL
+participant "COMP-008\ntodos surface" as TODOS
+participant "COMP-012\npersistence" as PERS
+database "Todos.db" as DB
+
+note over TEST
+  UC-006 A4. The checkbox in COMP-004 carries no @bind and
+  no @onchange, and COMP-005 declares no update method: no
+  delivered actor can begin this scenario. AN-008 records the
+  exposure as accepted on 2026-11-19, not repaired.
+end note
+
+TEST -> FWD : [00] PUT /todos/{id} with Id, Title, IsComplete
+activate FWD
+FWD -> FWD : [01] SS-001 require the cookie session
+FWD -> CALLER : [02] SS-004 re-sign with the stored accessToken
+activate CALLER
+CALLER -> PERS : [03] resolve the caller
+PERS --> CALLER : [04] the user
+CALLER -> RL : [05] SS-005 admit
+activate RL
+RL -> VAL : [06] SS-006 validate TodoItem — Title required
+alt invalid body
+  VAL --> FWD : [07a] 400 with HttpValidationProblemDetails
+else valid body
+  VAL -> TODOS : [08] run the handler
+  deactivate RL
+  activate TODOS
+  alt route id differs from body id
+    TODOS --> FWD : [09a] 400 BadRequest — BR-018
+  else ids agree
+    TODOS -> PERS : [10] BR-017 UPDATE where Id AND OwnerId, two SetProperty calls
+    activate PERS
+    PERS -> DB : [11] one statement, no version predicate
+    note right
+      [12] BR-019 both fields overwritten; the body Id is
+      compared, never written.
+      BR-036 no concurrency token — two saves of one item
+      overwrite silently and the later write wins (UC-006 A5).
+      The admin disjunct in the predicate is dead code
+      (AN-010, EX-003): nothing grants the role.
+    end note
+    DB --> PERS : [13] rows affected
+    PERS --> TODOS : [14] count
+    deactivate PERS
+    alt no row matched
+      TODOS --> FWD : [15a] 404 — the same answer for another owner's item and for a missing one
+    else one row matched
+      TODOS --> FWD : [15b] 200 OK
+    end
+  end
+  deactivate TODOS
+end
+deactivate CALLER
+deactivate FWD
+@enduml
+```
+
+UC-006 is drawn separately because it is the use case the architecture must keep separable. Its volatility is High — the screen path that would make it an actor's goal does not exist, and any declared requirement for completion will change it. Its realisation touches COMP-008, COMP-011 and COMP-012 and touches no Razor component and no web-side DTO, which is why the absent screen path is a gap in one component rather than a rewrite of the group.
+
 | UC | Name | Components on the path the code confirms |
 |---|---|---|
 | UC-001 | Open an account and a session | COMP-001, COMP-002, COMP-004, COMP-005, COMP-006, COMP-007, COMP-012 |
@@ -76,7 +318,7 @@ Every row below is a fact about the delivery. None is a preference of this proje
 | UC-007 | Delete a todo | COMP-003, COMP-004, COMP-005, COMP-006, COMP-008, COMP-009, COMP-010, COMP-011, COMP-012 |
 | UC-008 | Consult the API reference | COMP-013 |
 
-COMP-006 appears on the rows where a web-side DTO is actually deserialized or serialized: the `UserInfo` body of registration and sign-in, the `TodoItem` the list renders and the create call posts, and the id the delete call sends. It is absent from UC-006 because no delivered screen enters that path — the update body is `Todo.Api`'s own `TodoItem` declaration and the forwarder moves it as bytes without deserializing. It is absent from UC-003 because sign-out sends no DTO.
+COMP-006 appears on the rows where a web-side DTO is actually serialized or deserialized: the `UserInfo` body of registration and sign-in, the `TodoItem` the list renders and the create call posts, and the id the delete call sends. It is absent from UC-006 because no delivered screen enters that path — the update body is `Todo.Api`'s own `TodoItem` declaration and the forwarder moves it as bytes without deserializing. It is absent from UC-003 because sign-out sends no DTO.
 
 Five components are absent from every row, and that is the finding rather than an omission. COMP-014 carries the shared host configuration, and SS-009 records that no use case depends on telemetry. COMP-015 and COMP-016 are the orchestrator and the migrator — platform operations, not actor goals. COMP-017 and COMP-018 verify the system from outside it. They are in the Logical View because a change to any of them crosses a boundary the use cases depend on; they are on no scenario path, and no trace claims otherwise.
 ## Logical View
