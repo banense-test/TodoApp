@@ -1,11 +1,12 @@
+## Document Control
 - Phase: Excavation
-- Status: Draft — Domain Model and Design Packages recovered; Use-Case Realizations, Interface Contracts and Persistent Data Classes not yet recovered
+- Status: Draft — Domain Model and Design Packages and Classes recovered; Use-Case Realizations and Interface Contracts not yet recovered
 - Milestone Target: end of Excavation (AR) — not yet achieved
 
 ## Design Overview
 This document records the design the delivered code already holds. Nothing here is designed by this project: every class, member, visibility modifier and relationship is read out of the file named beside it, and no member is named that the code does not declare. Where the code is silent — a concurrency token, a lifecycle state an operation would need but no operation exists to reach — the silence is recorded as such, not filled.
 
-The model is produced in stages. This iteration recovers the **domain model** and the **design packages**; the use-case realizations, the interface contracts and the persistent-data classes follow in later stages of this phase, and each section below states its own status.
+The model is produced in stages. This iteration recovers the **domain model** and the **design packages and classes**; the use-case realizations and the interface contracts follow in later stages of this phase, and each section below states its own status.
 
 | Section | What its diagram fixes | Status this iteration |
 |---|---|---|
@@ -17,7 +18,7 @@ The model is produced in stages. This iteration recovers the **domain model** an
 | Boundary Classes and Navigation Map | The Razor components as boundary classes | Owned by the User Interface Designer |
 | Capsules, Protocols and Signals | — | `[OMITTED: Capsules, Protocols and Signals — Development Case DC-D3: real-time-system = false, so no capsule, protocol or signal work runs in any phase]` |
 
-**What is recovered and what is not.** Fifteen classes carry the product's own business objects and its declared wire shapes: one entity the project authored (`Todo`), the Identity-derived user, and six DTO declarations that exist twice over — once in each host. Eight further classes carry the code that reads and writes those objects. Each is anchored where it is described; a class with no member the code declares is shown with none.
+**What is recovered and what is not.** Ten classes carry the product's own business objects and its declared wire shapes: one entity the project authored (`Todo`), the Identity-derived user, six DTO declarations that exist twice over — once in each host — plus the projection helper and one token record. Seventeen further classes carry the code that reads and writes those objects. Each is anchored where it is described; a class with no member the code declares is shown with none.
 
 ## Domain Model
 The business objects the code declares are six: one entity the product authors, the Identity-derived user, and four DTO shapes. Three of those four exist twice over, because `Todo.Api` references `TodoApp.ServiceDefaults` alone and declares its own `TodoItem`, `UserInfo` and `ExternalUserInfo` while the two web projects share a second declaration through `Todo.Web.Shared` (ADR-011, CON-A10). There is one persistent relationship in the whole model and it is the ownership edge.
@@ -144,7 +145,7 @@ end note
 
 | Relationship | Multiplicity the code declares | Consequence it carries | Anchor |
 |---|---|---|---|
-| `Todo` → `TodoUser` on `OwnerId` | many-to-one, required (`[Required]` on `OwnerId`; `IsRequired` by the non-nullable `string` under `Nullable enable`) | Every todo belongs to exactly one account, and no todo can exist unattached. Every read, update and delete carries the column in its predicate, so a row is never fetched by id alone and then checked — a non-owner's item answers `404`, never `403` | `Todo.Api/TodoDbContext.cs:11-15`; `Todo.Api/Todos/Todo.cs:9-11`; `Todo.Api/Todos/TodoApi.cs:33,59,69` |
+| `Todo` → `TodoUser` on `OwnerId` | many-to-one, required (`[Required]` on `OwnerId`; required by the non-nullable `string` under `Nullable enable`) | Every todo belongs to exactly one account, and no todo can exist unattached. Every read, update and delete carries the column in its predicate, so a row is never fetched by id alone and then checked — a non-owner's item answers `404`, never `403` | `Todo.Api/TodoDbContext.cs:11-15`; `Todo.Api/Todos/Todo.cs:9-11`; `Todo.Api/Todos/TodoApi.cs:33,59,69` |
 | `Todo` → `TodoUser` on delete | cascade | Declared in the third migration against `AspNetUsers.Id`; the first migration had pointed the same foreign key at `AspNetUsers.UserName`. No endpoint deletes a user, so the rule exists and the operation does not | `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:27-34` |
 | `Todo` → `TodoItem` (CLS-003) | projection, not an association — computed per response | The wire shape and the stored shape are separate types, and the projection is the only place the owner is dropped. No mapping library is used | `Todo.Api/Todos/Todo.cs:27-40`; `Todo.Api/Todos/TodoApi.cs:26,35,49` |
 | `TodoUser` → Identity tables | one-to-many supplied by the framework schema | Seven tables, of which `AspNetRoles` and `AspNetUserRoles` are written by nothing (AN-010, EX-003) | `Todo.Api/TodoDbContext.cs:7`; `Todo.Api/Migrations/20221123071234_Initial.cs` |
@@ -209,7 +210,7 @@ end note
 
 | State | Reachable by | Guard the code applies | Invariant |
 |---|---|---|---|
-| Incomplete | `POST /todos` on a new row | `Title` non-empty (CLS-016 validation on the group; `TodoItem` is the declared body type, ADR-004) | `OwnerId` is the caller's `NameIdentifier` and cannot be supplied by the body, because `TodoItem` carries no `OwnerId` member |
+| Incomplete | `POST /todos` on a new row | `Title` non-empty — CLS-016 is attached to the group and `TodoItem` is its declared type (ADR-004) | `OwnerId` is the caller's `NameIdentifier` and cannot be supplied by the body, because `TodoItem` carries no `OwnerId` member |
 | Complete | `PUT /todos/{id}` with `IsComplete = true` | Route id equals body id, owner matches, single `UPDATE ... WHERE` | — |
 | Deleted | `DELETE /todos/{id}` | Owner matches, single `DELETE ... WHERE` | No restore path exists |
 
@@ -439,10 +440,12 @@ Three facts belong to the class model because no use-case text can carry them, a
 | Todo.Web.Client | COMP-005 | CLS-027 | `Todo.Web/Client` |
 | Todo.Web.Shared | COMP-006 | CLS-006, CLS-007, CLS-008, CLS-009 | `Todo.Web/Shared` |
 
-Two components carry no class of their own, and that is correct rather than incomplete: COMP-014 (`TodoApp.ServiceDefaults`) is registered by builder extensions with no class the product authored, COMP-015/COMP-016 are an orchestration program and a CLI invocation, and COMP-017/COMP-018 are the test harness and the pipeline. A class diagram recovers the classes the product declares; those five components declare none.
+Five components carry no class of their own, and that is correct rather than incomplete: COMP-014 (`TodoApp.ServiceDefaults`) is registered by builder extensions with no class the product authored, COMP-015 and COMP-016 are an orchestration program and a CLI invocation, and COMP-017 and COMP-018 are the test harness and the pipeline. A class diagram recovers the classes the product declares; those five declare none.
 
 ## Traceability
-Every class below is recovered from code, and the anchor cited where it is described is its source. A class the code declares but no recovered use case crosses carries no upstream and none is composed for it: `CLS-005` and `CLS-008` (`ExternalUserInfo` on each side — `EP-011` is an exclusion), `CLS-023` (`ExternalProviders`, whose list no shipped configuration populates), `CLS-026` (`AuthenticationSchemes`, whose only member names the external-cookie scheme the excluded provider flow uses). Four elements of one fact are not four facts: `CLS-003`/`CLS-006`, `CLS-004`/`CLS-007` and `CLS-005`/`CLS-008` are the two declarations of one wire shape per ADR-011, and each declaration is traced on its own side because each is a separate class the compiler holds.
+Every class below is recovered from code, and the anchor cited where it is described is its source. A class the code declares but no recovered use case crosses carries no upstream and none is composed for it: `CLS-005` and `CLS-008` (`ExternalUserInfo` on each side — `EP-011` is an exclusion), `CLS-023` (`ExternalProviders`, whose list no shipped configuration populates), `CLS-026` (`AuthenticationSchemes`, whose only member names the external-cookie scheme the excluded provider flow uses).
+
+Three pairs are one fact declared twice, not six facts: `CLS-003`/`CLS-006`, `CLS-004`/`CLS-007` and `CLS-005`/`CLS-008` are the two declarations of one wire shape per ADR-011, and each declaration is traced on its own side because each is a separate class the compiler holds.
 
 `DependsOn` is written only where a class reaches across a package boundary. Dependencies inside a package are in the class diagram and are not repeated here.
 
@@ -475,4 +478,3 @@ Every class below is recovered from code, and the anchor cited where it is descr
 | CLS-025 | UC-001, UC-002, UC-004, UC-005, UC-006, UC-007 | Realizes | — |
 | CLS-026 | — | — | — |
 | CLS-027 | UC-001, UC-002, UC-003, UC-004, UC-005, UC-007 | Realizes | — |
-
