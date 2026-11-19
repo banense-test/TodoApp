@@ -2,7 +2,6 @@
 - Phase: Excavation
 - Status: Draft — Domain Model and Design Packages and Classes recovered; Use-Case Realizations and Interface Contracts not yet recovered
 - Milestone Target: end of Excavation (AR) — not yet achieved
-
 ## Design Overview
 This document records the design the delivered code already holds. Nothing here is designed by this project: every class, member, visibility modifier and relationship is read out of the file named beside it, and no member is named that the code does not declare. Where the code is silent — a concurrency token, a lifecycle state an operation would need but no operation exists to reach — the silence is recorded as such, not filled.
 
