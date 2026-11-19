@@ -489,6 +489,72 @@ No action on this list needs a stakeholder decision. The nine defects are conten
 
 No escalation is open against this lens. The three High risks were accepted on 2026-11-19 and the perimeter was confirmed on the same day; this review found no contradiction in what was declared and no risk that only the stakeholder may accept.
 
+### Management Reviewer lens
+<!-- review: Survey I1 -->
+
+**Stakeholder sanction: REFUSED**
+
+The sanction proposition and the answer received, verbatim:
+
+| What was put | Their answer, verbatim | Recorded |
+|---|---|---|
+| My verdict lean — Conditional — with all 7 open Major and 5 Minor findings stated inside the question, and the request to confirm the perimeter as the System Inventory records it and sanction advancing past SBC. | "No" | 2026-11-19 |
+| Anything the team must know before Excavation opens — a part of the system missing from the perimeter, a correction, a priority to move. | "All major findings must be corrected." | 2026-11-19 |
+
+**What the refusal establishes.** The perimeter itself drew no correction from the stakeholder: no part of the system was asked to be added, removed or moved in priority. What they refused is advancement, and their stated reason is the seven open Major findings. Nothing beyond that sentence is read into their answer.
+
+**No new finding was minted against the refusal.** Every Major defect the order names already has its ledger entry — four from the technical lens, three from this one — and re-recording one would duplicate the same logical defect under a second key. Those seven entries are the statement of what must be corrected, and the table below is the whole of the correction work.
+
+```plantuml
+@startuml
+title SBC gate — where the milestone stands after the stakeholder's answer
+skinparam shadowing false
+
+[*] --> Issued
+state "Artifacts issued" as Issued {
+  Issued : Development Case · System Inventory · Risk List · Iteration Plan
+  Issued : Review Record — technical lens and management lens written
+}
+Issued --> Lenses
+state "Lenses run" as Lenses {
+  Lenses : Reviewer — Approved with Changes, 4 Major
+  Lenses : Management Reviewer — No-Go, 3 Major
+}
+Lenses --> Gate
+state "Gate ledger" as Gate {
+  Gate : Critical 0
+  Gate : Major 7 open · Minor 5 open
+}
+Gate --> Sanction
+state "Stakeholder sanction — 2026-11-19" as Sanction {
+  Sanction : asked with every open Major inside the question
+  Sanction : answer — No
+  Sanction : reason — all major findings must be corrected
+}
+Sanction --> SecondPass : refused
+state "Survey iteration 2" as SecondPass {
+  SecondPass : the seven open Major findings are its plan
+  SecondPass : then both lenses re-review, and the sanction is asked again
+}
+SecondPass --> Lenses : when every Major is closed
+SecondPass --> [*] : the milestone closes only on a granted sanction
+@enduml
+```
+
+| Finding | Lens | Owner | What closes it |
+|---|---|---|---|
+| Development Case#F1 | Reviewer | Process Engineer | Templates rows re-pointed at files that exist; the three convention families recorded as undocumented |
+| System Inventory#F2 | Reviewer | Software Archaeologist | Perimeter `/users` row restated to agree with AN-015; one statement of whether EP-003 supports a use case |
+| Risk List#F1 | Reviewer | Project Manager | Six Excavation avoidance actions re-owned to the System Analyst; R014's control part moved to Inception |
+| Iteration Plan#F1 | Reviewer | Project Manager | One committed total stated once in the roadmap; the "8 or 9" sentence deleted |
+| Risk List#F1 | Management Reviewer | Project Manager | The stakeholder gate scored as a risk of its own with its 14-day ceiling as trigger indicator and its contingency; cross-referenced by `RNNN` from the plan |
+| Risk List#F2 | Management Reviewer | Project Manager | R008's Construction mitigation re-homed to the artifact that stage produces (User Documentation), or the Release Notes part moved to Transition |
+| Iteration Plan#F1 | Management Reviewer | Project Manager | A Development Case correction work item in the sprint-zero plan owned by the Process Engineer and sequenced before Excavation |
+
+Not holding the milestone, but open: Development Case#F2, System Inventory#F1, Iteration Plan#F2, #F3, #F4 — all Minor, all owned, all fixed by their author in its next turn after the Major findings.
+
+This lens has no prior finding to close: iteration 1 is the first review of this project, and no finding was resolved, deferred or rejected. Closure in iteration 2 has two parts — the `resolve_artifact_finding` call that moves the state, and the entry that records what the corrected content says. A defect that still stands is re-recorded under its key, not duplicated.
+
 ## Disposition
 ### Reviewer lens
 <!-- review: Survey I1 -->
