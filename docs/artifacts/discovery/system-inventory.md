@@ -12,6 +12,8 @@ Three parts of the code are outside the recovered product scope, each by stakeho
 - **The `admin` role.** `CurrentUser.IsAdmin` reads the role claim `admin` and widens read, update and delete to any owner, but no code path grants the role and migration `RemoveIsAdmin` dropped the persisted flag. It is dead code, recorded as an exclusion, until a declared requirement names who grants the role; no use case claims cross-user access.
 - **The self-service identity surface.** Seven operations the API publishes — email confirmation, confirmation reissue, password-reset request, password reset, two-factor management, account-information read and account-information update — have no caller in any delivered screen and no mail transport behind them; nothing in the delivery registers an `IEmailSender` or configures a mail server. Out of the recovered product scope, recorded as an exclusion beside the external-provider one: no use case is recovered from `EP-004`, `EP-005`, `EP-006`, `EP-007`, `EP-008`, `EP-009` or `EP-010`, and the recovered product is registration, login, logout and todo read/create/delete. The entry points stay in the perimeter with their anchors, so a later phase that needs one can recover it without re-reading the code.
 
+`EP-003 POST /users/refresh` is published, anonymous-callable and inside the boundary, but nothing in the delivery calls it: the BFF's cookie stores `accessToken` alone (`TokenNames` names no other token), `AuthClient` carries exactly three calls — `users/register`, `users/login` and `users/token/{provider}` — and the forwarder sends whatever token the cookie holds. **No use case is recovered from `EP-003`.** It remains in the Perimeter with its anchor as the mechanism a session-extending requirement would build on, which is what AN-015 records.
+
 All three exclusions concern what the next phases may claim, not what exists: the code anchors below stay as read.
 
 ```plantuml
@@ -40,7 +42,7 @@ component "sqliteweb container\ntomdesinto/sqliteweb — dev only" as SQLITEWEB
 USER --> WEBSRV : HTTPS page, /auth, /todos
 WEBSRV --> WEBUI : serves the WASM bundle
 WEBUI --> WEBSRV : XHR /todos, /auth
-WEBSRV --> API : HTTP /users (AuthClient)
+WEBSRV --> API : HTTP /users (AuthClient: register, login)
 WEBSRV --> API : HTTP /todos (YARP forwarder, bearer)
 WEBSRV ..> IDP : OAuth2 / OIDC redirect — registered only
 API --> DB : EF Core
@@ -59,6 +61,8 @@ note right of API
   connection "Todos" or Data Source=.db/Todos.db
   Todo.Api/Users/UsersApi.cs:12,20 — /users surface
   Todo.Api/Todos/TodoApi.cs:24-73 — /todos surface
+  EP-003 /users/refresh is published and has no
+  caller in the delivery — no use case from it
 end note
 
 note top of IDP
@@ -92,7 +96,7 @@ end note
 | Todo.Web.Client | Component | Blazor WebAssembly UI assembled into the browser: one page component that switches between a login form and the todo list, and an HTTP client that speaks to the web server only. | `Todo.Web/Client/TodoApp.razor:1-44`; `Todo.Web/Client/TodoClient.cs:7-71`; `Todo.Web/Client/Program.cs:5-13` |
 | Todo.Web.Shared | Component | DTO library referenced by both the client and the server: `TodoItem`, `UserInfo`, `ExternalUserInfo`, `AuthToken`. | `Todo.Web/Shared/SharedClass.cs:3-37` |
 | Todo.Api | Subsystem | The backend: minimal-API hosts the `/users` identity surface and the `/todos` CRUD surface, enforces bearer authentication, per-user rate limiting and parameter validation, serves the OpenAPI document and the Scalar UI. | `Todo.Api/Program.cs:5-68` |
-| Todo.Api / Users | Component | ASP.NET Core Identity user store and bearer-token issue: the stock identity endpoints, plus a custom `/users/token/{provider}` endpoint that creates or finds a user by external login. Of the stock endpoints the delivered product uses registration, login and token refresh only; the rest are an exclusion (see the Perimeter exclusions). | `Todo.Api/Users/UsersApi.cs:10-64`; `Todo.Api/Users/TodoUser.cs:7-29` |
+| Todo.Api / Users | Component | ASP.NET Core Identity user store and bearer-token issue: the stock identity endpoints, plus a custom `/users/token/{provider}` endpoint that creates or finds a user by external login. The delivered product calls two of them — registration and login. `/users/refresh` is published and called by nothing: no client redeems a refresh token, so no use case is recovered from `EP-003` (see the Perimeter text above and AN-015). The self-service operations are an exclusion (see the Perimeter exclusions). | `Todo.Api/Users/UsersApi.cs:10-64`; `Todo.Api/Users/TodoUser.cs:7-29`; `Todo.Web/Server/AuthClient.cs:3-46` |
 | Todo.Api / Todos | Component | Todo read, create, update and delete, scoped to the owning user. | `Todo.Api/Todos/TodoApi.cs:8-77`; `Todo.Api/Todos/Todo.cs:1-40` |
 | Todo.Api / Authorization | Component | Resolves the caller into a `CurrentUser` (claims transformation against the database) and supplies the authorization requirement that a valid token alone does not satisfy. | `Todo.Api/Authorization/CurrentUser.cs:6-15`; `Todo.Api/Authorization/CurrentUserExtensions.cs:8-35`; `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:8-40` |
 | Todo.Api / Persistence | Component | EF Core `DbContext` over ASP.NET Core Identity, the `Todo` entity with its owner foreign key, and the three migrations that define the schema. | `Todo.Api/TodoDbContext.cs:7-21`; `Todo.Api/Migrations/20221123071234_Initial.cs`; `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs` |
@@ -118,7 +122,7 @@ end note
 |---|---|---|---|---|
 | EP-001 | `POST /users/register` — create a user from email and password | Service operation | Anonymous client (API direct, or the web server's `AuthClient`) | `Todo.Api/Users/UsersApi.cs:12,20`; `Todo.Web/Server/AuthClient.cs:20-29` |
 | EP-002 | `POST /users/login` — exchange credentials for a bearer token | Service operation | Anonymous client | `Todo.Api/Users/UsersApi.cs:12,20`; `Todo.Web/Server/AuthClient.cs:5-18` |
-| EP-003 | `POST /users/refresh` — exchange a refresh token for a new access token | Service operation | Authenticated client | `Todo.Api/Users/UsersApi.cs:12,20` |
+| EP-003 | `POST /users/refresh` — exchange a refresh token for a new access token. Published by the stock identity endpoints and called by nothing in the delivery: no refresh token is stored or redeemed. No use case is recovered from it (AN-015) | Service operation | Authenticated client — none exists in the delivery | `Todo.Api/Users/UsersApi.cs:12,20`; `Todo.Web/Server/Authentication/TokenNames.cs:3-6`; `Todo.Web/Server/AuthClient.cs:3-46` |
 | EP-004 | `GET /users/confirmEmail` — confirm an email address from a code. Excluded from the recovered product scope by stakeholder decision of 2026-11-19, with the self-service identity surface: no use case covers it, and no mail transport exists to deliver the code | Service operation | End user, following a link | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
 | EP-005 | `POST /users/resendConfirmationEmail` — reissue the confirmation mail. Excluded with the self-service identity surface: no use case covers it | Service operation | Anonymous client | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
 | EP-006 | `POST /users/forgotPassword` — request a password-reset code. Excluded with the self-service identity surface: no use case covers it, and no mail transport exists to deliver the code | Service operation | Anonymous client | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
