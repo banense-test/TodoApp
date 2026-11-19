@@ -895,6 +895,8 @@ Each migration carries a `Down` that reverses it, so the schema is reversible as
 | `20221123165051` → `20230714032431` | 7 months 21 days | `Todos.OwnerId` matched `AspNetUsers.UserName` for that span; `ForeignKeyChange` replaced the principal column with `Id` and dropped the unique constraint on `UserName` with it |
 | `20230714032431` → no further migration | — | The schema above is the latest the delivery holds; `AN-007` records that a future migration would generate from the stale `8.0.0` snapshot, not from this state |
 
+Eleven `Generates` edges sit in the trace graph from these eight tables to the migration files that create or alter them, and they are registered there rather than as rows below — the source file is the more concrete end of a `Generates` link and no row of this table declares one. `TBL-001` generates two: `20221123071234_Initial.cs` creates it and `20230714032431_ForeignKeyChange.cs` rebuilds its foreign key. `TBL-002` generates three: the same two plus `20221123165051_RemoveIsAdmin.cs`. The remaining six generate from `20221123071234_Initial.cs` alone.
+
 ### Index strategy — each index against the query that issues it
 
 Eight secondary indexes exist. Three are issued by a query a recovered use case reaches; five by nothing in the delivered product. Two primary-key indexes matter as well, because the `/todos` endpoints address rows by id.
