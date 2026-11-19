@@ -1,7 +1,7 @@
 ## Document Control
 - Phase: Survey
-- Status: Draft — issued for the end-of-Survey milestone review
-- Milestone Target: end of Survey (SBC) — not yet achieved
+- Status: Draft — all 20 anomalies scored plus R021, four acceptances held verbatim, the last contained defect corrected this iteration
+- Milestone Target: end of Survey (SBC)
 ## Risk Classification
 Every risk below is scored on the declared IARI risk scale (DC baseline §9.10); the project Development Case records no deviation from it. R001–R020 come from an anomaly the System Inventory recorded — none is invented. R021 is the project's own exposure, entered at the milestone review, and it is scored on the same scale rather than described beside it.
 
