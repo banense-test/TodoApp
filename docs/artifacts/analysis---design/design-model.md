@@ -216,13 +216,13 @@ end note
 | Deleted | `DELETE /todos/{id}` | Owner matches, single `DELETE ... WHERE` | No restore path exists |
 
 ## Design Packages and Classes
-The classes group by the component that declares them, and the grouping is not the project grouping: five packages sit inside `Todo.Api`'s one project because each mechanism is a registration applied to route groups rather than a folder, three classes share `Todo.Web.Server`'s BFF package because they share a host and a pipeline, and the remaining four projects each contribute one package. Eleven packages across six projects. The decomposition is held by the interfaces the Software Architecture Document names (`INT-001` … `INT-012`), not by the `.csproj` files.
+The classes group by the component that declares them, and the grouping is not the project grouping: five packages sit inside `Todo.Api`'s one project because each mechanism is a registration applied to route groups rather than a folder; the BFF package holds seven classes because they share a host and a pipeline; and the remaining four projects each contribute one package. Eleven packages across six projects. The decomposition is held by the interfaces the Software Architecture Document names (`INT-001` … `INT-012`), not by the `.csproj` files.
 
-Every class below is read out of the file named beside it, and none is named that the code does not declare. Where the code declares a class the component summary in the architecture does not mention, it is recorded here: a component is a unit of change, not a unit of source files, and the class set is what the compiler holds.
+Every class below is read out of the file named beside it, and none is named that the code does not declare. Where the code declares a class the architecture's component summary does not mention, it is recorded here: a component is a unit of change, not a unit of source files, and the class set is what the compiler holds.
 
 ```plantuml
 @startuml
-title Design Packages — the product classes, grouped by the component that declares them
+title Design Packages — the eleven packages and the classes each component declares
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 skinparam packageStyle rectangle
@@ -351,6 +351,13 @@ package "Todo.Web.Client — COMP-005" {
   }
 }
 
+package "Todo.Web.Shared — COMP-006, the web projects' declaration" {
+  class "TodoItem\nCLS-006" as WEBDTO
+  class "UserInfo\nCLS-007" as WEBUSERINFO
+  class "ExternalUserInfo\nCLS-008" as WEBEXTUSER
+  class "AuthToken\nCLS-009" as AUTHTOKEN
+}
+
 API_TODOS ..> DBCTX
 API_TODOS ..> CUR
 API_TODOS ..> APIDTO
@@ -376,6 +383,11 @@ EXTPROV ..> SCHEMES
 AUTHEXT ..> SCHEMES
 AUTHEXT ..> AUTHSTATE : registers
 AUTHEXT ..> EXTPROV : registers
+WEB_AUTH ..> WEBUSERINFO : serializes
+AUTHCLIENT ..> WEBUSERINFO : serializes
+AUTHCLIENT ..> WEBEXTUSER : serializes
+AUTHCLIENT ..> AUTHTOKEN : reads accessToken
+TODOCLIENT ..> WEBDTO
 
 note right of AUTHEXT
   CLS-028 Todo.Web/Server/Authentication/
@@ -395,6 +407,13 @@ end note
 note right of TODOCLIENT
   CLS-027 Todo.Web/Client/TodoClient.cs:7-71.
   No update method exists — the counterpart of AN-008.
+end note
+note bottom of WEBDTO
+  ADR-011 — the wire shape is declared twice.
+  CLS-006..CLS-009 Todo.Web/Shared/SharedClass.cs:5-31
+  are the web projects' declarations; CLS-003, CLS-004
+  and CLS-005 in the Todo.Api packages are the API's own,
+  and no reference edge joins the two (CON-A10).
 end note
 note bottom of CUR
   CLS-012 Todo.Api/Authorization/CurrentUser.cs:6-15.
@@ -456,11 +475,11 @@ Four facts belong to the class model because no use-case text can carry them, an
 | TodoApp.AppHost | COMP-015, COMP-016 | CLS-030 | `TodoApp.AppHost` |
 | Todo.Api.Tests | COMP-017 | CLS-031, CLS-032, CLS-033, CLS-034 | `Todo.Api.Tests` |
 
-One component carries no class: COMP-018, the CI pipeline, which is a workflow document with no compilation unit. `TodoApp.AppHost/Program.cs` and `TodoApp.ServiceDefaults`'s project file likewise declare no class — the first is top-level statements, the second a manifest — and the orchestrator's behaviour is held entirely by CLS-030.
+One component carries no class: COMP-018, the CI pipeline, which is a workflow document with no compilation unit. `TodoApp.AppHost/Program.cs` likewise declares no class — it is top-level statements — so the orchestrator's behaviour is held entirely by CLS-030 across COMP-015 and COMP-016.
 
 ### Host configuration, orchestration and verification classes
 
-Five components were recorded as carrying no class of their own. Four of them declare one, and the fifth — COMP-018, the CI workflow — declares none because it is a YAML document, not a compilation unit.
+Five components were recorded as carrying no class of their own. Four of them declare one; the fifth — COMP-018, the CI workflow — declares none because it is a YAML document, not a compilation unit.
 
 ```plantuml
 @startuml
@@ -565,7 +584,7 @@ end note
 | CLS-033 | `TokenService` | Todo.Api.Tests | `GenerateTokenAsync(username, isAdmin = false) : Task<string>` — builds the principal, adds the `admin` role claim when asked, protects a bearer ticket | COMP-017 | `Todo.Api.Tests/TokenService.cs:8-33` |
 | CLS-034 | `DbContextExtensions` | Todo.Api.Tests | `AddDbContextOptions<TContext>(services, configure) : IServiceCollection` — removes the registered options and re-adds them as singletons | COMP-017 | `Todo.Api.Tests/DbContextExtensions.cs:3-29` |
 
-`CLS-033` is the only class in the whole model that mints the `admin` role claim (`TokenService.cs:16-21`). No product class can: `CLS-012.IsAdmin` reads a claim that only this test type writes, and `AspNetRoles`/`AspNetUserRoles` are written by nothing (AN-010, `EX-002`). The claim's existence in the model is therefore evidence of a test fixture, not of a capability.
+`CLS-033` is the only class in the whole model that mints the `admin` role claim (`TokenService.cs:16-21`). No product class can: `CLS-012.IsAdmin` reads a claim only this test type writes, and `AspNetRoles`/`AspNetUserRoles` are written by nothing (AN-010, `EX-002`). The claim's existence in the model is evidence of a test fixture, not of a capability.
 
 ## Traceability
 Every class below is recovered from code, and the anchor cited where it is described is its source. A class the code declares but no recovered use case crosses carries no upstream and none is composed for it: `CLS-005` and `CLS-008` (`ExternalUserInfo` on each side — `EP-011` is an exclusion), `CLS-023` (`ExternalProviders`, whose list no shipped configuration populates), `CLS-026` (`AuthenticationSchemes`, whose only member names the external-cookie scheme the excluded provider flow uses), and `CLS-029` … `CLS-034` — the host-configuration, orchestration and test classes, which lie on no actor's path. The architecture records COMP-014 … COMP-017 as realizing no use case; the classes those components declare inherit that absence.
