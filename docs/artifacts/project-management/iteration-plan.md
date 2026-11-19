@@ -111,7 +111,7 @@ end note
 
 ### This iteration's fine plan
 
-Survey iteration 2 is the correction pass the SBC milestone review requires. Its work items are the stages the IARI DEVELOPMENT PROCESS runs in Survey, each owned by its role, each closing named findings of the Review Record. **No work item carries a size**: no phase has closed, nothing has been measured in this system, and a size filled with a human-team unit would be a figure this process cannot produce. Each item ends when its exit condition passes.
+Survey iteration 2 is the correction pass the SBC milestone review requires. Its work items are the stages the IARI DEVELOPMENT PROCESS runs in Survey, each owned by its role, each closing named findings of the Review Record. **No work item carries a size**: no size for this iteration was measured when it was planned, and a size filled with a human-team unit would be a figure this process cannot produce. Each item ends when its exit condition passes.
 
 | Order | Work item | Owner | Closes | Exit condition |
 |---|---|---|---|---|
@@ -125,6 +125,8 @@ Survey iteration 2 is the correction pass the SBC milestone review requires. Its
 | 8 | Iteration Assessment | Project Manager | The SBC verdict | Assessment written *after* the verdict records whether the objectives were met |
 
 Item 1 is sequenced first because the tailoring it corrects is the convention source Excavation and Consolidation work under, and no sprint-zero work item put that source in place before they would start. The order is a dependency, not a severity ranking: **Development Case#F1 defines the correction; item 1 schedules it.** A re-pointed table with no work item behind it, or a work item for a correction nobody specified, are each insufficient. The Environment stage that re-prepares the tailoring in Inception remains a separate, later stage — it does not carry this correction.
+
+Item 5 is the only item the plan did not carry when the iteration opened. The two defects it corrects were created by items 3 and 4 and could not have been planned before the corrected content existed to be read. That is recorded as variance W2 in the Iteration Assessment, and it is the reason Excavation's plan carries a reconciliation item ahead of its gate.
 
 Item 7 is a human wait, not an agent stretch. It is carried as R021 and quoted in days of queue time with a ceiling of 14, never on the agent clock.
 
