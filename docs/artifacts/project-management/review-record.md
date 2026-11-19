@@ -858,7 +858,7 @@ end note
 
 **What this lens does not decide.** The SBC verdict is the Review Coordinator's, taken on this lens and the Management Reviewer's together. Two facts the coordinator weighs and this block does not: the stakeholder refused the sanction on 2026-11-19 with the order that all Major findings be corrected, and the seven Majors are now closed — so the refusal's stated reason no longer stands, while the sanction itself has not been asked again. This block records the technical state of the artifact set and nothing about the milestone's standing.
 
-**What Excavation inherits from this set.** The entry-point set a use case may be recovered from: `EP-001`, `EP-002`, `EP-012` … `EP-019`, `EP-022` … `EP-026`, with `EP-003` excluded for want of a caller and the eleven identity-surface entry points excluded by the stakeholder. The reading order: Priorities orders 1–6 inside the single Excavation iteration. The actions it must execute: the Risk List's avoidance column, now every one of them owned by a role at work in Excavation.
+**What Excavation inherits from this set.** Of the 26 recorded entry points, fifteen carry a recoverable use case: `EP-001`, `EP-002`, `EP-012` … `EP-019`, `EP-022` … `EP-026`. Ten are excluded by the stakeholder's decisions of 2026-11-19 — `EP-004` … `EP-010`, `EP-011`, `EP-020`, `EP-021` — and `EP-003` carries none for want of a caller. The reading order is Priorities orders 1–6 inside the single Excavation iteration. The actions it must execute are the Risk List's avoidance column, now every one of them owned by a role at work in Excavation.
 
 ### Management Reviewer lens
 <!-- review: Survey I1 -->
