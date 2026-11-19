@@ -166,7 +166,7 @@ end note
 
 ### Measure and forecast
 
-**No phase has closed.** There is no measured actual, therefore there is no forecast: no token figure, no elapsed figure, and no per-iteration velocity appears in this plan. The ten iterations above are a count of iterations, not a duration, and no declared scope is cut or deferred to fit an estimate.
+**Survey has closed, so the first measured actual exists.** Both clocks are recorded in the Iteration Assessment: **21,362,704 tokens** and **1:12:20 of agent elapsed** across the phase's two iterations, against **1:09:33 of stakeholder queue time**. Those are phase totals from closed work, not a velocity: no per-iteration rate is computed from two iterations of one phase, and no figure is quoted for an iteration that has not run. Every later phase's forecast is built from these figures and no plan figure is.
 
 **The count sits one above the `6 ± 3` heuristic's ceiling, and this is stated rather than absorbed.** The heuristic flags more than 9 iterations as over-engineered process overhead. The tenth is not process overhead added by choice: Survey's first iteration issued four artifacts, both review lenses found seven Major defects in them, and the milestone was not sanctioned. A phase whose milestone review leaves findings open runs another iteration — that is the mechanism, and it fired once. The alternative to the tenth iteration is closing the milestone with seven Major defects open, which the stakeholder refused on 2026-11-19. If a further iteration is added at any later milestone the same test applies: it must trace to an open finding or a stakeholder order, or the roadmap is over-engineered and the count is the symptom.
 
@@ -176,16 +176,14 @@ The budget position was put to the stakeholder in Survey iteration 1 and answere
 |---|---|---|
 | Whether a token budget has been declared for this project, given that the Development Case records none and this plan commits to a cross-iteration horizon in which R020's contingency may add an iteration. | "No budget declared — record measured spend at each phase close and forecast from the measured actual, never from an assumption." | 2026-11-19 |
 
-So the project declares **no token budget**: there is no box, no figure was invented for the stakeholder to accept, and nothing is trimmed to fit one. Measured spend is recorded as observed at each phase close, and both clocks are reported apart:
+So the project declares **no token budget**: there is no box, no figure was invented for the stakeholder to accept, and nothing is trimmed to fit one. Spend is measured at each phase close and reported on two clocks that are never added:
 
-| Clock | What it measures | Where it is recorded | Ceiling |
-|---|---|---|---|
-| Agent work | Tokens consumed per stage and per role; elapsed agent time | Iteration Assessment, at phase close | No ceiling — measured, not bounded |
-| Human gates | Days of queue time waiting for the stakeholder | R021, in the Risk List's Risk Register and Risk Mitigation and Contingency sections | 14 days, then the process suspends; the actual is reported apart |
+| Clock | What it measures | Where it is recorded | Ceiling | Survey, measured |
+|---|---|---|---|---|
+| Agent work | Tokens consumed per stage and per role; elapsed agent time | Iteration Assessment, at phase close | No ceiling — measured, not bounded | 21,362,704 tokens; 1:12:20 elapsed |
+| Human gates | Days of queue time waiting for the stakeholder | R021, in the Risk List's Risk Register and Risk Mitigation and Contingency sections | 14 days, then the process suspends; the actual reported apart | 1:09:33 waiting; 0:19:53 of it in this iteration |
 
-The two are never added and never converted into one another. The gate is a risk with a bound, not a work item with an estimate: it carries no duration here and none is forecast for it.
-
-**The first measured actual now exists.** Survey closes with both clocks recorded in the Iteration Assessment: 21,362,704 tokens and 1:12:20 of agent elapsed across the phase's two iterations, against 1:09:33 of stakeholder queue time. Those are phase totals, not a velocity, and no per-iteration rate is computed from two iterations of one phase. Every later phase's forecast is built from them; nothing in this plan is.
+The two are never added and never converted into one another. The gate is a risk with a bound, not a work item with an estimate: it carries no duration here and none is forecast for it. The Survey gate ran to a fraction of its ceiling, and that is an observed actual of one phase — it does not shrink the ceiling on any later gate.
 
 ### Critical chain
 
