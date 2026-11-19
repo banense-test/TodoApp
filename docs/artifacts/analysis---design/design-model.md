@@ -441,3 +441,38 @@ Three facts belong to the class model because no use-case text can carry them, a
 
 Two components carry no class of their own, and that is correct rather than incomplete: COMP-014 (`TodoApp.ServiceDefaults`) is registered by builder extensions with no class the product authored, COMP-015/COMP-016 are an orchestration program and a CLI invocation, and COMP-017/COMP-018 are the test harness and the pipeline. A class diagram recovers the classes the product declares; those five components declare none.
 
+## Traceability
+Every class below is recovered from code, and the anchor cited where it is described is its source. A class the code declares but no recovered use case crosses carries no upstream and none is composed for it: `CLS-005` and `CLS-008` (`ExternalUserInfo` on each side — `EP-011` is an exclusion), `CLS-023` (`ExternalProviders`, whose list no shipped configuration populates), `CLS-026` (`AuthenticationSchemes`, whose only member names the external-cookie scheme the excluded provider flow uses). Four elements of one fact are not four facts: `CLS-003`/`CLS-006`, `CLS-004`/`CLS-007` and `CLS-005`/`CLS-008` are the two declarations of one wire shape per ADR-011, and each declaration is traced on its own side because each is a separate class the compiler holds.
+
+`DependsOn` is written only where a class reaches across a package boundary. Dependencies inside a package are in the class diagram and are not repeated here.
+
+| Element | Traces From | Link Type | Traces To |
+|---|---|---|---|
+| CLS-001 | UC-004, UC-005, UC-006, UC-007 | Realizes | — |
+| CLS-002 | UC-001, UC-002 | Realizes | — |
+| CLS-003 | UC-004, UC-005, UC-006 | Realizes | — |
+| CLS-004 | UC-001, UC-002 | Realizes | — |
+| CLS-005 | — | — | — |
+| CLS-006 | UC-004, UC-005, UC-007 | Realizes | — |
+| CLS-007 | UC-001, UC-002 | Realizes | — |
+| CLS-008 | — | — | — |
+| CLS-009 | UC-001, UC-002 | Realizes | — |
+| CLS-010 | UC-004, UC-005, UC-006 | Realizes | — |
+| CLS-011 | UC-001, UC-002, UC-004, UC-005, UC-006, UC-007 | Realizes | — |
+| CLS-012 | UC-004, UC-005, UC-006, UC-007 | Realizes | — |
+| CLS-013 | UC-004, UC-005, UC-006, UC-007 | Realizes | CLS-012, CLS-002 |
+| CLS-014 | UC-004, UC-005, UC-006, UC-007 | Realizes | CLS-012 |
+| CLS-015 | UC-004, UC-005, UC-006, UC-007 | Realizes | — |
+| CLS-016 | UC-005, UC-006 | Realizes | — |
+| CLS-017 | UC-008 | Realizes | — |
+| CLS-018 | UC-001, UC-002 | Realizes | — |
+| CLS-019 | UC-001, UC-002 | Realizes | CLS-002, CLS-011 |
+| CLS-020 | UC-004, UC-005, UC-006, UC-007 | Realizes | CLS-001, CLS-003, CLS-010, CLS-011, CLS-012 |
+| CLS-021 | UC-001, UC-002, UC-003 | Realizes | CLS-018, CLS-025 |
+| CLS-022 | UC-004, UC-005, UC-006, UC-007 | Realizes | CLS-025 |
+| CLS-023 | — | — | — |
+| CLS-024 | UC-001, UC-002, UC-003, UC-004 | Realizes | — |
+| CLS-025 | UC-001, UC-002, UC-004, UC-005, UC-006, UC-007 | Realizes | — |
+| CLS-026 | — | — | — |
+| CLS-027 | UC-001, UC-002, UC-003, UC-004, UC-005, UC-007 | Realizes | — |
+
