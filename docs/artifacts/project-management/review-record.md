@@ -67,11 +67,11 @@ Seven anchors were opened through the SCM and read against the claim the artifac
 |---|---|---|
 | `Todo.Web/Client/Components/TodoList.razor` | The checkbox carries no `@bind` and no `@onchange`, so completion has no screen path (`AN-008`, `R008`, `UC-006` A4) | **Confirmed** — `<input type="checkbox" value="" aria-label="..." />`, no binding, no handler |
 | `Todo.Web/Server/Authentication/TokenNames.cs` | `accessToken` is the only token name the BFF holds, so no refresh token is stored (`BR-006`, `AN-015`) | **Confirmed** — one static field, `AccessToken = "accessToken"` |
-| `Todo.Api/Users/UsersApi.cs` | The `/users` group carries no authorization and no limiter; `WithParameterValidation` names `ExternalUserInfo` only, never `UserInfo` (`BR-031`, `BR-032`, `AN-011`, `AN-018`) | **Confirmed** — no `RequireAuthorization` on the group, the S2S `TODO` in place, one `WithParameterValidation(typeof(ExternalUserInfo))` |
+| `Todo.Api/Users/UsersApi.cs` | The `/users` group carries no authorization and no limiter; `WithParameterValidation` names `ExternalUserInfo` only, never `UserInfo` (`BR-031`, `BR-032`, `AN-011`, `AN-018`) | **Confirmed** — no `RequireAuthorization` on the group, the service-to-service `TODO` in place, one `WithParameterValidation(typeof(ExternalUserInfo))` |
 | `TodoApp.AppHost/Extensions.cs` | The schema gate creates `.db` and only then registers the migration, so a failed first start leaves later starts applying no schema (`AN-021`) | **Confirmed** — `Directory.CreateDirectory` inside the `if`, `AddEfMigration` registered only in that branch |
-| `Todo.Api/Todos/TodoApi.cs` | Ownership is a predicate inside the statement; the admin disjunct is dead (ADR三是-003, `BR-017`, `BR-022`, `AN-010`) | **Confirmed** — `owner.IsAdmin` at lines 33, 59, 69; `ExecuteUpdateAsync` / `ExecuteDeleteAsync` with the owner predicate in the same statement |
-| `Directory.Packages.props` | The single home of every package version, no project file carrying one (`CON-A08`, ADR-012) | **Confirmed as to the pin; count disputed** — 30 `PackageVersion` rows, not the 27 two artifacts report |
-| `Todo.Web/Client/TodoClient.cs` | Six methods, none of them an update call (`AN-008`, COMP-005) | **Confirmed as to the absence; count disputed** — six public methods, not the five the SAD's COMP-005 row states |
+| `Todo.Api/Todos/TodoApi.cs` | Ownership is a predicate inside the statement; the admin disjunct is dead (ADR-003, `BR-017`, `BR-022`, `AN-010`) | **Confirmed** — `owner.IsAdmin` at lines 33, 59, 69; `ExecuteUpdateAsync` / `ExecuteDeleteAsync` with the owner predicate in the same statement |
+| `Directory.Packages.props` | The single home of every package version, no project file carrying one (`CON-A08`, ADR-012) | **Confirmed as to the pin; the count is disputed** — 30 `PackageVersion` rows, not the 27 two artifacts report |
+| `Todo.Web/Client/TodoClient.cs` | Six methods, none of them an update call (`AN-008`, COMP-005) | **Confirmed as to the absence; the count is disputed** — six public methods, not the five the SAD's COMP-005 row states |
 
 #### What was checked as notation, not as illustration
 
