@@ -323,17 +323,34 @@ Roles not at work in Excavation, each with its reason:
 Every role of the active roster is therefore accounted for: nine agents execute or judge, one human gate is answered, and the remaining roles carry a stated reason for their absence.
 
 ## Use Cases and Scenarios Addressed
+The eight use cases the recovery produced, all inside the perimeter the stakeholder confirmed on 2026-11-19. This iteration recovers them — it analyses, specifies and designs them; it implements and tests none, because the sprint zero writes no code.
 
-**None.** No use case is analysed, designed or implemented in Survey. The system's use cases are recovered from the entry points in Excavation and completed in Consolidation — the Use-Case Model does not exist yet, and no `UC-NNN` has been minted.
+| UC | Name | Primary actor | Source | Volatility | Scenarios recovered |
+|---|---|---|---|---|---|
+| UC-001 | Open an account and a session | Todo owner | `EP-017`, `EP-001`, `EP-002` | Medium | 4 — registration accepted; refused by Identity; account created but the sign-in that follows fails; empty field refused client-side |
+| UC-002 | Sign in to an existing account | Todo owner | `EP-018`, `EP-002` | Low | 3 — credentials accepted; refused; page validation refusing the input before anything is posted |
+| UC-003 | Sign out | Todo owner | `EP-019` | Low | 2 — sign-out with a session; without one |
+| UC-004 | Review my todo list | Todo owner | `EP-023`, `EP-022`, `EP-012` | Medium | 4 — items listed; empty list; session no longer accepted; limiter exhausted |
+| UC-005 | Add a todo | Todo owner | `EP-022`, `EP-014` | Low | 3 — title accepted; empty title refused by page and client; body refused by the API |
+| UC-006 | Change a todo (title and completion) | Todo owner | `EP-022`, `EP-015` | **High** | 5 — owned item; another owner's item; id mismatch; concurrent saves; **and the scenario no delivered screen can perform** |
+| UC-007 | Delete a todo | Todo owner | `EP-022`, `EP-016` | Low | 3 — owned item; another owner's item; missing item |
+| UC-008 | Consult the API reference | Developer | `EP-024` | Medium | 2 — Development environment; any other environment |
 
-Survey's output is the material the recovery is built on: 26 entry points recorded with their anchors, and the three exclusions that decide which of them no use case may be recovered from.
+**What the plan must carry forward from this table.** Three facts decide how later phases treat these eight, and each is anchored in a risk rather than asserted here:
 
-| Recovery input Survey produced | What it fixes for Excavation |
-|---|---|
-| `EP-001` … `EP-026` with anchors | The set of entry points a use case may be recovered from. |
-| `EP-004` … `EP-011`, `EP-020`, `EP-021` excluded by stakeholder decision | Registration, login and logout are recoverable; the self-service identity surface and provider sign-in are not. |
-| Priorities, orders 1–8 | The order Excavation reads in: `Todo.Api/Todos` + `Todo.Api/Users` first, the BFF second. |
-| `AN-001` … `AN-020` | The anomalies each recovered element must not reproduce — R001 to R020 in the Risk List. |
+- **`UC-006` has no screen path.** The API accepts the update, the forwarder would carry it, and the checkbox binds nothing. The stakeholder accepted the exposure on 2026-11-19 (`R008`), so the use case is recovered with the gap stated inside it, not repaired into scope without a Change Request. Its High volatility follows: any later declared requirement for completion changes it, so its realisation must not be welded to the other four todo flows.
+- **`UC-001` and `UC-004` are Medium because their ground moves.** Account creation sits directly beside the excluded self-service identity surface, and the list is the only screen of the unstable browser half (`R013`).
+- **`UC-008` is recovered, not designed.** Its environment guard and the unconditional redirect disagree (`R016`), so no artifact may claim an intended production posture.
+
+Entry points that carry no use case, by decision and by reading:
+
+| Entry points | Why no use case | Where that is recorded |
+|---|---|---|
+| `EP-003`, `EP-013` | Published and reached by nothing in the delivery — no refresh token is redeemed, no screen reads one item by id | Use-Case Model, why-these-eight table; `AN-015` |
+| `EP-004` … `EP-011`, `EP-020`, `EP-021` | Excluded by the stakeholder, 2026-11-19 — self-service identity surface and external provider sign-in | System Inventory Perimeter; Supplementary Specification |
+| `EP-025`, `EP-026` | Operational, not an actor goal — health probes and the start-up migration | Supplementary Specification, Design Constraints |
+
+No use case is named after a cross-cutting mechanism. Authentication, token issue, forwarding, rate limiting, validation and telemetry are Supplementary Specification entries that the eight above `<<include>>`.
 
 ## Evaluation Criteria
 The Survey (SBC) exit criteria. They are what the milestone review judges this iteration against. This table supplies the evidence each criterion rests on; it does not declare a criterion passed, because the verdict belongs to the milestone review and the Review Coordinator holds it.
