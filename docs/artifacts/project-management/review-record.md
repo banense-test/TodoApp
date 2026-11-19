@@ -785,6 +785,105 @@ Not holding the milestone, but open: Development Case#F2, System Inventory#F1, I
 
 This lens has no prior finding to close: iteration 1 is the first review of this project, and no finding was resolved, deferred or rejected. Closure in iteration 2 has two parts — the `resolve_artifact_finding` call that moves the state, and the entry that records what the corrected content says. A defect that still stands is re-recorded under its key, not duplicated.
 
+### Review Coordinator lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+Every finding in the ledger has an owner, a severity and a deadline fixed here. Deadline is stated as the iteration in which the correction lands, not as a calendar date: no phase has closed, no spend has been measured, and a date derived from an estimate would read downstream as an observation.
+
+```plantuml
+@startuml
+title Finding lifecycle — the state each of the 12 findings sits in at SBC consolidation (Survey iteration 1)
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+[*] --> Open : record_artifact_finding\nby the evaluating lens
+Open --> Assigned : Review Coordinator fixes\nowner, severity, deadline
+Assigned --> InProgress : owner reworks the artifact
+InProgress --> Resolved : resolve_artifact_finding\nby the SAME lens that opened it
+Resolved --> Verified : coordinator checks the corrected content
+Verified --> Closed : Review Record entry states\nwhat the corrected content says
+Resolved --> Assigned : defect still stands —\nre-recorded under its findingKey
+Open --> Escalated : deadline missed
+Escalated --> Assigned : escalated to the Project Manager
+
+note right of Open
+  Where all 12 findings are at this
+  consolidation: 0 Critical, 7 Major,
+  5 Minor. No prior finding exists —
+  iteration 1 is the project's first
+  review, so nothing is closed here.
+end note
+note right of Resolved
+  Only the lens that emitted a finding
+  may close it. A Review Record
+  sentence saying "resolved" is not
+  a resolution.
+end note
+@enduml
+```
+
+#### Action items, prioritized
+
+Priority order is what closes the milestone gate first. All seven Majors are due in Survey iteration 2 and all seven must be closed before Excavation opens — the stakeholder's order of 2026-11-19 is explicit that all Major findings must be corrected, so no Major is deferred to a later phase and none is accepted as residual.
+
+| Priority | Finding | Lens | Owner | Deadline | Closes the gate |
+|---|---|---|---|---|---|
+| 1 | Development Case#F1 | Reviewer | Process Engineer | Survey iteration 2 | Yes |
+| 2 | Iteration Plan#F1 | Management Reviewer | Project Manager | Survey iteration 2, sequenced after priority 1 | Yes |
+| 3 | Risk List#F1 | Reviewer | Project Manager | Survey iteration 2 | Yes |
+| 4 | Risk List#F1 | Management Reviewer | Project Manager | Survey iteration 2 | Yes |
+| 5 | Risk List#F2 | Management Reviewer | Project Manager | Survey iteration 2 | Yes |
+| 6 | Iteration Plan#F1 | Reviewer | Project Manager | Survey iteration 2 | Yes |
+| 7 | System Inventory#F2 | Reviewer | Software Archaeologist | Survey iteration 2 | Yes |
+| 8 | System Inventory#F1 | Reviewer | Software Archaeologist | Survey iteration 2, after priority 7 | No |
+| 9 | Development Case#F2 | Reviewer | Process Engineer | Survey iteration 2, after priority 1 | No |
+| 10 | Iteration Plan#F2 | Reviewer | Project Manager | Survey iteration 2, after priority 6 | No |
+| 11 | Iteration Plan#F3 | Reviewer | Project Manager | Survey iteration 2, after priority 6 | No |
+| 12 | Iteration Plan#F4 | Reviewer | Project Manager | Survey iteration 2, after priority 6 | No |
+
+Priorities 1 and 2 are sequenced because they are ordered by dependency, not by severity: the Development Case correction must be **specified** before the plan can **schedule** it. Priority 7 before 8 for the same reason — the Perimeter row is restated first, then the coverage aggregate is recomputed against a settled perimeter.
+
+#### Load per owner
+
+| Owner | Findings | Major | Minor | All at work in the phase |
+|---|---|---|---|---|
+| Project Manager | 8 | 5 | 3 | Yes — its Survey stage produces exactly these two artifacts |
+| Process Engineer | 2 | 1 | 1 | Yes — Environment is active in Survey |
+| Software Archaeologist | 2 | 1 | 1 | Yes — Discovery is Critical in Survey |
+
+No finding is assigned to a role that does not work in Survey, and none is assigned to a role outside the active roster. This is the defect `Risk List#F1` Reviewer records inside the register; the corrections above do not repeat it.
+
+#### Escalation register
+
+| Item | Status |
+|---|---|
+| Open Critical findings | None — 0. No stakeholder escalation is raised by this consolidation. |
+| Overdue findings | None. Survey iteration 2 has not run; no deadline has passed. |
+| Non-compliance with procedure | None observed — all four artifacts were issued, all were reviewed by the lenses due at SBC. |
+| Systemic process failure | None at this milestone. One pattern is noted for AR: 8 of 12 findings land where an artifact was issued before its upstream was settled (plan before tailoring; Perimeter row before anomaly). If the same pattern appears at AR, it escalates to the Change Control Management as a process risk. |
+
+#### Closure protocol for iteration 2
+
+Each of the twelve is closed by two acts, in this order:
+
+1. the owning lens calls `resolve_artifact_finding` for the finding it raised — only that lens may close it;
+2. this Review Record gains an entry stating what the corrected content says.
+
+A defect that still stands after rework is re-recorded under its `findingKey` and stays open; it is not duplicated under a new key. Findings the two lenses raised under the same key are closed independently, each by its own lens.
+
+#### Stakeholder orders carried into iteration 2
+
+Recorded here so no owner treats them as optional. Both are the stakeholder's own answers of 2026-11-19, and neither is a finding this review minted.
+
+| Order | Where it lands |
+|---|---|
+| "All major findings must be corrected." | The seven Majors above, all due in Survey iteration 2; the milestone does not re-ask for sanction until all seven are closed |
+| The perimeter drew no correction — no part of the system was asked to be added, removed or moved in priority | The perimeter as the System Inventory records it stands; `System Inventory#F2` corrects an internal contradiction, it does not alter the perimeter |
+
+The stakeholder declined to advance past SBC. That refusal is not read as a rejection of the recovered scope: they named the Major findings as their reason, and the scope they settled on 2026-11-19 is untouched by all twelve findings.
+
 ## Disposition
 ### Reviewer lens
 <!-- review: Survey I1 -->
