@@ -113,6 +113,36 @@ end note
 | `dotnet-ef` CLI delivered from NuGet, installed globally on the developer machine by the AppHost | Service — `dotnet tool install --global dotnet-ef`, then `dotnet ef database update --no-build` | `TodoApp.AppHost/Extensions.cs:17-33` |
 | NuGet package feed (`https://api.nuget.org/v3/index.json`) | Service — restore time only; the single mapped source for all packages | `nuget.config:3-12`; `Directory.Packages.props:1-43` |
 
+### Entry points
+| ID | Entry point | Kind | Initiated by | Anchor |
+|---|---|---|---|---|
+| EP-001 | `POST /users/register` — create a user from email and password | Service operation | Anonymous client (API direct, or the web server's `AuthClient`) | `Todo.Api/Users/UsersApi.cs:12,20`; `Todo.Web/Server/AuthClient.cs:20-29` |
+| EP-002 | `POST /users/login` — exchange credentials for a bearer token | Service operation | Anonymous client | `Todo.Api/Users/UsersApi.cs:12,20`; `Todo.Web/Server/AuthClient.cs:5-18` |
+| EP-003 | `POST /users/refresh` — exchange a refresh token for a new access token | Service operation | Authenticated client | `Todo.Api/Users/UsersApi.cs:12,20` |
+| EP-004 | `GET /users/confirmEmail` — confirm an email address from a code. Excluded from the recovered product scope by stakeholder decision of 2026-11-19, with the self-service identity surface: no use case covers it, and no mail transport exists to deliver the code | Service operation | End user, following a link | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
+| EP-005 | `POST /users/resendConfirmationEmail` — reissue the confirmation mail. Excluded with the self-service identity surface: no use case covers it | Service operation | Anonymous client | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
+| EP-006 | `POST /users/forgotPassword` — request a password-reset code. Excluded with the self-service identity surface: no use case covers it, and no mail transport exists to deliver the code | Service operation | Anonymous client | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
+| EP-007 | `POST /users/resetPassword` — set a new password with a reset code. Excluded with the self-service identity surface: no use case covers it | Service operation | Anonymous client | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
+| EP-008 | `POST /users/manage/2fa` — enable or disable two-factor authentication. Excluded with the self-service identity surface: no use case covers it | Service operation | Authenticated user | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
+| EP-009 | `GET /users/manage/info` — read the caller's account information. Excluded with the self-service identity surface: no use case covers it | Service operation | Authenticated user | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
+| EP-010 | `POST /users/manage/info` — change the caller's email or password. Excluded with the self-service identity surface: no use case covers it | Service operation | Authenticated user | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
+| EP-011 | `POST /users/token/{provider}` — exchange an externally authenticated identity for a bearer token, creating the user on first use. Excluded from the recovered product scope by stakeholder decision of 2026-11-19, with the external-provider mechanism: no use case covers it | Service operation | Web server BFF only (the provider key is data-protected with the provider name) | `Todo.Api/Users/UsersApi.cs:24-54`; `Todo.Web/Server/AuthClient.cs:31-42`; stakeholder decision, 2026-11-19 |
+| EP-012 | `GET /todos` — list the caller's todos | Service operation | Authenticated user, through the forwarder | `Todo.Api/Todos/TodoApi.cs:24-27` |
+| EP-013 | `GET /todos/{id}` — read one todo; 404 unless the caller owns it | Service operation | Authenticated user, through the forwarder | `Todo.Api/Todos/TodoApi.cs:29-36` |
+| EP-014 | `POST /todos` — create a todo owned by the caller | Service operation | Authenticated user, through the forwarder | `Todo.Api/Todos/TodoApi.cs:38-50` |
+| EP-015 | `PUT /todos/{id}` — update title and completion of an owned todo | Service operation | Authenticated user, through the forwarder | `Todo.Api/Todos/TodoApi.cs:52-65` |
+| EP-016 | `DELETE /todos/{id}` — delete an owned todo | Service operation | Authenticated user, through the forwarder | `Todo.Api/Todos/TodoApi.cs:67-73` |
+| EP-017 | `POST /auth/register` — register through the UI and open a session | Service operation | Browser (Blazor client) | `Todo.Web/Server/AuthApi.cs:14-25`; `Todo.Web/Client/TodoClient.cs:55-63` |
+| EP-018 | `POST /auth/login` — log in through the UI and open a session | Service operation | Browser (Blazor client) | `Todo.Web/Server/AuthApi.cs:27-38`; `Todo.Web/Client/TodoClient.cs:47-53` |
+| EP-019 | `POST /auth/logout` — end the cookie session | Service operation | Browser (Blazor client) | `Todo.Web/Server/AuthApi.cs:40-52`; `Todo.Web/Client/TodoClient.cs:65-69` |
+| EP-020 | `GET /auth/login/{provider}` — challenge the named external provider. Excluded from the recovered product scope by stakeholder decision of 2026-11-19, with the external-provider mechanism: no use case covers it | Service operation | Browser, following the provider button rendered by the login form | `Todo.Web/Server/AuthApi.cs:55-62`; `Todo.Web/Client/Components/LogInForm.razor:34-40`; stakeholder decision, 2026-11-19 |
+| EP-021 | `GET /auth/signin/{provider}` — external-login callback: resolve or create the user, obtain a token, write the cookie. Excluded from the recovered product scope by stakeholder decision of 2026-11-19, with the external-provider mechanism: no use case covers it | Service operation | External identity provider redirect | `Todo.Web/Server/AuthApi.cs:64-101`; stakeholder decision, 2026-11-19 |
+| EP-022 | `/todos/{*path}` — YARP forwarder for every verb, re-signed with the stored access token | Service operation | Browser (Blazor client) | `Todo.Web/Server/TodoApi.cs:14-26` |
+| EP-023 | `/` — the application page: renders the login form or the todo list for the session | Screen | End user in a browser | `Todo.Web/Server/App.razor:5-25`; `Todo.Web/Client/TodoApp.razor:3-16` |
+| EP-024 | `/scalar/v1`, with `/` redirecting to it — API reference and try-it-out console | Screen | Developer, development environment only | `Todo.Api/Program.cs:49-56,62`; `Todo.Api/Properties/launchSettings.json:10-24` |
+| EP-025 | `/health` and `/alive` — readiness and liveness probes | Service operation | Aspire AppHost / orchestrator, development environment only | `TodoApp.ServiceDefaults/Extensions.cs:101-117`; `Todo.Api/Program.cs:60` |
+| EP-026 | `dotnet ef database update` at AppHost start — creates or migrates `Todos.db` before the API serves a request | Platform event | TodoApp.AppHost, and only when `Todo.Api/.db` does not yet exist | `TodoApp.AppHost/Program.cs:3,19-25`; `TodoApp.AppHost/Extensions.cs:5-16` |
+
 ## Technology and Size
 | Area | Language | Platform and frameworks, with version | Files | Anchor |
 |---|---|---|---|---|
