@@ -941,36 +941,28 @@ end note
 **What this table is for.** It is the boundary of what the architecture may be credited with. Every row in the upper half is a tactic the code implements and this document verified by reading it. Every row in the lower half is an attribute the delivery states no requirement for, and no architecture can be judged against a requirement that does not exist.
 
 ## Traceability
+Each component realizes the use cases whose path through the code it carries, confirmed in `## Use-Case View`. An edge is written once, in the row of its more concrete end: a component that realizes a use case, and a component that depends on another. Five components carry no use case — COMP-014, COMP-015, COMP-016, COMP-017 and COMP-018. They have no upstream and none is composed for them: their source is the anchor cited where each is described, and they carry only the `DependsOn` edges below.
 
-Each component realizes the use cases whose path through the code it carries, confirmed in `## Use-Case View`. The five that carry none — COMP-014, COMP-015, COMP-016, COMP-017, COMP-018 — have no upstream and no composed one: their source is the anchor cited where each is described, and they carry only the `DependsOn` edges below.
+COMP-011 is absent from UC-001 and UC-002 deliberately: the validation filter is keyed on the declared parameter type, and `UserInfo` — the body of registration and sign-in — is named by no route group, so the filter is on no path through those two use cases (ADR-004, BR-032).
 
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
-| COMP-001 | UC-001, UC-002, UC-003, UC-004 | Realizes | — |
-| COMP-002 | UC-001, UC-002, UC-003 | Realizes | — |
-| COMP-003 | UC-004, UC-005, UC-006, UC-007 | Realizes | — |
+| COMP-001 | UC-001, UC-002, UC-003, UC-004 | Realizes | COMP-014 |
+| COMP-002 | UC-001, UC-002, UC-003 | Realizes | COMP-006, COMP-007 |
+| COMP-003 | UC-004, UC-005, UC-006, UC-007 | Realizes | COMP-006, COMP-008 |
 | COMP-004 | UC-001, UC-002, UC-003, UC-004, UC-005, UC-007 | Realizes | — |
 | COMP-005 | UC-001, UC-002, UC-003, UC-004, UC-005, UC-007 | Realizes | — |
 | COMP-006 | UC-001, UC-002, UC-004, UC-005, UC-006, UC-007 | Realizes | — |
-| COMP-007 | UC-001, UC-002 | Realizes | — |
-| COMP-008 | UC-004, UC-005, UC-006, UC-007 | Realizes | — |
-| COMP-009 | UC-004, UC-005, UC-006, UC-007 | Realizes | — |
+| COMP-007 | UC-001, UC-002 | Realizes | COMP-012, COMP-014 |
+| COMP-008 | UC-004, UC-005, UC-006, UC-007 | Realizes | COMP-009, COMP-010, COMP-011, COMP-012 |
+| COMP-009 | UC-004, UC-005, UC-006, UC-007 | Realizes | COMP-012 |
 | COMP-010 | UC-004, UC-005, UC-006, UC-007 | Realizes | — |
 | COMP-011 | UC-005, UC-006 | Realizes | — |
 | COMP-012 | UC-001, UC-002, UC-004, UC-005, UC-006, UC-007 | Realizes | — |
 | COMP-013 | UC-008 | Realizes | — |
 | COMP-014 | — | — | — |
-| COMP-015 | — | — | — |
-| COMP-016 | — | — | — |
-| COMP-017 | — | — | — |
-| COMP-018 | — | — | — |
-| COMP-002 | — | DependsOn | COMP-007, COMP-006 |
-| COMP-003 | — | DependsOn | COMP-008, COMP-006 |
-| COMP-007 | — | DependsOn | COMP-012 |
-| COMP-008 | — | DependsOn | COMP-009, COMP-010, COMP-011, COMP-012 |
-| COMP-009 | — | DependsOn | COMP-012 |
-| COMP-014 | — | DependsOn | COMP-001 |
-| COMP-015 | — | DependsOn | COMP-001, COMP-016 |
-| COMP-016 | — | DependsOn | COMP-012 |
-| COMP-017 | — | DependsOn | COMP-007, COMP-008 |
-| COMP-018 | — | DependsOn | COMP-017 |
+| COMP-015 | — | — | COMP-001, COMP-016 |
+| COMP-016 | — | — | COMP-012 |
+| COMP-017 | — | — | COMP-007, COMP-008 |
+| COMP-018 | — | — | COMP-017 |
+
