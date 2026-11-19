@@ -383,9 +383,9 @@ end note
 :10 were excluded by the stakeholder on 2026-11-19;
 note right
   EP-004 to EP-010 - the self-service identity surface.
-  EP-011, EP-020, EP-021 - external provider sign-in,
-  EP-011 included for the reason recorded in the
-  Review Record: it is the provider token endpoint.
+  EP-011, EP-020, EP-021 - external provider sign-in.
+  EP-011 is the provider token endpoint, which
+  AN-018 reads and R018 keeps excluded.
 end note
 :2 are operational, not an actor goal;
 note right
