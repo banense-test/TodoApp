@@ -98,7 +98,6 @@ No Significant risk is accepted: all nine are handled by avoidance, each naming 
 
 
 ## Risk Register
-
 | ID | Risk | AN | P | I | Exposure | Magnitude | Strategy |
 |---|---|---|---|---|---|---|---|
 | R001 | A recovered artifact or the user documentation names a Swagger UI the system does not serve, sending the reader to a screen that does not exist. | AN-001 | 3 | 2 | 6 | Moderate | Accept |
@@ -108,8 +107,8 @@ No Significant risk is accepted: all nine are handled by avoidance, each naming 
 | R005 | The offered development container cannot restore or build the solution, so any environment verification performed inside it measures an SDK below the project's floor. | AN-005 | 4 | 3 | 12 | Significant | Avoid |
 | R006 | CI green is quoted as proof that the pinned SDK builds the solution, when the workflow uses whatever SDK the runner image carries. | AN-006 | 4 | 3 | 12 | Significant | Avoid |
 | R007 | A migration is authored from the EF Core 8.0.0 snapshot under a 9.0.8 runtime, and the diff it produces misstates the schema. | AN-007 | 3 | 3 | 9 | Significant | Avoid |
-| R008 | The product as delivered cannot mark a todo complete from any screen while the API can, so a use case recovered from EP-015 carries a capability no delivered actor reaches. | AN-008 | 4 | 4 | 16 | High | Accept — grant requested |
-| R009 | The identity decision point — cookie authentication, `/auth`, the YARP forwarder — carries no automated verification, so every recovered statement about who the caller is rests on a static reading. | AN-009 | 4 | 4 | 16 | High | Accept — grant requested |
+| R008 | The product as delivered cannot mark a todo complete from any screen while the API can, so a use case recovered from EP-015 carries a capability no delivered actor reaches. | AN-008 | 4 | 4 | 16 | High | Accept — granted by the stakeholder, 2026-11-19 |
+| R009 | The identity decision point — cookie authentication, `/auth`, the YARP forwarder — carries no automated verification, so every recovered statement about who the caller is rests on a static reading. | AN-009 | 4 | 4 | 16 | High | Accept — granted by the stakeholder, 2026-11-19 |
 | R010 | A use case claims cross-user access on the strength of the `admin` claim although no code path grants the role, and authority is designed into the product as if it existed. | AN-010 | 2 | 3 | 6 | Moderate | Avoid |
 | R011 | The credential-accepting `/users` surface carries no throttle: registration, login and refresh accept unlimited attempts. | AN-011 | 2 | 3 | 6 | Moderate | Accept |
 | R012 | The BFF reaches the API only through an Aspire-discovered hardcoded address, so in an environment without that discovery the browser half cannot reach the backend and no configuration key supplies a route. | AN-012 | 3 | 3 | 9 | Significant | Avoid |
@@ -120,7 +119,7 @@ No Significant risk is accepted: all nine are handled by avoidance, each naming 
 | R017 | Both hosts fall back to a per-user file-system key ring, so run as separate services each holds its own keys: cookies become undecryptable and the provider key unreadable. | AN-017 | 3 | 4 | 12 | Significant | Avoid |
 | R018 | `POST /users/token/{provider}` is anonymous and unprotects a caller-supplied value before any identity is established, so any caller reaching the port posts to a cryptographic unprotect. | AN-018 | 3 | 3 | 9 | Significant | Avoid |
 | R019 | Seven published identity operations with no caller in the delivered product are taken for product capability, and use cases or a manual are written for screens that do not exist. | AN-019 | 3 | 2 | 6 | Moderate | Avoid |
-| R020 | The assembled system has never run: AppHost ordering, service discovery, the forwarder, the shared key ring and the migration step are inferred, and the first run may contradict any reading. | AN-020 | 5 | 4 | 20 | High | Accept — grant requested |
+| R020 | The assembled system has never run: AppHost ordering, service discovery, the forwarder, the shared key ring and the migration step are inferred, and the first run may contradict any reading. | AN-020 | 5 | 4 | 20 | High | Accept — granted by the stakeholder, 2026-11-19 |
 
 ## Risk Mitigation and Contingency
 
