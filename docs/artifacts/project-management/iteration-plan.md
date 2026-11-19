@@ -152,9 +152,15 @@ end note
 
 ### Measure and forecast
 
-No phase has closed. There is no measured actual, therefore there is no forecast: no token figure, no elapsed figure, and no per-iteration velocity appears in this plan. The Development Case records that the project declares **no token budget** — so there is no box to fit, and no declared scope is cut or deferred to fit one.
+No phase has closed. There is no measured actual, therefore there is no forecast: no token figure, no elapsed figure, and no per-iteration velocity appears in this plan. No declared scope is cut or deferred to fit an estimate.
 
-When Survey closes, the Project Manager records its measured spend in the Iteration Assessment and the next plan is built from it — both clocks apart:
+The budget position was put to the stakeholder in Survey iteration 1 and answered on 2026-11-19:
+
+| What was put | Their answer, verbatim | Recorded |
+|---|---|---|
+| Whether a token budget has been declared for this project, given that the Development Case records none and the plan commits to 8–9 iterations with R020's contingency able to add one. | "No budget declared — record measured spend at each phase close and forecast from the measured actual, never from an assumption." | 2026-11-19 |
+
+So the project declares **no token budget**: there is no box, no figure was invented for the stakeholder to accept, and nothing is trimmed to fit one. Measured spend is recorded as observed at each phase close, and both clocks are reported apart:
 
 | Clock | What it measures | Where it is recorded | Ceiling |
 |---|---|---|---|
