@@ -1,11 +1,7 @@
 ## Document Control
-
 - Phase: Survey
 - Status: Draft — issued for the end-of-Survey milestone review
 - Milestone Target: end of Survey (SBC) — not yet achieved
-- Owner: Process Engineer
-- Date: 2026-11-19
-
 ## Tailoring Overview
 
 This Development Case is an **override delta** over the IARI DC baseline. The 26-role roster, the 16 CORE artifacts, the 6 OPTIONAL artifacts, primary ownership and the intensity matrix are taken as given and are not repeated here. Only what this project does differently is recorded.
