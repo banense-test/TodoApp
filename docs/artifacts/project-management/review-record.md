@@ -958,3 +958,78 @@ Why this is a No-Go and not a Conditional. A Conditional would advance the phase
 What the artifact set does establish, and what iteration 2 starts from. The perimeter is drawn from code with an anchor behind every one of 26 entry points and behind each of the three exclusions the stakeholder settled. Twenty anomalies are each a scored risk with its magnitude taken from the band of probability × impact on the declared scale, and the three High ones carry the stakeholder's own acceptance, recorded verbatim. The one fired optional genuinely holds and the Data Model verdict genuinely fails. The roadmap carries nine milestones with no invented forecast, and no declared scope was cut to fit a budget the project never declared. The material the recovery will rest on is substantially there; what fails is seven claims inside it.
 
 The next iteration of Survey is planned by these findings. When every Major is closed, both lenses re-review and the sanction is put to the stakeholder again. This block declares no milestone, iteration or phase complete, and the SBC verdict in the ledger remains the Review Coordinator's to record.
+
+### Review Coordinator lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+**SBC milestone verdict: No-Go. The Survey phase iterates; it does not advance to Excavation.**
+
+The verdict rests on four facts, each counted rather than judged: 0 open Critical findings; 7 open Major findings; three of six SBC exit criteria not substantiated by both executing lenses; and the stakeholder's sanction REFUSED on 2026-11-19 with the reason that all Major findings must be corrected.
+
+```plantuml
+@startuml
+title SBC disposition — the milestone and each artifact (Survey iteration 1)
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+[*] --> Milestone_Assessment
+state "SBC milestone review executed" as Milestone_Assessment {
+  Milestone_Assessment : Reviewer — 9 findings, 4 Major
+  Milestone_Assessment : Business Reviewer — INACTIVE
+  Milestone_Assessment : Management Reviewer — 3 findings, 3 Major, sanction REFUSED
+}
+Milestone_Assessment --> Criterion_Test
+state "Criterion test — both executing lenses must substantiate" as Criterion_Test {
+  Criterion_Test : C2 Priorities — pass / pass — MET
+  Criterion_Test : C3 Unread — pass / pass — MET
+  Criterion_Test : C6 Roadmap — pass / pass — MET
+  Criterion_Test : C1 Perimeter — pass / not met — FAIL
+  Criterion_Test : C4 Risk scoring — pass / not met — FAIL
+  Criterion_Test : C5 Tailoring — pass / not met — FAIL
+}
+Criterion_Test --> Verdict
+state Verdict {
+  Verdict : 0 Critical — no stakeholder escalation on a Critical
+  Verdict : 7 Major open — no artifact cleared for consumption
+  Verdict : sanction REFUSED 2026-11-19
+  Verdict : No-Go — the phase iterates
+}
+Verdict --> Iteration2
+state "Survey iteration 2" as Iteration2 {
+  Iteration2 : the seven Majors are its plan
+  Iteration2 : each closed by the lens that raised it
+  Iteration2 : then both lenses re-review, sanction asked again
+}
+Iteration2 --> [*] : the milestone closes only on a granted sanction
+@enduml
+```
+
+#### Per-artifact disposition
+
+| Artifact | Reviewer lens | Management lens | Disposition from this review |
+|---|---|---|---|
+| Development Case | Approved with Changes — F1 Major, F2 Minor | Clean of management defect | **Not cleared** — 1 open Major |
+| System Inventory | Approved with Changes — F2 Major, F1 Minor | Clean — criteria 1, 2, 3 substantiated | **Not cleared** — 1 open Major |
+| Risk List | Approved with Changes — F1 Major | Rework — F1, F2 Major | **Not cleared** — 3 open Major |
+| Iteration Plan | Approved with Changes — F1 Major, F2–F4 Minor | Rework — F1 Major | **Not cleared** — 2 open Major |
+
+No artifact is rejected. Every artifact's substance survives: the perimeter is drawn from code with an anchor behind each of 26 entry points and behind each of the three exclusions the stakeholder settled; twenty anomalies are each a scored risk whose magnitude is the band of probability × impact on the declared scale, with the three High ones carrying the stakeholder's own acceptance verbatim; the one fired optional genuinely holds and the Data Model verdict genuinely fails; the roadmap carries nine milestones with no invented forecast and no declared scope cut to fit a budget the project never declared. What fails is seven claims inside that material, and seven claims are correctable in one iteration.
+
+#### Why No-Go rather than Conditional
+
+A Conditional would advance the phase on conditions discharged later. The stakeholder refused exactly that form of advancement, and their stated reason is the Major findings. Opening Excavation on this set would put recovered use cases on a Perimeter row the same artifact's own anomaly contradicts, and set Excavation to execute avoidance actions owned by roles that do not work in the phase. Neither is a formality an author can discharge in parallel with the work that consumes it.
+
+#### What iteration 2 must produce before the sanction is put again
+
+1. All seven Major findings closed — each by the lens that raised it, each with a Review Record entry stating what the corrected content says.
+2. The five Minor findings closed by their owners in the same iteration; they do not hold the milestone but they are the same authors' turn.
+3. Both executing lenses re-review the corrected set and record their dispositions.
+4. The sanction is put to the stakeholder again, with the open-finding count inside the question, exactly as it was at this milestone.
+
+The Business Reviewer is not added to this list. Its lens is not due until LCO, and nothing in iteration 2 depends on it.
+
+#### Record status
+
+This block records the SBC milestone review's coordination only: the participation of the lenses actually executed, the consolidated ledger, the conflicts across those lenses, the action priorities, the effectiveness metrics for this milestone alone, and the verdict. It declares no milestone, iteration or phase complete — SBC is not achieved, and the phase iterates.
