@@ -131,7 +131,7 @@ Excavation iteration 1 is the recovery. Its work items are exactly the stages th
 
 Items 1–4 are sequenced before 5–11 because every Analysis and Design stage cites a `UC-NNN` or a `BR-NNN` by identifier; items 12–13 run after them because the Inventory scores the recovered models against the code, and that is where `AN-021` … `AN-024` were read. Items 14–15 are the Project Management stage. Item 16 is the milestone review in the order the process fixes; item 18 follows the verdict, never precedes it.
 
-None of these is scheduled before the tailoring that governs it. The Development Case's sprint-zero correction landed in Survey iteration 2, so the convention source Excavation works under is already in place — `Risk List#F1` from the SBC review is closed on that ground and this plan does not re-open it.
+None of these is scheduled before the tailoring that governs it. The Development Case is an Approved Survey artifact and its sprint-zero correction was issued in Survey iteration 2, so the convention source this iteration works under is in place before item 1 starts. Two Minor findings of the SBC review land on the two artifacts items 14 and 15 issue — `Risk List#F2` and `Iteration Plan#F5` — under the stakeholder's order that Minor findings be corrected in this phase.
 
 **No agent is added to this iteration to shorten it.** The stages depend on each other: each cites the identifier the previous one minted, and the Inventory's own Priorities fix an order that exists because a use case can only be read once the operation behind it is known. Adding an agent buys no clock here and costs coordination across artifacts that cite each other's labels.
 
