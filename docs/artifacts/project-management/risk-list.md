@@ -4,7 +4,6 @@
 - Milestone Target: end of Survey (SBC) — not yet achieved
 
 ## Risk Classification
-
 Every risk below comes from an anomaly the System Inventory recorded; none is invented, and none is scored on a scale of this document's own. Scale: the IARI risk scale (DC baseline §9.10) — the project Development Case records no deviation from it.
 
 | Probability | Level | Exposure |
@@ -89,13 +88,14 @@ end note
 
 | Magnitude | Count | Risks |
 |---|---|---|
-| High | 3 | R008, R009, R020 |
+| High | 3 | R008, R009, R020 — acceptance granted by the stakeholder on 2026-11-19 |
 | Significant | 9 | R003, R004, R005, R006, R007, R012, R015, R017, R018 |
 | Moderate | 7 | R001, R002, R010, R011, R013, R014, R019 |
 | Minor | 1 | R016 |
 | Low | 0 | — |
 
-The three High risks are all accepted, none by me: their acceptance is requested from the stakeholder in this round and stays OPEN until answered.
+No Significant risk is accepted: all nine are handled by avoidance, each naming the action and the role that performs it. The three High risks are accepted, and that acceptance is the stakeholder's, recorded verbatim in Risk Mitigation and Contingency.
+
 
 ## Risk Register
 
