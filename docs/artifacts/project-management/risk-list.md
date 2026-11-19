@@ -90,13 +90,13 @@ end note
 
 | Magnitude | Count | Risks |
 |---|---|---|
-| High | 3 | R008, R009, R020 — acceptance granted by the stakeholder on 2026-11-19 |
+| High | 3 | R008, R009, R020 — avoidance not available, acceptance granted by the stakeholder on 2026-11-19 |
 | Significant | 13 | R003, R004, R005, R006, R007, R012, R015, R017, R018, R022, R023, R024 — avoidance; R021 — acceptance granted by the stakeholder on 2026-11-19 |
-| Moderate | 8 | R001, R002, R010, R011, R013, R014, R019, R025 — avoidance and mitigation |
-| Minor | 1 | R016 — accept, contained inside its artifact |
+| Moderate | 8 | R001, R002, R010, R011, R014, R019, R025 — avoidance; R013 — acceptance, retired by mitigation, within the Project Manager's own authority at this magnitude |
+| Minor | 1 | R016 — acceptance, retired by mitigation, contained inside its artefact |
 | Low | 0 | — |
 
-Of the thirteen Significant risks, twelve are handled by avoidance, each naming the action and the role that performs it; the thirteenth, R021, is accepted, and that acceptance was put to the stakeholder and granted. Every High and Significant risk in this register is therefore either avoided by a named action or accepted on the stakeholder's own answer — none is open, and none was self-granted. No acceptance is requested in this iteration: the four anomalies the recovery added produced no exposure that an action cannot retire.
+Of the three High risks, none is avoidable before Elaboration: the missing completion control needs a declared requirement, the BFF's test coverage needs the phase that writes tests, and the assembled run needs an Integrator at work — none of which exists in the sprint zero. Their acceptance was therefore the stakeholder's to grant, and was granted. Every High and Significant risk in this register is either avoided by a named action or accepted on the stakeholder's own answer: none is open, and none was self-granted. No acceptance is requested in this iteration — the four anomalies the recovery added produced no exposure that an action cannot retire.
 
 ## Risk Register
 | ID | Risk | AN | P | I | Exposure | Magnitude | Strategy |
