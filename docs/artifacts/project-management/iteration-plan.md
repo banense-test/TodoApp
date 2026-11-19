@@ -220,24 +220,40 @@ stop
 ```
 
 ## Resources
-The team is the agents the IARI DC baseline activates, and the plan selects which of them work in this iteration. The roster is not this plan's to change; the Development Case records two roles as silenced by its trigger decisions and neither is scheduled here.
+The team is the 26 roles the IARI DC baseline activates, and the plan selects which of them work in this iteration. The roster is not this plan's to change.
 
-| Role | At work in Survey | Stage it runs | Produces | Notes |
-|---|---|---|---|---|
-| Process Engineer | Yes | Development Case | Development Case | Environment is High in Survey. Re-prepared at the next Environment phase, not before — no finding or Change Request demands a tailoring change yet. |
-| Software Archaeologist | Yes | System Inventory — Documentation, Perimeter, Anomalies and Priorities | System Inventory | Discovery is Critical in Survey. The only role minting `EP-NNN` and `AN-NNN`. |
-| Project Manager | Yes | Risk List, Iteration Plan | Risk List, Iteration Plan, Iteration Assessment | Project Management is Medium in Survey. |
-| Reviewer | Yes | Milestone review SBC | Review Record | First lens of the SBC review. |
-| Management Reviewer | Yes | Milestone review SBC | Review Record | Second lens of the SBC review. |
-| Review Coordinator | Yes | Milestone review SBC | Review Record, milestone verdict | Holds the verdict; convenes without the Business Reviewer. |
-| Stakeholder | Yes — human gate | Perimeter confirmation, High-risk acceptance, Excavation scope, budget position | Four answers recorded verbatim in the Risk List and this plan | The only human in this process. Its wait is quoted in days of queue time, never in the agent clock. |
-| Business Process Analyst, Business Reviewer | No | — | — | `business-process-led = false` (Development Case DC-D2). |
-| Capsule Designer | No | — | — | `real-time-system = false` (Development Case DC-D3). |
-| System Analyst, Software Architect, Designer, Database Designer | Not in Survey | — | — | First at work in Excavation, per the process. Nothing in this plan schedules them earlier. |
-| Implementer, Integrator, Test roles, Deployment, Change Control | Not in Survey | — | — | The sprint zero carries no Implementation, Test, Deployment or Change Control stage (Development Case §6). |
+**Assignment profile: six agent roles plus the stakeholder gate.** Six agents execute the iteration — Process Engineer, Software Archaeologist, Project Manager, Reviewer, Management Reviewer, Review Coordinator — and the Stakeholder is the one human the iteration waits on, counted separately and never as a role of the agent roster. Seven rows carry "Yes" in total and six of them are agents; the discrepancy the earlier profile left is closed by counting the gate apart from the roster.
 
-**Assignment profile.** Six roles at work, one of them the human gate. That is the whole of Survey — the plan adds no role to accelerate it, because the two stages that dominate its length are sequential by nature: the Inventory must be read before it can be scored, and the verdict cannot precede the reading. Parallelism would buy no clock here and would cost coordination across artifacts that cite each other's labels.
+The plan adds no agent to accelerate this iteration. The stages that dominate its length are sequential by nature: the tailoring must be corrected before the phases that work under it are planned for, the Inventory must be read before it can be scored, and no verdict can precede the review. Parallelism buys no clock here and costs coordination across artifacts that cite each other's labels.
 
+| Role | At work in Survey iteration 2 | Stage it runs | Produces |
+|---|---|---|---|
+| Process Engineer | Yes | Development Case — sprint-zero correction | Development Case |
+| Software Archaeologist | Yes | System Inventory — perimeter row and coverage aggregate | System Inventory |
+| Project Manager | Yes | Risk List; Iteration Plan; Iteration Assessment | Risk List, Iteration Plan, Iteration Assessment |
+| Reviewer | Yes | SBC milestone review — technical lens | Review Record |
+| Management Reviewer | Yes | SBC milestone review — governance lens | Review Record |
+| Review Coordinator | Yes | SBC milestone review — verdict | Review Record, milestone verdict |
+| Stakeholder (human, outside the agent roster) | Yes — human gate | Sanction of the SBC milestone | One answer recorded verbatim, carried as R021 |
+
+Roles not at work in Survey, each with its reason:
+
+| Role | Reason |
+|---|---|
+| Business Process Analyst, Business Reviewer | `business-process-led = false` (Development Case DC-D2). Neither has a stage in this project. |
+| Capsule Designer | `real-time-system = false` (Development Case DC-D3). No capsule, protocol or signal exists to design. |
+| System Analyst | First at work in Excavation, where Requirements is High and the recovered use cases, Business Rules and Supplementary Specification are written. Nothing in Survey produces those artifacts. |
+| Requirements Specifier | First at work in Elaboration, where Use-Case Detail and NFR Thresholds are specified. It is not the sprint zero's Requirements role — Excavation's Requirements stage belongs to the System Analyst, which is why no risk action here may name it. |
+| Software Architect | First at work in Excavation, where Analysis and Design is Critical and the Software Architecture Document and Deployment Model are recovered. |
+| Designer, Database Designer | First at work in Excavation, where the Design Model and its persistent-data sections are recovered. |
+| User Interface Designer | First at work in Elaboration, where the navigation map and boundary classes are designed. Survey produces no screen design. |
+| Implementer, Integrator, Code Reviewer | First at work in Inception, where the build environment is set up, and in Elaboration's Executable Architecture. The sprint zero writes no code. |
+| Test Manager, Test Analyst, Test Designer, Tester | First at work in Inception (Test Plan) and Elaboration (test cases and architecture test execution). Survey executes no test. |
+| Deployment Manager, Technical Writer | First at work in Inception and Construction respectively. No deployment or user documentation exists in Survey. |
+| Change Control Manager | First at work in Inception, where the ledger opens. The sprint zero opens no ledger entry — a stakeholder order reaches its owner through the Work Order. |
+| Configuration Manager | First at work in Inception, where the CM strategy is set up. The sprint zero baselines nothing. |
+
+Every role of the active roster is therefore accounted for: six execute, one human gate is answered, and the remaining twenty carry a stated reason for their absence. None is silenced by a trigger decision that contradicts the Development Case.
 ## Use Cases and Scenarios Addressed
 
 **None.** No use case is analysed, designed or implemented in Survey. The system's use cases are recovered from the entry points in Excavation and completed in Consolidation — the Use-Case Model does not exist yet, and no `UC-NNN` has been minted.
