@@ -321,7 +321,7 @@ Criterion 1 rests on an answer the stakeholder gave in Survey iteration 1 on 202
 
 That boundary is what Excavation recovers within: a use case comes from an entry point inside it, and a component or table outside it is not recovered at all.
 
-The stakeholder's second answer of that day bears on the milestone rather than on the perimeter: asked to sanction advancing past SBC, they answered "No", with the reason "All major findings must be corrected." No part of the perimeter was asked to be added, removed or moved in priority. Criterion 1's evidence stands and the milestone's advance does not; the refusal is recorded in the Review Record.
+The sanction of the milestone was asked twice on that date. The first ask was refused — "No", with the reason "All major findings must be corrected" — and no part of the perimeter was asked to be added, removed or moved in priority by that refusal. The second ask was granted: "Yes", on a ledger reading 0 Critical and 0 Major open from both executing lenses, with the two Minor findings it carries contained inside their own artifacts. The perimeter therefore stands as the System Inventory records it, criterion 1 is met, and the milestone advances.
 
 ### Excavation scope — decided by the stakeholder
 
