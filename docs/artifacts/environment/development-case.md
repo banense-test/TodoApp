@@ -112,22 +112,21 @@ Every active discipline runs at the intensity the canonical matrix assigns in ea
 - **Requirements, Analysis & Design, Implementation, Test, Deployment, Configuration & Change Management, Project Management** are active in every phase at the matrix intensity.
 
 ## Artifacts and Templates
-
 Scope per discipline. "CORE" means the artifact named in the baseline catalog, produced as the baseline requires; the entries below record only what this project adds, narrows or omits.
 
 | Discipline | Sprint zero | RUP phases | Tailoring note |
 |---|---|---|---|
-| Discovery | System Inventory — documentation, perimeter, anomalies, history and coverage | — | The sprint zero's single artifact. Mints `EP-NNN` and `AN-NNN`; every recovered use case and recovered risk traces back to one of them. |
-| Requirements | — | Vision, Use-Case Model, Supplementary Specification (CORE) | Excavation recovers use cases from entry points; Consolidation completes coverage so that every entry point of the perimeter has a use case or an explicit recorded exclusion. Requirements in Inception onwards evolve the recovered set; this project has no declared scope to add that the code does not already perform. |
-| Analysis & Design | — | Software Architecture Document, Design Model (CORE); **Deployment Model (triggered)** | The persistent schema is recovered **into the Design Model** by the Database Designer's persistent-data stages — the Data Model is not produced (section 5). Analysis classes and design classes describe the recovered structure; they do not redesign it. |
-| Implementation | — | Implementation Model (in the SCM) | No Implementation Model is authored in the sprint zero: the existing code is cited by path from the System Inventory. The Implementation Model enters at Inception with the Integrator's build-environment work and describes the integrated result from Elaboration on. |
-| Test | — | Test Case, Test Evaluation Summary (CORE) | No Test Plan (section 5); the Iteration Plan carries per-iteration test scope. The existing `Todo.Api.Tests` integration suite is recovered as part of the system's behaviour at Excavation; no test case is authored before Elaboration. |
-| Deployment | — | Release Notes, User Documentation (CORE); **Deployment Model (triggered)** | The Deployment Model is the artifact this project leans on: the recovery must explain the AppHost topology, service discovery and the forwarder, and the target environment is defined against it. |
+| Discovery | System Inventory — documentation, perimeter, anomalies, history and coverage | — | The sprint zero's single artifact. Mints `EP-NNN` and `AN-NNN`; every recovered use case cites an `EP-NNN` and every recovered risk cites an `AN-NNN`. Consolidation completes coverage so that every entry point of the recovered perimeter has a use case or a recorded exclusion. |
+| Requirements | — | Vision, Use-Case Model, Supplementary Specification (CORE) | Use cases are recovered from entry points in Excavation and completed in Consolidation; from Inception they are evolved by the baseline stages, not re-derived. Authentication, registration, token issue, rate limiting, proxying and telemetry are Supplementary Specification mechanisms, never use cases. |
+| Analysis & Design | — | Software Architecture Document, Design Model (CORE); **Deployment Model (triggered)** | The Deployment Model is triggered by the multi-node topology (section 5) and is produced in the stages the baseline assigns to it. The persistent schema is recovered **into the Design Model** by the Database Designer's persistent-data stages — the Data Model is not produced. Analysis and design classes describe the recovered structure; they do not redesign it. |
+| Implementation | — | Implementation Model (in the SCM) | No Implementation Model is authored in the sprint zero: the existing code is read by path and cited from the System Inventory. The artifact enters at Inception with the Integrator's build-environment work. |
+| Test | — | Test Case, Test Evaluation Summary (CORE) | No Test Plan (section 5); the Iteration Plan carries per-iteration test scope and the Test Evaluation Summary reports the outcome. The recovered `Todo.Api.Tests` suite is read as evidence of current behaviour by the roles that read the system in the sprint zero; no `TC-NNN` is authored before the Elaboration Test Designer stage. |
+| Deployment | — | Release Notes, User Documentation (CORE) | The deployment discipline consumes the triggered Deployment Model: it is what explains the AppHost topology, the service discovery between services and the forwarder in front of the API, and it is the reference the target environment is defined against. |
 | Configuration & Change Management | — | Change Request (CORE) | No ledger entry is opened in the sprint zero; the Change Control Manager does not work there, and a stakeholder's order reaches its owner through the Work Order. |
-| Project Management | Iteration Plan, Risk List, Iteration Assessment | same (CORE) | The Risk List is the earliest place the sprint zero's unknowns are scored — in particular what the perimeter could not establish. |
+| Project Management | Iteration Plan, Risk List, Iteration Assessment | same (CORE) | The Risk List is the earliest place the sprint zero's unknowns are scored — in particular whatever the perimeter could not establish. |
 | Environment | Development Case | Development Case | This document. Re-prepared at each iteration of Survey, Inception and Elaboration; preserved otherwise. |
 
-**Templates.** Each artifact is written to the canonical section skeleton published with its name by the artifact service — that skeleton is the template, and no project-specific section is added to it. Artifact *content* guidance (coding standards, UI patterns, test conventions) is not duplicated in this document; it lives in the files owned by the discipline leads:
+**Templates.** Each artifact is written to the canonical section skeleton published with its name by the artifact service — that skeleton is the template, and no project-specific section is added to it. Artifact *content* guidance (coding standards, UI patterns, test conventions) is not duplicated in this document; it lives in the files each discipline lead owns:
 
 | Guideline content | File | Owner |
 |---|---|---|
@@ -137,7 +136,6 @@ Scope per discipline. "CORE" means the artifact named in the baseline catalog, p
 | Build, restore, test and CI execution | `.github/workflows/ci.yaml` | Integrator |
 | SDK pin, target framework, language and nullable settings | `global.json`, `Directory.Build.props` | Integrator |
 | Centrally managed package versions and package sources | `Directory.Packages.props`, `nuget.config` | Software Architect (versions), Integrator (feeds) |
-
 ## Optional Artifact Triggers
 
 Evaluated against this project's facts. Re-evaluated at every iteration; the recorded set is replaced, never appended to.
