@@ -177,15 +177,15 @@ end note
 | RE-009 | No retry, circuit breaker or bulkhead is configured on the BFF's client to the API. The service-defaults resilience handler applies to `HttpClient` instances registered by the hosts, not to the YARP forwarder's path. | **Not established by the delivery** — no resilience requirement exists | `Todo.Web/Server/Program.cs:24-32`; `Todo.Web/Server/TodoApi.cs:14-26` |
 
 ## Performance
-
 | ID | Requirement | Threshold | Basis |
 |---|---|---|---|
-| PE-001 | The per-user request budget is the only throughput figure the delivery states. | 100 requests per 10-second period per user; queue depth 100; replenishment automatic | `RateLimitExtensions.cs:20-27` |
+| PE-001 | The per-user request budget is the only throughput figure the delivery states, and it is not one figure: the code's defaults and the Development settings differ, so the budget is environment-dependent. | Code defaults: 100 tokens, 100 replenished every 10 seconds, queue depth 100. Development settings: 50 / 50 / 50 — half the budget, and half the queue. Any other environment falls back to the code defaults until someone supplies a `RateLimiting` section | `RateLimitExtensions.cs:20-27`; `Todo.Api/appsettings.Development.json:9-13` |
 | PE-002 | Response-time, latency and end-to-end targets are not stated anywhere. | **Not established by the delivery** | No file in the delivery carries a timing figure |
-| PE-003 | The list is returned unpaginated and unbounded; no page size, maximum item count or payload limit exists. | **Not established by the delivery** | `TodoApi.cs:24-27` |
+| PE-003 | The list is returned unpaginated and unbounded; no page size, maximum item count or payload limit exists. | **Not established by the delivery** — and no cap applies: `GET /todos` declares no `Take` | `TodoApi.cs:24-27` |
 | PE-004 | The number of concurrent users the product is expected to serve is not stated anywhere. | **Not established by the delivery** | Perimeter |
 | PE-005 | Resource sizing — CPU, memory, storage growth — is not stated anywhere; no container resource limit is declared. | **Not established by the delivery** | `TodoApp.AppHost/Program.cs`; project files |
-
+| PE-006 | The session's length is not configured anywhere, so it is the framework's access-token default nobody in this delivery chose; no refresh token is redeemed to extend it. | **Not established by the delivery** — the lifetime itself | AN-015; `TokenNames.cs:3-6`; `TodoApi/Program.cs:14-20` (no token lifetime configured) |
+| PE-007 | The credential endpoints carry no throughput bound at all. | No limiter, no lock-out, no attempt counter on `/users` — unlimited by construction | AN-011; BR-031; BR-038; `UsersApi.cs:12-22` |
 ## Supportability
 
 | ID | Requirement | Threshold | Basis |
