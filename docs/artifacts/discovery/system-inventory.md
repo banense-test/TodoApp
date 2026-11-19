@@ -246,9 +246,55 @@ end note
 | `docs/artifacts/environment/development-case.md` | The tailoring governing this project: sprint zero before Inception, the recovered-element anchoring rule, the one fired OPTIONAL (Deployment Model), the inactive disciplines and the roles at work in the sprint zero. | Current | `docs/artifacts/environment/development-case.md` |
 
 ## History
+Read from the repository's commits, most recent first, over the window each area's history covers. The whole-repository listing covers 2023-07-14 to 2026-11-19 and reports older history beyond it; the two commits of 2026-11-19 are this project's own artifacts, and `4fcea8c` "Create README.md" of 2026-11-19 created the repository copy. Every reading below rests on the commit subjects and dates listed, not on how the code looks today.
+
+```plantuml
+@startuml
+title Where the churn sits — commits read per area, and what each period covers
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+package "Todo.Web — 43 commits, 2022-11-27 to 2024-11-27" as W {
+  class "Razor Pages → Blazor SSR\n(31b28b3, 2023-07-15)" as W1 <<reworked>>
+  class "docker-compose → tye → Aspire\n(8e8e8a1 2022-12-02 · e61e3a1 2022-11-27 · 6b9f07e 2024-11-14)" as W2 <<removed>>
+  class "social → external auth, Auth0 provider\n(82898c5 · 3dceedd · 23a6c31, 2022-12)" as W3 <<reworked>>
+}
+package "Todo.Api — 10 commits, 2024-11-23 to 2025-08-07" as A {
+  class "OpenAPI + Scalar + bearer metadata\n(1449c43 2024-11-15 · 69127f1 2024-11-27)" as A1 <<reworked>>
+  class "provider key data-protected\n(a519c10, 2024-11-27)" as A2 <<reworked>>
+  class "dependency sweep\n(a6dea68, 2025-08-07)" as A3 <<reworked>>
+}
+package "Todo.Api/Migrations — 1 commit, 2024-11-23" as M {
+  class "schema frozen since 2023-07-14\n(only bbd680d 'Move files around' since)" as M1 <<stable>>
+}
+package "TodoApp.AppHost — 5 commits, 2024-11-23 to 2026-02-12" as H {
+  class "tye → Aspire · EF migration automation\n· Aspire SDK 13.1.1" as H1 <<reworked>>
+}
+package "Todo.Api.Tests — 2 commits, 2024-11-23 to 2024-11-27" as T {
+  class "moved, then adjusted for the\nprotected provider key" as T1 <<stable>>
+}
+
+note bottom of W
+  43 commits against Todo.Api's 10 over an
+  overlapping window: the browser-facing half
+  is where this system keeps changing.
+end note
+note bottom of M
+  Migration content last written 2023-07-14;
+  model snapshot still declares
+  ProductVersion 8.0.0 against a 9.0.8 runtime.
+end note
+@enduml
+```
+
 | Area | Commits read and period | What was removed or reworked | Reading | Commits |
 |---|---|---|---|---|
-
+| Repository as a whole | 50 commits, 2023-07-14 to 2026-11-19; older history exists beyond them. The 2026-11-19 entries are this project's own Development Case and System Inventory commits plus `4fcea8c` "Create README.md" | `1d4e043` "Remove tasks and launch.json" (2025-01-11) deleted the committed VS Code task and launch configuration; `a6dea68` "Update everything! (#105)" (2025-08-07) was a solution-wide dependency and formatting sweep; `307a1ea` "Upgrade Aspire SDK to 13.1.1" (2026-02-12) is the tip the delivery was copied at | Unstable | `35813a2`, `b9a5464`, `c7dfc0b`, `13adfaf`, `47acd41`, `4fcea8c` (2026-11-19); `307a1ea` (2026-02-12); `a6ff858`, `d772504` (2025-09-28); `a6dea68` (2025-08-07); `1d4e043`, `beb0011` (2025-01-11); `a519c10`, `69127f1` (2024-11-27); `2d890e8`, `993421c`, `fdc49bb`, `228dc29`, `2d0d82d`, `fb0032e`, `617dfee`, `3308193`, `c064cff`, `bbd680d`, `625f34f` (2024-11-23); `ed8e367`, `780dff8`, `5af589d`, `1449c43`, `3530e8a` (2024-11-15); `03640dd`, `485e7d4`, `09ea52d` (2024-11-14); `6b9f07e` (2024-11-14); `abd9421` (2024-03-26); `2e54de3` (2023-12-15); `7ca46be` (2023-09-17); `ea30470`, `c209f6a` (2023-07-17); `6d9f7ae`, `1ee5f48`, `77959e2`, `b8ffb08`, `31b28b3` (2023-07-15); `5e9c05b`, `182c354`, `7c18bec`, `88d236b`, `156eeb2` (2023-07-14) |
+| `Todo.Web` | 43 commits, 2022-11-27 to 2024-11-27 | The browser half was rebuilt repeatedly. `31b28b3` "Use Blazor SSR instead of Razor Pages" (2023-07-15) replaced the original page model. The run-time orchestration it was started under was removed twice over: `e61e3a1` "Added support for running with tye" (2022-11-27) was superseded by `8e8e8a1` "Add docker-compose project to run all apps (#41)" (2022-12-02), and both were superseded by `6b9f07e` "Aspirfy!" (2024-11-14). The identity mechanism was reworked from provider-specific to generalised: `82898c5` "Add support for social authentication (#45)" (2022-12-03), `3dceedd` "Social → External" (2022-12-18), `23a6c31` "Make auth0 work as an external auth provider" (2022-12-18), `ae45c47` "Support accepting externally issued tokens in the API" (2022-12-18), then `7f594d3` "Use the new identity endpoints!" (2023-07-14) and finally `a519c10` "Protect the user id to make sure only the BFF can call the external auth API (#100)" (2024-11-27), which closed the provider-key hole that the previous design left open | Unstable | `a519c10` (2024-11-27); `2d890e8`, `228dc29`, `3308193`, `625f34f` (2024-11-23); `03640dd`, `6b9f07e` (2024-11-14); `2e54de3` (2023-12-15); `77959e2`, `b8ffb08`, `31b28b3` (2023-07-15); `88d236b`, `7f594d3`, `34b8c87`, `58d28fc`, `3be1993`, `d2cfc8d` (2023-07-13); `6090f8d`, `0a7e2bd`, `478195d`, `0a81ea1`, `7804305` (2023-05-14); `76a0bac` (2022-12-27); `3dceedd`, `ae45c47`, `ab67f3c`, `23a6c31` (2022-12-18); `e15c9f7` (2022-12-14); `2441b7e`, `82898c5` (2022-12-03); `8e8e8a1` (2022-12-02); `da58c44`, `ee6712c`, `b08f906`, `a989dac` (2022-11-30); `3dde5f7`, `f3825df`, `5d8868d`, `9676eba`, `68f6f5f` (2022-11-28); `e512f3e`, `e61e3a1`, `cb67410` (2022-11-27) |
+| `Todo.Api` | 10 commits, 2024-11-23 to 2025-08-07; the path did not exist under this name before `bbd680d` "Move files around" (2024-11-23) and `3308193` "TodoApi -> TodoApp" renamed the projects | The API surface itself was not redesigned in this window. What changed was its edges: `1449c43` "Use new open api and scalar" and `fdc49bb`/`69127f1` "Updates for OpenAPI" / "Add OpenAPI configuration for authentication" replaced the API explorer and added the bearer scheme to the document; `993421c` "Read rate per user rate limiter options via config" made the limiter configurable; `a519c10` data-protected the external provider key; `2d890e8` left a recorded open item — "Clean up and added comment about S2S auth", which is the `TODO: Add service to service auth between the BFF and this API` at `Todo.Api/Users/UsersApi.cs:17` | Consolidating | `a6dea68` (2025-08-07); `a519c10`, `69127f1` (2024-11-27); `2d890e8`, `993421c`, `fdc49bb` (2024-11-25); `2d0d82d`, `fb0032e`, `3308193`, `bbd680d` (2024-11-23) |
+| `Todo.Api/Migrations` | 1 commit, 2024-11-23 — and that commit only moved the files | No migration has been authored since `20230714032431_ForeignKeyChange` (2023-07-14). Nothing was removed: the schema was already final when the code was reorganised around it. `TodoDbContextModelSnapshot.cs:18` still records `ProductVersion` `8.0.0` although the runtime resolves EF Core 9.0.8 — the snapshot was never regenerated after the framework moved | Stable | `bbd680d` (2024-11-23) |
+| `TodoApp.AppHost` | 5 commits, 2024-11-23 to 2026-02-12 | Created by `3308193` "TodoApi -> TodoApp" (2024-11-23), then `beb0011` "Auto install dotnet ef" (2025-01-11) added the global tool install that precedes the migration, `a6dea68` swept the dependencies, `d772504` updated package versions and formatting (2025-09-28), and `307a1ea` moved the Aspire AppHost SDK to 13.1.1 (2026-02-12) — the newest change in the delivery | Consolidating | `307a1ea` (2026-02-12); `d772504` (2025-09-28); `a6dea68` (2025-08-07); `beb0011` (2025-01-11); `3308193` (2024-11-23) |
+| `Todo.Api.Tests` | 2 commits, 2024-11-23 to 2024-11-27 | `bbd680d` moved the tests beside the API; `a519c10` adjusted them for the data-protected provider key (`CanGetATokenForExternalUser` now encrypts the id with the provider name as purpose). No test was deleted in the window. The suite covers the `/todos` and `/users` surfaces and nothing of `Todo.Web` | Stable | `a519c10` (2024-11-27); `bbd680d` (2024-11-23) |
 ## Anomalies
 | ID | Anomaly | Kind | Evidence | Likelihood | Impact |
 |---|---|---|---|---|---|
