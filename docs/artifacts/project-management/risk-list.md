@@ -120,7 +120,9 @@ No Significant risk is accepted: all nine are handled by avoidance, each naming 
 | R018 | `POST /users/token/{provider}` is anonymous and unprotects a caller-supplied value before any identity is established, so any caller reaching the port posts to a cryptographic unprotect. | AN-018 | 3 | 3 | 9 | Significant | Avoid |
 | R019 | Seven published identity operations with no caller in the delivered product are taken for product capability, and use cases or a manual are written for screens that do not exist. | AN-019 | 3 | 2 | 6 | Moderate | Avoid |
 | R020 | The assembled system has never run: AppHost ordering, service discovery, the forwarder, the shared key ring and the migration step are inferred, and the first run may contradict any reading. | AN-020 | 5 | 4 | 20 | High | Accept — granted by the stakeholder, 2026-11-19 |
+| R021 | A human gate on the roadmap is not answered inside its ceiling, so the process suspends with the milestone unsanctioned and no work item able to advance: the project's one external dependency, and the only thing it waits on. | — | 3 | 4 | 12 | Significant | Accept — acceptance offered to the stakeholder this round, not yet granted |
 
+R001–R020 come from the reading. R021 does not refine an anomaly: it is the project's own exposure, entered at the milestone review, and it is scored on the same scale as the rest. Seven human gates sit on the roadmap — one per milestone — and each can suspend the process, so the wait is a risk of its own rather than a footnote to the plan's forecast.
 ## Risk Mitigation and Contingency
 ```plantuml
 @startuml
