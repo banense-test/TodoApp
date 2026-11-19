@@ -588,7 +588,6 @@ end note
 `CLS-033` is the only class in the whole model that mints the `admin` role claim (`TokenService.cs:16-21`). No product class can: `CLS-012.IsAdmin` reads a claim only this test type writes, and `AspNetRoles`/`AspNetUserRoles` are written by nothing (AN-010, `EX-002`). The claim's existence in the model is evidence of a test fixture, not of a capability.
 
 ## Persistent Data Classes
-
 Eight tables exist and every one of them is declared by `Todo.Api/Migrations`. No DDL script, no schema file and no database instance is delivered (`AN-004`): the schema is read out of three migrations and a model snapshot whose `ProductVersion` is `8.0.0` against an EF Core 9.0.8 runtime (`AN-007`). The engine is recorded, not chosen — SQLite through `Microsoft.EntityFrameworkCore.Sqlite` 9.0.8, one file at `Data Source=.db/Todos.db`. `[OMITTED: Data Model — DC §5.2 trigger not fired for this project; the persistent structures are recorded here, inline in the Design Model]`
 
 ```plantuml
@@ -860,8 +859,8 @@ V3 --> [*]
 
 note right of V1
   Todos.OwnerId was a string matching UserName for
-  7 months 20 days. Every row written in that window
-  keyed on a mutable column.
+  7 months 21 days, 2022-11-23 to 2023-07-14. Every row
+  written in that window keyed on a mutable column.
   Todo.Api/Migrations/20221123071234_Initial.cs
 end note
 
@@ -888,6 +887,14 @@ end note
 ```
 
 Each migration carries a `Down` that reverses it, so the schema is reversible as delivered. `RemoveIsAdmin.Down` re-adds the column with `defaultValue: false`; `ForeignKeyChange.Down` restores the `UserName` principal and its unique constraint. The applied order is fixed by the migration id prefix and enforced by the `__EFMigrationsHistory` table the provider creates; that table is the ninth table in any created database and it is the only one not declared by a migration body.
+
+The two intervals the migration history fixes, both read from the migration ids:
+
+| Interval | Length | What it means for the schema |
+|---|---|---|
+| `20221123071234` → `20221123165051` | 9 h 38 min | `AspNetUsers.IsAdmin` existed as a NOT NULL column for that span and was then dropped; no migration since has restored it |
+| `20221123165051` → `20230714032431` | 7 months 21 days | `Todos.OwnerId` matched `AspNetUsers.UserName` for that span, the principal column `ForeignKeyChange` then replaced with `Id` |
+| `20230714032431` → today | no further migration | The schema declared above is the latest the delivery holds; `AN-007` records that the baseline a future migration generates from is stale |
 
 ### Index strategy — each index against the query that issues it
 
