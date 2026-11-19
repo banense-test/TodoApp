@@ -194,6 +194,18 @@ All three High risks were put to the stakeholder in Survey iteration 1 and accep
 
 The three are closed as accepted on that answer. No condition beyond the proposition they affirmed is read into the acceptance, and nothing else in this register is thereby granted.
 
+### Effect of the Excavation scope decision on R009, R013 and R020
+
+On 2026-11-19 the stakeholder declined splitting Excavation, so the AR milestone closes with priorities 1–6 recovered in a single iteration and no second reading pass exists inside the sprint zero to catch what the first pass missed. Three accepted risks now carry their exposure inside one iteration rather than across two:
+
+| ID | Magnitude | What the decision changes | Mitigation that holds under it | Trigger indicator |
+|---|---|---|---|---|
+| R009 | High (16) — accepted 2026-11-19 | The BFF (priority 2) is read in the same pass as the rest, so a static misreading of the identity decision point has no later sprint-zero pass to surface it. | The first coverage of the BFF remains planned for the first Elaboration iteration, before any change to it is accepted — unchanged by this decision, and now the only check between reading and change. | A design decision about identity rests on code no test exercises. |
+| R013 | Moderate (6) — accept | The most-changed subsystem is read once, under R020's wholly-static condition, with the cross-check (priority 7, `Todo.Api.Tests`) covering `/todos` and `/users` but not the BFF. | Priority 7 is read inside the same iteration as the cross-check on orders 1 and 2, and every recovered BFF element is marked a static reading where execution has not confirmed it. | The first assembled run contradicts a recovered login, logout or forwarding behaviour. |
+| R020 | High (20) — accepted 2026-11-19 | Nothing about the run changes, but a larger share of the recovered baseline now rests on the single pass that precedes it. | The first assembled run stays planned as the Integrator's Architecture Build in Elaboration, and Elaboration carries its planned second iteration so a contradiction is re-derived inside that phase. | Elaboration opens without an assembled run in its plan. |
+
+No risk is re-scored and no acceptance is re-requested: the decision changes where the exposure sits, not how large it is, and the three acceptances of 2026-11-19 stand as granted. The one consequence the plan absorbs is that Elaboration's second iteration is no longer merely likely — under a single-pass sprint zero it is the phase's only place to correct a recovered statement, so it is committed rather than held.
+
 ## Traceability
 
 | Element | Traces From | Link Type | Traces To |
