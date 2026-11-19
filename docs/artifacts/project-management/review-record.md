@@ -85,7 +85,7 @@ Entry criteria for this review: the four artifacts in their corrected state — 
 
 <!-- review: Survey I2 -->
 
-Review type: milestone review (SBC), governance lens. Subject: whether the seven Major defects of the previous milestone review were corrected, and whether the artifact set now carries the evidence each SBC exit criterion rests on.
+Review type: milestone review (SBC), governance lens. Subject: whether the seven Major defects of the previous milestone review were corrected, whether the artifact set now carries the evidence each SBC exit criterion rests on, and whether the perimeter as drawn is confirmed.
 
 In scope: Development Case, System Inventory, Risk List, Iteration Plan — all Survey, Draft, corrected in Survey iteration 2.
 
@@ -128,7 +128,7 @@ title SBC compliance matrix - management lens, Survey iteration 2
   {#
     . <b>Criterion</b> | <b>Tech</b> | <b>Mgmt</b> | <b>Evidence the management test rests on</b>
     --
-    . C1 Perimeter confirmed by the stakeholder | PASS | PENDING | Perimeter + 3 exclusions stand; sanction refused 2026-11-19, re-asked this round
+    . C1 Perimeter confirmed by the stakeholder | PASS | PASS | Perimeter + 3 exclusions confirmed by the stakeholder's Yes, 2026-11-19
     . C2 Priorities ordered, each with its reason | PASS | PASS | Priorities - 8 areas; single-pass Excavation per the declined split
     . C3 Unread areas declared with their reason | PASS | PASS | Coverage - 72 of 132 read, 60 unread, each named in a row
     . C4 Every anomaly scored; High accepted | PASS | PASS | AN-001..AN-020 -> 20 risks + R021; 4 acceptances verbatim, 2026-11-19
@@ -137,7 +137,7 @@ title SBC compliance matrix - management lens, Survey iteration 2
     --
     . <b>Mgmt findings open, holding the milestone</b> | - | <b>0</b> | 3 Major resolved this iteration
     . <b>Mgmt findings open, not holding it</b> | - | <b>0</b> | none raised this iteration
-    . <b>Other lens open, not holding it</b> | <b>2 Minor</b> | - | a Minor neither blocks consumption nor fails a criterion
+    . <b>Other lens open, not holding it</b> | <b>2 Minor</b> | - | ordered corrected in the next phase by the stakeholder
   }
 }
 @endsalt
