@@ -5,19 +5,20 @@
 ## Iteration Objectives
 Survey iteration 2 is the correction pass the SBC milestone review requires. The project runs on a system nobody here wrote and nobody can ask about: the delivery is a copy of `davidfowl/TodoApp` at `307a1ead`, and `.iari/README.md` records that it carries no requirements, design or architecture document, no database scripts, no manual, no running installation and no reachable authors. Iteration 1 established what the system is; iteration 2 closes the defects that stopped the milestone advancing. It builds nothing.
 
-The stakeholder's order of 2026-11-19 is explicit: asked to sanction advancing past SBC, they answered "No", with the reason "All major findings must be corrected." That order, and the seven Major findings the two review lenses recorded, are this iteration's scope.
+The stakeholder's order of 2026-11-19 set this iteration's scope. Asked to sanction advancing past SBC on the first ask, they answered "No", with the reason "All major findings must be corrected." That order, and the seven Major findings the two review lenses recorded, are what this iteration carries. Put again on the corrected set — 0 Critical and 0 Major open from both lenses — the sanction was granted on 2026-11-19, with one order carried out of the milestone: "Minor findings must be corrected in the next phase; they cannot be left unresolved."
 
-| # | Objective | Basis |
-|---|---|---|
-| 1 | Correct the sprint-zero tailoring so the phases that work under it have a convention source that exists — the defect that stopped Excavation and Consolidation being planned. | Development Case#F1, Development Case#F2 |
-| 2 | Remove the internal contradiction in the Perimeter between the `/users` row and AN-015, and reconcile the coverage statement with its own rows. | System Inventory#F2, System Inventory#F1 |
-| 3 | Make every risk action executable where it lands: re-own the Excavation actions to roles at work there, score the stakeholder gate as a risk of its own bound by its ceiling, and home R008's disclosure at the stage that produces the artifact. | Risk List#F1 (both lenses), Risk List#F2 |
-| 4 | Make this plan single-valued: one iteration total, the tailoring correction sequenced before Excavation, evidence in place of verdict words, a role profile that reconciles with the roster, and no duration on any bar. | Iteration Plan#F1 (both lenses), #F2, #F3, #F4 |
-| 5 | Put the corrected set back to both review lenses, and take the SBC sanction question again once every Major is closed. | The stakeholder's order of 2026-11-19; R021 |
+| # | Objective | Basis | Outcome at this close |
+|---|---|---|---|
+| 1 | Correct the sprint-zero tailoring so the phases that work under it have a convention source that exists. | Development Case#F1, Development Case#F2 | Both closed by the Reviewer lens |
+| 2 | Remove the internal contradiction in the Perimeter between the `/users` row and AN-015, and reconcile the coverage statement with its own rows. | System Inventory#F2, System Inventory#F1 | Both closed; the aggregate now reconciles, 72 of 132 read |
+| 3 | Make every risk action executable where it lands: re-own the Excavation actions to roles at work there, score the stakeholder gate as a risk of its own bound by its ceiling, and home R008's disclosure at the stage that produces the artifact. | Risk List#F1 (both lenses), Risk List#F2 (management lens) | The three Majors closed; one contained Minor corrected this turn, closure with the Reviewer lens |
+| 4 | Make this plan single-valued: one iteration total, the tailoring correction sequenced before Excavation, evidence in place of verdict words, a role profile that reconciles with the roster, and no duration on any bar. | Iteration Plan#F1 (both lenses), #F2, #F3, #F4 | Five closed; one contained Minor corrected this turn, closure with the Reviewer lens |
+| 5 | Put the corrected set back to both review lenses, and take the SBC sanction question again once every Major is closed. | The stakeholder's order of 2026-11-19; R021 | Executed — verdict SBC, no further iteration required; sanction granted 2026-11-19 |
 
-The three scope decisions of 2026-11-19 — external identity-provider sign-in out of scope, the `admin` role as dead code, the self-service identity surface out — are **inputs** to this iteration, not objectives. Every one is recorded as an exclusion in the System Inventory's Perimeter and carried into R002, R010, R014 and R019. No finding in this iteration reopens any of them, and the perimeter drew no correction from the stakeholder.
+The three scope decisions of 2026-11-19 — external identity-provider sign-in out of scope, the `admin` role as dead code, the self-service identity surface out — are **inputs** to this iteration, not objectives. Every one is recorded as an exclusion in the System Inventory's Perimeter and carried into R002, R010, R014 and R019. No finding in this iteration reopens any of them, and the perimeter drew no correction from the stakeholder: it is confirmed as drawn.
 
 Two decisions of iteration 1 change the plan rather than merely inform it, and both stand: Excavation stays a single iteration with priorities 1–6 inside AR, which makes Elaboration's second iteration the only place a contradicted recovered statement is corrected; and no token budget is declared, so every iteration ends when its exit criteria pass and spend is measured, never bounded.
+
 ## Plan and Milestones
 No phase has closed. There is no measured actual, therefore there is no forecast: no token figure, no elapsed figure, and no per-iteration velocity appears in this plan. The ten iterations above are a count of iterations, not a duration, and no declared scope is cut or deferred to fit an estimate.
 
