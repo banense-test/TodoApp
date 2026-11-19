@@ -340,15 +340,73 @@ The eight use cases the recovery produced, all inside the perimeter the stakehol
 - **`UC-001` and `UC-004` are Medium because their ground moves.** Account creation sits directly beside the excluded self-service identity surface, and the list is the only screen of the unstable browser half (`R013`).
 - **`UC-008` is recovered, not designed.** Its environment guard and the unconditional redirect disagree (`R016`), so no artifact may claim an intended production posture.
 
+### Entry-point accounting — what is recovered and what is not
+
+The perimeter is 26 entry points. The recovery leaves none of them unaccounted, and the four groups below are the whole of the accounting. This is the plan's check of the recovery's completeness — the entry points themselves, their paths and their anchors are the System Inventory's.
+
+```plantuml
+@startuml
+title Entry-point accounting - the 26 entry points of the confirmed perimeter, each with its treatment
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+start
+:26 entry points - System Inventory Perimeter,
+confirmed by the stakeholder 2026-11-19;
+note right
+  The perimeter row count is the System
+  Inventory's. This diagram is the plan's
+  accounting of it, not a second count.
+end note
+:12 carry the eight recovered use cases;
+note right
+  EP-001, EP-002, EP-012, EP-014, EP-015, EP-016,
+  EP-017, EP-018, EP-019, EP-022, EP-023, EP-024.
+  Two of these are reached by more than one use case -
+  EP-022 by four of them, EP-002 by two - which is why
+  eight use cases stand on twelve entry points.
+end note
+:2 are published and reached by nothing - AN-015;
+note right
+  EP-003 - no refresh token is redeemed.
+  EP-013 - no screen reads one item by id.
+end note
+:10 were excluded by the stakeholder on 2026-11-19;
+note right
+  EP-004 to EP-010 - the self-service identity surface.
+  EP-011, EP-020, EP-021 - external provider sign-in,
+  EP-011 included for the reason recorded in the
+  Review Record: it is the provider token endpoint.
+end note
+:2 are operational, not an actor goal;
+note right
+  EP-025 health probes, EP-026 the start-up migration.
+  Both are Supplementary Specification constraints.
+end note
+:0 of 26 are unaccounted;
+stop
+@enduml
+```
+
 Entry points that carry no use case, by decision and by reading:
 
-| Entry points | Why no use case | Where that is recorded |
-|---|---|---|
-| `EP-003`, `EP-013` | Published and reached by nothing in the delivery — no refresh token is redeemed, no screen reads one item by id | Use-Case Model, why-these-eight table; `AN-015` |
-| `EP-004` … `EP-011`, `EP-020`, `EP-021` | Excluded by the stakeholder, 2026-11-19 — self-service identity surface and external provider sign-in | System Inventory Perimeter; Supplementary Specification |
-| `EP-025`, `EP-026` | Operational, not an actor goal — health probes and the start-up migration | Supplementary Specification, Design Constraints |
+| Entry points | Count | Why no use case | Where that is recorded |
+|---|---|---|---|
+| `EP-003`, `EP-013` | 2 | Published and reached by nothing in the delivery — no refresh token is redeemed, no screen reads one item by id | Use-Case Model, why-these-eight table; `AN-015` |
+| `EP-004` … `EP-011`, `EP-020`, `EP-021` | 10 | Excluded by the stakeholder, 2026-11-19 — self-service identity surface and external provider sign-in | System Inventory Perimeter; Supplementary Specification |
+| `EP-025`, `EP-026` | 2 | Operational, not an actor goal — health probes and the start-up migration | Supplementary Specification, Design Constraints |
 
 No use case is named after a cross-cutting mechanism. Authentication, token issue, forwarding, rate limiting, validation and telemetry are Supplementary Specification entries that the eight above `<<include>>`.
+
+### What the recovery does not reach, and why that is not a gap in this plan
+
+The recovery is one pass, on the stakeholder's refusal of a split on 2026-11-19. Three things sit outside what that pass can establish, and the plan carries each as a named exposure rather than as work it quietly does not schedule:
+
+| Not established by this iteration | Why the plan does not schedule it here | Where it lands |
+|---|---|---|
+| That any recovered behaviour is true of the running system | The sprint zero builds and runs nothing (`R020`, accepted 2026-11-19) | The Integrator's Architecture Build, Elaboration iteration 1 |
+| That the identity decision point behaves as read | No test reaches the BFF (`R009`, accepted 2026-11-19) | First BFF coverage, Elaboration iteration 1, before any change to it is accepted |
+| That the excluded identity surface can be ignored indefinitely | The stakeholder excluded it; no phase plans work that needs a mail transport (`R014`, `R019`) | Nothing lands: a later requirement re-enters it only through a Change Request |
 
 ## Evaluation Criteria
 The Excavation (AR) exit criteria. They are what the milestone review judges this iteration against. This table supplies the evidence each criterion rests on; it does not declare a criterion passed, because the verdict belongs to the milestone review and the Review Coordinator holds it.
