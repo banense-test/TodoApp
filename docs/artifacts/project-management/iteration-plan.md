@@ -29,8 +29,8 @@ This section carries both levels of the plan: the cross-iteration roadmap with i
 
 | Order | Phase | Milestone | What the milestone closes | Iterations planned |
 |---|---|---|---|---|
-| 1 | Survey | **SBC** | The perimeter is drawn and confirmed, the anomalies are recorded, every one scored as a risk, and the tailoring for the sprint zero is issued and usable by the phases that work under it. | 2 |
-| 2 | Excavation | **AR** | The recovered use cases, the recovered architecture, the design model with the persistent schema, and the Deployment Model exist — priorities 1–6 recovered in one iteration, 7 read as its cross-check. | 1 |
+| 1 | Survey | **SBC** — passed 2026-11-19 | The perimeter is drawn and confirmed, the anomalies are recorded, every one scored as a risk, and the tailoring for the sprint zero is issued and usable. | 2 |
+| 2 | Excavation | **AR** — this iteration | The recovered use cases, the recovered architecture, the design model with the persistent schema, the Deployment Model and the completed System Inventory exist — priorities 1–6 recovered in one iteration, 7 read as its cross-check. | 1 |
 | 3 | Consolidation | **GHR** | Every entry point of the recovered perimeter has a use case or a recorded exclusion; the Supplementary Specification and the coverage statement complete the set. | 1 |
 | 4 | Inception | **LCO** | The declared scope is agreed against the recovered baseline, the candidate architecture exists and the business case is settled. | 1 |
 | 5 | Elaboration | **LCA** | The architecture baseline is executable and the first assembled run of the topology has happened; test cases cover it. | 2 |
@@ -39,15 +39,11 @@ This section carries both levels of the plan: the cross-iteration roadmap with i
 
 `2 + 1 + 1 + 1 + 2 + 2 + 1 = 10`. The table is the only statement of the total and the arithmetic is its whole derivation.
 
-**Why Survey carries 2.** Its first iteration issued the four artifacts and both review lenses found seven Major defects in them, so the milestone was not sanctioned and the stakeholder declined to advance on 2026-11-19. The correction pass is iteration 2, planned here. A phase whose milestone review leaves findings open runs another iteration; that is the only mechanism by which this total moves, and it has moved once.
+**Why the sprint zero carries four of the ten.** Every requirement, component and table has to be read out of code before Inception can declare anything. Survey took a second iteration because its first left seven Major defects and the stakeholder refused the sanction; Excavation stays at one because the stakeholder declined a split on 2026-11-19, which puts priorities 1–6 into a single pass with priority 7 as its cross-check. The cost of that choice lands in Elaboration, not here.
 
-The profile is the rubber profile for a small project that is nonetheless **recovery-heavy**, and each move away from it is made against a named risk:
+**Why Elaboration takes two, committed unconditionally.** `R020`'s accepted contingency is the first assembled run as the Integrator's Architecture Build, and with a single-pass sprint zero there is no other place a contradicted recovered statement can be corrected. The second iteration is planned work, not a reserve.
 
-- **The sprint zero carries four of the ten.** Every requirement, component and table has to be read out of code before Inception can declare anything, and the first Survey iteration's defects had to be corrected before any downstream role consumed the set. This is the whole reason the total sits above the median.
-- **Excavation stays one iteration.** The stakeholder declined a second one on 2026-11-19, so priorities 1–6 are recovered in a single pass with priority 7 as its cross-check. The cost of that choice lands in Elaboration, not here.
-- **Elaboration takes two iterations, unconditionally committed.** R020's accepted contingency is the first assembled run as the Integrator's Architecture Build, and with a single-pass sprint zero there is no other place a contradicted recovered statement can be corrected. The second iteration is planned work, not a reserve.
-- **Construction is not bent.** Nothing in the Inventory suggests a large declared scope: the recovered product is registration, login, logout and todo list / create / delete, over one aggregate and eight tables. Two iterations are the whole of it.
-- **Transition is not compressed.** One iteration, no user training to carry, and the acceptance test is the only thing there that costs a full iteration.
+**Why Construction stays at two and Transition at one.** Nothing in the Inventory suggests a large declared scope: the recovered product is registration, login, logout and todo list / create / delete, over one aggregate and eight tables. Transition has no user training to carry and the acceptance test is the only thing there that costs a full iteration.
 
 ```plantuml
 @startgantt
@@ -55,10 +51,9 @@ title Project iteration sequence and its human gates - ordering only, every bar 
 skinparam shadowing false
 
 [Sprint zero - Survey iteration 1] lasts 0 day
-[Stakeholder gate - SBC] lasts 0 day
 [Sprint zero - Survey iteration 2 - correction pass] lasts 0 day
-[Stakeholder gate - SBC sanction] lasts 0 day
-[Sprint zero - Excavation AR] lasts 0 day
+[Stakeholder gate - SBC] lasts 0 day
+[Sprint zero - Excavation AR - this iteration] lasts 0 day
 [Stakeholder gate - AR] lasts 0 day
 [Sprint zero - Consolidation GHR] lasts 0 day
 [Stakeholder gate - GHR] lasts 0 day
@@ -75,8 +70,8 @@ skinparam shadowing false
 
 [Sprint zero - Survey iteration 2 - correction pass] starts at [Sprint zero - Survey iteration 1]'s end
 [Stakeholder gate - SBC] starts at [Sprint zero - Survey iteration 2 - correction pass]'s end
-[Sprint zero - Excavation AR] starts at [Stakeholder gate - SBC sanction]'s end
-[Stakeholder gate - AR] starts at [Sprint zero - Excavation AR]'s end
+[Sprint zero - Excavation AR - this iteration] starts at [Stakeholder gate - SBC]'s end
+[Stakeholder gate - AR] starts at [Sprint zero - Excavation AR - this iteration]'s end
 [Sprint zero - Consolidation GHR] starts at [Stakeholder gate - AR]'s end
 [Stakeholder gate - GHR] starts at [Sprint zero - Consolidation GHR]'s end
 [Inception LCO] starts at [Stakeholder gate - GHR]'s end
@@ -90,7 +85,7 @@ skinparam shadowing false
 [Transition PR] starts at [Stakeholder gate - IOC]'s end
 [Stakeholder gate - PR] starts at [Transition PR]'s end
 
-[SBC] happens at [Stakeholder gate - SBC sanction]'s end
+[SBC] happens at [Stakeholder gate - SBC]'s end
 [AR] happens at [Stakeholder gate - AR]'s end
 [GHR] happens at [Stakeholder gate - GHR]'s end
 [LCO] happens at [Stakeholder gate - LCO]'s end
@@ -99,142 +94,194 @@ skinparam shadowing false
 [PR] happens at [Stakeholder gate - PR]'s end
 
 note bottom
-  Ten iterations, seven milestones, seven human gates.
+  Ten iterations, seven milestones, seven human gates. SBC is behind the plan.
   Every bar is a zero span: PlantUML requires the root bar's span to be
   declared, and it is declared zero. No bar carries a duration and no
   calendar date exists anywhere in this plan. An iteration ends when its
   exit criteria pass; a gate ends when the stakeholder answers, and is
-  carried as R021 - days of queue time, ceiling 14, then the process
-  suspends.
+  carried as R021 - days of queue time, ceiling 14, then the process suspends.
 end note
 @endgantt
 ```
 
 ### This iteration's fine plan
 
-Survey iteration 2 is the correction pass the SBC milestone review requires. Its work items are the stages the IARI DEVELOPMENT PROCESS runs in Survey, each owned by its role, each closing named findings of the Review Record. **No work item carries a size**: no size for this iteration was measured when it was planned, and a size filled with a human-team unit would be a figure this process cannot produce. Each item ends when its exit condition passes.
+Excavation iteration 1 is the recovery. Its work items are exactly the stages the IARI DEVELOPMENT PROCESS runs in Excavation, each owned by its role, in the order the process runs them. **No work item carries a size**: the only closed phase is Survey, no Excavation stage has been measured, and a size filled with a human-team unit would be a figure this process cannot produce. Each item ends when its exit condition passes.
 
-| Order | Work item | Owner | Closes | Exit condition |
-|---|---|---|---|---|
-| 1 | Development Case — sprint-zero correction | Process Engineer | Development Case#F1, Development Case#F2 | The Templates rows cite files present in the repository; the three convention families are recorded as undocumented with no fallback asserted; the stale "no Risk List exists yet" clause is gone from the PoC trigger row |
-| 2 | System Inventory — perimeter row and coverage aggregate | Software Archaeologist | System Inventory#F2, System Inventory#F1 | The `/users` perimeter row agrees with AN-015 and says once whether EP-003 supports a use case; the coverage aggregate reconciles with its own per-area rows or is dropped for them |
-| 3 | Risk List — re-own, score the gate, re-home R008 | Project Manager | Risk List#F1 (Reviewer), Risk List#F1 (Management Reviewer), Risk List#F2 (Management Reviewer) | Every avoidance action names a role at work in the phase it lands in; the stakeholder gate is scored as R021 with its mitigation and contingency and the stakeholder's acceptance recorded verbatim; R008's disclosure is homed at the stage that produces the artifact |
-| 4 | Iteration Plan — this correction pass | Project Manager | Iteration Plan#F1 (Reviewer), Iteration Plan#F1 (Management Reviewer), Iteration Plan#F2, Iteration Plan#F3, Iteration Plan#F4 | One committed total stated once; the tailoring correction scheduled before Excavation; evidence wording in place of verdict words in the Evaluation Criteria; the role profile reconciled with the roster; no day length on any bar |
-| 5 | Risk List and Iteration Plan — the two contained defects found in the corrected content | Project Manager | Risk List#F2 (Reviewer), Iteration Plan#F5 (Reviewer) | The trailing R021 block is gone, its answer standing once in the acceptance table; the opening block of Plan and Milestones is gone, the matter standing once in Measure and forecast |
-| 6 | SBC milestone review | Reviewer → Management Reviewer → Review Coordinator | The seven Major findings open at SBC, each by its own lens | Both lenses re-run against the corrected set and each finding is resolved by the lens that raised it, or re-recorded under its key |
-| 7 | Stakeholder gate — sanction of SBC | Stakeholder | The refused sanction of 2026-11-19 | The sanction question is answered; carried as R021 |
-| 8 | Iteration Assessment | Project Manager | The SBC verdict | Assessment written *after* the verdict records whether the objectives were met |
+| Order | Work item | Owner | Exit condition |
+|---|---|---|---|
+| 1 | Vision — the recovered product, its actors and its exclusions | System Analyst | Every declared and recovered element names its anchor; the three exclusions are stated where they are read |
+| 2 | Use-Case Model — actors, use-case survey, eight use-case specifications | System Analyst | Every perimeter entry point carries a use case or a recorded exclusion; every flow cites its anchor |
+| 3 | Business Rules in the Use-Case Flows | System Analyst | Every rule is a fact about the code, with its enforcement point and its anchor; an unstated contract says so |
+| 4 | Supplementary Specification — the cross-cutting mechanisms the use cases include | System Analyst | Each mechanism is specified as an `<<include>>` and none is modelled as a use case |
+| 5 | Software Architecture Document — components and connectors | Software Architect | Every `COMP-NNN` cites the files it is read from; every use case is realized by the components on its path |
+| 6 | Software Architecture Document — mechanisms, technology and deployment | Software Architect | Every mechanism the use cases include has a named implementation; the technology table carries versions |
+| 7 | Deployment Model — the triggered optional | Software Architect | The topology, the start-up path and the required environment properties are recovered; `R022` and `R023` have a home |
+| 8 | Design Model — domain model | Designer | Every `ACL-NNN`/`CLS-NNN` carries its anchor; the two-aggregate shape is recovered, not invented |
+| 9 | Design Model — packages and classes | Designer | Every use case is realized by classes; the twice-declared wire shape `R024` records is named |
+| 10 | Persistent Data — entities, keys and associations | Database Designer | Every table, key, index and association is read from a migration body, never from a run-time database (`R004`) |
+| 11 | Persistent Data — enforced rules | Database Designer | Every cascade, constraint and default names the migration that declares it; no table is described as declared |
+| 12 | System Inventory — anomalies | Software Archaeologist | Every anomaly the recovery added is recorded with its evidence and its anchor |
+| 13 | System Inventory — history and coverage | Software Archaeologist | Each area is read through both its paths (`R025`); the coverage aggregate reconciles with its own rows |
+| 14 | Risk List | Project Manager | Every new anomaly is scored with a strategy; every action names a role at work in the phase it lands in |
+| 15 | Iteration Plan — this Excavation plan | Project Manager | Both plan levels are present, the AR criteria are stated against evidence, and no figure precedes a measured actual |
+| 16 | AR milestone review | Reviewer → Management Reviewer → Review Coordinator | Both lenses run in that order and the coordinator records the verdict |
+| 17 | Stakeholder gate — sanction of AR | Stakeholder | The sanction question is answered; carried as `R021` |
+| 18 | Iteration Assessment | Project Manager | Written *after* the verdict, it records whether the objectives were met |
 
-Item 1 is sequenced first because the tailoring it corrects is the convention source Excavation and Consolidation work under, and no sprint-zero work item put that source in place before they would start. The order is a dependency, not a severity ranking: **Development Case#F1 defines the correction; item 1 schedules it.** A re-pointed table with no work item behind it, or a work item for a correction nobody specified, are each insufficient. The Environment stage that re-prepares the tailoring in Inception remains a separate, later stage — it does not carry this correction.
+Items 1–4 are sequenced before 5–11 because every Analysis and Design stage cites a `UC-NNN` or a `BR-NNN` by identifier; items 12–13 run after them because the Inventory scores the recovered models against the code, and that is where `AN-021` … `AN-024` were read. Items 14–15 are the Project Management stage. Item 16 is the milestone review in the order the process fixes; item 18 follows the verdict, never precedes it.
 
-Item 5 is the only item the plan did not carry when the iteration opened. The two defects it corrects were created by items 3 and 4 and could not have been planned before the corrected content existed to be read. That is recorded as variance W2 in the Iteration Assessment, and it is the reason Excavation's plan carries a reconciliation item ahead of its gate.
+None of these is scheduled before the tailoring that governs it. The Development Case's sprint-zero correction landed in Survey iteration 2, so the convention source Excavation works under is already in place — `Risk List#F1` from the SBC review is closed on that ground and this plan does not re-open it.
 
-Item 7 is a human wait, not an agent stretch. It is carried as R021 and quoted in days of queue time with a ceiling of 14, never on the agent clock.
-
-```plantuml
-@startgantt
-title Survey iteration 2 - stages, the sequencing the SBC findings require, and the human gate - ordering only
-skinparam shadowing false
-
-[Development Case - sprint-zero correction] lasts 0 day
-[System Inventory - perimeter row and coverage aggregate] lasts 0 day
-[Risk List - re-own, score the gate, re-home R008] lasts 0 day
-[Iteration Plan - this correction pass] lasts 0 day
-[Risk List and Iteration Plan - two contained defects] lasts 0 day
-[SBC milestone review - both lenses, then the coordinator] lasts 0 day
-[Stakeholder gate - sanction] lasts 0 day
-[Iteration Assessment - after the verdict] lasts 0 day
-
-[Risk List - re-own, score the gate, re-home R008] starts at [Development Case - sprint-zero correction]'s end
-[System Inventory - perimeter row and coverage aggregate] starts at [Development Case - sprint-zero correction]'s end
-[Iteration Plan - this correction pass] starts at [Risk List - re-own, score the gate, re-home R008]'s end
-[Risk List and Iteration Plan - two contained defects] starts at [Iteration Plan - this correction pass]'s end
-[SBC milestone review - both lenses, then the coordinator] starts at [Risk List and Iteration Plan - two contained defects]'s end
-[Stakeholder gate - sanction] starts at [SBC milestone review - both lenses, then the coordinator]'s end
-[Iteration Assessment - after the verdict] starts at [Stakeholder gate - sanction]'s end
-
-[SBC] happens at [Stakeholder gate - sanction]'s end
-
-note bottom
-  Every bar is a zero span: PlantUML requires the root bar's span to be
-  declared, and it is declared zero. No bar is a forecast of duration -
-  an item ends when its exit condition passes. The Development Case
-  correction is sequenced first because it defines the convention source
-  Excavation and Consolidation work under; the Iteration Plan follows it
-  because the plan schedules what the tailoring records. The gate is R021:
-  days of queue time, ceiling 14, then the process suspends.
-end note
-@endgantt
-```
+**No agent is added to this iteration to shorten it.** The stages are dependent, not parallel: each cites the identifier the previous one minted, and the recovery's own Priorities fix an order that exists because a use case can only be read once the operation behind it is known. Adding an agent buys no clock here and costs coordination across artifacts that cite each other's labels.
 
 ### Measure and forecast
 
-**Survey has closed, so the first measured actual exists.** Both clocks are recorded in the Iteration Assessment: **21,362,704 tokens** and **1:12:20 of agent elapsed** across the phase's two iterations, against **1:09:33 of stakeholder queue time**. Those are phase totals from closed work, not a velocity: no per-iteration rate is computed from two iterations of one phase, and no figure is quoted for an iteration that has not run. Every later phase's forecast is built from these figures and no plan figure is.
+**Survey has closed and its actual is measured.** Two clocks, never added, and one of them is not work at all:
 
-**The count sits one above the `6 ± 3` heuristic's ceiling, and this is stated rather than absorbed.** The heuristic flags more than 9 iterations as over-engineered process overhead. The tenth is not process overhead added by choice: Survey's first iteration issued four artifacts, both review lenses found seven Major defects in them, and the milestone was not sanctioned. A phase whose milestone review leaves findings open runs another iteration — that is the mechanism, and it fired once. The alternative to the tenth iteration is closing the milestone with seven Major defects open, which the stakeholder refused on 2026-11-19. If a further iteration is added at any later milestone the same test applies: it must trace to an open finding or a stakeholder order, or the roadmap is over-engineered and the count is the symptom.
+| Phase | Status | Agent elapsed | Stakeholder queue | Tokens | Agent runs | Artifacts |
+|---|---|---|---|---|---|---|
+| Survey (2 iterations) | **closed — measured** | 24 min | 20 min | 7,733,371 | 9 | 6 |
+| Excavation (this iteration) | open — forecast from the row above | 30–50 min `[ASSUMPTION — requires validation]` | `R021` — days of queue time, ceiling 14, actual reported apart | 12 M – 16 M `[ASSUMPTION — requires validation]` | 6 roles over 18 work items | 9 |
 
-The budget position was put to the stakeholder in Survey iteration 1 and answered on 2026-11-19:
+The Excavation figures are a **forecast and nothing else**. Their basis is Survey's measured actual and the ratio of the two phases' work: Survey ran 9 agent runs to produce 6 artifacts across 2 iterations in 24 minutes and 7.73 M tokens; Excavation runs 18 work items to produce 9 artifacts across 6 roles, on an artifact surface that includes every Survey artifact as an input to be re-read. The projected factor is therefore above 1 on both clocks, and the band is wide because the ratio is a judgment over one measured phase, not a measurement of this one. `[ASSUMPTION — requires validation]` — the actual is recorded at this phase's close and replaces the band.
+
+Three things the table deliberately does not do:
+
+- **No per-iteration velocity.** Survey's figures are phase totals over two iterations. Dividing them to quote a rate would invent a rate for an iteration that has not run, and no per-iteration figure is recorded anywhere in this process.
+- **No unit conversion.** Person-weeks, person-days, man-hours and story points are units this system does not produce. The agent clock is tokens and elapsed time; the human gate is days of queue time. The two columns are side by side and are never summed into one figure.
+- **No token box.** On 2026-11-19 the stakeholder answered the budget question: "No budget declared — record measured spend at each phase close and forecast from the measured actual, never from an assumption." So no ceiling exists, none is proposed here, and no declared scope is cut or deferred to fit the forecast above.
 
 | What was put | Their answer, verbatim | Recorded |
 |---|---|---|
-| Whether a token budget has been declared for this project, given that the Development Case records none and this plan commits to a cross-iteration horizon in which R020's contingency may add an iteration. | "No budget declared — record measured spend at each phase close and forecast from the measured actual, never from an assumption." | 2026-11-19 |
+| Whether a token budget has been declared for this project, given that the Development Case records none and this plan commits to a cross-iteration horizon in which `R020`'s contingency may add an iteration. | "No budget declared — record measured spend at each phase close and forecast from the measured actual, never from an assumption." | 2026-11-19 |
 
-So the project declares **no token budget**: there is no box, no figure was invented for the stakeholder to accept, and nothing is trimmed to fit one. Spend is measured at each phase close and reported on two clocks that are never added:
-
-| Clock | What it measures | Where it is recorded | Ceiling | Survey, measured |
-|---|---|---|---|---|
-| Agent work | Tokens consumed per stage and per role; elapsed agent time | Iteration Assessment, at phase close | No ceiling — measured, not bounded | 21,362,704 tokens; 1:12:20 elapsed |
-| Human gates | Days of queue time waiting for the stakeholder | R021, in the Risk List's Risk Register and Risk Mitigation and Contingency sections | 14 days, then the process suspends; the actual reported apart | 1:09:33 waiting; 0:19:53 of it in this iteration |
-
-The two are never added and never converted into one another. The gate is a risk with a bound, not a work item with an estimate: it carries no duration here and none is forecast for it. The Survey gate ran to a fraction of its ceiling, and that is an observed actual of one phase — it does not shrink the ceiling on any later gate.
+**The tenth iteration, re-tested at this milestone.** The count sits one above the `6 ± 3` heuristic's ceiling. The tenth is not process overhead added by choice: Survey's first iteration left seven Major defects and the milestone was not sanctioned, so a second iteration ran. The same test applies here — if AR leaves findings open, an Excavation iteration 2 is justified only by those findings, and if the recovery completes against its criteria no iteration is added to this phase. The stakeholder's refusal to split Excavation is why the single pass carries priorities 1–6 and why `R009`, `R013` and `R020` concentrate inside it.
 
 ### Critical chain
 
 ```plantuml
 @startuml
-title Survey iteration 2 - critical chain from iteration start to the SBC sanction
+title Excavation iteration 1 - critical chain from iteration start to the AR gate
 skinparam shadowing false
 skinparam defaultTextAlignment left
 
-|Process Engineer|
+|System Analyst|
 start
-:Development Case - sprint-zero correction;
+:Vision - the recovered product and its exclusions;
+:Use-Case Model - eight use cases from twenty-six entry points,
+plus the Business Rules in the flows;
 note right
-  Sequenced first: Excavation and Consolidation
-  work under the tailoring and cannot cite a
-  convention source that is not in the repository.
+  First, because every Analysis and Design
+  stage cites a UC-NNN or a BR-NNN.
 end note
+:Supplementary Specification - the cross-cutting
+mechanisms the eight use cases include;
+
+|Software Architect|
+:Software Architecture Document - components and connectors;
+:Software Architecture Document - mechanisms,
+technology and deployment;
+:Deployment Model - the triggered optional;
+
+|Designer|
+:Design Model - domain model;
+:Design Model - packages and classes;
+
+|Database Designer|
+:Persistent data - entities, keys and associations;
+:Persistent data - enforced rules;
 
 |Software Archaeologist|
-:System Inventory - perimeter row restated
-against AN-015, coverage aggregate reconciled;
+:System Inventory - anomalies;
+:System Inventory - history and coverage;
+note right
+  Last of the working stages: it scores
+  the recovered models against the code,
+  which is where AN-021 ... AN-024 were read.
+end note
 
 |Project Manager|
-:Risk List - re-own the Excavation actions,
-score the stakeholder gate as R021,
-re-home R008's disclosure;
-:Iteration Plan - this correction pass;
-:Risk List and Iteration Plan - the two contained
-defects found in the corrected content;
+:Risk List - score the four new anomalies
+as R022 ... R025;
+:Iteration Plan - this Excavation plan;
 
 |Review|
 :Reviewer - technical lens;
 :Management Reviewer - governance lens;
-:Review Coordinator - SBC verdict;
+:Review Coordinator - AR verdict;
 
 |Stakeholder|
-:Sanction of the SBC milestone,
+:Sanction of the AR milestone,
 carried as R021;
 
 |Project Manager|
 :Iteration Assessment - written after the verdict;
 note right
-  Every stretch above is a sequential agent
-  stretch. The phase's measured spend is recorded
-  in the Iteration Assessment, not per stretch.
+  The stages above are sequential and
+  dependent, not parallel: each cites
+  the identifier the previous one minted.
+  No stretch carries a size - the phase
+  has not closed, so nothing is measured yet.
 end note
 stop
 @enduml
+```
+
+```plantuml
+@startgantt
+title Excavation iteration 1 - the process stages in their order and the human gate - ordering only
+skinparam shadowing false
+
+[Requirements - System Analyst - Vision] lasts 0 day
+[Requirements - System Analyst - Use-Case Model and Business Rules] lasts 0 day
+[Requirements - System Analyst - Supplementary Specification] lasts 0 day
+[Analysis and Design - Software Architect - SAD Components and Connectors] lasts 0 day
+[Analysis and Design - Software Architect - SAD Mechanisms Technology and Deployment] lasts 0 day
+[Analysis and Design - Software Architect - Deployment Model] lasts 0 day
+[Analysis and Design - Designer - Design Model Domain Model] lasts 0 day
+[Analysis and Design - Designer - Design Model Packages and Classes] lasts 0 day
+[Analysis and Design - Database Designer - Persistent Data Entities Keys and Associations] lasts 0 day
+[Analysis and Design - Database Designer - Persistent Data Enforced Rules] lasts 0 day
+[Discovery - Software Archaeologist - System Inventory Anomalies] lasts 0 day
+[Discovery - Software Archaeologist - System Inventory History and Coverage] lasts 0 day
+[Project Management - Risk List] lasts 0 day
+[Project Management - Iteration Plan] lasts 0 day
+[AR milestone review - Reviewer then Management Reviewer then Review Coordinator] lasts 0 day
+[Stakeholder gate - AR] lasts 0 day
+[Project Management - Iteration Assessment after the verdict] lasts 0 day
+
+[Requirements - System Analyst - Use-Case Model and Business Rules] starts at [Requirements - System Analyst - Vision]'s end
+[Requirements - System Analyst - Supplementary Specification] starts at [Requirements - System Analyst - Use-Case Model and Business Rules]'s end
+[Analysis and Design - Software Architect - SAD Components and Connectors] starts at [Requirements - System Analyst - Use-Case Model and Business Rules]'s end
+[Analysis and Design - Designer - Design Model Domain Model] starts at [Requirements - System Analyst - Use-Case Model and Business Rules]'s end
+[Analysis and Design - Software Architect - SAD Mechanisms Technology and Deployment] starts at [Analysis and Design - Software Architect - SAD Components and Connectors]'s end
+[Analysis and Design - Software Architect - Deployment Model] starts at [Analysis and Design - Software Architect - SAD Mechanisms Technology and Deployment]'s end
+[Analysis and Design - Designer - Design Model Packages and Classes] starts at [Analysis and Design - Designer - Design Model Domain Model]'s end
+[Analysis and Design - Database Designer - Persistent Data Entities Keys and Associations] starts at [Analysis and Design - Designer - Design Model Packages and Classes]'s end
+[Analysis and Design - Database Designer - Persistent Data Enforced Rules] starts at [Analysis and Design - Database Designer - Persistent Data Entities Keys and Associations]'s end
+[Discovery - Software Archaeologist - System Inventory Anomalies] starts at [Analysis and Design - Software Architect - SAD Mechanisms Technology and Deployment]'s end
+[Discovery - Software Archaeologist - System Inventory History and Coverage] starts at [Discovery - Software Archaeologist - System Inventory Anomalies]'s end
+[Project Management - Risk List] starts at [Discovery - Software Archaeologist - System Inventory History and Coverage]'s end
+[Project Management - Iteration Plan] starts at [Project Management - Risk List]'s end
+[AR milestone review - Reviewer then Management Reviewer then Review Coordinator] starts at [Project Management - Iteration Plan]'s end
+[Stakeholder gate - AR] starts at [AR milestone review - Reviewer then Management Reviewer then Review Coordinator]'s end
+[Project Management - Iteration Assessment after the verdict] starts at [Stakeholder gate - AR]'s end
+
+[AR] happens at [Stakeholder gate - AR]'s end
+
+note bottom
+  Every bar is a zero span: PlantUML requires the root bar's span to be
+  declared, and it is declared zero. No bar is a forecast of duration -
+  a stage ends when its exit condition passes, and this iteration carries
+  no size for any work item because no size for it has been measured.
+  The Requirements stage is first because every Analysis and Design stage
+  cites a use case or a business rule by identifier, and the Discovery
+  stage that scores the reading runs last because it reads the recovered
+  models rather than the code alone. The gate is R021: days of queue time
+  on the human clock, ceiling 14, and then the process suspends.
+end note
+@endgantt
 ```
 
 ## Resources
