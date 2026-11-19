@@ -896,7 +896,6 @@ end note
 **Three tables are written by nothing on the product's paths.** `AspNetRoles` and `AspNetUserRoles` carry what no code grants (AN-010); `AspNetUserTokens` is Identity's own token table, while the session token lives in the cookie (AN-015). They exist because the framework's schema provides them, and their presence in the recovered data view must not be read as a capability.
 
 ## Size and Performance
-
 | Measure | Value | Basis |
 |---|---|---|
 | Projects in the solution | 7 | `TodoApp.sln:1-14` |
@@ -904,10 +903,12 @@ end note
 | Components in the Logical View | 18, in 5 layers | `## Logical View` |
 | Interfaces at component boundaries | 12 | `## Logical View` |
 | Mechanisms carried | 11 | `## Logical View` |
+| Packages under central management | 27 declared rows in one file, plus the AppHost SDK attribute | `Directory.Packages.props:6-42`; `TodoApp.AppHost/TodoApp.AppHost.csproj:1` |
+| Project-reference edges | 8 | `## Implementation View` |
 | Entry points at the system boundary | 26 recorded, 12 recovered as use cases | System Inventory, Entry Points; `## Use-Case View` |
 | Relational tables | 8, of which one is authored by the product | `## Data View` |
 | Tests over the API | 2 test classes | `Todo.Api.Tests/TodoApiTests.cs`; `UserApiTests.cs` |
-| Tests over the BFF | 0 | `Todo.Api.Tests/Todo.Api.Tests.csproj:6-17`; AN-009 |
+| Tests over the BFF | 0 | `Todo.Api.Tests/Todo.Api.Tests.csproj:14`; AN-009 |
 | Token budget declared | None | Development Case, Measurement policy; stakeholder answer, 2026-11-19 |
 
 **No performance figure is stated by the delivery, and none is stated here.** Response time, end-to-end latency, concurrent users, resource sizing and list size have no target in any file (PE-002 … PE-005). The architecture therefore cannot be judged against a performance requirement, and this section does not invent one to judge it by.
@@ -920,7 +921,6 @@ Two architectural facts bear on performance, both consequences of decisions reco
 - **The write path is one statement.** `ExecuteUpdateAsync` and `ExecuteDeleteAsync` each issue a single statement, so the cost is one round trip to SQLite regardless of the row's width — and that same shape is what removes the concurrency check (ADR-003, FN-011).
 
 **Cost of the architecture to the project itself.** Survey closed at 24 minutes of agent time and 20 minutes of stakeholder queue across 2 iterations and 6 artifacts. No Excavation phase has closed, so this document records no figure for its own production; an estimate would be `[ASSUMPTION — requires validation]` with no comparable closed unit behind it, and the Survey figures are not that unit — Excavation re-reads code, where Survey read an artifact surface. The first measured point is the phase close.
-
 ## Quality
 ```plantuml
 @startuml
