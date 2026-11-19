@@ -1,16 +1,14 @@
 ## Document Control
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-<!-- review: Survey I2 -->
-
-- Phase: Survey
-- Status: Draft — technical lens of the end-of-Survey milestone review, iteration 2
-- Milestone Target: end of Survey (SBC) — not yet achieved; the sanction has not been asked again
-- Review type: Milestone review (SBC), technical lens — formal inspection against the artifact-type checklists
-- Reviewed: Development Case, System Inventory, Risk List, Iteration Plan — all Survey, Draft, corrected in iteration 2
-- Prior findings of this lens: 9 open at the previous milestone review, 9 closed here
-- Findings recorded this iteration: 2, both Minor
+- Phase: Excavation
+- Status: Draft — technical lens of the end-of-Excavation milestone review, iteration 1
+- Milestone Target: end of Excavation (AR) — not yet achieved
+- Review type: Milestone review (AR), technical lens — formal inspection of the recovered artifacts against the evidence they cite
+- Reviewed: Vision, Use-Case Model, Supplementary Specification, Software Architecture Document, Deployment Model, Design Model, System Inventory, Risk List, Iteration Plan — all Excavation, Draft
+- Prior findings of this lens: 2 open at the previous milestone review (`Risk List#F2`, `Iteration Plan#F5`), both closed here on corrected content
+- Findings recorded this iteration: 10 — 0 Critical, 3 Major, 7 Minor
 - SCM evidence: no pull request in any state; no IARI build on `main`
 
 ### Management Reviewer lens
