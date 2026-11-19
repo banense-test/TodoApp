@@ -93,6 +93,90 @@ Scope of this lens's own findings. Only two of the four artifacts carry a manage
 
 Four axes were then scored across all four artifacts — scope, schedule, cost, quality. The scorecard is in Findings.
 
+### Review Coordinator lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+The SBC milestone review ran over the four artifact set Survey produced: Development Case, System Inventory, Risk List, Iteration Plan — all Survey, Draft, iteration 1. This milestone reviewed nothing else: no build, no pull request, no code exists to review in Survey.
+
+#### Lens participation — authoritative
+
+| Lens | Status | What it recorded | Carried into the verdict |
+|---|---|---|---|
+| Reviewer (technical) | EXECUTED | 9 findings — 4 Major, 5 Minor, 0 Critical; Approved with Changes on all four artifacts | Yes |
+| Business Reviewer (business) | **INACTIVE — did not evaluate this review** | No finding, no verdict | No — no verdict is inferred from its silence |
+| Management Reviewer (management) | EXECUTED | 3 findings, all Major; No-Go; stakeholder sanction asked and REFUSED | Yes |
+
+Two lenses of three evaluated this milestone. The Business Reviewer's absence is recorded as INACTIVE and nothing else: it is not counted as an approval, it is not counted as a refusal, and no finding is attributed to it. The business lens holds no SBC exit criterion — criteria 1–6 are perimeter, priorities, unread coverage, risk scoring, tailoring and roadmap, none of which is a business-value question — so its absence leaves no criterion unevaluated.
+
+#### The six SBC exit criteria, and which lens answered each
+
+| Criterion | Substantiated by | Reviewer lens | Management lens | Status |
+|---|---|---|---|---|
+| C1 — Perimeter confirmed by the stakeholder | System Inventory — Perimeter, 26 entry points, 3 exclusions, each anchored | Pass | Not met — sanction REFUSED | **Fail** |
+| C2 — Priorities ordered for the remaining recovery | System Inventory — Priorities, eight areas with reason and anchor | Pass | Pass | Pass |
+| C3 — Unread areas declared with their reason | System Inventory — Coverage, per-area rows | Pass — rows correct, aggregate does not reconcile (Minor) | Pass | Pass |
+| C4 — Every anomaly a scored risk; High ones accepted | Risk List — 20 AN → 20 R, R008 16, R009 16, R020 20 accepted verbatim | Pass on scoring | Not met — the stakeholder gate is bounded nowhere (Risk List#F1) | **Fail** |
+| C5 — Tailoring issued; trigger decisions recorded | Development Case — DC-D1…DC-D7, six optional verdicts, one fired | Pass on issuance | Not met — issued, its consumers cannot use it (Iteration Plan#F1) | **Fail** |
+| C6 — Roadmap and fine plan; no invented forecast | Iteration Plan — 9-milestone roadmap, 9 work items, no token or elapsed figure | Pass | Pass | Pass |
+
+Three of six criteria fail. Each failure is attributable to an open Major finding in the ledger below, not to a judgment rendered here.
+
+#### Review calendar — every event, to the workflow activity that triggers it
+
+```plantuml
+@startuml
+title Review calendar — sprint zero and Inception, each event triggered by a workflow activity (Survey iteration 1)
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+|#eef4ff|Survey|
+start
+while (Critical or Major findings open, or sanction REFUSED?) is (yes)
+  :Artifacts issued for this Survey iteration\nDiscovery — System Inventory · Environment — Development Case\nProject Management — Risk List · Iteration Plan;
+  :Milestone review SBC\nReviewer > Management Reviewer > Review Coordinator;
+  :Findings consolidated — owner, severity, deadline per finding;
+endwhile (no)
+:SBC closes — Survey sanctioned;
+|#f4ffe8|Excavation|
+:Requirements — Vision · Use-Case Model · Business Rules;
+:Analysis & Design — Software Architecture Document, Deployment Model,\nDesign Model, Data Model;
+:Discovery — System Inventory anomalies, history and coverage;
+:Project Management — Risk List · Iteration Plan;
+:Milestone review AR\nReviewer > Management Reviewer > Review Coordinator;
+|#fff8e8|Consolidation|
+:Requirements — Use-Case Model, Supplementary Specification;
+:Analysis & Design — Software Architecture Document, Design Model, Data Model;
+:Discovery — System Inventory complete;
+:Project Management — Risk List · Iteration Plan;
+:Milestone review GHR\nReviewer > Management Reviewer > Review Coordinator;
+|#f8e8ff|Inception|
+:Environment — Development Case re-prepared;
+:Requirements — Vision, Use-Case Model, Supplementary Specification;
+:Project Management — Project Initiation;
+:Analysis & Design — Candidate Architecture;
+:Implementation — Build Environment · Test — Test Plan · Deployment — Deployment Plan;
+:Configuration & Change Management — CM Strategy, first Change Request;
+:Milestone review LCO\nReviewer > Business Reviewer > Management Reviewer > Review Coordinator;
+stop
+@enduml
+```
+
+Two notes on the calendar, and both are enforced in the ledger below rather than merely stated:
+
+- **The Business Reviewer joins at LCO, not at SBC.** Its first milestone in this project's process is the Inception milestone review (LCO), where the business lens is part of the sanctioned sequence. It was not due at SBC, and its INACTIVE status here is the process working as tailored, not a gap.
+- **No milestone advances on a review that has not run.** SBC does not close here: 7 Major findings are open and the stakeholder refused the sanction on 2026-11-19 with the reason that all Major findings must be corrected. Survey iteration 2 runs, both executing lenses re-review, and the sanction is asked again.
+
+#### Entry criteria applied to this milestone review
+
+| Entry criterion | Held? |
+|---|---|
+| All four artifacts in their target state for Survey iteration 1 | Yes — each is Draft at iteration 1, which is the target state for a first-iteration review |
+| Reviewers assigned with expertise matched to the artifact domain | Yes — technical checklist per artifact type, plus the management lens on governance and evidence |
+| Agenda and evaluation criteria distributed before the review | Yes — the four checklists recorded in each lens's scope table |
+| Artifacts available to every lens in full | Yes — the four artifacts are the whole of the Survey artifact set |
+
 ## Findings
 ### Reviewer lens
 <!-- review: Survey I1 -->
