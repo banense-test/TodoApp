@@ -464,6 +464,46 @@ stop
 | 7 | `Todo.Api.Tests` | Read as evidence of current behaviour, not as a specification: it proves ownership isolation and validation problem details on `/todos`, and token issue on `/users`, and it proves nothing about the BFF, the key ring or the assembled topology (AN-020). It is the cross-check on orders 1 and 2, which is why it can only be read meaningfully after them. | `Todo.Api.Tests/TodoApiTests.cs:3-290`; `Todo.Api.Tests/UserApiTests.cs:6-170`; `Todo.Api.Tests/TodoApplication.cs:10-95` |
 | 8 | Build, environment and tooling — `global.json`, `Directory.*.props`, `nuget.config`, `.github/workflows/ci.yaml`, `.devcontainer` | Lowest for behaviour, highest for the environment phase: the pins are readable, the container is below the floor (AN-005), and the CI does not honour the pin (AN-006). Read last because nothing about what the system does depends on it, but it must not be skipped — it is the only statement of how the solution is verified, and the only executable proof the delivery has. | `global.json:1-8`; `Directory.Build.props:1-9`; `Directory.Packages.props:1-43`; `nuget.config:1-13`; `.github/workflows/ci.yaml:1-21`; `.devcontainer/devcontainer.json:1-12` |
 ## Coverage
+This pass re-opened the identity and root surfaces in full to anchor AN-014 … AN-020 — `Todo.Api/Users/UsersApi.cs`, `Todo.Api/Program.cs`, `Todo.Api/TodoDbContext.cs`, `Todo.Api/Authorization/*`, `Todo.Api/Extensions/OpenApiOptionsExtensions.cs`, both `appsettings.json` and `Todo.Api/appsettings.Development.json`, `Todo.Web/Server/{Program.cs,AuthApi.cs,AuthClient.cs,TodoApi.cs}`, the whole `Todo.Web/Server/Authentication/` folder, all three `Todo.Web/Client` sources, `Todo.Api.Tests/{TodoApplication.cs,UserApiTests.cs}`, `Directory.Packages.props`, `.github/workflows/ci.yaml` and both READMEs. It confirmed the unread set below rather than changing it: nothing excluded from the count carries an entry point, a component boundary or a data definition.
+
+```plantuml
+@startuml
+title What has been opened, by area — and what has not
+skinparam defaultTextAlignment left
+skinparam shadowing false
+
+package "Read in full" {
+  class "Todo.Api — 14 of 15\nAuthorization · Extensions · Filters ·\nUsers · Todos · Program · DbContext" as API1 <<read>>
+  class "Todo.Web/Server — 15 of 15\nevery source, Razor component, setting" as BFF <<read>>
+  class "Todo.Web/Client — 8 of 8 sources\nand project files" as UICODE <<read>>
+  class "Todo.Web/Shared — 2 of 2" as SHARED <<read>>
+  class "Todo.Api.Tests — 6 of 7" as TESTS <<read>>
+  class "TodoApp.AppHost — 5 of 6\nServiceDefaults — 2 of 2" as HOST <<read>>
+  class "Solution root — 8 of 8\nglobal.json · Directory.*.props ·\nnuget.config · sln · gitignore · LICENSE · README" as ROOT <<read>>
+  class ".iari · Requests · workflows — 3 of 3" as DOCS <<read>>
+}
+package "Declared unread, with the reason" {
+  class "Todo.Web/Client/wwwroot — 45 of 46\nvendored Bootstrap, source maps,\nthree presentation assets" as STATIC <<third party>>
+  class "Todo.Api/Migrations — 4 of 7\nthree generated *.Designer.cs snapshots\nplus Initial.Designer.cs" as MIG <<generated>>
+  class ".devcontainer/init.sh" as INIT <<bootstrap>>
+  class "launchSettings.json ×3\n.aspire · .vscode" as TOOL <<tool config>>
+}
+note bottom of STATIC
+  No entry point, component boundary or
+  data definition exists in a CSS or JS bundle.
+end note
+note bottom of MIG
+  The same model these snapshots record is
+  declared by the three Up/Down bodies and by
+  TodoDbContextModelSnapshot.cs, both read.
+end note
+note bottom of TOOL
+  Launch profiles and editor preferences carry
+  no behaviour any row of the perimeter rests on.
+end note
+@enduml
+```
+
 | Area | Files | Read | Unread and why |
 |---|---|---|---|
 | `Todo.Api` (root, `Authorization`, `Extensions`, `Filters`, `Users`, `Todos`) | 15 | 14 | `Todo.Api/Todo.Api.csproj` is read; every C# source in the area is read in full. |
@@ -471,7 +511,7 @@ stop
 | `Todo.Api/Properties` | 1 | 1 | — |
 | `Todo.Api` configuration files | 2 | 2 | — |
 | `Todo.Api.Tests` | 7 | 6 | `GlobalUsings.cs` is unread — generated-style using declarations with no behaviour. All six substantive files (two test classes, the host harness, the token service, the DbContext helper, the project file) are read. |
-| `Todo.Web/Server` (`Authentication`, root, Razor) | 15 | 15 | Every source, Razor component and settings file is read. |
+| `Todo.Web/Server` (`Authentication`, root, Razor) | 15 | 15 | Every source, Razor component and settings file is read, including the whole `Authentication` folder — the scheme registry, the provider resolver, the authentication-state provider and the token name. |
 | `Todo.Web/Client` | 8 | 8 | All four C# and Razor sources, both settings-bearing files and the project file are read. |
 | `Todo.Web/Client/wwwroot` | 46 | 1 | The vendored Bootstrap 5 distribution (44 files) and its source maps are unread: third-party static assets with no project behaviour. `css/app.css`, `bg.png` and `favicon.ico` are present and unread — they carry presentation only and no entry point or schema depends on them. |
 | `Todo.Web/Shared` | 2 | 2 | — |
@@ -486,6 +526,8 @@ stop
 | `.aspire`, `.vscode` | 2 | 0 | Both hold tool configuration only — the Aspire local settings and a recommended-extension list — and neither is referenced by any build, host or entry point. |
 
 Files opened in full: 71 of the 128 files in the tree. The 57 unread are 45 vendored Bootstrap assets, 4 generated migration designer snapshots, 4 tool or container configuration files, and 4 static presentation files — none of which carries a component boundary, an entry point or a data definition. Every project of the solution, every C# source outside the generated snapshots, every Razor component, every settings file and every document in the delivery has been read.
+
+What the coverage does **not** establish, and no further reading can: the system has never been assembled or run (AN-020). Every row above is a static reading of source, and the behaviour of the composed topology — Aspire ordering, service discovery, the forwarder, the shared key ring, the migration operation — is inferred from code that no execution has ever confirmed.
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
