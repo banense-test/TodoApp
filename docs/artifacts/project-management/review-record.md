@@ -294,4 +294,22 @@ No action on this list needs a stakeholder decision. The nine defects are conten
 No escalation is open against this lens. The three High risks were accepted on 2026-11-19 and the perimeter was confirmed on the same day; this review found no contradiction in what was declared and no risk that only the stakeholder may accept.
 
 ## Disposition
+### Reviewer lens
+<!-- review: Survey I1 -->
 
+**Technical lens disposition: Approved with Changes.** No artifact is rejected and none is approved for consumption unchanged.
+
+The distinction that matters at SBC: all four artifacts supply the evidence the six exit criteria name, and the evidence itself survived checking. Thirteen anchors were opened against their claims and twelve confirm them. The perimeter is drawn from code, the entry points each carry a real anchor, twenty anomalies each cite evidence, twenty risks each trace to their anomaly, the three High acceptances are recorded verbatim, and every optional trigger verdict holds against the project's real facts. The material the recovery will rest on is substantially there.
+
+What fails is four claims inside that material: a referenced file that does not exist, a Perimeter row contradicted by the artifact's own anomaly, six avoidance actions owned by roles absent from the phase that must perform them, and two different committed iteration totals in one plan. Each of those is content another role would act on, so each must be corrected before Excavation reads the artifact again.
+
+| Artifact | Disposition from this lens |
+|---|---|
+| Development Case | Approved with Changes — Major F1 before the tailoring governs any role's work |
+| System Inventory | Approved with Changes — Major F2 before Excavation fixes the recoverable entry-point set |
+| Risk List | Approved with Changes — Major F1 before Excavation executes any avoidance action |
+| Iteration Plan | Approved with Changes — Major F1 before any downstream artifact cites an iteration count |
+
+**No Critical finding is open, so nothing in this lens blocks the SBC on a stakeholder decision.** That is a statement about this lens only. The SBC verdict belongs to the Review Coordinator, which weighs this lens with the Management Reviewer's; this block does not declare the milestone met, and no iteration is closed here.
+
+The one thing this lens asks the Review Coordinator to carry forward: an artifact set cleared of its Major findings is the precondition for Excavation, not a formality. Excavation reads the Perimeter to fix the set of entry points a use case may come from, the Priorities to fix its reading order, and the Risk List for the actions it must perform — and all three of the artifacts carrying those are where the Major findings sit.
