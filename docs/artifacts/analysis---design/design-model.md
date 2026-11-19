@@ -213,3 +213,231 @@ end note
 | Complete | `PUT /todos/{id}` with `IsComplete = true` | Route id equals body id, owner matches, single `UPDATE ... WHERE` | — |
 | Deleted | `DELETE /todos/{id}` | Owner matches, single `DELETE ... WHERE` | No restore path exists |
 
+## Design Packages and Classes
+The classes group by the component that declares them, and the grouping is not the project grouping: five packages sit inside `Todo.Api`'s one project because each mechanism is a registration applied to route groups rather than a folder, and three sit inside `Todo.Web.Server` because they share a host and a pipeline. The decomposition is held by the interfaces the Software Architecture Document names (`INT-001` … `INT-012`), not by the `.csproj` files.
+
+```plantuml
+@startuml
+title Design Packages — the recovered classes grouped by the component that holds them, with the references the code declares
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+hide empty members
+hide circle
+
+package "Todo.Api · Todos" {
+  class "Todo\nCLS-001" as TODO {
+    + Id : int
+    + Title : string
+    + IsComplete : bool
+    + OwnerId : string
+  }
+  class "TodoItem\nCLS-003" as APIDTO {
+    + Id : int
+    + Title : string
+    + IsComplete : bool
+  }
+  class "TodoMappingExtensions\nCLS-010" as MAPPER {
+    {static} + AsTodoItem(todo : Todo) : TodoItem
+  }
+  class "TodoApi\nCLS-020" as API_TODOS <<internal static module>> {
+    {static} + MapTodos(routes) : RouteGroupBuilder
+    - GET / (db : TodoDbContext, owner : CurrentUser)
+    - GET /{id} (db, id : int, owner)
+    - POST / (db, newTodo : TodoItem, owner)
+    - PUT /{id} (db, id, todo : TodoItem, owner)
+    - DELETE /{id} (db, id, owner)
+  }
+}
+
+package "Todo.Api · Users" {
+  class "TodoUser\nCLS-002" as TODOUSER
+  class "UserInfo\nCLS-004" as APIUSERINFO
+  class "ExternalUserInfo\nCLS-005" as APIEXTUSER
+  class "UsersApi\nCLS-019" as API_USERS <<static module>> {
+    {static} + MapUsers(routes) : RouteGroupBuilder
+    - POST /token/{provider} (provider,\n  userInfo : ExternalUserInfo,\n  userManager, signInManager,\n  dataProtectionProvider)
+  }
+}
+
+package "Todo.Api · Persistence" {
+  class "TodoDbContext\nCLS-011" as DBCTX {
+    + Todos : DbSet~Todo~
+    # OnModelCreating(builder)
+  }
+}
+
+package "Todo.Api · Authorization" {
+  class "CurrentUser\nCLS-012" as CUR {
+    + User : TodoUser?
+    + Principal : ClaimsPrincipal
+    + Id : string {readOnly}
+    + IsAdmin : bool {readOnly}
+  }
+  class "ClaimsTransformation\nCLS-013" as CLAIMTRANS <<private sealed>> {
+    + TransformAsync(principal) : ClaimsPrincipal
+  }
+  class "CheckCurrentUserAuthHandler\nCLS-014" as AUTHHANDLER <<private>> {
+    # HandleRequirementAsync(context, requirement)
+  }
+}
+
+package "Todo.Api · Cross-cutting" {
+  class "RateLimitExtensions\nCLS-015" as RATELIMIT <<static>> {
+    {static} + AddRateLimiting(services)
+    {static} + RequirePerUserRateLimit(builder)
+  }
+  class "ValidationFilterExtensions\nCLS-016" as VALIDATION <<static>> {
+    {static} + WithParameterValidation~TBuilder~(builder, params Type[])
+  }
+  class "OpenApiOptionsExtensions\nCLS-017" as OPENAPI <<static>> {
+    {static} + AddBearerTokenAuthentication(options)
+  }
+}
+
+package "Todo.Web.Server · BFF" {
+  class "AuthClient\nCLS-018" as AUTHCLIENT {
+    + GetTokenAsync(userInfo : UserInfo) : string?
+    + CreateUserAsync(userInfo : UserInfo) : string?
+    + GetOrCreateUserAsync(provider : string, userInfo : ExternalUserInfo) : string?
+  }
+  class "AuthApi\nCLS-021" as WEB_AUTH <<static module>> {
+    {static} + MapAuth(routes) : RouteGroupBuilder
+    - POST /auth/register (userInfo : UserInfo, client : AuthClient)
+    - POST /auth/login (userInfo : UserInfo, client : AuthClient)
+    - POST /auth/logout (context) [authorized]
+    - GET /auth/login/{provider} (provider)
+    - GET /auth/signin/{provider} (provider, client, context, dpp)
+    - {static} SignIn(userId, userName, token, providerName)
+  }
+  class "TodoApi\nCLS-022" as WEB_FWD <<static module>> {
+    {static} + MapTodos(routes) : RouteGroupBuilder
+    - /todos/{*path} YARP MapForwarder [authorized]
+  }
+  class "ExternalProviders\nCLS-023" as EXTPROV {
+    + GetProviderNamesAsync() : Task~string[]~
+  }
+  class "HttpAuthenticationStateProvider\nCLS-024" as AUTHSTATE {
+    + GetAuthenticationStateAsync() : Task~AuthenticationState~
+  }
+  class "TokenNames\nCLS-025" as TOKENNAMES {
+    {static} + AccessToken : string = "accessToken"
+  }
+  class "AuthenticationSchemes\nCLS-026" as SCHEMES {
+    {static} + ExternalScheme : string = "External"
+  }
+}
+
+package "Todo.Web.Client" {
+  class "TodoClient\nCLS-027" as TODOCLIENT {
+    + AddTodoAsync(title : string?) : TodoItem?
+    + DeleteTodoAsync(id : int) : bool
+    + GetTodosAsync() : (HttpStatusCode, List~TodoItem~?)
+    + LoginAsync(email, password) : bool
+    + CreateUserAsync(email, password) : bool
+    + LogoutAsync() : bool
+  }
+}
+
+API_TODOS ..> DBCTX : resolves per request
+API_TODOS ..> CUR : resolves per request
+API_TODOS ..> APIDTO : validates / projects
+API_TODOS ..> TODO
+API_TODOS ..> MAPPER
+API_USERS ..> TODOUSER
+API_USERS ..> APIEXTUSER
+API_USERS ..> DBCTX : via UserManager
+DBCTX ..> TODO
+DBCTX ..> TODOUSER
+CLAIMTRANS ..> CUR : fills
+CLAIMTRANS ..> TODOUSER : FindByIdAsync
+AUTHHANDLER ..> CUR : reads
+WEB_AUTH ..> AUTHCLIENT
+WEB_AUTH ..> TOKENNAMES
+WEB_FWD ..> TOKENNAMES
+AUTHCLIENT ..> API_USERS : HTTP users/register,\nusers/login, users/token/{provider}
+TODOCLIENT ..> WEB_AUTH : HTTP auth/*
+TODOCLIENT ..> WEB_FWD : HTTP todos
+AUTHSTATE ..> SCHEMES : default scheme
+EXTPROV ..> SCHEMES : skips both cookie schemes
+
+note right of TODOCLIENT
+  CLS-027 Todo.Web/Client/TodoClient.cs:7-71.
+  No update method exists — the counterpart of AN-008.
+  GetTodosAsync:14-24 returns (200, empty list) when
+  BaseAddress is null, which is the prerender pass.
+end note
+
+note right of WEB_FWD
+  CLS-022 Todo.Web/Server/TodoApi.cs:9-28.
+  The request transform reads the cookie's accessToken
+  and writes it into ProxyRequest.Headers.Authorization
+  unchecked (BR-034): no presence test, no freshness test.
+end note
+
+note bottom of CUR
+  CLS-012 Todo.Api/Authorization/CurrentUser.cs:6-15.
+  IsAdmin is the dead branch (AN-010, EX-002).
+  CLS-013 / CLS-014 Todo.Api/Authorization/
+  CurrentUserExtensions.cs:8-35 and
+  CheckCurrentUserAuthHandler.cs:8-40.
+end note
+
+note bottom of RATELIMIT
+  CLS-015 Todo.Api/Extensions/RateLimitExtensions.cs:11-71.
+  One policy, partitioned on NameIdentifier.
+  CLS-016 Todo.Api/Filters/ValidationFilter.cs:7-58 — matched
+  on the declared parameter type, which is why UserInfo is on
+  no validated endpoint (BR-032, ADR-004).
+  CLS-017 Todo.Api/Extensions/OpenApiOptionsExtensions.cs:7-47.
+end note
+@enduml
+```
+
+### Design classes, with the operations the code implements
+
+| ID | Class | Package | Operations, as declared | Anchored dependency | Anchor |
+|---|---|---|---|---|---|
+| CLS-020 | `TodoApi` | Todo.Api · Todos | `MapTodos(routes) : RouteGroupBuilder`; five handlers: list, read one, create, update, delete | `TodoDbContext`, `CurrentUser`, `TodoItem`, `Todo`, `AsTodoItem` | `Todo.Api/Todos/TodoApi.cs:8-77` |
+| CLS-019 | `UsersApi` | Todo.Api · Users | `MapUsers(routes) : RouteGroupBuilder`; the stock `MapIdentityApi<TodoUser>()` group plus one custom handler `POST /token/{provider}` | `TodoUser`, `ExternalUserInfo`, `UserManager`, `SignInManager`, `IDataProtectionProvider` | `Todo.Api/Users/UsersApi.cs:10-64` |
+| CLS-011 | `TodoDbContext` | Todo.Api · Persistence | `Todos : DbSet<Todo>`; `OnModelCreating(builder)` declaring the ownership foreign key against `AspNetUsers.Id` | primary constructor over `DbContextOptions<TodoDbContext>`; base `IdentityDbContext<TodoUser>` | `Todo.Api/TodoDbContext.cs:7-21` |
+| CLS-012 | `CurrentUser` | Todo.Api · Authorization | `User : TodoUser?` (settable); `Principal : ClaimsPrincipal` (settable); `Id : string` (computed from `NameIdentifier`); `IsAdmin : bool` (computed from the `admin` role claim) | `ClaimsPrincipal`, `TodoUser` | `Todo.Api/Authorization/CurrentUser.cs:6-15` |
+| CLS-013 | `ClaimsTransformation` | Todo.Api · Authorization | `TransformAsync(principal) : ClaimsPrincipal` | `CurrentUser`, `UserManager<TodoUser>` | `Todo.Api/Authorization/CurrentUserExtensions.cs:14-35` |
+| CLS-014 | `CheckCurrentUserAuthHandler` | Todo.Api · Authorization | `HandleRequirementAsync(context, requirement)` — succeeds only when `CurrentUser.User` is non-null | `CurrentUser` | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:17-39` |
+| CLS-015 | `RateLimitExtensions` | Todo.Api · Cross-cutting | `AddRateLimiting(services)`; `RequirePerUserRateLimit(builder) : IEndpointConventionBuilder` | framework rate limiter, `TokenBucketRateLimiterOptions` | `Todo.Api/Extensions/RateLimitExtensions.cs:11-71` |
+| CLS-016 | `ValidationFilterExtensions` | Todo.Api · Cross-cutting | `WithParameterValidation<TBuilder>(builder, params Type[]) : TBuilder` | `MiniValidator` | `Todo.Api/Filters/ValidationFilter.cs:7-58` |
+| CLS-017 | `OpenApiOptionsExtensions` | Todo.Api · Cross-cutting | `AddBearerTokenAuthentication(options) : OpenApiOptions` | `Microsoft.OpenApi.Models`, `IAuthorizeData` | `Todo.Api/Extensions/OpenApiOptionsExtensions.cs:7-47` |
+| CLS-018 | `AuthClient` | Todo.Web.Server · BFF | `GetTokenAsync(UserInfo) : Task<string?>`; `CreateUserAsync(UserInfo) : Task<string?>`; `GetOrCreateUserAsync(string, ExternalUserInfo) : Task<string?>` | `HttpClient` with `BaseAddress = http://todoapi` | `Todo.Web/Server/AuthClient.cs:3-46` |
+| CLS-021 | `AuthApi` | Todo.Web.Server · BFF | `MapAuth(routes) : RouteGroupBuilder`; three public POSTs, two provider GETs, one private `SignIn` overload pair | `AuthClient`, `TokenNames`, `AuthenticationSchemes`, `IDataProtectionProvider` | `Todo.Web/Server/AuthApi.cs:12-128` |
+| CLS-022 | `TodoApi` | Todo.Web.Server · BFF | `MapTodos(routes) : RouteGroupBuilder`; one YARP `MapForwarder` at `{*path}` with a request transform | `TokenNames`, `IHttpForwarder` | `Todo.Web/Server/TodoApi.cs:9-28` |
+| CLS-023 | `ExternalProviders` | Todo.Web.Server · BFF | `GetProviderNamesAsync() : Task<string[]>` — every scheme that is neither cookie scheme, memoized in a field | `IAuthenticationSchemeProvider` | `Todo.Web/Server/Authentication/ExternalProviders.cs:5-35` |
+| CLS-024 | `HttpAuthenticationStateProvider` | Todo.Web.Server · BFF | `GetAuthenticationStateAsync() : Task<AuthenticationState>` — `HttpContext.User`, or an empty principal | `IHttpContextAccessor` | `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs:3-10` |
+| CLS-025 | `TokenNames` | Todo.Web.Server · BFF | `static AccessToken : string = "accessToken"` — the one token name the BFF holds | — | `Todo.Web/Server/Authentication/TokenNames.cs:3-6` |
+| CLS-026 | `AuthenticationSchemes` | Todo.Web.Server · BFF | `static ExternalScheme : string = "External"` | — | `Todo.Web/Server/Authentication/AuthenticationSchemes.cs:3-7` |
+| CLS-027 | `TodoClient` | Todo.Web.Client | `AddTodoAsync(string?) : Task<TodoItem?>`; `DeleteTodoAsync(int) : Task<bool>`; `GetTodosAsync() : Task<(HttpStatusCode, List<TodoItem>?)>`; `LoginAsync`; `CreateUserAsync`; `LogoutAsync` | `HttpClient` with `BaseAddress = HostEnvironment.BaseAddress` | `Todo.Web/Client/TodoClient.cs:7-71` |
+
+### What the class model fixes that the requirement statements do not
+
+Three facts belong to the class model because no use-case text can carry them, and each is a constraint the Implementer inherits.
+
+**CLS-027 declares no update operation.** `TodoClient` carries six methods and not one of them issues `PUT`. The absence is a fact of the class, not a gap in a screen — which is why the update use case has an API path and no client path (AN-008). A design that added the method would be adding a capability no requirement declares.
+
+**CLS-012 exposes `IsAdmin` as a computed read-only property with no writer.** `CurrentUser.User` and `Principal` are settable and are written by CLS-013; `Id` and `IsAdmin` are computed and nothing assigns them. `IsAdmin` derives from a claim no endpoint in the model can mint, so the two disjuncts in `TodoApi.cs:59,69` that read it are unreachable (AN-010, EX-002). The member is recovered because the code declares it; it is not evidence of a capability.
+
+**CLS-016 matches on the declared parameter type, and that type is not the credential body.** `WithParameterValidation(typeof(ExternalUserInfo))` is applied to the `/users` group and `WithParameterValidation(typeof(TodoItem))` to `/todos`. `UserInfo` — the body of registration and sign-in — is named by neither call site, so the filter is attached to no endpoint that receives it and CLS-004's `[Required]` attributes are enforced by nothing on the server (BR-032, ADR-004). The `[Required]` attributes on CLS-004 and CLS-007 do take effect in the browser through `DataAnnotationsValidator` on the login form, which is where the only enforcement sits.
+
+### Ownership trace — every class to the component that holds it
+
+| Package | Component (SAD) | Classes | Project |
+|---|---|---|---|
+| Todo.Api · Todos | COMP-008 | CLS-001, CLS-003, CLS-010, CLS-020 | `Todo.Api` |
+| Todo.Api · Users | COMP-007 | CLS-002, CLS-004, CLS-005, CLS-019 | `Todo.Api` |
+| Todo.Api · Persistence | COMP-012 | CLS-011 | `Todo.Api` |
+| Todo.Api · Authorization | COMP-009 | CLS-012, CLS-013, CLS-014 | `Todo.Api` |
+| Todo.Api · Cross-cutting | COMP-010, COMP-011, COMP-013 | CLS-015, CLS-016, CLS-017 | `Todo.Api` |
+| Todo.Web.Server · BFF | COMP-002 (CLS-018, CLS-021, CLS-025, CLS-026); COMP-003 (CLS-022); COMP-001 (CLS-023, CLS-024) | CLS-018, CLS-021, CLS-022, CLS-023, CLS-024, CLS-025, CLS-026 | `Todo.Web/Server` |
+| Todo.Web.Client | COMP-005 | CLS-027 | `Todo.Web/Client` |
+| Todo.Web.Shared | COMP-006 | CLS-006, CLS-007, CLS-008, CLS-009 | `Todo.Web/Shared` |
+
+Two components carry no class of their own, and that is correct rather than incomplete: COMP-014 (`TodoApp.ServiceDefaults`) is registered by builder extensions with no class the product authored, COMP-015/COMP-016 are an orchestration program and a CLI invocation, and COMP-017/COMP-018 are the test harness and the pipeline. A class diagram recovers the classes the product declares; those five components declare none.
+
