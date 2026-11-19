@@ -216,7 +216,6 @@ Evaluated against this project's facts. Re-evaluated at every iteration; the rec
 | Test Plan | NOT TRIGGERED | No formal delivery, regulatory audit or contractual test reporting applies. Per-iteration test scope is defined by the Iteration Plan, and the Test Evaluation Summary reports the outcome. |
 
 ## Roles and Ownership
-
 Roster, primary artifact ownership and the ownership rule are per the IARI DC baseline and are **not restated or modified** here. Recorded below: which roles the project's trigger decisions silence, which roles are at work in the sprint zero, and who owns each referenced tool configuration.
 
 | Delta | Roles affected | Effect |
@@ -227,7 +226,7 @@ Roster, primary artifact ownership and the ownership rule are per the IARI DC ba
 
 ```plantuml
 @startuml
-title Sprint zero and RUP — who produces what, and the tool configuration each owner is referenced by
+title Who produces what, and the tool configuration each owner is referenced by
 hide empty members
 
 package "Environment" {
@@ -286,8 +285,7 @@ package "Review" {
 }
 package "Referenced tool configuration — path and owner" {
   class ".github/workflows/ci.yaml" as CI <<reference>>
-  class "global.json · Directory.Build.props · Directory.Packages.props · nuget.config" as BUILD <<reference>>
-  class "CONTRIBUTING.md" as CONTRIB <<reference>>
+  class "global.json\nDirectory.Build.props\nDirectory.Packages.props\nnuget.config" as BUILD <<reference>>
 }
 
 SA ..> SI : produces
@@ -316,9 +314,7 @@ RC ..> RR : findings
 
 Int ..> CI : reference owner
 Int ..> BUILD : reference owner
-Arch ..> CONTRIB : reference owner
-Des ..> CONTRIB : contributes
-TD ..> CONTRIB : contributes
+Arch ..> BUILD : version pins
 
 note bottom of DEP
   The one FIRED optional: multi-node topology.
@@ -331,6 +327,14 @@ note bottom of SI
   Sprint zero artifact. EP-NNN and AN-NNN are
   minted here; recovered UCs cite EP-NNN and
   recovered risks cite AN-NNN.
+end note
+
+note bottom of BUILD
+  No convention file exists in this repository.
+  Coding standards, UI patterns and test
+  conventions therefore have no project source
+  and are attributed to no file — see the
+  Templates table in Artifacts and Templates.
 end note
 @enduml
 ```
