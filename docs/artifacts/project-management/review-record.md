@@ -20,11 +20,13 @@
 
 - Phase: Survey
 - Status: Draft — governance lens of the end-of-Survey milestone review, iteration 2
-- Milestone Target: end of Survey (SBC) — not yet achieved; the sanction is asked in this round
+- Milestone Target: end of Survey (SBC) — exit criteria met on this lens; sanction GRANTED by the stakeholder, 2026-11-19
 - Review type: Milestone review (SBC), governance lens
 - Reviewed: Development Case, System Inventory, Risk List, Iteration Plan — all Survey, Draft, corrected in iteration 2
 - Prior findings of this lens: 3 Major open at the previous milestone review, 3 closed here
 - Findings recorded this iteration: none from this lens
+- Stakeholder sanction: GRANTED — the perimeter confirmed as drawn; advancing past SBC sanctioned
+- Stakeholder order: the two Minor findings corrected in the next phase, not left unresolved
 - Cross-artifact consequence carried from iteration 1: closed — `AN-008` and `R008` name the same two disclosure homes
 - SCM evidence: no pull request in any state; no IARI build on `main`
 
