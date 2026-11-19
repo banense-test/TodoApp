@@ -6,13 +6,13 @@
 ## Risk Classification
 Every risk below is scored on the declared IARI risk scale (DC baseline §9.10); the project Development Case records no deviation from it. R001–R025 come from an anomaly the System Inventory recorded — none is invented. R021 is the project's own exposure, entered at the SBC milestone review, and it is scored on the same scale rather than described beside it.
 
-| Probability | Level | Exposure |
+| Probability | Level | Meaning |
 |---|---|---|
-| 1 | Very low — 10 % or less | Magnitude = probability × impact |
-| 2 | Low — 11 % to 30 % | High 15–25 · Significant 9–12 · Moderate 5–8 · Minor 3–4 · Low 1–2 |
-| 3 | Medium — 31 % to 50 % | |
-| 4 | High — 51 % to 70 % | |
-| 5 | Very high — more than 70 % | |
+| 1 | Very low | 10 % or less |
+| 2 | Low | 11 % to 30 % |
+| 3 | Medium | 31 % to 50 % |
+| 4 | High | 51 % to 70 % |
+| 5 | Very high | More than 70 % |
 
 | Impact | Level | Means |
 |---|---|---|
@@ -22,9 +22,17 @@ Every risk below is scored on the declared IARI risk scale (DC baseline §9.10);
 | 4 | High | The milestone slips: the phase needs an iteration it did not plan |
 | 5 | Very high | Success is endangered: a declared requirement or constraint can no longer be met as declared |
 
+| Magnitude | Exposure (P × I) | Acceptance is the stakeholder's grant |
+|---|---|---|
+| High | 15–25 | Yes |
+| Significant | 9–12 | Yes |
+| Moderate | 5–8 | No |
+| Minor | 3–4 | No |
+| Low | 1–2 | No |
+
 ```plantuml
 @startuml
-title Risk List — classification structure: probability x impact = magnitude
+title Risk List - classification structure: probability x impact = magnitude
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 
@@ -90,11 +98,12 @@ end note
 
 | Magnitude | Count | Risks |
 |---|---|---|
-| High | 3 | R008, R009, R020 — avoidance not available, acceptance granted by the stakeholder on 2026-11-19 |
-| Significant | 13 | R003, R004, R005, R006, R007, R012, R015, R017, R018, R022, R023, R024 — avoidance; R021 — acceptance granted by the stakeholder on 2026-11-19 |
-| Moderate | 8 | R001, R002, R010, R011, R014, R019, R025 — avoidance; R013 — acceptance, retired by mitigation, within the Project Manager's own authority at this magnitude |
-| Minor | 1 | R016 — acceptance, retired by mitigation, contained inside its artefact |
+| High | 3 | R008, R009, R020 — avoidance not available in the sprint zero; acceptance granted by the stakeholder 2026-11-19 |
+| Significant | 13 | R003, R004, R005, R006, R007, R012, R015, R017, R018, R022, R023, R024 — avoidance, each by an action named in Risk Mitigation and Contingency; R021 — acceptance granted by the stakeholder 2026-11-19 |
+| Moderate | 8 | R001, R002, R010, R011, R014, R019, R025 — avoidance; R013 — acceptance, mitigated and contained inside its own artifact |
+| Minor | 1 | R016 — acceptance, mitigated and contained inside its own artifact |
 | Low | 0 | — |
+| **Total** | **25** | R001–R025 |
 
 Of the three High risks, none is avoidable before Elaboration: the missing completion control needs a declared requirement, the BFF's test coverage needs the phase that writes tests, and the assembled run needs an Integrator at work — none of which exists in the sprint zero. Their acceptance was therefore the stakeholder's to grant, and was granted. Every High and Significant risk in this register is either avoided by a named action or accepted on the stakeholder's own answer: none is open, and none was self-granted. No acceptance is requested in this iteration — the four anomalies the recovery added produced no exposure that an action cannot retire.
 
