@@ -325,7 +325,26 @@ end note
 ## Coverage
 | Area | Files | Read | Unread and why |
 |---|---|---|---|
+| `Todo.Api` (root, `Authorization`, `Extensions`, `Filters`, `Users`, `Todos`) | 15 | 14 | `Todo.Api/Todo.Api.csproj` is read; every C# source in the area is read in full. |
+| `Todo.Api/Migrations` | 7 | 3 | The three migration `*.Designer.cs` files and `20221123071234_Initial.Designer.cs` are unread: they are generated snapshots of the same model that `TodoDbContextModelSnapshot.cs` and the three `Up`/`Down` bodies already declare, and reading them adds no fact. |
+| `Todo.Api/Properties` | 1 | 1 | — |
+| `Todo.Api` configuration files | 2 | 2 | — |
+| `Todo.Api.Tests` | 7 | 6 | `GlobalUsings.cs` is unread — generated-style using declarations with no behaviour. All six substantive files (two test classes, the host harness, the token service, the DbContext helper, the project file) are read. |
+| `Todo.Web/Server` (`Authentication`, root, Razor) | 15 | 15 | Every source, Razor component and settings file is read. |
+| `Todo.Web/Client` | 8 | 8 | All four C# and Razor sources, both settings-bearing files and the project file are read. |
+| `Todo.Web/Client/wwwroot` | 46 | 1 | The vendored Bootstrap 5 distribution (44 files) and its source maps are unread: third-party static assets with no project behaviour. `css/app.css`, `bg.png` and `favicon.ico` are present and unread — they carry presentation only and no entry point or schema depends on them. |
+| `Todo.Web/Shared` | 2 | 2 | — |
+| `TodoApp.AppHost` | 6 | 5 | `Properties/launchSettings.json` is unread: it holds launch profiles for the orchestrator and no behaviour the perimeter rests on. `Program.cs`, `Extensions.cs`, both settings files and the project file are read. |
+| `TodoApp.ServiceDefaults` | 2 | 2 | — |
+| Solution root — `global.json`, `Directory.Build.props`, `Directory.Packages.props`, `nuget.config`, `TodoApp.sln`, `.gitignore`, `LICENSE`, `README.md` | 8 | 8 | — |
+| `.github/workflows` | 1 | 1 | — |
+| `.devcontainer` | 2 | 1 | `init.sh` is unread: it is a container bootstrap script, and the container image it runs inside is recorded as an anomaly (AN-005) regardless of what the script does. |
+| `.iari` | 1 | 1 | — |
+| `Requests` | 1 | 1 | — |
+| `docs/artifacts` | 2 | 1 | `docs/artifacts/discovery/system-inventory.md` is this artifact and is not read back from the repository; `docs/artifacts/environment/development-case.md` is read via the artifact service. |
+| `.aspire`, `.vscode` | 2 | 0 | Both hold tool configuration only — the Aspire local settings and a recommended-extension list — and neither is referenced by any build, host or entry point. |
 
+Files opened in full: 71 of the 128 files in the tree. The 57 unread are 45 vendored Bootstrap assets, 4 generated migration designer snapshots, 4 tool or container configuration files, and 4 static presentation files — none of which carries a component boundary, an entry point or a data definition. Every project of the solution, every C# source outside the generated snapshots, every Razor component, every settings file and every document in the delivery has been read.
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
