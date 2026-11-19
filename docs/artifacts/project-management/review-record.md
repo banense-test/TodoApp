@@ -148,88 +148,189 @@ Entry criteria were verified before the review began: all four artifacts present
 SCM evidence: no pull request in any state and no IARI pipeline on `main`. Survey writes no code and builds nothing, so no build status, no pull request and no execution result is cited in this block — none exists to cite.
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-The SBC milestone review ran over the four artifact set Survey produced: Development Case, System Inventory, Risk List, Iteration Plan — all Survey, Draft, iteration 1. This milestone reviewed nothing else: no build, no pull request, no code exists to review in Survey.
+The SBC milestone review ran over the four artifacts Survey produced: Development Case, System Inventory, Risk List, Iteration Plan — all Survey, Draft, corrected in iteration 2. This milestone reviewed nothing else: no build, no pull request, no code exists to review in Survey.
 
 #### Lens participation — authoritative
 
 | Lens | Status | What it recorded | Carried into the verdict |
 |---|---|---|---|
-| Reviewer (technical) | EXECUTED | 9 findings — 4 Major, 5 Minor, 0 Critical; Approved with Changes on all four artifacts | Yes |
+| Reviewer (technical) | EXECUTED | 2 findings this iteration, both Minor; 9 findings of the previous milestone review closed on corrected content; Approved on Development Case and System Inventory, Approved with Changes on Risk List and Iteration Plan | Yes |
 | Business Reviewer (business) | **INACTIVE — did not evaluate this review** | No finding, no verdict | No — no verdict is inferred from its silence |
-| Management Reviewer (management) | EXECUTED | 3 findings, all Major; No-Go; stakeholder sanction asked and REFUSED | Yes |
+| Management Reviewer (management) | EXECUTED | No finding raised this iteration; its 3 Major findings of the previous milestone review closed on evidence in the artifacts; sanction asked and GRANTED by the stakeholder 2026-11-19 | Yes |
 
-Two lenses of three evaluated this milestone. The Business Reviewer's absence is recorded as INACTIVE and nothing else: it is not counted as an approval, it is not counted as a refusal, and no finding is attributed to it. The business lens holds no SBC exit criterion — criteria 1–6 are perimeter, priorities, unread coverage, risk scoring, tailoring and roadmap, none of which is a business-value question — so its absence leaves no criterion unevaluated.
-
-#### The six SBC exit criteria, and which lens answered each
-
-| Criterion | Substantiated by | Reviewer lens | Management lens | Status |
-|---|---|---|---|---|
-| C1 — Perimeter confirmed by the stakeholder | System Inventory — Perimeter, 26 entry points, 3 exclusions, each anchored | Pass | Not met — sanction REFUSED | **Fail** |
-| C2 — Priorities ordered for the remaining recovery | System Inventory — Priorities, eight areas with reason and anchor | Pass | Pass | Pass |
-| C3 — Unread areas declared with their reason | System Inventory — Coverage, per-area rows | Pass — rows correct, aggregate does not reconcile (Minor) | Pass | Pass |
-| C4 — Every anomaly a scored risk; High ones accepted | Risk List — 20 AN → 20 R, R008 16, R009 16, R020 20 accepted verbatim | Pass on scoring | Not met — the stakeholder gate is bounded nowhere (Risk List#F1) | **Fail** |
-| C5 — Tailoring issued; trigger decisions recorded | Development Case — DC-D1…DC-D7, six optional verdicts, one fired | Pass on issuance | Not met — issued, its consumers cannot use it (Iteration Plan#F1) | **Fail** |
-| C6 — Roadmap and fine plan; no invented forecast | Iteration Plan — 9-milestone roadmap, 9 work items, no token or elapsed figure | Pass | Pass | Pass |
-
-Three of six criteria fail. Each failure is attributable to an open Major finding in the ledger below, not to a judgment rendered here.
-
-#### Review calendar — every event, to the workflow activity that triggers it
-
-```plantuml
-@startuml
-title Review calendar — sprint zero and Inception, each event triggered by a workflow activity (Survey iteration 1)
-skinparam shadowing false
-skinparam defaultTextAlignment left
-
-|#eef4ff|Survey|
-start
-while (Critical or Major findings open, or sanction REFUSED?) is (yes)
-  :Artifacts issued for this Survey iteration\nDiscovery — System Inventory · Environment — Development Case\nProject Management — Risk List · Iteration Plan;
-  :Milestone review SBC\nReviewer > Management Reviewer > Review Coordinator;
-  :Findings consolidated — owner, severity, deadline per finding;
-endwhile (no)
-:SBC closes — Survey sanctioned;
-|#f4ffe8|Excavation|
-:Requirements — Vision · Use-Case Model · Business Rules;
-:Analysis & Design — Software Architecture Document, Deployment Model,\nDesign Model, Data Model;
-:Discovery — System Inventory anomalies, history and coverage;
-:Project Management — Risk List · Iteration Plan;
-:Milestone review AR\nReviewer > Management Reviewer > Review Coordinator;
-|#fff8e8|Consolidation|
-:Requirements — Use-Case Model, Supplementary Specification;
-:Analysis & Design — Software Architecture Document, Design Model, Data Model;
-:Discovery — System Inventory complete;
-:Project Management — Risk List · Iteration Plan;
-:Milestone review GHR\nReviewer > Management Reviewer > Review Coordinator;
-|#f8e8ff|Inception|
-:Environment — Development Case re-prepared;
-:Requirements — Vision, Use-Case Model, Supplementary Specification;
-:Project Management — Project Initiation;
-:Analysis & Design — Candidate Architecture;
-:Implementation — Build Environment · Test — Test Plan · Deployment — Deployment Plan;
-:Configuration & Change Management — CM Strategy, first Change Request;
-:Milestone review LCO\nReviewer > Business Reviewer > Management Reviewer > Review Coordinator;
-stop
-@enduml
-```
-
-Two notes on the calendar, and both are enforced in the ledger below rather than merely stated:
-
-- **The Business Reviewer joins at LCO, not at SBC.** Its first milestone in this project's process is the Inception milestone review (LCO), where the business lens is part of the sanctioned sequence. It was not due at SBC, and its INACTIVE status here is the process working as tailored, not a gap.
-- **No milestone advances on a review that has not run.** SBC does not close here: 7 Major findings are open and the stakeholder refused the sanction on 2026-11-19 with the reason that all Major findings must be corrected. Survey iteration 2 runs, both executing lenses re-review, and the sanction is asked again.
+Two lenses of three evaluated this milestone. The Business Reviewer's absence is recorded as INACTIVE and nothing else: it is not an approval, not a refusal, and no finding is attributed to it. Its first due milestone in this project's process is LCO, where the business lens joins the sanctioned sequence. No SBC exit criterion is a business-value question — criteria 1 to 6 are perimeter, priorities, unread coverage, risk scoring, tailoring and roadmap — so its absence leaves no criterion unevaluated.
 
 #### Entry criteria applied to this milestone review
 
 | Entry criterion | Held? |
 |---|---|
-| All four artifacts in their target state for Survey iteration 1 | Yes — each is Draft at iteration 1, which is the target state for a first-iteration review |
-| Reviewers assigned with expertise matched to the artifact domain | Yes — technical checklist per artifact type, plus the management lens on governance and evidence |
-| Agenda and evaluation criteria distributed before the review | Yes — the four checklists recorded in each lens's scope table |
+| All four artifacts in their target state — corrections applied, not drafted mid-review | Yes — each is Draft at iteration 2 with the corrections its owner made in place |
+| Reviewers assigned with expertise matched to the artifact domain | Yes — per-artifact-type technical checklists, plus the management lens on governance and evidence |
+| Evaluation criteria and the prior finding ledger available to every lens before reading | Yes — four checklists recorded in each lens's scope block; `read_artifact_findings` carried all 14 findings with their resolution state |
 | Artifacts available to every lens in full | Yes — the four artifacts are the whole of the Survey artifact set |
+| The stakeholder's order of 2026-11-19 in force before the review opened | Yes — "All major findings must be corrected" was the subject of the pass |
+
+#### The six SBC exit criteria, and which lens substantiated each
+
+Counted from the two executing lens blocks. A criterion is met only when it survives both tests; that is the rule this consolidation applied at the previous milestone review and applies unchanged here.
+
+| Criterion | Evidence | Technical lens | Management lens | Status |
+|---|---|---|---|---|
+| C1 — Perimeter confirmed by the stakeholder | System Inventory — Perimeter: 7 projects of TodoApp.sln plus the CI workflow, 26 entry points, 3 exclusions each anchored | Pass | Pass — confirmed on the stakeholder's Yes of 2026-11-19 | **Met** |
+| C2 — Priorities ordered for the remaining recovery | System Inventory — Priorities: eight areas, each with its reason and anchor | Pass | Pass | **Met** |
+| C3 — Unread areas declared with their reason | Coverage: 72 of 132 files read, 60 unread, each named in a row | Pass — aggregate reconciles with its own rows | Pass | **Met** |
+| C4 — Every anomaly a scored risk; High and Significant ones accepted in the stakeholder's words | 20 anomalies → 20 risks plus R021; four acceptances verbatim, 2026-11-19 | Pass | Pass — every action executable by the role and phase it names; R021 bounds the gate | **Met** |
+| C5 — Tailoring issued and usable by the phases that consume it | Development Case; fine-plan item 1 sequencing the correction before Excavation; three convention families Undocumented with no fallback asserted | Pass | Pass | **Met** |
+| C6 — Roadmap and fine plan; no invented forecast, no sized human gate | `2 + 1 + 1 + 1 + 2 + 2 + 1 = 10` stated once; every gantt bar a zero span; no token, elapsed or velocity figure | Pass | Pass | **Met** |
+
+Six of six met. The three that failed at the previous milestone review — C1, C4, C5 — are met here on the same tests, because the findings that failed them are closed on the corrected content, not waived.
+
+#### Review calendar — every event, to the workflow activity that triggers it
+
+```plantuml
+@startuml
+title Review calendar — milestone reviews on the committed iteration sequence, ordering only
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+start
+partition "sprint zero | Discovery" {
+  :SBC — System Boundary Confirmed
+  Reviewer (technical) · Management Reviewer (management)
+  Business Reviewer INACTIVE — its lens is not due before LCO;
+  :AR — Artifacts Recovered
+  Reviewer · Management Reviewer;
+  :GHR — Golden Heritage Release
+  Reviewer · Management Reviewer;
+}
+partition "Inception" {
+  :LCO — Lifecycle Objectives
+  Reviewer · Business Reviewer · Management Reviewer;
+}
+partition "Elaboration" {
+  :LCA — Lifecycle Architecture
+  Reviewer · Business Reviewer · Management Reviewer;
+  :Code review of the architectural mechanism
+  Code Reviewer, own block of the Review Record;
+}
+partition "Construction" {
+  :IOC — Initial Operational Capability
+  Reviewer · Management Reviewer;
+  :Code review of the iteration pull requests
+  Code Reviewer;
+}
+partition "Transition" {
+  :PR — Product Release
+  Reviewer · Management Reviewer;
+  :Code review of the release
+  Code Reviewer, release GUARD;
+}
+partition "Every milestone, this consolidation" {
+  :Aggregate the finding ledger
+  read_artifact_findings per artifact — a resolution object or open;
+  :Consolidate across lenses, resolve conflicts, prioritize actions;
+  :Put the milestone proposition to the stakeholder
+  with the verdict lean and every open Critical or Major inside it;
+  :record_milestone_auto_iterate;
+  :Iteration Assessment
+  Project Manager, after the verdict, never before;
+}
+stop
+@enduml
+```
+
+Seven milestone reviews sit on the roadmap, one per milestone, each triggered by its workflow activity and none scheduled on a calendar date. Each milestone's ledger is aggregated from `read_artifact_findings` rather than from the previous Review Record's prose, because a finding is open unless it carries a resolution object. The Iteration Assessment follows the verdict and never precedes it.
+
+#### Consolidated finding ledger
+
+Fourteen findings are on record across the two executing lenses. Twelve carry a resolution object and are closed; two do not and are open. The ledger below is read from `read_artifact_findings` on the four artifacts, not from either lens's narrative.
+
+| # | Artifact | Key | Lens | Severity | Owner | State | What the corrected content says |
+|---|---|---|---|---|---|---|---|
+| 1 | Development Case | F1 | Reviewer | Major | Process Engineer | Closed | Templates rows re-pointed at five files that exist, each attributed by path and owner; coding standards, UI patterns and test conventions recorded Undocumented with no fallback asserted |
+| 2 | Development Case | F2 | Reviewer | Minor | Process Engineer | Closed | The stale "no Risk List exists yet" clause removed; the PoC verdict rests on the phase requirement alone, second clause judged at Elaboration |
+| 3 | System Inventory | F2 | Reviewer | Major | Software Archaeologist | Closed | Perimeter `/users` row agrees with AN-015 — registration and login are called, `/users/refresh` is called by nothing, no use case recovered from `EP-003` |
+| 4 | System Inventory | F1 | Reviewer | Minor | Software Archaeologist | Closed | Aggregate stated as the sum of the Read column — 72 of 132 files, 60 unread, every unread file named in a row with its reason |
+| 5 | Risk List | F1 | Reviewer | Major | Project Manager | Closed | Six Excavation actions re-owned to the System Analyst; R014's control part moved to Inception; closing paragraph states the role-phase mapping once |
+| 6 | Risk List | F1 | Management Reviewer | Major | Project Manager | Closed | R021 scored Significant (12), strategy accept, mitigation, owning role, trigger indicator and the 14-day contingency |
+| 7 | Risk List | F2 | Management Reviewer | Major | Project Manager | Closed | R008's Construction mitigation re-homed to the User Documentation that stage produces; AN-008 names the same two disclosure homes |
+| 8 | Iteration Plan | F1 | Reviewer | Major | Project Manager | Closed | `2 + 1 + 1 + 1 + 2 + 2 + 1 = 10`, stated once in the roadmap; the conditional "8 or 9" phrasing deleted |
+| 9 | Iteration Plan | F1 | Management Reviewer | Major | Project Manager | Closed | Development Case correction is fine-plan item 1, Process Engineer, sequenced before Excavation |
+| 10 | Iteration Plan | F2 | Reviewer | Minor | Project Manager | Closed | Verdict column replaced by "Evidence this plan supplies" and "What the review judges" |
+| 11 | Iteration Plan | F3 | Reviewer | Minor | Project Manager | Closed | Profile reads "six agent roles plus the stakeholder gate"; all twenty absent roles carry a stated reason |
+| 12 | Iteration Plan | F4 | Reviewer | Minor | Project Manager | Closed | Day lengths removed from both gantts; every bar `lasts 0 day`, both titles ordering only |
+| 13 | Risk List | F2 | Reviewer | Minor | Project Manager | **Open** | The trailing "R021 — offered for acceptance" block states the risk stays open until the answer is recorded, while the acceptance table and the Register row record the answer "Yes" of 2026-11-19 |
+| 14 | Iteration Plan | F5 | Reviewer | Minor | Project Manager | **Open** | The opening block of Plan and Milestones duplicates its Measure and forecast subsection verbatim, including the forward reference "the ten iterations above" before the roadmap that states the ten |
+
+**Totals: Critical 0 · Major 0 open · Minor 2 open.** Severity is the evaluating lens's, unchanged by this consolidation; no lens downgraded or upgraded another's grading, and there is no severity conflict to arbitrate.
+
+```plantuml
+@startuml
+title Finding lifecycle — the ledger at SBC consolidation, Survey iteration 2
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+[*] --> Open : record_artifact_finding by the evaluating lens
+Open --> Assigned : Review Coordinator fixes owner, severity, deadline
+Assigned --> InProgress : owner reworks the artifact
+InProgress --> Resolved : resolve_artifact_finding by the owning lens
+Resolved --> Verified : coordinator reads the corrected content
+Verified --> Closed : Review Record entry states what the corrected content now says
+Resolved --> Assigned : defect still stands — re-recorded under its findingKey
+Open --> Escalated : deadline missed
+Escalated --> Assigned : escalated to the Project Manager
+
+state "Closed this iteration — 12" as Closed12 {
+  state "Development Case#F1 Major" as a1
+  state "Development Case#F2 Minor" as a2
+  state "System Inventory#F2 Major" as a3
+  state "System Inventory#F1 Minor" as a4
+  state "Risk List#F1 Reviewer Major" as a5
+  state "Risk List#F1 Management Major" as a6
+  state "Risk List#F2 Management Major" as a7
+  state "Iteration Plan#F1 Reviewer Major" as a8
+  state "Iteration Plan#F1 Management Major" as a9
+  state "Iteration Plan#F2 Minor" as a10
+  state "Iteration Plan#F3 Minor" as a11
+  state "Iteration Plan#F4 Minor" as a12
+}
+state "Open — 2, both Minor, both contained" as Open2 {
+  state "Risk List#F2 — the trailing R021 block reads offered-for-acceptance while the acceptance table records the answer" as b1
+  state "Iteration Plan#F5 — the opening block of Plan and Milestones duplicates Measure and forecast" as b2
+}
+
+Closed12 --> [*]
+Open2 --> Assigned : due in the next phase, under the stakeholder order of 2026-11-19
+
+note right of Open2
+  Both are the Reviewer's, both stay inside their
+  artifact, and no SBC exit criterion depends on
+  either. The stakeholder ordered them corrected
+  in the next phase — not deferred past it.
+end note
+@enduml
+```
+
+#### Conflicts across the executing lenses, and how each resolves
+
+| # | The disagreement | Resolution |
+|---|---|---|
+| 1 | **Same key, two defects.** `Risk List#F1` and `Iteration Plan#F1` each carried two findings under one key in the previous milestone review. | Both were kept open and both were the Project Manager's; the ledger above distinguishes them by the Lens column, which is the only way these keys are unique. All four are now closed. |
+| 2 | **Overlapping defect or two defects?** `Development Case#F1` defined the tailoring correction; `Iteration Plan#F1` Management scheduled it. | Two defects, two owners, closed in a fixed order: the Development Case first because it specifies, the plan second because it schedules. Both closed in that order this iteration. |
+| 3 | **The same criterion passed by one lens and failed by the other.** At the previous milestone review C4 and C5 passed the technical lens and failed the management lens. | Not a contradiction then and not one now — two different tests on one criterion. The technical lens audits magnitude, anchors and trigger decisions; the management lens audits executability by the role and in the phase named. **The stricter test governs**, and both now return Pass on both criteria. |
+| 4 | **Artifact disposition vs milestone verdict.** The technical lens records Approved on two artifacts and Approved with Changes on two; the management lens records Approved. | Both stand at their own levels. The technical lens's "with Changes" on Risk List and Iteration Plan is correct: their substance survives while one Minor claim inside each does not. The milestone verdict is mine and it is Go, because a Minor finding holds neither its artifact's consumption nor an exit criterion. |
+| 5 | **No severity was disputed.** Neither lens downgraded or upgraded the other's grading, in either iteration. | Accepted as recorded. Both lenses agreed on what stops consumption and what stays inside an artifact, and the split is exactly right: every finding that stopped consumption was graded Major. |
+| 6 | **A lens's order against a lens's verdict.** The stakeholder ordered the two Minor findings corrected in the next phase while sanctioning advancement past SBC. | No conflict — the order sets a deadline, it does not withhold the sanction. Both are applied: the milestone advances, and the two findings carry a deadline in the next phase, recorded in Resolutions and Actions. |
+
+One cross-artifact consequence from the previous milestone review is closed on both sides and needs no further action: `R008` and `AN-008` name the same two disclosure homes — the System Analyst's note beside the recovered update use case in Excavation, and the User Documentation the Technical Writer produces in Construction — with `AN-008` stating expressly that the Release Notes are not its home.
+
+#### Why Go rather than Conditional
+
+A Conditional would advance the phase while the conditions were discharged later, and the previous milestone review rejected exactly that form for exactly the right reason: opening Excavation on a Perimeter row its own anomaly contradicted, and on avoidance actions owned by roles not at work, would have put recovered use cases on content another role acts on wrongly. That defect class is now empty. The two findings that remain are `contained-defect`: the duplicated passage carries no claim a downstream role consumes, and the trailing `R021` block contradicts its own section's acceptance table rather than any statement another artifact rests on. The acceptance of `R021` itself is recorded verbatim in the acceptance table and in the Register row, so the wording that contradicts it blocks nothing. Correcting both is ordered by the stakeholder and due in the next phase; treating them as a phase-gate condition would hold a milestone on two wordings, which is not what the finding levels mean.
 
 ## Findings
 ### Reviewer lens
