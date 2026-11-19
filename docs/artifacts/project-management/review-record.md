@@ -75,23 +75,71 @@ Both gantt diagrams and the state machine were read as UML rather than as pictur
 Entry criteria for this review: the four artifacts in their corrected state — held; the prior findings available with their resolutions — held; the checklists per artifact type prepared before reading — held; the artifacts available in full to every lens — held.
 
 ### Management Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-The management lens asks three questions the technical lens does not: are the six SBC exit criteria met by evidence rather than by assertion; do the artifacts together give a project that can be governed — bounded risk, a plan whose numbers agree, a tailoring its consumers can work under; and does the stakeholder sanction advancing.
+<!-- review: Survey I2 -->
 
-Evidence examined. The four Survey artifacts in full. The trace graph for the two artifacts that declare labels — twenty anomalies each refining one risk, and the `DependsOn` edges owned by the anomaly end. SCM carries nothing for this phase: no pull request in any state and no IARI build, which is correct for an iteration that builds nothing. No code, no build and no execution is cited anywhere below.
+Review type: milestone review (SBC), governance lens. Subject: whether the seven Major defects of the previous milestone review were corrected, and whether the artifact set now carries the evidence each SBC exit criterion rests on.
 
-Scope of this lens's own findings. Only two of the four artifacts carry a management defect: the Risk List and the Iteration Plan. The Development Case and the System Inventory were checked against the SBC criteria and against the governance question and are clean from this lens — their defects are the technical lens's, recorded there.
+In scope: Development Case, System Inventory, Risk List, Iteration Plan — all Survey, Draft, corrected in Survey iteration 2.
 
-| Criterion applied to | What was tested |
-|---|---|
-| Each of the six exit criteria | Whether the evidence named actually exists in the artifact cited, and whether it holds once checked |
-| Risk List | Every anomaly scored; magnitude the band of probability × impact on the declared scale; acceptance verbatim for each High risk; **every avoidance action executable by the role named, in the phase named**; the project's own binding constraint bounded somewhere |
-| Iteration Plan | One committed total; no forecast before a measured actual; no scope cut to fit an undeclared budget; the tailoring the plan depends on in place before its consumers start |
-| Development Case | Baseline conformance, the optional verdicts, and whether the tailoring is usable by the phases that receive it |
-| System Inventory | SBC exit criteria 1–3 on the perimeter, the priorities and the declared unread set; the exclusions recorded where the stakeholder put them |
+Two tests are applied to each criterion, and a criterion is met only when it survives the stricter of them. The technical test asks whether a magnitude is the band of probability × impact on the IARI scale, whether a trigger decision holds against the project's real facts, and whether an anchor says what the row claims. The governance test, which is mine, asks whether every action the artifact set commits to can be executed by the role and in the phase it names, whether the phases that receive the tailoring can work under it, and whether any figure or forecast appears that the project has not measured.
 
-Four axes were then scored across all four artifacts — scope, schedule, cost, quality. The scorecard is in Findings.
+```plantuml
+@startwbs
+title SBC exit criteria - what the governance lens tests, and the evidence it reads
+skinparam shadowing false
+
+* SBC milestone - governance lens
+** C1 Perimeter confirmed
+*** Test: did the stakeholder confirm the perimeter as drawn
+*** Read: Perimeter, three exclusions, the sanction answer
+** C2 Priorities ordered
+*** Test: does each of the eight areas carry its reason
+*** Read: Priorities; the declined Excavation split
+** C3 Unread areas declared
+*** Test: is every unread file named with its reason
+*** Read: Coverage per-area rows
+** C4 Anomalies scored, High ones accepted
+*** Test: is every AN scored, and every acceptance in the stakeholder's words
+*** Read: Risk Register; Risk Mitigation; the acceptance table
+** C5 Tailoring issued and usable
+*** Test: can the phases that work under it use it before they start
+*** Read: Development Case; fine-plan item 1; the three Undocumented families
+** C6 Roadmap and fine plan
+*** Test: one committed total; no invented figure; no sized human gate
+*** Read: coarse roadmap; fine plan; Measure and forecast
+** Findings reconciled
+*** Test: is every Major of the previous review closed on evidence
+*** Read: read_artifact_findings, all four artifacts
+@endwbs
+```
+
+```plantuml
+@startsalt
+title SBC compliance matrix - management lens, Survey iteration 2
+{
+  {#
+    . <b>Criterion</b> | <b>Tech</b> | <b>Mgmt</b> | <b>Evidence the management test rests on</b>
+    --
+    . C1 Perimeter confirmed by the stakeholder | PASS | PENDING | Perimeter + 3 exclusions stand; sanction refused 2026-11-19, re-asked this round
+    . C2 Priorities ordered, each with its reason | PASS | PASS | Priorities - 8 areas; single-pass Excavation per the declined split
+    . C3 Unread areas declared with their reason | PASS | PASS | Coverage - 72 of 132 read, 60 unread, each named in a row
+    . C4 Every anomaly scored; High accepted | PASS | PASS | AN-001..AN-020 -> 20 risks + R021; 4 acceptances verbatim, 2026-11-19
+    . C5 Tailoring issued and usable by consumers | PASS | PASS | DC correction is fine-plan item 1, before Excavation; 3 families Undocumented
+    . C6 Roadmap and fine plan; no forecast | PASS | PASS | 10 stated once; 7 work items; no token, elapsed or velocity figure
+    --
+    . <b>Mgmt findings open, holding the milestone</b> | - | <b>0</b> | 3 Major resolved this iteration
+    . <b>Mgmt findings open, not holding it</b> | - | <b>0</b> | none raised this iteration
+    . <b>Other lens open, not holding it</b> | <b>2 Minor</b> | - | a Minor neither blocks consumption nor fails a criterion
+  }
+}
+@endsalt
+```
+
+Entry criteria were verified before the review began: all four artifacts present and corrected, the Review Record's prior findings readable with their resolution state, and the process tailoring available for testing. No artifact was found mid-correction after the review opened.
+
+SCM evidence: no pull request in any state and no IARI pipeline on `main`. Survey writes no code and builds nothing, so no build status, no pull request and no execution result is cited in this block — none exists to cite.
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
