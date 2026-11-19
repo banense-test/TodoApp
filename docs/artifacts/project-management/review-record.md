@@ -39,44 +39,40 @@
 
 ## Review Scope and Criteria
 ### Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-SBC asks one question: is the material the whole recovery will rest on adequate? Four artifacts answer it, and they are the only four anything in Excavation, Consolidation and Inception will cite. Nothing was built in this iteration — no code, no pull request, no build — so the review is entirely an evidence review: does each claim rest on what it cites.
+<!-- review: Survey I2 -->
 
-Three lenses of the SBC review follow this one; this block records the technical lens only.
+The SBC question is unchanged: is the material the whole recovery will rest on adequate? What changed is the subject of this pass. Iteration 2 is a correction pass, so the lens asks two things — whether each of the seven Major findings the previous pass recorded was in fact corrected, and whether the corrected content introduced a defect the correction itself created. Nothing was built in this iteration either: no code, no pull request, no build, so both questions are evidence questions.
 
 | Artifact | Author | Checklist applied | Version reviewed |
 |---|---|---|---|
-| Development Case | Process Engineer | DC baseline conformance; optional-trigger justification; validity of every referenced path | Survey, Draft, iteration 1 |
-| System Inventory | Software Archaeologist | Anchor verification (each anchor opened and read against its claim); UML/notation correctness of the perimeter and coverage diagrams; internal consistency; Coverage arithmetic | Survey, Draft, iteration 1 |
-| Risk List | Project Manager | The declared magnitude scale used and not replaced; every anomaly scored; acceptance verbatim for High; owning roles at work in the phase each action names | Survey, Draft, iteration 1 |
-| Iteration Plan | Project Manager | Exit criteria against evidence; no forecast before a measured actual; resource roster; the plan not exercising a verdict it disclaims | Survey, Draft, iteration 1 |
+| Development Case | Process Engineer | DC baseline conformance; optional-trigger justification; existence and validity of every referenced path; convention content with no file declared as such | Survey, Draft, corrected in iteration 2 |
+| System Inventory | Software Archaeologist | Anchor verification — each high-consequence row opened against its file; Coverage arithmetic; internal consistency between Perimeter and anomalies; no use case claimed from an excluded entry point | Survey, Draft, corrected in iteration 2 |
+| Risk List | Project Manager | Magnitude the band of probability × impact on the declared scale; every anomaly scored; acceptance verbatim for each High and Significant risk and consistent wherever the register restates it; every owning role at work in the phase its action lands in | Survey, Draft, corrected in iteration 2 |
+| Iteration Plan | Project Manager | One committed total; no forecast before a measured actual; no span a reader can sum on any gate; the roster accounted for; no verdict the plan has no standing to give; each section stating its content once | Survey, Draft, corrected in iteration 2 |
 
 #### What was opened, not merely read
 
-An anchor that does not say what the artifact claims is the defect every later role inherits, so each high-consequence row was checked against its file:
+The three anchors the corrected Perimeter claims rest on were opened this iteration and read against the claim. Each is the anchor for a statement that changed in the correction, so a claim that survived re-reading survives the whole set:
 
 | Anchor opened | Claim it carries | Verdict |
 |---|---|---|
-| `Todo.Web/Server/Authentication/AuthenticationExtensions.cs` | Four provider schemes registered only when `Authentication:Schemes:<provider>` exists | Confirmed — the exclusion of external provider sign-in rests on code |
-| `Todo.Api/Program.cs` | Scalar mapped only in Development, `MapOpenApi()` unguarded, root redirects to `/scalar/v1` | Confirmed — AN-016 accurate |
-| `Todo.Web/Server/TodoApi.cs` | Forwarder targets the literal `http://todoapi`; bearer re-signed from the stored token | Confirmed — AN-012 and the BFF description accurate |
-| `Todo.Web/Client/TodoClient.cs` | No update method; five calls only | Confirmed — AN-008 accurate |
-| `Todo.Web/Client/Components/TodoList.razor` | Checkbox carries no `@bind` and no handler | Confirmed — AN-008 accurate |
-| `Todo.Api/Todos/TodoApi.cs` | `owner.IsAdmin` widens read, update and delete | Confirmed — AN-010 accurate |
-| `Todo.Api/Users/UsersApi.cs` | `/users` group carries no authorization; provider key unprotected before identity | Confirmed — AN-018 accurate |
-| `.github/workflows/ci.yaml` | `actions/setup-dotnet@v3` with no `dotnet-version` | Confirmed — AN-006 accurate |
-| `.devcontainer/devcontainer.json` | Base image `sdk:8.0` against a `net9.0` target | Confirmed — AN-005 accurate |
-| `Todo.Web/Server/AuthApi.cs` | Register, login and logout call the API; provider challenge and callback present | Confirmed — but see below on refresh |
-| `Todo.Api/TodoDbContext.cs`, `Todo.Api/Users/TodoUser.cs` | `IdentityDbContext<TodoUser>` plus `Todos` = 8 entities | Confirmed — the Data Model trigger genuinely does not hold |
-| `TodoApp.AppHost/Program.cs` | Two project services plus a container, gated on a migration | Confirmed — the Deployment Model trigger genuinely holds |
-| `CONTRIBUTING.md` | Named by the Development Case as the home of three convention families | **Not found** — Development Case#F1 |
+| `Todo.Api/Users/UsersApi.cs` | `MapIdentityApi<TodoUser>()` publishes the stock identity surface; the custom `/users/token/{provider}` is the only endpoint added beside it | Confirmed — the seven self-service operations and the provider endpoint are as the Perimeter draws them |
+| `Todo.Web/Server/AuthClient.cs` | Three calls only — `users/register`, `users/login`, `users/token/{provider}` — and no refresh call | Confirmed — `EP-003` has no caller, so no use case is recoverable from it |
+| `Todo.Web/Server/Authentication/TokenNames.cs` | `AccessToken = "accessToken"` is the only token name the BFF holds | Confirmed — no refresh token is stored, so none can be redeemed |
 
-One claim did not survive: the Inventory's Perimeter says the delivered product uses token refresh, and nothing in the delivery redeems a refresh token. That is System Inventory#F2.
+The two other anchors the earlier pass's claims rest on were not re-opened: their claims did not change in this correction, and re-reading a file to confirm an unaltered sentence is spend without a delta.
 
-The UML content was checked as notation, not as illustration: the perimeter diagram types its components and systems and labels each dependency with its mechanism; the coverage diagram separates read from declared-unread and gives each unread set a reason; the Risk List's classification diagram states the scale, the band arithmetic and the acceptance rule. None is a prose summary drawn as arrows. The Inventory's History diagram is the one place a diagram asserts a count that the accompanying table repeats rather than derives — noted, not recorded as a defect, because the per-area commit lists are given in full.
+#### What was checked as notation, not as illustration
 
-No SCM evidence bears on this milestone. `scm_list_pull_requests` returns nothing in any state, so there is no scaffolding to approve, no code to request changes on, and nothing to defer out of phase; `scm_get_build_status("main")` reports no IARI pipeline yet, which is correct for a phase that builds nothing. The Implementation and Test disciplines have no Survey stage.
+Both gantt diagrams and the state machine were read as UML rather than as pictures. The two gantts carry a `lasts` declaration on every bar because PlantUML requires one, and every one of them reads zero — so the notation is valid while no bar states a duration a reader can sum. The state machine's transitions carry their guards. The Coverage and Perimeter diagrams type their components and label each dependency with its mechanism; the Risk List's handling diagram states the scale, the band arithmetic and the acceptance rule. None is a prose summary drawn as arrows.
+
+#### SCM evidence
+
+`scm_list_pull_requests` in any state returns nothing: there is no scaffolding to approve, no code to request changes on, and nothing to defer out of phase. That is correct for a phase that writes no code, and it is recorded here so no later reader mistakes the absence for an unexamined surface. `scm_get_build_status("main")` reports no IARI pipeline, correct for an iteration that builds nothing. No pull request, build, execution result, test count or duration is cited anywhere in this block, because none exists to cite.
+
+Entry criteria for this review: the four artifacts in their corrected state — held; the prior findings available with their resolutions — held; the checklists per artifact type prepared before reading — held; the artifacts available in full to every lens — held.
 
 ### Management Reviewer lens
 <!-- review: Survey I1 -->
