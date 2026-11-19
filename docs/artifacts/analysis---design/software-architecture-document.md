@@ -40,7 +40,30 @@ Each record states what the code decided, the alternative it did not take, and w
 | ADR-012 | **Package versions are managed centrally and pinned by `global.json`; the package pins are honoured while the SDK pin is not.** One `Directory.Packages.props` supplies every version to every project, and no project file carries one. | Per-project versions, or an SDK-version check in the pipeline | The package graph is single-sourced and cannot drift project by project. The SDK pin is not enforced: `actions/setup-dotnet` receives no `dotnet-version`, so green does not demonstrate that `9.0.100` — the version `global.json` demands — builds the solution (AN-006) | `Directory.Packages.props:1-43`; `global.json:1-8`; `.github/workflows/ci.yaml:12-13`; `Directory.Build.props:1-9` |
 
 ## Architectural Goals and Constraints
+| Goal | What the architecture does about it | Where it is visible |
+|---|---|---|
+| One person's items are invisible to every other person | Ownership is a foreign key and a query predicate, not an authorization decision taken in code | `## Data View`; `## Quality` Q1 |
+| The browser never holds a credential the API would accept directly | Two hosts joined by a forwarder that re-signs; the cookie is opaque to the API | `## Logical View` COMP-003; ADR-001 |
+| An operation on a todo is one statement against the store | No handler loads an entity to inspect it before writing | `## Process View`; ADR-003 |
+| The schema exists before the first request is served | Start-up is ordered: migrate, then serve | `## Deployment View`; COMP-016; ADR-009 |
+| Package versions have one home, and none drifts project by project | Central package management: no project file carries a version; every package is pinned once at the solution root | `## Implementation View`; ADR-012 |
+| A change to a web screen reaches the BFF and the client together | The client and the server both reference `Todo.Web.Shared`, so the two web halves cannot diverge. **The API is outside that guarantee**: it declares its own DTOs and references no shared library, so a wire-shape change reaches it by hand or not at all | `## Implementation View`; ADR-011 |
+
+Every row below is a fact about the delivery. None is a preference of this project, and none is negotiable inside Excavation.
+
+| ID | Constraint | Anchor |
+|---|---|---|
+| CON-A01 | The stack is not re-platformed: `net9.0`, SDK `9.0.100`, `LangVersion preview`, `Nullable` enabled, centrally managed package versions, `nuget.org` only. No package or framework is upgraded as a side effect of any task. | Development Case DC-D6; `global.json`; `Directory.Build.props`; `Directory.Packages.props`; SS DC-001 |
+| CON-A02 | The project's recorded version policy is authoritative over the registry's latest. Every version named in this document is the pinned one, and none may advance past a pin. | `get_version_policy`; `Directory.Packages.props` |
+| CON-A03 | The relational schema exists only as three EF Core migrations and a model snapshot. There are no SQL files, no stored procedures and no triggers. | AN-004; SS DC-002 |
+| CON-A04 | The model snapshot records `ProductVersion` 8.0.0 against a 9.0.8 runtime: a future migration starts from a stale baseline. | AN-007; SS DC-003 |
 | CON-A05 | Both hosts declare container images while the AppHost runs them as services. The sqliteweb container is a development aid, excluded from the published manifest. | SS DC-005; `TodoApp.AppHost/Program.cs:13-17` |
+| CON-A06 | No deployment target, host name, TLS terminator or network rule is named anywhere in the delivery. This document records the topology the code declares and declares no environment. | SS DC-006, DC-008; `.iari/README.md:12-13` |
+| CON-A07 | Three parts of the code are outside the recovered product scope by the stakeholder's decision of 2026-11-19: external provider sign-in, the admin role and the self-service identity surface. No architectural statement here claims a capability through them. | SS EX-001, EX-002, EX-003; System Inventory Perimeter |
+| CON-A08 | Every package version is declared once, in `Directory.Packages.props`, and no project file carries a version. A new dependency is added there or it is not added. | `Directory.Packages.props:1-43`; every `.csproj` |
+| CON-A09 | The AppHost SDK version is an attribute of the project's `Sdk`, outside central package management: it is the one version in the solution that central management does not govern. | `TodoApp.AppHost/TodoApp.AppHost.csproj:1`; ADR-012 |
+| CON-A10 | `Todo.Api` references `TodoApp.ServiceDefaults` and nothing else. It does not reference `Todo.Web.Shared`, so its `TodoItem`, `UserInfo` and `ExternalUserInfo` are independent declarations of the wire shapes the web projects also declare. | `Todo.Api/Todo.Api.csproj:24-26`; `Todo.Api/Todos/Todo.cs:14-19`; `Todo.Api/Users/TodoUser.cs:12-27`; ADR-011 |
+| CON-A11 | The CI workflow passes no `dotnet-version`, so the SDK that builds the solution is the runner image's and not the pinned `9.0.100`. Green in CI does not evidence the pin. | `.github/workflows/ci.yaml:12-13`; `global.json:3`; AN-006 |
 ## Use-Case View
 The architecture is validated against the recovered use cases, not against a scenario of this document's own naming. Three runs carry that validation, chosen because between them they cross every layer and every connector in the Logical View.
 
