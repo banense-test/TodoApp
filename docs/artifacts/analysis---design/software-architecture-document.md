@@ -2,7 +2,6 @@
 - Phase: Excavation
 - Status: Draft — issued for the end-of-Excavation milestone review
 - Milestone Target: end of Excavation (AR) — not yet achieved
-
 ## Architectural Representation
 This document records the architecture the code already holds. It designs nothing. Every element below is anchored to the files that carry it, and every statement about behaviour was checked by reading those files along the path of a recovered use case — never inferred from the technology the code happens to be written in.
 
