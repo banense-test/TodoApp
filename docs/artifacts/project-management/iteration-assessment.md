@@ -166,7 +166,6 @@ What the iteration hands the recovery is the input it is built on, and this is w
 | `EP-003` settled: the `/users` Perimeter row states once that the product reaches registration and login, and no use case is recovered from `EP-003` | Whether a role recovers a use case with no caller | Held — `System Inventory#F2` removed the contradiction; a role reading Perimeter or `AN-015` now reaches the same conclusion |
 
 ## Results Relative to Evaluation Criteria
-
 One line per criterion the Iteration Plan carried, assessed against the Review Coordinator's verdict — not re-judged here. Both executing lenses substantiated all six; the Business Reviewer is inactive until LCO and did not rule.
 
 | # | Criterion | Evidence the iteration supplied | Result given the verdict |
@@ -174,9 +173,9 @@ One line per criterion the Iteration Plan carried, assessed against the Review C
 | C1 | The perimeter of the existing system is confirmed by the stakeholder | System Inventory — Perimeter; the sanction asked twice and granted on 2026-11-19 | **Met** — confirmed as drawn; no boundary, entry point or exclusion moved by either correction |
 | C2 | The priorities are ordered for the remaining recovery | System Inventory — Priorities, eight areas each with its reason and anchor | **Met** — substantiated by both executing lenses |
 | C3 | The unread areas are declared with the reason each is unread | System Inventory — Coverage, per-area rows naming every unread area; aggregate 72 of 132 read, 60 unread, stated as the sum of the Read column | **Met** — the aggregate now reconciles with its own rows |
-| C4 | Every anomaly the reading recorded is a classified risk with a strategy, and the High ones carry the stakeholder's acceptance | Risk List — 20 anomalies scored plus `R021`, magnitude as the band of P × I, four acceptances verbatim with their dates | **Met** — the sole open item is a contained Minor in the section's wording, and no acceptance is in doubt |
+| C4 | Every anomaly the reading recorded is a classified risk with a strategy, and the High ones carry the stakeholder's acceptance | Risk List — 20 anomalies scored plus `R021`, magnitude as the band of P × I, four acceptances verbatim with their dates | **Met** — every High and Significant risk is avoided by a named action or accepted on the stakeholder's own answer; none open, none self-granted |
 | C5 | The tailoring governing the sprint zero is issued and usable by the phases that work under it | Development Case — the decision record, six optional verdicts with one fired, Templates rows citing files that exist | **Met** — 0 findings open against the tailoring |
-| C6 | The plan carries the cross-iteration roadmap and this iteration's fine plan, with no forecast invented before a measured actual exists | Iteration Plan — 10 iterations stated once with its arithmetic, eight work items with owners, no size and no day length on any bar; both stakeholder asks and answers recorded | **Met** — single-valued, no invented forecast, and the criterion-1 evidence now reads as granted |
+| C6 | The plan carries the cross-iteration roadmap and this iteration's fine plan, with no forecast invented before a measured actual exists | Iteration Plan — 10 iterations stated once with its arithmetic, eight work items with owners, no size and no day length on any bar; both stakeholder asks and answers recorded; the phase's measured spend now the basis of every later forecast | **Met** — single-valued, no invented forecast, and the measured actual recorded rather than assumed |
 
 **Six met, none not met.** No criterion rests on a judgement rendered here: each rests on a finding the lenses closed or on the verdict the Review Coordinator issued. Where this assessment and iteration 1's differ, the difference is the corrected content, not a re-reading of the same evidence.
 
