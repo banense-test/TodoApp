@@ -135,13 +135,14 @@ Survey iteration 2 is the correction pass the SBC milestone review requires. Its
 | 2 | System Inventory — perimeter row and coverage aggregate | Software Archaeologist | System Inventory#F2, System Inventory#F1 | The `/users` perimeter row agrees with AN-015 and says once whether EP-003 supports a use case; the coverage aggregate reconciles with its own per-area rows or is dropped for them |
 | 3 | Risk List — re-own, score the gate, re-home R008 | Project Manager | Risk List#F1 (Reviewer), Risk List#F1 (Management Reviewer), Risk List#F2 (Management Reviewer) | Every avoidance action names a role at work in the phase it lands in; the stakeholder gate is scored as R021 with its mitigation and contingency and the stakeholder's acceptance recorded verbatim; R008's disclosure is homed at the stage that produces the artifact |
 | 4 | Iteration Plan — this correction pass | Project Manager | Iteration Plan#F1 (Reviewer), Iteration Plan#F1 (Management Reviewer), Iteration Plan#F2, Iteration Plan#F3, Iteration Plan#F4 | One committed total stated once; the tailoring correction scheduled before Excavation; evidence wording in place of verdict words in the Evaluation Criteria; the role profile reconciled with the roster; no day length on any bar |
-| 5 | SBC milestone review | Reviewer → Management Reviewer → Review Coordinator | The seven Major findings open at SBC, each by its own lens | Both lenses re-run against the corrected set and each finding is resolved by the lens that raised it, or re-recorded under its key |
-| 6 | Stakeholder gate — sanction of SBC | Stakeholder | The refused sanction of 2026-11-19 | The sanction question is answered; carried as R021 |
-| 7 | Iteration Assessment | Project Manager | The SBC verdict | Assessment written *after* the verdict records whether the objectives were met |
+| 5 | Risk List and Iteration Plan — the two contained defects found in the corrected content | Project Manager | Risk List#F2 (Reviewer), Iteration Plan#F5 (Reviewer) | The trailing R021 block is gone, its answer standing once in the acceptance table; the opening block of Plan and Milestones is gone, the matter standing once in Measure and forecast |
+| 6 | SBC milestone review | Reviewer → Management Reviewer → Review Coordinator | The seven Major findings open at SBC, each by its own lens | Both lenses re-run against the corrected set and each finding is resolved by the lens that raised it, or re-recorded under its key |
+| 7 | Stakeholder gate — sanction of SBC | Stakeholder | The refused sanction of 2026-11-19 | The sanction question is answered; carried as R021 |
+| 8 | Iteration Assessment | Project Manager | The SBC verdict | Assessment written *after* the verdict records whether the objectives were met |
 
 Item 1 is sequenced first because the tailoring it corrects is the convention source Excavation and Consolidation work under, and no sprint-zero work item put that source in place before they would start. The order is a dependency, not a severity ranking: **Development Case#F1 defines the correction; item 1 schedules it.** A re-pointed table with no work item behind it, or a work item for a correction nobody specified, are each insufficient. The Environment stage that re-prepares the tailoring in Inception remains a separate, later stage — it does not carry this correction.
 
-Item 6 is a human wait, not an agent stretch. It is carried as R021 and quoted in days of queue time with a ceiling of 14, never on the agent clock.
+Item 7 is a human wait, not an agent stretch. It is carried as R021 and quoted in days of queue time with a ceiling of 14, never on the agent clock.
 
 ```plantuml
 @startgantt
@@ -152,6 +153,7 @@ skinparam shadowing false
 [System Inventory - perimeter row and coverage aggregate] lasts 0 day
 [Risk List - re-own, score the gate, re-home R008] lasts 0 day
 [Iteration Plan - this correction pass] lasts 0 day
+[Risk List and Iteration Plan - two contained defects] lasts 0 day
 [SBC milestone review - both lenses, then the coordinator] lasts 0 day
 [Stakeholder gate - sanction] lasts 0 day
 [Iteration Assessment - after the verdict] lasts 0 day
@@ -159,7 +161,8 @@ skinparam shadowing false
 [Risk List - re-own, score the gate, re-home R008] starts at [Development Case - sprint-zero correction]'s end
 [System Inventory - perimeter row and coverage aggregate] starts at [Development Case - sprint-zero correction]'s end
 [Iteration Plan - this correction pass] starts at [Risk List - re-own, score the gate, re-home R008]'s end
-[SBC milestone review - both lenses, then the coordinator] starts at [Iteration Plan - this correction pass]'s end
+[Risk List and Iteration Plan - two contained defects] starts at [Iteration Plan - this correction pass]'s end
+[SBC milestone review - both lenses, then the coordinator] starts at [Risk List and Iteration Plan - two contained defects]'s end
 [Stakeholder gate - sanction] starts at [SBC milestone review - both lenses, then the coordinator]'s end
 [Iteration Assessment - after the verdict] starts at [Stakeholder gate - sanction]'s end
 
@@ -224,6 +227,8 @@ against AN-015, coverage aggregate reconciled;
 score the stakeholder gate as R021,
 re-home R008's disclosure;
 :Iteration Plan - this correction pass;
+:Risk List and Iteration Plan - the two contained
+defects found in the corrected content;
 
 |Review|
 :Reviewer - technical lens;
