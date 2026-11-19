@@ -366,15 +366,13 @@ The Excavation (AR) exit criteria. They are what the milestone review judges thi
 
 ### Confirmation of the perimeter
 
-Criterion 1 rests on an answer the stakeholder gave in Survey iteration 1 on 2026-11-19. The proposition put, and the answer received:
+The perimeter criterion does not rest on a question put at this milestone: it rests on the answer the stakeholder gave on 2026-11-19, which sanctioned SBC and confirmed the boundary Excavation recovers within.
 
 | What was put | Their answer, verbatim | Recorded |
 |---|---|---|
 | The perimeter of the existing system as the System Inventory draws it: the seven projects of `TodoApp.sln` (`Todo.Web.Server`, `Todo.Web.Client`, `Todo.Web.Shared`, `Todo.Api`, `TodoApp.AppHost`, `TodoApp.ServiceDefaults`, `Todo.Api.Tests`) plus the CI workflow; the external systems reached (browser, OTLP collector, container runtime, sqliteweb image, `dotnet-ef` CLI, NuGet feed); 26 entry points; and the three exclusions of 2026-11-19 — external provider sign-in, the admin role, the self-service identity surface. | "Yes" | 2026-11-19 |
 
-That boundary is what Excavation recovers within: a use case comes from an entry point inside it, and a component or table outside it is not recovered at all.
-
-The sanction of the milestone was asked twice on that date. The first ask was refused — "No", with the reason "All major findings must be corrected" — and no part of the perimeter was asked to be added, removed or moved in priority by that refusal. The second ask was granted: "Yes", on a ledger reading 0 Critical and 0 Major open from both executing lenses, with the two Minor findings it carries contained inside their own artifacts. The perimeter therefore stands as the System Inventory records it, criterion 1 is met, and the milestone advances.
+A use case comes from an entry point inside that boundary; a component or table outside it is not recovered at all. The recovery drew no correction from the stakeholder to the boundary itself — it added anomalies inside it (`AN-021` … `AN-024`), not perimeter rows.
 
 ### Excavation scope — decided by the stakeholder
 
@@ -383,9 +381,9 @@ The AR milestone closes with priority areas **1–6 recovered in a single Excava
 | Order | Area | Where it is recovered |
 |---|---|---|
 | 1 | `Todo.Api/Todos` + `Todo.Api/Users` | Excavation — the endpoint groups the whole product arrives through |
-| 2 | `Todo.Web/Server` — the BFF | Excavation — identity is decided here; AN-009 and AN-013 |
+| 2 | `Todo.Web/Server` — the BFF | Excavation — identity is decided here; `AN-009`, `AN-013` |
 | 3 | `Todo.Api` cross-cutting — authorization, rate limiting, validation, OpenAPI | Excavation — Supplementary Specification mechanisms |
-| 4 | `Todo.Web/Client` — the screens | Excavation — AN-008 is a fact about this layer |
+| 4 | `Todo.Web/Client` — the screens | Excavation — `AN-008` is a fact about this layer |
 | 5 | `Todo.Api/Migrations` and `TodoDbContext` — the schema | Excavation — the Design Model carries it; no Data Model exists |
 | 6 | `TodoApp.AppHost` + `TodoApp.ServiceDefaults` — topology | Excavation — the triggered Deployment Model |
 | 7 | `Todo.Api.Tests` | Excavation — read as the cross-check on orders 1 and 2 |
@@ -397,9 +395,7 @@ The proposition put and the answer received:
 |---|---|---|
 | Excavation closing with areas 1–4 recovered and the schema and AppHost topology recovered in a second Excavation iteration before GHR, at 9–10 iterations total. | "No" | 2026-11-19 |
 
-The single Excavation iteration therefore carries orders 1–6; order 7 is its cross-check and order 8 opens Inception. Nothing in this iteration schedules that work — it is Excavation's plan to issue.
-
-No criterion here was added that the stakeholder did not declare: criteria 1, 2 and 3 are Survey's exit criteria as the process defines them, and 4–6 are the obligations this plan carries to the review. A criterion that fails at SBC does not close the milestone — it returns to the next iteration of Survey, whose plan is the Review Record's open findings and the stakeholder's orders.
+The single Excavation iteration therefore carries orders 1–6; order 7 is its cross-check and order 8 opens Inception. That refusal is why the recovery is one pass and why `R009`, `R013` and `R020` concentrate inside it.
 
 ### What AR does not claim
 
