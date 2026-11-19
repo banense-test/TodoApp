@@ -1,7 +1,7 @@
 ## Document Control
 - Phase: Survey
-- Status: Draft — corrected in iteration 2 against the open findings of the SBC review
-- Milestone Target: end of Survey (SBC) — not yet achieved
+- Status: Draft — every finding of the SBC review addressed and the two contained defects corrected; reviewer closure pending
+- Milestone Target: end of Survey (SBC)
 ## Iteration Objectives
 Survey iteration 2 is the correction pass the SBC milestone review requires. The project runs on a system nobody here wrote and nobody can ask about: the delivery is a copy of `davidfowl/TodoApp` at `307a1ead`, and `.iari/README.md` records that it carries no requirements, design or architecture document, no database scripts, no manual, no running installation and no reachable authors. Iteration 1 established what the system is; iteration 2 closes the defects that stopped the milestone advancing. It builds nothing.
 
