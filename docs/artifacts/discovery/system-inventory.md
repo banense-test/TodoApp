@@ -1,8 +1,7 @@
 ## Document Control
-- Phase: Survey
-- Status: Draft
-- Milestone Target: end of Survey (SBC) — not yet achieved
-
+- Phase: Excavation
+- Status: Draft — issued for the end-of-Excavation milestone review
+- Milestone Target: end of Excavation (AR) — not yet achieved
 ## Perimeter
 The boundary is drawn by the code, not by the README. Inside it sit seven projects of `TodoApp.sln` plus the CI workflow that builds them. The browser is outside and reaches the web server only; it never calls the API directly, because the web server proxies `/todos` through YARP and re-signs each request with the stored bearer token. Nothing is deployed anywhere (`.iari/README.md`).
 
