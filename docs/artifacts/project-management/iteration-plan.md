@@ -152,11 +152,12 @@ Three things the table deliberately does not do:
 
 - **No per-iteration velocity.** Survey's figures are phase totals over two iterations. Dividing them to quote a rate would invent a rate for an iteration that has not run, and no per-iteration figure is recorded anywhere in this process.
 - **No unit conversion.** Person-weeks, person-days, man-hours and story points are units this system does not produce. The agent clock is tokens and elapsed time; the human gate is days of queue time. The two are side by side and are never summed into one figure.
-- **No token box.** On 2026-11-19 the stakeholder answered the budget question: "No budget declared — record measured spend at each phase close and forecast from the measured actual, never from an assumption." So no ceiling exists, none is proposed here, and no declared scope is cut or deferred to fit the forecast above.
+- **No token box.** No budget is declared for this project, so no ceiling exists, none is proposed here, and no declared scope is cut or deferred to fit the forecast above.
 
 | What was put | Their answer, verbatim | Recorded |
 |---|---|---|
 | Whether a token budget has been declared for this project, given that the Development Case records none and this plan commits to a cross-iteration horizon in which `R020`'s contingency may add an iteration. | "No budget declared — record measured spend at each phase close and forecast from the measured actual, never from an assumption." | 2026-11-19 |
+| Whether that answer still stands for this phase, now that the plan carries a phase forecast of 30–50 min and 12–16 M tokens derived from Survey's measured actual rather than no figure at all. | "The answer of 2026-11-19 still stands: no budget declared, measured spend recorded at each phase close and forecast from that actual." | 2026-11-19 |
 
 **The tenth iteration, re-tested at this milestone.** The count sits one above the `6 ± 3` heuristic's ceiling. The tenth is not process overhead added by choice: Survey's first iteration left seven Major defects and the milestone was not sanctioned, so a second iteration ran. The same test applies here — if AR leaves findings open, an Excavation iteration 2 is justified only by those findings, and if the recovery completes against its criteria no iteration is added to this phase. The stakeholder's refusal to split Excavation is why the single pass carries priorities 1–6 and why `R009`, `R013` and `R020` concentrate inside it.
 
