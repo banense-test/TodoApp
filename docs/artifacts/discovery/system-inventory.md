@@ -301,6 +301,80 @@ end note
 | `TodoApp.AppHost` | 5 commits, 2024-11-23 to 2026-02-12 | Created by `3308193` "TodoApi -> TodoApp" (2024-11-23), then `beb0011` "Auto install dotnet ef" (2025-01-11) added the global tool install that precedes the migration, `a6dea68` swept the dependencies, `d772504` updated package versions and formatting (2025-09-28), and `307a1ea` moved the Aspire AppHost SDK to 13.1.1 (2026-02-12) — the newest change in the delivery | Consolidating | `307a1ea` (2026-02-12); `d772504` (2025-09-28); `a6dea68` (2025-08-07); `beb0011` (2025-01-11); `3308193` (2024-11-23) |
 | `Todo.Api.Tests` | 2 commits, 2024-11-23 to 2024-11-27 | `bbd680d` moved the tests beside the API; `a519c10` adjusted them for the data-protected provider key (`CanGetATokenForExternalUser` now encrypts the id with the provider name as purpose). No test was deleted in the window. The suite covers the `/todos` and `/users` surfaces and nothing of `Todo.Web` | Stable | `a519c10` (2024-11-27); `bbd680d` (2024-11-23) |
 ## Anomalies
+```plantuml
+@startuml
+title Where the recorded anomalies were read from
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+package "Inside the boundary" {
+  component "Todo.Api / Users\nEP-001 … EP-011" as USERS
+  component "Todo.Api / Todos\nEP-012 … EP-016" as TODOS
+  component "Todo.Api / root · OpenAPI · Scalar\nEP-024" as ROOT
+  component "Todo.Api / persistence\n3 migrations · TodoDbContext" as DB
+  component "Todo.Web / Server — the BFF\nEP-017 … EP-023" as BFF
+  component "Todo.Web / Client — screens\nEP-023" as UI
+  component "TodoApp.AppHost · ServiceDefaults\nEP-025 · EP-026" as HOST
+}
+package "Delivery and verification" {
+  component "Build · container · CI" as BUILD
+  component "Documents" as DOCS
+}
+component "The whole delivery" as ALL
+
+UI --> BFF : cookie, /auth, /todos
+BFF --> USERS : /users via AuthClient
+BFF --> TODOS : /todos via YARP
+USERS --> DB
+TODOS --> DB
+
+note right of USERS
+  AN-011 no limiter on the credential endpoints
+  AN-014 no email transport: confirm, resend,
+  forgotten and reset cannot complete
+  AN-015 refresh token issued, never redeemed
+  AN-018 anonymous input reaches Unprotect, 500
+  AN-019 manage/info, manage/2fa, mail endpoints:
+  no caller in the delivered product
+end note
+note left of TODOS
+  AN-010 admin branch, no grant path
+  AN-008 with the screens: completion is
+  writable by the API, not from a screen
+end note
+note bottom of ROOT
+  AN-001 README promises Swagger, code serves Scalar
+  AN-016 the root redirect and the OpenAPI document
+  are served in every environment, the Scalar UI
+  only in Development
+end note
+note right of DB
+  AN-004 the schema exists only as migrations
+  AN-007 model snapshot at EF Core 8.0.0 against 9.0.8
+end note
+note bottom of BFF
+  AN-002 provider sign-in inert, excluded from scope
+  AN-009 nothing tests this half
+  AN-012 API address hardcoded to service discovery
+  AN-013 43 commits: the unstable area
+  AN-017 key ring left at the per-user file path
+  while both hosts declare container images
+end note
+note top of BUILD
+  AN-005 devcontainer SDK 8.0 against a net9.0 build
+  AN-006 CI sets up no SDK version
+end note
+note bottom of DOCS
+  AN-002 the README and the code disagree on Auth0
+  AN-003 CONTRIBUTING.md named, absent
+end note
+note right of ALL
+  AN-020 the assembled topology has never been run:
+  every row of the perimeter is a static reading
+@enduml
+```
+
 | ID | Anomaly | Kind | Evidence | Likelihood | Impact |
 |---|---|---|---|---|---|
 | AN-001 | The author's README calls the API explorer "the Swagger UI" and shows a Swagger screenshot; the code serves Scalar and exposes no Swagger UI. Any recovered use case or manual that cites Swagger would cite a screen the system does not have. | Document contradicted by the code | `README.md:31,33` against `Todo.Api/Program.cs:49-53` (`app.MapScalarApiReference`) and `Directory.Packages.props:30` (`Scalar.AspNetCore` 2.6.8); the package list carries no `Swashbuckle` | likely | low |
@@ -316,6 +390,13 @@ end note
 | AN-011 | Rate limiting is applied per user on `/todos` only. The `/users` surface — registration, login, refresh, password reset, external token issue — carries neither the limiter nor any other throttle, so the endpoints that accept credentials are the endpoints nothing protects against repeated attempts. | Inferior quality | `Todo.Api/Todos/TodoApi.cs:26` (`RequirePerUserRateLimit`) against `Todo.Api/Users/UsersApi.cs:12-22` (no limiter on the group); `Todo.Api/Program.cs:41` registers the limiter | likely | moderate |
 | AN-012 | The web server reaches the API through the hardcoded absolute address `http://todoapi`, which resolves only under Aspire service discovery. Started without the AppHost — the mode the README documents for the API — the BFF has no route to the backend, and no configuration key can supply one. | Inferior quality | `Todo.Web/Server/Program.cs:26-30`; `Todo.Web/Server/TodoApi.cs:18`; `Todo.Web/Server/appsettings.json:1-9` (no API address); `README.md:24-27` | likely | moderate |
 | AN-013 | The browser-facing subsystem is the unstable area of the system: 43 commits between 2022-11-27 and 2024-11-27, against 10 for the API over a shorter window, with its page model replaced once and its orchestration replaced twice. Recovery reads a moving target, and the reading is weakest exactly where the system has changed most. | Unstable area | `Todo.Web` history: 43 commits, 2022-11-27 to 2024-11-27 — `cb67410` … `a519c10`; page model replaced by `31b28b3` (2023-07-15); orchestration `e61e3a1` → `8e8e8a1` → `6b9f07e` | likely | moderate |
+| AN-014 | No email transport exists anywhere in the delivery: nothing registers an `IEmailSender`, and no mail server, SMTP setting or outbound queue is configured. Four of the identity operations the API publishes — email confirmation, confirmation reissue, password reset request and password reset — therefore have no way to deliver the code they generate, and none of them is reachable from a delivered screen either. As delivered, a user who forgets the password has no path to the account. | Missing from the delivery | `Todo.Api/Program.cs:17-20` (identity registered with stores and API endpoints only); `Todo.Api/appsettings.json:1-8` and `Todo.Api/appsettings.Development.json:1-12` (no mail settings); no `IEmailSender` implementation in the tree; `Todo.Api/Users/UsersApi.cs:20`; `Todo.Web/Server/AuthClient.cs:3-46` (no reset or confirmation call) | likely | moderate |
+| AN-015 | A refresh token is issued by `/users/login` and `/users/refresh` is published, but nothing ever redeems one: the BFF stores only `accessToken` in the cookie, `AuthClient` has no refresh call, and the forwarder sends whatever token the cookie holds. A session therefore ends at the undisclosed access-token lifetime, and the only recovery the product offers is the silent logout the client triggers on a 401. No token lifetime or clock skew is configured anywhere, so the product's session length is a framework default nobody chose. | Missing from the delivery | `Todo.Api/Users/UsersApi.cs:20` (`MapIdentityApi<TodoUser>` publishes `/login` and `/refresh`); `Todo.Web/Server/AuthApi.cs:107-128` (`StoreTokens` holds `TokenNames.AccessToken` only, at 121-123); `Todo.Web/Server/Authentication/TokenNames.cs:3-6` (only `accessToken` is named); `Todo.Web/Server/AuthClient.cs:5-18` (no refresh); `Todo.Web/Server/TodoApi.cs:18-24`; `Todo.Web/Client/Components/TodoList.razor:66-73` (401 or 403 raises `OnForbidden`, which logs out) | likely | moderate |
+| AN-016 | The root path redirects to `/scalar/v1` in every environment, but the Scalar UI is mapped only when the environment is Development, and the OpenAPI document is published unconditionally. Outside Development the delivery offers a redirect to an endpoint that does not exist, and exposes its API document to every caller. Which of the two — reference UI or published document — is the intended production posture is not stated by any document in the delivery. | Inferior quality | `Todo.Api/Program.cs:49-56` (`MapScalarApiReference` inside `if (app.Environment.IsDevelopment())`); `Todo.Api/Program.cs:58` (`app.MapOpenApi()` unguarded); `Todo.Api/Program.cs:62` (`app.Map("/", () => Results.Redirect("/scalar/v1"))`) | likely | low |
+| AN-017 | Both hosts configure data protection with the same `ApplicationDiscriminator` and no key repository, so the key ring falls back to the framework's per-user file-system location inside each host's own file system. Both projects nevertheless declare container images and the AppHost runs them as separate services. A deployment in that shape gives each host its own keys: cookies minted by the web server become undecryptable, and the provider key the API unprotects cannot be read. The delivery contains no statement of where the key ring is meant to live. | Missing from the delivery | `Todo.Api/Program.cs:9-11`; `Todo.Web/Server/Program.cs:12-13`; `Todo.Web/Server/Todo.Web.Server.csproj:3-4` (`ContainerImageName` `todo-web-server`); `Todo.Api/Todo.Api.csproj` (`ContainerImageName` `todo-api`); `TodoApp.AppHost/Program.cs:5-10` | likely | moderate |
+| AN-018 | `POST /users/token/{provider}` is anonymous: the `/users` group carries no authorization requirement, the endpoint unprotects a caller-supplied value before any identity is established, and the source itself records the missing hop (`TODO: Add service to service auth between the BFF and this API`). Any caller that can reach the port can post arbitrary input to a cryptographic unprotect, and the only barrier between a non-BFF client and token issue for an arbitrary external identity is that it cannot forge the protected value. The entry point is excluded from the recovered product scope with the provider mechanism; the exposure remains in the code. | Inferior quality | `Todo.Api/Users/UsersApi.cs:12-22` (no `RequireAuthorization` on the group); `Todo.Api/Users/UsersApi.cs:17` (the recorded TODO); `Todo.Api/Users/UsersApi.cs:36` (`protector.Unprotect(userInfo.ProviderKey)` before any user is resolved); `Todo.Web/Server/AuthClient.cs:31-42` (the intended caller) | likely | moderate |
+| AN-019 | Seven identity operations the API publishes have no caller in the delivered product: account information read and update, two-factor management, email confirmation, confirmation reissue, password reset request and password reset. The browser client's whole surface is four calls — register, login, logout and list/create/delete a todo — and the login form renders two buttons and a provider list. These are capabilities of the API with no path to them from any delivered screen, the same shape as the completion gap (AN-008), and they matter to recovery because a use case recovered from one of them would have no actor able to reach it. | Missing from the delivery | `Todo.Api/Users/UsersApi.cs:20` (`MapIdentityApi<TodoUser>`); `Todo.Web/Server/AuthClient.cs:3-46`; `Todo.Web/Server/AuthApi.cs:14-38` (only register and login reach `/users`); `Todo.Web/Client/TodoClient.cs:7-71`; `Todo.Web/Client/Components/LogInForm.razor:1-20` | likely | moderate |
+| AN-020 | The assembled system has never been run: no deployment, no production data and no users exist, and the only executable proof in the delivery boots `Todo.Api` alone in-process against an in-memory database, with the data-protection provider replaced rather than read from disk. Nothing has ever exercised the AppHost ordering, service discovery by name, the YARP forwarder, the shared key ring, the migration operation or the sqliteweb container. Every statement this inventory makes about that half is a static reading, and a first run may contradict any of them. | Missing from the delivery | `.iari/README.md:12-13`; `TodoApp.AppHost/Program.cs:3-27`; `Todo.Api.Tests/TodoApplication.cs:31-56` (`EphemeralDataProtectionProvider`, `Filename=:memory:`, `WebApplicationFactory<Program>`); `.github/workflows/ci.yaml:18-20` (`dotnet test` over the solution is the whole of what runs) | likely | high |
 ## Priorities
 | Order | Area | Why it comes first | Anchor |
 |---|---|---|---|
