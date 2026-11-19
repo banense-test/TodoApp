@@ -287,9 +287,9 @@ end note
 ## Resources
 The team is the 26 roles the IARI DC baseline activates, and the plan selects which of them work in this iteration. The roster is not this plan's to change.
 
-**Assignment profile: eight agent roles plus the stakeholder gate.** Excavation activates five disciplines — Requirements (High), Analysis and Design (Critical), Discovery (Critical), Project Management (Medium) and the milestone review — and eight agent roles run stages inside them: System Analyst, Software Architect, Designer, Database Designer, Software Archaeologist, Project Manager, Reviewer, Management Reviewer, and the Review Coordinator. The Stakeholder is the one human the iteration waits on, counted separately and never as a role of the agent roster.
+**Assignment profile: nine agent roles plus the stakeholder gate.** Excavation activates five disciplines — Requirements (High), Analysis and Design (Critical), Discovery (Critical), Project Management (Medium) and the milestone review — and nine agent roles run stages inside them. Six do the recovery itself: System Analyst, Software Architect, Designer, Database Designer, Software Archaeologist, Project Manager. Three judge it: Reviewer, Management Reviewer, Review Coordinator — the trio the process fixes for AR, not additional capacity. The Stakeholder is the one human the iteration waits on, counted separately and never as a role of the agent roster.
 
-Analysis and Design is the phase's Critical discipline and it is where the plan puts the most roles: three of them (Architect, Designer, Database Designer) work the same stage, in the order their artifacts depend on each other. Discovery is Critical too, and the Software Archaeologist's second stage scores the recovered models against the code — which is why it runs after them and not before.
+Analysis and Design is the phase's Critical discipline and it is where the plan puts the most roles: three of them — Architect, Designer, Database Designer — work the same stage, in the order their artifacts depend on each other. Discovery is Critical too, and the Software Archaeologist's second stage scores the recovered models against the code, which is why it runs after them and not before.
 
 | Role | At work in Excavation iteration 1 | Stage it runs | Produces |
 |---|---|---|---|
@@ -303,8 +303,6 @@ Analysis and Design is the phase's Critical discipline and it is where the plan 
 | Management Reviewer | Yes | AR milestone review — governance lens | Review Record |
 | Review Coordinator | Yes | AR milestone review — verdict | Review Record, milestone verdict |
 | Stakeholder (human, outside the agent roster) | Yes — human gate | Sanction of the AR milestone | One answer recorded verbatim, carried as `R021` |
-
-The role count is nine agents, and the two reviewers plus the coordinator are the milestone-review trio the process fixes for AR — not additional capacity. Six roles do the recovery work; three judge it.
 
 Roles not at work in Excavation, each with its reason:
 
