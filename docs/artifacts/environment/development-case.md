@@ -126,16 +126,82 @@ Scope per discipline. "CORE" means the artifact named in the baseline catalog, p
 | Project Management | Iteration Plan, Risk List, Iteration Assessment | same (CORE) | The Risk List is the earliest place the sprint zero's unknowns are scored — in particular whatever the perimeter could not establish. |
 | Environment | Development Case | Development Case | This document. Re-prepared at each iteration of Survey, Inception and Elaboration; preserved otherwise. |
 
-**Templates.** Each artifact is written to the canonical section skeleton published with its name by the artifact service — that skeleton is the template, and no project-specific section is added to it. Artifact *content* guidance (coding standards, UI patterns, test conventions) is not duplicated in this document; it lives in the files each discipline lead owns:
+**Templates.** Each artifact is written to the canonical section skeleton published with its name by the artifact service — that skeleton is the template, and no project-specific section is added to it.
 
-| Guideline content | File | Owner |
+**Where guideline content is read from.** Build and tool configuration exists in the repository and is referenced by path with the role that owns it. Three families of convention content have no file in the repository; they are recorded as undocumented, and this document does not substitute for them.
+
+```plantuml
+@startuml
+title Guideline content — the file each family is read from, and the three with none
+hide empty members
+
+package "Referenced by path, attributed to its owner" {
+  class ".github/workflows/ci.yaml" as CI <<reference>> {
+    build · restore · test · CI execution
+    Integrator
+  }
+  class "global.json" as GJ <<reference>> {
+    SDK 9.0.100 · rollForward latestFeature
+    Integrator
+  }
+  class "Directory.Build.props" as DBP <<reference>> {
+    TargetFramework net9.0 · LangVersion preview · Nullable
+    Integrator
+  }
+  class "Directory.Packages.props" as DPP <<reference>> {
+    centrally managed package versions
+    Software Architect
+  }
+  class "nuget.config" as NC <<reference>> {
+    package sources — nuget.org only
+    Integrator
+  }
+}
+
+package "No file in the repository — recorded as undocumented" {
+  class "Coding standards\ndesign conventions\narchitectural rules" as CS <<undocumented>> {
+    Software Architect
+  }
+  class "UI patterns\ncomponent conventions" as UIX <<undocumented>> {
+    User Interface Designer
+  }
+  class "Test conventions\ncoverage expectations" as TCV <<undocumented>> {
+    Test Designer
+  }
+}
+
+class "What actually binds today" as ENF {
+  Nullable enabled · LangVersion preview ·
+  the analyzer and warning settings in
+  Directory.Build.props · the existing code
+  read as the worked example
+}
+
+DBP --> ENF
+CI --> ENF
+
+note bottom of CS
+  A convention file enters scope only through a
+  declared requirement or a Change Request. Until
+  one does, these three families have no project
+  source, and the role named on each works to what
+  the build and the existing code already enforce.
+end note
+@enduml
+```
+
+| Guideline content | Source | Owner |
 |---|---|---|
-| Coding standards, design conventions, architectural rules | `CONTRIBUTING.md` | Software Architect |
-| UI patterns and component conventions | `CONTRIBUTING.md` | User Interface Designer |
-| Test conventions and coverage expectations | `CONTRIBUTING.md` | Test Designer |
 | Build, restore, test and CI execution | `.github/workflows/ci.yaml` | Integrator |
 | SDK pin, target framework, language and nullable settings | `global.json`, `Directory.Build.props` | Integrator |
-| Centrally managed package versions and package sources | `Directory.Packages.props`, `nuget.config` | Software Architect (versions), Integrator (feeds) |
+| Centrally managed package versions | `Directory.Packages.props` | Software Architect |
+| Package sources and feed mapping | `nuget.config` | Integrator |
+| Coding standards | **Undocumented** — no file in the repository carries them | Software Architect |
+| UI patterns and component conventions | **Undocumented** | User Interface Designer |
+| Test conventions and coverage expectations | **Undocumented** | Test Designer |
+
+A role working in Excavation or Consolidation is bound by what the build already enforces — `Nullable`, `LangVersion preview`, the analyzer and warning settings in `Directory.Build.props` — and by the conventions visible in the existing code, and by nothing else. A role that needs a convention the existing code does not exhibit raises it as a process question in the iteration that raises it; it does not assume one, and it does not treat this document as its source. A convention file enters the project only when a declared requirement or a Change Request puts one in scope, and this table is corrected in the same iteration that change is approved.
+
 ## Optional Artifact Triggers
 
 Evaluated against this project's facts. Re-evaluated at every iteration; the recorded set is replaced, never appended to.
