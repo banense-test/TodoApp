@@ -370,9 +370,9 @@ end note
 | 7 | `Todo.Api.Tests` | Read as evidence of current behaviour, not as a specification: it proves ownership isolation and validation problem details on `/todos`, and token issue on `/users`, and it proves nothing about the BFF, the key ring or the assembled topology (AN-020). It is the cross-check on orders 1 and 2, which is why it can only be read meaningfully after them. | `Todo.Api.Tests/TodoApiTests.cs:3-290`; `Todo.Api.Tests/UserApiTests.cs:6-170`; `Todo.Api.Tests/TodoApplication.cs:10-95` |
 | 8 | Build, environment and tooling — `global.json`, `Directory.*.props`, `nuget.config`, `.github/workflows/ci.yaml`, `.devcontainer` | Lowest for behaviour, highest for the environment phase: the pins are readable, the container is below the floor (AN-005), and the CI does not honour the pin (AN-006). Read last because nothing about what the system does depends on it, but it must not be skipped — it is the only statement of how the solution is verified, and the only executable proof the delivery has. | `global.json:1-8`; `Directory.Build.props:1-9`; `Directory.Packages.props:1-43`; `nuget.config:1-13`; `.github/workflows/ci.yaml:1-21`; `.devcontainer/devcontainer.json:1-12` |
 ## Coverage
-This pass re-opened the identity and root surfaces in full to anchor AN-014 … AN-020 — `Todo.Api/Users/UsersApi.cs`, `Todo.Api/Program.cs`, `Todo.Api/TodoDbContext.cs`, `Todo.Api/Authorization/*`, `Todo.Api/Extensions/OpenApiOptionsExtensions.cs`, both `appsettings.json` and `Todo.Api/appsettings.Development.json`, `Todo.Web/Server/{Program.cs,AuthApi.cs,AuthClient.cs,TodoApi.cs}`, the whole `Todo.Web/Server/Authentication/` folder, all three `Todo.Web/Client` sources, `Todo.Api.Tests/{TodoApplication.cs,UserApiTests.cs}`, `Directory.Packages.props`, `.github/workflows/ci.yaml` and both READMEs. It confirmed the unread set below rather than changing it: nothing excluded from the count carries an entry point, a component boundary or a data definition.
+This stage opened the parts of the tree no recovered model explains, and the areas the new anomalies rest on: `Requests/todo.http`, `.devcontainer/init.sh`, `.aspire/settings.json`, `TodoApp.AppHost/{Program.cs,Extensions.cs}`, `TodoApp.ServiceDefaults/Extensions.cs`, `Todo.Api/Program.cs`, `Todo.Api/{appsettings.json,appsettings.Development.json}`, `Todo.Api/Users/UsersApi.cs`, `Todo.Web/Server/{Program.cs,TodoApi.cs}` and `.github/workflows/ci.yaml` — each in full, with its commit history read alongside it.
 
-The aggregate is the sum of the Read column below and nothing else: **72 of the 132 files** in the repository tree are read, **60 are unread**, and every unread file is named with its reason in the rows. The tree holds 170 entries, 38 of them directories.
+The aggregate is the sum of the Read column below and nothing else: **77 of the 138 files** in the repository tree are read, **61 are unread**, and every unread file is named with its reason in the rows. The tree holds 178 entries, 40 of them directories.
 
 ```plantuml
 @startuml
@@ -380,7 +380,7 @@ title What has been opened, by area — and what has not
 skinparam defaultTextAlignment left
 skinparam shadowing false
 
-package "Read (72 of 132 files)" {
+package "Read (77 of 138 files)" {
   class "Todo.Api sources — 13 of 13\nProgram · DbContext · project file ·\nAuthorization 3 · Extensions 2 · Filters 1 · Users 2 · Todos 2" as API1 <<read>>
   class "Todo.Api/Migrations — 4 of 7\nthree Up/Down bodies and the model snapshot" as MIGREAD <<read>>
   class "Todo.Api settings — 3 of 3\nappsettings ×2 · launchSettings" as APISET <<read>>
@@ -390,16 +390,17 @@ package "Read (72 of 132 files)" {
   class "Todo.Api.Tests — 6 of 7" as TESTS <<read>>
   class "TodoApp.AppHost — 5 of 6\nTodoApp.ServiceDefaults — 2 of 2" as HOST <<read>>
   class "Solution root and sln — 8 of 8\nglobal.json · Directory.*.props ·\nnuget.config · gitignore · LICENSE · README" as ROOT <<read>>
-  class ".iari · Requests · workflows — 3 of 3" as DOCS <<read>>
-  class ".devcontainer — 1 of 2" as DEVC <<read>>
-  class "docs/artifacts — 1 of 6\nDevelopment Case, via the artifact service" as OWN <<read>>
+  class ".iari · Requests · workflows — 3 of 3\ntodo.http and ci.yaml opened in full" as DOCS <<read>>
+  class ".devcontainer — 2 of 2\ndevcontainer.json · init.sh,\nboth opened this iteration" as DEVC <<read>>
+  class ".aspire — 1 of 1\nsettings.json opened this iteration" as ASPIRE <<read>>
+  class "docs/artifacts — 4 of 12\nDevelopment Case · this Inventory ·\nReview Record · Architecture Document" as OWN <<read>>
 }
-package "Unread, 60 files, each with its reason" {
+package "Unread, 61 files, each with its reason" {
   class "Todo.Web/Client/wwwroot — 47 of 48\nvendored Bootstrap 5 and source maps,\nbg.png, favicon.ico" as STATIC <<third party>>
   class "Todo.Api/Migrations — 3 generated\n*.Designer.cs snapshots" as MIG <<generated>>
   class "Todo.Api.Tests/GlobalUsings.cs — 1" as GU <<generated>>
-  class "TodoApp.AppHost launchSettings — 1\n.devcontainer/init.sh — 1\n.aspire · .vscode — 2" as TOOL <<tool config>>
-  class "docs/artifacts — 5\nthis inventory and the four\nproject-management artifacts" as OWN2 <<not code>>
+  class "TodoApp.AppHost launchSettings — 1\n.vscode/extensions.json — 1" as TOOL <<tool config>>
+  class "docs/artifacts — 8\nVision · Use-Case Model · Supplementary Spec ·\nDeployment Model · Design Model · Risk List ·\nIteration Plan · Iteration Assessment" as OWN2 <<not code>>
 }
 note bottom of STATIC
   No entry point, component boundary or
@@ -411,13 +412,13 @@ note bottom of MIG
   TodoDbContextModelSnapshot.cs, both read.
 end note
 note bottom of TOOL
-  Launch profiles, editor preferences and a
-  container bootstrap carry no behaviour any
-  row of the perimeter rests on.
+  A launch profile and a recommended-extension
+  list carry no behaviour any one row of the
+  perimeter rests on.
 end note
 note bottom of OWN2
-  None of them describes the code; the code
-  is read from source, never from a document.
+  None of them describes the code; the code is
+  read from source, never from a document.
 end note
 @enduml
 ```
@@ -427,26 +428,26 @@ end note
 | `Todo.Api` (root, `Authorization`, `Extensions`, `Filters`, `Users`, `Todos`) | 13 | 13 | — Every C# source in the area and the project file are read in full. |
 | `Todo.Api/Migrations` | 7 | 4 | The three migration `*.Designer.cs` files are unread: they are generated snapshots of the same model that `TodoDbContextModelSnapshot.cs` and the three `Up`/`Down` bodies already declare, and reading them adds no fact. Those four are read. |
 | `Todo.Api/Properties` | 1 | 1 | — |
-| `Todo.Api` configuration files | 2 | 2 | — |
+| `Todo.Api` configuration files | 2 | 2 | — Both are read in full; neither carries a `ConnectionStrings` section or a mail setting, which is what AN-014 and AN-022 rest on. |
 | `Todo.Api.Tests` | 7 | 6 | `GlobalUsings.cs` is unread — generated-style using declarations with no behaviour. All six substantive files (two test classes, the host harness, the token service, the DbContext helper, the project file) are read. |
 | `Todo.Web/Server` (`Authentication`, root, Razor) | 15 | 15 | — Every source, Razor component and settings file is read, including the whole `Authentication` folder — the scheme registry, the provider resolver, the authentication-state provider and the token name. |
 | `Todo.Web/Client` (sources, components, project, settings) | 8 | 8 | — |
 | `Todo.Web/Client/wwwroot` | 48 | 1 | 47 unread: the vendored Bootstrap 5 distribution (`bootstrap/`, 45 files including its source maps and licence) plus `bg.png` and `favicon.ico`, all third-party or presentation assets with no project behaviour. `css/app.css` is read. No entry point, component boundary or schema depends on any of them. |
 | `Todo.Web/Shared` | 2 | 2 | — |
-| `TodoApp.AppHost` | 6 | 5 | `Properties/launchSettings.json` is unread: it holds launch profiles for the orchestrator and no behaviour the perimeter rests on. `Program.cs`, `Extensions.cs`, both settings files and the project file are read. |
+| `TodoApp.AppHost` | 6 | 5 | `Properties/launchSettings.json` is unread: it holds launch profiles for the orchestrator and no behaviour the perimeter rests on. `Program.cs`, `Extensions.cs`, both settings files and the project file are read — `Program.cs` and `Extensions.cs` in full, which is what AN-021 and AN-022 rest on. |
 | `TodoApp.ServiceDefaults` | 2 | 2 | — |
 | Solution root — `global.json`, `Directory.Build.props`, `Directory.Packages.props`, `nuget.config`, `TodoApp.sln`, `.gitignore`, `LICENSE`, `README.md` | 8 | 8 | — |
-| `.github/workflows` | 1 | 1 | — |
-| `.devcontainer` | 2 | 1 | `init.sh` is unread: it is a container bootstrap script, and the container image it runs inside is recorded as an anomaly (AN-005) regardless of what the script does. |
+| `.github/workflows` | 1 | 1 | — `ci.yaml` is read in full; it passes no `dotnet-version`, which is what AN-006 rests on. |
+| `.devcontainer` | 2 | 2 | — Both are read in full. `init.sh` installs the EF global tool and appends it to the PATH; it builds nothing, so the SDK-8 floor AN-005 records is the image's and not the script's. |
 | `.iari` | 1 | 1 | — |
-| `Requests` | 1 | 1 | — |
-| `docs/artifacts` | 6 | 1 | Five unread: this Inventory and the four project-management artifacts (Risk List, Iteration Plan, Review Record, Iteration Assessment). None describes the code — the code is read from source, never from a document. The Development Case is read through the artifact service. |
-| `.aspire`, `.vscode` | 2 | 0 | Both hold tool configuration only — the Aspire local settings and a recommended-extension list — and neither is referenced by any build, host or entry point. |
+| `Requests` | 1 | 1 | — `todo.http` is read in full: register, login, create, list and delete, and no update request — it agrees with what the screens cannot do (AN-008). |
+| `docs/artifacts` | 12 | 4 | Eight unread: the Vision, Use-Case Model, Supplementary Specification, Deployment Model, Design Model, Risk List, Iteration Plan and Iteration Assessment. The Development Case, this Inventory, the Review Record and the Software Architecture Document are read through the artifact service. None of the eight describes the code — the code is read from source, never from a document — and the four recovered models were consumed for what they anchor, not for what they assert about files. |
+| `.aspire` | 1 | 1 | — `settings.json` names the AppHost project path and nothing else. |
+| `.vscode` | 1 | 0 | `extensions.json` is unread: a recommended-extension list, referenced by no build, host or entry point. |
 
-Every project of the solution, every C# source outside the generated snapshots, every Razor component, every settings file and every document in the delivery has been read. No top-level area of the tree is left neither described nor declared unread.
+Every project of the solution, every C# source outside the generated snapshots, every Razor component, every settings file, both container and tooling scripts and every document in the delivery that describes the code has been read. No top-level area of the tree is left neither described nor declared unread. The eight unread artifacts of `docs/artifacts` are this project's own output; they describe a system that is read from source.
 
-What the coverage does **not** establish, and no further reading can: the system has never been assembled or run (AN-020). Every row above is a static reading of source, and the behaviour of the composed topology — Aspire ordering, service discovery, the forwarder, the shared key ring, the migration operation — is inferred from code that no execution has ever confirmed.
-
+What the coverage does **not** establish, and no further reading can: the system has never been assembled or run (AN-020). Every row above is a static reading of source, and the behaviour of the composed topology — Aspire ordering, the migration gate, service discovery, the forwarder, the shared key ring, the migration operation — is inferred from code that no execution has ever confirmed. The two anomalies this stage added on that path (AN-021, AN-022) are the sharpest instance: both are read from four files that nothing has ever run.
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
