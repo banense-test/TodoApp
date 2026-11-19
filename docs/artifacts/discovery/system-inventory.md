@@ -6,12 +6,13 @@
 ## Perimeter
 The boundary is drawn by the code, not by the README. Inside it sit seven projects of `TodoApp.sln` plus the CI workflow that builds them. The browser is outside and reaches the web server only; it never calls the API directly, because the web server proxies `/todos` through YARP and re-signs each request with the stored bearer token. Nothing is deployed anywhere (`.iari/README.md`).
 
-Two parts of the code are outside the recovered product scope by stakeholder decision of 2026-11-19, and are recorded as exclusions:
+Two parts of the code are outside the recovered product scope by stakeholder decision of 2026-11-19, and a third by the same decision on the same date, recorded here as three exclusions:
 
 - **External identity-provider sign-in.** `AuthenticationExtensions` registers GitHub, Google, Microsoft and Auth0 only when `Authentication:Schemes:<provider>` exists in configuration; no shipped `appsettings.json` carries that section, so the four schemes are reachable in principle and inert in practice. The mechanism is out of the recovered product scope — recorded as an exclusion, specified at most as an unconfigured option in the Supplementary Specification — and no use case covers `EP-011`, `EP-020` or `EP-021`.
 - **The `admin` role.** `CurrentUser.IsAdmin` reads the role claim `admin` and widens read, update and delete to any owner, but no code path grants the role and migration `RemoveIsAdmin` dropped the persisted flag. It is dead code, recorded as an exclusion, until a declared requirement names who grants the role; no use case claims cross-user access.
+- **The self-service identity surface.** Seven operations the API publishes — email confirmation, confirmation reissue, password-reset request, password reset, two-factor management, account-information read and account-information update — have no caller in any delivered screen and no mail transport behind them; nothing in the delivery registers an `IEmailSender` or configures a mail server. Out of the recovered product scope, recorded as an exclusion beside the external-provider one: no use case is recovered from `EP-004`, `EP-005`, `EP-006`, `EP-007`, `EP-008`, `EP-009` or `EP-010`, and the recovered product is registration, login, logout and todo read/create/delete. The entry points stay in the perimeter with their anchors, so a later phase that needs one can recover it without re-reading the code.
 
-Both exclusions concern what the next phases may claim, not what exists: the code anchors below stay as read.
+All three exclusions concern what the next phases may claim, not what exists: the code anchors below stay as read.
 
 ```plantuml
 @startuml
@@ -60,11 +61,21 @@ note right of API
   Todo.Api/Todos/TodoApi.cs:24-73 — /todos surface
 end note
 
-note bottom of IDP
+note top of IDP
   Registered only when Authentication:Schemes:<provider>
   exists in configuration; no such section ships.
   Stakeholder, 2026-11-19: out of the recovered
   product scope — an exclusion, not a requirement.
+end note
+
+note bottom of WEBSRV
+  EP-004 … EP-010 — the self-service identity
+  operations (email confirmation, password reset,
+  two-factor, account information) have no caller
+  in any delivered screen and no mail transport
+  behind them. Stakeholder, 2026-11-19: out of the
+  recovered product scope — an exclusion beside the
+  external-provider one. No use case claims them.
 end note
 
 note right of DB
@@ -81,7 +92,7 @@ end note
 | Todo.Web.Client | Component | Blazor WebAssembly UI assembled into the browser: one page component that switches between a login form and the todo list, and an HTTP client that speaks to the web server only. | `Todo.Web/Client/TodoApp.razor:1-44`; `Todo.Web/Client/TodoClient.cs:7-71`; `Todo.Web/Client/Program.cs:5-13` |
 | Todo.Web.Shared | Component | DTO library referenced by both the client and the server: `TodoItem`, `UserInfo`, `ExternalUserInfo`, `AuthToken`. | `Todo.Web/Shared/SharedClass.cs:3-37` |
 | Todo.Api | Subsystem | The backend: minimal-API hosts the `/users` identity surface and the `/todos` CRUD surface, enforces bearer authentication, per-user rate limiting and parameter validation, serves the OpenAPI document and the Scalar UI. | `Todo.Api/Program.cs:5-68` |
-| Todo.Api / Users | Component | ASP.NET Core Identity user store and bearer-token issue: the stock identity endpoints plus a custom `/users/token/{provider}` endpoint that creates or finds a user by external login. | `Todo.Api/Users/UsersApi.cs:10-64`; `Todo.Api/Users/TodoUser.cs:7-29` |
+| Todo.Api / Users | Component | ASP.NET Core Identity user store and bearer-token issue: the stock identity endpoints, plus a custom `/users/token/{provider}` endpoint that creates or finds a user by external login. Of the stock endpoints the delivered product uses registration, login and token refresh only; the rest are an exclusion (see above). | `Todo.Api/Users/UsersApi.cs:10-64`; `Todo.Api/Users/TodoUser.cs:7-29` |
 | Todo.Api / Todos | Component | Todo read, create, update and delete, scoped to the owning user. | `Todo.Api/Todos/TodoApi.cs:8-77`; `Todo.Api/Todos/Todo.cs:1-40` |
 | Todo.Api / Authorization | Component | Resolves the caller into a `CurrentUser` (claims transformation against the database) and supplies the authorization requirement that a valid token alone does not satisfy. | `Todo.Api/Authorization/CurrentUser.cs:6-15`; `Todo.Api/Authorization/CurrentUserExtensions.cs:8-35`; `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:8-40` |
 | Todo.Api / Persistence | Component | EF Core `DbContext` over ASP.NET Core Identity, the `Todo` entity with its owner foreign key, and the three migrations that define the schema. | `Todo.Api/TodoDbContext.cs:7-21`; `Todo.Api/Migrations/20221123071234_Initial.cs`; `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs` |
@@ -108,13 +119,13 @@ end note
 | EP-001 | `POST /users/register` — create a user from email and password | Service operation | Anonymous client (API direct, or the web server's `AuthClient`) | `Todo.Api/Users/UsersApi.cs:12,20`; `Todo.Web/Server/AuthClient.cs:20-29` |
 | EP-002 | `POST /users/login` — exchange credentials for a bearer token | Service operation | Anonymous client | `Todo.Api/Users/UsersApi.cs:12,20`; `Todo.Web/Server/AuthClient.cs:5-18` |
 | EP-003 | `POST /users/refresh` — exchange a refresh token for a new access token | Service operation | Authenticated client | `Todo.Api/Users/UsersApi.cs:12,20` |
-| EP-004 | `GET /users/confirmEmail` — confirm an email address from a code | Service operation | End user, following a link | `Todo.Api/Users/UsersApi.cs:12,20` |
-| EP-005 | `POST /users/resendConfirmationEmail` — reissue the confirmation mail | Service operation | Anonymous client | `Todo.Api/Users/UsersApi.cs:12,20` |
-| EP-006 | `POST /users/forgotPassword` — request a password-reset code | Service operation | Anonymous client | `Todo.Api/Users/UsersApi.cs:12,20` |
-| EP-007 | `POST /users/resetPassword` — set a new password with a reset code | Service operation | Anonymous client | `Todo.Api/Users/UsersApi.cs:12,20` |
-| EP-008 | `POST /users/manage/2fa` — enable or disable two-factor authentication | Service operation | Authenticated user | `Todo.Api/Users/UsersApi.cs:12,20` |
-| EP-009 | `GET /users/manage/info` — read the caller's account information | Service operation | Authenticated user | `Todo.Api/Users/UsersApi.cs:12,20` |
-| EP-010 | `POST /users/manage/info` — change the caller's email or password | Service operation | Authenticated user | `Todo.Api/Users/UsersApi.cs:12,20` |
+| EP-004 | `GET /users/confirmEmail` — confirm an email address from a code. Excluded from the recovered product scope by stakeholder decision of 2026-11-19, with the self-service identity surface: no use case covers it, and no mail transport exists to deliver the code | Service operation | End user, following a link | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
+| EP-005 | `POST /users/resendConfirmationEmail` — reissue the confirmation mail. Excluded with the self-service identity surface: no use case covers it | Service operation | Anonymous client | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
+| EP-006 | `POST /users/forgotPassword` — request a password-reset code. Excluded with the self-service identity surface: no use case covers it, and no mail transport exists to deliver the code | Service operation | Anonymous client | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
+| EP-007 | `POST /users/resetPassword` — set a new password with a reset code. Excluded with the self-service identity surface: no use case covers it | Service operation | Anonymous client | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
+| EP-008 | `POST /users/manage/2fa` — enable or disable two-factor authentication. Excluded with the self-service identity surface: no use case covers it | Service operation | Authenticated user | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
+| EP-009 | `GET /users/manage/info` — read the caller's account information. Excluded with the self-service identity surface: no use case covers it | Service operation | Authenticated user | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
+| EP-010 | `POST /users/manage/info` — change the caller's email or password. Excluded with the self-service identity surface: no use case covers it | Service operation | Authenticated user | `Todo.Api/Users/UsersApi.cs:12,20`; stakeholder decision, 2026-11-19 |
 | EP-011 | `POST /users/token/{provider}` — exchange an externally authenticated identity for a bearer token, creating the user on first use. Excluded from the recovered product scope by stakeholder decision of 2026-11-19, with the external-provider mechanism: no use case covers it | Service operation | Web server BFF only (the provider key is data-protected with the provider name) | `Todo.Api/Users/UsersApi.cs:24-54`; `Todo.Web/Server/AuthClient.cs:31-42`; stakeholder decision, 2026-11-19 |
 | EP-012 | `GET /todos` — list the caller's todos | Service operation | Authenticated user, through the forwarder | `Todo.Api/Todos/TodoApi.cs:24-27` |
 | EP-013 | `GET /todos/{id}` — read one todo; 404 unless the caller owns it | Service operation | Authenticated user, through the forwarder | `Todo.Api/Todos/TodoApi.cs:29-36` |
