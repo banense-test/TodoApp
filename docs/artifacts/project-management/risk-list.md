@@ -4,7 +4,7 @@
 - Milestone Target: end of Excavation (AR) — not yet achieved
 
 ## Risk Classification
-Every risk below is scored on the declared IARI risk scale (DC baseline §9.10); the project Development Case records no deviation from it. R001–R020 come from an anomaly the System Inventory recorded — none is invented. R021 is the project's own exposure, entered at the milestone review, and it is scored on the same scale rather than described beside it.
+Every risk below is scored on the declared IARI risk scale (DC baseline §9.10); the project Development Case records no deviation from it. R001–R025 come from an anomaly the System Inventory recorded — none is invented. R021 is the project's own exposure, entered at the SBC milestone review, and it is scored on the same scale rather than described beside it.
 
 | Probability | Level | Exposure |
 |---|---|---|
@@ -86,17 +86,18 @@ end note
 @enduml
 ```
 
-**Actor check.** Every risk names an actor this process has — a role at work in a phase the plan already runs, or the stakeholder. No anomaly of the System Inventory is about staffing, skills, morale or friction between people: this project has no development organization to staff, so none is retired on that ground. The one human the process waits on is the stakeholder, and that wait is carried as R021 rather than left unscored.
+**Actor check.** Every risk names an actor this process has — a role at work in a phase the plan already runs, or the stakeholder. No anomaly of the System Inventory is about staffing, skills, morale or friction between people: this project has no development organization to staff, so none is retired on that ground. The four anomalies the recovery added (AN-021 … AN-024) are all read from the start-up path, the wire shape and the repository's own history — mechanism, not personnel — so each is scored, and each is handled by avoidance owned by a role at work in the phase named. The one human the process waits on is the stakeholder, and that wait is carried as R021 rather than left unscored.
 
 | Magnitude | Count | Risks |
 |---|---|---|
 | High | 3 | R008, R009, R020 — acceptance granted by the stakeholder on 2026-11-19 |
-| Significant | 10 | R003, R004, R005, R006, R007, R012, R015, R017, R018 — avoidance; R021 — acceptance granted by the stakeholder on 2026-11-19 |
+| Significant | 13 | R003, R004, R005, R006, R007, R012, R015, R017, R018, R022, R023, R024 — avoidance; R021 — acceptance granted by the stakeholder on 2026-11-19 |
 | Moderate | 7 | R001, R002, R010, R011, R013, R014, R019 |
-| Minor | 1 | R016 |
+| Minor | 2 | R016, R025 |
 | Low | 0 | — |
 
-Of the ten Significant risks, nine are handled by avoidance, each naming the action and the role that performs it; the tenth, R021, is accepted, and that acceptance was put to the stakeholder and granted. Every High and Significant risk in this register is therefore either avoided by a named action or accepted on the stakeholder's own answer — none is open, and none was self-granted.
+Of the thirteen Significant risks, twelve are handled by avoidance, each naming the action and the role that performs it; the thirteenth, R021, is accepted, and that acceptance was put to the stakeholder and granted. Every High and Significant risk in this register is therefore either avoided by a named action or accepted on the stakeholder's own answer — none is open, and none was self-granted. No acceptance is requested in this iteration: the recovery added no exposure that no action retires.
+
 ## Risk Register
 | ID | Risk | AN | P | I | Exposure | Magnitude | Strategy |
 |---|---|---|---|---|---|---|---|
