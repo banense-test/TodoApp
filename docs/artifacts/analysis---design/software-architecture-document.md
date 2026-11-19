@@ -920,89 +920,6 @@ Two architectural facts bear on performance, both consequences of decisions reco
 **Cost of the architecture to the project itself.** Survey closed at 24 minutes of agent time and 20 minutes of stakeholder queue across 2 iterations and 6 artifacts. No Excavation phase has closed, so this document records no figure for its own production; an estimate would be `[ASSUMPTION — requires validation]` with no comparable closed unit behind it, and the Survey figures are not that unit — Excavation re-reads code, where Survey read an artifact surface. The first measured point is the phase close.
 
 ## Quality
-
-```plantuml
-@startuml
-title Quality — each attribute the delivery can actually answer for, the tactic that serves it, and the component that carries it
-skinparam shadowing false
-skinparam defaultTextAlignment left
-skinparam componentStyle rectangle
-skinparam packageStyle rectangle
-
-package "Quality attributes the delivery answers" {
-  component "Ownership isolation\nFN-001 · RE-002" as Q1
-  component "Caller authenticity\nRE-003 · BR-010" as Q2
-  component "Admission control on /todos\nRE-001 · PE-001" as Q3
-  component "Rejection with a reason\nRE-008 · ST-001" as Q4
-  component "Schema available at start\nRE-004" as Q5
-  component "Observability\nSU-005 · ST-006" as Q6
-  component "Change isolation\nAN-013 · UC-006 volatility High" as Q7
-}
-
-package "Tactics as the code implements them" {
-  component "Predicate in the statement,\nnot a filter after the fetch" as T1
-  component "Principal resolved against\nthe store before any handler" as T2
-  component "Token bucket partitioned\non the account claim" as T3
-  component "Endpoint filter keyed on\nthe declared body type" as T4
-  component "Ordered start: migrate,\nthen serve" as T5
-  component "Instrumentation in a shared\nhost-configuration layer" as T6
-  component "Boundary at the DTO and\nat the forwarder" as T7
-}
-
-package "Components that carry them" {
-  component "COMP-008 todos surface" as C8
-  component "COMP-012 persistence" as C12
-  component "COMP-009 caller resolution" as C9
-  component "COMP-010 rate limiter" as C10
-  component "COMP-011 validation" as C11
-  component "COMP-016 migrator" as C16
-  component "COMP-014 ServiceDefaults" as C14
-  component "COMP-006 shared contracts" as C6
-  component "COMP-003 todo forwarder" as C3
-}
-
-package "What the delivery does NOT answer" {
-  component "Performance targets\nPE-002 — not stated" as G1
-  component "Concurrency and scale\nPE-003 · PE-004 — not stated" as G2
-  component "Availability, RTO, RPO\nRE-006 — not stated" as G3
-  component "Session lifetime\nPE-006 — not stated" as G4
-  component "Lost-update protection\nFN-011 — absent" as G5
-  component "Verification of the BFF\nSU-001 — 0 tests" as G6
-}
-
-Q1 --> T1
-Q2 --> T2
-Q3 --> T3
-Q4 --> T4
-Q5 --> T5
-Q6 --> T6
-Q7 --> T7
-
-T1 --> C8
-T1 --> C12
-T2 --> C9
-T3 --> C10
-T4 --> C11
-T5 --> C16
-T6 --> C14
-T7 --> C6
-T7 --> C3
-
-note right of G1
-  These are not gaps a later design fills: no file in the
-  delivery states a figure, so no tactic can be judged
-  sufficient. They are recorded as not established, not as
-  work in hand.
-end note
-note bottom of G5
-  The statement-per-operation shape removes the read-then-write
-  gap, and it removes it in a way that also removes the
-  concurrency check. Making the write conditional needs a
-  declared requirement, not a design decision (FN-011).
-end note
-@enduml
-```
-
 | Attribute | Requirement it serves | How the architecture serves it | Where it fails or is silent |
 |---|---|---|---|
 | Security — isolation | FN-001, RE-002 | Owner predicate inside every statement; `404` for another owner's item, so the answer never discloses existence | No test covers the BFF side of the identity boundary (SU-001) |
@@ -1011,14 +928,15 @@ end note
 | Reliability — rejection | RE-008 | Problem details naming the failing member | Only the body types a group names are validated; `UserInfo` is not (BR-032) |
 | Reliability — start-up | RE-004 | The migration runs before the API starts | The assembled topology has never been run (AN-020) |
 | Supportability — observability | SU-005 | One telemetry path in a shared layer; probes mapped | No dashboard, metric, alert, runbook or manual exists (SU-005, SU-007) |
-| Modifiability | AN-013, UC-006 High | The DTO library and the forwarder are the only cross-host couplings | The browser-facing half has changed most and is verified least: 43 commits against the API's 10 (AN-013) |
+| Modifiability — inside one web project | AN-013, UC-006 High | `Todo.Web.Server` and `Todo.Web.Client` both reference `Todo.Web.Shared`, so a DTO change in the web half lands on both or on neither | — |
+| Modifiability — across the host boundary | AN-013 | The forwarder is the only runtime coupling and carries bytes, not types | **The wire shape is declared twice.** `Todo.Api` references no shared library and carries its own `TodoItem`, `UserInfo` and `ExternalUserInfo`, so a change on one side breaks the other at run time with no compile error (ADR-011, CON-A10) |
+| Build reproducibility | AN-006, CON-A01 | Every package version is pinned once at the solution root and no project file carries one | The SDK pin is unenforced: the CI workflow passes no `dotnet-version`, so green does not evidence `9.0.100` (AN-006, CON-A11) |
 | Performance | PE-002 … PE-005 | — | Not established. No target, no measurement, no declared concurrency |
 | Availability | RE-006 | — | Not established. No RTO, RPO, backup or restore statement |
 | Concurrency correctness | FN-011 | Single statements remove the read-then-write gap | No version check exists on update: two saves overwrite silently (BR-036) |
 | Accessibility, localisation | US-005, US-006 | — | Not stated by the delivery; the checkbox's `aria-label` is a literal ellipsis |
 
 **What this table is for.** It is the boundary of what the architecture may be credited with. Every row in the upper half is a tactic the code implements and this document verified by reading it. Every row in the lower half is an attribute the delivery states no requirement for, and no architecture can be judged against a requirement that does not exist.
-
 ## Traceability
 Each component realizes the use cases whose path through the code it carries, confirmed in `## Use-Case View`. An edge is written once, in the row of its more concrete end: a component that realizes a use case, and a component that depends on another. Five components carry no use case — COMP-014, COMP-015, COMP-016, COMP-017 and COMP-018. They have no upstream and none is composed for them: their source is the anchor cited where each is described, and they carry only the `DependsOn` edges below.
 
