@@ -363,7 +363,6 @@ A Conditional would advance the phase while the conditions were discharged later
 Ten findings against nine artifacts: 0 Critical, 3 Major, 7 Minor. The three Majors are one defect class — a suspect trace link still open at phase close — and each is recorded against the artifact whose trace table fails to carry it.
 
 ```plantuml
-@plantuml
 @startuml
 title Annotated trace chain - where the three Major findings sit, and the suspect links the phase closes with
 skinparam shadowing false
@@ -428,7 +427,6 @@ note bottom of DC
   the defect it fixed.
 end note
 @enduml
-@enduml
 ```
 
 #### Use-Case Model
@@ -450,7 +448,7 @@ end note
 | Checklist item | Result |
 |---|---|
 | Every mechanism an `<<include>>`, never a use case | Pass — eleven `SS-NNN`, each naming the use cases that include it |
-| Every threshold a figure some file states | Pass — the rate-limit budget, the queue depth, the token bucket; each cites `RateLimitExtensions.cs` or the Development settings |
+| Every threshold a figure some file states | Pass — the rate-limit budget and queue depth cite `RateLimitExtensions.cs` and the Development settings |
 | What the delivery does not establish recorded as such | Pass — `PE-002`…`PE-006`, `RE-005`…`RE-007`, `SU-007` and `ST-008` each read "not established by the delivery" rather than inventing a target |
 | Exclusions carried with their entry points and their mechanism's surviving home | Pass — `EX-001`, `EX-002`, `EX-003`, each anchored and each naming where the mechanism still lives |
 | Interface identifiers belong to a declared family | **Fail** — `Supplementary Specification#F1` |
@@ -505,7 +503,7 @@ end note
 
 | Checklist item | Result |
 |---|---|
-| Every high-consequence row rests on a file that says what it claims | Pass — five of the six anchors this review opened are this artifact's, all confirmed |
+| Every high-consequence row rests on a file that says what it claims | Pass — five of the seven anchors this review opened are this artifact's, all confirmed |
 | Coverage reconciles with its own rows; every unread file carries a reason | Pass — 83 of 138 read, 55 unread, each named with its reason; the aggregate stated as the sum of the Read column |
 | No top-level area of the tree neither described nor declared unread | Pass — eighteen rows, every area of the repository accounted for |
 | Each exclusion traced to the stakeholder's answer; no use case from an excluded entry point | Pass — `EP-004`…`EP-011`, `EP-020`, `EP-021` |
@@ -556,7 +554,6 @@ No defect from this lens. The register's acceptance section no longer contradict
 No defect from this lens.
 
 ```plantuml
-@plantuml
 @startsalt
 title Compliance matrix - technical lens, AR / Excavation iteration 1
 {
@@ -586,7 +583,6 @@ title Compliance matrix - technical lens, AR / Excavation iteration 1
   }
 }
 @endsalt
-@enduml
 ```
 
 ### Management Reviewer lens
