@@ -3,7 +3,6 @@
 - Status: Draft — issued for the end-of-Survey milestone review
 - Milestone Target: end of Survey (SBC) — not yet achieved
 ## Tailoring Overview
-
 This Development Case is an **override delta** over the IARI DC baseline. The 26-role roster, the 16 CORE artifacts, the 6 OPTIONAL artifacts, primary ownership and the intensity matrix are taken as given and are not repeated here. Only what this project does differently is recorded.
 
 Four facts drive every tailoring decision below.
@@ -21,6 +20,7 @@ title Delivery arc — sprint zero reads the existing system, then the RUP phase
 |Environment|
 start
 :Development Case — Survey tailoring;
+:Version policy recorded from the repository pins;
 |Discovery|
 :System Inventory — Documentation;
 :System Inventory — Perimeter;
@@ -29,13 +29,13 @@ start
 |Review|
 :Milestone review SBC;
 |Requirements|
-:Vision · Use-Case Model (UC-NNN from EP-NNN);
+:Vision · Use-Case Model — UCs recovered from EP-NNN;
 :Business Rules in the use-case flows;
 |Analysis & Design|
-:Software Architecture Document (COMP-NNN);
-:Design Model · Data Model (TBL-NNN);
+:Software Architecture Document — COMP-NNN;
+:Design Model incl. the persistent schema;
 |Discovery|
-:System Inventory — Anomalies (AN-NNN);
+:System Inventory — Anomalies — AN-NNN;
 |Project Management|
 :Risk List · Iteration Plan;
 |Review|
@@ -45,6 +45,7 @@ start
 :Supplementary Specification;
 |Analysis & Design|
 :SAD — Components · Mechanisms · Use-Case View;
+:Deployment Model;
 |Discovery|
 :System Inventory — History and Coverage;
 |Project Management|
@@ -54,7 +55,6 @@ start
 note right: Sprint zero ends — Discovery goes inactive.\nInception re-prepares the Development Case.
 |Environment|
 :Development Case — Inception tailoring;
-:record_version_policy;
 |Requirements|
 :Vision · Use-Case Model · Supplementary Specification;
 |Analysis & Design|
@@ -64,7 +64,7 @@ note right: Sprint zero ends — Discovery goes inactive.\nInception re-prepares
 |Analysis & Design|
 :Architecture Baseline;
 |Environment|
-:Development Case — Elaboration tailoring (last tailoring on Environment);
+:Development Case — Elaboration tailoring — the last one on Environment;
 |Implementation|
 :Executable Architecture;
 |Test|
@@ -98,7 +98,7 @@ stop
 | DC-D3 | No capsule, protocol or signal modelling. `real-time-system = false`. | Fact 3. |
 | DC-D4 | Recovered elements are anchored, not guessed. A recovered use case cites the entry point that performs it (`Source: EP-NNN`); a recovered element that is neither declared nor read from code is not created. Where the perimeter ends and the code is silent, the System Inventory records the gap as an open question against the Archaeologist. | Fact 1 — the authors cannot be asked. |
 | DC-D5 | `Deployment Model` is triggered; the other five OPTIONAL artifacts are not. | Section 5. |
-| DC-D6 | The version policy is recorded from the repository's own pins (framework, SDK and the centrally managed package versions) — no version is invented and nothing is upgraded as part of this project. | Fact 2, `global.json`, `Directory.Build.props`, `Directory.Packages.props`. |
+| DC-D6 | The version policy is formalized from what the repository itself pins — the framework target, the SDK floor and every centrally managed package version. It is recorded in Survey, because the pins are readable from the existing system before any phase decision; nothing is upgraded or downgraded as part of this project. | Fact 2, `global.json`, `Directory.Build.props`, `Directory.Packages.props`. |
 | DC-D7 | Artifacts are evolved in place, never regenerated: a role reads its own artifact and the sections it depends on, and upserts section-scoped. | Cost of re-reading the artifact surface, not size of the code, dominates agent spend in this process. |
 
 ## Disciplines and Intensity
