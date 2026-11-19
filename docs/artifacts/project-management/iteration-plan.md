@@ -243,16 +243,18 @@ Survey's output is the material the recovery is built on: 26 entry points record
 | `AN-001` … `AN-020` | The anomalies each recovered element must not reproduce — R001 to R020 in the Risk List. |
 
 ## Evaluation Criteria
-
 The Survey (SBC) exit criteria. They are what the milestone review judges this iteration against; none is met by assertion, and none is this plan's to declare passed.
 
 | # | Criterion | Evidence it rests on | Status |
 |---|---|---|---|
-| 1 | The perimeter of the existing system is **confirmed by the stakeholder** — the seven projects, the components, the external systems, and the three exclusions. | System Inventory, Perimeter; stakeholder's answer to the gate | **Open** — the gate is running; the Archaeologist's two questions were answered on 2026-11-19, the perimeter as a whole has not been |
+| 1 | The perimeter of the existing system is **confirmed by the stakeholder** — the seven projects, the components, the external systems, and the three exclusions. | System Inventory, Perimeter; stakeholder's answer to the gate | **Open** — the three exclusions were decided by the stakeholder on 2026-11-19; the perimeter as a whole has not been confirmed |
 | 2 | The **priorities are ordered** for the remaining recovery. | System Inventory, Priorities — eight areas, each with its reason and anchor | Met — recorded |
 | 3 | The **unread areas are declared** with the reason each is unread. | System Inventory, Coverage — 71 of 128 files read; the 57 unread named and justified | Met — recorded |
-| 4 | Every anomaly the reading recorded is a **classified risk** with a strategy, and the High ones carry the stakeholder's acceptance. | Risk List — 20 anomalies, 20 risks, magnitude by exposure | **Open** — all 20 are scored; R008, R009 and R020 await the stakeholder's grant |
+| 4 | Every anomaly the reading recorded is a **classified risk** with a strategy, and the High ones carry the stakeholder's acceptance. | Risk List — 20 anomalies, 20 risks, magnitude by exposure; R008, R009 and R020 accepted by the stakeholder on 2026-11-19, recorded verbatim | Met — recorded |
 | 5 | The tailoring governing the sprint zero is issued and its trigger decisions are recorded. | Development Case — §4 decision record DC-D1…DC-D7, §5 optional verdicts | Met — issued |
 | 6 | The plan carries the **cross-iteration roadmap** and this iteration's fine plan, with no forecast invented before a measured actual exists. | This artifact, Plan and Milestones | Met — issued |
 
+Criterion 1 is the one SBC turns on. Criteria 2–6 rest on artifacts that are issued; the review judges whether they are adequate, which is not this plan's call.
+
 No criterion is added that the stakeholder did not declare: criteria 1, 2 and 3 are Survey's exit criteria as the process defines them, and 4–6 are the obligations this plan carries to the review. A criterion failing at SBC does not close the milestone — it returns to the next iteration of Survey, whose plan is the Review Record's open findings and the stakeholder's orders.
+
