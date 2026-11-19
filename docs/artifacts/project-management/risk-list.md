@@ -250,5 +250,10 @@ No risk is re-scored and no acceptance is re-requested: the decision changes whe
 | R019 | AN-019 | Refines | — |
 | R020 | AN-020 | Refines | — |
 | R021 | — | — | — |
+| R022 | AN-021 | Refines | — |
+| R023 | AN-022 | Refines | — |
+| R024 | AN-023 | Refines | — |
+| R025 | AN-024 | Refines | — |
 
 R021 refines no anomaly: it is the project's own exposure — a human gate unanswered past its ceiling — not a reading of the existing system, and it therefore has no upstream end.
+
