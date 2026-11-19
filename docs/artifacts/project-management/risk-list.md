@@ -90,12 +90,12 @@ end note
 | Magnitude | Count | Risks |
 |---|---|---|
 | High | 3 | R008, R009, R020 — acceptance granted by the stakeholder on 2026-11-19 |
-| Significant | 10 | R003, R004, R005, R006, R007, R012, R015, R017, R018 — avoidance; R021 — acceptance offered to the stakeholder this round |
+| Significant | 10 | R003, R004, R005, R006, R007, R012, R015, R017, R018 — avoidance; R021 — acceptance granted by the stakeholder on 2026-11-19 |
 | Moderate | 7 | R001, R002, R010, R011, R013, R014, R019 |
 | Minor | 1 | R016 |
 | Low | 0 | — |
 
-Of the ten Significant risks, nine are handled by avoidance, each naming the action and the role that performs it. The tenth, R021, is accepted and its acceptance is not the Project Manager's to grant: it is open until the stakeholder answers, and it is not counted as closed.
+Of the ten Significant risks, nine are handled by avoidance, each naming the action and the role that performs it; the tenth, R021, is accepted, and that acceptance was put to the stakeholder and granted. Every High and Significant risk in this register is therefore either avoided by a named action or accepted on the stakeholder's own answer — none is open, and none was self-granted.
 ## Risk Register
 | ID | Risk | AN | P | I | Exposure | Magnitude | Strategy |
 |---|---|---|---|---|---|---|---|
