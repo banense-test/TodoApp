@@ -18,7 +18,6 @@ Survey is iteration 1 of the sprint zero. It runs on a system nobody here wrote 
 The three stakeholder decisions of 2026-11-19 already taken — external identity-provider sign-in out of scope, the `admin` role as dead code, the self-service identity surface out — are **inputs** to this iteration, not objectives of it. Every one of them is recorded as an exclusion in the System Inventory's Perimeter and carried into R002, R010, R014 and R019.
 
 ## Plan and Milestones
-
 ### Coarse roadmap — sprint zero then the RUP phases
 
 `6 ± 3` iterations across the project; the sprint zero adds no milestone of its own to the RUP sequence — it runs before Inception and produces the material Inception builds on. The sequence below is the cross-iteration horizon this plan commits to; nothing beyond the current iteration is planned in detail.
@@ -99,11 +98,13 @@ Work items are the stages the IARI DEVELOPMENT PROCESS runs in Survey, each owne
 | 2 | System Inventory — Documentation | Software Archaeologist | The delivered documents, read against the code | Each document's usefulness and currency recorded with its anchor | Done — issued |
 | 3 | System Inventory — Perimeter | Software Archaeologist | The solution, its projects, configuration and migrations | Components, external systems and 26 entry points drawn, each with its anchor | Done — issued |
 | 4 | System Inventory — Anomalies and Priorities | Software Archaeologist | The reading of 71 of 128 files | Twenty anomalies recorded with evidence; the eight areas ordered for Excavation | Done — issued |
-| 5 | Risk List — score, strategy, escalate | Project Manager | The twenty anomalies | Every anomaly a classified risk; the three High acceptances put to the stakeholder | Done — issued |
+| 5 | Risk List — score, strategy, escalate | Project Manager | The twenty anomalies | Every anomaly a classified risk; the three High acceptances put to the stakeholder and answered | Done — R008, R009 and R020 accepted 2026-11-19 |
 | 6 | Iteration Plan — this artifact | Project Manager | System Inventory, Development Case, Risk List | Coarse roadmap and fine plan issued | Done — issued |
-| 7 | Stakeholder gate — perimeter confirmation and High-risk acceptance | Stakeholder | The Risk List and the System Inventory Perimeter | Perimeter confirmed; R008, R009 and R020 granted or refused | **Open — human gate, running** |
+| 7 | Stakeholder gate — perimeter confirmation | Stakeholder | System Inventory, Perimeter | The perimeter confirmed as drawn — seven projects, the components, the external systems and the three exclusions | **Open — human gate, running** |
 | 8 | SBC milestone review | Reviewer → Management Reviewer → Review Coordinator | Every artifact above | Verdict on the SBC milestone | Not started — blocked on item 7 |
 | 9 | Iteration Assessment | Project Manager | The SBC verdict | Assessment written *after* the verdict records whether the objectives were met | Not started — blocked on item 8 |
+
+Items 1–6 are the agent stretches of this iteration and are issued. Item 7 is the human gate: the High-risk acceptances it carried were answered on 2026-11-19, and what remains open on it is the stakeholder's confirmation of the perimeter itself.
 
 ```plantuml
 @startgantt
@@ -116,7 +117,7 @@ skinparam shadowing false
 [System Inventory — Anomalies and Priorities] lasts 1 day
 [Risk List — score, strategy, escalate] lasts 1 day
 [Iteration Plan] lasts 1 day
-[Stakeholder answer — perimeter confirmation and High-risk acceptance] lasts 1 day
+[Stakeholder gate — perimeter confirmation] lasts 1 day
 [SBC milestone review — Reviewer to Management Reviewer to Review Coordinator] lasts 1 day
 [Iteration Assessment — written after the verdict] lasts 1 day
 
@@ -125,17 +126,17 @@ skinparam shadowing false
 [System Inventory — Anomalies and Priorities] starts at [System Inventory — Perimeter]'s end
 [Risk List — score, strategy, escalate] starts at [System Inventory — Anomalies and Priorities]'s end
 [Iteration Plan] starts at [Risk List — score, strategy, escalate]'s end
-[Stakeholder answer — perimeter confirmation and High-risk acceptance] starts at [Iteration Plan]'s end
-[SBC milestone review — Reviewer to Management Reviewer to Review Coordinator] starts at [Stakeholder answer — perimeter confirmation and High-risk acceptance]'s end
+[Stakeholder gate — perimeter confirmation] starts at [Iteration Plan]'s end
+[SBC milestone review — Reviewer to Management Reviewer to Review Coordinator] starts at [Stakeholder gate — perimeter confirmation]'s end
 [Iteration Assessment — written after the verdict] starts at [SBC milestone review — Reviewer to Management Reviewer to Review Coordinator]'s end
 
-[SBC] happens at [Stakeholder answer — perimeter confirmation and High-risk acceptance]'s end
+[SBC] happens at [Stakeholder gate — perimeter confirmation]'s end
 
 note bottom
   Bar length carries ordering only. No stage here has been measured,
   so no bar is a forecast of its duration: each stage ends when its
   exit condition passes.
-  The stakeholder answer is a human gate — days of queue time, ceiling
+  The stakeholder gate is a human wait — days of queue time, ceiling
   14 before the process suspends. It is a risk, never a forecast.
 end note
 @endgantt
