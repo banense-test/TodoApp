@@ -43,40 +43,66 @@
 
 ## Review Scope and Criteria
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-<!-- review: Survey I2 -->
+The AR question is whether the recovered artifacts rest on the code they cite. Excavation is the second and last phase of the sprint zero, and it produces no code, no build and no test — so this lens asks a narrower question than a Construction review would: for each element an artifact declares, does the file it names say what the element claims, and does the trace chain hold what the artifacts assert about it.
 
-The SBC question is unchanged: is the material the whole recovery will rest on adequate? What changed is the subject of this pass. Iteration 2 is a correction pass, so the lens asks two things — whether each of the seven Major findings the previous pass recorded was in fact corrected, and whether the corrected content introduced a defect the correction itself created. Nothing was built in this iteration either: no code, no pull request, no build, so both questions are evidence questions.
-
-| Artifact | Author | Checklist applied | Version reviewed |
-|---|---|---|---|
-| Development Case | Process Engineer | DC baseline conformance; optional-trigger justification; existence and validity of every referenced path; convention content with no file declared as such | Survey, Draft, corrected in iteration 2 |
-| System Inventory | Software Archaeologist | Anchor verification — each high-consequence row opened against its file; Coverage arithmetic; internal consistency between Perimeter and anomalies; no use case claimed from an excluded entry point | Survey, Draft, corrected in iteration 2 |
-| Risk List | Project Manager | Magnitude the band of probability × impact on the declared scale; every anomaly scored; acceptance verbatim for each High and Significant risk and consistent wherever the register restates it; every owning role at work in the phase its action lands in | Survey, Draft, corrected in iteration 2 |
-| Iteration Plan | Project Manager | One committed total; no forecast before a measured actual; no span a reader can sum on any gate; the roster accounted for; no verdict the plan has no standing to give; each section stating its content once | Survey, Draft, corrected in iteration 2 |
-
-#### What was opened, not merely read
-
-The three anchors the corrected Perimeter claims rest on were opened this iteration and read against the claim. Each is the anchor for a statement that changed in the correction, so a claim that survived re-reading survives the whole set:
-
-| Anchor opened | Claim it carries | Verdict |
+| Artifact | Author | Checklist applied |
 |---|---|---|
-| `Todo.Api/Users/UsersApi.cs` | `MapIdentityApi<TodoUser>()` publishes the stock identity surface; the custom `/users/token/{provider}` is the only endpoint added beside it | Confirmed — the seven self-service operations and the provider endpoint are as the Perimeter draws them |
-| `Todo.Web/Server/AuthClient.cs` | Three calls only — `users/register`, `users/login`, `users/token/{provider}` — and no refresh call | Confirmed — `EP-003` has no caller, so no use case is recoverable from it |
-| `Todo.Web/Server/Authentication/TokenNames.cs` | `AccessToken = "accessToken"` is the only token name the BFF holds | Confirmed — no refresh token is stored, so none can be redeemed |
+| Vision | System Analyst | Every claim anchored or marked not established; recoveries cite `EP-NNN` rather than a declared requirement; no business objective invented; exclusions held |
+| Use-Case Model | System Analyst | Every `UC-NNN` cites its `Source: EP-NNN`; cross-cutting mechanisms held out of the model; one actor's goal is one use case; business rules cite their enforcement point; trace rows against the matrix |
+| Supplementary Specification | System Analyst | Every mechanism an `<<include>>` rather than a use case; every threshold a figure some file states; every unmet or unstated requirement recorded as such, not invented |
+| Software Architecture Document | Software Architect | Every `COMP-NNN` cites the files it is read from; every component on a use-case path realizes it; only declared technology and versions; trace rows against the matrix |
+| Deployment Model | Software Architect | Trigger genuinely holds; every node and connector anchored; no environment declared that no file names |
+| Design Model | Designer, Database Designer | Every `ACL-NNN`/`CLS-NNN`/`TBL-NNN` anchored; every table, key, index and cascade read from a migration body; co-owned sections intact; trace rows against the matrix |
+| System Inventory | Software Archaeologist | Anchor verification — every high-consequence row opened against its file; coverage reconciles with its own rows; no area of the tree left neither described nor declared unread; anomalies current with the artifact set |
+| Risk List | Project Manager | Magnitude the band of P × I on the declared scale; every anomaly scored; every acceptance in the stakeholder's words; every action owned by a role at work where it lands |
+| Iteration Plan | Project Manager | One committed total; no forecast before a measured actual; no duration on a gate; the roster accounted for; no figure contradicting the artifact it summarises |
 
-The two other anchors the earlier pass's claims rest on were not re-opened: their claims did not change in this correction, and re-reading a file to confirm an unaltered sentence is spend without a delta.
+#### What was opened, not merely taken on trust
+
+Seven anchors were opened through the SCM and read against the claim the artifact makes over them. Each was chosen because a statement downstream depends on it:
+
+| Anchor opened | The claim it carries | Verdict |
+|---|---|---|
+| `Todo.Web/Client/Components/TodoList.razor` | The checkbox carries no `@bind` and no `@onchange`, so completion has no screen path (`AN-008`, `R008`, `UC-006` A4) | **Confirmed** — `<input type="checkbox" value="" aria-label="..." />`, no binding, no handler |
+| `Todo.Web/Server/Authentication/TokenNames.cs` | `accessToken` is the only token name the BFF holds, so no refresh token is stored (`BR-006`, `AN-015`) | **Confirmed** — one static field, `AccessToken = "accessToken"` |
+| `Todo.Api/Users/UsersApi.cs` | The `/users` group carries no authorization and no limiter; `WithParameterValidation` names `ExternalUserInfo` only, never `UserInfo` (`BR-031`, `BR-032`, `AN-011`, `AN-018`) | **Confirmed** — no `RequireAuthorization` on the group, the S2S `TODO` in place, one `WithParameterValidation(typeof(ExternalUserInfo))` |
+| `TodoApp.AppHost/Extensions.cs` | The schema gate creates `.db` and only then registers the migration, so a failed first start leaves later starts applying no schema (`AN-021`) | **Confirmed** — `Directory.CreateDirectory` inside the `if`, `AddEfMigration` registered only in that branch |
+| `Todo.Api/Todos/TodoApi.cs` | Ownership is a predicate inside the statement; the admin disjunct is dead (ADR三是-003, `BR-017`, `BR-022`, `AN-010`) | **Confirmed** — `owner.IsAdmin` at lines 33, 59, 69; `ExecuteUpdateAsync` / `ExecuteDeleteAsync` with the owner predicate in the same statement |
+| `Directory.Packages.props` | The single home of every package version, no project file carrying one (`CON-A08`, ADR-012) | **Confirmed as to the pin; count disputed** — 30 `PackageVersion` rows, not the 27 two artifacts report |
+| `Todo.Web/Client/TodoClient.cs` | Six methods, none of them an update call (`AN-008`, COMP-005) | **Confirmed as to the absence; count disputed** — six public methods, not the five the SAD's COMP-005 row states |
 
 #### What was checked as notation, not as illustration
 
-Both gantt diagrams and the state machine were read as UML rather than as pictures. The two gantts carry a `lasts` declaration on every bar because PlantUML requires one, and every one of them reads zero — so the notation is valid while no bar states a duration a reader can sum. The state machine's transitions carry their guards. The Coverage and Perimeter diagrams type their components and label each dependency with its mechanism; the Risk List's handling diagram states the scale, the band arithmetic and the acceptance rule. None is a prose summary drawn as arrows.
+Every artifact of this phase carries at least one UML or PlantUML diagram, and each was read as notation. The three use-case-view sequence diagrams name real lifelines (`COMP-001` … `COMP-012`), real message names (`GetTodosAsync`, `CreateUserAsync`, `StoreTokens`) and carry numbered branches for the failure paths: an informal sketch drawn as arrows would have failed here and none did. The Design Model's state machine for `CLS-001` carries guards on every transition and records in a note that one transition no delivered screen can drive. The class diagrams carry multiplicities and stereotypes. The two risk diagrams state the scale arithmetic rather than describing it. No diagram in this set is decoration.
+
+#### Trace verification against the matrix
+
+The RTM at this milestone carries **269 links at 54 % coverage**, and four groups are marked SUSPECT, each of which must clear or be decided before the phase closes:
+
+| Suspect link | Target role | What it means |
+|---|---|---|
+| `UC-001`, `UC-002`, `UC-004`, `UC-005`, `UC-007` → `COMP-006` `Realizes` | System Analyst | Five realization edges into the Use-Case Model that the use-case artifact itself never confirms |
+| `AN-003` → `R003` `Refines` | Software Archaeologist | One end of the link changed when the Development Case was corrected; the anomaly did not follow |
+| `CLS-011` → `TBL-007` `Specifies` | Designer | A table whose only writer sits on an excluded entry point |
+| `TBL-007` → `20221123071234_Initial.cs` `Generates` | Implementer | A role that does not work in the sprint zero, so waiting cannot clear it |
+
+The remaining rows of the matrix were checked against the artifacts' own trace tables and agree: the eight use cases each carry their `EP-NNN` origins, the eighteen components carry their `Realizes` and `DependsOn` edges, the eight tables carry their `Specifies` edges, and the twenty-five risks each carry their `Refines` edge from an anomaly or stand on their own as `R021` does.
 
 #### SCM evidence
 
-`scm_list_pull_requests` in any state returns nothing: there is no scaffolding to approve, no code to request changes on, and nothing to defer out of phase. That is correct for a phase that writes no code, and it is recorded here so no later reader mistakes the absence for an unexamined surface. `scm_get_build_status("main")` reports no IARI pipeline, correct for an iteration that builds nothing. No pull request, build, execution result, test count or duration is cited anywhere in this block, because none exists to cite.
+`scm_list_pull_requests` in any state returns nothing: Excavation runs no implementation stage, so there is no scaffolding to approve, no code to request changes on, and nothing to defer out of phase. `scm_get_build_status("main")` reports no IARI pipeline, correct for a phase whose plan records that it "writes no code, deploys nothing and runs no test". No pull request, build status, execution result, test count or duration is cited in this block, because none exists to cite.
 
-Entry criteria for this review: the four artifacts in their corrected state — held; the prior findings available with their resolutions — held; the checklists per artifact type prepared before reading — held; the artifacts available in full to every lens — held.
+#### Entry criteria applied
+
+| Entry criterion | Held? |
+|---|---|
+| Every artifact of the phase present and in a reviewable state | Yes — nine Excavation artifacts, each Draft and issued for this review |
+| Prior finding ledger readable with resolution state | Yes — `read_artifact_findings` on all twelve project artifacts |
+| A checklist prepared per artifact type before reading | Yes — the nine above, fixed before the first artifact was opened |
+| Upstream artifacts available: Development Case, System Inventory, Risk List, Iteration Plan | Yes — the Development Case's optional-trigger table was read before the Deployment Model was judged |
+| The stakeholder's decisions of 2026-11-19 available as scope authority | Yes — three exclusions and four acceptances, each carried in the artifacts |
 
 ### Management Reviewer lens
 <!-- review: Survey I2 -->
