@@ -9,6 +9,17 @@
 - Reviewed: Development Case, System Inventory, Risk List, Iteration Plan — all Survey, Draft, iteration 1
 - SCM evidence: no pull request in any state; no IARI build on `main`
 
+### Management Reviewer lens
+<!-- review: Survey I1 -->
+
+- Phase: Survey
+- Status: Draft — management lens of the end-of-Survey milestone review
+- Milestone Target: end of Survey (SBC) — not achieved
+- Review type: Milestone review (SBC), management lens
+- Reviewed: Development Case, System Inventory, Risk List, Iteration Plan — all Survey, Draft, iteration 1
+- Verdict: No-Go on the SBC milestone
+- Stakeholder sanction: REFUSED
+
 ## Review Scope and Criteria
 ### Reviewer lens
 <!-- review: Survey I1 -->
