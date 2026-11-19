@@ -508,6 +508,10 @@ Every project of the solution, every C# source outside the generated snapshots, 
 
 **What the read count does not measure.** File coverage is not behavioural coverage. The 47 unread static assets and the one unread generated using-file mean nothing for the perimeter, while the single file `Todo.Web/Server/TodoApi.cs` — read — carries the forwarder that every todo request crosses and that no test exercises (AN-009). Coverage above counts files opened; it does not and cannot count what has been proved.
 ## Traceability
+Every entry point and anomaly this inventory declares, with where it comes from and what it depends on. An entry point is recovered from the code and has no upstream: its row carries the anchor cited where it is described, and `Traces From` stays empty rather than naming an identifier this inventory has no standing to compose. An anomaly's upstream is none — it is read from the code and from the history — and its `Traces To` names the entry points whose behaviour it changes, written by the anomaly because the anomaly is the end that depends on them.
+
+`AN-003`, `AN-004`, `AN-005`, `AN-006`, `AN-007`, `AN-013` and `AN-024` sit on no entry point: they describe the delivery, the build environment or the shape of the repository's own history rather than the behaviour of a service operation, so no `DependsOn` edge is composed for them.
+
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
 | EP-001 | — | — | — |
@@ -559,3 +563,4 @@ Every project of the solution, every C# source outside the generated snapshots, 
 | AN-021 | — | DependsOn | EP-026 |
 | AN-022 | — | DependsOn | EP-026 |
 | AN-023 | — | DependsOn | EP-012, EP-014, EP-017, EP-018, EP-022 |
+| AN-024 | — | — | — |
