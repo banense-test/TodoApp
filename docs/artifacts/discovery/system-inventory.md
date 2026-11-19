@@ -335,67 +335,12 @@ end note
 | AN-019 | Seven identity operations the API publishes have no caller in the delivered product and no transport behind the codes two of them generate: account-information read, account-information update, two-factor management, email confirmation, confirmation reissue, password-reset request and password reset. The browser client's whole surface is register, login, logout and list/create/delete a todo, and the login form renders two buttons and a provider list. The stakeholder decided on 2026-11-19 that this self-service identity surface is out of the recovered product scope, recorded as an exclusion beside the external-provider one: no use case is recovered from `EP-004` to `EP-010`, and an operation the API publishes does not by itself make a use case — it needs an actor able to reach it. Those entry points remain in the Perimeter with their anchors. | Missing from the delivery | `Todo.Api/Users/UsersApi.cs:12,20` (`MapIdentityApi<TodoUser>`); `Todo.Web/Server/AuthClient.cs:3-46`; `Todo.Web/Server/AuthApi.cs:14-38` (only register and login reach `/users`); `Todo.Web/Client/TodoClient.cs:7-71`; `Todo.Web/Client/Components/LogInForm.razor:1-20`; stakeholder decision, 2026-11-19 | likely | moderate |
 | AN-020 | The assembled system has never been run: no deployment, no production data and no users exist, and the only executable proof in the delivery boots `Todo.Api` alone in-process against an in-memory database, with the data-protection provider replaced rather than read from disk. Nothing has ever exercised the AppHost ordering, service discovery by name, the YARP forwarder, the shared key ring, the migration operation or the sqliteweb container. Every statement this inventory makes about that half is a static reading, and a first run may contradict any of them. | Missing from the delivery | `.iari/README.md:12-13`; `TodoApp.AppHost/Program.cs:3-27`; `Todo.Api.Tests/TodoApplication.cs:31-56` (`EphemeralDataProtectionProvider`, `Filename=:memory:`, `WebApplicationFactory<Program>`); `.github/workflows/ci.yaml:18-20` (`dotnet test` over the solution is the whole of what runs) | likely | high |
 ## Priorities
-```plantuml
-@startuml
-title Order in which the next stage reads the recovered system
-skinparam defaultTextAlignment left
-
-|#LightBlue|Reading order|
-start
-:1 · Todo.Api/Todos + Todo.Api/Users\nEverything a user does arrives here; the only\narea with automated proof. Ownership — one\ntodo, one owner — is settled here and every\nlater reading depends on it.;
-note right
-  EP-012 … EP-016, EP-001 … EP-011
-  AN-019 the identity surface is wider
-  than the screens that use it
-  AN-014 no email transport behind it
-end note
-
-:2 · Todo.Web/Server — the BFF\nIdentity for the delivered product is decided\nhere: cookie in, bearer out. Least verified,\nmost changed.;
-note right
-  EP-017 … EP-023
-  AN-009, AN-012, AN-013, AN-015
-end note
-
-:3 · Todo.Api cross-cutting\nAuthorization, rate limiting, validation decide\nwhat a request may do before any handler runs.\nSupplementary Specification material, not cases.;
-note right
-  AN-010, AN-011, AN-018
-end note
-
-:4 · Todo.Web/Client — the screens\nA screen becomes a use case only once the\noperation behind it is known.;
-note right
-  EP-023
-  AN-008, AN-020
-end note
-
-:5 · Migrations and TodoDbContext\nSafe to read late — nothing authored since\n2023-07-14 — but the only place the schema exists.;
-note right
-  AN-004, AN-007
-end note
-
-:6 · AppHost + ServiceDefaults\nExplains the shape of the code; it gates the\nDeployment Model and gates no use case.;
-note right
-  AN-017
-end note
-
-:7 · Todo.Api.Tests\nEvidence of current behaviour, not a\nspecification — the cross-check on 1 and 2.;
-note right
-  AN-020
-end note
-
-:8 · Build, environment and tooling\nNothing about behaviour depends on it; it is\nthe only statement of how the solution is verified.;
-note right
-  AN-005, AN-006
-end note
-stop
-@enduml
-```
-
 | Order | Area | Why it comes first | Anchor |
 |---|---|---|---|
-| 1 | `Todo.Api/Todos` + `Todo.Api/Users` | The system's whole purpose sits in these two endpoint groups: everything a delivered screen can do arrives as one of them. They are the most stable code in the delivery (10 commits, no redesign of the surface) and the only part with automated proof of behaviour, so a use case recovered here is the best-supported one the sprint zero can produce. Recovering them first also settles the ownership rule — every todo belongs to exactly one user — that every other reading depends on. AN-019 is read *with* them rather than after: the identity surface publishes seven operations no delivered screen calls, and that fact changes which endpoints a use case may be recovered from, so it must be known while the surface is read, not discovered afterwards. | `Todo.Api/Todos/TodoApi.cs:8-77`; `Todo.Api/Users/UsersApi.cs:10-64`; `Todo.Api.Tests/TodoApiTests.cs:3-290`; `Todo.Api.Tests/UserApiTests.cs:6-170` |
-| 2 | `Todo.Web/Server` — the BFF (cookie auth, `/auth`, `/todos` forwarder) | This is where identity is actually decided for the delivered product: the browser holds a cookie the API never sees, and the forwarder re-signs each request with a bearer token. It is also the least verified code in the system (AN-009) and the area the history shows moving most (AN-013). Reading it second means the recovered use cases for registration, login and logout are anchored before any design work treats authentication as settled, and it is the only place AN-015 (no refresh path) can be confirmed, because the cookie the BFF writes is what fixes the session's lifetime. Its external-provider endpoints are read but excluded from recovery by the stakeholder decision of 2026-11-19. | `Todo.Web/Server/Program.cs:1-58`; `Todo.Web/Server/AuthApi.cs:12-128`; `Todo.Web/Server/TodoApi.cs:9-28`; `Todo.Web/Server/AuthClient.cs:3-46`; `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:12-100` |
+| 1 | `Todo.Api/Todos` + `Todo.Api/Users` | The system's whole purpose sits in these two endpoint groups: everything a delivered screen can do arrives as one of them. They are the most stable code in the delivery (10 commits, no redesign of the surface) and the only part with automated proof of behaviour, so a use case recovered here is the best-supported one the sprint zero can produce. Recovering them first also settles the ownership rule — every todo belongs to exactly one user — that every other reading depends on. The recovered surface is narrower than the published one: of the `/users` group the product uses registration, login and token refresh only, because the self-service identity operations are excluded (stakeholder, 2026-11-19). AN-019 is read *with* them rather than after, since it is what tells the next role which published endpoints no use case may be recovered from. | `Todo.Api/Todos/TodoApi.cs:8-77`; `Todo.Api/Users/UsersApi.cs:10-64`; `Todo.Api.Tests/TodoApiTests.cs:3-290`; `Todo.Api.Tests/UserApiTests.cs:6-170` |
+| 2 | `Todo.Web/Server` — the BFF (cookie auth, `/auth`, `/todos` forwarder) | This is where identity is decided for the delivered product: the browser holds a cookie the API never sees, and the forwarder re-signs each request with a bearer token. It is also the least verified code in the system (AN-009) and the area the history shows moving most (AN-013). Reading it second means the recovered use cases for registration, login and logout are anchored before any design work treats authentication as settled, and it is the only place AN-015 can be confirmed, because the cookie the BFF writes is what fixes the session's lifetime. Its external-provider endpoints are read but excluded from recovery by the stakeholder decision of 2026-11-19. | `Todo.Web/Server/Program.cs:1-58`; `Todo.Web/Server/AuthApi.cs:12-128`; `Todo.Web/Server/TodoApi.cs:9-28`; `Todo.Web/Server/AuthClient.cs:3-46`; `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:12-100` |
 | 3 | `Todo.Api` cross-cutting — authorization, rate limiting, validation, OpenAPI | Four mechanisms decide what a request is allowed to do before any handler runs, and each carries a recorded gap the next phase must not paper over: the admin branch is dead code with no grant path (AN-010), the credential endpoints carry no limiter (AN-011), and validation is attached per route group by declared type. They are Supplementary Specification material, not use cases, and they must be read before the use cases that include them are written. | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:8-40`; `Todo.Api/Authorization/CurrentUserExtensions.cs:8-35`; `Todo.Api/Extensions/RateLimitExtensions.cs:11-71`; `Todo.Api/Filters/ValidationFilter.cs:7-58`; `Todo.Api/Extensions/OpenApiOptionsExtensions.cs:7-47` |
-| 4 | `Todo.Web/Client` — the screens | The primary screens are two Razor components and their client. They are read fourth because a screen can only be recovered as a use case once the operation behind it is known, and because the visible gaps in the product are facts about this layer: completion cannot be changed from any screen (AN-008), and the client's whole reachable surface is four calls against eleven identity operations the API publishes (AN-019). Both have to be recorded before anyone treats an API endpoint as reachable by a user. | `Todo.Web/Client/Components/TodoList.razor:1-100`; `Todo.Web/Client/Components/LogInForm.razor:1-89`; `Todo.Web/Client/TodoApp.razor:1-44`; `Todo.Web/Client/TodoClient.cs:7-71` |
+| 4 | `Todo.Web/Client` — the screens | The primary screens are two Razor components and their client. They are read fourth because a screen can only be recovered as a use case once the operation behind it is known, and because the visible gaps in the product are facts about this layer: completion cannot be changed from any screen (AN-008), and the client's whole reachable surface is four calls — register, login, logout, and list/create/delete a todo. Both have to be recorded before anyone treats an API endpoint as reachable by a user. | `Todo.Web/Client/Components/TodoList.razor:1-100`; `Todo.Web/Client/Components/LogInForm.razor:1-89`; `Todo.Web/Client/TodoApp.razor:1-44`; `Todo.Web/Client/TodoClient.cs:7-71` |
 | 5 | `Todo.Api/Migrations` and `TodoDbContext` — the schema | The persistent structure is fully recoverable and completely stable (no authored migration since 2023-07-14), which makes it safe to read late — but it must be read before the Database Designer's stages, because the schema exists nowhere else (AN-004) and the `OwnerId` principal column changed once already. Reading it after the code that queries it means every recovered table is matched to a query that proves how it is used. | `Todo.Api/Migrations/20221123071234_Initial.cs:16-330`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:13-45`; `Todo.Api/TodoDbContext.cs:7-21`; `Todo.Api/Todos/Todo.cs:1-40`; `Todo.Api/Users/TodoUser.cs:7-10` |
 | 6 | `TodoApp.AppHost` + `TodoApp.ServiceDefaults` — orchestration and host configuration | The topology explains why the code is shaped as it is: two hosts, one forwarder, service discovery by name, a migration run before either host starts, and a key ring whose location no file states (AN-017). It gates the Deployment Model but no single use case, so it follows the functional areas — read too early it explains a code shape whose purpose is not yet known. | `TodoApp.AppHost/Program.cs:1-28`; `TodoApp.AppHost/Extensions.cs:3-38`; `TodoApp.ServiceDefaults/Extensions.cs:16-117` |
 | 7 | `Todo.Api.Tests` | Read as evidence of current behaviour, not as a specification: it proves ownership isolation and validation problem details on `/todos`, and token issue on `/users`, and it proves nothing about the BFF, the key ring or the assembled topology (AN-020). It is the cross-check on orders 1 and 2, which is why it can only be read meaningfully after them. | `Todo.Api.Tests/TodoApiTests.cs:3-290`; `Todo.Api.Tests/UserApiTests.cs:6-170`; `Todo.Api.Tests/TodoApplication.cs:10-95` |
