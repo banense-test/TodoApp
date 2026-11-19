@@ -187,25 +187,32 @@ start
 :System Inventory — Perimeter;
 :System Inventory — Anomalies and Priorities;
 note right
-  Priorities fix the order Excavation reads in.
-  They schedule nothing in Survey.
+  Priorities fix the order Excavation reads in
+  and, after the scope decision, how much of
+  them AR must have recovered. They schedule
+  nothing in Survey.
 end note
 
 |Project Manager|
 :Risk List — score probability and impact,
 set strategy, request acceptance for
 R008, R009 and R020;
-:Iteration Plan — coarse milestone roadmap
-and this iteration's work items;
+:Iteration Plan — nine-milestone roadmap,
+this iteration's work items, and the
+Excavation scope question;
 
 |Stakeholder|
 :R008, R009 and R020 accepted — 2026-11-19;
 :Perimeter confirmed as drawn — 2026-11-19;
+:Excavation split declined — 2026-11-19;
+:No token budget declared — 2026-11-19;
 note right
-  The gate is answered. Both answers are
-  recorded verbatim: the acceptances in the
-  Risk List, the perimeter in the Evaluation
-  Criteria. It was a human wait of days of
+  The gate is answered four times and each
+  answer is recorded where it binds: the
+  acceptances in the Risk List, the perimeter
+  and the Excavation scope in the Evaluation
+  Criteria, the budget under Measure and
+  forecast. It was a human wait of days of
   queue time, ceiling 14.
 end note
 
