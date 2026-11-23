@@ -249,43 +249,50 @@ Each risk carries the action its owner takes and the sign that it has started to
 
 ```plantuml
 @startuml
-title What retirement actually requires - the risk whose action was planned, assigned and skipped
+title Where the three plan-born exposures stand after iteration 2 - one retired, one materialized, one still open in the artifact it names
 skinparam shadowing false
 skinparam componentStyle rectangle
 skinparam wrapWidth 230
 left to right direction
 
-package "Risk whose action did not land" {
-  component "R030\nsession surface read as settled\n4 x 3 = 12, Significant" as R30
+package "R030 - the session surface read as settled" {
+  component "4 x 3 = 12, Significant" as R30
+  component "the statement is written beside UC-001 to UC-004,\nciting AN-029" as R30A
+  component "retirement landed; the exposure stays live\nAN-012 stands, no test covers the surface" as R30B
 }
-package "What retirement requires" {
-  component "a statement beside UC-001 to UC-004\nciting AN-029" as ACT
+package "R031 - a criterion whose owner had no stage" {
+  component "3 x 4 = 12, Significant" as R31
+  component "materialized twice: A11 read 3 of 4, then 2 of 4" as R31A
+  component "contingency taken - iteration 3 planned,\nEnvironment recorded as the phase's first stage" as R31B
 }
-package "What happened in iteration 1" {
-  component "item 4 closed on five of six\nR030 skipped" as GAP
-  component "register read the risk as avoided\nbefore the lens caught it" as CLAIM
-}
-package "What iteration 2 does" {
-  component "item 5 writes the statement\nor the risk stays open" as IT2
-}
-package "Where the strategy is now honest" {
-  component "R030 reads Avoid - not yet retired" as HONEST
+package "R032 - one fact transcribed inconsistently" {
+  component "4 x 3 = 12, Significant" as R32
+  component "5 of 6 citing artifacts corrected in iteration 2" as R32A
+  component "Use-Case Model R6 still states 100\nwhere Development binds 50" as R32B
 }
 
-R30 --> ACT : retired only by
-ACT --> GAP : not written
-GAP --> CLAIM : a closure was asserted
-CLAIM --> IT2 : corrected
-IT2 --> HONEST
+R30 --> R30A
+R30A --> R30B
+R31 --> R31A
+R31A --> R31B
+R32 --> R32A
+R32A --> R32B
 
-note bottom of GAP
-  The plan assigned six risks to one stretch and the
-  stretch was assessed over the five that landed.
-  A stretch that closes five of six is not complete.
+note bottom of R30B
+  Avoidance is a claim of retirement. The statement exists,
+  so the claim is true; the risk itself is not thereby removed,
+  and the register states both facts rather than one.
 end note
-note bottom of HONEST
-  Avoidance is a claim of retirement, not a status note.
-  The register now says which it is.
+note bottom of R31B
+  Recording an exposure is not retiring it. It materialized in
+  both iterations for one reason: the milestone sequence gave
+  its owner no row. The stage now exists in the plan and in the
+  process baseline the stakeholder restated.
+end note
+note bottom of R32B
+  R032's warning sign was "two artifacts cite one AN-NNN and state
+  different values for it". It fired: the Use-Case Model's own two
+  diagrams give two values. Iteration 3 item 4 closes it.
 end note
 @enduml
 ```
@@ -315,15 +322,15 @@ end note
 | R021 | Avoid | Record in the recovered use cases that every authentication failure answers 401 with no body, and that the client shows one fixed string | System Analyst | A phase designs a distinction the system does not carry | A recovered flow names a cause the API does not report |
 | R022 | Accept | Mitigation: every question to the stakeholder is asked in the same turn it is found, with the answer it needs stated so a one-word reply settles it; no answer is assumed while it is open. Contingency: an open grant holds the milestone and is escalated rather than filled — the process suspends rather than auto-filling an approval | Project Manager | A gate exceeds its ceiling: nothing is auto-filled, the milestone is not closed, and the queue is reported apart from agent time | A question is found in one iteration and not asked until the next |
 | R023 | Avoid | Record in the recovered authorization statement that lockout is enforced at the password sign-in alone, that a locked account keeps every token it already holds, and that the guard's own TODO marks the check it omits | System Analyst | A phase designs a lockout enforcement the handler does not perform; the statement is corrected against the guard | An authorization flow shows a lockout check on a request |
-| R024 | Avoid | Correct the Supplementary Specification's R4 to state the two hops apart, so the only artifact that still carries the error is fixed; the Software Architecture Document's P6 and the Design Model's PKG-D3 already state the difference correctly and are the reading to correct R4 against | Software Architect | A phase designs retry or circuit-breaking on the forwarder as if it existed, and the mechanism description is corrected | Both hops described as carrying the same handler |
+| R024 | Avoid | Correct the Supplementary Specification's R4 to state the two hops apart; the Software Architecture Document's P6 and the Design Model's PKG-D3 already state the difference correctly and are the reading to correct R4 against | Software Architect | A phase designs retry or circuit-breaking on the forwarder as if it existed, and the mechanism description is corrected | Both hops described as carrying the same handler |
 | R025 | Avoid | Record beside the limiter's mechanism that the Development configuration overrides all three values to 50, that both launch profiles run in Development, and that no other environment file carries the section — so no figure measured there describes another environment | Software Architect | A capacity or throttling figure is taken in Development and published as the system's; it is re-taken with the section removed | A load observation cites a request budget of 50 |
 | R026 | Avoid | Record in the persistent-data description that the third migration re-pointed `Todos.OwnerId` from `UserName` to `Id` and converted no row, and that a database is only consistent if written after migration 3 | Database Designer | A deployment targets a pre-existing database: converting the owner column becomes a declared migration requirement — a change request, not a recovered fact | A deployment plan names an existing database file |
 | R027 | Avoid | Record in the Design Model and the recovered list flow that an absent base address answers `200` with an empty list, so the component cannot distinguish a failure from an empty list and the spinner is never reached | Designer | A phase builds error reporting on a distinction the client does not make, and the flow is corrected | A recovered flow shows the list reporting an unreachable API |
 | R028 | Avoid | Record in the recovered registration statement that a provider-created account carries no email, so it cannot sign in with a password, confirm, recover or refresh through the framework's endpoints, and that the email index is not unique | System Analyst | A phase designs address confirmation or password recovery for a provider account, and the flow is corrected against the exchange | A recovered flow shows a provider account confirming an address |
 | R029 | Avoid | Record in the persistent-data description that the test host replaces the production `DbContextOptions` registration, so no test exercises the connection-string resolution, the `.db` fallback, the context lifetime or the migration-built schema | Database Designer | A phase cites the suite as evidence about persistence, and the citation is withdrawn or the suite is extended | A persistence statement is called verified by the test suite |
-| R030 | Avoid — **not yet retired** | Write a statement beside UC-001 to UC-004 in the Use-Case Model that the file carrying them is the delivery's most-reworked file, that none of its fifteen commits touched a failure path, and that no test covers it — so what Excavation recovers there is read from code that never settled, citing `AN-029`. Iteration 2 item 5. Until it is written this risk is open, not retired | System Analyst, then Project Manager | A phase treats the session behaviour as stable and builds on it without re-reading; the flows are re-read against the file before the baseline | A design cites the session surface as settled |
-| R031 | Avoid — **materialized** | The correction to `Development Case#F2` is stated as an iteration-2 work item with the Process Engineer as its owner, on the stakeholder's order of 2026-11-23, and recorded as work the phase runs on that order rather than as a discipline stage. A11 is not marked met until the artifact carries it | Project Manager | The correction does not land: A11 reads three of four again, the AR milestone does not close on iteration 2's evidence either, and the phase opens a third iteration planned from the Review Record. Declared work is never cut to avoid it | The technical lens returns and "Roles and Ownership" still omits the three lenses |
-| R032 | Avoid | Iteration 2's work items 1, 2, 7 and 8 are ordered so the fact is settled once — in the Supplementary Specification — and the other three artifacts are corrected against it, each citing `AN-024` or `AN-023`. The lenses re-read all four in one pass (item 12), so a re-transcription that disagrees is caught at the same gate rather than at a later one | Project Manager | A corrected figure is transcribed wrongly a second time: the four artifacts disagree at the next milestone, and the disagreement is resolved by reading the code rather than by choosing between the artifacts | Two artifacts cite one `AN-NNN` and state different values for it |
+| R030 | Avoid — **retirement landed; the exposure stays live** | The statement is written beside UC-001 to UC-004 in the Use-Case Model, titled "The instability UC-001 to UC-004 sit on", citing `AN-029`, `AN-012` and this risk: the file carrying them is the delivery's most-reworked at fifteen commits within an area of thirty-three, and no test covers it. The avoidance is performed; the exposure is not removed, because `AN-012` stands and no executable statement covers the surface | System Analyst, then Project Manager | A phase treats the session behaviour as stable and builds on it without re-reading; the flows are re-read against the file before the baseline | A design cites the session surface as settled |
+| R031 | Avoid — **materialized twice; contingency taken** | The correction to `Development Case#F2` is planned in iteration 3 in the Environment stage, on the stakeholder's restatement of 2026-11-23 that the process runs Environment in every phase and that it is Excavation's first discipline. The milestone sequence records the stage and A13 cites it. A11 is not marked met until the artifact carries the correction | Process Engineer, planned by Project Manager | Taken: the correction did not land in iteration 2, A11 read two of four, and the phase opened a third iteration planned from the Review Record. Declared work is never cut to avoid it | The technical lens returns and "Roles and Ownership" still omits the three lenses |
+| R032 | Avoid — **action partly performed; still open** | Settle the fact once, in the artifact that owns it, and correct the others against it: iteration 2 corrected the Supplementary Specification, the Software Architecture Document, the Deployment Model, the Vision and the Design Model, each citing `AN-024` or `AN-023`, and five of the six citing artifacts now hold. Iteration 3 item 4 corrects the last — the Use-Case Model's rules diagram R6, which still states one budget where two are in force — and the lenses re-read all four in one pass | Project Manager | A corrected figure is transcribed wrongly a second time: the four artifacts disagree at the next milestone, and the disagreement is resolved by reading the code rather than by choosing between the artifacts | Two artifacts cite one `AN-NNN` and state different values for it — **fired** at `Use-Case Model#F4`; the register keeps the row open until the fourth artifact holds |
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
