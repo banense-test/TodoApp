@@ -262,19 +262,18 @@ Each anomaly is a risk: the evidence is anchored, the likelihood says how likely
 | AN-017 | The API redirects `/` to the Scalar reference UI unconditionally, while that UI is mapped only in Development, so in any other environment the root path redirects to an endpoint the process does not serve | Inferior quality | `Todo.Api/Program.cs:62` against `Todo.Api/Program.cs:48-56` | likely | low |
 
 ## Priorities
-
 No stakeholder statement of what matters exists for this delivery — the owner's note records that the authors cannot be asked — so the order is set by where the code concentrates its weight and by what the next phase must read to recover the system: requirements first need the operations the system performs, and analysis needs the path a request takes through them. Order 1 to 5 is the order Excavation reads them in.
 
 | Order | Area | Why it comes first | Anchor |
 |---|---|---|---|
 | 1 | Todo.Api — Todos endpoints and persistence | Every operation the system performs on its own data is here, with the ownership rule and the schema it works on; the use cases are recovered from these five endpoints | `Todo.Api/Todos/TodoApi.cs:8-76; Todo.Api/TodoDbContext.cs; Todo.Api/Migrations/` |
 | 2 | Todo.Api — authorization, users and Identity | Who the actor is, how the caller is resolved from the database, and the token surface every request passes through; without it the ownership rule in order 1 cannot be stated | `Todo.Api/Authorization/; Todo.Api/Users/` |
-| 3 | Todo.Web.Server — session, `/auth`, forwarder | The only path a browser user takes to order 1: it holds the cookie, turns a provider login into a local user, and rewrites the token; two of its three flows have no other anchor in the system | `Todo.Web/Server/AuthApi.cs; Todo.Web/Server/TodoApi.cs; Todo.Web/Server/Authentication/` |
+| 3 | Todo.Web.Server — session, `/auth`, forwarder | The only path a browser user takes to order 1: it holds the cookie, turns a provider login into a local user, and rewrites the token; two of its three flows have no other anchor in the system | `Todo.Web/Server/AuthApi.cs:10-97; Todo.Web/Server/TodoApi.cs; Todo.Web/Server/Authentication/` |
 | 4 | Todo.Web.Client — the screens | Where the actor's intent is expressed and the only place the entry points become visible as what a person can do; it also carries the gap at AN-001, which decides whether "complete a todo" is a recovered use case or not | `Todo.Web/Client/Components/; Todo.Web/Client/TodoClient.cs; Todo.Web/Server/App.razor:5` |
 | 5 | Todo.Api.Tests | The executable statement of the expected behaviour, endpoint by endpoint, including the admin path that the running system cannot reach (AN-004) and the four endpoints with no counterpart in the UI | `Todo.Api.Tests/TodoApiTests.cs; Todo.Api.Tests/UserApiTests.cs` |
 | 6 | TodoApp.AppHost and ServiceDefaults | How the four processes run and how the schema reaches the database — the one platform event (EP-022) and the telemetry boundary; needed by Deployment, not by the use cases | `TodoApp.AppHost/; TodoApp.ServiceDefaults/` |
 | 7 | Build and package configuration | The constraints any change must live within: `net9.0`, language `preview`, central versions, nuget.org only | `Directory.Build.props; Directory.Packages.props; global.json; nuget.config` |
-| 8 | Requests, CI, dev container | Supporting material: a hand-run request collection, a four-step pipeline, and a container whose SDK contradicts AN-007 | `Requests/todo.http; .github/workflows/ci.yaml; .devcontainer/` |
+| 8 | Requests, CI, dev container, Aspire and editor settings | Supporting material: a hand-run request collection, a four-step pipeline, a container whose SDK contradicts AN-007, and the CLI and editor settings that resolve to the app host | `Requests/todo.http; .github/workflows/ci.yaml; .devcontainer/; .aspire/settings.json; .vscode/extensions.json` |
 
 ## Coverage
 Of 129 files in the tree (37 of the 166 entries are directories), 77 were opened. Everything in `Todo.Api`, `Todo.Api.Tests`, `TodoApp.AppHost`, `TodoApp.ServiceDefaults`, `Requests`, `.aspire`, `.vscode` and `.github` was read; the unread remainder is vendored assets, two binary files, one stylesheet and four small files named below.
