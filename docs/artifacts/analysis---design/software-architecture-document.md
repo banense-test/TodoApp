@@ -1093,6 +1093,145 @@ stop
 
 **The two hops, stated apart.** `AddStandardResilienceHandler()` in `ConfigureHttpClientDefaults` gives the token hop (`COMP-007`) retry, circuit-breaker, timeout and rate-limiter behaviour; the forwarder hop (`COMP-008`) is not built from those defaults and carries none of the four. A use case that signs in and then reads its tasks crosses both, and the two are not equally protected (AN-023, R024).
 ## Deployment View
+The system has one supported placement and no deployment artifact of any kind: no Dockerfile, compose file or manifest is in the tree (DC12), and the `ContainerImageName` / `ContainerImageTag` properties two project files still carry are a residue the tree no longer backs. What places the processes is the orchestration host, and what places the data is a relative path.
+
+**Ports come from the launch profiles, not from the orchestration.** `AddProject` is called with a name and no endpoint, so the app host declares no port for either serving process and the only fixed port in the tree is the `sqliteweb` container's target 8080 (`TodoApp.AppHost/Program.cs:5-19`). Each process binds what its own `launchSettings.json` says: `Todo.Api` 5000 (http) and 5001 (https), launching at `scalar/v1`; `Todo.Web.Server` 5147 and 7123. The developer container forwards 5000 and 5001 — the API's pair — so the forwarded port reaches the REST service, not the screens.
+
+```plantuml
+@startuml
+title DEP-D1 Recovered deployment topology - processes, node placement and the connectors between them
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam wrapWidth 190
+skinparam nodeSep 40
+
+node "Developer workstation - one machine, no container" {
+  node "Browser process" as BROWSER {
+    component "COMP-001 screens\nCOMP-002 HTTP gateway\nBlazor WebAssembly bundle" as WASM
+  }
+  node ".NET 9 process: Todo.Web.Server\nlaunch profile 5147 / 7123" as BFF {
+    component "COMP-004 host" as B4
+    component "COMP-005 session" as B5
+    component "COMP-006 /auth" as B6
+    component "COMP-007 AuthClient" as B7
+    component "COMP-008 forwarder" as B8
+    component "COMP-021 service defaults" as B21
+  }
+  node ".NET 9 process: Todo.Api\nlaunch profile 5000 / 5001\nservice name todoapi, discovered" as API {
+    component "COMP-009 Identity" as A9
+    component "COMP-010 token exchange" as A10
+    component "COMP-011 Todos" as A11
+    component "COMP-012 resolver + COMP-013 authz" as A12
+    component "COMP-014 bucket" as A14
+    component "COMP-015 validation" as A15
+    component "COMP-016 persistence" as A16
+    component "COMP-017 docs" as A17
+    component "COMP-018 logging" as A18
+    component "COMP-021 service defaults" as A21
+  }
+  node ".NET 9 process: TodoApp.AppHost" as HOST {
+    component "COMP-020 orchestration\nand migration" as H20
+  }
+  node "dotnet-ef child process\nmigration, once" as MIG {
+    component "database update --no-build" as M1
+  }
+  node "Container: tomdesinto/sqliteweb\nport 8080, .db bind-mounted" as SQLWEB {
+    component "SQLite browser" as S1
+  }
+  folder "File system" as FS {
+    artifact "Todo.Api/.db/Todos.db" as DBF
+    artifact "Data-protection key ring\ndefault framework location" as KF
+    artifact "appsettings.Development.json\nRateLimiting 50 / 50 / 50" as CFG
+  }
+}
+cloud "External network" as NET {
+  component "ACT-002 identity providers\ngithub.com, google, microsoft, auth0" as IDP
+  component "OTLP collector\nAspire dashboard" as OTEL
+}
+
+WASM --> B4 : HTTPS, same origin
+B4 --> B6
+B6 --> B7
+B7 --> A9 : HTTP http://todoapi\nservice discovery
+B7 --> A10
+B8 --> A11 : HTTP http://todoapi\nAuthorization: Bearer
+A11 --> A12
+A11 --> A14
+A11 --> A15
+A11 --> A16
+A9 --> A16
+A10 --> A16
+A12 --> A16 : one read per request
+A16 --> DBF : SQLite file
+B5 ..> KF : write
+A10 ..> KF : read
+CFG ..> A14 : binds TokenLimit,\nTokensPerPeriod, QueueLimit
+H20 --> MIG : AddExecutable, WaitForCompletion
+MIG --> DBF : creates the schema
+HOST --> API : AddProject
+HOST --> BFF : AddProject
+HOST --> SQLWEB : AddContainer
+B5 ..> IDP : HTTPS challenge and callback
+B21 ..> OTEL : OTLP when set
+A21 ..> OTEL : OTLP when set
+
+note bottom of DBF
+  The path is relative to the API's working
+  directory and only the app host creates the
+  directory. AN-013
+end note
+
+note bottom of KF
+  No PersistKeysTo call exists in either process,
+  so the ring is shared only where the framework's
+  default location is shared. AN-010
+end note
+
+note bottom of CFG
+  The only environment file in the tree that
+  changes a mechanism's values. Both launch
+  profiles of both serving processes select
+  Development, so it always applies. AN-024
+end note
+
+note right of HOST
+  Not a node the system serves from: it starts the
+  other three and exits with them. No Dockerfile,
+  compose file or deployment manifest exists, so
+  this workstation is the only placement the
+  delivery supports. DC12
+end note
+
+note left of BROWSER
+  The ports above are each project's launch profile,
+  not the orchestration: AddProject declares no
+  endpoint for either process. 5000/5001 are the
+  API's pair and 5147/7123 the BFF's, which is why
+  the developer container forwards the API's pair.
+  Properties/launchSettings.json of both projects;
+  TodoApp.AppHost/Program.cs:5-10
+end note
+
+note right of A18
+  Registered unconditionally, so this stage runs in
+  every environment; only the body-and-header field
+  set is chosen in Development. Program.cs:32-44
+end note
+
+@enduml
+```
+
+| Node | What runs there | How it is placed | Anchor |
+|---|---|---|---|
+| Browser process | COMP-001, COMP-002, COMP-003 as a WebAssembly bundle | Served as static assets by COMP-004 from the same origin; no separate host, no CDN | `Todo.Web/Server/Program.cs:47-49`; `Todo.Web/Client/Program.cs:5-13` |
+| Todo.Web.Server | COMP-004 to COMP-008, COMP-021 | `AddProject<Todo_Web_Server>("todo-web-server")` with a reference to the `todoapi` resource; no endpoint declared, so its port is its launch profile's, 5147 / 7123 | `TodoApp.AppHost/Program.cs:9-10`; `Todo.Web/Server/Properties/launchSettings.json` |
+| Todo.Api | COMP-009 to COMP-018, COMP-021 | `AddProject<Todo_Api>("todoapi")`, reachable by discovery name; no endpoint declared, so its port is its launch profile's, 5000 / 5001 | `TodoApp.AppHost/Program.cs:5-7`; `Todo.Api/Properties/launchSettings.json` |
+| TodoApp.AppHost | COMP-020 | The process a developer starts, through `dotnet run` or the Aspire CLI pinned by `.aspire/settings.json`; it exits with the others, and sets `UserSecretsId` so a developer's own secrets load here | `TodoApp.AppHost/Program.cs:1-28`; `TodoApp.AppHost/TodoApp.AppHost.csproj`; `.aspire/settings.json` |
+| `dotnet-ef` child process | The migration | `AddExecutable`, gated on run mode and on `Todo.Api/.db` being absent, preceded by a global `dotnet tool install` it waits on; the API and the container wait for its completion | `TodoApp.AppHost/Extensions.cs:4-34` |
+| `tomdesinto/sqliteweb` container | A SQLite browser over the same directory | `AddContainer` with target port 8080 — the one fixed port in the tree — the `.db` directory bind-mounted and `ExcludeFromManifest()` | `TodoApp.AppHost/Program.cs:14-19` |
+| File system | `Todos.db`, the data-protection key ring, `appsettings.Development.json` | A relative path inside the API's project directory; the framework's default key location; the configuration file the runtime loads from the content root | `Todo.Api/Program.cs:23`; `Todo.Api/appsettings.Development.json:8-12`; AN-013, AN-010, AN-024 |
+
 **Two environments, and what differs between them.** `Development` is the only environment in which the reference UI and the health endpoints exist, and the only one in which the request log is widened to the response body and headers; `Todo.Api/Program.cs:32-56` and `TodoApp.ServiceDefaults/Extensions.cs:110-118` gate on it, and every launch profile in both serving processes sets it, so it is the environment the delivery runs in. Two surfaces are not gated: the logging middleware itself, which runs in every environment with the framework's default fields, and the root redirect, which fires in every environment and can lead to an endpoint the process does not serve (AN-017). One setting separates Development from any other environment: the request budget — `appsettings.Development.json:8-12` binds `TokenLimit`, `TokensPerPeriod` and `QueueLimit` to 50 where the code defaults them to 100 / 100 / queue 100, so the bucket in force is half its code default (AN-024, M3, SP1). Neither environment file — `Todo.Api/appsettings.json` and `Todo.Web/Server/appsettings.json` — carries a connection string or a provider credential; the only connection string in the delivery is the literal `Data Source=.db/Todos.db` written in `Todo.Api/Program.cs:23`, identical in both environments.
 ## Implementation View
 
