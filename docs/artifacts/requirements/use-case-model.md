@@ -94,12 +94,71 @@ end note
 
 **One human being, two actor roles.** ACT-001 and ACT-003 are the same person. ACT-003 is not a second human actor and does not contradict the perimeter, which names exactly one: it is the role in which that person reaches the API without a cookie, holding a bearer token obtained from `/users/login` and calling the endpoints directly, as the delivery's own README directs. The role exists because the two routes authenticate differently and reach different operations — `EP-009` requires a cookie and rewrites it, while `EP-010` to `EP-019` accept any bearer token.
 
-The task use cases therefore carry **one main flow with two scenarios** — through the screens, or directly with a bearer token — and are not split per actor. UC-009 and UC-010 are reached by ACT-003 alone, because no screen and no client call reaches `EP-011` or `EP-013`.
+The task use cases therefore carry **one main flow with two scenarios** — through the screens, or directly with a bearer token — and are not split per actor. UC-009 and UC-010 are reached by ACT-003 alone, because no screen and no client call reaches `EP-011` or `EP-013`. UC-005 is reached by ACT-003 alone for the same reason: the client's six calls reach no Identity endpoint beyond register and login, so `EP-015`'s recovery and management operations have no screen.
+
+```plantuml
+@startuml
+title Actor-goal matrix - each actor handle against the use cases it reaches, with the entry points it uses
+
+left to right direction
+skinparam shadowing false
+skinparam wrapWidth 195
+
+actor "ACT-001\nPerson with a task list\nthrough the three screens" as A1
+actor "ACT-003\nThe same person\nthrough the API with a bearer token" as A3
+actor "ACT-002\nExternal identity provider\nsupporting actor of UC-003" as A2
+
+rectangle "Use cases of the recovered model" {
+  usecase "UC-001 Create an account" as UC1
+  usecase "UC-002 Sign in with email and password" as UC2
+  usecase "UC-003 Sign in with an external provider" as UC3
+  usecase "UC-004 Sign out" as UC4
+  usecase "UC-005 Maintain one's own account" as UC5
+  usecase "UC-006 See one's own tasks" as UC6
+  usecase "UC-007 Add a task" as UC7
+  usecase "UC-008 Remove a task" as UC8
+  usecase "UC-009 Read one task by id" as UC9
+  usecase "UC-010 Change a task" as UC10
+  usecase "UC-011 Consult the API reference" as UC11
+}
+
+A1 --> UC1 : EP-002, EP-004
+A1 --> UC2 : EP-002, EP-005
+A1 --> UC3 : EP-002
+A1 --> UC4 : EP-001, EP-006
+A1 --> UC6 : EP-001, EP-003, EP-009
+A1 --> UC7 : EP-003, EP-009
+A1 --> UC8 : EP-003, EP-009
+
+A3 --> UC1 : EP-015
+A3 --> UC2 : EP-015
+A3 --> UC5 : EP-015
+A3 --> UC6 : EP-010
+A3 --> UC7 : EP-012
+A3 --> UC8 : EP-014
+A3 --> UC9 : EP-011
+A3 --> UC10 : EP-013
+A3 --> UC11 : EP-017, EP-018, EP-019
+
+A2 --> UC3 : EP-008, answered on the person's behalf
+
+note right of UC5
+  ACT-003 alone: no screen and no client call
+  reaches EP-015. ACT-001 carries no edge here.
+end note
+
+note bottom of UC3
+  EP-007 and EP-016 complete this use case for
+  ACT-001; EP-008 is answered by ACT-002.
+  Unreachable in the delivered configuration.
+end note
+
+@enduml
+```
 
 **Actors the model does not create.** The System Inventory names "app host or operator" as the initiator of `EP-020`, `EP-021` and `EP-022`, and defines no operator: no role, no procedure and no need for one appears anywhere in the delivery. No actor is created for it, and no use case is recovered from it. `TodoApp.AppHost` is a component inside the boundary that starts the others; starting a system is not an actor goal, and no human initiates it.
 
 **Actors the model does not create, second.** The external systems the delivery also reaches — the OTLP collector, nuget.org, the `tomdesinto/sqliteweb` image — are declared outside the boundary in the System Inventory and serve no use case. The SQLite file is a data manager inside the boundary, reached by every task operation.
-
 ## Use-Case Survey
 
 Eleven use cases, each anchored to the entry points whose code performs it. Every one of the twenty-two entry points is either carried here or is accounted for in "Not recovered" below.
