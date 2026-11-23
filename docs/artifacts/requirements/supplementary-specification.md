@@ -151,11 +151,10 @@ No availability, recovery, tolerance or degradation target is stated in the deli
 
 **What a later threshold must not assume.** The rate limit is per caller and the Identity endpoints have none, so no figure stated for the system as a whole can hold for `/users`. The list endpoint has no page bound, so no response-time figure can hold for a caller with an unbounded number of rows. And the budget is environment-dependent: an observation taken in Development measures 50 per caller per 10 seconds, not the 100 the code defaults to in any environment whose configuration file does not override it (`AN-024`) — so no throughput or load figure may be carried from Development to another environment.
 ## Supportability
-
 | # | What the delivery fixes | Anchor |
 |---|---|---|
 | S1 | Four processes configured by `appsettings.json` and `appsettings.Development.json` per project; one environment variable of note, `OTEL_EXPORTER_OTLP_ENDPOINT`, enables OTLP export | System Inventory — Perimeter; `TodoApp.ServiceDefaults/Extensions.cs:74-81` |
-| S2 | The rate limiter's five options bind from a `RateLimiting` configuration section that does not exist in the delivery, so every value is the code's default and none is externally tunable as delivered | `Todo.Api/Extensions/RateLimitExtensions.cs:20-30` |
+| S2 | The rate limiter's five options bind from a `RateLimiting` configuration section, and the delivery carries that section in exactly one file: `Todo.Api/appsettings.Development.json` binds `TokenLimit` 50, `TokensPerPeriod` 50 and `QueueLimit` 50, while the code defaults are 100 / 100 per 10 s / queue 100. Every launch profile sets the environment to Development, so the values are tunable — they are tuned, by the file the delivery ships, to half the default — and any other environment runs the code defaults as delivered (`AN-024`) | AN-024; `Todo.Api/Extensions/RateLimitExtensions.cs:20-31`; `Todo.Api/appsettings.Development.json:8-12`; `Todo.Api/Properties/launchSettings.json:14-16,25-27`; `Todo.Web/Server/Properties/launchSettings.json:6-8,15-17` |
 | S3 | Every package version is managed centrally and resolves from nuget.org alone | `Directory.Packages.props`; `nuget.config` |
 | S4 | The contribution procedure, its labels, branch rules and review rules are in `docs/CONTRIBUTING.md`; the delivery's own `README.md` states none | `docs/CONTRIBUTING.md`; `README.md` |
 | S5 | Testability as delivered: one test project over the API alone; the client and the BFF carry no test of any kind, and the three defective `/auth` flows are exactly the untested ones | AN-012; `Todo.Api.Tests/Todo.Api.Tests.csproj:9`; R012 |
@@ -163,7 +162,6 @@ No availability, recovery, tolerance or degradation target is stated in the deli
 | S7 | The suite mints tokens by reproducing the bearer-token ticket format from framework internals, so a framework upgrade can break it with no behaviour change | AN-011; `Todo.Api.Tests/TokenService.cs:10,21,31-34` |
 | S8 | Diagnostic surfaces exist in Development only: the reference UI, the OpenAPI document, HTTP logging with bodies and headers, and both health endpoints | `Todo.Api/Program.cs:35-62`; `TodoApp.ServiceDefaults/Extensions.cs:110-118` |
 | S9 | The developer container names SDK 8.0 while the build targets `net9.0` and the SDK pin is 9.0.100 | AN-007; `.devcontainer/devcontainer.json:2`; `Directory.Build.props:4`; `global.json:3` |
-
 ## Design Constraints
 
 | # | Constraint | Anchor |
