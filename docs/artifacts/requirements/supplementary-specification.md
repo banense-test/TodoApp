@@ -1,6 +1,6 @@
 ## Document Control
 - Phase: Consolidation
-- Status: Draft — carried into Consolidation for the end-of-Consolidation (GHR) milestone review; requirement content unchanged from Excavation
+- Status: Draft — produced for the end-of-Consolidation (GHR) milestone review
 - Milestone Target: end-of-Consolidation (GHR) — not yet achieved
 - Iteration: 1, Cycle 1
 - Owner: System Analyst
