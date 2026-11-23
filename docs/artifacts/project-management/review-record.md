@@ -791,110 +791,29 @@ The recovered set is untouched. No correction this iteration added, removed, mer
 No finding of this lens holds the milestone. The artifact that does is the Iteration Plan, under the Management Reviewer's `#F9`, and it is one owner pass over five cells.
 
 ### Management Reviewer lens
-<!-- review: Excavation I3 -->
+<!-- review: Excavation I4 -->
 
-<!-- review: Excavation I3 -->
+#### Findings this lens closed in this pass
 
-#### Closures materialized this iteration — five of this lens's findings
+Each closure was materialized in the ledger with `resolve_artifact_finding` and verified at the thing it asserts before the call was made.
 
-Each row is a `resolve_artifact_finding` call that transitioned the ledger, not a narrative claim. The evidence column names where the corrected content was read.
+| Finding | Resolution | What verified it |
+|---|---|---|
+| `Iteration Plan#F9` | Resolved | Read at the artifact: `A1` "Met" on a fresh `COMP-014` upstream query returning five `Realizes` edges, none marked; `A10` "Met — certified on the recovered set" naming the Use-Case Model's R6 as the fourth artifact with its current wording under `AN-024`; `A11` "Met — four of four"; `A12` recording the third put in both halves; `O2` "Met". No cell quotes a superseded sentence |
+| `Iteration Plan#F8` | Resolved | Read at the fine plan: every Closes cell holds a finding key and nothing else; no cell names a moment |
 
-| Finding | Criterion | Resolution | Evidence read |
-|---|---|---|---|
-| Risk List#F3 | contained-defect | Resolved | Risk Mitigation and Contingency, R030: "**Avoid — retirement landed; the exposure stays live**", with the statement located in the Use-Case Model under `AN-029` and the reason the exposure stands — `AN-012` and no test over the surface |
-| Iteration Plan#F6 | exit-criterion-unmet | Resolved | Evaluation Criteria A10 now opens "Decided on all four artifacts the criterion's own test names" and enumerates the Use-Case Model's R6 as the fourth. The cell no longer certifies a subset of what its own test covers |
-| Iteration Plan#F7 | exit-criterion-unmet | Resolved | Evaluation Criteria A13 cites the Environment stage as this phase's first discipline; Plan and Milestones carries the bar "Excavation iteration 3 - Environment stage, then the corrections" and fine-plan items 1 to 3 sit against the Process Engineer under it |
-| Use-Case Model#F1 | exit-criterion-unmet | Resolved | `model_query_traces` on `COMP-014` upstream: five `Realizes` edges — UC-010, UC-009, UC-008, UC-007, UC-006 — none marked SUSPECT. Rules diagram R6 draws to U6 to U10 and states "/todos only" with both budgets under `AN-024` |
-| Development Case#F2 | contained-defect | Resolved | Roles and Ownership: the co-owned-artifact sentence names all six contributors, and CLS-DC-01 draws `MRV`, `BRV` and `RCO` edges into `RR` beside `RV`, `CRV` and `CFM`. Document Control reads "Phase: Excavation … Iteration: 3, Cycle 1" |
+#### Actions this gate leaves open
 
-`Iteration Plan#F6` and `#F7` are closed on the specific defect each recorded — the omission of the fourth artifact from A10's cell, and A13's premise that Environment runs at no intensity here. Both artifacts are corrected at that point. That four further cells of the same table still report superseded states is a different defect on the same artifact, recorded this iteration as `#F9`, and `#F4` carries the technical lens's reading of it. Neither closure claims more than the defect it answers.
+| Action | Owner | Bearing on the milestone |
+|---|---|---|
+| `Development Case#F4` — add the Project Management discipline to the partitions of ACT-DC-01 after Survey, naming its stage as the Survey partition does; change the intensity table not at all, since it is correct | Process Engineer | None. Minor, contained, approved by default; no exit criterion depends on it |
+| `Iteration Plan#F10` — set `A12` to "Met — 2026-11-23" recording both puts as given, set fine-plan item 7's state to the answer, and set the human-gate table's Answer cell to the fourth put's answer | Project Manager | None on the criterion, which the answer satisfies; the three cells are a record correction in the owner's next turn |
 
-#### Actions this iteration opens
+Both are Minors and both are corrected in their owners' next turns. Neither is carried out of the phase: the stakeholder ordered at the SBC close that open Minors be addressed rather than left unattended, and `A11` is satisfied on the four Minors the SBC review counted.
 
-Each is an owner's corrective action, stated so it can be performed without a follow-up question. The first holds the milestone.
+#### The conditional verdict this gate carries forward
 
-| Finding | Owner | Action | Holds the milestone |
-|---|---|---|---|
-| Iteration Plan#F9 and #F4 | Project Manager | One pass over five cells, restated at the state their artifacts now hold: **A1** "Met", five `COMP-014` edges confirmed and requoted from a fresh graph query; **A10** "Met — certified on the recovered set", R6 named as the fourth artifact with its current wording under `AN-024` and no superseded figure quoted; **A11** "Met — four of four", the four closed Minors named and no superseded sentence quoted; **Objectives O2** met on its own terms, neither correction adding or removing a use case; **A12** recording the third put as given — the recovered set confirmed as the model of the existing system, the sanction refused while a Major stands, both halves and no condition added. Change nothing in the sequence, the fine plan or A13 | Yes — the plan is the record the verdict is decided on |
-| Iteration Plan#F8 | Project Manager, same pass | Drop "written in this turn" from the Closes cells of rows 6 and 7 and leave the finding key, as every other row of the column does | No — a Minor, contained |
-| Risk List#F3 (technical lens) | Project Manager | Restate R032: the action performed on all six citing artifacts, R6 named with its wording under `AN-024`, the exposure recorded as retired by the avoidance; relabel the diagram's contingency node to the one residual — the four artifacts re-read in one pass — and set the warning-sign cell to the state it now holds. Leave `R030` and `R031` unchanged | No — a Minor, contained |
-| Supplementary Specification#F3 (technical lens) | System Analyst | Set the Iteration field to "3, Cycle 1". Change no other field and no content | No — a Minor, one metadata field |
-
-#### The route, and what the stakeholder's answer settles
-
-The next iteration of Excavation is one correction pass and nothing else. The stakeholder stated that no recovered content is at issue and that the next iteration changes none of it: the Project Manager restates the plan's cells and the three Minors are corrected by their owners. Gate H4 is put a fourth time only once the cells agree with the set they report.
-
-**Risk List#R031's contingency is the mechanism that opens it**, as the register predicted: the correction did not land in the expected turn, `A11` read incomplete, and the phase carried a further iteration planned from the record. Declared work is not cut to avoid it.
-
-| Carried state | What this lens read |
-|---|---|
-| Gate H4 | Put three times. First and second: refused. Third: the recovered set **confirmed** as the model of the existing system, the sanction **refused** while a Major stands. Both halves of the third answer are recorded as given |
-| Suspect traces | None. `COMP-014` returns five confirmed edges; the three `EP-003` edges were confirmed at an earlier pass |
-| Open pull requests and build status | None in any state and none expected — Excavation produces no production code and runs no build. This is the phase's correct state, not a gap |
-| Iteration Assessment | Not judged. The Project Manager authors it after this review; its absence before the review is not a finding |
-| Declared scope | Untouched. No artifact in the recovered set changes in the next iteration, on the stakeholder's explicit statement |
-
-#### Risk retirement at this gate
-
-```plantuml
-@startuml
-title Risk retirement at the AR gate - magnitude, movement across three Excavation iterations, and what each retirement rests on
-
-skinparam shadowing false
-skinparam classAttributeIconSize 0
-skinparam wrapWidth 235
-hide circle
-hide empty members
-
-package "High - exposure 15 to 25: none" {
-  class "no risk in this register\nreaches the High band" as NH <<none>>
-}
-
-package "Significant - exposure 9 to 12, 14 rows" {
-  class "R030 4x3 = 12\nretirement landed in the Use-Case Model\nexposure live: AN-012 stands, no test" as R30 <<live>>
-  class "R032 4x3 = 12\naction performed on all six\nciting artifacts - the register is behind" as R32 <<behind>>
-  class "R031 3x4 = 12\nmaterialized twice; contingency taken\niteration 3 planned from the record" as R31 <<taken>>
-  class "R004, R011, R012, R016\naccepted under the stakeholder's own grant\nof 2026-11-23, each at 4x3" as GRANT <<granted>>
-  class "R001 R002 R003 R005 R007\nR009 R010 R018 R020 R021\navoided - actions landed in the recovered set" as AVOID <<retired>>
-}
-
-package "Moderate - exposure 5 to 8, 8 rows" {
-  class "R015 4x2 = 8 accepted\nR022 3x3 = 9 accepted at exposure 9" as MOD <<accepted>>
-}
-
-package "Movement across the phase" {
-  class "iteration 1\n8 Major across 7 artifacts\n16 open entries at the gate" as I1 <<archive>>
-  class "iteration 2\n4 Major defects across 2 artifacts\n8 open entries at the gate" as I2 <<archive>>
-  class "iteration 3\n0 Critical, 1 Major defect open\n5 open entries, one holding the gate" as I3 <<now>>
-}
-
-R30 --> I3 : retirement verified at the artifact
-R32 --> I3 : one transcription, one turn
-R31 --> I3 : contingency consumed
-I1 --> I2 : 8 Majors closed and verified
-I2 --> I3 : 5 of this lens closed
-
-note bottom of R32
-  The register understates its own position, not overstates it.
-  A9 holds: strategy, owner, action, contingency and sign are
-  all present. Contained, no criterion turns on it.
-end note
-note bottom of GRANT
-  No risk placed in the grant band this iteration takes the accept
-  strategy, so no second grant was needed and none is assumed. A8 holds.
-end note
-
-@enduml
-```
-
-No risk in the register sits in the High band, and none placed in the Significant band this iteration takes the accept strategy without the stakeholder's grant — the four that do carry their own grant of 2026-11-23 at 4 × 3 = 12. `R030` and `R031` are the two rows this lens follows most closely: `R030`'s retirement landed while its exposure stands, and `R031` materialized twice and its contingency is the iteration this record opens. Recording a risk is not retiring it, and this lens does not report a retirement it cannot verify at the artifact.
-
-#### What this lens does not do
-
-- It does not dispute the recovery. Eleven use cases, a 22-component architecture across four processes and an eight-table data model, each resting on the file and lines it cites. The stakeholder has confirmed all of it and nothing in it changes.
-- It does not re-open a single exclusion. External-provider sign-in is recovered and marked unreachable; the `admin` branch is an exceptional entity; `EP-020`, `EP-021` and `EP-022` are not use cases.
-- It records no condition, limit or prohibition the stakeholder did not state. The refusal is recorded as a refusal and nothing is read into it.
-- It opens no change request. The Change Control Manager does not work in the sprint zero; the findings reach their owners through this record and through their Work Orders.
+No Conditional Go was issued at the previous milestone and none is issued here. The third put refused the sanction outright and this lens recorded **No-Go**, with the reason stated: `A12` turns on the stakeholder's answer alone, and a Conditional Go would have recorded on their behalf the one thing they declined to record. That refusal is now answered — the fourth put granted the advance on records that agree with the set they report — and nothing this lens attached to the No-Go stands.
 
 ### Review Coordinator lens
 <!-- review: Excavation I3 -->
