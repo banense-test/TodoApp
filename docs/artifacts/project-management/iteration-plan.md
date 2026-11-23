@@ -180,20 +180,20 @@ None. Survey is the sprint zero's first phase and recovers no use case: the 22 e
 What this iteration does hand forward is the material those use cases are recovered from: `EP-001` … `EP-022`, and the 12 anomalies that sit on an entry point and constrain what a recovered use case may claim — `AN-001` on `EP-003`/`EP-013`, `AN-002` on `EP-016`, `AN-004` on `EP-011`/`EP-013`/`EP-014`, `AN-018` on `EP-010`/`EP-011`, `AN-019` on `EP-007`, `AN-020` on `EP-008`, `AN-021` on `EP-004`/`EP-005`/`EP-007`.
 
 ## Evaluation Criteria
-
 The exit criteria for this iteration's milestone (SBC). They are the criteria the reading's own decisions imply plus the ones the phase declares; none is invented beyond what the phase must establish to hand off to Excavation.
 
-| # | Criterion | Met when | Evidence |
-|---|---|---|---|
-| C1 | The perimeter is stated | The delivery's processes, components, external systems and stores are recorded with anchors | System Inventory — Perimeter |
-| C2 | The perimeter is confirmed by the stakeholder | Gate H1 answered: the four-process perimeter accepted as stated | R022 — not yet answered |
-| C3 | The entry points are enumerated | Every entry point by which the system is reached is listed with its kind, initiator and anchor | System Inventory — Entry points, EP-001…EP-022 |
-| C4 | The priorities are ordered | The eight areas carry an order and a reason | System Inventory — Priorities |
-| C5 | The priority order is confirmed by the stakeholder | Gate H1 answered: the order accepted | answered 2026-11-23 — "the order stands as it is: nothing matters more than it reflects, and nothing is to be left out" |
-| C6 | The unread areas are declared | Every unread file is named with the reason it was not read | System Inventory — Coverage, 52 files unread of 129 |
-| C7 | Every anomaly is carried as a scored risk or retired with its reason | 21 anomalies map to 21 risks, none unscored, none silently dropped | Risk List — Risk Register, 21 `Refines` edges from `AN-NNN` |
-| C8 | Every accepted risk above Moderate carries the stakeholder's grant | R012 and R016 answered by the stakeholder | Gate H1 — open |
-| C9 | No risk is left unactionable | Every risk names a strategy, an owner, an action and a contingency or warning sign | Risk List — Risk Mitigation and Contingency |
-| C10 | The plan for the rest of the sprint zero exists and names no work the process does not run | The milestone sequence is recorded and each work item belongs to a stage the IARI DEVELOPMENT PROCESS runs in its phase | This artifact — Plan and Milestones |
+| # | Criterion | Met when | State | Evidence |
+|---|---|---|---|---|
+| C1 | The perimeter is stated | The delivery's processes, components, external systems and stores are recorded with anchors | Met | System Inventory — Perimeter |
+| C2 | The perimeter is confirmed by the stakeholder | Gate H1 answered: the four-process perimeter accepted as stated | Met — 2026-11-23 | H1 answered; the stakeholder confirmed the reading's scope stands and nothing is to be left out |
+| C3 | The entry points are enumerated | Every entry point by which the system is reached is listed with its kind, initiator and anchor | Met | System Inventory — Entry points, EP-001…EP-022 |
+| C4 | The priorities are ordered | The eight areas carry an order and a reason | Met | System Inventory — Priorities |
+| C5 | The priority order is confirmed by the stakeholder | Gate H1 answered: the order accepted | Met — 2026-11-23 | "The order stands as it is: nothing matters more than it reflects, and nothing is to be left out" |
+| C6 | The unread areas are declared | Every unread file is named with the reason it was not read | Met | System Inventory — Coverage, 52 files unread of 129 |
+| C7 | Every anomaly is carried as a scored risk or retired with its reason | 21 anomalies map to 21 risks, none unscored, none silently dropped | Met | Risk List — Risk Register, 21 `Refines` edges from `AN-NNN` |
+| C8 | Every accepted risk above Moderate carries the stakeholder's grant | R012 and R016 answered by the stakeholder | Met — 2026-11-23 | Risk List — R012 and R016, both answered "Yes" |
+| C9 | No risk is left unactionable | Every risk names a strategy, an owner, an action and a contingency or warning sign | Met | Risk List — Risk Mitigation and Contingency |
+| C10 | The plan for the rest of the sprint zero exists and names no work the process does not run | The milestone sequence is recorded and each work item belongs to a stage the IARI DEVELOPMENT PROCESS runs in its phase | Met | This artifact — Plan and Milestones |
 
-C2 and C8 are not the team's to satisfy: they are gate H1, they are the two findings that can hold the SBC milestone, and they are carried as R012, R016 and R022 rather than assumed. C5 is answered and recorded.
+Gate H1 is answered and C2, C5 and C8 are met on the stakeholder's own words. What remains is the milestone review itself (work item 8): the reviewers' verdict is not the Project Manager's to state, and no criterion above depends on it.
+
