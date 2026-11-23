@@ -152,7 +152,7 @@ end note
 | The browser never holds a bearer token | The token lives in the BFF's session cookie's token set and is written into the API request by the forwarder; the client is compiled without any token logic | `Todo.Web/Server/TodoApi.cs:18-22`; `Todo.Web/Server/AuthApi.cs:99-116`; `Todo.Web/Client/TodoClient.cs:7-71` |
 | The sign-in mechanism is replaceable without touching the task operations | Provider registration is configuration-driven and the provider key crosses the process boundary protected, not in the clear | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:39-75`; `Todo.Web/Server/AuthApi.cs:82-84`; `Todo.Api/Users/UsersApi.cs:24-34` |
 | One process can be replaced without rebuilding the other | The two hops are HTTP over service discovery with a contract declared on both sides — which is also the cost of that choice (AN-003) | `Todo.Web/Server/Program.cs:23-26`; `Todo.Web/Server/TodoApi.cs:16` |
-| Development is diagnosable, production is not talkative | Reference UI, health endpoints and body-and-header logging are all gated on the Development environment, while the root redirect is not (AN-017) | `Todo.Api/Program.cs:35-62`; `TodoApp.ServiceDefaults/Extensions.cs:110-118` |
+| Development is diagnosable, production is not talkative | Reference UI, health endpoints and body-and-header logging are all gated on the Development environment, while the request log's registration and the OpenAPI document are not (M11, M12; AN-017) | `Todo.Api/Program.cs:35-62`; `TodoApp.ServiceDefaults/Extensions.cs:110-118` |
 | The schema has one definition | Three EF Core migrations and their snapshot; no SQL script, procedure or trigger exists in the tree | `Todo.Api/Migrations/`; `.iari/README.md` |
 
 ### Constraints the architecture lives within
@@ -169,120 +169,125 @@ end note
 
 ### Technology, as the manifests declare it
 
-No enterprise version policy is recorded for this project (`get_version_policy` returns no pins), and the delivery states none. Every version below is read from the pinning files exactly as it stands; nothing is chosen, advanced or recommended here. The three files that decide what restores are `global.json` (SDK), `Directory.Packages.props` (every package, centrally) and `nuget.config` (the feed) — and no project file names a version of its own.
+The enterprise version policy records one pin for this project: **.NET SDK 9.0.100**, ecosystem `framework`, `ltsOnly` false, with the rationale that it formalizes what the delivery's own `global.json` fixes because no enterprise policy was declared by the stakeholder. It governs over the registry's latest, so no role advances the framework on its own initiative. Every version below is read from the pinning files exactly as it stands; nothing is chosen, advanced or recommended here, and no package in the table carries a policy pin of its own. The three files that decide what restores are `global.json` (SDK), `Directory.Packages.props` (every package, centrally) and `nuget.config` (the feed) — and no project file names a version of its own.
 
-| Ecosystem | Package or SDK | Version as declared | Declared in |
-|---|---|---|---|
-| nuget | .NET SDK | 9.0.100, `rollForward: latestFeature`, `allowPrerelease: true` | `global.json:3-6` |
-| nuget | Target framework | `net9.0` | `Directory.Build.props:4` |
-| nuget | Microsoft.AspNetCore.Mvc.Testing | 9.0.8 | `Directory.Packages.props` |
-| nuget | Microsoft.EntityFrameworkCore.InMemory | 9.0.8 | `Directory.Packages.props` |
-| nuget | Microsoft.NET.Test.Sdk | 17.14.1 | `Directory.Packages.props` |
-| nuget | xunit | 2.9.3 | `Directory.Packages.props` |
-| nuget | xunit.runner.visualstudio | 3.1.3 | `Directory.Packages.props` |
-| nuget | coverlet.collector | 6.0.4 | `Directory.Packages.props` |
-| nuget | Microsoft.AspNetCore.Identity.EntityFrameworkCore | 9.0.8 | `Directory.Packages.props` |
-| nuget | Microsoft.AspNetCore.OpenApi | 9.0.8 | `Directory.Packages.props` |
-| nuget | Microsoft.EntityFrameworkCore.Design | 9.0.8 | `Directory.Packages.props` |
-| nuget | Microsoft.EntityFrameworkCore.Sqlite | 9.0.8 | `Directory.Packages.props` |
-| nuget | Microsoft.OpenApi | 1.6.22 | `Directory.Packages.props` |
-| nuget | MiniValidation | 0.9.2 | `Directory.Packages.props` |
-| nuget | AspNet.Security.OAuth.GitHub | 9.4.0 | `Directory.Packages.props` |
-| nuget | Auth0.AspNetCore.Authentication | 1.5.0 | `Directory.Packages.props` |
-| nuget | Microsoft.AspNetCore.Authentication.Google | 9.0.8 | `Directory.Packages.props` |
-| nuget | Microsoft.AspNetCore.Authentication.MicrosoftAccount | 9.0.8 | `Directory.Packages.props` |
-| nuget | Microsoft.AspNetCore.Components.WebAssembly.Server | 9.0.8 | `Directory.Packages.props` |
-| nuget | Yarp.ReverseProxy | 2.3.0 | `Directory.Packages.props` |
-| nuget | Microsoft.AspNetCore.Components.WebAssembly | 9.0.8 | `Directory.Packages.props` |
-| nuget | Microsoft.AspNetCore.Components.WebAssembly.DevServer | 9.0.0 | `Directory.Packages.props` |
-| nuget | Microsoft.Extensions.Http | 9.0.8 | `Directory.Packages.props` |
-| nuget | Microsoft.Extensions.Http.Resilience | 9.7.0 | `Directory.Packages.props` |
-| nuget | Microsoft.Extensions.ServiceDiscovery | 9.5.0 | `Directory.Packages.props` |
-| nuget | Microsoft.Extensions.ServiceDiscovery.Yarp | 9.5.0 | `Directory.Packages.props` |
-| nuget | Scalar.AspNetCore | 2.6.8 | `Directory.Packages.props` |
-| nuget | OpenTelemetry.Exporter.OpenTelemetryProtocol, .Extensions.Hosting, .Instrumentation.AspNetCore, .Instrumentation.Http, .Instrumentation.Runtime | 1.12.0 each | `Directory.Packages.props` |
-| nuget | Aspire AppHost SDK | 13.1.1 | `TodoApp.AppHost/TodoApp.AppHost.csproj:1` |
-| container | `mcr.microsoft.com/dotnet/sdk` | `8.0` | `.devcontainer/devcontainer.json:2` |
-| container | `tomdesinto/sqliteweb` | no tag — unpinned | `TodoApp.AppHost/Program.cs:15` |
+| Ecosystem | Package or SDK | Version as declared | Declared in | Policy |
+|---|---|---|---|---|
+| framework | .NET SDK | 9.0.100, `rollForward: latestFeature`, `allowPrerelease: true` | `global.json:3-6` | **Pinned at 9.0.100** |
+| nuget | Target framework | `net9.0` | `Directory.Build.props:4` | follows the SDK pin |
+| nuget | Microsoft.AspNetCore.Mvc.Testing | 9.0.8 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.EntityFrameworkCore.InMemory | 9.0.8 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.NET.Test.Sdk | 17.14.1 | `Directory.Packages.props` | no pin |
+| nuget | xunit | 2.9.3 | `Directory.Packages.props` | no pin |
+| nuget | xunit.runner.visualstudio | 3.1.3 | `Directory.Packages.props` | no pin |
+| nuget | coverlet.collector | 6.0.4 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.AspNetCore.Identity.EntityFrameworkCore | 9.0.8 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.AspNetCore.OpenApi | 9.0.8 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.EntityFrameworkCore.Design | 9.0.8 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.EntityFrameworkCore.Sqlite | 9.0.8 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.OpenApi | 1.6.22 | `Directory.Packages.props` | no pin |
+| nuget | MiniValidation | 0.9.2 | `Directory.Packages.props` | no pin |
+| nuget | AspNet.Security.OAuth.GitHub | 9.4.0 | `Directory.Packages.props` | no pin |
+| nuget | Auth0.AspNetCore.Authentication | 1.5.0 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.AspNetCore.Authentication.Google | 9.0.8 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.AspNetCore.Authentication.MicrosoftAccount | 9.0.8 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.AspNetCore.Components.WebAssembly.Server | 9.0.8 | `Directory.Packages.props` | no pin |
+| nuget | Yarp.ReverseProxy | 2.3.0 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.AspNetCore.Components.WebAssembly | 9.0.8 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.AspNetCore.Components.WebAssembly.DevServer | 9.0.0 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.Extensions.Http | 9.0.8 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.Extensions.Http.Resilience | 9.7.0 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.Extensions.ServiceDiscovery | 9.5.0 | `Directory.Packages.props` | no pin |
+| nuget | Microsoft.Extensions.ServiceDiscovery.Yarp | 9.5.0 | `Directory.Packages.props` | no pin |
+| nuget | Scalar.AspNetCore | 2.6.8 | `Directory.Packages.props` | no pin |
+| nuget | OpenTelemetry.Exporter.OpenTelemetryProtocol, .Extensions.Hosting, .Instrumentation.AspNetCore, .Instrumentation.Http, .Instrumentation.Runtime | 1.12.0 each | `Directory.Packages.props` | no pin |
+| nuget | Aspire AppHost SDK | 13.1.1 | `TodoApp.AppHost/TodoApp.AppHost.csproj:1` | no pin |
+| container | `mcr.microsoft.com/dotnet/sdk` | `8.0` | `.devcontainer/devcontainer.json:2` | no pin |
+| container | `tomdesinto/sqliteweb` | no tag — unpinned | `TodoApp.AppHost/Program.cs:15` | no pin |
 
 Three build-level disagreements are recorded, not reconciled: the developer container names SDK 8.0 against a `net9.0` solution and a `9.0.100` pin, so the container cannot build the solution it ships with (AN-007); the server project pins `RazorLangVersion` to 8.0 against the same `net9.0` solution (AN-014); and the test project pins `Microsoft.EntityFrameworkCore.InMemory` 9.0.8 which nothing in the suite calls (AN-006). The `sqliteweb` image is the one dependency the tree declares with no version at all.
 
 ### The Supplementary Specification, answered by this architecture
 
-Every group of the Supplementary Specification's requirements is answered below by the mechanism that implements it, or recorded as an absence the architecture carries. An absence is written as an absence — no mechanism is claimed where the code has none.
+Every group of the Supplementary Specification's requirements is answered below by the mechanism that implements it, or recorded as an absence the architecture carries. An absence is written as an absence — no mechanism is claimed where the code has none. The specification numbers its own mechanisms M1 to M11 and this document numbers its own M1 to M13; the two sets run in step to the sixth and diverge at the seventh, so SPEC-D1 states the mapping once and every row below names both identifiers.
 
 ```plantuml
 @startuml
-title SPEC-D1 The Supplementary Specification, answered by the architecture - each group of its requirements against the mechanism that implements it
+title SPEC-D1 The Supplementary Specification's M1-M11 against this document's M1-M13 - two numbering sets that diverge at the seventh
 
 skinparam componentStyle rectangle
 skinparam shadowing false
 skinparam wrapWidth 205
 left to right direction
 
-package "Supplementary Specification" {
-  component "Functionality\nM1-M11 mechanisms\nF1-F12 behaviours not to overstate" as SS1
-  component "Usability\nU1-U10" as SS2
-  component "Reliability\nR1-R11" as SS3
-  component "Performance\nP1-P7" as SS4
-  component "Supportability\nS1-S18" as SS5
-  component "Design Constraints\nDC1-DC14" as SS6
-  component "Interfaces\nI1-I20" as SS7
-  component "Applicable Standards\nAS1-AS9" as SS8
+package "Supplementary Specification - Functionality M1-M11" {
+  component "M1 bearer authentication" as SS1
+  component "M2 current-user resolution" as SS2
+  component "M3 per-user token bucket" as SS3
+  component "M4 data-annotation validation" as SS4
+  component "M5 data protection" as SS5
+  component "M6 cookie session" as SS6
+  component "M7 HTTP logging" as SS7
+  component "M8 telemetry, health, discovery" as SS8
+  component "M9 schema migration" as SS9
+  component "M10 transport protection" as SS10
+  component "M11 host filtering" as SS11
 }
 
-package "Mechanisms in this document that implement them" {
-  component "M1 bearer authentication\nM2 caller resolution\nM6 browser session\nM7 session-to-bearer" as SADM1
-  component "M3 token bucket\nM4 request-shape validation\nM5 cross-process data protection" as SADM2
-  component "M8 discovery and resilience\nM9 observability and health\nM10 schema provisioning" as SADM3
-  component "M11 request diagnostics\nM12 API description\nM13 isolated verification host" as SADM4
+package "This document - mechanisms M1-M13" {
+  component "M1 bearer-token authentication" as SD1
+  component "M2 caller identity resolution" as SD2
+  component "M3 per-caller request throttling" as SD3
+  component "M4 request-shape validation" as SD4
+  component "M5 cross-process data protection" as SD5
+  component "M6 browser session" as SD6
+  component "M7 session-to-bearer translation" as SD7
+  component "M8 process discovery and client resilience" as SD8
+  component "M9 observability and health" as SD9
+  component "M10 schema provisioning" as SD10
+  component "M11 request diagnostics" as SD11
+  component "M12 API description" as SD12
+  component "M13 isolated verification host" as SD13
 }
 
-package "Views that carry their consequence" {
-  component "Process View P1-P6\nthe two hops stated apart" as PV
-  component "Deployment View\none placement, key ring on the file system" as DV
-  component "Size and Performance SP1-SP7\nthe budget in force, 50 / 50 / 50" as SZ
-  component "Quality\ntactic against the anomaly that defeats it" as QL
-  component "Implementation View\ncentral pinning, the missing reference" as IV
+package "Carried as constraints, because no component provides them" {
+  component "DC13 plain HTTP between the processes" as DC13
+  component "DC14 no Host filtering in either process" as DC14
 }
 
-package "Where the architecture answers with an absence" {
-  component "AN-002 no service credential\nAN-010 no pinned key store\nAN-023 no forwarder resilience" as G1
-  component "AN-009 /users unlimited\nAN-005 EnsureCreated schema\nAN-012 BFF and client untested" as G2
-  component "DC12 not deployed anywhere\nS8 diagnostics Development-only\nAS7 accessibility not established" as G3
-}
+SS1 --> SD1
+SS2 --> SD2
+SS3 --> SD3
+SS4 --> SD4
+SS5 --> SD5
+SS6 --> SD6
+SS7 --> SD11
+SS8 --> SD8
+SS8 --> SD9
+SS9 --> SD10
+SS10 --> DC13
+SS11 --> DC14
 
-SS1 --> SADM1
-SS1 --> SADM2
-SS2 --> SADM1
-SS3 --> SADM3
-SS3 --> PV
-SS4 --> SADM2
-SS4 --> SZ
-SS5 --> SADM3
-SS5 --> SADM4
-SS6 --> IV
-SS6 --> SADM1
-SS7 --> SADM4
-SS7 --> DV
-SS8 --> SADM4
-SS8 --> G3
-
-SADM1 --> G1
-SADM2 --> G2
-DV --> G3
-
-note bottom of G1
-  Three requirements the specification states the code
-  does NOT meet, and the architecture records the absence
-  rather than a tactic. AN-002, AN-010, AN-023.
+note right of SS7
+  Where the two sets diverge. The specification's M7 is
+  HTTP logging, which this document carries at M11. From
+  this point the same number names a different mechanism
+  in each document, so every answer below cites the
+  specification's own identifier and this document's name.
 end note
 
-note bottom of G3
-  The architecture carries these as constraints on any
-  later change, not as defects of a design: nothing in
-  the tree contradicts them and nothing in the tree
-  supplies them. DC12, S8, AS7.
+note bottom of SS10
+  The specification carries transport protection at M10
+  and host filtering at M11. Neither is a mechanism any
+  component provides: the code fixes them as posture, so
+  this document records them at DC13 and DC14.
+end note
+
+note bottom of SD12
+  M12 and M13 have no counterpart in the specification's
+  set: the OpenAPI document is described there under
+  Interfaces I15 and the test host under Supportability S5
+  to S7.
 end note
 
 @enduml
@@ -290,12 +295,12 @@ end note
 
 | Specification group | How the architecture answers it | Where it is answered | Absent, and named |
 |---|---|---|---|
-| Functionality, M1-M11 | Each mechanism is carried as M1 to M13 with the capability it provides, the properties the code fixes, its product where one is stated, and the use cases that use it | Logical View — Architectural mechanisms | Nothing in this group is absent; M14 to M16 of the specification are host and transport posture, carried as DC13 and DC14 below because no component provides them |
+| Functionality, M1-M11 | Each mechanism is carried with the capability it provides, the properties the code fixes, its product where one is stated, and the use cases that use it. The specification's M1 to M6 answer to this document's M1 to M6; its M7 (HTTP logging) to M11; its M8 (telemetry, health, discovery) to M8 and M9; its M9 (schema migration) to M10; and its M10 and M11 are not mechanisms at all — transport protection and host filtering are process posture no component provides, carried here at DC13 and DC14 | Logical View — Architectural mechanisms; SPEC-D1 for the numbering | Nothing in this group is absent. This document's M12 (API description) and M13 (verification host) have no counterpart in the specification's mechanism set and are carried because the architecture has them: the OpenAPI document appears there at I15 and the test host at S5 to S7 |
 | Functionality, F1-F12 | Each behaviour not to be overstated is honoured by the view it constrains: F1 keeps the completion write out of every screen path, F4 and F5 keep the `admin` branch an exceptional entity the flows do not follow, F6 and F10 keep the budget stated at both its values, F7, F11 and F12 keep every trust and transport claim withdrawn | Use-Case View (per-use-case component sets), Size and Performance SP1, Quality, Goals and Constraints (Constraints) | None |
 | Usability, U1-U10 | The three screens and their rules are carried by COMP-001 and COMP-002, whose responsibilities name the two shells, the login and create-user form, the task list and the client's six operations | Logical View — Components; Deployment View (the browser node) | U7's two inert controls and U8's missing empty state are behaviours of COMP-001 and are recorded, not answered: no component supplies them (AN-001) |
 | Reliability, R1-R11 | M9 carries health and telemetry, M10 carries schema provisioning, M13 carries the isolated verification host, and the two BFF hops are stated apart | Process View P6; Deployment View; Quality (Reliability rows) | R10's transport protection and R11's inheritance of the BFF posture are absent between the processes: the API registers no HSTS, redirection or antiforgery and the target is the literal `http://todoapi` (DC13) |
 | Performance, P1-P7 | SP1 to SP7 state what the code fixes on its own behaviour, with the budget in force separated from the code default | Size and Performance | No threshold is claimed: the delivery states none, and SP2 records that no payload limit exists |
-| Supportability, S1-S18 | S2 and S10 are the two configuration surfaces the architecture exposes; S13, S14, S15 and S17 are the four that are fixed in code and need a redeploy; S5, S6 and S7 are the verification gaps | Deployment View (Nodes and Connectors, Environment Mapping); Implementation View; Quality (Testability) | S16 and S18 are absent: no deployment artifact exists (DC12) and no diagnostic surface exists outside Development (S8) |
+| Supportability, S1-S18 | S2's budget and S10's connection string are the two values an operator changes from a file; S13, S14, S15 and S17 are the four fixed in code and needing a redeploy; S5, S6 and S7 are the verification gaps; S1's OTLP switch is an environment variable | Deployment View (Nodes and Connectors, Environment Mapping); Implementation View; Quality (Testability) | S16 and S18 are absent: no deployment artifact exists (DC12), and outside Development no health endpoint and no reference UI exists. **One diagnostic surface does survive unconditionally** — `app.MapOpenApi()` is not gated, so the OpenAPI document at `/openapi/v1.json` is served in every environment while everything around it is Development-only (M12). The specification's S8 and S18 state the document among the Development-only surfaces; the code maps it unconditionally and the code is recorded |
 | Design Constraints, DC1-DC14 | DC1 and DC2 are the build root in the Implementation View; DC3 to DC5 and DC11 are the data path; DC6 to DC9 are the contract and key-ring boundaries; DC10, DC13 and DC14 are the environment and transport posture | Implementation View; Data View; Goals and Constraints (Constraints) | None — each is a constraint the architecture lives within, and the Quality view names the anomaly each one leaves |
 | Interfaces, I1-I20 | The connectors table gives each hop its mechanism, and the Deployment View places each endpoint on its node | Logical View — Connectors; Deployment View | No interface is claimed to be authenticated between the two processes: I6 and I13 cross a boundary that carries no service credential (AN-002) |
 | Applicable Standards, AS1-AS9 | AS1, AS4, AS5 and AS6 are held by the framework the components are built on; AS2 is held for validation errors only; AS9 is held at the BFF's edge only | Quality (Maintainability, Security); Data View (the schema's single definition) | AS3 is unexercised (no provider registered, AN-010) and AS7 is not established at all — no accessibility statement, test or attribute beyond `aria-label` on one inert control |
