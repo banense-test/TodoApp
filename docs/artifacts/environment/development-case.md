@@ -82,14 +82,17 @@ DC ..> CG : conventions referenced
 
 ### Delta this phase carries
 
-Consolidation is the sprint zero's third and last phase, and the only one whose intensity rises in Requirements while Analysis & Design falls from Critical to Medium: the reading is done, the set is being completed and counted. What this document changes for it, and nothing else:
+Consolidation is the sprint zero's third and last phase, and the only one whose intensity rises in Requirements while Analysis & Design falls from Critical to Medium: the reading is done, the set is being completed and counted.
 
-- Document Control names Consolidation, iteration 1, target end-of-Consolidation (GHR).
-- `Development Case#F4` — the Reviewer's Minor that `ACT-DC-01` named Project Management only in the Survey partition — is corrected in the Disciplines and Intensity section: every phase partition now names every discipline the canonical matrix schedules in it.
-- The six OPTIONAL triggers and both classification verdicts are re-evaluated for this phase: five NOT FIRED, `Deployment Model` remains FIRED, and no trigger newly fires.
-- The version policy the delivery fixes is recorded and cited under Roles and Ownership; no version is resolved or verified here.
+| What this phase changes | Where it is carried | Why |
+|---|---|---|
+| Document Control names Consolidation, iteration 1, Cycle 1, target end-of-Consolidation (GHR) | Document Control | Prepare Environment for an Iteration — the document is current before the phase's first working role starts |
+| ACT-DC-01 names Project Management in every phase partition, beside every other discipline the canonical matrix schedules in that phase | Disciplines and Intensity | Closes `Development Case#F4`: the diagram's per-phase discipline list now matches the intensity table it annotates |
+| The six OPTIONAL triggers re-evaluated; both classification verdicts re-evaluated | Optional Artifact Triggers, Tailoring Overview | Prepare Environment for an Iteration — re-evaluated every iteration, never carried forward unread |
+| The version policy the delivery fixes recorded as `framework` `.NET` `9.0.100` | Roles and Ownership | Governs over any registry `latest`; resolving a version is the Software Architect's work, not this document's |
+| ACT-DC-02 added: the discipline's three activity clusters | Guidelines and Procedures | The section now states which Environment activities recur and which run once |
 
-No tailoring decision of the baseline changes. No role is added, merged, removed or reassigned; no CORE artifact is omitted and no intensity deviates.
+No tailoring decision of the baseline changes: no role is added, merged, removed or reassigned, no CORE artifact is omitted, and no intensity deviates from the canonical matrix.
 
 ## Disciplines and Intensity
 Every active discipline runs at the intensity the canonical matrix fixes for its phase. **No deviation is requested and no intensity level is assigned by this document.**
