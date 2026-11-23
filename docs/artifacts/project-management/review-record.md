@@ -1,11 +1,13 @@
 ## Document Control
 ### Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
+
+<!-- review: Survey I2 -->
 
 - Phase: Survey
-- Status: Technical lens complete for the SBC milestone review. Seven findings recorded: 0 Critical, 4 Major, 3 Minor, 0 Info. Disposition — Approved with Changes.
-- Milestone Target: end-of-Survey (SBC) — not yet achieved; the four Major findings require rework before any role consumes these artifacts.
-- Iteration: 1, Cycle 1
+- Status: Technical lens complete for the re-taken SBC milestone review. Two findings recorded: 0 Critical, 0 Major, 2 Minor, 0 Info. Disposition — Approved with Changes (the Changes are the two Minors, which no role consumes and no exit criterion depends on).
+- Milestone Target: end-of-Survey (SBC) — not achieved. Gate H2 was refused on 2026-11-23 and nothing in this lens closes it; the sanction is the stakeholder's to re-take.
+- Iteration: 2, Cycle 1
 - Owner: Reviewer
 
 ### Management Reviewer lens
