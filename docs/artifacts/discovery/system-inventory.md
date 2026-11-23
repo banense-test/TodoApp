@@ -237,27 +237,113 @@ Commit history is the only record of how the system reached its present shape; t
 | README.md | 20 commits, 2022-12-02 to 2025-09-28; older history beyond them | Serilog added then replaced by OpenTelemetry (`764573c`, `5667455`); the external-OIDC section removed (`2c4300d`); docker-compose documented then dropped (`8e8e8a1`); clarity edits (`a6ff858`) | Consolidating | `a6ff858`, `beb0011`, `fdc49bb`, `3308193`, `c064cff`, `09ea52d`, `6b9f07e`, `2c4300d`, `764573c`, `5667455`, `8e8e8a1` |
 
 ## Anomalies
-Each anomaly is a risk: the evidence is anchored, the likelihood says how likely it is to bite, the impact how much it costs when it does. The Project Manager carries these into the Risk List by `AN-NNN`.
+Each anomaly is a risk: the evidence is anchored, the likelihood says how likely it is to bite, the impact how much it costs when it does. The Project Manager carries these into the Risk List by `AN-NNN`. Fourteen sit on an entry point and are carried below as a `DependsOn` edge; the other seven concern the build, the tests or the delivery and have no entry point to hang from.
+
+```plantuml
+@startuml
+title Anomalies mapped to the entry point they sit on, and those with no entry point at all
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+left to right direction
+
+package "Entry points" {
+  component "EP-003  Todo list screen" as E3
+  component "EP-004  POST /auth/register" as E4
+  component "EP-005  POST /auth/login" as E5
+  component "EP-007  GET /auth/login/{provider}" as E7
+  component "EP-008  GET /auth/signin/{provider}" as E8
+  component "EP-010  GET /todos" as E10
+  component "EP-011  GET /todos/{id}" as E11
+  component "EP-013  PUT /todos/{id}" as E13
+  component "EP-014  DELETE /todos/{id}" as E14
+  component "EP-015  /users Identity endpoint set" as E15
+  component "EP-016  POST /users/token/{provider}" as E16
+  component "EP-017  GET / redirect" as E17
+  component "EP-019  Scalar reference UI" as E19
+  component "EP-022  migration platform event" as E22
+}
+
+package "On an entry point" {
+  component "AN-001  no UI path to complete a todo" as A1
+  component "AN-002  no BFF-to-API authentication" as A2
+  component "AN-004  admin role never granted" as A4
+  component "AN-008  README names a Swagger UI" as A8
+  component "AN-009  Identity endpoints unlimited" as A9
+  component "AN-010  key ring not pinned" as A10
+  component "AN-015  app host still moving" as A15
+  component "AN-017  root redirect unconditional" as A17
+  component "AN-018  list ignores the admin role" as A18
+  component "AN-019  provider name taken unchecked" as A19
+  component "AN-020  failed sign-in swallowed" as A20
+  component "AN-021  every auth failure answers 401" as A21
+}
+
+package "No entry point - build, tests, delivery" {
+  component "AN-003  request contracts declared twice" as A3
+  component "AN-005  migrations not exercised" as A5
+  component "AN-006  unused test dependency" as A6
+  component "AN-007  SDK 8 image against net9.0" as A7
+  component "AN-011  token minted from framework internals" as A11
+  component "AN-012  two thirds of the system untested" as A12
+  component "AN-013  database path relative to the working directory" as A13
+  component "AN-014  RazorLangVersion left at 8.0" as A14
+  component "AN-016  no document of the system" as A16
+}
+
+A1 --> E3
+A1 --> E13
+A2 --> E16
+A4 --> E11
+A4 --> E13
+A4 --> E14
+A8 --> E17
+A8 --> E19
+A9 --> E15
+A10 --> E8
+A10 --> E16
+A15 --> E22
+A17 --> E17
+A17 --> E19
+A18 --> E10
+A18 --> E11
+A19 --> E7
+A20 --> E8
+A21 --> E4
+A21 --> E5
+A21 --> E7
+
+note bottom of A4
+  AN-018 is reachable only through the path AN-004 describes:
+  a token the running system never grants.
+end note
+
+@enduml
+```
 
 | ID | Anomaly | Kind | Evidence | Likelihood | Impact |
 |---|---|---|---|---|---|
-| AN-001 | The UI cannot mark a todo complete. The list renders a checkbox that is bound to nothing and calls nothing, and the client has no update call, so the only update endpoint has no screen. Recovering "complete a todo" as a use case from the code will find no user-facing path to it | Suspicious coding style | `Todo.Web/Client/Components/TodoList.razor:26`; `Todo.Web/Client/TodoClient.cs:5-63` (six calls, none of them an update); `Todo.Api/Todos/TodoApi.cs:52-65` | likely | moderate |
-| AN-002 | No service-to-service authentication between the BFF and the API. The API accepts a bearer token from any caller, and its own comment records the gap; the external-token endpoint is reachable by whoever reaches the API | Missing from the delivery | `Todo.Api/Users/UsersApi.cs:16`; `Todo.Api/Program.cs:14` | possible | high |
-| AN-003 | The request contracts are declared twice, in two assemblies that do not reference each other, so nothing checks that they still agree. `TodoItem` and the `UserInfo`/`ExternalUserInfo` pair exist in both the API and the shared client project | Suspicious coding style | `Todo.Api/Todos/Todo.cs:15-21` vs `Todo.Web/Shared/SharedClass.cs:5-11`; `Todo.Api/Users/TodoUser.cs:12-29` vs `Todo.Web/Shared/SharedClass.cs:13-29` | likely | moderate |
-| AN-004 | The admin path exists only for a caller who mints its own token. The endpoints grant cross-owner access to a principal holding the `admin` role, but nothing in the running system assigns that role: no seeding exists, the app host runs only migrations, the `IsAdmin` column was dropped by migration 2, and the only code that adds the claim is the test harness | Exceptional entity | `Todo.Api/Authorization/CurrentUser.cs:12`; `Todo.Api/Todos/TodoApi.cs:33,59,69`; `TodoApp.AppHost/Extensions.cs:1-21`; `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs:13-15`; `Todo.Api.Tests/TokenService.cs:16-19` | likely | moderate |
-| AN-005 | The migrations are not exercised by the test suite. The test host builds the schema with `EnsureCreated`, so a migration that no longer matches the model fails only when the app host runs it, and the app host runs it only when `.db` is absent | Missing from the delivery | `Todo.Api.Tests/TodoApplication.cs:11-14`; `TodoApp.AppHost/Extensions.cs:9-17,32` | possible | moderate |
-| AN-006 | A declared dependency is not used: the test project references `Microsoft.EntityFrameworkCore.InMemory` while the harness opens in-memory SQLite | Inferior quality | `Todo.Api.Tests/Todo.Api.Tests.csproj:4`; `Todo.Api.Tests/TodoApplication.cs:7` | likely | low |
+| AN-001 | The UI cannot mark a todo complete. The list renders a checkbox bound to nothing and wired to nothing, and the client exposes no update call, so the only update endpoint has no screen. Recovering "complete a todo" as a use case from the code finds no user-facing path to it | Suspicious coding style | `Todo.Web/Client/Components/TodoList.razor:24-27`; `Todo.Web/Client/TodoClient.cs:7-71` (six calls, none of them an update); `Todo.Api/Todos/TodoApi.cs:52-65` | likely | moderate |
+| AN-002 | No service-to-service authentication between the BFF and the API. The API accepts a bearer token from any caller, and its own comment records the gap; the external-token endpoint is reachable by whoever reaches the API | Missing from the delivery | `Todo.Api/Users/UsersApi.cs:16`; `Todo.Api/Program.cs:13-14` | possible | high |
+| AN-003 | The request contracts are declared twice, in two assemblies that do not reference each other, so nothing checks that they still agree: `TodoItem` in the API's `Todo.cs` and again in the shared project, and the `UserInfo`/`ExternalUserInfo` pair likewise | Suspicious coding style | `Todo.Api/Todos/Todo.cs:15-21` vs `Todo.Web/Shared/SharedClass.cs:5-11`; `Todo.Api/Users/TodoUser.cs:12-29` vs `Todo.Web/Shared/SharedClass.cs:13-27` | likely | moderate |
+| AN-004 | The admin path exists only for a caller who mints its own token. The endpoints grant cross-owner access to a principal holding the `admin` role, but nothing in the running system assigns that role: no seeding exists, the app host runs only migrations, the `IsAdmin` column was dropped by migration 2, and the only code that adds the claim is the test harness | Exceptional entity | `Todo.Api/Authorization/CurrentUser.cs:12`; `Todo.Api/Todos/TodoApi.cs:33,59,69`; `TodoApp.AppHost/Extensions.cs:4-21`; `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs`; `Todo.Api.Tests/TokenService.cs:16-19` | likely | moderate |
+| AN-005 | The migrations are not exercised by the test suite. The test host builds the schema with `EnsureCreated`, so a migration that no longer matches the model fails only when the app host runs it, and the app host runs it only when `.db` is absent | Missing from the delivery | `Todo.Api.Tests/TodoApplication.cs:11-14`; `TodoApp.AppHost/Extensions.cs:9-21,28-29` | possible | moderate |
+| AN-006 | A declared dependency is not used: the test project references `Microsoft.EntityFrameworkCore.InMemory` while the harness opens in-memory SQLite | Inferior quality | `Todo.Api.Tests/Todo.Api.Tests.csproj:5`; `Todo.Api.Tests/TodoApplication.cs:7` | likely | low |
 | AN-007 | The developer container cannot build the solution it ships with: the image names SDK 8.0 while the build targets net9.0 and the SDK pin is 9.0.100. The Development Case records the disagreement and leaves the settlement to the Integrator | Inferior quality | `.devcontainer/devcontainer.json:2`; `Directory.Build.props:4`; `global.json:3` | likely | moderate |
-| AN-008 | The README sends the reader to a Swagger UI for the standalone API; the code maps the Scalar reference UI and redirects `/` there, and no Swagger UI is mounted | Document contradicted by the code | `README.md` (Using the API standalone); `Todo.Api/Program.cs:49-56,62` | likely | low |
-| AN-009 | The Identity endpoints are not rate limited, and the limiter that does exist cannot separate anonymous callers: the policy is applied to `/todos` only, and it partitions on `NameIdentifier`, which an unauthenticated caller does not have, so every such caller shares one bucket | Inferior quality | `Todo.Api/Users/UsersApi.cs:10-20` vs `Todo.Api/Todos/TodoApi.cs:19`; `Todo.Api/Extensions/RateLimitExtensions.cs` | possible | moderate |
+| AN-008 | The README sends the reader to a Swagger UI for the standalone API; the code maps the Scalar reference UI and redirects `/` there, and no Swagger UI is mounted | Document contradicted by the code | `README.md` (Using the API standalone); `Todo.Api/Program.cs:47-56,62` | likely | low |
+| AN-009 | The Identity endpoints carry no rate limit: the token-bucket policy is required on `/todos` only, so `login`, `register`, `refresh` and `forgotPassword` under `/users` are unlimited. The policy as written could not simply be moved: it partitions on the `NameIdentifier` claim, which an anonymous caller does not have, and the null-forgiving operator on that lookup hides the fact that the partition key would be null | Inferior quality | `Todo.Api/Users/UsersApi.cs:10-20` vs `Todo.Api/Todos/TodoApi.cs:19`; `Todo.Api/Extensions/RateLimitExtensions.cs:38-47` | possible | moderate |
 | AN-010 | The data-protection keys are not pinned to a shared store, although an external provider key is protected with them in one process and unprotected in another. Only the application discriminator is set, so the two processes share a key ring solely through the framework's default file location — which a deployment that separates them into containers does not share | Missing from the delivery | `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11`; `Todo.Web/Server/AuthApi.cs:82-90`; `Todo.Api/Users/UsersApi.cs:24-34` (no `PersistKeysTo…` call exists in either program) | possible | moderate |
-| AN-011 | The test suite mints tokens by copying framework internals: it reads `BearerTokenOptions.BearerTokenProtector` and reproduces the bearer-token ticket format from a pinned upstream file, so a framework upgrade can break the suite without any behaviour changing | Suspicious coding style | `Todo.Api.Tests/TokenService.cs:10,21,38-39`; `Todo.Api.Tests/TodoApplication.cs:79-95` | likely | moderate |
-| AN-012 | Two thirds of the system carry no tests. The only test project references `Todo.Api` alone; neither the Blazor client nor the BFF that holds the session and the proxy has a test of any kind | Missing from the delivery | `Todo.Api.Tests/Todo.Api.Tests.csproj:9`; the tree holds no other test project | likely | moderate |
-| AN-013 | The API's database path is relative to its working directory and its directory is created by the app host alone, so the README's standalone path works only after the app host has run once | Missing from the delivery | `Todo.Api/Program.cs:23`; `TodoApp.AppHost/Extensions.cs:7-17`; `README.md` (Using the API standalone) | possible | low |
-| AN-014 | The server project pins `RazorLangVersion` to 8.0 while the solution targets net9.0, and the ASP.NET Core package is 9.0.8 — a version left behind by the RTM upgrade | Suspicious coding style | `Todo.Web/Server/Todo.Web.Server.csproj:7`; `Directory.Build.props:4`; `Directory.Packages.props` | possible | low |
+| AN-011 | The test suite mints tokens by copying framework internals: it reads `BearerTokenOptions.BearerTokenProtector` and reproduces the bearer-token ticket format from a pinned upstream file, so a framework upgrade can break the suite without any behaviour changing | Suspicious coding style | `Todo.Api.Tests/TokenService.cs:10,21,29-41`; `Todo.Api.Tests/TodoApplication.cs:79-95` | likely | moderate |
+| AN-012 | Two thirds of the system carry no tests. The only test project references `Todo.Api` alone; neither the Blazor client nor the BFF that holds the session and the proxy has a test of any kind, and the three BFF flows AN-019, AN-020 and AN-021 break are exactly the untested ones | Missing from the delivery | `Todo.Api.Tests/Todo.Api.Tests.csproj:11`; the tree holds no other test project | likely | moderate |
+| AN-013 | The API's database path is relative to its working directory and its directory is created by the app host alone, so the README's standalone path works only after the app host has run once | Missing from the delivery | `Todo.Api/Program.cs:23`; `TodoApp.AppHost/Extensions.cs:4-21`; `README.md` (Using the API standalone) | possible | low |
+| AN-014 | The server project pins `RazorLangVersion` to 8.0 while the solution targets net9.0 and the ASP.NET Core packages are 9.0.8 — a version left behind by the RTM upgrade | Suspicious coding style | `Todo.Web/Server/Todo.Web.Server.csproj:7`; `Directory.Build.props:4`; `Directory.Packages.props` | possible | low |
 | AN-015 | The orchestration layer is the only part still changing: the app host moved three times after the last change to the API, and the whole solution was force-upgraded once (`a6dea68`), on a codebase that has otherwise been quiet since 2025-08-07 | Unstable area | `TodoApp.AppHost` history 2024-11-23 to 2026-02-12; `Todo.Api` history to 2025-08-07 (see History) | likely | low |
 | AN-016 | No document describes the system. There is no requirement, design, architecture or test document, so every recovered element of the next phases rests on code reading alone, and no reading can be confirmed against a stated intent | Missing from the delivery | `.iari/README.md` ("Documents. No requirements, design or architecture documents, and no manuals"); the tree holds none | likely | moderate |
-| AN-017 | The API redirects `/` to the Scalar reference UI unconditionally, while that UI is mapped only in Development, so in any other environment the root path redirects to an endpoint the process does not serve | Inferior quality | `Todo.Api/Program.cs:62` against `Todo.Api/Program.cs:48-56` | likely | low |
+| AN-017 | The API redirects `/` to the Scalar reference UI unconditionally, while that UI is mapped only in Development, so in any other environment the root path redirects to an endpoint the process does not serve | Inferior quality | `Todo.Api/Program.cs:62` against `Todo.Api/Program.cs:47-56` | likely | low |
+| AN-018 | The list and the item endpoints disagree on who may see a row. `GET /todos` filters on `OwnerId` alone with no admin branch, while `GET /todos/{id}`, `PUT` and `DELETE` each admit a principal in the `admin` role, so a caller holding that role can read, change and delete a row by id but cannot see it in the list it is reached from | Suspicious coding style | `Todo.Api/Todos/TodoApi.cs:24-27` vs `Todo.Api/Todos/TodoApi.cs:29-36,52-65,67-73` | likely | moderate |
+| AN-019 | The external sign-in challenge takes the provider name straight from the URL route and passes it to `Results.Challenge` as the authentication scheme list, checking it against no registered scheme. An unauthenticated caller requesting any other path segment names a scheme that does not exist, and the handler raises rather than answering a redirect or a 404 | Inferior quality | `Todo.Web/Server/AuthApi.cs:55-62`; `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:39-75` | likely | low |
+| AN-020 | The provider callback reports nothing when it fails. If the external ticket is absent, if the token exchange returns null, or if the cookie sign-in does not take effect, the handler still redirects to `/`, so the person is returned to the login form with no message and no way to tell a rejected provider from an unreachable API. The code's own `// TODO: Handle the failure somehow` marks it | Inferior quality | `Todo.Web/Server/AuthApi.cs:64-97` (the redirect at `:94` runs on every path); `Todo.Web/Client/Components/TodoApp.razor:4-22` | likely | moderate |
+| AN-021 | Every authentication failure answers 401 with no body. Registration answers `Unauthorized` whether the email is already taken, the password fails the Identity policy, or the API is unreachable, and the BFF discards the API's validation problem in all three cases; the client then shows one fixed string, so the person is never told what to correct | Inferior quality | `Todo.Web/Server/AuthApi.cs:14-38`; `Todo.Web/Server/AuthClient.cs:6-34`; `Todo.Web/Client/Components/LogInForm.razor:76-95` | likely | moderate |
 
 ## Priorities
 No stakeholder statement of what matters exists for this delivery — the owner's note records that the authors cannot be asked — so the order is set by where the code concentrates its weight and by what the next phase must read to recover the system: requirements first need the operations the system performs, and analysis needs the path a request takes through them. Order 1 to 5 is the order Excavation reads them in.
