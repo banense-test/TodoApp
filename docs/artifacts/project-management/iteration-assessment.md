@@ -158,11 +158,9 @@ None implemented, and none was to be. Excavation writes no code; the Implementat
 | What Consolidation must not re-open | The four exclusions, on the stakeholder's statement that the recovered set is wrong in nothing and missing nothing |
 
 ## Results Relative to Evaluation Criteria
-One line per criterion the Iteration Plan carries, each decided on the evidence the artifact it cites records — and each re-derived from that artifact in this pass, not carried forward from the previous one.
-
 ```plantuml
 @startuml
-title Results relative to the AR exit criteria, iteration 3 - thirteen criteria on their own evidence, and the gate's two halves
+title Results relative to the AR exit criteria, iteration 3 - twelve on their own evidence, and the gate that did not open
 skinparam shadowing false
 skinparam wrapWidth 245
 hide circle
@@ -183,18 +181,16 @@ package "Met on the artifact that owns each - 12" {
   class "A13 no work the process does not run" as A13 <<met>>
 }
 
-package "The gate" {
-  class "A12 the recovered set confirmed" as A12 <<met>>
-  class "the advance refused" as SAN <<refused>>
+package "Not met - the gate" {
+  class "A12 the recovered set confirmed\nset confirmed; the advance REFUSED\nwhile a Major stands" as A12 <<notmet>>
 }
 
-A1 --> A12
+A1 --> A12 : the recovery half answered
 A10 --> A12
 A11 --> A12
-A12 --> SAN
-note bottom of SAN
+note bottom of A12
   Twelve of thirteen met is not the milestone. The sanction is the
-  stakeholder's and it was refused while the plan's one Major stands.
+  stakeholder's, and it was refused while this plan's one Major stands.
 end note
 @enduml
 ```
@@ -212,11 +208,10 @@ end note
 | A9 | Every risk is actionable | Met | Risk List — Risk Mitigation and Contingency: every row names a strategy, an owner, an action, a contingency and a warning sign. `R032` now states its avoidance as performed and its residual named |
 | A10 | The recovery states what the code does, not what it was meant to do | **Met — certified on the recovered set** | All four artifacts its own test names hold. Supplementary Specification M3, S2, P1, R8 under `AN-024` and R4 under `AN-023`; Software Architecture Document SP1, M3 and the bounded-load row; Deployment Model's Rate limiting row and narrowed preamble; and the Use-Case Model's R6, which now reads "In force: 50 tokens, 50 per 10 s, queue 50. Code defaults: 100 tokens, 100 per 10 s, queue 100" under `AN-024`, its note citing `RateLimitExtensions.cs:14-31` and `appsettings.Development.json:8-12`. `Use-Case Model#F4` closed |
 | A11 | The Minors the SBC review left open are closed | **Met — four of four** | `Iteration Plan#F2` and `#F3` and `System Inventory#F3` closed in iteration 1. `Development Case#F2` closed this gate — the contributor set names all six lenses and CLS-DC-01 draws the edges into the Review Record; `Development Case#F3` closed — Document Control reads Phase: Excavation, Iteration 3. Both were performed in the Environment stage the plan records. The criterion stands as written; no carry to Inception is recorded |
-| A12 | The recovered set is confirmed by the stakeholder | **Met as to the recovered set — the advance refused** | Gate H4 was put for the third time on 2026-11-23. Both halves are recorded as given: the set is confirmed as the model of the existing system — eleven use cases, four exclusions, twenty-two components, eight tables, nothing wrong or missing, no exclusion re-opened; and the sanction to advance past AR is refused while a Major stands. The advance is the milestone's condition, not this criterion's subject |
+| A12 | The recovered set is confirmed by the stakeholder | **Not met — the set confirmed, the sanction refused** | Gate H4 was put for the third time on 2026-11-23. Both halves are recorded as given: the set is confirmed as the model of the existing system — eleven use cases, four exclusions, twenty-two components, eight tables, nothing wrong or missing, no exclusion re-opened; and the sanction to advance past AR is refused while a Major stands. The criterion is the gate and the gate opens on the sanction; no condition is added beyond the refusal |
 | A13 | The plan names no work the process does not run | Met | The milestone sequence, coarse roadmap and Resources record Environment as this phase's first discipline; fine-plan items 1 to 3 sit against the Process Engineer under it. Every other item belongs to a stage the process runs in Excavation. `Iteration Plan#F7` closed |
 
-**Twelve met on the artifact that owns each; A12 met with the advance refused.** No criterion is certified on another's answer, and no finding is waived by a criterion's state. The milestone stays open on one Major and the stakeholder's refusal, neither of which is a defect in the recovery.
-
+**Twelve met on the artifact that owns each; A12 not met.** No criterion is certified on another's answer, and no finding is waived by a criterion's state. The milestone stays open on one Major of this plan's own and on the stakeholder's refusal; neither is a defect in the recovery, and no artifact of the recovered set carries an open finding from any lens.
 ## Test Results
 No test was executed in this iteration and none was planned. The Test discipline works from Elaboration, no test case is written before a use case is specified, and the Development Case records `Test Plan` NOT FIRED. No Test Evaluation Summary exists in Excavation. This section rests on the review, and nothing below is presented as a test result.
 
