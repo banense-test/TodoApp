@@ -7,7 +7,6 @@
 - Owner: System Analyst
 
 ## Use-Case Diagram
-
 The boundary is the one the System Inventory records: four processes, two stores, and the external systems the delivery reaches. Every use case below is anchored to the entry point whose code performs it.
 
 ```plantuml
@@ -19,8 +18,8 @@ skinparam shadowing false
 skinparam wrapWidth 210
 
 actor "ACT-001 Person with a task list\nthe only human actor the perimeter names" as A1
-actor "ACT-002 External identity provider\nGitHub, Google, Microsoft account, Auth0" as A2
-actor "ACT-003 Developer using the API directly\nbearer token, reference UI" as A3
+actor "ACT-002 External identity provider\nGitHub, Google, Microsoft account, Auth0\nsupporting actor of UC-003" as A2
+actor "ACT-003 Same person, reaching the API directly\nbearer token, reference UI" as A3
 
 rectangle "Todo App - the system boundary the System Inventory records" {
   package "Account" {
@@ -66,6 +65,11 @@ note right of UC3
   Stakeholder, 2026-11-23
 end note
 
+note right of UC5
+  ACT-003 alone: EP-015 is reached by no screen
+  and by no client call, so ACT-001 has no edge here.
+end note
+
 note right of UC10
   The only operation that writes IsComplete,
   and no client call reaches EP-013: an API
@@ -78,13 +82,12 @@ note bottom of UC9
 end note
 
 note bottom of A2
-  ACT-002 initiates only EP-008, on the person's
-  behalf. It initiates no use case of its own.
+  ACT-002 answers EP-008 on the person's behalf
+  and initiates no use case of its own.
 end note
 
 @enduml
 ```
-
 ## Actors
 | ID | Actor | Kind | Who or what it is, as established | Source |
 |---|---|---|---|---|
