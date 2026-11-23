@@ -346,19 +346,6 @@ Two dependencies order the work and are not negotiable: item 1 precedes item 2, 
 - **It does not restate a forecast.** No phase has closed, so no measured actual exists; iteration 2's work items carry owners and no size. Spend and elapsed time are recorded after the fact, as they were here.
 - **It does not treat the six Major findings as new scope or open a Change Request for them.** The Change Control Manager does not work in the sprint zero; the order reached its owners through the Review Record, and its ledger is the record.
 
-### The stakeholder question this iteration puts, rather than carries forward
-
-`Risk List#F1` may place `R004` and `R011` in the Significant band once reconciled, and acceptance there is the stakeholder's to grant. The Review Coordinator ordered that question held until the scores reconcile, because their current magnitudes are exactly what the review declared unreproducible.
-
-The Project Manager does not follow that ordering, and states why. The measured fact of this iteration is that the stakeholder queue time, 1:04:37.8136958, is the larger of the two clocks against 0:45:44.3700545 of agent time. Holding a question that only the stakeholder can answer until after a reconciliation pass buys nothing but a second queue cycle at the gate that has already refused once. The question does not in fact rest on an unreconciled score: the System Inventory states "likely / moderate" for `AN-004` and `AN-011`, which on the IARI scale is probability 4 × impact 3 = exposure 12 — the Significant band. That figure reproduces from the register's own cited evidence; it is the register's 2×2 and 4×2 that do not.
-
-The question is therefore put in this iteration, phrased conditionally so that it binds whatever the reconciliation returns:
-
-- If the reconciled score for `R004` (the `admin` branch, `AN-004`) lands at exposure 9 to 12 or above, does the stakeholder accept it for the sprint zero?
-- If the reconciled score for `R011` (the test suite reproducing framework internals, `AN-011`) lands at exposure 9 to 12 or above, does the stakeholder accept it for the sprint zero?
-
-A "Yes" leaves item 1's remediation complete apart from the arithmetic, and the SBC gate is not waiting on a queue when it is re-taken. A "No" is a refusal the next iteration plans around: an unaccepted Significant risk is a risk the plan must avoid or transfer, and neither `R004` nor `R011` has an avoidance action available inside the sprint zero. Neither answer pre-empts the reconciliation, and neither licenses a self-granted acceptance — the register still records each at its reconciled band, and an acceptance is recorded only where the stakeholder gave it.
-
 ### The stakeholder's grants on the two contested bands
 
 The Review Coordinator ordered the `R004` and `R011` acceptance question held until the scores reconcile. The Project Manager put it anyway, conditionally, and the stakeholder answered both on 2026-11-23:
