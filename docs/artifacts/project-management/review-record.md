@@ -1006,75 +1006,93 @@ stop
 
 ## Disposition
 ### Reviewer lens
-<!-- review: Excavation I1 -->
+<!-- review: Excavation I2 -->
 
-<!-- review: Excavation I1 -->
+<!-- review: Excavation I2 -->
 
-**Disposition: Approved with Changes.** Six Major, four Minor. The six Majors are open and hold the AR milestone; the four Minors do not.
+#### Disposition — Approved with Changes
 
-**What the recovered set establishes, and why it is approved rather than rejected.** The phase's real work is sound. Eleven use cases are recovered from twenty-two entry points, each citing the `EP-NNN` whose code performs it, and the entry points that carry none — `EP-020`, `EP-021`, `EP-022` and the `admin` branch — are accounted for with a reason, not dropped. Twenty-two components are recovered with their anchors, each technology declared in the artifact exists in a manifest, and the components realize the use cases whose paths they carry. The persistent store is recovered to the level of keys, indexes, referential actions and the seven rules the schema leaves to code. The System Inventory's coverage reproduces from its own table, its twenty-one anomaly edges reproduce from its own rows, and both the Risk List and the Iteration Plan certify their claims on the artifact each cites rather than on an adjacent answer. Nothing in this lens's read found a recovered element resting on an anchor that does not say what the element claims, except in the four cases recorded as Majors — and those are figures copied from one mechanism's description, not the recovery's structure.
-
-The two contradictions are the reason this is Approved with Changes and not Approved. They are narrow and they are fully diagnosed: one code file contradicts three artifacts' statement of a value, and one service-defaults file contradicts one artifact's statement of a capability. The recovery already contains the correct answer to both, recorded as AN-024 and AN-023 in the same phase. That is why the disposition is rework rather than rejection — the artifacts do not need re-deriving, they need one fact corrected in three places and one sentence corrected in a fourth.
-
-**What the milestone must not do while the Majors stand.** Gate H4 asks the stakeholder to accept the recovered use cases, architecture and data as the models of the existing system. They cannot be asked to accept a set whose stated request budget is double the value the system runs at, whose failure-handling claim about the task path is right and about the sign-in path wrong, whose use-case count is thirteen in one artifact and eleven in three others, and three of whose screen routes rest on trace edges the graph still marks suspect. Each of those is a question the stakeholder would be answering on wrong content.
+The recovered set improved decisively this iteration and it is not yet approvable. Nine of the ten artifacts this lens previously faulted now hold, each verified at its section and — for the four Majors about recovered facts — at the code itself. Two Majors remain, both on the Use-Case Model, and both are the two failure modes the nine closures removed, found elsewhere in the same set.
 
 ```plantuml
 @startuml
-title Disposition of the ten artifacts - what this lens approves, what it holds, and why
+title Disposition: the AR technical verdict, and what stands between it and an approval
 
 skinparam shadowing false
-skinparam componentStyle rectangle
-skinparam wrapWidth 225
-left to right direction
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 215
+hide circle
+hide empty members
 
-package "Approved from this lens - silence is approval" {
-  component "System Inventory\nno finding\ncoverage and edge counts reproduce" as OK1
-  component "Iteration Plan\nno finding\neach criterion on its own evidence" as OK2
+package "Verdict - Approved with Changes" {
+  class "Nine of the ten artifacts\nthis lens previously faulted\nnow hold on verified evidence" as V <<pass>>
+  class "No Critical finding\nno stakeholder decision\nis outstanding from this lens" as VC <<pass>>
+  class "Two Majors hold the milestone\nboth on one artifact\nboth owner-correctable in-phase" as VM <<major>>
 }
 
-package "Approved with Changes - Minors only, do not hold" {
-  component "Risk List\nF2 Minor" as M1
-  component "Design Model\nF1 Minor" as M2
-  component "Development Case\nF3 Minor" as M3
+package "What an approval requires" {
+  class "Use-Case Model#F3\nfive COMP-014 edges confirmed\nno SUSPECT left at close" as R1 <<action>>
+  class "Use-Case Model#F4\nR6 states both budgets\nunder AN-024" as R2 <<action>>
+  class "Development Case#F3\nfour Document Control fields\nbrought forward" as R3 <<minor>>
 }
 
-package "Held - Major open, rework before H4" {
-  component "Supplementary Specification\nF1 Major - rate-limit values\nF2 Major - resilience claim" as H1
-  component "Software Architecture Document\nF1 Major - rate-limit values" as H2
-  component "Deployment Model\nF1 Major - environment mapping" as H3
-  component "Use-Case Model\nF1 Major - three suspect edges\nF2 Minor" as H4
-  component "Vision\nF1 Major - thirteen use cases" as H5
+package "What this lens does not decide" {
+  class "Gate H4\nthe stakeholder's confirmation\nof the recovered set" as H4 <<stakeholder>>
+  class "The AR milestone verdict\nconsolidated by the\nReview Coordinator" as RC <<stakeholder>>
 }
 
-package "Carried by another lens, not this one" {
-  component "Development Case#F2\nManagement Reviewer's finding\nIteration Plan A11 reads 3 of 4" as OTHER
-}
+V --> VM
+VM --> R1 : closed by
+VM --> R2 : closed by
+VM --> R3 : does not hold the gate
+R1 --> RC : then re-read
+R2 --> RC : then re-read
+R3 --> RC : in the owner's next turn
+RC ..> H4 : put after the Majors land
 
-OK1 --> H1 : AN-024 is the correct\nstatement H1 contradicts
-OK2 --> H5 : eleven use cases,\nas O1 states
-H1 --> H2 : same fact
-H1 --> H3 : same fact
-H2 --> H4 : the count H4 puts to the gate
-
-note bottom of H1
-  One file, one fact, three artifacts. The
-  correction is the same sentence three times,
-  and the recovery already holds it as AN-024.
+note right of VM
+  Both Majors are the two failure modes the nine
+  closures removed, found elsewhere in the same set:
+  one recovered fact transcribed inconsistently, and
+  one trace edge never confirmed. Neither is new scope.
 end note
-note bottom of OTHER
-  Only the lens that emitted a finding may
-  resolve it. This lens records nothing
-  against it and does not duplicate the key.
+note bottom of H4
+  The AR review records the stakeholder answering No with
+  the order "We must correct all major findings." That order
+  is what this iteration performed; re-putting the gate is
+  not this lens's to do.
 end note
 
 @enduml
 ```
 
-**What the milestone verdict may rely on from this lens.** Zero Critical: nothing in this review needs a decision only the stakeholder can take. The four stakeholder rulings that shaped the recovery — the provider path recovered as unreachable, the `admin` branch as an exceptional entity, the priority order standing, the perimeter confirmed — are recorded where they bite, in the System Inventory's Perimeter, the Use-Case Model's "Not recovered, and why", the Vision's Assumptions and the Risk List's grant table, each quoting the answer rather than paraphrasing a process decision. This lens found no element promoted to declared scope, no cross-cutting mechanism recovered as a use case except the two the Vision's diagram draws and `Vision#F1` records, and no recovered element with no anchor.
+#### Verdict on the AR exit criteria, as this lens reads them
 
-**The lens's own limit, stated so the coordinator can weigh it.** This review opened five anchors and two contradicted their citing artifacts. It did not open every anchor in ten artifacts — that is not possible within one pass and the Software Archaeologist's own reading is what the coverage section measures. What this lens did establish is that where the recovery and the code disagree, the disagreement is discoverable by opening the file the artifact names, and that in the two cases found the recovery's own anomaly register already knew the answer. That is the healthiest signal in this review: the reading is honest about the system even where the artifacts built on it are not yet.
+| Criterion | This lens's reading | Basis |
+|---|---|---|
+| A3 Architecture recovered and checked | Met | Twenty-two components with connectors; every one of the eleven use cases has a stated component path, including the seven not diagrammed. The figure contradictions the AR review faulted are corrected and reproduce from the code |
+| A4 Data recovered with its anchors | Met | Eight tables with keys, indexes, referential actions and enforced rules; AN-025 correctly cited at PD-D3 and AN-005 confined to `EnsureCreated` |
+| A5 Deployment modelled | Met | The fired optional records the processes, the stores, the ports, the key ring and the two settings that separate the environments, each anchored |
+| A6 Coverage measured | Met | 84 read and 55 unread of 139; the per-area columns reproduce and every unread category is named |
+| A7 Anomalies carried as risks | Met | Thirty-two risks, twenty-nine on `Refines` edges from the anomalies, three with their separate origins stated |
+| A9 Every risk actionable | Met | Each row names a strategy, an owner, an action, a contingency and a warning sign; R030 states "not yet retired" rather than claiming a retirement that has not happened |
+| A10 The set states the code's behaviour | **Not certifiable as it stands** | Two of the facts it turns on are correct in four artifacts, and a fifth — the Use-Case Model's rules diagram — states one of them wrongly at R6. Criterion A10's test is a test about what the recovered artifacts state |
+| A11 The SBC Minors closed | Not met — unchanged | Three of four. `Development Case#F2` is the Management Reviewer's lens, not this one's; this lens's own `Development Case#F3` is a different defect on the same artifact |
+| A12 The recovered set confirmed | Not met — unchanged | Gate H4 answered No. Not an artifact's to hold |
 
-**Verdict recorded.** Approved with Changes, with the six Majors holding the AR milestone. Gate H4 is not put by this lens — it follows the lenses' ruling, and the ruling is that the corrections land first.
+A1 and A2 sit on the Use-Case Model with the two open Majors: A1 (operations recovered as use cases) holds on the Survey and the exclusion table, which neither Major touches. A2 holds on the priorities order.
+
+#### Why this is Approved with Changes and not Rejected
+
+A rejection would say the recovered set is not a model of the existing system. It is: the eleven use cases, the twenty-two components and the eight tables each rest on the file they cite, and this iteration verified that at source rather than accepting it from the artifacts' own text. The two open Majors are a confirmation the graph registers as missing and one diagram that states a figure its own artifact states correctly elsewhere. Neither calls the recovery into question; both are corrections their owner performs inside this phase.
+
+#### Why it is not Approved
+
+Approval would certify a Use-Case View with five suspect edges at the phase close and a rules diagram whose request budget contradicts the code and its own artifact. The AR review held the milestone on exactly this class of defect and the stakeholder's order was to correct all Majors. Certifying the set with two of them open would repeat the failure the last gate caught.
+
+#### Preserved
+
+No artifact outside the ten reviewed was re-read for a finding, and none is changed by this lens. The Review Record is this lens's only output.
 
 ### Management Reviewer lens
 <!-- review: Excavation I1 -->
