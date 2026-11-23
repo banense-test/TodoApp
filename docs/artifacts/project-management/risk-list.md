@@ -33,7 +33,7 @@ The scale is the IARI risk scale of the Development Case baseline, §9.10. The p
 
 ### How each score is derived
 
-Thirty of the thirty-two risks score the likelihood and impact the System Inventory states for the anomaly they refine. Those words are translated once, here, and the same word gives the same number in every row — the eight risks Excavation added use no word the Survey set did not already use.
+Twenty-nine of the thirty-two risks score the likelihood and impact the System Inventory states for the anomaly they refine. Those words are translated once, here, and the same word gives the same number in every row — the eight risks Excavation added use no word the Survey set did not already use.
 
 | Inventory word | Score | Inventory word | Score |
 |---|---|---|---|
@@ -75,7 +75,7 @@ class "Who may accept it" as A {
   Significant : the stakeholder
   ModerateOrLower : the Project Manager
 }
-AN "1" --> "1" RISK : every risk but R022, R031 and R032
+AN "1" --> "1" RISK : 29 risks, one per anomaly
 RISK --> M : falls in, never chosen
 M --> A : decides
 note bottom of AN
