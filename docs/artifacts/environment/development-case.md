@@ -489,5 +489,53 @@ No velocity, no derived forecast and no invented figure is reported from these n
 
 **The delivery's own guide.** The only document the existing system carries is the root `README.md`, and it is documentation of how to build and run the system: prerequisites, database, running the application, social-auth configuration, OpenTelemetry. It states no label, no branch rule and no review rule. It is therefore not a contribution guide, nothing in it is replaced by `docs/CONTRIBUTING.md`, and it stays word for word and is not edited. No stakeholder decision about an owner's contribution guide is pending.
 
-**One disagreement in the sources.** `.devcontainer/devcontainer.json` names the image `mcr.microsoft.com/dotnet/sdk:8.0` while `Directory.Build.props` targets `net9.0` and `global.json` pins SDK `9.0.100`. `docs/CONTRIBUTING.md` cites both as they are written. Settling which holds is the `Integrator`'s build-environment decision, not a process tailoring decision, and this document records none of it.
+**One disagreement in the sources.** `.devcontainer/devcontainer.json` names the image `mcr.microsoft.com/dotnet/sdk:8.0` while `Directory.Build.props` targets `net9.0` and `global.json` pins SDK `9.0.100`. `docs/CONTRIBUTING.md` §3 cites both as they are written. Settling which holds is the `Integrator`'s build-environment decision, not a process tailoring decision, and this document records none of it.
+
+### Process support and evolution
+
+The three activity clusters, and which of them recur. ACT-DC-02 is the discipline's own workflow; the state machine of this document's owner is an instance of it.
+
+```plantuml
+@startuml
+title ACT-DC-02 The Environment discipline in this project - three activity clusters, and which of them recurs
+
+start
+partition "Prepare for project - once, in Survey" {
+  :Assess the development organization - the eight findings of the baseline table;
+  :Select the RUP subset this project uses - 16 CORE artifacts, one OPTIONAL fired, two roles inactive;
+  :Tailor - classification verdicts and OPTIONAL triggers recorded against the delivery;
+  :Publish docs/CONTRIBUTING.md and this Development Case before any other role works;
+}
+partition "Prepare for iteration - at the start of every iteration" {
+  :Re-evaluate both classification verdicts and all six OPTIONAL triggers;
+  :Set Document Control to this phase and this iteration;
+  if (a finding or a stakeholder order names this document?) then (yes)
+    :Correct the named section, and nothing else;
+  else (no)
+    :Preserve it unchanged - no upsert without a finding behind it;
+  endif
+  :Hand the iteration a current Development Case before its first working role starts;
+}
+partition "Support during iteration - continuous, every iteration" {
+  repeat
+    :Answer a process question inside the iteration it is asked in;
+    if (the question blocks a role?) then (yes)
+      :Escalate to the stakeholder in the same turn it is found;
+    else (no)
+      :Answer, and record it in the file that carries the rule;
+    endif
+    :Read token spend and elapsed time for the closed phases, two clocks kept apart;
+  repeat while (the iteration is open?) is (yes)
+  :Iteration close - take the process findings of the Iteration Assessment as the input;
+  :Change this document only for a finding it names;
+  :Carry a Minor to its owner's next scheduled stage, named in the exit criterion;
+}
+stop
+@enduml
+```
+
+- **Before each iteration:** the optional triggers and both classification verdicts are re-evaluated and this document made current before the first working role of that iteration starts. A trigger that has fired is not un-fired by a later reading.
+- **During each iteration:** a process question is answered inside the iteration it is asked in. A blocking one — an approval whose approver is unstated, a template that cannot be applied — is escalated to the stakeholder in the same turn it is found.
+- **After each iteration:** the process findings of the Iteration Assessment are the input. A change to this document names the finding it answers; a change with no finding behind it is not made.
+- **How a change to this document is requested:** through the `Change Control Manager`, who carries it as a change request with `nature:enhancement` or `nature:refactoring`. The label table is in `docs/CONTRIBUTING.md`.
 
