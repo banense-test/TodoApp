@@ -842,39 +842,25 @@ Defect removal efficiency and rework effort are not computable and not measured:
 
 ## Disposition
 ### Reviewer lens
-<!-- review: Excavation I4 -->
+<!-- review: Consolidation I1 -->
 
-<!-- review: Excavation I4 -->
+**Disposition: Approved with Changes.**
 
-#### Disposition — technical lens
+Nine of the twelve artifacts are approved from this lens with nothing recorded against them. Three are not, and the three are reworked before any role consumes them again:
 
-**Approved with Changes.** No Critical and no Major stands from this lens. One Minor is recorded against the Development Case and does not hold the milestone; it is approved by default and corrected in its owner's next turn.
+- `Design Model#F2` — four suspect edges open at the phase close, which is the one GHR exit criterion the phase has not moved (`G7`, `R033`)
+- `Supplementary Specification#F4` — the OpenAPI document's gating stated backwards in the artifact the Deployment Manager and the Technical Writer will read
+- `System Inventory#F4` — the coverage ratio published against a denominator that hides the reading's actual reach, on the criterion `G4` certifies
 
-| Artifact | This lens's disposition |
-|---|---|
-| Development Case | **Approved with changes** — `#F4` open, one diagram's per-phase discipline list; contained, holds no criterion |
-| System Inventory | **Approved** — coverage arithmetic recomputed and reproducing; anchors spot-checked at the file |
-| Risk List | **Approved** — `#F3` closed on R032's restated retirement |
-| Iteration Plan | **Approved** — `#F4` closed; A1, A10 and O2 re-derived from their artifacts |
-| Vision | **Approved** — no finding from this lens at this pass |
-| Use-Case Model | **Approved** — R6 states both budgets under `AN-024`; five `COMP-014` edges confirmed in the graph |
-| Supplementary Specification | **Approved** — `#F3` closed; Document Control on iteration 4 |
-| Software Architecture Document | **Approved** — SP1, M3 and the bounded-load row verified at the file |
-| Deployment Model | **Approved** — Environment Mapping verified against the environment files |
-| Design Model | **Approved** — trace rows carried by the graph; `PD-D3` consistent with `AN-023` |
-| Iteration Assessment | **Not judged** — authored in the Assess touchpoint after this review; its state before the review is not a finding |
+**No Critical finding is recorded, and none needs the stakeholder to unblock it.** Every defect above is a correction its owner can make inside this phase with the evidence already in hand; none needs a decision on scope, on a contradiction in what was declared, or on a risk only the stakeholder may accept. This lens therefore sends nothing to gate H5 and escalates nothing.
 
-#### What the exit criteria do and do not support at this milestone
+**What this lens does not decide.** Whether the milestone closes is the Review Coordinator's verdict, read on all three lenses and on gate H5's answer. This lens records the technical position only: the set is substantially complete and anchored, its recovered content is confirmed and no finding reopens it, and five corrections stand between it and a clean technical certification.
 
-This lens certifies the recovered set, not the gate. Twelve of the thirteen AR criteria hold on the artifact that owns each, and the twelfth is the stakeholder's answer — the set confirmed as the model of the existing system, the sanction to advance refused while a Major stood. Nothing this lens found contradicts that set, and nothing it closed changed it.
+**On the two that hold the milestone.** `Design Model#F2` and `System Inventory#F4` each fail a criterion the milestone is read on, and each closes on one act in a stage this phase runs. Nothing about either requires another iteration: the owners hold their stages this iteration, the evidence is in the artifacts, and the corrections add no content and reopen no recovered element. If an iteration is opened, it is opened for them, not for the set.
 
-The milestone itself does not close on this lens's disposition. The Management Reviewer's `Iteration Plan#F9` is the open Major, it is one owner pass over five cells of the criteria and objectives tables, and this lens's `Iteration Plan#F4` — the same defect read at the artifact's cells — is closed on evidence that the cells' subjects now hold.
+**On the recovered content.** Nothing in this review touches it. The eleven use cases, the four stated exclusions, the twenty-two components and the eight tables stand as the stakeholder confirmed them at gate H4, and this lens found nothing wrong with any of them. `R033` is a bookkeeping defect in the graph, not a defect in what the graph describes — which is why the correction is a clearance and not a re-reading.
 
-#### The phase's evidence base, stated plainly
-
-Every closure in this pass was verified at the thing it asserts: the registered trace graph for the five `COMP-014` carriage edges, the environment file for both request budgets, the service-defaults file for the resilience asymmetry, and the artifacts themselves for the states their peers assert about them. Three of the four previous passes recorded the same defect class — a document stating another artifact's state after that artifact changed — against the Iteration Plan. That class is closed at this pass in the cells this lens owns, and the plan now carries the rule that produced it: a cell asserting another artifact's state is re-derived from that artifact in the same turn the artifact changes.
-
-No SCM evidence exists for this iteration and none is owed: no pull request stands in any state, no pipeline runs, and Excavation writes no production code. The repository's own code is unchanged since `307a1ea`.
+**The one thing worth carrying past this milestone.** The class of defect this project keeps paying for is one fact stated twice in two artifacts with two answers. It cost four Majors at the AR milestone and two more here. The rule that closes it is written in the Development Case; it needs applying to the four artifacts that describe the environment, in one pass, in the same turn the fact changes. That is action 6 of this lens's list, and it is the only action that prevents a finding rather than closing one.
 
 ### Management Reviewer lens
 <!-- review: Excavation I4 -->
