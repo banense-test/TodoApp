@@ -382,14 +382,15 @@ The exit criteria for this iteration's milestone (AR). Each is decided on the ev
 
 ```plantuml
 @startuml
-title AR exit criteria - the thirteen criteria, what each turns on, and the five iteration 3 must turn
+title AR exit criteria - the thirteen criteria, and the four iteration 3 must turn
+
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 skinparam wrapWidth 250
 hide circle
 hide empty members
 
-package "Met on the evidence the artifact it cites records - 8" {
+package "Met on the evidence the artifact it cites records - 9" {
   class "A2 Read in the priorities' order\npriorities 1 to 5 each yield a use case" as A2 <<met>>
   class "A3 Architecture recovered and checked\n22 COMPs, Use-Case View for all 11 UCs" as A3 <<met>>
   class "A4 Data recovered with anchors\nentities, keys, rules, the owner key" as A4 <<met>>
@@ -398,29 +399,27 @@ package "Met on the evidence the artifact it cites records - 8" {
   class "A7 Anomalies carried as risks\n29 Refines edges, separate origins stated" as A7 <<met>>
   class "A8 No grant-band accept without the stakeholder\n4 grants, each at exposure 12" as A8 <<met>>
   class "A9 Every risk actionable\nstrategy, owner, action, contingency, sign" as A9 <<met>>
+  class "A13 No work the process does not run\nthe sequence records the Environment stage first" as A13 <<met>>
 }
 
-package "Not met - 5, each one correction by its owner" {
+package "Not met - 4, each one turn by its owner or one answer" {
   class "A1 Operations recovered and trace\nfive COMP-014 edges unconfirmed" as A1 <<notmet>>
   class "A10 The set states the code's behaviour\nR6 says 100 where Development binds 50" as A10 <<notmet>>
   class "A11 The SBC Minors closed\n2 of 4 open, both in the Development Case" as A11 <<notmet>>
   class "A12 The recovered set confirmed\nGate H4 answered No, twice" as A12 <<notmet>>
-  class "A13 No work the process does not run\nthe sequence records no Environment stage" as A13 <<notmet>>
 }
 
 A1 --> A10 : the same artifact carries\nboth corrections
-A11 --> A13 : the stage A11 needs is\nthe stage A13 must record
+A11 ..> A13 : A11 is performed in the\nEnvironment stage A13 records
 
 note bottom of A11
-  The stakeholder declined the carry to Inception and kept
-  the criterion as written: the Minors are corrected in this
-  phase, in the Environment stage the milestone sequence now
-  records.
+  A11 stays as written: the Minors are corrected in this
+  phase, in the Environment stage the sequence records,
+  and are not carried to Inception.
 end note
 note bottom of A12
   Turns on the stakeholder's answer alone. No artifact holds it,
-  so no evidence cell cites one. Put a third time, once, on a set
-  that agrees with itself.
+  so no evidence cell cites one. Put once, after items 1 to 7.
 end note
 @enduml
 ```
@@ -436,17 +435,18 @@ end note
 | A7 | Every anomaly the recovery surfaced is carried as a scored risk | No anomaly maps to no risk, and every score reproduces from the one published mapping | Met | Risk List — Risk Register: 29 `Refines` edges from `AN-NNN`, plus `R022`, `R031` and `R032`, whose separate origins are stated in the register; every anomaly-derived row reproduces from the mapping in Risk Classification |
 | A8 | No accepted risk above Moderate lacks the stakeholder's grant | No risk the register places at Significant or High is accepted on the Project Manager's authority | Met — 2026-11-23 | Risk List — the grant table under Risk Register: four grants on `R004`, `R011`, `R012` and `R016`, each at 4 × 3 = 12, recorded verbatim. No risk this iteration placed in the grant band takes the accept strategy, so no second grant was needed and none is assumed |
 | A9 | Every risk is actionable | Every risk names a strategy, an owner, an action, a contingency and a warning sign | Met | Risk List — Risk Mitigation and Contingency: every row names a strategy, an owner, an action, a contingency and a warning sign. `Risk List#F2` (Management Reviewer) closed on `R030`'s corrected strategy. `Risk List#F3` is a transcription in that same cell and the criterion's subject, actionability, is not in question |
-| A10 | The recovery states what the code does, not what it was meant to do | No artifact in the recovered set states a behaviour the code contradicts, and where code and document disagree the code is recorded and the contradiction identified against its anchor | **Not met — open Major** | Decided on all four artifacts the criterion's own test names. **Supplementary Specification** M3, S2, P1 and R8 state the code defaults (100 tokens, 100 per 10 s, queue 100) and the Development override (50 / 50 / 50) as two values in force, citing `AN-024`; R4 states the two outbound hops apart, the token hop inheriting the standard resilience handler and the forwarder hop nothing, citing `AN-023` — verified. **Software Architecture Document** SP1, M3 and the Quality view's "Availability — bounded load" row state 50 / 50 / 50 as the bound in force — verified. **Deployment Model** Environment Mapping's preamble is narrowed to what is true and its Rate limiting row reads 50 / 50 / 50 for Development — verified. **Use-Case Model** is the fourth and does not yet hold: its rules diagram's R6 reads "The per-user token bucket, /todos only: 100 tokens, 100 per 10 s, queue 100, 429" and cites no `AN-024`, while the same artifact's shared gate diagram states both values and `Todo.Api/appsettings.Development.json:8-12` binds 50. One artifact carries two answers to one question. `Use-Case Model#F4`; `Iteration Plan#F6` recorded that A10's cell certified three of the four |
-| A11 | The Minors the SBC review left open are closed | Each of the four is corrected in the artifact that carries it | **Not met — two of four open** | Corrected: `Iteration Plan#F2` (C2b no longer exists; A1 to A13 replace it), `Iteration Plan#F3` (the State column states each row's actual outcome), `System Inventory#F3` (Document Control names the iteration its content belongs to). Open: `Development Case#F2` — "Roles and Ownership" still reads "Reviewer, CodeReviewer, plus the Configuration Manager's baseline record", and CLS-DC-01 draws no edge into the Review Record from the Management Reviewer, the Business Reviewer or the Review Coordinator; `Development Case#F3` — Document Control still reads Phase: Survey. Both are the Process Engineer's, and the stage exists: on the stakeholder's answer of 2026-11-23 Environment runs in every phase and is Excavation's first discipline, with that role's stage in iteration 3. The criterion is not carried to Inception and not restated |
-| A12 | The recovered set is confirmed by the stakeholder | Gate H4 answered Yes: the 11 use cases, the architecture and the data accepted as the models of the existing system | **Not met — refused** | Gate H4 was put for the second time and answered **No**, with the order that every Major be corrected and that the Development Case be corrected in this phase. The answer is recorded as given and nothing in it is recorded as a confirmation it did not contain. The criterion turns on the stakeholder's answer alone; no artifact holds it, so no evidence cell cites one. It is put a third time, once, after iteration 3's actions land |
-| A13 | The plan names no work the process does not run | The milestone sequence is recorded and each work item belongs to a stage the IARI DEVELOPMENT PROCESS runs in Excavation | **Not met — open Major** | The fine plan's items are each a corrective action against an artifact an Excavation role owns, and the milestone sequence now records the **Environment** discipline as this phase's first stage: the Process Engineer holds iteration 3's items 1 to 3 under that stage, on the stakeholder's restatement of 2026-11-23 that the process runs Environment in every phase and in Excavation as its first discipline. `Iteration Plan#F7` recorded that the sequence ended Excavation at iteration 2 and cited no stage; the sequence is corrected in this section's sibling, and this cell now cites the stage rather than an order. The criterion reads not met until the stage's work is performed |
+| A10 | The recovery states what the code does, not what it was meant to do | No artifact in the recovered set states a behaviour the code contradicts, and where code and document disagree the code is recorded and the contradiction identified against its anchor | **Not met — open Major** | Decided on all four artifacts the criterion's own test names. **Supplementary Specification** M3, S2, P1 and R8 state the code defaults (100 tokens, 100 per 10 s, queue 100) and the Development override (50 / 50 / 50) as two values in force, citing `AN-024`; R4 states the two outbound hops apart, the token hop inheriting the standard resilience handler and the forwarder hop nothing, citing `AN-023` — verified. **Software Architecture Document** SP1, M3 and the Quality view's "Availability — bounded load" row state 50 / 50 / 50 as the bound in force — verified. **Deployment Model** Environment Mapping's preamble is narrowed to what is true and its Rate limiting row reads 50 / 50 / 50 for Development — verified. **Use-Case Model** — the fourth of the four — does not hold: its rules diagram's R6 reads "The per-user token bucket, /todos only: 100 tokens, 100 per 10 s, queue 100, 429" and cites no `AN-024`, while the same artifact's shared gate diagram states both values and `Todo.Api/appsettings.Development.json:8-12` binds 50. One artifact carries two answers to one question. `Use-Case Model#F4` is the correction; `Iteration Plan#F6` recorded that this cell certified three of the four and is closed by naming the fourth |
+| A11 | The Minors the SBC review left open are closed | Each of the four is corrected in the artifact that carries it | **Not met — two of four open** | Corrected: `Iteration Plan#F2` (C2b no longer exists; A1 to A13 replace it), `Iteration Plan#F3` (the State column states each row's actual outcome), `System Inventory#F3` (Document Control names the iteration its content belongs to). Open: `Development Case#F2` — "Roles and Ownership" still reads "Reviewer, CodeReviewer, plus the Configuration Manager's baseline record", and CLS-DC-01 draws no edge into the Review Record from the Management Reviewer, the Business Reviewer or the Review Coordinator; `Development Case#F3` — Document Control still reads Phase: Survey. Both are the Process Engineer's, and the stage exists: Environment runs in every phase and is Excavation's first discipline, with that role's stage carrying fine-plan items 1 to 3. The criterion is not carried to Inception and not restated |
+| A12 | The recovered set is confirmed by the stakeholder | Gate H4 answered Yes: the 11 use cases, the architecture and the data accepted as the models of the existing system | **Not met — refused** | Gate H4 was put for the second time and answered **No**, with the order that every Major be corrected and that the Development Case be corrected in this phase. The answer is recorded as given and nothing in it is recorded as a confirmation it did not contain. The criterion turns on the stakeholder's answer alone; no artifact holds it, so no evidence cell cites one. It is put once, after iteration 3's items 1 to 7 land |
+| A13 | The plan names no work the process does not run | The milestone sequence is recorded and each work item belongs to a stage the IARI DEVELOPMENT PROCESS runs in Excavation | Met | Decided on the plan's own sequence, not on whether the stage's work has been performed — that is A11's subject and the Process Engineer's turn. Milestone sequence, coarse roadmap and Resources record **Environment** as this phase's first discipline at Low intensity, running in every phase: the row `Excavation iteration 3 - Environment stage, then the corrections` sits in the Gantt, and fine-plan items 1 to 3 are placed against the Process Engineer under the Environment stage, in the same iteration as items 4 to 9. Every other item belongs to a stage the process runs here: Requirements (System Analyst, items 4 and 5), Project Management (items 6 and 7), Review (Reviewer, Management Reviewer, Review Coordinator, items 8, 9 and 11), Gate (item 10, the stakeholder's). No item schedules work a phase before Elaboration or Inception performs. The stage is cited as a discipline stage of this phase, not as a stakeholder order |
 
-**Eight met, five not met.** No criterion is certified on another criterion's answer and no finding is waived by a criterion's state. A1 and A10 turn on one artifact and one turn by its owner; A11 and A13 turn on one stage, now recorded; A12 turns on the stakeholder's answer alone.
+**Nine met, four not met.** No criterion is certified on another criterion's answer and no finding is waived by a criterion's state. A1 and A10 turn on one artifact and one turn by its owner; A11 turns on the Development Case, corrected in the Environment stage this plan records; A12 turns on the stakeholder's answer alone.
 
 Three criteria are not this plan's to certify:
 
-- **A11** turns on an artifact this role does not own. It reads two of four at this pass — a third of the four having closed at the previous pass — and is neither waived nor restated: the stakeholder declined that recommendation by name.
-- **A12** turns on the stakeholder's answer, which was refused a second time.
+- **A11** turns on an artifact this role does not own. It reads two of four at this pass and is neither waived nor restated: the stakeholder declined the carry by name, and the stage that performs it exists in this plan's sequence.
+- **A12** turns on the stakeholder's answer, which was refused twice.
 - **A1** and **A10** turn on the Use-Case Model, whose two Major defects are its owner's to correct and whose evidence this cell records without anticipating the correction.
 
-The nine criteria that rest on a role's artifact are certified on that artifact's own text, re-read at this milestone. The three that moved from met to not met — A1, A10 and A13 — moved because the review read them harder and because the stakeholder's order changed what A13 requires, not because an artifact regressed.
+A13 is this plan's to certify and is certified on the sequence it names. What changed its state is the record, not the work: the milestone sequence now carries the Environment stage the stakeholder's answer of 2026-11-23 establishes as the baseline the process runs in every phase, and each fine-plan item sits under a stage this phase runs. Whether the stage's three items land is decided by A11, which stays not met until the Process Engineer's turn is performed.
+
