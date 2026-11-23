@@ -130,7 +130,6 @@ end note
 ```
 
 ## Architectural Goals and Constraints
-
 **The delivery states no goal.** It carries no requirement, no quality-attribute target and no constraint statement (`.iari/README.md`); nothing in this section is a declared intention. What follows is the set of properties the architecture **does** hold, read from the code, together with the constraints any change to it must live inside.
 
 | Goal the architecture realizes | How it is held | Anchor |
@@ -156,11 +155,11 @@ end note
 
 ### Technology, as the manifests declare it
 
-No enterprise version policy is recorded for this project (`get_version_policy` returns no pins), and the delivery states none. Every version below is read from the pinning files exactly as it stands; nothing is chosen, advanced or recommended here.
+No enterprise version policy is recorded for this project (`get_version_policy` returns no pins), and the delivery states none. Every version below is read from the pinning files exactly as it stands; nothing is chosen, advanced or recommended here. The three files that decide what restores are `global.json` (SDK), `Directory.Packages.props` (every package, centrally) and `nuget.config` (the feed) — and no project file names a version of its own.
 
 | Ecosystem | Package or SDK | Version as declared | Declared in |
 |---|---|---|---|
-| nuget | .NET SDK | 9.0.100, `rollForward: latestFeature` | `global.json:3` |
+| nuget | .NET SDK | 9.0.100, `rollForward: latestFeature`, `allowPrerelease: true` | `global.json:3-6` |
 | nuget | Target framework | `net9.0` | `Directory.Build.props:4` |
 | nuget | Microsoft.AspNetCore.Mvc.Testing | 9.0.8 | `Directory.Packages.props` |
 | nuget | Microsoft.EntityFrameworkCore.InMemory | 9.0.8 | `Directory.Packages.props` |
@@ -187,10 +186,12 @@ No enterprise version policy is recorded for this project (`get_version_policy` 
 | nuget | Microsoft.Extensions.ServiceDiscovery | 9.5.0 | `Directory.Packages.props` |
 | nuget | Microsoft.Extensions.ServiceDiscovery.Yarp | 9.5.0 | `Directory.Packages.props` |
 | nuget | Scalar.AspNetCore | 2.6.8 | `Directory.Packages.props` |
-| nuget | OpenTelemetry.Exporter.OpenTelemetryProtocol, .Extensions.Hosting, .Instrumentation.AspNetCore, .Instrumentation.HTTP, .Instrumentation.Runtime | 1.12.0 each | `Directory.Packages.props` |
-| nuget | Aspire AppHost SDK | 13.1.1 | `TodoApp.AppHost/TodoApp.AppHost.csproj` |
+| nuget | OpenTelemetry.Exporter.OpenTelemetryProtocol, .Extensions.Hosting, .Instrumentation.AspNetCore, .Instrumentation.Http, .Instrumentation.Runtime | 1.12.0 each | `Directory.Packages.props` |
+| nuget | Aspire AppHost SDK | 13.1.1 | `TodoApp.AppHost/TodoApp.AppHost.csproj:1` |
+| container | `mcr.microsoft.com/dotnet/sdk` | `8.0` | `.devcontainer/devcontainer.json:2` |
+| container | `tomdesinto/sqliteweb` | no tag — unpinned | `TodoApp.AppHost/Program.cs:15` |
 
-Two build-level disagreements are recorded, not reconciled: the developer container names `mcr.microsoft.com/dotnet/sdk:8.0` against a `net9.0` solution and a `9.0.100` SDK pin (AN-007), and the server project pins `RazorLangVersion` to 8.0 against the same `net9.0` solution (AN-014).
+Three build-level disagreements are recorded, not reconciled: the developer container names SDK 8.0 against a `net9.0` solution and a `9.0.100` pin, so the container cannot build the solution it ships with (AN-007); the server project pins `RazorLangVersion` to 8.0 against the same `net9.0` solution (AN-014); and the test project pins `Microsoft.EntityFrameworkCore.InMemory` 9.0.8 which nothing in the suite calls (AN-006). The `sqliteweb` image is the one dependency the tree declares with no version at all.
 
 ## Use-Case View
 
