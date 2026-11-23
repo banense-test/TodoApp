@@ -706,119 +706,161 @@ end note
 **Eight Majors, no Critical** — six from the technical lens and two from this one. None of the eight needs a stakeholder decision: each is a correction its owner can make inside this iteration, and none is a disagreement about what the system does. The facts are recovered and anchored everywhere; three artifacts simply still assert the value the reading contradicts, and one still counts a set differently from the artifact that owns it. No Critical finding exists because no ambiguity and no contradiction in what the stakeholder declared remains open.
 
 ### Review Coordinator lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-**Consolidated finding ledger.** Fourteen findings were recorded against the four artifacts by the two executed lenses across the SBC review's two iterations. Ten carry a resolution object and are closed by their recording lens; four are open, all Minor. Counts below are copied from `read_artifact_findings` on each artifact, not from any sentence in a reviewer's narrative.
+**Consolidated finding ledger.** Twenty-nine findings were recorded against ten artifacts by the two executed lenses at this milestone. Thirteen carry a resolution object and were closed by their recording lens; sixteen are open — none Critical, eight Major, eight Minor. Every count below is copied from `read_artifact_findings` on the artifact named, never from a reviewer's narrative.
 
-| Artifact | Key | Lens | Severity | Criterion | Owner | Status | The corrective action |
+The ledger line this section rests on, verbatim:
+
+`[FINDINGS] read=12, unread=none, open Critical=0, open Major=8, open Minor=8`
+
+**Open — the eight Majors. Each holds the milestone; none needs a stakeholder decision.**
+
+| Artifact | Key | Lens | Severity | Criterion | Owner | The corrective action | Holds |
 |---|---|---|---|---|---|---|---|
-| Development Case | F1 | Reviewer | Major | consumed-defect | Process Engineer | Resolved | The unsourced enterprise version policy is deleted; "Tool and configuration references" states only what `Directory.Packages.props`, `global.json` and `nuget.config` carry |
-| Development Case | F2 | Reviewer | Minor | contained-defect | Process Engineer | Resolved | One role-deltas statement and one CLS-DC-01 diagram retained; the duplicate deleted |
-| Development Case | F1 | Management Reviewer | Minor | contained-defect | Process Engineer | Resolved | The same duplication, under the stakeholder's order of 2026-11-23; verified at "Roles and Ownership" |
-| Development Case | F2 | Management Reviewer | Minor | contained-defect | Process Engineer | **Open** | The co-owned-artifact sentence and CLS-DC-01 must name Management Reviewer, Business Reviewer and Review Coordinator among the lenses writing into the Review Record |
-| System Inventory | F1 | Reviewer | Major | trace-gap | Software Archaeologist | Resolved | AN-021 row reads `DependsOn EP-004, EP-005, EP-007`, matching the diagram and the trace tree |
-| System Inventory | F2 | Reviewer | Minor | contained-defect | Software Archaeologist | Resolved | Coverage recommends itself from its own per-area table: 133 files, 79 read, 54 unread; the `docs/` row decided explicitly |
-| System Inventory | F3 | Reviewer | Minor | contained-defect | Software Archaeologist | **Open** | Set the Document Control iteration field to 2, Cycle 1 |
-| Risk List | F1 | Reviewer | Major | consumed-defect | Project Manager | Resolved | One published word-to-score mapping; all 21 anomaly-derived rows reproduce from it; R004 and R011 land at 4 × 3 = 12 |
-| Risk List | F1 | Management Reviewer | Major | exit-criterion-unmet | Project Manager | Resolved | The grant band re-derived from the reconciled exposures; every Significant-band acceptance holds the stakeholder's own answer |
-| Iteration Plan | F1 | Reviewer | Major | consumed-defect | Project Manager | Resolved | All twelve entry-point-bearing anomalies named with their 21 edges; the nine with no entry point listed separately |
-| Iteration Plan | F2 | Reviewer | Minor | contained-defect | Project Manager | Resolved | Gate H2 placed ahead of the verdict it feeds, in both the coarse roadmap and the critical chain |
-| Iteration Plan | F1 | Management Reviewer | Major | exit-criterion-unmet | Project Manager | Resolved | C2 split into C2a and C2b, C6 restated on the reproducible coverage figure, C7 split into carriage and reproducibility |
-| Iteration Plan | F3 | Reviewer | Minor | contained-defect | Project Manager | **Open** | Correct the fine-plan State column of rows 4, 5 and 6, or delete the column |
-| Iteration Plan | F2 | Management Reviewer | Minor | contained-defect | Project Manager | **Open** | C2b restated as Met on the gate H2 answer, with that answer as its evidence |
+| Supplementary Specification | F1 | Reviewer | Major | `consumed-defect` | System Analyst | State both rate-limit values with sources in M3, S2, P1 and R8 — code defaults 100/100/queue 100 (`RateLimitExtensions.cs:14-31`), Development override 50/50/50 (`appsettings.Development.json:8-12`); cite AN-024 | Yes |
+| Supplementary Specification | F2 | Reviewer | Major | `consumed-defect` | System Analyst | Rewrite R4 as the two hops stated apart: the token hop inherits `AddStandardResilienceHandler` (`TodoApp.ServiceDefaults/Extensions.cs:32-42`, `Todo.Web/Server/Program.cs:23-26`), the forwarder hop inherits nothing; cite AN-023 / R024 | Yes |
+| Software Architecture Document | F1 | Reviewer | Major | `consumed-defect` | Software Architect | Correct SP1, M3 and the Quality view's "bounded load" row; cite AN-024 | Yes |
+| Deployment Model | F1 | Reviewer | Major | `consumed-defect` | Software Architect | Narrow the environment preamble to what is true; rewrite the Rate limiting row — Development 50/50/50, any other environment the code defaults | Yes |
+| Use-Case Model | F1 | Reviewer | Major | `trace-gap` | System Analyst | Re-register the three EP-003 edges as confirmed and record in the Use-Case Survey why a screen entry point and the forwarded operation are both named | Yes |
+| Vision | F1 | Reviewer | Major | `use-case-shape` | System Analyst | Remove U12 and U13 from the Features diagram; keep the two rows as platform mechanisms cross-referenced to Supplementary Specification M8 and M9 | Yes |
+| Risk List | F2 | Management Reviewer | Major | `exit-criterion-unmet` | System Analyst, then Project Manager | Write R030's statement beside UC-001 to UC-004 citing AN-029, or restate R030 as not yet retired rather than avoided | Yes |
+| Iteration Plan | F3 | Management Reviewer | Major | `exit-criterion-unmet` | Project Manager | Hold A10 open naming the three artifacts that state AN-024's contradicted value, or split the criterion; do not certify it on the inventory's word | Yes |
 
-Findings on the Iteration Assessment and on the Review Record: none recorded in either iteration.
+**Open — the eight Minors. Recorded, assigned, and not holding the milestone.** The stakeholder ordered on 2026-11-23 that no Minor be left unattended; all eight are owned and none is recorded as closed or deferred.
+
+| Artifact | Key | Lens | Criterion | Owner | The corrective action |
+|---|---|---|---|---|---|
+| Use-Case Model | F2 | Reviewer | `contained-defect` | System Analyst | State the matrix-versus-Survey distinction once and relabel the matrix's edges |
+| Vision | F1 | Management Reviewer | `contained-defect` | System Analyst | The same two ellipses, read as contained because the Use-Case Model governs the set |
+| Risk List | F2 | Reviewer | `contained-defect` | Project Manager | Restate R024 without the misattribution; point its mitigation at the Supplementary Specification's R4, which still carries the error |
+| Design Model | F1 | Reviewer | `contained-defect` | Designer | Change PD-D3's citation from AN-005 to AN-025 |
+| Development Case | F2 | Management Reviewer | `contained-defect` | Process Engineer | Name every lens in the Review Record's contributor set and draw the edges in CLS-DC-01. **This is the finding that holds A11** |
+| Development Case | F3 | Reviewer | `contained-defect` | Process Engineer | Bring the four Document Control fields to Excavation iteration 1 |
+| Iteration Plan | F4 | Management Reviewer | `contained-defect` | Project Manager | Narrow A2 to what its evidence carries, or add the deferred-set sentence to the Use-Case Model's "Not recovered, and why" |
+| Iteration Plan | F5 | Management Reviewer | `contained-defect` | Project Manager | Set A12 to "Not met — refused" with the answer as given |
 
 ```plantuml
 @startuml
-title Consolidated SBC ledger - fourteen findings over two iterations, four open Minors and nothing above them
+title Open findings at the AR gate - 16 open over 10 artifacts, 0 Critical, 8 Major, 8 Minor
+
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 hide empty members
-skinparam wrapWidth 240
+hide circle
+skinparam wrapWidth 250
 
-package "Development Case" {
-  class "DC as reviewed" as DC {
-    F1 Reviewer Major : resolved
-    F2 Reviewer Minor : resolved
-    F1 Management Minor : resolved
-    F2 Management Minor : open
+package "Artifacts carrying an open Major - 7" {
+  class "Supplementary Specification" as SS {
+    Major F1 : rate limit 100 where Development reads 50
+    Major F2 : R4 denies the resilience handler
+  }
+  class "Software Architecture Document" as SAD {
+    Major F1 : the same figure, AN-024 uncited
+  }
+  class "Deployment Model" as DEP {
+    Major F1 : the one setting that differs, backwards
+  }
+  class "Use-Case Model" as UCM {
+    Major F1 : three EP-003 edges suspect
+    Minor F2 : matrix against Survey column
+  }
+  class "Vision" as VIS {
+    Major F1 : thirteen ellipses against eleven
+    Minor F1 : the same two, contained reading
+  }
+  class "Risk List" as RL {
+    Major F2 : R030 avoided, action unperformed
+    Minor F2 : R024 premise misattributed
+  }
+  class "Iteration Plan" as IP {
+    Major F3 : A10 met on an adjacent artifact
+    Minor F4 : A2 clause unsupported
+    Minor F5 : A12 superseded by the answer
   }
 }
 
-package "System Inventory" {
-  class "SI as reviewed" as SI {
-    F1 Reviewer Major : resolved
-    F2 Reviewer Minor : resolved
-    F3 Reviewer Minor : open
+package "Artifacts carrying a Minor only - 3" {
+  class "Design Model" as DM {
+    Minor F1 : PD-D3 cites AN-005 for AN-025
+  }
+  class "Development Case" as DC {
+    Minor F2 : contributor set - holds A11
+    Minor F3 : Survey-era Document Control
+  }
+  class "System Inventory" as SI {
+    none : F1 to F3 closed
   }
 }
 
-package "Risk List" {
-  class "RL as reviewed" as RL {
-    F1 Reviewer Major : resolved
-    F1 Management Major : resolved
-  }
+class "AN-024" as AN {
+  the Development override
+  halves the request budget
 }
+AN --> SS : contradicted
+AN --> SAD : contradicted
+AN --> DEP : contradicted
 
-package "Iteration Plan" {
-  class "IP as reviewed" as IP {
-    F1 Reviewer Major : resolved
-    F2 Reviewer Minor : resolved
-    F1 Management Major : resolved
-    F3 Reviewer Minor : open
-    F2 Management Minor : open
-  }
-}
-
-class "Consolidated totals" as TOT {
-  open Critical : 0
-  open Major : 0
-  open Minor : 4
-  resolved by its recording lens : 10
-  conflict between lenses : none
-}
-
-DC --> TOT
-SI --> TOT
-RL --> TOT
-IP --> TOT
-note bottom of TOT
-  Open Major is zero from both executed lenses, so the
-  milestone is not held by a defect. The four Minors are
-  carried into Excavation on the stakeholder's order of
-  2026-11-23 that none is left unattended.
+note bottom of AN
+  One anomaly, three Majors. Correcting it in three
+  artifacts closes three of the eight and moves A10.
 end note
+note bottom of DC
+  F2 is the only finding that holds an exit criterion.
+  A11 counts it and its owner has no stage in Excavation.
+end note
+note bottom of SI
+  Zero open findings. Coverage, the anomaly count
+  and Document Control all reproduce.
+end note
+
 @enduml
 ```
 
-**Cross-lens reconciliation — no conflict, four orderings.**
+**Closed this milestone — thirteen, each by the lens that recorded it.**
 
-The two lenses raised no contradictory finding: neither found the other's defect to be absent, no owner received two incompatible instructions, and no defect was recorded twice under different criteria. Where two findings touch one subject, the order of rework was settled — and both orders have since been honoured by the owners:
+| Artifact | Key | Lens | Severity | Closed against |
+|---|---|---|---|---|
+| Development Case | F1 | Reviewer | Major | "Tool and configuration references" — no version policy asserted |
+| Development Case | F2 | Reviewer | Minor | "Roles and Ownership" — one CLS-DC-01 diagram, one role-deltas block |
+| Development Case | F1 | Management Reviewer | Minor | The same section, under the stakeholder's order of 2026-11-23 |
+| System Inventory | F1 | Reviewer | Major | "Traceability" — the AN-021 row reads all three entry points |
+| System Inventory | F2 | Reviewer | Minor | "Coverage" — the headline recomputes from the per-area table |
+| System Inventory | F3 | Reviewer | Minor | "Document Control" — Excavation iteration 1 |
+| Risk List | F1 | Reviewer | Major | "Risk Classification" — one published word-to-score mapping; every row reproduces |
+| Risk List | F1 | Management Reviewer | Major | The grant band re-derived; four grants at exposure 12 |
+| Iteration Plan | F1 | Reviewer | Major | "Use Cases and Scenarios Addressed" — twelve anomalies, 21 edges |
+| Iteration Plan | F2 | Reviewer | Minor | The coarse roadmap and the critical chain — the gate precedes the verdict |
+| Iteration Plan | F1 | Management Reviewer | Major | "Evaluation Criteria" — C2a/C2b, C6, C7a/C7b |
+| Iteration Plan | F3 | Reviewer | Minor | The fine plan's State column, each row against its artifact |
+| Iteration Plan | F2 | Management Reviewer | Minor | The superseded C2b row no longer exists; A1 to A13 replace it |
 
-| Ordering | Findings | Why that order |
+**Cross-lens reconciliation — no contradiction, one severity disagreement, one duplicate subject.**
+
+| Subject | The two lenses | Resolution this verdict records |
 |---|---|---|
-| Arithmetic before the grant | Risk List#F1 (Reviewer) → Risk List#F1 (Management Reviewer) | The grant band cannot be re-derived from scores that do not reproduce. Both closed in one Project Manager pass |
-| Figure before criterion | System Inventory#F2 (Reviewer) → Iteration Plan#F1 (Management Reviewer) on C6 | C6 cites a coverage figure; the figure had to be reproducible first |
-| Scores before criterion | Risk List#F1 (Reviewer) → Iteration Plan#F1 (Management Reviewer) on C7 | C7 passed as a counting test while the scores it counted did not reproduce |
-| Stakeholder order before the Minor queue | Development Case#F2 (Reviewer) with Development Case#F1 (Management Reviewer) | The duplication was the stakeholder's own order of 2026-11-23 and rose above the un-ordered Minors |
+| The rate limiter (AN-024) | All three artifacts named by the Reviewer; the Management Reviewer reaches the same conclusion through A10 | Not a conflict — the Management Reviewer classified it at the criterion, not at the artifact. One fact, three corrections, both lenses agreed on the defect |
+| The Vision's two ellipses (`U12`, `U13`) | Reviewer: **Major** (`Vision#F1`, `use-case-shape`) — thirteen use cases where the recovery holds eleven. Management Reviewer: **Minor** (`Vision#F1`, `contained-defect`) — the Use-Case Model governs the set, no criterion depends on the Vision's count | **The two lenses disagree on consequence, not on fact.** Counted at the **Major** band for the gate: gate H4 puts a use-case count to the stakeholder, and a supporting artifact stating a different count beside it is a defect in the material the sanction rests on. The Minor is recorded and does not double the work — one correction closes both |
+| `Risk List#F2` | Two findings share the key under different lenses and different subjects: the Reviewer's Minor on R024's premise, the Management Reviewer's Major on R030's unperformed retirement | Two distinct findings, not a duplicate. The R024 Minor's remedy is partly satisfied by the R030 Major's — both point the mitigation at an artifact that still carries the error — but each lens closes only its own key |
+| `Development Case#F2` | Recorded by both lenses at SBC, closed by the Reviewer's key, still open under the Management Reviewer's | No duplicate recorded at this gate: the technical lens named it and did not re-record it. Only the Management Reviewer may close it, and only that key holds A11 |
 
-Two findings described one defect each under two keys — `Development Case#F2` with `Development Case#F1`, and `Risk List#F1` with `Risk List#F1 (Management Reviewer)`. One rework pass closed the subject of each pair; each lens closed only its own key, and neither lens closed the other's.
-
-**Priority of what remains — the four open Minors, in the order Excavation should close them.**
+**Priority of what remains — the order the second iteration takes them.** Majors before Minors, and within each band, the finding that unblocks another first.
 
 | Priority | Finding | Why it ranks here |
 |---|---|---|
-| 1 | Iteration Plan#F2 (Management Reviewer) | The plan's evidence column currently reads "Not met" on a criterion the stakeholder has answered Yes; it misstates the project's standing to every reader who opens the plan |
-| 2 | Iteration Plan#F3 (Reviewer) | The same artifact's State column; the Project Manager corrects both in one turn |
-| 3 | Development Case#F2 (Management Reviewer) | The tailoring misdescribes who writes this Review Record — a reader of the tailoring concludes three lenses have no block in the artifact they in fact write |
-| 4 | System Inventory#F3 (Reviewer) | Status metadata only; no reader is misled about content |
+| 1 | Supplementary Specification#F1 | The root of three Majors; correcting M3, S2, P1 and R8 lets the Software Architect and the Deployment Model copy one settled figure |
+| 2 | Software Architecture Document#F1 | Reads the same fact from the Supplementary Specification; the Deployment Model's environment table inherits this copy |
+| 3 | Deployment Model#F1 | The only statement in the delivery of what differs between environments; Consolidation would copy it unchanged |
+| 4 | Supplementary Specification#F2 | Independent of the rate limiter, and the SAD's P6 already holds the correct reading, so the correction is a transcription |
+| 5 | Use-Case Model#F1 | The eleven-use-case count gate H4 puts rests on the three edges; confirming them also clears the material the Vision's count is checked against |
+| 6 | Vision#F1 | Cheapest of the eight — delete two ellipses — and it must follow priority 5 so the count matches |
+| 7 | Risk List#F2 (Management Reviewer) | A Significant exposure read as retired; its warning sign has already come true |
+| 8 | Iteration Plan#F3 (Management Reviewer) | The plan's own certification; re-taken after priorities 1 to 4 land, so A10 can be certified on the recovered set |
+| 9–16 | The eight Minors | In the order of Resolutions and Actions; `Development Case#F2` first among them because A11 counts it |
 
-None of the four holds an exit criterion, blocks a downstream role, or changes the substance of the artifact it sits in. All four are the owners' corrections in Excavation's own iteration, on the stakeholder's order.
-
-**Not findings, and recorded as such.** The absence of a Test Plan, a Data Model and a Glossary is the Development Case's own NOT FIRED verdict on each, checked against its §5.2 condition by both lenses — not a delivery gap. The absence of an Iteration Assessment describing this iteration is correct state at review time. The absence of a token budget, a velocity and a forecast is correct: the project declares no budget and no phase has closed. No SCM condition holds or clears this gate: `ci.yml` does not exist on `main`, no branch of this process exists, no pull request is open and no defect issue is filed — establishing the pipeline is the Integrator's Inception work item, not a Survey defect.
+**One fact, three Majors, one correction.** The three rate-limit Majors are one wrong sentence in three artifacts. The recovery already holds the right answer in the same phase — the System Inventory records it as AN-024 and the Risk List carries it as R025, both anchored. The defect is not a failure of reading; it is three documents asserting the value their own reading contradicts.
 
 ## Resolutions and Actions
 ### Reviewer lens
