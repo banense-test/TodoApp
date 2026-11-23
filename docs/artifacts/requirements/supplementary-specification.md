@@ -1,11 +1,9 @@
 ## Document Control
-
 - Phase: Excavation
 - Status: Draft — produced for the end-of-Excavation (AR) milestone review
 - Milestone Target: end-of-Excavation (AR) — not yet achieved
-- Iteration: 1, Cycle 1
+- Iteration: 2, Cycle 1
 - Owner: System Analyst
-
 ## Functionality
 The delivery declares no functional requirement. `.iari/README.md` records that no requirements document exists and that its authors cannot be asked, so every statement below is a behaviour recovered from code and anchored to the file it was read from. No threshold is invented where the code states none: what the code does not fix is recorded as not fixed.
 
