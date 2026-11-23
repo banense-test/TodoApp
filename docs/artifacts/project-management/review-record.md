@@ -11,13 +11,16 @@
 - Owner: Reviewer
 
 ### Management Reviewer lens
-<!-- review: Excavation I2 -->
+<!-- review: Excavation I3 -->
+
+<!-- review: Excavation I3 -->
 
 - Phase: Excavation
-- Status: Draft — produced for the end-of-Excavation (AR) milestone review, iteration 2, cycle 1
-- Milestone Target: end-of-Excavation (AR) — not yet achieved
-- Iteration: 2, Cycle 1
-- Review point: Lifecycle Milestone Review (AR re-take), exit-criteria lens
+- Status: Lifecycle Milestone Review (AR) taken at iteration 3 — 0 Critical, 1 Major, 3 Minor open. The recovered set is confirmed by the stakeholder as the model of the existing system; the sanction is refused while the Major stands
+- Milestone Target: end-of-Excavation (AR) — not achieved
+- Iteration: 3, Cycle 1
+- Review point: Lifecycle Milestone Review, exit-criteria lens
+- Reviewers executed: Reviewer, then Management Reviewer; the Business Reviewer is inactive at AR
 - Verdict this lens issues: No-Go
 
 ### Review Coordinator lens
