@@ -277,8 +277,7 @@ No stakeholder statement of what matters exists for this delivery — the owner'
 | 8 | Requests, CI, dev container | Supporting material: a hand-run request collection, a four-step pipeline, and a container whose SDK contradicts AN-007 | `Requests/todo.http; .github/workflows/ci.yaml; .devcontainer/` |
 
 ## Coverage
-
-Of roughly 126 files in the tree (37 of the 164 entries are directories), 100 were opened. Everything in `Todo.Api`, `Todo.Api.Tests`, `TodoApp.AppHost`, `TodoApp.ServiceDefaults` and `Requests` was read; the unread remainder is vendored assets, two binary files, one stylesheet and three small files named below.
+Of 130 files in the tree (36 of the 166 entries are directories), 104 were opened. Everything in `Todo.Api`, `Todo.Api.Tests`, `TodoApp.AppHost`, `TodoApp.ServiceDefaults`, `Requests`, `.aspire`, `.vscode` and `.github` was read; the unread remainder is vendored assets, two binary files, one stylesheet and four small files named below.
 
 | Area | Files | Read | Unread and why |
 |---|---|---|---|
@@ -294,7 +293,9 @@ Of roughly 126 files in the tree (37 of the 164 entries are directories), 100 we
 | Repository root | 8 | 7 | `.gitignore` (ignore rules, no behaviour) |
 | .github | 1 | 1 | — |
 | .devcontainer | 2 | 2 | — |
-| docs | 2 | 1 | `docs/artifacts/environment/development-case.md` was read as the Development Case artifact, not as a file |
+| .aspire | 1 | 1 | — |
+| .vscode | 1 | 1 | — |
+| docs | 3 | 2 | `docs/artifacts/environment/development-case.md` was read as the Development Case artifact and `docs/artifacts/discovery/system-inventory.md` as this artifact, not as files of the delivery |
 | .iari | 1 | 1 | — |
 | Commit history | — | 50 commits of the repository plus 12 per-area lists | Only 50 commits were listed, so anything before 2023-07-14 is unread; `Todo.Web/Server`, `Todo.Web/Shared` and `Requests` have no separate commit list — their changes appear inside the `Todo.Web` list |
 
