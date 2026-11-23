@@ -289,22 +289,22 @@ Each risk carries the action its owner takes and the sign that it has started to
 
 ```plantuml
 @startuml
-title The two exposures Consolidation adds - four suspect edges cleared by their owners, and one reading handed forward by name
+title The two exposures Consolidation adds - one action performed, one still owed by the roles the graph marks
 skinparam shadowing false
 skinparam componentStyle rectangle
 skinparam wrapWidth 230
 left to right direction
 
-package "R033 - four edges suspect at the gate" {
+package "R033 - four edges open at the gate" {
   component "4 x 4 = 16, High" as R33
   component "CLS-001 to TBL-001\nCLS-007 to TBL-002\nmarked for the Designer" as R33A
   component "CLS-020 to UC-007\nCLS-020 to UC-010\nmarked for the System Analyst" as R33B
-  component "each owner reads its own end, then clears\nthe edge stating why it still holds" as R33C
+  component "the reasoning is written in the Design Model;\nthe clearance is not - it is each owner's act\nand neither is performed" as R33C
 }
 package "R034 - the snapshot names another version" {
   component "3 x 4 = 12, Significant" as R34
   component "TodoDbContextModelSnapshot records\nProductVersion 8.0.0 against a net9.0 build" as R34A
-  component "recorded in the persistent-data description,\nso no migration is scaffolded against it unread" as R34B
+  component "the Database Designer records it in the\npersistent-data description - performed" as R34B
 }
 
 R33 --> R33A
@@ -315,9 +315,10 @@ R34 --> R34A
 R34A --> R34B
 
 note bottom of R33C
-  Avoidance here is performance, not a statement: an edge is cleared by the
-  role that owns its far end, and neither the Project Manager nor the other
-  lens can clear it. Both owners hold a stage in this phase.
+  Avoidance here is not a statement: an edge is cleared by the role that
+  owns its far end, and neither the Project Manager nor the other lens can
+  clear it. Both owners hold a stage in this phase, and the graph returns
+  all four still marked. This risk is firing.
 end note
 note bottom of R34B
   Nothing is corrected: the snapshot is the delivery's file and the process
@@ -362,9 +363,8 @@ end note
 | R030 | Avoid — **retirement landed; the exposure stays live** | The statement is written beside UC-001 to UC-004 in the Use-Case Model, titled "The instability UC-001 to UC-004 sit on", citing `AN-029`, `AN-012` and this risk. The avoidance is performed; the exposure is not removed, because `AN-012` stands and no executable statement covers the surface | System Analyst, then Project Manager | A phase treats the session behaviour as stable and builds on it without re-reading; the flows are re-read against the file before the baseline | A design cites the session surface as settled |
 | R031 | Avoid — **materialized twice; contingency taken and performed** | The correction to `Development Case#F2` was performed in Excavation's Environment stage, on the stakeholder's restatement of 2026-11-23 that the process runs Environment in every phase and that it is that phase's first discipline. `Development Case#F2` and `#F3` are corrected and A11 read four of four | Process Engineer, planned by Project Manager | Taken and performed: the correction did not land in iteration 2, A11 read two of four, and the phase opened a further iteration planned from the Review Record. Declared work was not cut to avoid it | The technical lens returns and "Roles and Ownership" still omits the three lenses |
 | R032 | Avoid — **avoidance performed on all six citing artifacts; the exposure retired; the residual discharged** | Settle the fact once, in the artifact that owns it, and correct the others against it. All six citing artifacts hold: the Supplementary Specification, the Software Architecture Document, the Deployment Model, the Vision, the Design Model, and the Use-Case Model, whose rules diagram R6 states both budgets under `AN-024` | Project Manager | Residual after retirement: the artifacts that carry the figure are re-read in one pass at the next milestone — discharged at Excavation's milestone review, where both lenses re-read them and they agree. A corrected figure transcribed wrongly a second time is resolved by reading the code, never by choosing between artifacts | Two artifacts cite one `AN-NNN` and state different values for it — no longer firing |
-| R033 | Avoid — **clearance is the owner's act; both owners hold a stage in this phase** | Each of the four edges is read at its own end by the role the graph marks, and cleared with that reading stated: the Designer on `CLS-001` → `TBL-001` (four properties in four columns, `Id` autoincrement, `OwnerId` a required cascade FK) and `CLS-007` → `TBL-002` (the class adds no member; all fifteen columns inherited); the System Analyst on `CLS-020` → `UC-007` and `CLS-020` → `UC-010` (the filter is attached to the `/todos` group naming `TodoItem`, so the create and the change both carry it). Neither the Project Manager nor the other lens may clear an edge it does not own | Designer, System Analyst | An edge cannot be shown to hold at its own end: it is retired and re-registered with the link type the evidence supports, and the owner states both in one turn. A suspect still open at phase close is recorded as a Major against the artifact that carries it — not waived | The graph returns an edge marked SUSPECT after its owner's stage has run — **firing now, and that is why this risk is carried** |
-| R034 | Avoid | Record the snapshot's product version in the persistent-data description beside the migrations it generated, with the anchor and the build's version beside it, so no role scaffolds a migration against it without reading the difference. Nothing in the delivery is corrected: the snapshot is the delivery's file, and this process records the system as it is | Database Designer | A migration is scaffolded and disagrees with the model: the generated migration is read against the model and the schema, never assumed, and the difference is carried as a change request if the delivery is to be changed | A migration is added to the tree without the snapshot's product version being read |
-
+| R033 | Avoid — **not performed; firing** | Each of the four edges is read at its own end by the role the graph marks, and cleared with that reading stated: the Designer on `CLS-001` → `TBL-001` (four properties in four columns, `Id` autoincrement, `OwnerId` a required cascade FK) and `CLS-007` → `TBL-002` (the class adds no member; all fifteen columns inherited); the System Analyst on `CLS-020` → `UC-007` and `CLS-020` → `UC-010` (the filter is attached to the `/todos` group naming `TodoItem`, so the create and the change both carry it). The reasoning is written in the Design Model; the clearance itself has not been performed on any of the four. Neither the Project Manager nor the other lens may clear an edge it does not own | Designer, System Analyst | An edge cannot be shown to hold at its own end: it is retired and re-registered with the link type the evidence supports, and the owner states both in one turn. A suspect still open at phase close is recorded as a Major against the artifact that carries it — not waived | The graph returns an edge marked SUSPECT after its owner's stage has run — **firing now, on all four** |
+| R034 | Avoid — **action performed; the exposure stays live** | The Database Designer records the snapshot's product version in the persistent-data description beside the migrations it generated, with the anchor and the build's version beside it, so no role scaffolds a migration against it without reading the difference. Performed: the section states `ProductVersion` `8.0.0` for `TodoDbContextModelSnapshot` against `net9.0` and the EF Core 9.x packages. Nothing in the delivery is corrected — the snapshot is the delivery's file, and this process records the system as it is — so the incompatibility itself remains | Database Designer | A migration is scaffolded and disagrees with the model: the generated migration is read against the model and the schema, never assumed, and the difference is carried as a change request if the delivery is to be changed | A migration is added to the tree without the snapshot's product version being read |
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
