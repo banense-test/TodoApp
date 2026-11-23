@@ -6,47 +6,48 @@
 - Owner: Project Manager
 
 ## Iteration Objectives Reached
-The phase planned three objectives. All three are met on the artifacts that carry them. What the phase has not obtained is the milestone: the recovered set was confirmed by the stakeholder for the first time, and the sanction to advance was refused while one Major stands — and that Major is this plan's own text, not the recovery.
+The phase planned three objectives. All three are met on the artifacts that carry them, and this is the first iteration of the phase at which they are met and the milestone is sanctioned at the same time. What iteration 4 bought was not recovery: it was the record that reports it.
 
 ```plantuml
 @startuml
-title Excavation iteration 3 - the three phase objectives, the artifact each rests on, and the gate that is not one of them
+title Excavation's three phase objectives at iteration 4 - each certified on the artifact that carries it, and the gate answered
 skinparam shadowing false
 skinparam wrapWidth 235
 hide circle
 hide empty members
 
 package "O1 Recover the Architecture - met" {
-  class "COMP-001 to COMP-022, connectors, anchors\nUse-Case View for all 11 use cases\n13 mechanisms; nodes, stores, key ring" as O1 <<met>>
+  class "COMP-001 to COMP-022 with connectors and anchors\nUse-Case View for all 11 use cases\n13 mechanisms; nodes, stores, key ring" as O1 <<met>>
 }
 package "O2 Recover the Use Cases - met" {
-  class "11 use cases over 22 entry points, 4 exclusions\nfive COMP-014 edges confirmed at the graph\nR6 states both budgets under AN-024" as O2 <<met>>
+  class "11 use cases over 22 entry points\n4 exclusions stated\nfive COMP-014 edges confirmed; R6 states both budgets" as O2 <<met>>
 }
 package "O3 Recover the Persistent Data - met" {
-  class "42 classes, relationship inventory\n8 entity types, keys, enforced rules\nAN-025 owner key re-point" as O3 <<met>>
+  class "42 classes, the relationship inventory\n8 entity types, keys, enforced rules\nAN-025 owner key re-point" as O3 <<met>>
 }
-package "The gate - answered, in both halves" {
-  class "the set is confirmed as the model\nof the existing system" as CF <<confirmed>>
-  class "the advance into Consolidation\nrefused while a Major stands" as RF <<refused>>
+package "The gate, which is not an objective" {
+  class "the recovered set confirmed\nby the stakeholder, 2026-11-23" as CF <<confirmed>>
+  class "the advance into Consolidation sanctioned\nat the fourth put: A12 Met" as RF <<sanctioned>>
 }
 O1 --> CF
 O2 --> CF
 O3 --> CF
 CF --> RF
 note bottom of RF
-  An objective met is not a milestone sanctioned. The refusal is
-  recorded as a refusal and nothing is read into it.
+  An objective met is not a milestone sanctioned. The verdict is the
+  Review Coordinator's; it reads this answer and no other.
 end note
 @enduml
 ```
 
-| # | Phase objective | Owner | Planned | Standing after iteration 3's review |
+| # | Phase objective | Owner | Planned | Standing at this assessment |
 |---|---|---|---|---|
-| O1 | Recover the Architecture | Software Architect | The Software Architecture Document records components, connectors, mechanisms, technology and deployment as the code shows them; the topology is modelled | **Met** — 22 components with anchors and connectors, the Use-Case View naming the components each of the eleven use cases' path crosses, 13 mechanisms, and the Deployment Model's nodes, stores, environment mapping and key-ring requirement. The three Majors recorded against these artifacts at iteration 1 are closed and verified, and neither artifact carried an open finding from any lens at this gate |
-| O2 | Recover the Use Cases | System Analyst | One use case per entry-point path, each tracing to its `EP-NNN`, with every entry point either carried or its exclusion stated | **Met** — carriage intact at 11 use cases over 22 entry points with four exclusions stated, and both Majors that held this objective in iteration 2 closed and verified at the artifact: the five `COMP-014 → UC-006` to `UC-010` edges confirmed in the registered graph, and R6 stating both budgets under `AN-024` against `RateLimitExtensions.cs:14-31` and `appsettings.Development.json:8-12`. Neither correction added, removed, merged or reclassified a use case |
-| O3 | Recover the Persistent Data | Designer, Database Designer | The Design Model carries the domain model, packages and classes, and the persistent data with entities, keys, associations and enforced rules | **Met** — 42 classes, the relationship inventory, the eight entity types, the owner key's re-point under `AN-025` and "What the code does not hold", each anchored to `TodoDbContext.cs:11-17` and the three migrations. No lens recorded a finding against this objective in any of the three iterations |
+| O1 | Recover the Architecture | Software Architect | The Software Architecture Document records components, connectors, mechanisms, technology and deployment as the code shows them; the topology is modelled | **Met** — 22 components with anchors and connectors, the Use-Case View naming the components each of the eleven use cases' path crosses, 13 mechanisms, and the Deployment Model's nodes, stores, environment mapping and key-ring requirement. The three Majors recorded against these artifacts at iteration 1 are closed and verified. At this gate neither artifact carried an open finding from any lens |
+| O2 | Recover the Use Cases | System Analyst | One use case per entry-point path, each tracing to its `EP-NNN`, with every entry point either carried or its exclusion stated | **Met** — carriage intact at 11 use cases over 22 entry points with four exclusions stated. Both Majors that held this objective in iteration 2 are closed and verified at the artifact: the five `COMP-014 → UC-006` to `UC-010` edges confirmed in the registered graph, and R6 stating both budgets under `AN-024`. Iteration 4 changed none of it — the stakeholder stated that no recovered content was at issue, and none was touched |
+| O3 | Recover the Persistent Data | Designer, Database Designer | The Design Model carries the domain model, packages and classes, and the persistent data with entities, keys, associations and enforced rules | **Met** — 42 classes, the relationship inventory, the eight entity types, the owner key's re-point under `AN-025` and "What the code does not hold", each anchored to `TodoDbContext.cs:11-17` and the three migrations. No lens recorded a finding against this objective in any of the four iterations |
 
-The recovery converged this iteration: seven findings closed, every one verified at the graph, the file or the peer artifact, and no artifact's recovered content now carries an open finding from any lens. What did not converge is this plan's own record of it. The one Major open at the gate — `Iteration Plan#F4` and `#F9` — is that four cells of this plan's criteria and objectives tables and one of its gate rows stated, as present fact, states their own artifacts had already superseded. Twelve of the thirteen criteria held on the artifact that owns each while the plan said three of them failed.
+The three objectives were met at the close of iteration 3 and were met, unchanged, at this one: iteration 4 reopened no recovered element, no exclusion and no anchor. What the iteration settled is the one criterion the phase could not answer for itself — `A12`, the stakeholder's answer — which the fourth put of gate H4 granted on 2026-11-23 after the plan's own four defective cells were restated. An objective met is not a milestone sanctioned; at this gate both are true, and the Review Coordinator's verdict records the latter.
+
 ## Adherence to Plan
 Iteration 3's fine plan was eleven items: three Development Case corrections in the Environment stage, two on the Use-Case Model, two on this plan and the register, two review lenses, the stakeholder gate and the verdict. Nine ran, one was answered, one ruled.
 
