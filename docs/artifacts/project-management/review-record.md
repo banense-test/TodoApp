@@ -807,105 +807,93 @@ No risk in the register sits in the High band, and none placed in the Significan
 - It opens no change request. The Change Control Manager does not work in the sprint zero; the findings reach their owners through this record and through their Work Orders.
 
 ### Review Coordinator lens
-<!-- review: Excavation I2 -->
+<!-- review: Excavation I3 -->
 
-<!-- review: Excavation I2 -->
-
-**Actions, in the order the next iteration of this phase takes them.** Each action is the remediation its recording lens wrote. No action carries a calendar date: the phase declares none, and a date projected from an estimate would read downstream as an observation. The due point is a state of the work. Every action is performed in **one** iteration — the stakeholder placed the Process Engineer's turn in the same iteration as the Use-Case Model and Iteration Plan corrections, so the phase closes in one iteration.
-
-| # | Action | Artifact | Owner | Closes | Due point | Escalates if |
-|---|---|---|---|---|---|---|
-| 1 | Record the Environment stage in the milestone sequence as the phase's first discipline, place the two Development Case items against the Process Engineer in the next iteration, and restate A13's evidence cell to cite that stage | Iteration Plan | Project Manager | `Iteration Plan#F7` | First, so the stage exists before the role's turn | The plan again records Environment as inactive in this phase |
-| 2 | State both budgets in R6 under `AN-024` — code defaults 100 / 100 per 10 s / queue 100, Development override 50 / 50 / 50 as the value in force — and cite `appsettings.Development.json:8-12` | Use-Case Model | System Analyst | `Use-Case Model#F4` | Same iteration, first among the artifact corrections | R6 and the gate diagram still give two answers |
-| 3 | Re-register the five `COMP-014 → UC-006` … `UC-010` edges as confirmed, each checked against `TodoApi.cs:19-20`, and record beside the gate diagram why the bucket gates the operation without being it | Use-Case Model | System Analyst | `Use-Case Model#F3`, `Use-Case Model#F1` | Same turn as action 2 | Any edge still carries a SUSPECT marking when the graph is re-queried |
-| 4 | Name the Use-Case Model's R6 in A10's evidence cell so the criterion is certified on all four artifacts its test covers, or narrow the stated test to the artifacts the cell verifies | Iteration Plan | Project Manager | `Iteration Plan#F6` | After action 2 lands — the cell cannot certify what is not yet correct | A10 is recorded met on a subset again |
-| 5 | Name every lens writing into the Review Record in the co-owned-artifact sentence and draw the corresponding edges in CLS-DC-01 | Development Case | Process Engineer | `Development Case#F2` | Same iteration, in the Environment stage action 1 records | The role's turn is again absent from the phase plan |
-| 6 | Bring the four Document Control fields forward to the phase the document governs | Development Case | Process Engineer, same turn | `Development Case#F3` | With action 5 | — |
-| 7 | State in the Development Case that Environment runs in every phase, and in Excavation as its first discipline, so the tailoring matches the baseline the rest of the document is read against | Development Case | Process Engineer, same turn | The tailoring statement the stakeholder ordered corrected alongside `#F2` and `#F3` | With actions 5 and 6 | The Development Case again states a phase in which the role does not run |
-| 8 | Restate R030's strategy cell: the retirement action has landed in the Use-Case Model under `AN-029`; the exposure stays live because `AN-012` stands and no test covers the surface | Risk List | Project Manager | `Risk List#F3` | Owner's next turn, after the Majors | The row claims a retirement that has not occurred, in either direction |
-
-Actions 2 and 3 are one turn by one owner on one artifact, sequenced only because `#F4` supplies the fact A10's cell must name. Actions 5, 6 and 7 are one turn by one owner and are the content of the stakeholder's answer. Actions 1 and 4 are the Project Manager's, and both are records of a stage or a criterion rather than corrections to recovered content.
-
-**Escalation — what is escalated, and what is not.**
+<!-- review: Excavation I3 -->
 
 ```plantuml
 @startuml
-title The escalation path a finding takes when its owner has no stage in the phase, and how Development Case#F2 left it
+title AR milestone disposition, Excavation iteration 3 - the data the verdict is anchored to
 
 skinparam shadowing false
-skinparam wrapWidth 245
+skinparam wrapWidth 235
+hide circle
+hide empty members
 
-|Recording lens|
-start
-:record_artifact_finding - severity, criterion, recommendation;
-if (owner has a stage in this phase?) then (yes)
-  :owner's next turn, after the Critical and Major findings;
-  :lens re-reads the corrected section;
-  if (defect gone?) then (yes)
-    :resolve_artifact_finding by the recording lens;
-    stop
-  else (no)
-    :stays open, re-recorded under its key;
-    stop
-  endif
-else (no)
-  :escalate - written notice to the Project Manager
-  with the ledger entry as evidence;
-  note right
-    Development Case#F2 stood here for two iterations.
-    The plan recorded Environment as inactive in
-    Excavation. R031 predicted this and materialized twice.
-    The finding was never waived.
-  end note
-endif
+package "The conditions for sanction" {
+  class "Findings read = 12, unread = none\nMET" as X1 <<met>>
+  class "Open Critical = 0\nMET" as X2 <<met>>
+  class "Open Major = 2 entries over 1 defect\nNOT MET" as X3 <<notmet>>
+  class "Stakeholder sanction = GRANTED\nREFUSED on 2026-11-23" as X4 <<notmet>>
+}
 
-|Project Manager|
-:Record the Environment stage in the milestone sequence;
-note right
-  Environment runs in every phase. In Excavation it is
-  the first discipline, with the Process Engineer's
-  stage in the next iteration, alongside the other
-  corrections.
+package "Verdict" {
+  class "AR milestone NOT sanctioned\nrequiresIteration true" as V <<verdict>>
+}
+
+package "What the next iteration performs - four owner turns, none on recovered content" {
+  class "Project Manager\nfive cells of the criteria and objectives tables\nrestated on the artifacts that own them" as A1 <<route>>
+  class "Project Manager\nfine-plan Closes column, rows 6 and 7" as A2 <<route>>
+  class "Project Manager\nR032 strategy and warning-sign cells" as A3 <<route>>
+  class "System Analyst\nSupplementary Specification Document Control\niteration field only" as A4 <<route>>
+}
+
+X1 --> V
+X2 --> V
+X3 --> V
+X4 --> V
+A1 ..> X3 : closes the Major
+A2 ..> X3
+A3 ..> V : Minor, holds no criterion
+A4 ..> V : Minor, holds no criterion
+
+note bottom of V
+  No recovered content is at issue. The eleven use cases, the four
+  stated exclusions, the twenty-two components and the eight tables
+  are unchanged by the next iteration, on the stakeholder's own words.
 end note
-if (stage recorded?) then (yes)
-  :owner performs the correction in that turn;
-else (no)
-  :the criterion stays not met;
-  :the milestone cannot close on this iteration's evidence;
-endif
-
-|Review Coordinator|
-:Record the criterion's true state in the ledger;
-:neither waive nor close it;
-:report it to the milestone verdict;
-stop
 
 @enduml
 ```
 
+**Actions, in the order the next iteration takes them.** Each action is the remediation its recording lens wrote. No action carries a calendar date: the phase declares none, and a date projected from an estimate would read downstream as an observation. The due point is a state of the work, all within one further iteration of Excavation.
+
+| # | Action | Artifact | Owner | Closes | Due point | Escalates if |
+|---|---|---|---|---|---|---|
+| 1 | Restate the five cells at the state their evidence supports: A1 "Met" with the five `COMP-014` edges requoted from a fresh graph query; A10 "Met — certified on the recovered set" naming R6 as the fourth artifact with its current wording under `AN-024`; A11 "Met — four of four" naming the four closed Minors; O2 met on its own terms; A12 recording the third put — the recovered set confirmed, the sanction refused while a Major stands. Change nothing in the sequence, the fine plan or A13 | Iteration Plan | Project Manager | `Iteration Plan#F4`, `Iteration Plan#F9` | First — it is the only Major and the verdict is read on it | Any of the five cells again reports a state its artifact has superseded |
+| 2 | Drop "written in this turn" from the Closes cells of fine-plan rows 6 and 7 and leave the finding key | Iteration Plan | Project Manager, same pass | `Iteration Plan#F8` | With action 1 | — |
+| 3 | Restate R032: the action performed on all six citing artifacts, R6 named with its wording under `AN-024`, the exposure recorded as retired by the avoidance; relabel the diagram's contingency node to the one residual — the four artifacts re-read in one pass; set the warning-sign cell to the state it now holds. Leave `R030` and `R031` unchanged | Risk List | Project Manager | `Risk List#F3` | After action 1 | The row claims a retirement in either direction |
+| 4 | Set the Document Control Iteration field to "3, Cycle 1". Change no other field and no content | Supplementary Specification | System Analyst | `Supplementary Specification#F3` | Owner's next turn, after the Major | — |
+
+**Escalation at this gate.**
+
 | Item | State | Why |
 |---|---|---|
-| `Development Case#F2` | **Escalated until action 1 is performed** | Its owner had no stage in this phase for two iterations, which is what `R031` predicted and what materialized. The stage now exists in the process and the stakeholder placed the role in the next iteration; action 1 is the Project Manager recording it in the plan. Until that record exists the finding's owner has no scheduled turn, and a criterion depends on it |
-| Every other open finding | **Not escalated** | Each owner holds a stage in this phase and a turn in the next iteration. No finding is overdue: the phase has not closed, and the due point of each is that iteration's work |
-| Systemic process failure | **No escalation to the Configuration and Change Management Board** | The ledger shows no repeated architecture violation and no skipped review. The same defect appearing twice across lenses is convergence, not process failure. The Change Control Manager does not work in the sprint zero, so no change request is opened for any finding; the stakeholder's answer reaches its owners through this record and through their Work Orders |
+| Any open Major or Minor | **Not escalated** | Each owner holds a stage in this phase and a turn in the next iteration. No finding is overdue: the phase has not closed, and the due point of each is that iteration's work |
+| `Development Case#F2` and `#F3` | **Closed; the escalation of the previous two gates is discharged** | The escalation stood because the Process Engineer had no stage in this phase. The stage now exists — Environment runs in every phase and is Excavation's first discipline — and both Minors were corrected in it this iteration |
+| Systemic process failure | **No escalation to the Configuration and Change Management Board** | The ledger shows no repeated architecture violation and no skipped review. Two lenses reaching the same defect is convergence on a real defect, not process failure. The Change Control Manager does not work in the sprint zero, so no change request is opened for any finding |
+| Stakeholder escalation | **None required** | 0 Critical findings. A12 is recorded on the stakeholder's answer already given; nothing outstanding requires a new decision from them |
 
-**Review effectiveness — this milestone's measured counts.** Second review event of this phase; the previous one is this milestone's iteration-1 pass, so the comparison is against that pass and nothing older.
+**Review effectiveness — this milestone's measured counts.** Fourth review event of this phase; the comparison is against the three passes of the same milestone that precede it and against nothing older.
 
-| Indicator | Iteration 1 | Iteration 2 | What it is computed from |
+| Indicator | Iteration 1 | Iteration 2 | Iteration 3 |
 |---|---|---|---|
-| Review coverage | 10 of 10 reviewed artifacts read by both executed lenses | 10 of 10 read by both executed lenses; 9 received an explicit no-finding statement | The artifacts under review at each pass |
-| Finding entries recorded | 29 | 35 cumulative | `read_artifact_findings` across the ten artifacts |
-| Open at the gate | 16 — 0 Critical, 8 Major, 8 Minor | 8 — 0 Critical, 5 Major entries over 4 defects, 3 Minor | The `[FINDINGS]` line |
-| Closed by their recording lens | 13 | 27 cumulative | Resolution objects on the ledger |
-| Defect density, open entries by discipline | Requirements 6, Analysis & Design 3, Project Management 5, Environment 2, Discovery 0 | Requirements 4 over 2 defects, Project Management 2, Environment 2, Analysis & Design 0, Discovery 0 | Open entries at each gate, by the artifact carrying them |
-| Duplicate subjects reached by both lenses | 1 — the rate limiter | 2 — the five `COMP-014` edges, and the rate budget at artifact and criterion | The reconciliation table in Findings |
-| Scope of the correction required | 8 Majors across 7 artifacts | 4 Major defects across 2 artifacts, all correctable in one iteration | The open Major ledger |
-| Defect removal efficiency | Not computable | Not computable | No test execution has occurred in the sprint zero; nothing is found by test against which review-found defects could be compared, and no ratio is invented |
-| Rework effort | Not measured | Not measured | No per-finding token or elapsed-time attribution exists; the phase has not closed, so no measured actual is available to attribute |
+| Review coverage | 10 of 10 reviewed artifacts read by both executed lenses | 10 of 10 by both executed lenses | 10 of 10 by both executed lenses; 12 artifacts read for findings |
+| Finding entries recorded, cumulative | 29 | 35 | 39 |
+| Open at the gate | 16 — 0 Critical, 8 Major, 8 Minor | 8 — 0 Critical, 5 Major entries over 4 defects, 3 Minor | 5 — 0 Critical, 2 Major entries over 1 defect, 3 Minor |
+| Closed by their recording lens, cumulative | 13 | 27 | 34 |
+| Defect density, open entries by discipline | Requirements 6, Analysis & Design 3, Project Management 5, Environment 2, Discovery 0 | Requirements 4 over 2 defects, Project Management 2, Environment 2, Analysis & Design 0, Discovery 0 | Project Management 5 over 2 artifacts (4 on the Iteration Plan, 1 on the Risk List), Requirements 1, Environment 0, Analysis & Design 0, Discovery 0 |
+| Duplicate subjects reached by both lenses | 1 — the rate limiter | 2 — the five `COMP-014` edges, and the rate budget at artifact and criterion | 1 — the five cells of this iteration's tables |
+| Defect removal efficiency | Not computable | Not computable | Not computable |
+| Rework effort | Not measured | Not measured | Not measured |
 
-**What the metrics say.** Open entries fell from 16 to 8 and the artifacts carrying a Major fell from 7 to 2, while coverage held at 10 of 10. The remaining work is concentrated in two artifacts and one owner turn each, and the stage the two Development Case Minors needed now exists in the plan the next iteration will carry. The indicator that did not improve is the one the gate turns on — a criterion whose evidence cell certifies a subset of what its own test covers reappeared one artifact over; `Iteration Plan#F3` closed at this pass and `#F6` opened against the same method. The process found it in the same pass that recorded it, which is the mechanism working; it did not prevent it.
+**What the metrics say.** Open entries fell from 16 to 8 to 5, and the artifacts carrying a Major fell from 7 to 2 to 1, while coverage held. The recovery converged this iteration: seven findings closed, every one verified at the graph, the file or the peer artifact, and no artifact's recovered content now carries an open finding from any lens. Every remaining defect sits on two Project Management artifacts and one Requirements metadata field.
 
-**No finding is recorded for three absences.** The Data Model, the Glossary and the Test Plan are absent on the Development Case's NOT FIRED verdict on each trigger, which both executed lenses checked against the §5.2 conditions. The Iteration Assessment describes no iteration being reviewed because the Project Manager authors it after this review. No SCM condition exists to report: the sprint zero runs no build, opens no pull request and files no defect, which is the phase's correct state.
+The indicator that did not improve is the one the gate turns on. A cell asserting another artifact's state has now been recorded in three consecutive passes — `Iteration Plan#F3` and `#F6`, then `#F4`, then `#F9`. The process caught each in the same pass that recorded it, which is the mechanism working; it has not prevented the recurrence, and the Project Manager's plan now needs the rule written into it: a cell that asserts another artifact's state is re-read in the same turn that artifact changes, not at the next milestone.
+
+Defect removal efficiency and rework effort are not computable and not measured: no test has executed in the sprint zero, so nothing is found by test against which review-found defects could be compared, and no per-finding token or elapsed attribution exists. Neither ratio is invented.
+
+**Stakeholder contribution — the answer already given, folded in and acted on.** At gate H4's third put the stakeholder refused the sanction and stated that the recovered set is confirmed as the model of their system, that no recovered content is at issue, and that the next iteration changes none of it. Verified against the artifacts, not deferred: twelve of the thirteen criteria hold on the artifact that owns each, and every one of the five open cells names an artifact whose correction is already in place. That answer is the route of this disposition and needs no further consultation this iteration.
 
 ## Disposition
 ### Reviewer lens
