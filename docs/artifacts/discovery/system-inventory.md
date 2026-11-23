@@ -180,7 +180,7 @@ end note
 | EP-022 | `dotnet ef database update` raised by the app host before the API starts | Platform event | TodoApp.AppHost, only in run mode and only when `Todo.Api/.db` does not exist | `TodoApp.AppHost/Extensions.cs:1-21,32` |
 
 ## Technology and Size
-Every project inherits `net9.0`, `Nullable=enable`, `ImplicitUsings=enable` and `LangVersion=preview` from `Directory.Build.props:4-7`; every package version is pinned in `Directory.Packages.props` and every package resolves from nuget.org alone (`nuget.config`). Counts are files present in the tree, vendored third-party assets included and marked as such.
+Every project inherits `net9.0`, `Nullable=enable`, `ImplicitUsings=enable` and `LangVersion=preview` from `Directory.Build.props:4-7`; every package version is pinned in `Directory.Packages.props` and every package resolves from nuget.org alone (`nuget.config`). Counts are files present in the tree, vendored third-party assets included and marked as such. Excavation found no project and no directory the Survey pass missed; the only count that changed is `docs/`, which gains the six Excavation artifacts.
 
 | Area | Language | Platform and frameworks, with version | Files | Anchor |
 |---|---|---|---|---|
@@ -197,7 +197,7 @@ Every project inherits `net9.0`, `Nullable=enable`, `ImplicitUsings=enable` and 
 | .devcontainer | JSON, shell | Image `mcr.microsoft.com/dotnet/sdk:8.0`; forwards 5000 and 5001; installs `dotnet-ef` globally on create | 2 | `.devcontainer/devcontainer.json:1-11; .devcontainer/init.sh` |
 | .aspire | JSON | Pins the app host for the Aspire CLI: `appHostPath` resolves to `TodoApp.AppHost/TodoApp.AppHost.csproj` | 1 | `.aspire/settings.json:1-3` |
 | .vscode | JSON | Editor recommendations only: the C# extension and the REST client extension the request collection needs | 1 | `.vscode/extensions.json:1-6` |
-| docs | Markdown | This process's output, not the system's own documentation: the contribution contract and the sprint-zero artifacts of five roles | 7 | `docs/CONTRIBUTING.md; docs/artifacts/` (environment, discovery and project-management subdirectories) |
+| docs | Markdown | This process's output, not the system's own documentation: the contribution contract and the sprint-zero artifacts of six roles | 13 | `docs/CONTRIBUTING.md; docs/artifacts/` (environment, discovery, project-management, requirements and analysis---design subdirectories) |
 | .iari | Markdown | The delivery owner's note | 1 | `.iari/README.md` |
 
 ## Persistent Data
