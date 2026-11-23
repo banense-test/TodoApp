@@ -680,7 +680,9 @@ end note
 
 #### Vision
 
-`Vision Management Reviewer#F1` — **Minor**, criterion `contained-defect`. The "Features" diagram draws two shapes as `usecase` ellipses that the Use-Case Model rules out of the use-case set: `U12` "Start the system and create its schema (`EP-022`)" and `U13` "Observe readiness and liveness (`EP-020`, `EP-021`)", under a heading that calls the diagram the goals of the one human actor. A reader counts thirteen use cases in one artifact and eleven in the other, the difference being the same three entry points. The Vision's note N3 does say it creates no operator actor, so the defect is the notation, not the reasoning. Contained — the Use-Case Model is authoritative for the set, states each exclusion with its reason, and A1 is satisfied on that artifact alone.
+`Vision Management Reviewer#F1` — **Minor from this lens**, criterion `contained-defect`. The "Features" diagram draws two shapes as `usecase` ellipses that the Use-Case Model rules out of the use-case set: `U12` "Start the system and create its schema (`EP-022`)" and `U13` "Observe readiness and liveness (`EP-020`, `EP-021`)", under a heading that calls the diagram the goals of the one human actor.
+
+This lens classifies it Minor because the Use-Case Model is authoritative for the set, states each exclusion with its reason, and A1 is satisfied on that artifact alone — no exit criterion depends on the Vision's count. **The technical lens records the same defect as `Vision#F1` Major**, on the ground that three artifacts will state the count and one states thirteen. The two classifications differ on consequence, not on fact, and the gate reads the higher of the two: the Vision's use-case count is a Major exposure at this milestone and is counted as one below.
 
 #### Development Case
 
@@ -692,7 +694,7 @@ end note
 
 ```plantuml
 @startuml
-title AR-C2 Findings ledger at the AR gate - every finding open on the artifacts under review, and the one anomaly three of them share
+title AR-C2 Findings ledger at the AR gate - the eight open Majors, and the one anomaly three of them share
 
 skinparam shadowing false
 skinparam classAttributeIconSize 0
@@ -706,9 +708,10 @@ package "The AN-024 cluster - one anomaly, three artifacts, three Majors" {
   class "Deployment Model#F1  Major\n'No environment file carries a rate-limit\nvalue' - the one setting that differs" as DPM1 <<major>>
 }
 
-package "Independent Majors - 4" {
+package "Independent Majors - 5" {
   class "Supplementary Specification#F2  Major\nR4: 'no retry ... on either hop'\nthe token hop inherits the handler" as SS2 <<major>>
   class "Use-Case Model#F1  Major\n3 suspect edges open at the phase close\nEP-003 to UC-006, UC-007, UC-008" as UCM1 <<major>>
+  class "Vision#F1  Major (technical lens)\n13 use-case ellipses where the model\nrecovers 11, the extra two being exclusions" as VIS1 <<major>>
   class "Risk List Management#F2  Major\nR030 avoided, action in no artifact" as RL1 <<major>>
   class "Iteration Plan Management#F3  Major\nA10 met on the inventory's word,\nnot on the recovered set" as IP1 <<major>>
 }
@@ -717,7 +720,7 @@ package "Minor - recorded, does not hold the milestone" {
   class "Use-Case Model#F2\nmatrix and survey name different entry points" as M1 <<minor>>
   class "Risk List#F2\nR024's premise names the wrong artifact" as M2 <<minor>>
   class "Iteration Plan Management#F4, #F5\nA2's unsupported clause; A12 superseded" as M3 <<minor>>
-  class "Vision Management#F1\ntwo exclusions drawn as use cases" as M5 <<minor>>
+  class "Vision Management#F1\nthe same two ellipses, contained reading" as M5 <<minor>>
   class "Development Case#F2 and Reviewer#F3\ncontributor set; Survey-era Document Control" as M4 <<minor>>
 }
 
@@ -746,10 +749,16 @@ note bottom of UCM1
   eleven-use-case count goes to the stakeholder.
 end note
 
+note bottom of VIS1
+  Counted at the higher of two lenses' classifications.
+  The Use-Case Model governs the set; the Vision must not
+  state a different number beside it.
+end note
+
 @enduml
 ```
 
-**Seven Majors, no Critical.** None of the seven needs a stakeholder decision — each is a correction its owner can make inside this iteration, and none is a disagreement about what the system does: the facts are recovered and anchored everywhere; three artifacts simply still assert the value the reading contradicts. No Critical finding exists because no ambiguity and no contradiction in what the stakeholder declared remains open.
+**Eight Majors, no Critical** — six from the technical lens and two from this one. None of the eight needs a stakeholder decision: each is a correction its owner can make inside this iteration, and none is a disagreement about what the system does. The facts are recovered and anchored everywhere; three artifacts simply still assert the value the reading contradicts, and one still counts a set differently from the artifact that owns it. No Critical finding exists because no ambiguity and no contradiction in what the stakeholder declared remains open.
 
 ### Review Coordinator lens
 <!-- review: Survey I2 -->
