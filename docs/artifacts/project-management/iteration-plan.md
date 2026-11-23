@@ -7,15 +7,47 @@
 ## Iteration Objectives
 Excavation recovers what the existing system is into the models the rest of the project works from. It is the sprint zero's second phase: the SBC milestone is passed, and nothing the stakeholder declares is worked here — the delivery declares no scope, so every element this phase writes is read from code and cites its anchor.
 
-The phase planned three objectives. The standing column states each one's outcome as the AR review found it after iteration 2, not as its owner reported it, and names the finding that holds it short where one does.
+The phase planned three objectives. The standing column states each one's outcome as the AR review of iteration 3 found it, on the artifact the objective rests on.
 
-| # | Objective | Satisfied when | Owner | Standing after iteration 2's review |
+```plantuml
+@startuml
+title Excavation's three phase objectives after iteration 3 - each certified on the artifact that carries it
+skinparam shadowing false
+skinparam wrapWidth 235
+hide circle
+hide empty members
+
+package "O1 Recover the Architecture - met" {
+  class "COMP-001 to COMP-022 with connectors and anchors\nUse-Case View for all 11 use cases\n13 mechanisms; nodes, stores, key ring" as O1 <<met>>
+}
+package "O2 Recover the Use Cases - met" {
+  class "11 use cases over 22 entry points\n4 exclusions stated\nfive COMP-014 edges confirmed; R6 states both budgets" as O2 <<met>>
+}
+package "O3 Recover the Persistent Data - met" {
+  class "42 classes, the relationship inventory\n8 entity types, keys, enforced rules\nAN-025 owner key re-point" as O3 <<met>>
+}
+package "The gate, which is not an objective" {
+  class "the recovered set confirmed\nby the stakeholder, 2026-11-23" as CF <<confirmed>>
+  class "the advance into Consolidation\nrefused while a Major stands" as RF <<refused>>
+}
+O1 --> CF
+O2 --> CF
+O3 --> CF
+CF --> RF
+note bottom of RF
+  An objective met is not a milestone sanctioned. The verdict is
+  the Review Coordinator's.
+end note
+@enduml
+```
+
+| # | Objective | Satisfied when | Owner | Standing after iteration 3's review |
 |---|---|---|---|---|
-| O1 | Recover the Architecture | The Software Architecture Document records the components and connectors and the mechanisms, technology and deployment as the code shows them, and the deployment topology is modelled | Software Architect | **Met on its own artifacts** — `COMP-001` to `COMP-022` with their connectors and anchors, the Use-Case View, 13 mechanisms, and the Deployment Model's nodes, stores, environment mapping and key-ring requirement. `Software Architecture Document#F1` and `Deployment Model#F1` are closed and verified. It is not certified under A10 only because that criterion is decided on the recovered set as a whole and the Use-Case Model's rules diagram states one budget where two are in force |
-| O2 | Recover the Use Cases | The Use-Case Model carries one use case per entry-point path, each tracing to the `EP-NNN` it was read from, and accounts for every entry point it does not carry | System Analyst | **Not met** — carriage is intact: 11 use cases over 22 entry points, four exclusions stated, three Majors from iteration 1 closed. Two Majors stand: `Use-Case Model#F3` (five `COMP-014` edges suspect at the close) and `Use-Case Model#F4` (R6 states 100 where `appsettings.Development.json:8-12` binds 50). Neither adds or removes a use case |
-| O3 | Recover the Persistent Data | The Design Model carries the domain model, the packages and classes, and the persistent data with its entities, keys, associations and enforced rules | Designer, Database Designer | **Met** — 42 classes, the relationship inventory, the eight entity types, the owner key's re-point under `AN-025` and "What the code does not hold", each anchored. `Design Model#F1` closed. Neither lens recorded a finding against this objective in either iteration |
+| O1 | Recover the Architecture | The Software Architecture Document records the components and connectors and the mechanisms, technology and deployment as the code shows them, and the deployment topology is modelled | Software Architect | **Met** — `COMP-001` to `COMP-022` with their connectors and anchors, the Use-Case View naming the components each of the eleven use cases' path crosses, 13 mechanisms, and the Deployment Model's nodes, stores, environment mapping and key-ring requirement. `Software Architecture Document#F1` and `Deployment Model#F1` are closed and verified at SP1, M3, the Quality view's bounded-load row and the Rate limiting row, all reading 50 / 50 / 50 as the bound in force under `AN-024`. No finding stands against either artifact from any lens at this gate |
+| O2 | Recover the Use Cases | The Use-Case Model carries one use case per entry-point path, each tracing to the `EP-NNN` it was read from, and accounts for every entry point it does not carry | System Analyst | **Met** — 11 use cases over 22 entry points, each with its `EP-NNN`, and the four exclusions stated with their reasons. The two Majors that held this objective in iteration 2 are both closed and verified at the artifact: `Use-Case Model#F3` on a graph query of `COMP-014` upstream returning five confirmed `Realizes` edges to `UC-006` to `UC-010`, and `Use-Case Model#F4` on the rules diagram's R6, which now states both budgets under `AN-024` — Development in force at 50 / 50 / 50 from `appsettings.Development.json:8-12`, code defaults 100 / 100 per 10 s / queue 100 from `RateLimitExtensions.cs:14-31`. Neither correction added, removed, merged or reclassified a use case, and no exclusion is re-opened |
+| O3 | Recover the Persistent Data | The Design Model carries the domain model, the packages and classes, and the persistent data with its entities, keys, associations and enforced rules | Designer, Database Designer | **Met** — 42 classes, the relationship inventory, the eight entity types, the owner key's re-point under `AN-025` and "What the code does not hold", each anchored to `TodoDbContext.cs:11-17` and the three migrations. `Design Model#F1` closed. No lens recorded a finding against this objective in any of the three iterations |
 
-O2's two Majors are one artifact's confirmation and transcription, not a reading: both contradicted facts were in the System Inventory as `AN-024` before any artifact restated them. They are corrected in iteration 3, and A11's two Development Case Minors are corrected in the same iteration in the Environment stage the stakeholder's answer of 2026-11-23 puts first in this phase. Declared work is never cut to avoid the iteration it costs.
+All three objectives are met on the artifacts that carry them, and the recovered content they describe is the set the stakeholder confirmed on 2026-11-23 — eleven use cases, four stated exclusions, twenty-two components, eight tables. What the phase has not obtained is the milestone: the sanction was refused while a Major stood, and the Major is this plan's own, corrected in this pass. Declared work is never cut to avoid the iteration it costs.
 ## Plan and Milestones
 The plan is two-level. The **coarse roadmap** fixes the milestone sequence, the intensity each phase runs at and which risks each milestone confronts. The **fine plan** is the current iteration's work items with their owners, bounded to Excavation. What a completed iteration delivered and what it cost is recorded in the Iteration Assessment, not here.
 
