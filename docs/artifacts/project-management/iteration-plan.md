@@ -8,17 +8,19 @@
 ## Iteration Objectives
 Excavation recovers what the existing system is into the models the rest of the project works from. It is the sprint zero's second phase: the SBC milestone is passed, and nothing the stakeholder declares is worked here — the delivery declares no scope, so every element this iteration writes is read from code and cites its anchor.
 
-| # | Objective | Satisfied when | Owner |
-|---|---|---|---|
-| O1 | The operations the system performs are recovered as use cases | The Use-Case Model carries one use case per entry-point path, each tracing to the `EP-NNN` it was read from, and accounts for every entry point it does not carry | System Analyst |
-| O2 | What the system must satisfy beyond its behaviour is stated | The Supplementary Specification carries the mechanisms, constraints and quality statements read from the code, with the anchor each was read from | System Analyst |
-| O3 | The architecture the delivery already has is recovered, not invented | The Software Architecture Document records the components and connectors and the mechanisms, technology and deployment as the code shows them | Software Architect |
-| O4 | The topology the delivery runs in is stated | The Deployment Model — the phase's fired OPTIONAL — records the processes, the stores and what must be shared between them | Software Architect |
-| O5 | The design and the persistent data are recovered | The Design Model carries the domain model, the packages and classes, and the persistent data with its entities, keys, associations and enforced rules | Designer, Database Designer |
-| O6 | The anomalies the recovery surfaced are carried as scored, owned risks | The Risk List holds one risk per anomaly of the System Inventory, each with probability, impact, magnitude, strategy and owner | Project Manager |
-| O7 | The plan for this phase and the milestones ahead exists | This artifact carries the coarse roadmap and this iteration's work items with owners | Project Manager |
-| O8 | The Minors the SBC review left open are closed, not carried again | Each of the four is corrected in the artifact that carries it, by its owner | The owner each finding names |
-| O9 | The recovered set is put to the stakeholder for confirmation | Gate H4 answered: the recovered use cases, architecture and data accepted as the models of the existing system, or not | Project Manager puts it; the stakeholder answers |
+| # | Objective | Satisfied when | Owner | Standing after this turn |
+|---|---|---|---|---|
+| O1 | The operations the system performs are recovered as use cases | The Use-Case Model carries one use case per entry-point path, each tracing to the `EP-NNN` it was read from, and accounts for every entry point it does not carry | System Analyst | Met — 11 use cases over 22 entry points |
+| O2 | What the system must satisfy beyond its behaviour is stated | The Supplementary Specification carries the mechanisms, constraints and quality statements read from the code, with the anchor each was read from | System Analyst | Met |
+| O3 | The architecture the delivery already has is recovered, not invented | The Software Architecture Document records the components and connectors and the mechanisms, technology and deployment as the code shows them | Software Architect | Met — 22 components, 13 mechanisms, the deployment view |
+| O4 | The topology the delivery runs in is stated | The Deployment Model — the phase's fired OPTIONAL — records the processes, the stores and what must be shared between them | Software Architect | Met — trigger confirmed fired |
+| O5 | The design and the persistent data are recovered | The Design Model carries the domain model, the packages and classes, and the persistent data with its entities, keys, associations and enforced rules | Designer, Database Designer | Met — 42 classes, the relationship inventory, the enforced rules |
+| O6 | The anomalies the recovery surfaced are carried as scored, owned risks | The Risk List holds one risk per anomaly of the System Inventory, each with probability, impact, magnitude, strategy and owner | Project Manager | Met — 29 anomalies, 30 risks, four Significance grants |
+| O7 | The plan for this phase and the milestones ahead exists | This artifact carries the coarse roadmap and this iteration's work items with owners | Project Manager | Met — both levels present, both Minors on this artifact corrected |
+| O8 | The Minors the SBC review left open are closed, not carried again | Each of the four is corrected in the artifact that carries it | The owner each finding names | **Partially met — 3 of 4.** `Iteration Plan#F2`, `Iteration Plan#F3` and `System Inventory#F3` are corrected in their artifacts. `Development Case#F2` stands: its contributor set still omits three lenses, and the owner has not run |
+| O9 | The recovered set is put to the stakeholder for confirmation | Gate H4 answered: the recovered use cases, architecture and data accepted as the models of the existing system, or not | Project Manager puts it; the stakeholder answers | Not yet reached — the gate follows the lenses' ruling |
+
+O8 is the one objective this role cannot close on its own, and it is not reported as closed. Its remedy is stated in Plan and Milestones: another Excavation iteration planned from the Review Record if the correction does not land, never a cut in what the phase declared.
 
 ## Plan and Milestones
 The plan is two-level. The **coarse roadmap** fixes the milestone sequence, the intensity each phase runs at and which risks each milestone confronts. The **fine plan** is this iteration's work items with their owners, bounded to Excavation.
