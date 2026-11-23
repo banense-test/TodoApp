@@ -35,138 +35,36 @@
 
 ## Review Scope and Criteria
 ### Reviewer lens
-<!-- review: Excavation I4 -->
+<!-- review: Consolidation I1 -->
 
-<!-- review: Excavation I4 -->
+The GHR asks one question: do the artifacts collectively satisfy the conditions for the set to be handed forward as the starting point of the declared change. This lens answers it on the technical artifacts — is every element anchored to the code it cites, does every trace the set declares hold in the graph, and does the set agree with itself. It does not ask whether the stakeholder accepts the set; that is gate H5's question and the Management Reviewer's to put.
 
-#### Review scope — Excavation iteration 4, technical lens
+#### Checklist applied
 
-The ten artifacts of the recovered set, read at the sections the corrections of this iteration touch and at the sections this lens has found defective in earlier passes. Every closure asserted below was verified at its source — the registered graph, the file the anchor names, or the peer artifact as it now reads — and never taken from a finding's own remedy or from an owner's report of it.
-
-| Artifact | Reviewed for | Iteration-4 outcome |
-|---|---|---|
-| Development Case | Document Control; the Disciplines and Intensity table; ACT-DC-01 as the project's role schedule; all six optional-trigger verdicts | 1 Minor recorded — F4, ACT-DC-01 omits Project Management after Survey |
-| System Inventory | Coverage arithmetic and headline; every anchor spot-checked | Clean |
-| Risk List | R032 against the artifact it names; R030 and R031 left unchanged; the grant band | Clean — F3 closed |
-| Iteration Plan | Every criteria and objectives cell against the artifact its evidence names; the Closes column; the fine plan's sequence | Clean from this lens — F4 closed |
-| Vision | Use-case count against the Use-Case Model | Clean |
-| Use-Case Model | R6 against `AN-024`; the five `COMP-014` rows against a fresh graph query; the trace rows | Clean |
-| Supplementary Specification | Document Control against the set; the recovered figures under `AN-024` and `AN-023` | Clean — F3 closed |
-| Software Architecture Document | `SP1`, `M3`, the bounded-load row and the component trace rows against the graph | Clean |
-| Deployment Model | Environment Mapping against the files it maps | Clean |
-| Design Model | Anomaly citations; `PD-D3` against `AN-025`; the trace rows against the graph | Clean |
-
-#### Criteria applied
-
-This milestone's question is EXIT CRITERIA. The nine items are those the two previous passes used, unchanged, so that a pass's verdict is comparable with the ones before it. Each is a test with a pass or fail answer, and each is decided on the artifact's own text.
-
-| # | Criterion | What passes |
-|---|---|---|
-| C1 | Recovered, not declared | No element claims scope the delivery does not hold; a recovered element cites the file it was read from |
-| C2 | Anchored | Every recovered element rests on the file and lines it names |
-| C3 | No cross-cutting mechanism as a use case | Authentication, sync, logging, audit, health and migration are mechanisms, not actor goals |
-| C4 | One goal, one use case | A multi-actor process is one use case with scenarios; never one per actor |
-| C5 | Trace rows carried | Every row a trace-chain artifact declares is carried by the registered graph |
-| C6 | No suspect trace open at the phase close | No edge named in a declared row carries a SUSPECT marking |
-| C7 | Document Control current | Phase, Status, Milestone Target and Iteration name the phase and iteration whose review the artifact is under |
-| C8 | Diagram-dominant | Formal UML carries the content; prose supplements what a diagram cannot express |
-| C9 | Asserted state matches its subject | A cell or sentence stating another artifact's state agrees with that artifact as it now reads |
-
-#### SCM and build evidence
-
-The repository reports no pull request in any state, and no IARI pipeline file exists, so there is no diff to dispose and no CI result to weigh at this gate. That is the phase's correct state and not a gap: Excavation produces no production code, the tree's own code is unchanged since `307a1ea`, and this iteration's work is four corrections across two owners. Every disposition below rests on artifact, graph and code evidence, and the absence of SCM evidence is stated here rather than passed over in silence.
-
-#### Evidence verified at source this iteration
-
-| Fact | Where checked | Read at | Result |
+| # | Checklist item | Applied to | Where it is decided |
 |---|---|---|---|
-| The request budget is halved in every environment the delivery starts in | Use-Case Model R6 and its note; Supplementary Specification R8, P1, S2, M3; Software Architecture Document SP1, M3 and the bounded-load row; Deployment Model Environment Mapping | `Todo.Api/appsettings.Development.json` — `RateLimiting` `TokenLimit` 50, `TokensPerPeriod` 50, `QueueLimit` 50; `Todo.Api/Extensions/RateLimitExtensions.cs:22-24` — 100 / 100 / 100 | Reproduces at the file. No artifact states one value as both |
-| The two outbound hops out of the BFF are not equally protected | Supplementary Specification R4 under `AN-023`; Software Architecture Document P6; Design Model `PKG-D3` | `TodoApp.ServiceDefaults/Extensions.cs` — `ConfigureHttpClientDefaults(http => { http.AddStandardResilienceHandler(); ... })` | Reproduces. A container-built client inherits the handler; the YARP forwarder does not |
-| The five `COMP-014` carriage edges are confirmed | Use-Case Model Traceability and the Software Architecture Document's `COMP-014` row | `model_generate_rtm` on the project — `COMP-014` upstream returns `UC-006`, `UC-007`, `UC-008`, `UC-009`, `UC-010`, `Realizes`, state OK, no SUSPECT | Reproduces. No suspect marking survives the phase |
-| Every declared trace row is carried by the graph | Use-Case Model (11 rows), Risk List (32 rows), Design Model (42 rows), System Inventory (51 rows), Software Architecture Document (22 rows) | The same RTM projection, row by row | Reproduces. Each declared row has its edges; the four `—` rows of the Risk List and the four component rows with no use case are stated as such in the artifacts and are correct |
-| Coverage arithmetic | System Inventory Coverage | Per-area Files column sums to 139, Read to 84, unread to 55; headline reproduces | Reproduces from the table, not accepted |
-| Project Management runs in every phase | Development Case Disciplines and Intensity table; ACT-DC-01 | The canonical intensity matrix — Project Management Medium in Excavation | The table reproduces; the diagram does not. Recorded as `Development Case#F4` |
+| C1 | Every artifact of the recovered set is present at this phase and iteration | All 12 | Every artifact's Document Control names Phase Consolidation, Iteration 1, Cycle 1 |
+| C2 | Every declared element cites the anchor it was read from — a file and lines, or `Source: EP-NNN` for a recovered use case | Use-Case Model, SAD, Design Model, Supplementary Specification | Sampled at the code: the OpenAPI gating in `Todo.Api/Program.cs`, the eight tables against their migrations, the rate-limit override against `appsettings.Development.json` |
+| C3 | Every trace edge the artifact's Traceability table declares is carried by the registered graph, unmarked | Use-Case Model, SAD, Design Model, System Inventory | RTM query, whole project, 317 links |
+| C4 | No suspect trace is open at the phase close | Design Model | RTM: four edges return `SUSPECT` → Major, `Design Model#F2` |
+| C5 | No cross-cutting technical mechanism is modelled as a use case; one declared process is one use case with several scenarios | Use-Case Model, Vision | Eleven use cases; `EP-020`/`EP-021`/`EP-022` and the `admin` branch are exclusions with stated reasons |
+| C6 | The Development Case does not redefine the baseline: roster, CORE ownership, CORE omission, the CORE + OPTIONAL universe, use-case enumeration | Development Case | Deltas only; two roles inactive with the triggers that justify each; six optional verdicts re-evaluated; `docs/CONTRIBUTING.md` present |
+| C7 | Every OPTIONAL artifact the Development Case declares fired has its §5.2 condition genuinely holding | Development Case, Deployment Model | Deployment Model: distributed topology, four processes, a proxy hop, per-project settings pairs — the condition holds |
+| C8 | No artifact states a behaviour the code contradicts | Supplementary Specification, SAD, Deployment Model, Vision, Design Model | Sampled at `Todo.Api/Program.cs`; one defect found → Major, `Supplementary Specification#F4`; its two echoes → Minor at `Vision#F2`, `SAD#F2` |
+| C9 | Every target value in the Supplementary Specification is a value the system has, not a value it is meant to have | Supplementary Specification | Both rate-limit budgets stated under `AN-024`; `R4` states the two hops apart under `AN-023` |
+| C10 | The System Inventory's coverage is counted, every unread area carries its reason, and the headline reproduces from the per-area table | System Inventory | Arithmetic reproduces (84 + 55 = 139). The ratio it reports fails the bar → Major, `System Inventory#F4` |
+| C11 | A value or a count with no anchor and no stakeholder answer behind it | All 12 | None found; the four accepted grants cite the stakeholder's answers, and no quantitative claim is unsourced |
+| C12 | No work item in the plan belongs to a phase that does not run it | Iteration Plan | Every item sits in Environment, Requirements, Analysis & Design, Discovery, Project Management, the lenses, the gate or the verdict |
+| C13 | Every artifact carries UML, and each diagram is formally well-formed | All 12 | Every artifact carries at least one validated diagram; stereotypes, multiplicities and object lifelines are used as the notation requires |
+| C14 | The set agrees with itself — no two artifacts state one fact differently | Whole set | Two disagreements found → `Supplementary Specification#F4` against the SAD and the Deployment Model; `SAD#F2` against the Deployment Model |
 
-#### What this iteration closed, and how it was verified
+#### Scope of this lens, stated so it is not mistaken for the whole review
 
-```plantuml
-@startuml
-title Closures and what authorised each - three findings of this lens closed at iteration 4, verified at source rather than on an owner's report
+This lens reads the artifacts. It does not read the plan's schedule against a calendar, the register's strategy choices against the Project Manager's authority, or the recovered set against what the stakeholder wants — those are the Management Reviewer's and the gate's. Where this lens records a Major, it is because another role builds on the defect or an exit criterion fails, not because a document reads badly.
 
-skinparam shadowing false
-skinparam classAttributeIconSize 0
-skinparam wrapWidth 240
-hide circle
-hide empty members
+#### SCM evidence
 
-package "Iteration Plan#F4 - consumed-defect, Major" {
-  class "A1 read 'open Major' on five\nCOMP-014 edges 'still marked suspect'" as F4A
-  class "A10 read 'Not met' on R6\nreading 100 tokens, no AN-024" as F4B
-  class "O2 read 'Not met - two Majors stand'" as F4C
-}
-
-package "Risk List#F3 - contained-defect, Minor" {
-  class "R032 read 'action performed on\nfive of six; one citing artifact open',\nwarning sign 'fired at Use-Case Model#F4'" as F3A
-}
-
-package "Supplementary Specification#F3 - contained-defect, Minor" {
-  class "Document Control read\n'Iteration: 2, Cycle 1'" as F3B
-}
-
-package "What the artifacts now hold - read at source" {
-  class "A1 'Met', five Realizes edges requoted\nfrom a fresh graph query, none marked" as V1 <<verified>>
-  class "A10 'Met - certified on the recovered set',\nR6 named as the fourth artifact under AN-024" as V2 <<verified>>
-  class "O2 'Met' on the same reading" as V3 <<verified>>
-  class "R032 'avoidance performed on all six;\nthe exposure is retired', residual named" as V4 <<verified>>
-  class "Document Control 'Iteration: 4, Cycle 1',\nmatching all ten artifacts under review" as V5 <<verified>>
-}
-
-package "Read at the file, not at the artifact" {
-  class "appsettings.Development.json:\nTokenLimit 50, TokensPerPeriod 50, QueueLimit 50" as CODE1 <<code>>
-  class "RateLimitExtensions.cs:22-24:\nTokenLimit 100, TokensPerPeriod 100, QueueLimit 100" as CODE2 <<code>>
-  class "ServiceDefaults/Extensions.cs:\nAddStandardResilienceHandler on\nConfigureHttpClientDefaults" as CODE3 <<code>>
-}
-
-F4A --> V1
-F4B --> V2
-F4C --> V3
-F3A --> V4
-F3B --> V5
-V2 --> CODE1
-V2 --> CODE2
-V4 --> CODE1
-CODE3 --> V2 : AN-023's two hops,\nstated apart in R4
-
-note bottom of V2
-  The one fact six artifacts were corrected against was opened
-  at the file this pass. Both values reproduce, and neither
-  artifact quotes the other's figure as the system's.
-end note
-note bottom of V5
-  The field is the whole of the defect and the whole of the
-  remedy: no content changed, none needed to.
-end note
-
-@enduml
-```
-
-| Finding | Criterion | Verified at |
-|---|---|---|
-| `Iteration Plan#F4` | consumed-defect | A1 reads "Met" and requotes the five `COMP-014` edges from a fresh graph query; A10 reads "Met — certified on the recovered set" and names the Use-Case Model's R6 as the fourth artifact with its current wording under `AN-024`; O2 reads "Met" on the same reading. A11's cell and the sequence were not in this finding's scope and were checked separately, below |
-| `Risk List#F3` | contained-defect | R032's strategy cell reads "avoidance performed on all six citing artifacts; the exposure is retired", names R6 among the six with its current wording under `AN-024`, and records the warning sign as no longer firing against a closed finding; the diagram's sixth-artifact node is relabelled to the one residual — the four artifacts re-read in a single pass. `R030` and `R031` unchanged, as the finding required |
-| `Supplementary Specification#F3` | contained-defect | Document Control reads Phase Excavation, Status Draft — produced for the end-of-Excavation (AR) milestone review, Milestone Target not yet achieved, Iteration 4, Cycle 1. No other field and no content changed. All ten artifacts under this review now read iteration 4 |
-
-Each closure was confirmed by re-reading the corrected section and then, where the fact turns on the code, by opening the file. The three findings are closed through `resolve_artifact_finding` under this lens.
-
-#### Artifacts with no finding from this lens
-
-System Inventory, Risk List, Iteration Plan, Vision, Use-Case Model, Supplementary Specification, Software Architecture Document, Deployment Model and Design Model carry no open finding from this lens at this pass. Each was re-read at the sections earlier passes found defective — the Risk List's R032, the plan's criteria and objectives tables, the Use-Case Model's R6 and its trace rows, the Supplementary Specification's Document Control — and each now holds. Silence from this lens is the approval, and it is recorded as silence rather than as a pass claimed on prose.
-
-No Major stands against any artifact from this lens. The two Majors the Management Reviewer recorded against the Iteration Plan at iteration 3 are not re-recorded here: they are that lens's keys, and my `Iteration Plan#F4` — the same defect read at the artifact's cells rather than at the criteria table — is closed on the evidence above.
-
-#### Scope this lens did not re-open
-
-The four exclusions the stakeholder ruled on 2026-11-23 stand untouched and no finding here approaches them: external-provider sign-in is recovered and marked unreachable in the delivered configuration, the `admin` branch of `EP-011`, `EP-013` and `EP-014` is an exceptional entity and not a use case, and `EP-020`, `EP-021` and `EP-022` carry no use case. The recovered set — eleven use cases over twenty-two entry points, twenty-two components across four processes, eight persisted entity types — is unchanged by this iteration, whose four corrections added and removed no element.
+No pull request exists in the repository and none is open — the sprint zero writes artifacts, not code, and the Implementation Model is the delivery's own tree, unchanged since `307a1ea`. The repository carries no IARI pipeline (`ci.yml` does not exist), so there is no build status to report for `main` and this lens claims none. Neither absence is a finding: the sprint zero produces no code, and no role in this phase is charged with establishing a build.
 
 ### Management Reviewer lens
 <!-- review: Excavation I4 -->
