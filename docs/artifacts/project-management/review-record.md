@@ -1072,6 +1072,45 @@ The defects are corrections to content already written, not new scope, and all s
 | Stakeholder sanction | REFUSED — 2026-11-23 |
 | Milestone verdict | requiresIteration: true |
 
+**The guard the verdict was taken on.**
+
+```plantuml
+@startuml
+title Milestone verdict path for SBC - the guards the coordinator applies to the finding data
+
+skinparam shadowing false
+skinparam wrapWidth 240
+
+start
+:read_artifact_findings on all four artifacts plus the Review Record;
+:[FINDINGS] line - unread=none, open Critical=0, open Major=6, Minor=4;
+note right
+  Counts copied from the ledger,
+  never from a Review Record sentence.
+end note
+if (any unresolved Critical?) then (yes)
+  :VERDICT_ESCALATE_CRITICAL;
+  :ask the stakeholder for a decision;
+  :record requiresIteration:true;
+  stop
+else (no)
+endif
+if (open Major > 0, or perimeter not confirmed, or sanction REFUSED?) then (yes)
+  :VERDICT_CONTRIB - stakeholder contribution asked;
+  :fold the answer in as a Stakeholder finding;
+  :record requiresIteration:true;
+  stop
+else (no)
+  :VERDICT_DONE - scope complete;
+  :put it to the stakeholder before advancing;
+  :record requiresIteration:false;
+  stop
+endif
+@enduml
+```
+
+The path taken is the second branch: open Major 6, perimeter not confirmed, sanction REFUSED. The third branch — scope complete and advance — is not reachable on this data, because three of its guards fail at once.
+
 Zero Critical findings means nothing at this gate needs a stakeholder decision in order to be *corrected*. It does not mean the gate passes: the decision the gate itself required — confirming the perimeter — was put to the stakeholder and answered No, and six Major findings require rework before any role consumes these artifacts.
 
 **Review effectiveness — this event only.** This is the project's first review: no prior review event exists, so no trend is computed and none is claimed. The metrics below are this event's measured values.
@@ -1153,4 +1192,6 @@ end note
 
 **Sanction token for the record.** Stakeholder sanction: REFUSED — 2026-11-23.
 
-**Stakeholder finding folded in.** "The development case contains duplicated diagrams and text; it needs to be corrected. Additionally, the major findings must be corrected." Verified against the finding ledger rather than deferred: the duplication is a recorded defect under two keys (Development Case#F2 Reviewer, Development Case#F1 Management Reviewer), both assigned to the Process Engineer, and the Major findings are six recorded defects, all open, all owned. No new defect is minted for the second instruction, because every Major it names is already in the ledger.
+**Stakeholder finding folded in.** "The development case contains duplicated diagrams and text; it needs to be corrected. Additionally, the major findings must be corrected." Verified against the finding ledger rather than deferred: the duplication is a recorded defect under two keys (Development Case#F2 Reviewer, Development Case#F1 Management Reviewer), both assigned to the Process Engineer, and the Major findings are six recorded defects, all open, all owned. No new defect is minted for the second instruction, because every Major it names is already in the ledger. This is also the contribution the coordinator's verdict path requires of the stakeholder before the phase iterates, and it was given inside this milestone review rather than asked for a second time.
+
+**Not asked at this gate, and why.** The grant of R004 and R011 — the two risks whose reconciled scores may land in the stakeholder's band — is not put to the stakeholder now. Their current scores are exactly what this review has declared unreproducible, so the question cannot be stated on data the register does not yet hold. The Project Manager reconciles the scores first and puts the acceptance immediately after, as action 1 orders.
