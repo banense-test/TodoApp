@@ -49,91 +49,84 @@ end note
 The three objectives were met at the close of iteration 3 and were met, unchanged, at this one: iteration 4 reopened no recovered element, no exclusion and no anchor. What the iteration settled is the one criterion the phase could not answer for itself — `A12`, the stakeholder's answer — which the fourth put of gate H4 granted on 2026-11-23 after the plan's own four defective cells were restated. An objective met is not a milestone sanctioned; at this gate both are true, and the Review Coordinator's verdict records the latter.
 
 ## Adherence to Plan
-Iteration 3's fine plan was eleven items: three Development Case corrections in the Environment stage, two on the Use-Case Model, two on this plan and the register, two review lenses, the stakeholder gate and the verdict. Nine ran, one was answered, one ruled.
+Iteration 4's fine plan was eight items: three Project Manager corrections, one System Analyst metadata field, two review lenses, the stakeholder gate and the verdict. Seven ran as planned, the gate was answered, and the verdict was issued. One item was added mid-iteration and is this iteration's variance.
 
 ```plantuml
 @startuml
-title Critical chain of Excavation iteration 3 as it ran - two owner turns, then the lens that found this plan's own cells behind their artifacts
+title Critical chain of Excavation iteration 4 as it ran - four record corrections, two lenses, the gate answered, the verdict read on the answer
 skinparam shadowing false
 skinparam wrapWidth 250
 
-|Process Engineer|
+|Project Manager|
 start
-:E1 Development Case F2 - contributor set
-six lenses named, CLS-DC-01 edges drawn;
-:E2 Development Case F3 - Document Control
-Phase Excavation, Iteration 3;
-:E3 Development Case - tailoring
-Environment in every phase, first here;
+:E1 Iteration Plan - criteria and objectives tables
+A1, A10, A11, A13 and O2 re-derived from their artifacts;
+:E2 Iteration Plan - the Closes column
+finding keys only;
+:E3 Risk List - R032
+avoidance performed on all six, exposure retired, one residual;
+:E9 VARIANCE, NOT PLANNED - Iteration Plan F10
+A12, fine-plan item 7 and the gate table's Answer cell
+found at this gate recording an answer already given;
 
 |System Analyst|
-:E4 Use-Case Model F4 - R6
-both budgets under AN-024;
-:E5 Use-Case Model F3 and F1
-five COMP-014 edges confirmed;
-
-|Project Manager|
-:E6 Iteration Plan F6 and F7
-A10 names R6, A13 cites the stage;
-:E7 Risk List F3
-R030 retirement landed, exposure live;
-:E8 VARIANCE, NOT PLANNED
-F4 and F9 found at the gate -
-four cells of this plan stated
-states their artifacts had corrected;
+:E4 Supplementary Specification
+Document Control on the iteration under review;
 
 |Reviewer|
-:E9 technical lens
-7 closed, 1 Major and 2 Minor open;
+:E5 technical lens
+three of its own closed, Development Case F4 recorded;
 |Management Reviewer|
-:E10 management lens
-5 of its own closed, F9 and F8 recorded;
+:E6 management lens
+two of its own closed, Iteration Plan F10 recorded;
 |Stakeholder|
-:E11 gate H4 third put
-ANSWERED - set confirmed, advance refused;
+:E7 gate H4 fourth put
+ANSWERED YES - the advance into Consolidation sanctioned;
 |Review Coordinator|
-:E12 AR verdict
-ITERATION REQUIRED;
+:E8 verdict
+no further iteration required;
 stop
 @enduml
 ```
 
 | # | Work item | Owner | Planned | Actual | Variance and root cause |
 |---|---|---|---|---|---|
-| 1 | Development Case — every lens writing into the Review Record named, CLS-DC-01 edges drawn | Process Engineer | In the Environment stage, first | Landed — `Development Case#F2` closed by the Management Reviewer at this gate on the re-read text | None. The stage the plan recorded in iteration 2 existed and the role worked in it |
-| 2 | Development Case — the four Document Control fields brought forward | Process Engineer | Same turn | Landed — `Development Case#F3` closed by the technical lens | None |
-| 3 | Development Case — Environment stated as running in every phase and first in Excavation | Process Engineer | Same turn | Landed — the tailoring now states the baseline the stakeholder restated | None |
-| 4 | Use-Case Model — R6 states both budgets under `AN-024` | System Analyst | First correction of the artifact | Landed — `Use-Case Model#F4` closed on the diagram's own text | None |
-| 5 | Use-Case Model — five `COMP-014` edges re-registered as confirmed | System Analyst | Same turn | Landed — `Use-Case Model#F3` and `#F1` closed on a graph query returning five confirmed edges | None |
-| 6 | Iteration Plan — A10's cell names R6; A13's cell cites the Environment stage | Project Manager | This turn | Landed in part — `Iteration Plan#F6` and `#F7` closed by the Management Reviewer | The cells were widened at the point each finding named and not re-derived as a set. Four neighbouring cells in the same two tables stayed one pass behind. That is `Iteration Plan#F4` and `#F9`, and it is mine |
-| 7 | Risk List — `R030`'s strategy cell restated | Project Manager | This turn | Landed — `Risk List#F3` (Management Reviewer) closed on the corrected strategy cell | The same cell's neighbours in the same table were not re-read: `R032` still reported an unmitigated exposure whose action had landed. That is `Risk List#F3` (technical lens) |
-| 8 | Technical lens — the corrections re-read against their anchors | Reviewer | After item 7 | Ran — 7 closures, 1 Major and 2 Minor recorded | It found the defect class the previous gate had just closed, one artifact over — at this plan's own table |
-| 9 | Management lens — A1 to A13 re-taken on the evidence each cites | Management Reviewer | After item 8 | Ran — 5 of its own findings closed, `#F9` and `#F8` recorded, gate H4 put a third time | — |
-| 10 | Gate H4, third put | Stakeholder | After item 9 | **Answered** — the recovered set confirmed, the sanction refused while a Major stands | Queue time 7 min 11 s, reported apart below |
-| 11 | AR milestone verdict | Review Coordinator | After item 10 | **Iteration required** — 0 Critical, 2 Major entries over 1 defect, 3 Minor | — |
+| 1 | Iteration Plan — every cell of the criteria and objectives tables re-derived from the artifact it cites | Project Manager | This turn | Landed — `Iteration Plan#F4` and `#F9` closed by both lenses, verified cell by cell: A1 on a fresh `COMP-014` query returning five unmarked `Realizes` edges, A10 on R6's current wording under `AN-024`, A11 on four of four Minors, O2 on the same reading | None. The rule the plan wrote for itself in the previous iteration — correct the table as a table — was applied and no neighbouring cell was left behind |
+| 2 | Iteration Plan — the Closes column names finding keys only | Project Manager | Same turn | Landed — `Iteration Plan#F8` closed; every Closes cell holds a finding key and nothing else | None |
+| 3 | Risk List — `R032` restated with the avoidance performed on all six citing artifacts | Project Manager | Same turn | Landed — `Risk List#F3` closed by the technical lens, verified against `appsettings.Development.json` (50 / 50 / 50) and `RateLimitExtensions.cs:22-24` (100 / 100 / 100) | None |
+| 4 | Supplementary Specification — Document Control on the iteration under review | System Analyst | This turn | Landed — `Supplementary Specification#F3` closed; the field reads Iteration 4, Cycle 1 | None |
+| 5 | Technical lens against the restated cells and the register | Reviewer | After item 4 | Ran — three of its own findings closed, the recovered set at 10 of 10 on the checklist, `Development Case#F4` recorded as one contained Minor | — |
+| 6 | Management lens — A1 to A13 re-taken on the corrected table | Management Reviewer | After item 5 | Ran — `Iteration Plan#F9` and `#F8` closed, `Iteration Plan#F10` recorded, gate H4 put a fourth time | It recorded the one cell class the pass could not have reached: three cells still described the fourth put as unanswered |
+| 7 | Gate H4, fourth put | Stakeholder | After item 6 | **Answered Yes, 2026-11-23** — the advance into Consolidation sanctioned | — |
+| 8 | AR milestone verdict | Review Coordinator | After item 7 | **AR: no further iteration required** — 0 Critical, 0 Major, 2 Minor open | — |
+| V | **Not planned** — `A12`, the gate table's Answer cell and fine-plan item 7 set to the fourth put's answer | Project Manager | — | Outstanding at this assessment, recorded below as the variance | The plan asserted a gate's answer and the answer arrived after the cells were written. `Iteration Plan#F10` — the one class of defect the previous iteration's rule could not pre-empt, because the fact it records did not exist when the cells were written |
 
-**The variance this iteration owns.** The plan and the register were corrected at the points two findings named, and the rest of each table was left as it stood. The result is the defect class the previous gate had recorded against the same artifact: a cell that asserts another artifact's state must be re-read when that artifact moves. It has now been recorded in four consecutive passes — `Iteration Plan#F3`, `#F6`, `#F4`, `#F9` — and each was found by the lens that recorded it. The process caught it every time; it has not prevented the recurrence, and the rule now enters the plan as the plan's own, not as a reviewer's finding.
+**The variance this iteration owns.** The plan's rule — a cell asserting another artifact's state is re-derived in the same turn that artifact changes — held for every artifact that existed at the start of the iteration, and it is what closed `#F4` and `#F9` in one pass after four consecutive failures. It could not cover the gate answer: `A12`, fine-plan item 7 and the human-gate Answer row described a put that had not yet been made, and their content was written when the honest content was "not yet answered". When the answer arrived the cells were one event behind, and the Management Reviewer recorded that as `Iteration Plan#F10`.
 
-This is a record defect and not a delivery defect. No recovered content was wrong, nothing was re-read from code to settle a disagreement, and the stakeholder's own statement at the gate is that the next iteration changes none of it.
+The root cause is structural, not careless: a plan that states a gate as pending cannot be right about it before the gate is answered, and the cells recording the answer are necessarily written by whichever turn follows the answer. The correction is applied in this assessment's closing turn rather than deferred: `A12` reads "Met — 2026-11-23" recording both puts, fine-plan item 7 reads the answer, and the human-gate table's Answer cell records that the fourth put was answered Yes. `A1`, `A10` and `A11` are untouched — they were correct as restated — and nothing in the recovered content changes.
 
-**Measured actuals, two currencies, never added.** These are what the system recorded for this iteration. The phase has not closed, so no phase actual exists and no per-iteration figure is quoted as a velocity.
+This is a record defect and not a delivery defect. No recovered content was wrong, nothing was re-read from code to settle a disagreement, and the stakeholder's own statement is that the iteration changed none of it.
 
-| Measure | Iteration 1 | Iteration 2 | Iteration 3 | What it is |
-|---|---|---|---|---|
-| Agent time — the system working | 1 h 19 min 41 s | 41 min 21 s | 27 min 53 s | Elapsed agent time, queue subtracted, end-of-iteration approval gate excluded |
-| Stakeholder queue — a person deciding when to sit down | 2 min 27 s | 7 h 08 min 04 s | 7 min 11 s | Waiting, not working. Reported apart from agent time and never added to it |
-| Tokens | 43,561,437 | 20,675,161 | 14,424,767 | Agent spend; the unit in which agent work is denominated |
-| Agent invocations | 16 | 16 | 17 | — |
-| Stakeholder interactions recorded | — | 18 | 18 | — |
-| Artifacts in the project | 12 | 12 | 12 | None created or retired |
+**Measured actuals, two currencies, never added.** These are what the system recorded for this iteration. They are not a velocity: the phase record is per iteration here but no per-iteration rate is derived from it, and nothing is projected from it for Consolidation.
 
-The forecast recorded in the previous Iteration Assessment is settled by measurement, not by argument: it stated that iteration 3 would cost less in tokens and less in elapsed agent time than iteration 2, on the basis that its work was eight one-turn corrections against iteration 2's sixteen items. Measured: 14.4 million tokens against 20.7 million, and 27 minutes 53 seconds against 41 minutes 21 seconds. The forecast's own caveat — that no measured pair had yet compared a narrow pass with a broad one — is now closed: this is that pair, and the narrow pass cost about two-thirds of the broad one in both agent currencies.
+| Measure | This iteration — 4 | What it is |
+|---|---|---|
+| Agent time — the system working | 25 min 57 s | Elapsed agent time, queue subtracted, end-of-iteration approval gate excluded |
+| Stakeholder queue — a person deciding when to sit down | 10 min 05 s | Waiting, not working. Reported apart from agent time and never added to it |
+| Tokens | 9,735,197 | Agent spend; the unit in which agent work is denominated |
+| Agent invocations | 17 | — |
+| Stakeholder interactions recorded | 18 | — |
+| Artifacts in the project | 12 | None created or retired |
 
-The queue fell from 7 h 08 min to 7 min 11 s on the same count of recorded interactions, 18 in each iteration. The count of questions did not fall; the moment they were asked did. `R022`'s mitigation — ask in the turn the question is found — is the mechanism, and it is measured here for the first time.
+The phase's closed record — three iterations, 14,424,767 tokens and 28 minutes of agent time — does not include this iteration, and this iteration is 9.7 million tokens against those three. Two things are worth stating as measurement rather than as inference. First, the narrow correction pass did not cost less than the phase average; it cost more per iteration than iterations 1 to 3 averaged, because its work was reading eleven artifacts' corrected sections against their sources rather than emitting corrections from one artifact. The cost of this phase is concentrated in re-reading the live artifact surface, not in the volume any single iteration emits — and this iteration, whose corrections were tiny, is the clearest instance of it in the phase. Second, the queue rose from 7 min 11 s to 10 min 05 s on the same count of recorded interactions, 18 in both: the fourth put is a second answer to the same gate question, and its queue time is the cost of the refusal at the third.
 
-No figure is projected for the phase as a whole: Excavation has not closed, so no phase actual exists. The project declares no token budget, so there is no box to fit; no figure is proposed for the stakeholder to accept and no declared work is cut or deferred to meet an estimate.
+The previous assessment's forecast — that iteration 4 would cost less in tokens and less agent time than iteration 3 — is falsified by measurement: 9.7 million against 14.4 million in tokens, which holds, but 25 min 57 s against 27 min 53 s in agent time, a margin narrow enough that the stated basis ("four corrections over existing sections against eleven items") did not describe the work. The work was not four corrections: it was four corrections plus the re-derivation of thirteen criteria against eleven artifacts plus one unplanned cell set. The forecast's basis was wrong, the assumption tag on it was correct, and the record states both.
 
-**Parallelism and schedule.** The iteration count stands at three and a fourth is required — for one record correction, not for recovery. No role is added or duplicated: four owner turns, three of them one table. Adding a role would add contention over the same artifact surface and buy no clock.
+The phase's own forecast for Consolidation is therefore not made. No phase of Consolidation's shape has closed a measuring record, and the one measured pair this phase produced — a narrow pass that cost more per iteration than the broad ones — is a reason for caution about reasoning from work shape to spend, not a basis for a figure.
+
+No figure is projected for the phase as a whole as a forecast: Excavation's milestone is sanctioned, and its iteration 4 is recorded above. The project declares no token budget, so there is no box to fit; no figure is proposed for the stakeholder to accept and no declared work is cut or deferred to meet an estimate.
+
+**Parallelism and schedule.** The phase ran four iterations against a measured record of three, and every one of iterations 2 to 4 was driven by this plan's own record rather than by the recovery. No role was added or duplicated at any point: iteration 4 was four owner turns across two owners. Adding a role would have added contention over the same artifact surface and bought no clock — and this iteration's measured cost is direct evidence for that, since three of its four corrections were cells in tables one role already owned.
 
 ## Use Cases and Scenarios Implemented
 None implemented, and none was to be. Excavation writes no code; the Implementation discipline does not work in the sprint zero, and `Test Plan` is NOT FIRED. What this iteration certified is a recovered set whose membership held unchanged across all three iterations.
