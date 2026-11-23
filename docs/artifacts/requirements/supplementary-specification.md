@@ -353,6 +353,63 @@ end note
 ## Design Constraints
 Each constraint below is binding whether or not the delivery states it: it is what the code fixes, and a later phase that violates one breaks the system as delivered.
 
+```plantuml
+@startuml
+title The binding decisions the code fixes, and which of them the architecture must live with
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 220
+hide circle
+hide empty members
+
+package "Platform and language - fixed" {
+  class "DC1 net9.0\nnullable, implicit usings,\nLangVersion preview" as DC1 <<constraint>>
+  class "DC2 every package version\ncentral, nuget.org alone" as DC2 <<constraint>>
+  class "DC12 not deployed anywhere\nno Dockerfile, compose or manifest" as DC12 <<constraint>>
+}
+
+package "Persistence - fixed" {
+  class "DC3 SQLite through TodoDbContext\nIdentityDbContext of TodoUser\nData Source=.db/Todos.db" as DC3 <<constraint>>
+  class "DC4 the schema exists only as\nthree EF Core migrations\nand their snapshot" as DC4 <<constraint>>
+  class "DC5 OwnerId a required FK to\nAspNetUsers.Id, indexed, cascade\nre-pointed from UserName by migration 3" as DC5 <<constraint>>
+  class "DC11 the migration is raised by the app host\nrun mode, .db absent, no connection string" as DC11 <<constraint>>
+}
+
+package "Contracts and boundaries - fixed" {
+  class "DC6 the request shapes are declared twice\nTodo.Api/Todos/Todo.cs and\nTodo.Web/Shared/SharedClass.cs\nin assemblies that do not reference each other" as DC6 <<constraint>>
+  class "DC7 OwnerId excluded from\nevery response shape" as DC7 <<constraint>>
+  class "DC8 the BFF reaches the API through YARP\nIHttpForwarder, service name todoapi" as DC8 <<constraint>>
+  class "DC9 both processes must share a key ring\nonly the discriminator TodoApp is set" as DC9 <<constraint>>
+}
+
+package "Security and transport - fixed, and short of what the topology needs" {
+  class "DC13 the hop between BFF and API is\nplain HTTP: target literal http://todoapi,\nno HSTS or redirection in the API" as DC13 <<constraint>>
+  class "DC14 neither process restricts\nthe Host header: AllowedHosts is *" as DC14 <<constraint>>
+  class "DC10 Development-only surfaces\nreference UI, HTTP logging fields,\nRazorLangVersion 8.0 pin" as DC10 <<constraint>>
+}
+
+DC4 --> DC11 : the migration is the only path\nto a schema and only the app host takes it
+DC9 --> DC13 : a key ring shared over a\ntransport that is not protected
+DC6 --> DC7 : the two declarations must agree\non what is projected out, and nothing checks
+DC13 --> DC14 : both are host and transport posture,\nneither is set by any environment file
+
+note bottom of DC13
+  No terminator is configured in the tree, so the bearer token
+  and the session credentials that derive it cross the process
+  boundary in clear text unless one is placed there outside the
+  delivery. This is a constraint the architecture carries, not
+  a requirement the delivery states.
+end note
+note bottom of DC12
+  Two project files still carry container image properties while
+  no deployment artifact exists: the configuration and the tree
+  disagree, and the tree is what runs.
+end note
+
+@enduml
+```
+
 | # | Constraint | Anchor |
 |---|---|---|
 | DC1 | `net9.0`, nullable and implicit usings enabled, `LangVersion` `preview`, inherited by every project | `Directory.Build.props:4-7` |
