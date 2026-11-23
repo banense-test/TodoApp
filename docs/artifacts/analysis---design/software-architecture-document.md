@@ -887,13 +887,15 @@ package "Todo.Api.Authorization" {
     +Id : string
     +IsAdmin : bool
   }
-  class CurrentUserExtensions {
+  class CurrentUserExtensions <<static>> {
     +AddCurrentUser() : IServiceCollection
-    +GetCurrentUserAsync(middleware) : Task
   }
+  class ClaimsTransformation <<private, nested>> {
+    +TransformAsync(principal) : Task<ClaimsPrincipal>
+  }
+  interface "IClaimsTransformation" as ICT
   interface "IAuthorizationHandler" as IAH
-  class CheckCurrentUserAuthHandler {
-    -currentUser : CurrentUser
+  class CheckCurrentUserAuthHandler <<private, nested>> {
     #HandleRequirementAsync(context, requirement)
   }
   class CheckCurrentUserRequirement <<IAuthorizationRequirement>>
@@ -910,9 +912,6 @@ package "Todo.Api.Todos" {
     +Id : int
     +Title : string
     +IsComplete : bool
-  }
-  class TodoMappingExtensions <<static>> {
-    +AsTodoItem(todo) : TodoItem
   }
   class TodoApi <<static, endpoint group>> {
     +MapTodos(routes) : RouteGroupBuilder
@@ -935,17 +934,27 @@ package "Todo.Web.Shared - a second declaration" {
   }
 }
 
+ICT <|.. ClaimsTransformation
 IAH <|.. CheckCurrentUserAuthHandler
-CheckCurrentUserAuthHandler --> CurrentUser : resolves
+CurrentUserExtensions --> ClaimsTransformation : registers
+ClaimsTransformation --> CurrentUser : sets Principal,\nstores User
+ClaimsTransformation --> TodoUser : FindByIdAsync(NameIdentifier)
+CheckCurrentUserAuthHandler --> CurrentUser : reads User
 CheckCurrentUserAuthHandler --> CheckCurrentUserRequirement : handles
 TodoApi --> CurrentUser : reads Id and IsAdmin
 TodoApi --> TodoDbContext : queries
 TodoApi --> TodoItem : accepts and returns
-TodoApi --> TodoMappingExtensions : maps
 Todo --> TodoUser : OwnerId to Id,\nrequired, indexed,\ncascade delete
 TodoDbContext --> Todo : DbSet
 TodoDbContext --> TodoUser : IdentityDbContext
 TodoItem .. STodoItem : same shape, no link,\nno compiler check. AN-003
+
+note right of ClaimsTransformation
+  The resolution is here, not on the holder: the
+  transformation is the hook that runs on every
+  authenticated request and stores the row. The code's
+  own comment says so. CurrentUserExtensions.cs:18-36
+end note
 
 note right of CurrentUser
   IsAdmin reads the "admin" role claim.
@@ -965,6 +974,8 @@ end note
 
 @enduml
 ```
+
+`CurrentUser` is a holder, not a resolver: it exposes `User`, `Principal`, `Id` and `IsAdmin` and reads the identity from claims. The database read is `ClaimsTransformation.TransformAsync`, which the code registers as its `IClaimsTransformation` so that it runs on every authenticated request without custom middleware — the code's own comment calls it "a hook into authorization to set the current user" (`CurrentUserExtensions.cs:18-28`). The requirement handler then only tests that the transformation stored a row (`CheckCurrentUserAuthHandler.cs:26-35`), which is why a structurally valid token for a deleted account is refused.
 
 ### Architecture decisions, as the code shows them
 
