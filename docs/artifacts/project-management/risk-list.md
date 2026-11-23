@@ -375,4 +375,6 @@ end note
 | R029 | AN-028 | Refines | — |
 | R030 | AN-029 | Refines | — |
 | R031 | — | — | — |
+| R032 | — | — | — |
 
+`R022`, `R031` and `R032` carry no upstream: they are the plan's own exposures rather than readings of an anomaly, and each states its separate origin where it is described. `R032`'s evidence is the AR review's defect ledger; its own row in the register names the four findings and the two code facts they contradict.
