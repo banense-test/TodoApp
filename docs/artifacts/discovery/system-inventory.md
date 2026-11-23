@@ -7,7 +7,14 @@
 ## Perimeter
 The delivery is a four-process .NET 9 system: a Blazor WebAssembly client running in a browser, an ASP.NET Core host that serves it and acts as its backend-for-frontend, a minimal-API REST service, and an Aspire app host that starts them and creates the database. Nothing is scheduled, nothing is consumed from a message broker and no report is produced: every entry point below is reached by an HTTP request, except the one platform event the app host raises before the API starts. The root `README.md` presents the system as `Todo.Web` and `Todo.Api` and names the app host only as the way to run them.
 
-Two questions the reading could not settle were put to the stakeholder on 2026-11-23 and are decided. The external-provider sign-in path — the challenge EP-007, the callback EP-008 and the token exchange EP-016 — is **a recovered use case marked unreachable in the delivered configuration**: the code is complete and no provider is registered in it. The cross-owner branch of the `admin` role in EP-011, EP-013 and EP-014 is **an exceptional entity the recovered use cases do not model**: no actor in the running system can initiate it (AN-004).
+**The perimeter is confirmed and closed.** On 2026-11-23 the stakeholder confirmed this perimeter — the four processes, the 22 entry points and the 21 anomalies — as the model of the existing system, and on the fourth put of the AR gate confirmed the recovered set built on it: **11 use cases, 4 stated exclusions, 22 components across the four processes, 8 entity types**. Nothing in the perimeter has been re-opened since, and Consolidation changed no recovered content: what this phase did to this inventory is count its coverage and bring its Document Control to the phase.
+
+The four exclusions are the perimeter's decided boundary, and each is a decision that was put to the stakeholder rather than taken here:
+
+- **The external-provider sign-in path** — the challenge EP-007, the callback EP-008 and the token exchange EP-016 — is **a recovered use case marked unreachable in the delivered configuration**. The code is complete and no provider is registered in it.
+- **The cross-owner branch of the `admin` role** in EP-011, EP-013 and EP-014 is **an exceptional entity the recovered use cases do not model**: no actor in the running system can initiate it (AN-004).
+- **The health endpoints EP-020 and EP-021** are not use cases: no actor's goal is served by a liveness probe, and they are mapped in Development only.
+- **The migration platform event EP-022** is not a use case: it is how the schema reaches the database, not a goal any actor pursues.
 
 ```plantuml
 @startuml
@@ -112,71 +119,6 @@ end note
 
 @enduml
 ```
-
-### Components
-
-| Component | Kind | Responsibility | Implemented by |
-|---|---|---|---|
-| Todo.Api | Subsystem | The REST service that performs every todo operation and every user and token operation | `Todo.Api/` |
-| Todos endpoints | Component | CRUD over the caller's own todo rows; a row the caller does not own answers 404, unless the caller carries the `admin` role claim | `Todo.Api/Todos/TodoApi.cs:8-76` |
-| Users and Identity endpoints | Component | The ASP.NET Core Identity endpoint set under `/users`, plus a token exchange for external providers | `Todo.Api/Users/UsersApi.cs:10-61` |
-| Current-user resolution and authorization | Component | Resolves the caller from the database on every request, exposes it as `CurrentUser`, and fails the request when no such user exists | `Todo.Api/Authorization/CurrentUser.cs:6-13; Todo.Api/Authorization/CurrentUserExtensions.cs; Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:14-36` |
-| Validation filter | Component | Rejects a request whose parameters fail data annotations with a 400 `ValidationProblemDetails` | `Todo.Api/Filters/ValidationFilter.cs` |
-| Per-user rate limiter | Component | Token-bucket policy partitioned by the caller's `NameIdentifier`; applied to `/todos` only | `Todo.Api/Extensions/RateLimitExtensions.cs` |
-| Persistence over SQLite | Component | `TodoDbContext` deriving from `IdentityDbContext<TodoUser>`, the entity model, and the three migrations that create and change the schema | `Todo.Api/TodoDbContext.cs:6-20; Todo.Api/Migrations/` |
-| OpenAPI and API reference | Component | Emits the OpenAPI document with the bearer scheme, serves the Scalar reference UI in Development, and redirects `/` to it | `Todo.Api/Program.cs:30,49-56,58,62; Todo.Api/Extensions/OpenApiOptionsExtensions.cs` |
-| HTTP logging | Component | Development-only combined request/response logging with body and header fields | `Todo.Api/Program.cs:35-42,46` |
-| Todo.Web.Server | Subsystem | Serves the WebAssembly client, holds the browser session, and forwards `/todos` to the API | `Todo.Web/Server/` |
-| Session and external-provider authentication | Component | Cookie schemes, the four configurable identity providers, and the Blazor authentication state | `Todo.Web/Server/Authentication/` |
-| Session endpoints `/auth` | Component | register, login, logout, external challenge, external callback | `Todo.Web/Server/AuthApi.cs:10-97` |
-| Forwarding proxy | Component | YARP `IHttpForwarder` that rewrites the session cookie into a bearer token for `/todos` | `Todo.Web/Server/TodoApi.cs:8-25` |
-| Todo.Web.Client | Component | Blazor WebAssembly UI: login and create-user form, todo list, logout | `Todo.Web/Client/` |
-| Shared contracts | Component | `TodoItem`, `UserInfo`, `ExternalUserInfo` and `AuthToken` as compiled into client and BFF | `Todo.Web/Shared/SharedClass.cs:1-31` |
-| Service defaults | Component | Service discovery, HTTP resilience, liveness and readiness endpoints, OpenTelemetry | `TodoApp.ServiceDefaults/Extensions.cs:1-130` |
-| AppHost orchestration | Component | Starts the API and the server, runs the EF migration, runs the sqliteweb container | `TodoApp.AppHost/Program.cs:1-28; TodoApp.AppHost/Extensions.cs:1-34` |
-| Integration test suite | Component | Exercises the API over HTTP through `WebApplicationFactory`, seeding users and rows directly | `Todo.Api.Tests/` |
-| Build and package configuration | Layer | Target framework, language level, central package versions, package-source pinning, solution | `Directory.Build.props; Directory.Packages.props; global.json; nuget.config; TodoApp.sln` |
-
-### External actors and systems
-
-| External actor or system | Reached through | Anchor |
-|---|---|---|
-| Person with a task list — the only human actor; owns their todo rows, is anonymous until they register or log in | Service — HTTPS to the BFF, rendered by the Blazor client | `Todo.Web/Server/App.razor:5`; `Todo.Web/Client/Components/LogInForm.razor:3-26` |
-| GitHub (OAuth 2.0 provider) | Remote call — registered only when `Authentication:Schemes:GitHub` exists | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:43` |
-| Google (OAuth 2.0 provider) | Remote call — registered only when `Authentication:Schemes:Google` exists | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:44` |
-| Microsoft account (OAuth 2.0 provider) | Remote call — registered only when `Authentication:Schemes:Microsoft` exists | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:45` |
-| Auth0 (OpenID Connect provider) | Remote call — registered only when `Authentication:Schemes:Auth0` exists; its sign-in scheme is pinned to the external cookie | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:46-47,78-92` |
-| OTLP collector, viewed in the Aspire Dashboard | Remote call — OTLP exporter, enabled only when `OTEL_EXPORTER_OTLP_ENDPOINT` is non-empty | `TodoApp.ServiceDefaults/Extensions.cs:74-81` |
-| nuget.org | Remote call — the only package source; every pattern maps to it | `nuget.config` |
-| `tomdesinto/sqliteweb` container image | Remote call — the app host starts it with the database directory bind-mounted; excluded from the manifest | `TodoApp.AppHost/Program.cs:13-17` |
-| Todos.db — the SQLite database file | Data manager — EF Core 9 SQLite provider; the store itself is described under Persistent Data | `Todo.Api/Program.cs:23-24` |
-
-### Entry points
-
-| ID | Entry point | Kind | Initiated by | Anchor |
-|---|---|---|---|---|
-| EP-001 | Application shell at `/` — renders the login form when no user is signed in, the todo list when one is, and carries the logout control | Screen | Person, anonymous or authenticated | `Todo.Web/Server/App.razor:5` |
-| EP-002 | Login and create-user form — email, password, Login, Create User, and one link per configured provider | Screen | Person, anonymous | `Todo.Web/Client/Components/LogInForm.razor:3-26` |
-| EP-003 | Todo list — loading spinner, new-todo input, the list with a per-item remove control | Screen | Person, authenticated | `Todo.Web/Client/Components/TodoList.razor:3-32` |
-| EP-004 | POST /auth/register | Service operation | Person, anonymous | `Todo.Web/Server/AuthApi.cs:14-25` |
-| EP-005 | POST /auth/login | Service operation | Person, anonymous | `Todo.Web/Server/AuthApi.cs:27-38` |
-| EP-006 | POST /auth/logout | Service operation | Person, authenticated | `Todo.Web/Server/AuthApi.cs:40-52` |
-| EP-007 | GET /auth/login/{provider} — issues the challenge and redirects to `/auth/signin/{provider}`; unreachable in the delivered configuration and still a recovered use case (stakeholder, 2026-11-23) | Service operation | Person, anonymous | `Todo.Web/Server/AuthApi.cs:55-62` |
-| EP-008 | GET /auth/signin/{provider} — provider callback; exchanges the provider identity for a local user and a token, writes the session cookie; unreachable in the delivered configuration and still a recovered use case (stakeholder, 2026-11-23) | Service operation | External identity provider, on the person's behalf | `Todo.Web/Server/AuthApi.cs:64-97` |
-| EP-009 | `/todos` forwarding proxy — any method, any sub-path; requires the session cookie and sets the bearer header | Service operation | Todo.Web.Client through the BFF | `Todo.Web/Server/TodoApi.cs:12-25` |
-| EP-010 | GET /todos | Service operation | Authenticated caller holding a bearer token | `Todo.Api/Todos/TodoApi.cs:24-27` |
-| EP-011 | GET /todos/{id} — admits the owner and, through a branch no running caller can enter, an `admin` role claim (AN-004, AN-018); the branch is an exceptional entity the recovered use cases do not model (stakeholder, 2026-11-23) | Service operation | Authenticated caller holding a bearer token | `Todo.Api/Todos/TodoApi.cs:29-36` |
-| EP-012 | POST /todos | Service operation | Authenticated caller holding a bearer token | `Todo.Api/Todos/TodoApi.cs:38-50` |
-| EP-013 | PUT /todos/{id} — admits the owner and the same unreachable `admin` branch (AN-004, AN-018); no client call reaches it (AN-001) | Service operation | Authenticated caller holding a bearer token | `Todo.Api/Todos/TodoApi.cs:52-65` |
-| EP-014 | DELETE /todos/{id} — admits the owner and the same unreachable `admin` branch (AN-004, AN-018) | Service operation | Authenticated caller holding a bearer token | `Todo.Api/Todos/TodoApi.cs:67-73` |
-| EP-015 | The Identity endpoint set under `/users` — register, login, refresh, confirmEmail, resendConfirmationEmail, forgotPassword, resetPassword, manage/2fa, manage/info | Service operation | Anonymous or authenticated caller | `Todo.Api/Users/UsersApi.cs:20` |
-| EP-016 | POST /users/token/{provider} — finds or creates a user for a provider identity and returns a bearer token; the exchange behind the unreachable provider path and part of the same recovered use case (stakeholder, 2026-11-23) | Service operation | Todo.Web.Server (the BFF) | `Todo.Api/Users/UsersApi.cs:24-60` |
-| EP-017 | GET / — redirect to `/scalar/v1` | Service operation | Any caller | `Todo.Api/Program.cs:62` |
-| EP-018 | GET /openapi/v1.json — the OpenAPI document | Service operation | Any caller | `Todo.Api/Program.cs:58` |
-| EP-019 | Scalar API reference UI | Screen | Any caller, Development environment only | `Todo.Api/Program.cs:49-56` |
-| EP-020 | GET /health — readiness; every check must pass | Service operation | App host or operator, Development environment only | `TodoApp.ServiceDefaults/Extensions.cs:110-113` |
-| EP-021 | GET /alive — liveness, tag `live` | Service operation | App host or operator, Development environment only | `TodoApp.ServiceDefaults/Extensions.cs:115-118` |
-| EP-022 | `dotnet ef database update` raised by the app host before the API starts | Platform event | TodoApp.AppHost, only in run mode and only when `Todo.Api/.db` does not exist | `TodoApp.AppHost/Extensions.cs:1-21,32` |
 
 ## Technology and Size
 Every project inherits `net9.0`, `Nullable=enable`, `ImplicitUsings=enable` and `LangVersion=preview` from `Directory.Build.props:4-7`; every package version is pinned in `Directory.Packages.props` and every package resolves from nuget.org alone (`nuget.config`). Counts are files present in the tree, vendored third-party assets included and marked as such. Excavation found no project and no directory the Survey pass missed; the only count that changed is `docs/`, which gains the six Excavation artifacts.
