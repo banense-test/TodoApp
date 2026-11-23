@@ -306,7 +306,7 @@ end note
 | Applicable Standards, AS1-AS9 | AS1, AS4, AS5 and AS6 are held by the framework the components are built on; AS2 is held for validation errors only; AS9 is held at the BFF's edge only | Quality (Maintainability, Security); Data View (the schema's single definition) | AS3 is unexercised (no provider registered, AN-010) and AS7 is not established at all — no accessibility statement, test or attribute beyond `aria-label` on one inert control |
 
 ## Use-Case View
-Eleven use cases were recovered by the System Analyst, each anchored to the entry point whose code performs it. The four below are the architecturally significant ones: they cross the most process boundaries, or they carry a mechanism that no other use case exercises. Each was walked through the completed use-case specification step by step, and the components named below are the ones those steps run through.
+Eleven use cases were recovered by the System Analyst, each anchored to the entry point whose code performs it. The four below are the architecturally significant ones: they cross the most process boundaries, or they carry a mechanism that no other use case exercises. Each was walked through the completed use-case specification step by step, and the components named below are the ones those steps run through — every set in this section was read back from the registered `Realizes` graph, where all 62 component-to-use-case edges stand unmarked.
 
 | Use case | Why it is architecturally significant | Components its confirmed path crosses |
 |---|---|---|
@@ -315,19 +315,16 @@ Eleven use cases were recovered by the System Analyst, each anchored to the entr
 | UC-001 Create an account | The only use case that makes one process's write depend on a second call into the other process before a session exists; the mechanism is the token client, shared with UC-002, and the request shape is the shared contract the API redeclares rather than references | COMP-001, COMP-002, COMP-003, COMP-004, COMP-006, COMP-007, COMP-009, COMP-016, COMP-019 |
 | UC-003 Sign in with an external provider | Crosses more components than any other — both cookies, the provider registry, data protection on both sides of the process boundary, and the token exchange — and cannot be entered in the delivered configuration | COMP-001, COMP-004, COMP-005, COMP-006, COMP-007, COMP-010, COMP-016, COMP-019 |
 
+**The order to exercise them in, and its basis.** The order above is not business priority — the delivery states none — it is the order in which each use case retires architectural risk, and it is what the Iteration Plan builds the prototype and the test sequence from:
+
+1. **UC-006 first.** It exercises the screen route, all four gates (M1, M2, M3, M7) and the one hop that carries no resilience handler (P6). Nothing else can be trusted until this path is observed end to end, and it is the only use case whose failure is indistinguishable from an empty list (`AN-026`).
+2. **UC-007 second.** It is UC-006's path plus the validation filter (M4) and plus the one place `OwnerId` is assigned from the resolved caller rather than from a body (R9). The ownership rule is the architecture's central security property; this is the only write that proves it.
+3. **UC-001 third.** It is the only flow where one process's write depends on a call into another, so it is the only test of M8's resilience handler on the token hop (P6) and of M4's gap at `/users` (the specification's M4 reaches `ExternalUserInfo` alone, so a register or login body passes no data-annotation check).
+4. **UC-003 last of the four.** It carries the most mechanisms — both cookies, the provider registry, M5 across the process boundary and the token exchange — but it cannot be entered as delivered. Building it first would build against a path no configuration reaches; building it after the other three means the key-ring behaviour is the only new variable when it is finally configured.
+
+The first two are the ones a prototype must cover: together they cross every component a task operation touches and every mechanism that gates one. UC-001 and UC-003 each add exactly one mechanism the others do not (`M8` on its resilient hop; `M5` across the boundary), and neither is observable without a second process running — which is the reason both are named here rather than left to the remaining seven.
+
 **Four components the completed specifications make load-bearing.** The flows name them where the architecture did not: **COMP-003** configures the connector every client call runs on — the base address the call resolves against and the `X-Requested-With` header the cookie stack reads — so it is on the path of every screen-route use case, and it is why UC-006 alternative A2 answers an empty list instead of failing (`Todo.Web/Client/Program.cs:5-13`; AN-026). **COMP-012** resolves the caller for every task operation, not UC-006 alone: UC-007 to UC-010 resolve it through the same requirement. **COMP-019** carries `UserInfo`, `ExternalUserInfo` and `AuthToken` into the client and the BFF, which is how the three account use cases reach the API's `users` endpoints at all — while the API redeclares the same shapes instead of referencing the assembly (AN-003). **COMP-016** is what UC-005 writes its account rows through, so the Identity surface is not a component pair of its own.
-
-The remaining seven, and how far the architecture is exercised on each:
-
-| Use case | Components its confirmed path crosses | Diagram |
-|---|---|---|
-| UC-002 Sign in with email and password | COMP-001, COMP-002, COMP-003, COMP-004, COMP-006, COMP-007, COMP-009, COMP-019 | SEQ-2 is UC-001; UC-002 differs only in skipping the register call and reaching COMP-009 once instead of twice |
-| UC-004 Sign out | COMP-001, COMP-002, COMP-003, COMP-004, COMP-005, COMP-006 | None — its path is shorter than UC-001's and adds no connector |
-| UC-005 Maintain one's own account | COMP-009, COMP-016, COMP-019 | None — the framework surface mapped wholesale, with no local code, no screen path and no client call; it writes the account rows and answers the `AuthToken` shape the shared contract declares |
-| UC-008 Remove a task | COMP-001, COMP-002, COMP-003, COMP-004, COMP-008, COMP-011, COMP-012, COMP-013, COMP-014, COMP-016 | None — it is SEQ-1 with the query replaced by one delete statement |
-| UC-009 Read one task by id | COMP-011, COMP-012, COMP-013, COMP-014, COMP-016 | None — SEQ-1 without the client, the bootstrap and the forwarder |
-| UC-010 Change a task | COMP-011, COMP-012, COMP-013, COMP-014, COMP-015, COMP-016 | None — SEQ-1 with the query replaced by one update statement; it is the only writer of `IsComplete` (AN-001) |
-| UC-011 Consult the API reference | COMP-017 | None — one component, no connector |
 
 ```plantuml
 @startuml
@@ -498,6 +495,20 @@ end note
 
 @enduml
 ```
+
+The remaining seven, and how far the architecture is exercised on each:
+
+| Use case | Components its confirmed path crosses | Diagram |
+|---|---|---|
+| UC-002 Sign in with email and password | COMP-001, COMP-002, COMP-003, COMP-004, COMP-006, COMP-007, COMP-009, COMP-019 | None — SEQ-2 is UC-001; UC-002 differs only in skipping the register call and reaching COMP-009 once instead of twice. It crosses no component UC-001 does not |
+| UC-004 Sign out | COMP-001, COMP-002, COMP-003, COMP-004, COMP-005, COMP-006 | None — its path is shorter than UC-001's and adds no connector |
+| UC-005 Maintain one's own account | COMP-009, COMP-016, COMP-019 | None — the framework surface mapped wholesale, with no local code, no screen path and no client call; it writes the account rows and answers the `AuthToken` shape the shared contract declares |
+| UC-008 Remove a task | COMP-001, COMP-002, COMP-003, COMP-004, COMP-008, COMP-011, COMP-012, COMP-013, COMP-014, COMP-016 | None — it is SEQ-1 with the query replaced by one delete statement |
+| UC-009 Read one task by id | COMP-011, COMP-012, COMP-013, COMP-014, COMP-016 | None — SEQ-1 without the client, the bootstrap and the forwarder |
+| UC-010 Change a task, including marking it complete | COMP-011, COMP-012, COMP-013, COMP-014, COMP-015, COMP-016 | None — SEQ-1 with the query replaced by one update statement; it is the only writer of `IsComplete` (AN-001) |
+| UC-011 Consult the API reference | COMP-017 | None — one component, no connector |
+
+**What no use case exercises, and why that is recorded here rather than left to the Quality view.** Three components sit on no use-case path and each is named with its anchor instead of a composed edge: **COMP-018** (request diagnostics, a pipeline stage that runs in every environment — M11), **COMP-020** and **COMP-021** (the platform that starts and instruments the processes). A fourth, **COMP-022**, reaches the use cases only by calling their endpoints over HTTP, which the graph records as `Tests` rather than `Realizes`. The consequence for this view is exact: no use case scenario can validate the migration (M10), the health endpoints (part of M9) or the test host (M13), so those three mechanisms are validated by no diagram in this document — the Process and Deployment views state them instead.
 
 ### SEQ-1 UC-006 See one's own tasks — the screen route through all four processes
 
@@ -733,7 +744,7 @@ else title present
       TODOS -> EF : save the new row
       EF -> DB : INSERT Todos
       DB --> EF : ok
-      EF --> TODOS : the row
+      EF -> TODOS : the row
       TODOS --> FWD : 201 Created\nLocation /todos/{id}
       FWD --> CLI : 201
       CLI --> UI : the created item
