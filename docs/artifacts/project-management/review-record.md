@@ -684,95 +684,42 @@ stop
 
 ## Resolutions and Actions
 ### Reviewer lens
-<!-- review: Excavation I4 -->
+<!-- review: Consolidation I1 -->
 
-<!-- review: Excavation I4 -->
+#### Closed this milestone by this lens
 
-#### Resolutions and actions
-
-Three findings emitted by this lens were open at the start of this pass. Each was re-read at its artifact, then at the source its fact turns on, and each defect is gone. All three are closed through `resolve_artifact_finding` under this lens — the tool call first, this narrative second.
-
-```plantuml
-@startuml
-title Closures and what authorised each - three findings of this lens closed at iteration 4, verified at source rather than on an owner's report
-
-skinparam shadowing false
-skinparam classAttributeIconSize 0
-skinparam wrapWidth 240
-hide circle
-hide empty members
-
-package "Iteration Plan#F4 - consumed-defect, Major" {
-  class "A1 read 'open Major' on five\nCOMP-014 edges 'still marked suspect'" as F4A
-  class "A10 read 'Not met' on R6\nreading 100 tokens, no AN-024" as F4B
-  class "O2 read 'Not met - two Majors stand'" as F4C
-}
-
-package "Risk List#F3 - contained-defect, Minor" {
-  class "R032 read 'action performed on\nfive of six; one citing artifact open',\nwarning sign 'fired at Use-Case Model#F4'" as F3A
-}
-
-package "Supplementary Specification#F3 - contained-defect, Minor" {
-  class "Document Control read\n'Iteration: 2, Cycle 1'" as F3B
-}
-
-package "What the artifacts now hold - read at source" {
-  class "A1 'Met', five Realizes edges requoted\nfrom a fresh graph query, none marked" as V1 <<verified>>
-  class "A10 'Met - certified on the recovered set',\nR6 named as the fourth artifact under AN-024" as V2 <<verified>>
-  class "O2 'Met' on the same reading" as V3 <<verified>>
-  class "R032 'avoidance performed on all six;\nthe exposure is retired', residual named" as V4 <<verified>>
-  class "Document Control 'Iteration: 4, Cycle 1',\nmatching all ten artifacts under review" as V5 <<verified>>
-}
-
-package "Read at the file, not at the artifact" {
-  class "appsettings.Development.json:\nTokenLimit 50, TokensPerPeriod 50, QueueLimit 50" as CODE1 <<code>>
-  class "RateLimitExtensions.cs:22-24:\nTokenLimit 100, TokensPerPeriod 100, QueueLimit 100" as CODE2 <<code>>
-  class "ServiceDefaults/Extensions.cs:\nAddStandardResilienceHandler on\nConfigureHttpClientDefaults" as CODE3 <<code>>
-}
-
-F4A --> V1
-F4B --> V2
-F4C --> V3
-F3A --> V4
-F3B --> V5
-V2 --> CODE1
-V2 --> CODE2
-V4 --> CODE1
-CODE3 --> V2 : AN-023's two hops,\nstated apart in R4
-
-note bottom of V2
-  The one fact six artifacts were corrected against was opened
-  at the file this pass. Both values reproduce, and neither
-  artifact quotes the other's figure as the system's.
-end note
-note bottom of V5
-  The field is the whole of the defect and the whole of the
-  remedy: no content changed, none needed to.
-end note
-
-@enduml
-```
-
-| Finding | Criterion | Resolution | Verified at |
+| Finding | Criterion | What closed it | Verified at |
 |---|---|---|---|
-| `Iteration Plan#F4` | consumed-defect | **Resolved** | A1 reads "Met" and requotes the five `COMP-014` edges from a fresh graph query — the RTM returns `UC-006` to `UC-010`, `Realizes`, state OK, no marking. A10 reads "Met — certified on the recovered set" and names the Use-Case Model's R6 as the fourth of four, quoting "In force: 50 tokens, 50 per 10 s, queue 50. Code defaults: 100 tokens, 100 per 10 s, queue 100" under `AN-024`. O2 reads "Met" on the same reading |
-| `Risk List#F3` | contained-defect | **Resolved** | R032's strategy cell reads "avoidance performed on all six citing artifacts; the exposure is retired", names R6 among the six with its current wording under `AN-024`, records the warning sign as no longer firing against a closed finding, and relabels the diagram's sixth-artifact node to the one residual — the four artifacts re-read in a single pass. `R030` and `R031` unchanged |
-| `Supplementary Specification#F3` | contained-defect | **Resolved** | Document Control reads Phase Excavation, Status Draft — produced for the end-of-Excavation (AR) milestone review, Milestone Target not yet achieved, Iteration 4, Cycle 1 |
+| `Development Case#F4` | `contained-defect` | ACT-DC-01 now names Project Management in all seven phase partitions, at the canonical intensity for each phase; the diagram and the intensity table agree | Development Case — Disciplines and Intensity, ACT-DC-01 |
 
-#### Actions arising for other owners
+#### Open, and what closes each
 
-| Artifact | Key | Owner | Criterion | The corrective action |
-|---|---|---|---|---|
-| Development Case | F4 | Process Engineer | contained-defect | Add Project Management to the Excavation, Consolidation, Inception, Elaboration, Construction and Transition partitions of ACT-DC-01, naming its stage as the Survey partition does. Change nothing in the Disciplines and Intensity table, which is correct |
-| Iteration Plan | F8, F9 | Project Manager | contained-defect, exit-criterion-unmet | Recorded by the Management Reviewer at iteration 3 and open. Cited here because the milestone verdict reads that table; not re-recorded |
-| Iteration Plan | — (observation) | Project Manager | observation | Make A11's enumeration self-counting: the cell certifies four and lists five identifiers, the count being right. No defect and no action required |
-| Development Case | — (reported) | Process Engineer | contained-defect | `Development Case#F4` is recorded this pass. It does not hold the milestone |
+| Finding | Criterion | Severity | What closes it | Owner | Where the work belongs |
+|---|---|---|---|---|---|
+| `Design Model#F2` | `trace-gap` | Major | Clear `CLS-020 → UC-007`, `CLS-020 → UC-010` (System Analyst) and `CLS-001 → TBL-001`, `CLS-007 → TBL-002` (Designer), each stating the reading that keeps it; then restate the Traceability section's closing paragraphs at the state the graph holds | System Analyst, Designer | Analysis & Design — both hold a stage in this phase. Closes `R033` and G7 |
+| `Supplementary Specification#F4` | `consumed-defect` | Major | Correct S8 and S18 against `Todo.Api/Program.cs:44,49-58`: the reference UI and both health endpoints are Development-only, the OpenAPI document is mapped unconditionally, the logging stage runs in every environment | System Analyst | Requirements — this phase's stage. Unblocks the Deployment Manager and the Technical Writer |
+| `System Inventory#F4` | `exit-criterion-unmet` | Major | State the ratio over the 94 files that are the delivery's own tree (84 opened, 89.4%) beside the 139-file count, and have `G4` cite the ratio that meets the bar with its denominator named | Software Archaeologist, then Project Manager for G4 | Discovery — this phase's stage |
+| `Vision#F2` | `contained-defect` | Minor | Correct the Constraints row: the OpenAPI document is served in every environment | System Analyst | Requirements — after the Majors |
+| `SAD#F2` | `contained-defect` | Minor | Restate "one setting" as one configuration binding, with the Development-only surfaces named beside it as the Deployment Model counts them | Software Architect | Analysis & Design — after the Majors |
 
-#### What this pass changed in the record, and what it did not
+#### What the two Majors have in common, and why it matters for the next iteration
 
-The recovered set is untouched. No correction this iteration added, removed, merged or reclassified a use case, a component, a class or a table; the eleven use cases over twenty-two entry points, the twenty-two components across four processes and the eight persisted entity types stand as the stakeholder confirmed them at the third put of gate H4. The four corrections were cells, a field and a retirement claim — records of the recovery, not the recovery.
+`Supplementary Specification#F4` and `SAD#F2` are the same class of defect this project has now recorded seven times across three phases: one fact, stated twice, in two artifacts, with two answers. The rule that closes the class is already written in the Development Case's "Process rule this phase adds" — a document that reports another artifact's state re-derives it from that artifact in the same turn the artifact changes. It has held for the Iteration Plan this iteration and the plan's cells are clean; it has not yet been applied to the four artifacts that describe the environment, which is where both of these findings sit.
 
-No finding of this lens holds the milestone. The artifact that does is the Iteration Plan, under the Management Reviewer's `#F9`, and it is one owner pass over five cells.
+`System Inventory#F4` is a different class, and it is the one this milestone should not lose: the reading is thorough (every unopened file named, every reason given, the arithmetic reproducing) and the number it publishes understates what it did, because the denominator counts a vendored bootstrap bundle as though it were the delivery. The correction is one sentence. What would be wrong is to read the 60.4% as a thin reading and order more of the tree opened — nothing is hidden, and the 45 unopened Bootstrap files carry no behaviour of the system.
+
+#### Actions the next iteration carries
+
+| # | Action | Owner | Closes |
+|---|---|---|---|
+| 1 | Clear the four suspect edges at their own ends | System Analyst (2), Designer (2) | `Design Model#F2`, `R033`, G7 |
+| 2 | Correct S8 and S18 to the code's actual gating | System Analyst | `Supplementary Specification#F4` |
+| 3 | State the coverage ratio over the delivery's own tree, and have G4 cite it | Software Archaeologist, Project Manager | `System Inventory#F4`, G4 |
+| 4 | Correct the Vision's Constraints row | System Analyst | `Vision#F2` |
+| 5 | Restate the SAD's "one setting" sentence | Software Architect | `SAD#F2` |
+| 6 | Re-read all four environment-describing artifacts against `Todo.Api/Program.cs` in one pass once actions 2, 4 and 5 land, so the class closes rather than the instance | System Analyst, Software Architect | closes the class, not a finding |
+
+No action above schedules work a later phase performs. Actions 1 to 5 sit in stages this phase runs; action 6 is a reading, not new content.
 
 ### Management Reviewer lens
 <!-- review: Excavation I4 -->
