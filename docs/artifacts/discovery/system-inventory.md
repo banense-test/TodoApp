@@ -300,7 +300,6 @@ Of 130 files in the tree (36 of the 166 entries are directories), 104 were opene
 | Commit history | — | 50 commits of the repository plus 12 per-area lists | Only 50 commits were listed, so anything before 2023-07-14 is unread; `Todo.Web/Server`, `Todo.Web/Shared` and `Requests` have no separate commit list — their changes appear inside the `Todo.Web` list |
 
 ## Traceability
-
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
 | EP-001 | — | — | — |
@@ -339,5 +338,7 @@ Of 130 files in the tree (36 of the 166 entries are directories), 104 were opene
 | AN-012 | — | — | — |
 | AN-013 | — | — | — |
 | AN-014 | — | — | — |
-| AN-015 | — | — | — |
+| AN-015 | — | DependsOn | EP-022 |
 | AN-016 | — | — | — |
+| AN-017 | — | DependsOn | EP-017, EP-019 |
+
