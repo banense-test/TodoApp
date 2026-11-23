@@ -503,149 +503,49 @@ The SBC event in this table is the only one that has occurred. Every later row i
 
 ## Findings
 ### Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-```plantuml
-@startuml
-title Defect distribution — Reviewer lens findings by severity and artifact, SBC review
+<!-- review: Survey I2 -->
 
-skinparam shadowing false
-skinparam classAttributeIconSize 0
-hide empty members
+#### Iteration 2 — closures of this lens's iteration-1 findings
 
-class "Development Case" as DC {
-  Critical : 0
-  Major : 1
-  Minor : 1
-}
-note right of DC
-  Major - consumed-defect
-  an enterprise version policy asserted
-  that no file records
-  Minor - contained-defect
-  one diagram and one delta list twice
-end note
+All seven findings the technical lens recorded in iteration 1 are closed by `resolve_artifact_finding`, each against the corrected artifact section named below. None persists, so none is re-recorded under its `findingKey`.
 
-class "System Inventory" as SI {
-  Critical : 0
-  Major : 1
-  Minor : 1
-}
-note right of SI
-  Major - trace-gap
-  AN-021 row holds two edges,
-  the artifact and the tree hold three
-  Minor - contained-defect
-  coverage headline unreproducible
-end note
-
-class "Risk List" as RL {
-  Critical : 0
-  Major : 1
-  Minor : 0
-}
-note right of RL
-  Major - consumed-defect
-  13 of 21 scores contradict the
-  inventory, two below the grant band
-end note
-
-class "Iteration Plan" as IP {
-  Critical : 0
-  Major : 1
-  Minor : 1
-}
-note right of IP
-  Major - consumed-defect
-  twelve anomalies claimed, seven named
-  Minor - contained-defect
-  the gate drawn after the verdict it feeds
-end note
-
-class "Total for this lens" as TOT {
-  Critical : 0
-  Major : 4
-  Minor : 3
-  Info : 0
-  Findings : 7
-}
-
-DC ..> TOT
-SI ..> TOT
-RL ..> TOT
-IP ..> TOT
-@enduml
-```
-
-#### Development Case
-
-Two findings. The tailoring verdicts themselves hold: two disciplines inactive each with its own recorded condition (`business-process-led = false`, `real-time-system = false`), 24 roles working, no CORE artifact omitted or reassigned, nothing listed outside the CORE + OPTIONAL universe, and the one fired OPTIONAL — Deployment Model — justified by a genuinely distributed four-process topology with a YARP proxy hop and per-process configuration pairs. The five NOT FIRED verdicts were each checked against its §5.2 condition and each holds: eight entity types is below the Data Model threshold, the architecture already runs so no mechanism needs empirical validation, no regulator or contract consumes test reporting, no UX decision waits on the stakeholder, and the vocabulary is plain English.
-
-- **Development Case#F1 — Major, `consumed-defect`.** The "Tool and configuration references" section asserts that an enterprise version policy "is recorded with the process and is anchored by the Software Architect in the Software Architecture Document" and that "it governs over the registry's latest for every package the delivery adds". `docs/CONTRIBUTING.md` records central pinning in `Directory.Packages.props` and the nuget.org-only source rule; neither states a rule preferring a pinned version over a registry's latest, and no file in the tree records such a policy. The Software Architect is directed in Excavation to anchor a document that does not exist. **Remediation:** name the file that records the policy, or replace the sentence with what is true — version selection follows central pinning, nuget.org being the only configured source.
-
-- **Development Case#F2 — Minor, `contained-defect`.** The role deltas are stated twice inside "Roles and Ownership" and the CLS-DC-01 role-artifact diagram is embedded twice, verbatim. **Remediation:** keep one statement of the deltas and one CLS-DC-01 diagram; delete the duplicate.
+| Artifact | Finding | Criterion | Severity | Outcome | What closed it |
+|---|---|---|---|---|---|
+| Development Case | F1 | `consumed-defect` | Major | Resolved | "Tool and configuration references" now states that no enterprise version policy is recorded and asserts none, then records only what `Directory.Packages.props`, `global.json` and `nuget.config` carry. The Software Architect is no longer sent to a policy that exists nowhere |
+| Development Case | F2 | `contained-defect` | Minor | Resolved | "Roles and Ownership" carries one CLS-DC-01 diagram and one role-deltas block; the duplicated copies are gone, as the stakeholder ordered on 2026-11-23 |
+| System Inventory | F1 | `trace-gap` | Major | Resolved | The AN-021 row reads `DependsOn EP-004, EP-005, EP-007`, matching the Anomalies diagram and the three registered edges |
+| System Inventory | F2 | `contained-defect` | Minor | Resolved | Coverage now reads 133 files / 79 read / 54 unread and reproduces from its own per-area table; the docs row records 4 of 7 read and names the three unread files |
+| Risk List | F1 | `consumed-defect` | Major | Resolved | One published mapping translates the inventory's words; all 21 anomaly-derived rows reproduce from it, including R004 and R011 at 4 × 3 = 12, and every Significant acceptance holds a stakeholder grant |
+| Iteration Plan | F1 | `consumed-defect` | Major | Resolved | "Use Cases and Scenarios Addressed" names all twelve entry-point-bearing anomalies with their 21 edges and lists the nine that carry no entry point |
+| Iteration Plan | F2 | `contained-defect` | Minor | Resolved | Gate H2 sits ahead of the SBC verdict in both the coarse roadmap and the fine-plan critical chain |
 
 #### System Inventory
 
-Two findings. The recovery itself is the strongest artifact of the four: 22 entry points each with kind, initiator and file anchor; 19 perimeter components and 9 external systems each anchored; every anomaly row carrying evidence with line numbers; and a Coverage section that declares its unread remainder and why rather than leaving it implicit. The two stakeholder decisions of 2026-11-23 are carried consistently into the Perimeter prose, the Perimeter diagram notes and the affected entry-point rows — the external-provider path as a recovered use case marked unreachable, the admin branch as an exceptional entity. No `[DERIVED]` or `[SCOPE_QUESTION]` marker survives an answered question.
+**Finding SI-1 (F3, Minor, `contained-defect`) — Document Control states iteration 1.**
 
-- **System Inventory#F1 — Major, `trace-gap`.** The Traceability row for AN-021 reads `DependsOn EP-004, EP-005`. The artifact's own Anomalies diagram carries `A21 --> E4`, `A21 --> E5` and `A21 --> E7`, and the registered trace tree carries the same three edges. The row registers two of the three the artifact and the tree hold. **Remediation:** add EP-007 to the AN-021 row.
-
-- **System Inventory#F2 — Minor, `contained-defect`.** Coverage states "77 were opened" of 129, while the per-area Read column sums to 76 (23+7+8+0+14+1+6+2+1+7+1+2+1+1+1+1), and the docs row records `3 | 1` beside a note saying all three were opened. The Iteration Plan cites the derived figure — "52 files unread of 129" — as criterion C6's evidence. **Remediation:** recompute the headline from the per-area table, decide explicitly whether the two artifact files under `docs/` count as read, and make the column and the headline agree.
-
-#### Risk List
-
-One finding. The register's structure is sound: the IARI scale is reproduced from the baseline and no scale of its own is defined, magnitude is derived as the band of exposure rather than chosen, all 21 anomalies are carried with an explicit note explaining the 22nd risk's separate origin, every row names a strategy, an owner, an action, a contingency and a warning sign, and the two Significant accepts carry the stakeholder's grant in their own words. No person-week, person-month or story-point unit appears anywhere.
-
-- **Risk List#F1 — Major, `consumed-defect`.** Thirteen of the twenty-one rows score a risk differently from the likelihood and impact the System Inventory states for the same anomaly, and the same inventory word scores differently in different rows: "likely / moderate" gives 4×3 for AN-001 but 4×2 for AN-003 and AN-011; "likely / low" gives 4×1 for AN-006 and AN-008 but 2×2 or 4×2 for AN-013, AN-014, AN-015, AN-017 and AN-019; "possible / high" becomes 2×3 for AN-002. The consequence is not cosmetic. AN-004's "likely / moderate" would place R004 at exposure 12 — the Significant band whose acceptance is the stakeholder's to grant — where it is recorded 2×2 and accepted by the Project Manager; the same applies to R011. The magnitudes then sequence the Iteration Plan's milestones and underlie the same grant band the stakeholder's R012 and R016 accepts came from. **Remediation:** score each risk once from the IARI scale and reconcile it against the inventory's column, or delete the inventory's likelihood and impact as a scoring claim and state that the score is the Project Manager's own reading of the cited evidence. Where a reconciled score lands in the Significant or High band, put that acceptance to the stakeholder in this iteration — R004 and R011 are the candidates.
+| Field | Content |
+|---|---|
+| Location | Document Control, "Iteration: 1, Cycle 1" |
+| Defect | The artifact carries the iteration-2 rework — the AN-021 row names all three entry points and Coverage is recomputed — while its metadata still declares iteration 1. Development Case, Risk List and Iteration Plan all read "Iteration: 2, Cycle 1", so the four artifacts cannot be read as one iteration's state |
+| Consequence | Metadata only. No role builds on the iteration number and no exit criterion depends on it, so the defect stays inside the artifact |
+| Remediation | Set the Document Control iteration field to 2, Cycle 1, matching the three other artifacts under review |
 
 #### Iteration Plan
 
-Two findings. The plan is otherwise conformant to the process it must instantiate: the milestone sequence runs Survey → Excavation → Consolidation → Inception → Elaboration → Construction → Transition, every discipline intensity quoted matches the canonical matrix, the roles recorded as working in this iteration are exactly those the Survey row of the inherited process names plus its three reviewing roles, every work item is a stage that process actually runs in Survey, no calendar date is projected from an estimate, and the two currencies are kept apart with the human gate bounded as R022 rather than estimated.
+**Finding IP-1 (F3, Minor, `contained-defect`) — the fine plan's State column contradicts the artifacts.**
 
-- **Iteration Plan#F1 — Major, `consumed-defect`.** "Use Cases and Scenarios Addressed" states that "the 12 anomalies that sit on an entry point" are handed to Excavation and then names seven: AN-001, AN-002, AN-004, AN-018, AN-019, AN-020, AN-021. AN-008, AN-009, AN-010, AN-015 and AN-017 are dropped, and they are the ones constraining the reference-UI, Identity, key-ring and app-host reading — priorities 6 and 8 of the order Excavation reads in. Excavation is told a count and handed a list that does not match it. **Remediation:** name all twelve, or drop the enumeration and point at the System Inventory's Anomalies table as Excavation's constraint list.
+| Field | Content |
+|---|---|
+| Location | "This iteration's fine plan", the State column of rows 4, 5 and 6 |
+| Defect | Rows 4 (Development Case rework) and 5 (System Inventory rework) read "With the owner" although both corrections are verifiably in place; row 6 — the technical lens re-run — reads "Not started" while it is the review being taken now |
+| Consequence | Metadata only, but it is the column the management lens and the Review Coordinator read as the iteration's progress, so for one reader it misstates status. No artifact content and no exit criterion depends on it |
+| Remediation | Mark rows 4 and 5 Complete with what closed each, and row 6 In progress until the lens returns — or delete the State column and leave progress to the Iteration Assessment, which is the artifact that records what the iteration did |
 
-- **Iteration Plan#F2 — Minor, `contained-defect`.** The critical-chain activity diagram places Gate H1 after the Review Coordinator's verdict, while the coarse roadmap, exit criteria C2/C5/C8 and the H1 row all record the gate answered on 2026-11-23 ahead of the review. **Remediation:** move Gate H1 ahead of the Reviewer in the diagram.
+**What the lens confirms, and does not.** Re-reading the four artifacts against the seven findings and against the stakeholder's order, every Major is closed and each closure is backed by the corrected artifact section and, where a repository claim was involved, by the file it cites. The rework added no new Major: the two defects it left are status metadata, and both are the owner's to correct in the next turn without holding anything downstream.
 
-```plantuml
-@startuml
-title Where each open Major lands — the artifact that carries it and the role that inherits it
-
-skinparam shadowing false
-skinparam componentStyle rectangle
-left to right direction
-
-package "Carries the defect" {
-  component "Development Case" as DC
-  component "System Inventory" as SI
-  component "Risk List" as RL
-  component "Iteration Plan" as IP
-}
-
-package "Open Major" {
-  component "Development Case#F1\nan enterprise version policy\nno file records" as DC1
-  component "System Inventory#F1\nAN-021 row short of\nthe tree by one edge" as SI1
-  component "Risk List#F1\n13 scores contradict\nthe inventory's own words" as RL1
-  component "Iteration Plan#F1\ntwelve anomalies claimed,\nseven named" as IP1
-}
-
-package "Inherits it, and when" {
-  component "Software Architect\nExcavation — anchors a policy\nthat exists nowhere" as ARC
-  component "System Analyst\nExcavation — reads the anomaly\ntable as its constraint list" as SYA
-  component "Project Manager\nthis iteration — a grant band\nbelow the stakeholder's reach" as PM
-  component "System Analyst\nExcavation — five constraints\nnot handed over" as SYA2
-}
-
-DC --> DC1
-SI --> SI1
-RL --> RL1
-IP --> IP1
-DC1 --> ARC
-SI1 --> SYA
-RL1 --> PM
-IP1 --> SYA2
-@enduml
-```
+This lens does not close the milestone. The SBC gate turns on gate H2 — the stakeholder's confirmation of the perimeter as the System Inventory records it — which was refused on 2026-11-23 and is re-taken after this review. The technical lens has no authority over that answer and records no verdict on it.
 
 ### Management Reviewer lens
 <!-- review: Survey I1 -->
