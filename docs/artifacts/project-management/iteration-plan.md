@@ -1,7 +1,7 @@
 ## Document Control
 - Phase: Survey
-- Status: Draft — issued for iteration 2 on the SBC review's findings and the stakeholder's order of 2026-11-23
-- Milestone Target: end-of-Survey (SBC) — not achieved
+- Status: Iteration 2 executed to its close; the milestone verdict is the Review Coordinator's, recorded in the Review Record and assessed in the Iteration Assessment
+- Milestone Target: end-of-Survey (SBC) — the verdict on it is not this plan's to declare
 - Iteration: 2, Cycle 1
 - Owner: Project Manager
 ## Iteration Objectives
