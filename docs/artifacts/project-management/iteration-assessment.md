@@ -346,10 +346,6 @@ Two dependencies order the work and are not negotiable: item 1 precedes item 2, 
 - **It does not restate a forecast.** No phase has closed, so no measured actual exists; iteration 2's work items carry owners and no size. Spend and elapsed time are recorded after the fact, as they were here.
 - **It does not treat the six Major findings as new scope or open a Change Request for them.** The Change Control Manager does not work in the sprint zero; the order reached its owners through the Review Record, and its ledger is the record.
 
-### The one stakeholder question this record does not answer
-
-`Risk List#F1` may place `R004` and `R011` in the Significant band once reconciled, and acceptance there is the stakeholder's to grant. The question is not put in this turn, deliberately: the scores it would rest on are exactly what the review declared unreproducible, so posing it now would ask the stakeholder to accept a magnitude the register cannot yet state. The Project Manager reconciles the scores as item 1 and puts the grant immediately after, in iteration 2, before the SBC gate is re-taken.
-
 ### The stakeholder question this iteration puts, rather than carries forward
 
 `Risk List#F1` may place `R004` and `R011` in the Significant band once reconciled, and acceptance there is the stakeholder's to grant. The Review Coordinator ordered that question held until the scores reconcile, because their current magnitudes are exactly what the review declared unreproducible.
