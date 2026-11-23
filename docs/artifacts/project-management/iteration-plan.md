@@ -141,30 +141,30 @@ stop
 | 1 | Risk List — reconcile all twenty-two scores to one published mapping, re-derive the grant band, put every Significant acceptance to the stakeholder | Project Manager | — | Complete — 21 anomaly-derived rows reproduce from the one published mapping; of the 14 Significant-band risks, 4 accept each under a stakeholder grant and 10 avoid | not recorded |
 | 2 | Iteration Plan — restate C2, C6 and C7 on the evidence each criterion actually has | Project Manager | 1 | Complete — C2 split into the answered questions and the confirmation gate H2 owes; C6 cites the reproduced 79-of-133 coverage figure; C7 split into carriage and reproducibility, both parts met | not recorded |
 | 3 | Iteration Plan — the constraint list handed to Excavation | Project Manager | — | Complete — all twelve entry-point-bearing anomalies named, with the 21 edges the System Inventory records | not recorded |
-| 4 | Development Case — delete the duplicated role-delta list and the duplicated CLS-DC-01 diagram, and correct the version-policy claim | Process Engineer | — | With the owner | not recorded |
-| 5 | System Inventory — add EP-007 to the AN-021 row, and make the Coverage headline agree with the per-area table | Software Archaeologist | — | With the owner | not recorded |
-| 6 | Technical lens re-run — Reviewer reads the reworked Risk List, Iteration Plan, Development Case and System Inventory | Reviewer | 1, 2, 3, 4, 5 | Not started | not recorded |
-| 7 | Management lens re-run — C1 to C10 re-taken on the reworked evidence, then the sanction question put | Management Reviewer | 6 | Not started | not recorded |
-| 8 | Gate H2 re-taken — the perimeter as recorded confirmed, sanction to advance past SBC | Stakeholder | 7 | Queued; bound as R022 | queued in days; no estimate |
-| 9 | SBC milestone verdict — read on the answer gate H2 returns | Review Coordinator | 8 | Not started | not recorded |
+| 4 | Development Case — delete the duplicated role-delta list and the duplicated CLS-DC-01 diagram, and correct the version-policy claim | Process Engineer | — | Complete — one role-deltas statement and one CLS-DC-01 diagram retained; "Tool and configuration references" asserts no enterprise version policy and cites only the pinning files | not recorded |
+| 5 | System Inventory — add EP-007 to the AN-021 row, and make the Coverage headline agree with the per-area table | Software Archaeologist | — | Complete — the AN-021 row reads `DependsOn EP-004, EP-005, EP-007`; Coverage reproduces from its per-area table at 133 files, 79 read, 54 unread | not recorded |
+| 6 | Technical lens re-run — Reviewer reads the reworked Risk List, Iteration Plan, Development Case and System Inventory | Reviewer | 1, 2, 3, 4, 5 | Complete — seven prior findings resolved, two new Minors recorded, no Major and no Critical open | not recorded |
+| 7 | Management lens re-run — C1 to C10 re-taken on the reworked evidence, then the sanction question put | Management Reviewer | 6 | Complete — three prior findings resolved, two new Minors recorded, C1 to C10 re-taken on the reworked evidence | not recorded |
+| 8 | Gate H2 re-taken — the perimeter as recorded confirmed, sanction to advance past SBC | Stakeholder | 7 | Answered Yes on 2026-11-23 — perimeter confirmed as recorded, sanction granted, with the order that the Minor findings be addressed in the next phase | queued in days; no estimate |
+| 9 | SBC milestone verdict — read on the answer gate H2 returns | Review Coordinator | 8 | Issued — the verdict is the Review Coordinator's and is recorded in the Review Record | not recorded |
 
 Two currencies, never summed. Items 1 to 7 and 9 are agent work, measured in tokens and elapsed agent time; the phase's measured spend is recorded in the Iteration Assessment, and no per-item figure exists. Item 8 is a human gate — waiting, not working — quoted only in days of queue time, bounded as R022 with a ceiling of 14 days and no estimate.
 
-The chain is sequential end to end: the lenses judge what the owners reworked, the stakeholder is asked only what the review has settled, and the verdict reads the answer. Adding agent roles to this chain would buy no clock and would add contention over the same four artifacts.
+The chain is sequential end to end: the lenses judge what the owners reworked, the stakeholder is asked only what the review has settled, and the verdict reads the answer. Adding agent roles to this chain would buy no clock and would add contention over the same four artifacts. Item 1's reconciliation placed no risk other than the four already granted in the Significant band, so the stakeholder was asked nothing beyond gate H2.
 
 | Human gate | Who | What the iteration waits for | Bound | Answer |
 |---|---|---|---|---|
 | H1 | Stakeholder | Four answers: the external-provider path and the admin branch ruled in or out, the eight-area priority order confirmed, and the two Significant-risk acceptances (R012, R016) granted or refused | R022 — ceiling 14 days; on expiry the process suspends and nothing is auto-filled | Taken in-iteration on 2026-11-23, ahead of the review: the external-provider path recorded as a recovered use case marked unreachable in the delivered configuration; the admin branch treated as an exceptional entity; the priority order stands as it is with nothing left out; R012 accepted; R016 accepted |
-| H2 | Stakeholder | The perimeter as the System Inventory records it, confirmed, and the sanction to advance past SBC | R022 — same ceiling, no estimate | REFUSED on 2026-11-23, with the instruction that the Development Case's duplicated diagrams and text be corrected and that the Major findings be corrected. Queued for the re-take after this iteration's lenses |
+| H2 | Stakeholder | The perimeter as the System Inventory records it, confirmed, and the sanction to advance past SBC | R022 — same ceiling, no estimate | Answered Yes on 2026-11-23 at the re-take: the four-process perimeter with its 22 entry points, 21 anchored anomalies and eight priority areas confirmed as recorded, the sanction to advance past SBC into Excavation granted, and the order that the Minor findings be addressed in the next phase rather than left unattended. Refused on the same question at the iteration-1 review, which is why the phase ran a second iteration |
 | H3 | Stakeholder | The `R004` and `R011` acceptances, conditionally on their reconciled scores landing at exposure 9 to 12 or above | R022 — same ceiling, no estimate | Both granted on 2026-11-23. The reconciled score lands at 12 on both, and the Risk List records each answer verbatim |
 
-Each gate is answered by the stakeholder in their own words, and none is inferred by a reviewer or by the Project Manager. H2 is the one that has not passed, and it is the reason this milestone is not achieved. The milestone review is the reviewers' to rule on: no work item above is closed by this plan.
+Each gate is answered by the stakeholder in their own words, and none is inferred by a reviewer or by the Project Manager. All three are answered and recorded above; the milestone verdict that reads them is the Review Coordinator's and is not declared by this plan.
 
 ### Risk-driven sequencing of this iteration
 
 ```plantuml
 @startuml
-title The order the rework runs in - what each finding blocks and what it unblocks
+title The order the rework ran in - what each finding blocked and what it unblocked
 
 skinparam shadowing false
 left to right direction
@@ -179,7 +179,7 @@ package "Rework ordered by the SBC review" {
   component "System Inventory#F1, F2\nAN-021 row, Coverage figure" as SI1
 }
 
-package "What it unblocks" {
+package "What it unblocked" {
   component "Gate H2\nthe sanction question, put again" as H2
   component "Excavation reads a settled constraint list\nand a tailoring that does not misdirect" as EX
 }
@@ -195,7 +195,7 @@ H2 --> EX : the sanction
 @enduml
 ```
 
-Each edge is one finding's remediation feeding another: the scores reconcile before the grant band is re-derived, the band and the criteria settle before the sanction question is put, and Excavation reads nothing this iteration leaves unsettled. R022 bounds the wait at gate H2 and no risk is retired by the rework.
+Each edge is one finding's remediation feeding another: the scores reconciled before the grant band was re-derived, the band and the criteria settled before the sanction question was put, and Excavation reads nothing this iteration left unsettled. R022 bounded the wait at gate H2 and no risk is retired by the rework.
 
 ## Resources
 The roles are the 26-role roster of the IARI DC baseline, minus the two the Development Case records as not working in this project. No role is added, merged or renamed.
