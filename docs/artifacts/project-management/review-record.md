@@ -591,105 +591,133 @@ Risk retirement is real but not uniform, and the difference matters at the gate.
 **Not judged.** The Project Manager authors it in the Assess touchpoint that follows this review, so at review time it cannot describe the iteration being reviewed. Its state is not a finding and not a gate condition.
 
 ### Review Coordinator lens
-<!-- review: Excavation I3 -->
-
-<!-- review: Excavation I3 -->
+<!-- review: Excavation I4 -->
 
 **Consolidated finding ledger.** Every count below is copied from `read_artifact_findings` on each of the twelve artifacts, never from a lens's narrative. The line this section rests on, verbatim:
 
-`[FINDINGS] read=12, unread=none, open Critical=0, open Major=2 [Iteration Plan#F4, Iteration Plan#F9 — one defect, two lens keys], open Minor=3 [Iteration Plan#F8, Risk List#F3, Supplementary Specification#F3]`
+`[FINDINGS] read=12, unread=none, open Critical=0, open Major=0, open Minor=2 [Development Case#F4, Iteration Plan#F10]`
 
-Thirty-nine finding entries stand against the twelve artifacts read. Thirty-four carry a resolution object and were closed by the lens that recorded them. Five are open: none Critical, two Major entries covering one distinct defect, three Minor.
+Forty-two finding entries stand against the twelve artifacts read. Forty carry a resolution object and were closed by the lens that recorded them. Two are open: none Critical, none Major, two Minor.
 
 ```plantuml
 @startuml
-title Consolidated finding ledger at the AR gate, Excavation iteration 3 - 39 entries, 34 closed, 5 open
-
+title Consolidated finding ledger at the AR gate, Excavation iteration 4 - 42 entries over 12 artifacts, 40 closed, 2 open
 skinparam shadowing false
 skinparam wrapWidth 235
 hide circle
 hide empty members
 
-package "Closed this iteration - 7 entries, verified at the artifact, the graph or the file" {
-  class "Development Case F3\nReviewer, contained-defect" as C1 <<closed>>
-  class "Development Case F2\nManagement Reviewer, contained-defect" as C2 <<closed>>
-  class "Use-Case Model F3\nReviewer, trace-gap" as C3 <<closed>>
-  class "Use-Case Model F4\nReviewer, consumed-defect" as C4 <<closed>>
-  class "Use-Case Model F1\nManagement Reviewer, exit-criterion-unmet" as C5 <<closed>>
-  class "Iteration Plan F6\nManagement Reviewer, exit-criterion-unmet" as C6 <<closed>>
-  class "Iteration Plan F7\nManagement Reviewer, exit-criterion-unmet" as C7 <<closed>>
+package "The conditions the verdict is read on" {
+  class "unread = none\n12 of 12 artifacts read" as X1 <<met>>
+  class "open Critical = 0" as X2 <<met>>
+  class "open Major = 0" as X3 <<met>>
+  class "Stakeholder sanction GRANTED\n2026-11-23" as X4 <<met>>
+  class "Recovery confirmed\n11 UCs, 4 exclusions, 22 COMPs, 8 tables" as X5 <<met>>
+  class "AR milestone sanctioned\nrequiresIteration false" as V <<verdict>>
 }
 
-package "Open Major - 2 entries, 1 distinct defect" {
-  class "Iteration Plan F4\nReviewer, consumed-defect" as M1 <<major>>
-  class "Iteration Plan F9\nManagement Reviewer, exit-criterion-unmet" as M2 <<major>>
+package "Open - 2 entries, 2 distinct Minor defects, neither holding the milestone" {
+  class "Development Case#F4\nReviewer lens, contained-defect\nProcess Engineer" as M1 <<minor>>
+  class "Iteration Plan#F10\nManagement Reviewer lens, contained-defect\nProject Manager" as M2 <<minor>>
 }
 
-package "Open Minor - 3 entries, 3 distinct defects" {
-  class "Iteration Plan F8\nManagement Reviewer, contained-defect" as m1 <<minor>>
-  class "Risk List F3\nReviewer, contained-defect" as m2 <<minor>>
-  class "Supplementary Specification F3\nReviewer, contained-defect" as m3 <<minor>>
+package "Closed this iteration - 6 entries, each verified at its source" {
+  class "Iteration Plan#F4 and #F9\nfive criteria and objectives cells" as C1 <<closed>>
+  class "Iteration Plan#F8\nCloses column, rows 6 and 7" as C2 <<closed>>
+  class "Risk List#F3\nR032 retirement restated" as C3 <<closed>>
+  class "Supplementary Specification#F3\nDocument Control iteration field" as C4 <<closed>>
+  class "Development Case#F2 and #F3\ncontributor set and Document Control" as C5 <<closed>>
 }
 
-package "What the Major holds" {
-  class "A1, A10, A11, O2 and A12\nreported one correction pass behind" as CRIT <<contested>>
-  class "0 Critical open\nno stakeholder decision outstanding" as NC <<none>>
-}
+M1 ..> X3 : contained
+M2 ..> X3 : contained
+C1 --> X3
+X1 --> V
+X3 --> V
+X4 --> V
+X5 --> V
 
-M1 --> CRIT
-M2 --> CRIT
-
-note bottom of M1
-  F4 and F9 are one defect under two lens keys: five cells of
-  the criteria and objectives tables state, as present fact,
-  states their own artifacts and the gate have superseded.
-  One owner turn closes both; each lens closes only its own key.
+note bottom of V
+  Every input is a count read from the finding data, an
+  answer the stakeholder gave, or the confirmation they gave
+  at the third put. None is a judgement of this lens.
 end note
-note bottom of CRIT
-  Twelve of thirteen criteria hold on the artifact that owns
-  each. The verdict is read on the plan's table, and the table
-  says three of them fail.
+note bottom of M1
+  No exit criterion depends on it: the Disciplines and
+  Intensity table governs the tailoring and reproduces the
+  canonical matrix.
 end note
 
 @enduml
 ```
 
-**Open findings — one Major defect, two entries.**
-
-| # | Defect | Entries | Lens | Criterion | Owner | The corrective action |
-|---|---|---|---|---|---|---|
-| 1 | Five cells of the Evaluation Criteria and Objectives tables state, as present fact, states their own artifacts and the gate have superseded — A1 on five `COMP-014` edges the graph returns confirmed, A10 on R6 reading 100 where R6 now states both budgets under `AN-024`, A11 reading two of four open where all four Minors are closed, O2 on the same two closed findings, A12 recording the second put alone | `Iteration Plan#F4` (Reviewer), `Iteration Plan#F9` (Management Reviewer) | both | `consumed-defect` / `exit-criterion-unmet` | Project Manager | One pass over the five cells, each restated at the state its evidence supports: A1 "Met" with the five `COMP-014` edges requoted from a fresh graph query; A10 "Met — certified on the recovered set", R6 named as the fourth artifact with its wording under `AN-024`; A11 "Met — four of four"; O2 met on its own terms; A12 recording the third put as given — the recovered set confirmed, the sanction refused while a Major stands. Change nothing in the sequence, the fine plan or A13 |
-
-**Open findings — three Minors. Recorded, owned, none holding the milestone.**
+**Open findings — two Minors, distinct defects, neither holding the milestone.**
 
 | Artifact | Key | Lens | Criterion | Owner | The corrective action |
 |---|---|---|---|---|---|
-| Iteration Plan | F8 | Management Reviewer | `contained-defect` | Project Manager | Drop "written in this turn" from the Closes cells of fine-plan rows 6 and 7 and leave the finding key, as every other row of the column does |
-| Risk List | F3 | Reviewer | `contained-defect` | Project Manager | Restate R032: the action performed on all six citing artifacts, R6 named with its wording under `AN-024`, the exposure recorded as retired by the avoidance; relabel the diagram's contingency node to the one residual; set the warning-sign cell to the state it now holds. Leave `R030` and `R031` unchanged |
-| Supplementary Specification | F3 | Reviewer | `contained-defect` | System Analyst | Set the Document Control Iteration field to "3, Cycle 1". Change no other field and no content |
+| Development Case | F4 | Reviewer | `contained-defect` | Process Engineer | Add the Project Management discipline to the Excavation, Consolidation, Inception, Elaboration, Construction and Transition partitions of ACT-DC-01, naming its stage as the Survey partition does — in Excavation, "Project Management Medium — ProjectManager: Risk List, Iteration Plan". Change nothing in the Disciplines and Intensity table, which is correct. If the diagram illustrates only the Environment opening, retitle it and drop the per-phase intensity annotations that make it read as a full schedule |
+| Iteration Plan | F10 | Management Reviewer | `contained-defect` | Project Manager | Set A12 to "Met — 2026-11-23", stating both puts as given: the third confirmed the recovered set and refused the advance while a Major stood, the fourth granted the advance on records that agree with the set. Set fine-plan item 7's state to the answer, and set the human-gate table's Answer cell to record that the fourth put was answered Yes. Change nothing in A1, A10 and A11, which are correct as restated, and nothing in the recovered content |
 
-**Closed this iteration — seven entries, each verified at the source.** `Development Case#F3` (Document Control brought to Excavation iteration 3), `Development Case#F2` (contributor set names all six lenses; CLS-DC-01 draws `RV`, `CRV`, `MRV`, `BRV`, `RCO` and `CFM` edges into `RR`), `Use-Case Model#F3` and `#F1` (five `COMP-014` `Realizes` edges confirmed in the registered graph; the rules diagram draws R6 to U6 to U10), `Use-Case Model#F4` (R6 states "In force: 50 tokens, 50 per 10 s, queue 50. Code defaults: 100 tokens, 100 per 10 s, queue 100 … AN-024", its note citing `RateLimitExtensions.cs:14-31` and `appsettings.Development.json:8-12`), `Iteration Plan#F6` (A10's cell opens "Decided on all four artifacts the criterion's own test names"), `Iteration Plan#F7` (A13 cites the Environment stage as this phase's first discipline, the coarse roadmap carries the stage bar, fine-plan items 1 to 3 sit against the Process Engineer under it).
+Both are contained: no role builds on the defective half of either, and no exit criterion turns on either. Each is corrected in its owner's next stage — Consolidation schedules both the Process Engineer and the Project Manager — and neither is carried out of the phase unattended, as the stakeholder ordered at the SBC close.
+
+**Closed this iteration — six entries, each verified at the source rather than on its owner's report.**
+
+| Finding | Criterion | What verified the closure |
+|---|---|---|
+| `Iteration Plan#F4` (Reviewer) and `Iteration Plan#F9` (Management Reviewer) | `consumed-defect` / `exit-criterion-unmet` | A1 reads "Met" and requotes the five `COMP-014` `Realizes` edges — `UC-006` to `UC-010` — from a fresh graph query, none marked; A10 reads "Met — certified on the recovered set" and names the Use-Case Model's R6 as the fourth artifact under `AN-024`; A11 reads "Met — four of four"; O2 reads "Met"; A12 records the third put in both halves. Read at the artifact, cell by cell |
+| `Iteration Plan#F8` (Management Reviewer) | `contained-defect` | Every Closes cell of the fine plan holds a finding key and nothing else; no cell names a moment |
+| `Risk List#F3` (Reviewer) | `contained-defect` | R032's strategy cell reads "avoidance performed on all six citing artifacts; the exposure is retired", names R6 with its current wording under `AN-024`, records the warning sign as no longer firing, and relabels the diagram's node to the single residual. Verified against `appsettings.Development.json` (50/50/50) and `RateLimitExtensions.cs:22-24` (100/100/100) |
+| `Supplementary Specification#F3` (Reviewer) | `contained-defect` | Document Control reads Iteration 4, Cycle 1; no other field and no content changed |
+| `Development Case#F2` (Management Reviewer) and `#F3` (Reviewer) | `contained-defect` | The co-owned-artifact sentence names all six lenses and CLS-DC-01 draws the matching edges; Document Control reads Phase Excavation, Iteration 3 at closure and 4 under this review |
 
 **Cross-lens reconciliation — where two lenses spoke on one subject.**
 
 | Subject | The two lenses | Resolution recorded here |
 |---|---|---|
-| The five cells of this iteration's tables | Reviewer records `Iteration Plan#F4` at the four artifact-content places; Management Reviewer records `Iteration Plan#F9` at the criteria table the verdict is decided on | **One defect, two keys.** `#F4` reads the defect at the artifact, `#F9` reads it at the criterion, and `#F9` also carries the A12 cell `#F4` does not reach. One owner pass closes both; each lens closes only its own key and neither entry is doubled in the action plan |
-| The five `COMP-014` edges | Both lenses recorded the defect at iteration 2 — `Use-Case Model#F3` and `#F1` — and both closed it this iteration against the same graph query | **Closed by both lenses.** No reconciliation is needed at this gate |
+| The five cells of the plan's criteria and objectives tables | Reviewer records `Iteration Plan#F4` at the four artifact-content places; Management Reviewer records `Iteration Plan#F9` at the criteria table the verdict is decided on and on the A12 cell | **One defect, two keys, both closed in this iteration by one owner pass.** Neither entry is doubled in the action plan |
 | `Development Case#F2` and `#F3` | Two keys, two lenses, two distinct defects on one artifact, both counted by A11 | **Not a duplicate.** Both were corrected in one turn by one owner in the Environment stage and both are closed |
-| `Risk List#F3` (two entries) | The Management Reviewer's `#F3` closed on R030 this iteration; the technical lens's `#F3` was recorded this iteration against R032 | **Distinct subjects, one key.** R030's retirement landed and stays live; R032's action has now landed on all six citing artifacts. Only R032 remains open, under the technical lens |
-| The five `COMP-014` edges (A10's reading) | `Iteration Plan#F6` closed on the widening of A10's cell; `#F4` and `#F9` record that the widened cell quotes R6's superseded wording | **Successive, not contradictory.** The omission of the fourth artifact is corrected; the residual is the cell's content, recorded under its own keys |
+| `Risk List#F3` (two entries over the phase) | The Management Reviewer's `#F3` closed on R030 at iteration 3; the technical lens's `#F3` was recorded at iteration 3 against R032 and closed this iteration | **Distinct subjects, one key.** R030's retirement landed and stays live; R032's avoidance has landed on all six citing artifacts. Both closed, under their own lenses |
+| `Iteration Plan#F10` against `#F9` | The Management Reviewer recorded `#F9` at iteration 3 and recorded `#F10` this iteration | **Successive, not duplicative.** `#F9`'s five cells are closed; `#F10` is the one class the earlier pass could not reach, because the fourth put's answer did not exist when those three cells were written |
+| `Development Case#F4` and A11 | The technical lens records it now; A11 counts the four Minors the SBC review left open | **Not a re-opening.** A11's count is not changed and `#F4` was recorded after it; the criterion is neither re-opened nor left unattended |
 
-No lens contradicts another on a fact. No finding at this gate carries a disputed severity band. A12 is decided on the stakeholder's answer alone and neither lens disputes it.
+No lens contradicts another on a fact. No finding at this gate carries a disputed severity band. A12 is decided on the stakeholder's answer alone and no lens disputes it.
 
-**Priority of what remains — one iteration, Major before Minor.**
+**Priority of what remains — Minor only, Major first by construction since none exists.**
 
 | Priority | Finding | Why it ranks here |
 |---|---|---|
-| 1 | `Iteration Plan#F4` and `#F9` | The plan is the record the milestone verdict is read on; five cells restated in one pass close the only Major and free the gate |
-| 2 | `Risk List#F3` | The register reports a Significant exposure as unmitigated when its mitigation has landed; contained, and its remedy is a transcription |
-| 3 | `Iteration Plan#F8` | Same artifact and same owner turn as priority 1, a different column |
-| 4 | `Supplementary Specification#F3` | One metadata field; the artifact's recovered facts are current |
+| 1 | `Iteration Plan#F10` | Three cells record a gate answer the stakeholder has given; the plan is the record the next milestone verdict is read on |
+| 2 | `Development Case#F4` | One diagram's per-phase discipline list; the table it disagrees with is the governing statement |
+
+```plantuml
+@startuml
+title Two open Minors and where each is corrected - neither is due in this iteration
+skinparam shadowing false
+skinparam wrapWidth 235
+
+|Process Engineer|
+start
+:Development Case#F4
+add Project Management to the phase partitions of ACT-DC-01
+naming its stage as the Survey partition does;
+:Change nothing in the Disciplines and Intensity table
+it reproduces the canonical matrix;
+
+|Project Manager|
+:Iteration Plan#F10
+set A12, fine-plan item 7 and the human-gate Answer cell
+to the fourth put's answer;
+:Change nothing in A1, A10, A11
+and nothing in the recovered content;
+
+|Review Coordinator|
+:Neither Minor fails a criterion
+neither holds the milestone;
+:Both belong to the owners' next stage
+Consolidation schedules both roles;
+stop
+@enduml
+```
 
 ## Resolutions and Actions
 ### Reviewer lens
