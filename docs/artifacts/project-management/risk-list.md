@@ -1,8 +1,8 @@
 ## Document Control
 - Phase: Survey
-- Status: Draft — 22 risks registered and owned; the score reconciliation that `Risk List#F1` (Reviewer) records is open
-- Milestone Target: end-of-Survey (SBC) — not achieved; the register is re-issued with the reconciled scores in iteration 2
-- Iteration: 1, Cycle 1
+- Status: Draft — 22 risks registered and owned; every probability and impact derives from its anomaly's stated likelihood and impact through one published mapping
+- Milestone Target: end-of-Survey (SBC) — not achieved
+- Iteration: 2, Cycle 1
 - Owner: Project Manager
 
 ## Risk Classification
