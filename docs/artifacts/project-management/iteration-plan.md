@@ -175,10 +175,26 @@ The roles are the 26-role roster of the IARI DC baseline, minus the two the Deve
 The stakeholder is not an agent role: they are the only human in the process, and their work in this iteration is gate H1 alone.
 
 ## Use Cases and Scenarios Addressed
-
 None. Survey is the sprint zero's first phase and recovers no use case: the 22 entry points are recorded as entry points in the System Inventory, and it is Excavation that recovers them into Use-Case Model use cases — `UC-NNN` from `EP-NNN` — in the reading order of the Priorities section. No use case, no scenario and no use-case realization is planned in this iteration.
 
-What this iteration does hand forward is the material those use cases are recovered from: `EP-001` … `EP-022`, and the 12 anomalies that sit on an entry point and constrain what a recovered use case may claim — `AN-001` on `EP-003`/`EP-013`, `AN-002` on `EP-016`, `AN-004` on `EP-011`/`EP-013`/`EP-014`, `AN-018` on `EP-010`/`EP-011`, `AN-019` on `EP-007`, `AN-020` on `EP-008`, `AN-021` on `EP-004`/`EP-005`/`EP-007`.
+What this iteration does hand forward is the material those use cases are recovered from: `EP-001` … `EP-022`, and the twelve anomalies that sit on an entry point and constrain what a recovered use case may claim. Each is named here as the System Inventory's Anomalies table records it, and that table remains Excavation's constraint list:
+
+| Anomaly | Constrains | What a recovered use case may not claim |
+|---|---|---|
+| `AN-001` | `EP-003`, `EP-013` | That a user-facing path completes a todo: the list's checkbox is bound to nothing and the client makes no update call |
+| `AN-002` | `EP-016` | That the BFF-to-API hop is authenticated: the API accepts a bearer token from any caller |
+| `AN-004` | `EP-011`, `EP-013`, `EP-014` | That the `admin` branch is live functionality: nothing in the running system grants the role, and the stakeholder ruled it an exceptional entity on 2026-11-23 |
+| `AN-008` | — | That the API mounts a Swagger UI: the README names one, the code mounts the Scalar reference UI |
+| `AN-009` | `EP-004`, `EP-005`, `EP-007` | That the Identity endpoints are rate-limited: the token-bucket policy covers `/todos` only |
+| `AN-010` | — | That the BFF and the API share a data-protection key ring: only the application discriminator is set |
+| `AN-015` | — | That the orchestration is settled: the app host is the only part of the delivery still moving |
+| `AN-017` | `EP-001` | That the root redirect is served in every environment: the Scalar UI it targets is mapped in Development only |
+| `AN-018` | `EP-010`, `EP-011` | That the list and item endpoints state one visibility rule: `GET /todos` filters on the owner alone while the item endpoints admit an `admin` principal |
+| `AN-019` | `EP-007` | That the challenge validates the provider name: it is taken straight from the route and checked against no registered scheme |
+| `AN-020` | `EP-008` | That the callback has a failure flow: every path redirects to `/`, so a rejected provider, a null exchange and a failed cookie sign-in are indistinguishable |
+| `AN-021` | `EP-004`, `EP-005`, `EP-007` | That a failure's cause reaches the person: every authentication failure answers 401 with no body |
+
+Twelve anomalies, twelve rows. Five of them — `AN-008`, `AN-009`, `AN-010`, `AN-015`, `AN-017` — constrain the reference-UI, Identity, key-ring and app-host reading, which is priorities 6 and 8 of the order Excavation reads in.
 
 ## Evaluation Criteria
 The exit criteria for this iteration's milestone (SBC). They are the criteria the reading's own decisions imply plus the ones the phase declares; none is invented beyond what the phase must establish to hand off to Excavation. Where a criterion was written as one and the evidence settles only part of it, it is split rather than certified whole — `Iteration Plan#F1` (Management Reviewer).
