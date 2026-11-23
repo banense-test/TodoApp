@@ -24,14 +24,14 @@
 - Verdict this lens issues: No-Go
 
 ### Review Coordinator lens
-<!-- review: Excavation I2 -->
+<!-- review: Excavation I3 -->
 
-<!-- review: Excavation I2 -->
+<!-- review: Excavation I3 -->
 
 - Phase: Excavation
-- Status: Consolidation complete for the AR (end-of-Excavation) milestone review, iteration 2, cycle 1. Eight findings open over ten artifacts — 0 Critical, 5 Major entries over 4 distinct defects, 3 Minor.
-- Milestone Target: end-of-Excavation (AR) — not achieved
-- Iteration: 2, Cycle 1
+- Status: Consolidation complete for the AR (end-of-Excavation) milestone review, iteration 3, cycle 1 — 2 open Major entries over 1 distinct defect, 3 open Minor, 0 Critical
+- Milestone Target: end-of-Excavation (AR) — not achieved; the phase auto-iterates
+- Iteration: 3, Cycle 1
 - Owner: Review Coordinator
 
 ## Review Scope and Criteria
