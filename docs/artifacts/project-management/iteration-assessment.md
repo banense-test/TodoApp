@@ -243,6 +243,20 @@ Two defects bear on this section and neither is a defect in the recovered set's 
 | A13 | The plan names no work the process does not run | **Met** | Iteration Plan — every work item is an Excavation stage or a Minor closure the stakeholder ordered on 2026-11-23; the Process Engineer's single item is recorded as that order, not as a discipline stage. The Development Case records Environment at no intensity in Excavation, which is why the item needed the order at all |
 
 **Eight met, two not certifiable while their own Major stands, three not met.** No criterion is certified here on another criterion's answer, and no finding is waived by a criterion's state. The count that decides the iteration is A11: the phase planned one iteration and needs a second, because one Minor's owner has no stage in it.
+
+### Defects by criterion — which failure the review actually found
+
+| Criterion the failure sits under | Open Majors | The cause they share |
+|---|---|---|
+| A10 — the recovery states what the code does | 4 — `Supplementary Specification#F1`, `#F2`, `Software Architecture Document#F1`, `Deployment Model#F1` | Two code facts the phase had already recorded were contradicted in the artifacts that describe them: the rate-limit override (`AN-024`) in two, the resilience handler (`AN-023`) in two |
+| No exit criterion — a count the stakeholder is asked to sanction | 1 — `Vision#F1` | The Vision draws thirteen use-case ellipses where the model recovers eleven, and two of the thirteen are mechanisms the model excludes with reasons. No exit criterion reads the Vision, which is why the Management Reviewer classified it Minor — and the gate still reads it at the Major band, because a use-case count is what gate H4 asks the stakeholder to accept |
+| A1 — the operations are recovered and trace | 1 — `Use-Case Model#F1` | Three edges registered and left suspect: the artifact asserts what the graph has not confirmed |
+| A9 — every risk is actionable | 1 — `Risk List#F2` (Management Reviewer) | A strategy asserted a retirement that no artifact performed |
+| The plan's own certification | 1 — `Iteration Plan#F3` (Management Reviewer) | A10 certified on the inventory's word rather than on the recovered set |
+| No exit criterion — an exposure with no artifact-shaped remedy | — | `R031`: an exit criterion whose owner the phase does not schedule. Four of the eight Majors were avoidable inside this iteration; this one was not |
+
+Four of the eight Majors sit under one criterion and resolve from two code facts. That concentration is the iteration's most useful finding: the recovery read the code correctly and then transcribed what it read differently in each artifact that cited it. A second reading of the tree would not have prevented it — the facts were already in the System Inventory — which is why iteration 2 corrects the artifacts rather than re-reading the code.
+
 ## Test Results
 No test was executed in this iteration and none was planned. The Test discipline works from Elaboration, no test case is written before a use case is specified, and the Development Case records `Test Plan` NOT FIRED. No Test Evaluation Summary exists in Excavation, because the Test Manager does not work in this phase — this assessment therefore rests on the Review Record and on the artifacts, and no result below is derived from a test execution or presented as if one had occurred.
 
