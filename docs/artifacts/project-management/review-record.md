@@ -837,93 +837,98 @@ Both are Minors and both are corrected in their owners' next turns. Neither is c
 No Conditional Go was issued at the previous milestone and none is issued here. The third put refused the sanction outright and this lens recorded **No-Go**, with the reason stated: `A12` turns on the stakeholder's answer alone, and a Conditional Go would have recorded on their behalf the one thing they declined to record. That refusal is now answered — the fourth put granted the advance on records that agree with the set they report — and nothing this lens attached to the No-Go stands.
 
 ### Review Coordinator lens
-<!-- review: Excavation I3 -->
+<!-- review: Excavation I4 -->
 
-<!-- review: Excavation I3 -->
+**Actions this consolidation carries into Consolidation.** Each action is the remediation its recording lens wrote. No action carries a calendar date: the phase declares none, and a date projected from an estimate would read downstream as an observation. The due point is a state of the work — the owner's first stage in the next phase.
 
 ```plantuml
 @startuml
-title AR milestone disposition, Excavation iteration 3 - the data the verdict is anchored to
-
+title Closures this iteration and the source each was verified at - six entries, no closure taken from an owner's prose
 skinparam shadowing false
-skinparam wrapWidth 235
+skinparam wrapWidth 240
 hide circle
 hide empty members
 
-package "The conditions for sanction" {
-  class "Findings read = 12, unread = none\nMET" as X1 <<met>>
-  class "Open Critical = 0\nMET" as X2 <<met>>
-  class "Open Major = 2 entries over 1 defect\nNOT MET" as X3 <<notmet>>
-  class "Stakeholder sanction = GRANTED\nREFUSED on 2026-11-23" as X4 <<notmet>>
+package "Recorded as open at iteration 3 - 5 entries" {
+  class "Iteration Plan#F4 Reviewer\nconsumed-defect Major" as O1
+  class "Iteration Plan#F9 Management Reviewer\nexit-criterion-unmet Major" as O2
+  class "Iteration Plan#F8 Management Reviewer\ncontained-defect Minor" as O3
+  class "Risk List#F3 Reviewer\ncontained-defect Minor" as O4
+  class "Supplementary Specification#F3 Reviewer\ncontained-defect Minor" as O5
 }
 
-package "Verdict" {
-  class "AR milestone NOT sanctioned\nrequiresIteration true" as V <<verdict>>
+package "Read at the artifact - what each now holds" {
+  class "A1 Met, five COMP-014 Realizes edges\nrequoted from a fresh graph query" as V1 <<verified>>
+  class "A10 Met, R6 named as the fourth artifact\nunder AN-024" as V2 <<verified>>
+  class "A12 records the third put in both halves\nO2 Met on the same reading" as V3 <<verified>>
+  class "Every Closes cell holds a finding key\nand no moment" as V4 <<verified>>
+  class "R032 avoidance performed on all six\nthe exposure retired, residual named" as V5 <<verified>>
+  class "Document Control Iteration 4, Cycle 1\nno other field changed" as V6 <<verified>>
 }
 
-package "What the next iteration performs - four owner turns, none on recovered content" {
-  class "Project Manager\nfive cells of the criteria and objectives tables\nrestated on the artifacts that own them" as A1 <<route>>
-  class "Project Manager\nfine-plan Closes column, rows 6 and 7" as A2 <<route>>
-  class "Project Manager\nR032 strategy and warning-sign cells" as A3 <<route>>
-  class "System Analyst\nSupplementary Specification Document Control\niteration field only" as A4 <<route>>
+package "Read at the file, not at the artifact" {
+  class "appsettings.Development.json:8-12\nTokenLimit 50, TokensPerPeriod 50, QueueLimit 50" as CODE1 <<code>>
+  class "RateLimitExtensions.cs:22-24\n100 / 100 / 100 code defaults" as CODE2 <<code>>
 }
 
-X1 --> V
-X2 --> V
-X3 --> V
-X4 --> V
-A1 ..> X3 : closes the Major
-A2 ..> X3
-A3 ..> V : Minor, holds no criterion
-A4 ..> V : Minor, holds no criterion
+O1 --> V1
+O1 --> V2
+O2 --> V1
+O2 --> V3
+O2 --> V2
+O3 --> V4
+O4 --> V5
+O5 --> V6
+V2 --> CODE1
+V2 --> CODE2
+V5 --> CODE1
 
-note bottom of V
-  No recovered content is at issue. The eleven use cases, the four
-  stated exclusions, the twenty-two components and the eight tables
-  are unchanged by the next iteration, on the stakeholder's own words.
+note bottom of V2
+  The one fact six artifacts were corrected against was opened at
+  the file. Both values reproduce and no artifact quotes one as both.
 end note
-
+note bottom of V6
+  The field was the whole of the defect and the whole of the remedy.
+end note
 @enduml
 ```
 
-**Actions, in the order the next iteration takes them.** Each action is the remediation its recording lens wrote. No action carries a calendar date: the phase declares none, and a date projected from an estimate would read downstream as an observation. The due point is a state of the work, all within one further iteration of Excavation.
-
 | # | Action | Artifact | Owner | Closes | Due point | Escalates if |
 |---|---|---|---|---|---|---|
-| 1 | Restate the five cells at the state their evidence supports: A1 "Met" with the five `COMP-014` edges requoted from a fresh graph query; A10 "Met — certified on the recovered set" naming R6 as the fourth artifact with its current wording under `AN-024`; A11 "Met — four of four" naming the four closed Minors; O2 met on its own terms; A12 recording the third put — the recovered set confirmed, the sanction refused while a Major stands. Change nothing in the sequence, the fine plan or A13 | Iteration Plan | Project Manager | `Iteration Plan#F4`, `Iteration Plan#F9` | First — it is the only Major and the verdict is read on it | Any of the five cells again reports a state its artifact has superseded |
-| 2 | Drop "written in this turn" from the Closes cells of fine-plan rows 6 and 7 and leave the finding key | Iteration Plan | Project Manager, same pass | `Iteration Plan#F8` | With action 1 | — |
-| 3 | Restate R032: the action performed on all six citing artifacts, R6 named with its wording under `AN-024`, the exposure recorded as retired by the avoidance; relabel the diagram's contingency node to the one residual — the four artifacts re-read in one pass; set the warning-sign cell to the state it now holds. Leave `R030` and `R031` unchanged | Risk List | Project Manager | `Risk List#F3` | After action 1 | The row claims a retirement in either direction |
-| 4 | Set the Document Control Iteration field to "3, Cycle 1". Change no other field and no content | Supplementary Specification | System Analyst | `Supplementary Specification#F3` | Owner's next turn, after the Major | — |
+| 1 | Set A12 to "Met — 2026-11-23", stating both puts as given: the third confirmed the recovered set and refused the advance while a Major stood, the fourth granted the advance on records that agree with the set. Set fine-plan item 7's state to the answer and the human-gate table's Answer cell to the fourth put's answer. Change nothing else — A1, A10 and A11 are correct as restated | Iteration Plan | Project Manager | `Iteration Plan#F10` | The Project Manager's first stage in Consolidation | Any of the three cells again records the fourth put as unanswered |
+| 2 | Add the Project Management discipline to the Excavation, Consolidation, Inception, Elaboration, Construction and Transition partitions of ACT-DC-01, naming its stage as the Survey partition does. Change nothing in the Disciplines and Intensity table | Development Case | Process Engineer | `Development Case#F4` | The Process Engineer's first stage in Consolidation | The diagram is retitled to the Environment opening alone and the per-phase intensity annotations left in place |
 
 **Escalation at this gate.**
 
 | Item | State | Why |
 |---|---|---|
-| Any open Major or Minor | **Not escalated** | Each owner holds a stage in this phase and a turn in the next iteration. No finding is overdue: the phase has not closed, and the due point of each is that iteration's work |
-| `Development Case#F2` and `#F3` | **Closed; the escalation of the previous two gates is discharged** | The escalation stood because the Process Engineer had no stage in this phase. The stage now exists — Environment runs in every phase and is Excavation's first discipline — and both Minors were corrected in it this iteration |
-| Systemic process failure | **No escalation to the Configuration and Change Management Board** | The ledger shows no repeated architecture violation and no skipped review. Two lenses reaching the same defect is convergence on a real defect, not process failure. The Change Control Manager does not work in the sprint zero, so no change request is opened for any finding |
-| Stakeholder escalation | **None required** | 0 Critical findings. A12 is recorded on the stakeholder's answer already given; nothing outstanding requires a new decision from them |
+| `Iteration Plan#F10` and `Development Case#F4` | **Not escalated** | Both are Minor and contained; no exit criterion depends on either, and each owner has a stage in the phase that follows. Neither is overdue: the phase is closing and both due points are the owners' first stage in Consolidation |
+| Systemic process failure | **No escalation to the Configuration and Change Management Board** | The ledger shows no repeated architecture violation and no skipped or informal review. The one recurring class — a cell asserting another artifact's state — was recorded four passes running and is now closed in every cell, with the rule it produced written into the plan |
+| Stakeholder escalation | **None required** | 0 Critical findings and nothing outstanding requires a decision from them. Gate H4's fourth put granted the advance; the answer is recorded as given in Disposition and nothing is added to it |
+| Findings carried out of the phase | **None unattended** | The stakeholder ordered at the SBC close that open Minors be addressed rather than left unattended. Both open Minors have an owner scheduled in Consolidation and an action that closes them; neither is waived, deferred or recorded as closed on a document having been written |
 
 **Review effectiveness — this milestone's measured counts.** Fourth review event of this phase; the comparison is against the three passes of the same milestone that precede it and against nothing older.
 
-| Indicator | Iteration 1 | Iteration 2 | Iteration 3 |
-|---|---|---|---|
-| Review coverage | 10 of 10 reviewed artifacts read by both executed lenses | 10 of 10 by both executed lenses | 10 of 10 by both executed lenses; 12 artifacts read for findings |
-| Finding entries recorded, cumulative | 29 | 35 | 39 |
-| Open at the gate | 16 — 0 Critical, 8 Major, 8 Minor | 8 — 0 Critical, 5 Major entries over 4 defects, 3 Minor | 5 — 0 Critical, 2 Major entries over 1 defect, 3 Minor |
-| Closed by their recording lens, cumulative | 13 | 27 | 34 |
-| Defect density, open entries by discipline | Requirements 6, Analysis & Design 3, Project Management 5, Environment 2, Discovery 0 | Requirements 4 over 2 defects, Project Management 2, Environment 2, Analysis & Design 0, Discovery 0 | Project Management 5 over 2 artifacts (4 on the Iteration Plan, 1 on the Risk List), Requirements 1, Environment 0, Analysis & Design 0, Discovery 0 |
-| Duplicate subjects reached by both lenses | 1 — the rate limiter | 2 — the five `COMP-014` edges, and the rate budget at artifact and criterion | 1 — the five cells of this iteration's tables |
-| Defect removal efficiency | Not computable | Not computable | Not computable |
-| Rework effort | Not measured | Not measured | Not measured |
+| Indicator | Iteration 1 | Iteration 2 | Iteration 3 | Iteration 4 |
+|---|---|---|---|---|
+| Review coverage | 10 of 10 reviewed artifacts read by both executed lenses | 10 of 10 by both executed lenses | 10 of 10 by both executed lenses; 12 artifacts read for findings | 10 of 10 by both executed lenses; 12 artifacts read for findings |
+| Finding entries recorded, cumulative | 29 | 35 | 39 | 42 |
+| Open at the gate | 16 — 0 Critical, 8 Major, 8 Minor | 8 — 0 Critical, 5 Major entries over 4 defects, 3 Minor | 5 — 0 Critical, 2 Major entries over 1 defect, 3 Minor | 2 — 0 Critical, 0 Major, 2 Minor |
+| Closed by their recording lens, cumulative | 13 | 27 | 34 | 40 |
+| Defect density, open entries by discipline | Requirements 6, Analysis & Design 3, Project Management 5, Environment 2, Discovery 0 | Requirements 4 over 2 defects, Project Management 2, Environment 2, Analysis & Design 0, Discovery 0 | Project Management 5 over 2 artifacts, Requirements 1, Environment 0, Analysis & Design 0, Discovery 0 | Environment 1, Project Management 1, Requirements 0, Analysis & Design 0, Discovery 0 |
+| Duplicate subjects reached by both lenses | 1 — the rate limiter | 2 — the five `COMP-014` edges, and the rate budget at artifact and criterion | 1 — the five cells of the iteration's tables | 2 — the five cells under `#F4` and `#F9`, and `#F9` against `#F10` as successive keys on one class |
+| Defect removal efficiency | Not computable | Not computable | Not computable | Not computable |
+| Rework effort | Not measured | Not measured | Not measured | Not measured |
 
-**What the metrics say.** Open entries fell from 16 to 8 to 5, and the artifacts carrying a Major fell from 7 to 2 to 1, while coverage held. The recovery converged this iteration: seven findings closed, every one verified at the graph, the file or the peer artifact, and no artifact's recovered content now carries an open finding from any lens. Every remaining defect sits on two Project Management artifacts and one Requirements metadata field.
+**What the metrics say.** Open entries fell 16 → 8 → 5 → 2, and the artifacts carrying a Major fell 7 → 2 → 1 → 0. Coverage held at 10 of 10 for the whole phase. The gate's condition — no Critical and no Major open — is met for the first time at this milestone, and every condition the verdict is read on is satisfied on the finding data rather than on a lens's account of it.
 
-The indicator that did not improve is the one the gate turns on. A cell asserting another artifact's state has now been recorded in three consecutive passes — `Iteration Plan#F3` and `#F6`, then `#F4`, then `#F9`. The process caught each in the same pass that recorded it, which is the mechanism working; it has not prevented the recurrence, and the Project Manager's plan now needs the rule written into it: a cell that asserts another artifact's state is re-read in the same turn that artifact changes, not at the next milestone.
+The one indicator that did not improve on its own is the one this iteration closes by construction: a cell asserting another artifact's state recurred in four consecutive passes (`Iteration Plan#F3`, `#F6`, `#F4`, `#F9`, then `#F10` in the one place the answer did not yet exist). The plan now carries the rule that prevents the next occurrence — a cell that asserts another artifact's state is re-derived from that artifact in the same turn the artifact changes.
 
 Defect removal efficiency and rework effort are not computable and not measured: no test has executed in the sprint zero, so nothing is found by test against which review-found defects could be compared, and no per-finding token or elapsed attribution exists. Neither ratio is invented.
 
-**Stakeholder contribution — the answer already given, folded in and acted on.** At gate H4's third put the stakeholder refused the sanction and stated that the recovered set is confirmed as the model of their system, that no recovered content is at issue, and that the next iteration changes none of it. Verified against the artifacts, not deferred: twelve of the thirteen criteria hold on the artifact that owns each, and every one of the five open cells names an artifact whose correction is already in place. That answer is the route of this disposition and needs no further consultation this iteration.
+**Cost, in the two currencies this system measures.** Excavation's closed record reads 14,424,767 tokens and 28 minutes of agent time across three iterations, with 7 minutes of stakeholder queue time apart from it. The fourth iteration is unmeasured — its spend is not yet closed — and this report states no forecast for Consolidation. No token budget was declared for this project, so no variance exists to report. Person-weeks, person-months, man-hours and story points are units this system does not produce and none appears in this record.
+
+**Stakeholder contribution — the answer already given, folded in and acted on.** At gate H4's fourth put the stakeholder sanctioned advancing past the Architecture Recovered milestone into Consolidation, having confirmed at the third put that the recovered set is the model of their system: eleven use cases over twenty-two entry points, four stated exclusions, twenty-two components across four processes, and an eight-table data model, nothing wrong or missing and no exclusion re-opened. Verified against the artifacts rather than deferred: thirteen of thirteen AR criteria hold on the artifact that owns each, and the two open Minors are record corrections on documents whose content the stakeholder has already confirmed. That answer is the route of this disposition and no further consultation arises this iteration.
 
 ## Disposition
 ### Reviewer lens
