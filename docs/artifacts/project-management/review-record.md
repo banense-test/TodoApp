@@ -740,9 +740,39 @@ The four Major findings do. Each is content another role builds on: the Software
 
 The System Boundary Confirmed milestone is **not achieved**, and the stakeholder withheld the sanction on 2026-11-23. The project does not advance into Excavation on this baseline.
 
+```plantuml
+@startuml
+title SBC gate — state of the project after this review
+
+skinparam shadowing false
+
+[*] --> PerimeterEstablished : System Inventory read and written,\n22 entry points anchored
+PerimeterEstablished --> CriteriaAssessed : ten exit criteria evaluated,\neight hold on their own evidence
+CriteriaAssessed --> SanctionSought : question put to the stakeholder\nwith every open Major named
+SanctionSought --> SanctionRefused : stakeholder answered No, 2026-11-23
+SanctionRefused --> Rework : six Major findings ordered corrected,\none Minor ordered corrected by the stakeholder
+Rework --> SanctionSought : all rework closed and both lenses re-run
+Rework --> SanctionRefused : a Major left open when the iteration ends
+SanctionRefused --> Stopped : the stakeholder withdraws the project
+
+note right of SanctionRefused
+  Where the project is now.
+  The iteration's six objectives were met:
+  the work was done and what it produced
+  is not yet certifiable.
+  Excavation does not start from here.
+end note
+note right of Rework
+  Rework is not new scope. Every item is
+  a correction to content already written,
+  inside artifacts the sprint zero owns.
+end note
+@enduml
+```
+
 The gate's own condition failed first: asked whether they confirm the perimeter of the existing system as the System Inventory records it and sanction advancing past SBC, the stakeholder answered "No". A perimeter confirmation is not the reviewers' to infer, and the Iteration Plan records one that did not happen. That is a defect in the plan and the reason the verdict cannot be anything but No-Go even before the technical findings are counted.
 
-Six Major findings stand open across the four artifacts under review — two from this lens, four from the Reviewer's — plus six Minor. No Critical finding was raised: nothing here needs a decision only the stakeholder can take to be corrected, and the two decisions this iteration did need — the perimeter-membership questions and the priority order — were answered on 2026-11-23. The two Majors that would have required a stakeholder decision, R004's and R011's grant band, become a question to the stakeholder the moment the Project Manager reconciles the scores, and that question is ordered in the actions above.
+Six Major findings stand open across the four artifacts under review — two from this lens, four from the Reviewer's — plus six Minor. No Critical finding was raised: nothing here needs a decision only the stakeholder can take in order to be corrected, and the two decisions this iteration did need — the perimeter-membership questions and the priority order — were answered on 2026-11-23. The one Major that will require a stakeholder decision, the grant band R004 and R011 may occupy, becomes a question the moment the Project Manager reconciles the scores, and that question is ordered in the actions above.
 
 The defects are corrections to content already written, not new scope, and all six fall inside artifacts the sprint zero already owns. The reading itself — the perimeter, the entry points, the priorities, the stores, the documentation — is what this gate exists to establish and it holds without a finding from this lens: the System Inventory is the strongest artifact of the four and the only one this lens passes untouched.
 
