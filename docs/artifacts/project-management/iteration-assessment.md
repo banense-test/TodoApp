@@ -272,16 +272,17 @@ M2 --> M4 : invocations to spend
 No defect-removal efficiency and no defect density per KLOC are stated. The only defect detector that has run is this review, and this phase produces no code, so both would carry a denominator nothing measured. No velocity and no forecast are stated: Survey has not closed, so no measured actual exists to forecast from.
 
 ## Test Results
+No test was executed and none was planned for this iteration. The Test discipline works from Elaboration, no test case is written before a use case is recovered, and the Development Case records `Test Plan` NOT FIRED. This is not a gap: no artifact Survey produces carries a test obligation, and the Review Record's own "Not findings" lists the Test Plan's absence as the Development Case's verified verdict rather than a delivery gap.
 
-None executed, and none was planned for this iteration. The Test discipline works from Elaboration, no test case is written before a use case is recovered, and the Development Case records `Test Plan` NOT FIRED. This is not a gap: no artifact Survey produces carries a test obligation.
+There is also no Test Evaluation Summary in this phase, because the Test Manager does not work in Survey. This assessment therefore rests on the Review Record alone — both executed lenses and the coordinator's consolidated ledger — and on the artifacts themselves. No result below is derived from a test execution, and none is presented as if one had occurred.
 
 Three consequences follow for the next plan, and each is already a registered risk rather than a finding against this iteration:
 
-- `R012` — the BFF and the Blazor client carry no test of any kind, and the three defective `/auth` flows are exactly the untested ones. Accepted by the stakeholder on 2026-11-23 for the sprint zero; the mitigation is test coverage from Elaboration.
+- `R012` — the BFF and the Blazor client carry no test of any kind, and the three defective `/auth` flows are exactly the untested ones. Accepted by the stakeholder on 2026-11-23 for the sprint zero; the mitigation is test coverage of the BFF session, the `/auth` flows and the client's todo flow from Elaboration.
 - `R005` — the test host builds the schema with `EnsureCreated`, so a migration that no longer matches the model is planned over undetected. The Test Manager's action is a migration-applies check in the architecture test scope.
-- `R011` — the suite reproduces the bearer-token ticket format from framework internals, so a framework upgrade breaks it with no behaviour changing. Accepted with mitigation and contingency.
+- `R011` — the suite reproduces the bearer-token ticket format from framework internals, so a framework upgrade breaks it with no behaviour changing. Accepted with mitigation and contingency; its exposure is the one `Risk List#F1` may raise into the stakeholder's grant band.
 
-The absence of a baseline test result means no defect-removal efficiency can be computed at this gate, and none is claimed in its place.
+Because no test execution has run, no defect-removal efficiency can be computed at this gate and none is claimed in its place. The only defect detector that has operated is the milestone review.
 
 ## External Changes
 
