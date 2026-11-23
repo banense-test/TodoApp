@@ -1,6 +1,6 @@
 ## Document Control
 - Phase: Excavation
-- Status: Draft — produced for the end-of-Excavation (AR) milestone review
+- Status: Approved
 - Milestone Target: end-of-Excavation (AR) — not yet achieved
 - Iteration: 4, Cycle 1
 - Owner: Software Architect
