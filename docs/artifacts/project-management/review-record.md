@@ -705,85 +705,66 @@ IP3 --> MG : the plan's status reads the truth
 The two open findings are Minors. Neither holds the milestone, neither blocks a downstream role, and both are corrected by their owner in its next turn; the artifacts they sit in are approved from this lens.
 
 ### Management Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
-
-**Prior findings of this lens.** None. This is iteration 1 of Survey and no Management Reviewer finding existed on any of the four artifacts before this review, so nothing is resolved, deferred or rejected in this pass. The two findings this lens records above are new and carry no `findingKey` from an earlier cycle. The seven findings of the Reviewer's lens on these artifacts belong to that lens and are not this lens's to close.
-
-**Stakeholder sanction: REFUSED**
-
-**Stakeholder acceptance:** "No" — to confirming the perimeter of the existing system as the System Inventory records it and to sanctioning advancement past the System Boundary Confirmed milestone; with the instruction: "The development case contains duplicated diagrams and text; it needs to be corrected. Additionally, the major findings must be corrected."
-
-Both reasons the stakeholder gave are recorded. The first names an artifact and is carried as `Development Case#F1`, ordered corrected above the ordinary Minor queue because the order is the stakeholder's. The second names no artifact and no new defect: every one of the six Major findings open across these four artifacts already carries rework-required status, and no duplicate finding is minted to say so — the ledger's own Major rows are the record of that instruction.
+Closure was executed in the dedicated reconciliation step before any new finding was recorded: `resolve_artifact_finding` first, this narrative second. All three findings this lens recorded in iteration 1 are closed against the corrected artifact, and each closure names the section it was verified at.
 
 ```plantuml
 @startuml
-title Path from this verdict to a re-taken SBC gate
+title RESOLUTIONS-SBC-03 Closure of this lens's prior findings, and the one action left open
 
 skinparam shadowing false
 skinparam sequenceMessageAlign left
+skinparam wrapWidth 240
 
-actor "Stakeholder" as SH
 participant "Management Reviewer" as MR
-participant "Project Manager" as PM
-participant "Software Archaeologist" as SWA
 participant "Process Engineer" as PE
-participant "Reviewer" as RV
+participant "Project Manager" as PM
+participant "Stakeholder" as SH
 participant "Review Coordinator" as RC
 
-SH -> MR : sanction question — confirm the perimeter and advance
-MR -> SH : leaning No-Go, five Major open, every one named
-SH --> MR : No
-note over SH, MR
-  Stakeholder sanction: REFUSED
-  2026-11-23
-  two reasons given: the Development Case's
-  duplicated diagrams and text;
-  the Major findings must be corrected
+== Iteration 1 findings - closed this iteration ==
+MR -> PE : Development Case#F1 — the duplication the stakeholder ordered deleted
+PE --> MR : one CLS-DC-01 diagram, one role-deltas block
+MR -> MR : resolve_artifact_finding — Resolved, verified at Roles and Ownership
+
+MR -> PM : Risk List#F1 — the grant band could not be established
+PM --> MR : one published mapping, R004 and R011 re-scored 4 x 3 = 12
+PM -> SH : each Significant acceptance put to the stakeholder
+SH --> PM : granted, in their own words, four times
+MR -> MR : resolve_artifact_finding — Resolved, verified at Risk Classification and the grant rows
+
+MR -> PM : Iteration Plan#F1 — criteria certified on answers that did not state them
+PM --> MR : C2 split, C2b recorded not met, C6 and C7 restated on their own evidence
+MR -> MR : resolve_artifact_finding — Resolved, verified at Evaluation Criteria
+
+== Recorded this iteration ==
+MR -> PE : Development Case#F2 — the Review Record's contributor set omits three lenses
+note right
+  Minor. The Process Engineer corrects it in its
+  next turn. Nothing is built on the wrong part and
+  no exit criterion depends on it.
 end note
 
-par rework, four owners
-  MR -> PM : Risk List#F1 — reconcile the scores, re-derive the grant band
-else
-  MR -> PM : Iteration Plan#F1 — restate C2, C6, C7 on the evidence each has
-else
-  MR -> SWA : the Reviewer's System Inventory findings, that lens's to close
-else
-  MR -> PE : Development Case — delete the duplicate, on the stakeholder's order
-end
-
-PM -> PM : score every risk once, from the IARI scale
-PM -> SH : any risk the reconciled band puts at Significant or High
-SH --> PM : grant or refuse, in their own words
-
-PM -> MR : reworked Risk List and Iteration Plan
-PE -> MR : Development Case with one copy of each
-RV -> MR : technical lens re-run against the rework
-MR -> MR : re-take C1 to C10 on the reworked evidence
-MR -> SH : sanction question again, with the new count
-SH --> MR : answer
-MR -> RC : the verdict the coordinator's milestone decision rests on
+== The one thing no role can close ==
+MR -> SH : gate H2 — confirm the perimeter as recorded, sanction advancing past SBC
+SH --> MR : the answer
+MR -> RC : the verdict, with the answer in it
 @enduml
 ```
 
-**Actions ordered by this lens.** Each is the remediation of a finding this lens raised, and each is closed by this lens when the finding's own artifact is reworked.
+| Artifact | Finding | Severity | Owner | Status | What closed it, and where it was verified |
+|---|---|---|---|---|---|
+| Development Case | F1 | Minor | Process Engineer | Resolved | "Roles and Ownership" carries one CLS-DC-01 diagram and one role-deltas block listing the two inactive roles; the duplicate of each is gone, as the stakeholder ordered on 2026-11-23. Verified against the section, and against "Tool and configuration references" for the version-policy claim the technical lens removed. |
+| Risk List | F1 | Major | Project Manager | Resolved | "Risk Classification" publishes one word-to-score mapping and all 21 anomaly-derived rows reproduce from it; R004 and R011 read 4 × 3 = 12, Significant; the four Significant-band acceptances each carry the stakeholder's own answer and the other ten Significant-band risks avoid. The gate condition is now establishable and reproducible. |
+| Iteration Plan | F1 | Major | Project Manager | Resolved | "Evaluation Criteria" splits C2 into C2a (met, the three answers quoted) and C2b (not met, the 2026-11-23 refusal recorded), cites the self-reproducing coverage figure for C6, and splits C7 into carriage and reproducibility, both met on the artifacts they cite. No answer is recorded as a confirmation it does not contain. |
+| Development Case | F2 | Minor | Process Engineer | Open | The co-owned-artifact sentence and the CLS-DC-01 diagram must name Management Reviewer, Business Reviewer and Review Coordinator among the lenses that write into the Review Record. |
 
-| Action | Artifact | Owner | Finding |
-|---|---|---|---|
-| Reconcile every probability and impact to the IARI scale and its cited evidence, then re-derive the grant band and put every risk landing at Significant or High to the stakeholder in this cycle — R004 and R011 are the two candidates | Risk List | Project Manager | Risk List#F1 |
-| Restate C2 as two criteria — the answered perimeter-membership and priority questions, and the confirmation of the recorded perimeter which is not met; cite the recomputed coverage figure for C6; split C7 into carriage and reproducibility | Iteration Plan | Project Manager | Iteration Plan#F1 |
-| Delete the duplicated role-delta list and the duplicated CLS-DC-01 diagram, on the stakeholder's order | Development Case | Process Engineer | Development Case#F1 |
+**Outstanding action, with its owner and what it holds.** One action remains from this lens: the Process Engineer adds the three omitted lenses to the Review Record's contributor set and draws their edges in CLS-DC-01. It is a Minor, it holds no exit criterion, no role builds on the wrong part, and the Development Case is approved from this lens by default on it. It is corrected in the owner's next turn.
 
-**Carried, not this lens's to close.** The Reviewer's five Major findings stand open and each is content a downstream role would build on: `Development Case#F1` (a version policy no file records), `System Inventory#F1` (the AN-021 row short of the tree by one edge), `Risk List#F1` (thirteen scores contradicting the inventory), `Iteration Plan#F1` (twelve anomalies claimed, seven named). They are reconciled by their own lens in its next pass, and this gate cannot be re-taken while any of them remains open.
+**No change request is opened for it.** The Change Control Manager does not work in the sprint zero — no ledger exists and no CR is opened before Inception — so the finding reaches its owner through the Work Order and through this ledger entry, which is the route the sprint zero provides. Nothing in this iteration orders a change to declared scope.
 
-**What is not a finding.**
-
-- The absence of a Test Plan, a Data Model and a Glossary is the Development Case's own NOT FIRED verdict on each, checked against its §5.2 condition and found to hold.
-- The absence of an Iteration Assessment is correct at this point: the Project Manager authors it after this review, and its absence is never a gate condition.
-- The absence of a token budget, a velocity and a forecast is correct: the project declares no budget, no phase has closed, and an empty forecast column is the honest state rather than a gap. No figure is invented in its place.
-- No SCM condition is available to hold or clear this gate: the repository carries no IARI pipeline, no branch of this process, no open pull request and no defect issue.
-- The perimeter not being confirmed is not a defect of the System Inventory. It is a defect of the plan that records a confirmation which did not happen, and it is recorded there.
+**What reopens this gate.** Nothing this lens found. The three Majors this iteration inherited are closed and verified; no Major or Critical remains open from either executed lens. The gate's remaining condition is not a defect and is not an action: it is the stakeholder's answer at gate H2, which this review puts.
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
