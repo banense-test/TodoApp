@@ -5,7 +5,6 @@
 - Iteration: 2, Cycle 1
 - Owner: Project Manager
 ## Iteration Objectives
-
 This iteration reads the existing system and states what the project inherits. It is the whole of Survey (SBC), the first of the sprint zero's three phases; nothing declared by the stakeholder is worked here.
 
 | # | Objective | Satisfied when | Owner |
@@ -16,6 +15,16 @@ This iteration reads the existing system and states what the project inherits. I
 | O4 | The anomalies the reading found are carried as scored, actionable risks | Risk List holds one risk per anomaly, each with probability, impact, magnitude, strategy and owner | Project Manager |
 | O5 | The reading's priorities are ordered and the stakeholder's answer recorded | System Inventory's Priorities carries the order and the 2026-11-23 answer | Software Archaeologist |
 | O6 | The project's plan for the rest of the sprint zero and the RUP phases exists | This artifact carries the milestone sequence and this iteration's work items with owners | Project Manager |
+
+### Objectives of iteration 2
+
+Survey iterates because its first iteration left the SBC milestone unachieved. The objectives below are the whole of this iteration; none of them adds scope to the reading.
+
+| # | Objective | Satisfied when | Owner |
+|---|---|---|---|
+| O7 | Every finding the SBC review recorded against an artifact is reworked by the artifact's owner | Each correction the Review Record's Actions table orders is written into the artifact it names, keyed by that finding | The owner the Review Record names, per the fine plan |
+| O8 | The exit criteria rest on the evidence each criterion actually has | C2 is split into the answered perimeter-membership and priority questions and the confirmation of the recorded perimeter; C6 cites the coverage figure the System Inventory reproduces; C7 is split into carriage and reproducibility | Project Manager |
+| O9 | The perimeter as recorded is put to the stakeholder again | Gate H2 answered: the four-process perimeter confirmed as the System Inventory states it, and the sanction to advance past SBC granted or refused | Project Manager puts it; the stakeholder answers |
 
 ## Plan and Milestones
 The plan is two-level. The **coarse roadmap** fixes the milestone sequence, the intensity each phase runs at and which risks each milestone confronts. The **fine plan** is this iteration's work items with their owners, bounded to Survey. No milestone below is achieved and no iteration beyond Survey's second is planned in fine detail.
