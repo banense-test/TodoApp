@@ -400,5 +400,8 @@ end note
 | R030 | AN-029 | Refines | — |
 | R031 | — | — | — |
 | R032 | — | — | — |
+| R033 | — | — | — |
+| R034 | — | — | — |
 
-`R022`, `R031` and `R032` carry no upstream: they are the plan's own exposures rather than readings of an anomaly, and each states its separate origin where it is described. `R032`'s evidence is the AR review's defect ledger; its own row in the register names the four findings and the two code facts they contradict.
+`R022`, `R031`, `R032`, `R033` and `R034` carry no upstream: none is a reading of an anomaly, and each states its separate origin where it is described. `R032`'s evidence is the AR review's defect ledger; `R033`'s is the trace graph's own markings, whose four edges are owned by the Designer and the System Analyst and are cleared there, not here; `R034`'s is the System Inventory's Coverage section, which names the snapshot as the reading this phase hands forward incomplete.
+
