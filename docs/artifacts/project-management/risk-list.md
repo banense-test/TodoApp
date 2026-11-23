@@ -252,7 +252,7 @@ Four risks carry the accept strategy in the Significant band, where acceptance i
 The sixteen Significant-band risks that avoid — `R001`, `R002`, `R003`, `R005`, `R007`, `R009`, `R010`, `R018`, `R020`, `R021`, `R023`, `R024`, `R026`, `R028`, `R030` and `R031` — are retired by the action its owner performs. They are not accepted and need no grant.
 
 ## Risk Mitigation and Contingency
-Each risk carries the action its owner takes and the sign that it has started to bite. A risk accepted carries a mitigation as well as a contingency; a risk avoided is retired by its action, which the named owner performs during Excavation.
+Each risk carries the action its owner takes and the sign that it has started to bite. A risk accepted carries a mitigation as well as a contingency; a risk avoided is retired by its action, which the named owner performs.
 
 | ID | Strategy | Action | Owner | Contingency if it materializes | Warning sign |
 |---|---|---|---|---|---|
@@ -286,6 +286,7 @@ Each risk carries the action its owner takes and the sign that it has started to
 | R028 | Avoid | Record in the recovered registration statement that a provider-created account carries no email, so it cannot sign in with a password, confirm, recover or refresh through the framework's endpoints, and that the email index is not unique | System Analyst | A phase designs address confirmation or password recovery for a provider account, and the flow is corrected against the exchange | A recovered flow shows a provider account confirming an address |
 | R029 | Avoid | Record in the persistent-data description that the test host replaces the production `DbContextOptions` registration, so no test exercises the connection-string resolution, the `.db` fallback, the context lifetime or the migration-built schema | Database Designer | A phase cites the suite as evidence about persistence, and the citation is withdrawn or the suite is extended | A persistence statement is called verified by the test suite |
 | R030 | Avoid | Record beside the recovered session flows that the file carrying them is the delivery's most-reworked file, that none of its fifteen commits touched a failure path, and that no test covers it — so what Excavation recovers there is read from code that never settled | System Analyst | A phase treats the session behaviour as stable and builds on it without re-reading; the flows are re-read against the file before the baseline | A design cites the session surface as settled |
+| R031 | Avoid | State in the plan, beside the criterion, that A11 counts an artifact whose owner the phase does not schedule, and put the correction to its owner in this iteration's Work Order so it can land before the lenses rule. Do not mark the criterion met, and do not mark the artifact's work item complete | Project Manager | The correction does not land: A11 reads three of four, the AR milestone does not close on this iteration, and the phase opens a second Excavation iteration planned from the Review Record. Declared work is never cut to avoid it | The technical lens returns and "Roles and Ownership" still omits the three lenses |
 
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
