@@ -14,7 +14,7 @@ The system has **one supported placement and no deployment artifact**: no Docker
 | Discovery | By resource name through Aspire service discovery; no address is written anywhere in the code | `TodoApp.ServiceDefaults/Extensions.cs:34-35`; `Todo.Web/Server/Program.cs:25` |
 | Ports | **The orchestration declares none.** `AddProject` takes a name and no endpoint. Each process binds its own launch profile: `Todo.Api` 5000 (http) and 5001 (https); `Todo.Web.Server` 5147 and 7123. The only fixed port in the tree is the container's target 8080. The developer container forwards 5000 and 5001 — the API's pair, not the BFF's | `TodoApp.AppHost/Program.cs:5-19`; `Todo.Api/Properties/launchSettings.json`; `Todo.Web/Server/Properties/launchSettings.json`; `.devcontainer/devcontainer.json:1-11` |
 | Transport security | HTTPS between browser and server (`UseHttpsRedirection`, HSTS outside Development); HTTP in the clear between the BFF and the API | `Todo.Web/Server/Program.cs:38-45`; `Todo.Web/Server/TodoApi.cs:16` |
-| Environments | `Development` is the only one that differs: the reference UI, both health endpoints and body-and-header logging exist only there, and both launch profiles set it | `Todo.Api/Program.cs:35-56`; `TodoApp.ServiceDefaults/Extensions.cs:110-118`; both `launchSettings.json` |
+| Environments | `Development` is the only environment this delivery starts in: every launch profile of both serving processes sets it. Two things differ from any other environment — the reference UI, both health endpoints and body-and-header logging exist only there, and the request budget is bound to 50 / 50 / queue 50 there against the code's 100 / 100 / queue 100 (AN-024) | `Todo.Api/Program.cs:35-56`; `TodoApp.ServiceDefaults/Extensions.cs:110-118`; `Todo.Api/appsettings.Development.json:8-12`; both `launchSettings.json` |
 | Deployment mechanism | None. `dotnet run` on the app host, or the Aspire CLI pinned by `.aspire/settings.json` | `.aspire/settings.json:1-3`; `README.md` |
 
 ```plantuml
@@ -43,7 +43,7 @@ node "Developer workstation - one machine, no container" {
     component "COMP-010 token exchange" as A10
     component "COMP-011 Todos" as A11
     component "COMP-012/013 authz" as A12
-    component "COMP-014 bucket" as A14
+    component "COMP-014 bucket\n50 / 50 per 10 s / queue 50 in force" as A14
     component "COMP-015 validation" as A15
     component "COMP-016 persistence" as A16
     component "COMP-017 docs" as A17
@@ -61,6 +61,7 @@ node "Developer workstation - one machine, no container" {
   folder "File system" as FS {
     artifact "Todo.Api/.db/Todos.db" as DBF
     artifact "Data-protection key ring\ndefault framework location" as KF
+    artifact "appsettings.Development.json\nRateLimiting 50 / 50 / 50" as CFG
   }
 }
 cloud "External network" as NET {
@@ -83,6 +84,7 @@ A10 --> A16
 A16 --> DBF : SQLite file
 B5 ..> KF : write
 A10 ..> KF : read
+CFG ..> A14 : binds TokenLimit,\nTokensPerPeriod, QueueLimit
 H20 --> MIG : AddExecutable, WaitForCompletion
 MIG --> DBF : creates the schema
 HOST --> API : AddProject
@@ -102,6 +104,13 @@ note bottom of KF
   No PersistKeysTo call exists in either process,
   so the ring is shared only where the framework's
   default location is shared. AN-010
+end note
+
+note bottom of CFG
+  The only environment file in the tree that
+  changes a mechanism's values. Both launch
+  profiles of both serving processes select
+  Development, so it always applies. AN-024
 end note
 
 note right of HOST
@@ -133,6 +142,7 @@ Recorded because it is what a deployment decision would meet, not as a recommend
 |---|---|---|
 | `Todos.db` | A file path relative to the API's working directory; a second API node would need a shared store or its own file | `Todo.Api/Program.cs:23` |
 | The data-protection key ring | No key store is pinned, so two nodes share a ring only if the framework's default file location is shared between them — which a container split does not give | `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11`; AN-010 |
+| The request budget | `appsettings.Development.json` binds the bucket's three values, and it is a file in the API's content root: a node running any other environment falls back to the code's 100 / 100 / queue 100, so the throttle would differ per node | `Todo.Api/appsettings.Development.json:8-12`; AN-024 |
 | The sqlite-web container | A bind mount of the API's `.db` directory; meaningful only where that directory is on the same file system — and it is excluded from the manifest, so it would not ship | `TodoApp.AppHost/Program.cs:14-19` |
 | Service discovery | Aspire's development-time discovery; nothing in the tree states a production resolver | `TodoApp.ServiceDefaults/Extensions.cs:30-35` |
 | The migration | Run by the app host, which is a development process and skips the block entirely outside run mode, not a deploy step | `TodoApp.AppHost/Extensions.cs:5-7` |
