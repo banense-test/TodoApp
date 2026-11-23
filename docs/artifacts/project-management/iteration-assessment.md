@@ -315,47 +315,39 @@ end note
 | No SCM condition arose | The repository carries no IARI pipeline on `main`, no branch of this process and no open pull request. Establishing the pipeline is the Integrator's Inception work item | Not reported as passing or failing |
 
 ## Rework Required
-A fourth Excavation iteration is required, and it is one correction pass over records: four owner turns, no recovered content, no code, no test. Three are mine and were performed in this record's own closing turn; one is the System Analyst's.
+No rework of recovered content is required and none is carried out of the phase. Two Minors stand at this gate; one is corrected in this record's own turn and one belongs to the Process Engineer's first stage in Consolidation. Neither touches the recovered set.
 
 ```plantuml
 @startuml
-title The fourth iteration - four record corrections, three of them landed in this closing turn, then the gate on records that agree
+title What Consolidation inherits - two contained Minors with named owners, and nothing from the recovery
 skinparam shadowing false
 skinparam wrapWidth 240
 hide circle
 hide empty members
 
-package "Project Manager - one pass, one rule" {
-  class "A1, A10, A11, O2 and A12 restated at the state\ntheir artifacts and the gate now hold\nPERFORMED" as M1 <<major>>
-  class "the fine plan's Closes column\nreads finding keys only\nPERFORMED" as M2 <<minor>>
-  class "R032 - avoidance performed on all six,\nthe exposure retired, one residual named\nPERFORMED" as M3 <<minor>>
+package "Corrected in this iteration's closing turn - this role" {
+  class "Iteration Plan F10\nA12 Met - 2026-11-23 with both puts,\nfine-plan item 7 and the Answer cell set" as M1 <<corrected>>
 }
-package "System Analyst" {
-  class "Supplementary Specification Document Control\nIteration field only\nOUTSTANDING" as S1 <<minor>>
+package "Consolidation, Process Engineer" {
+  class "Development Case F4\nProject Management added to the phase\npartitions of ACT-DC-01;\nthe intensity table unchanged, it is correct" as P1 <<carried>>
 }
-package "The gate and the verdict" {
-  class "gate H4 fourth put\non records that agree with the recovered set" as G <<gate>>
-  class "AR verdict\nReview Coordinator" as V <<verdict>>
+package "Nothing else is owed" {
+  class "no recovered element, exclusion or anchor\nis reopened by either action" as N1 <<none>>
+  class "no scope cut, no deferral, no risk accepted\nwithout a grant" as N2 <<none>>
 }
-M1 --> G
-M2 --> G
-M3 --> G
-S1 --> G
-G --> V
-note bottom of M1
-  The only Major. The recovered content is confirmed and unchanged;
-  what is corrected is the plan's account of it.
+M1 --> N1
+P1 --> N1
+note bottom of P1
+  Carried with its action named, not waived: the stakeholder ordered at
+  the SBC close that open Minors be addressed rather than left unattended.
 end note
 @enduml
 ```
 
 | # | Action | Artifact | Owner | Closes | State |
 |---|---|---|---|---|---|
-| 1 | Restate the five cells at the state their evidence supports: A1 "Met" with the five `COMP-014` edges confirmed and requoted from a fresh query; A10 "Met — certified on the recovered set" with R6 named as the fourth artifact and its current wording under `AN-024`; A11 "Met — four of four"; O2 met on its own terms; A12 recording the third put in both halves — the set confirmed, the sanction refused while a Major stands | Iteration Plan | Project Manager | `Iteration Plan#F4`, `Iteration Plan#F9` | **Performed in this closing turn**; awaits the lens re-read |
-| 2 | Name finding keys only in the fine plan's Closes column; drop the moment | Iteration Plan | Project Manager, same pass | `Iteration Plan#F8` | **Performed** |
-| 3 | Restate `R032`: the avoidance performed on all six citing artifacts, R6 named with its wording under `AN-024`, the exposure recorded as retired, the one residual — the four artifacts re-read in a single pass — named as the contingency | Risk List | Project Manager | `Risk List#F3` | **Performed** |
-| 4 | Set the Document Control Iteration field to the iteration the content belongs to | Supplementary Specification | System Analyst | `Supplementary Specification#F3` | Outstanding — the only correction left before the gate |
-| 5 | Put gate H4 once, on records that agree with the recovered set, and record the answer as given | — | Project Manager puts it; the stakeholder answers | `A12`, and the milestone | After action 4 |
+| 1 | Set `A12` to "Met — 2026-11-23" recording both puts as given: the third confirmed the recovered set and refused the advance while a Major stood, the fourth granted the advance on records that agree with the set. Set fine-plan item 7's state to the answer and the human-gate table's Answer cell to the fourth put's answer. Change nothing in `A1`, `A10` and `A11`, which were correct as restated, and nothing in the recovered content | Iteration Plan | Project Manager | `Iteration Plan#F10` | **Performed in this record's closing turn** — `Plan and Milestones` and `Evaluation Criteria` both restated |
+| 2 | Add the Project Management discipline to the Excavation, Consolidation, Inception, Elaboration, Construction and Transition partitions of ACT-DC-01, naming its stage as the Survey partition does — in Excavation, "Project Management Medium — ProjectManager: Risk List, Iteration Plan". Change nothing in the Disciplines and Intensity table, which reproduces the canonical matrix | Development Case | Process Engineer | `Development Case#F4` | Carried to Consolidation — the Process Engineer's first stage there. Not waived, not deferred to a later phase |
 
 ### What the next iteration changes, and what it does not
 
@@ -375,4 +367,23 @@ No figure is projected for the phase: Excavation has not closed, so no phase act
 2. **An objective met and a milestone sanctioned are two different facts.** All three phase objectives were met at this iteration's close and twelve of thirteen criteria held on the artifacts that own them; the sanction was still refused. A plan that reports its own objectives as the milestone's state reports the wrong thing.
 3. **The queue falls when the question is asked in the turn it is found, and not when fewer questions are asked.** 18 recorded interactions in both this iteration and the last; 7 h 08 min of queue then, 7 min 11 s now. `R022`'s mitigation is measured, and the mitigation is timing, not restraint.
 4. **A forecast about work shape can be tested by the next measured pair, and should be stated so it can be.** The previous record predicted a narrower pass costs less in both agent currencies and marked it as an assumption for want of a comparator. This iteration supplied one: two-thirds the tokens and two-thirds the agent time. The assumption is retired by measurement, not by argument.
+
+### What the plan changes next, and what it does not
+
+| Lever | Decision | Reason |
+|---|---|---|
+| Iteration count | **Unchanged for Excavation** — the phase closes at its fourth iteration | The Review Coordinator's verdict is AR: no further iteration required, and every criterion holds on the artifact or the answer that owns it |
+| Declared scope | **Unchanged** — no use case, component, table, risk or exclusion is dropped | The stakeholder confirmed the set and stated that no exclusion is re-opened and nothing is wrong or missing |
+| Agent parallelism | **Unchanged** — no role is added, duplicated or promoted for Consolidation | Iteration 4's measured cost is direct evidence: three of its four corrections were cells in tables one role already owned, and a second owner would have contended for the same surface without shortening the chain |
+| Agent role assignment for Consolidation | **Per the canonical matrix** — Environment Low, Requirements High, Analysis & Design Medium, Discovery Critical, Project Management Medium | The phase's own tailoring statement governs, and the Development Case now carries the Environment baseline the stakeholder restated |
+| The plan's record rule | **Carried forward intact** — a cell that asserts another artifact's state is re-derived from that artifact in the same turn the artifact changes | It closed five findings of one class across four passes. `#F10` is its one limit: a cell describing a gate answer cannot be right before the gate is answered, and is corrected by the first turn after the answer |
+
+No figure is projected for Consolidation. No phase of its shape has closed a measuring record, and this phase's one measured pair — a correction pass that cost more per iteration than the recovery iterations it followed — is a caution against reasoning from work shape to spend, not a basis for a figure.
+
+### Lessons carried into Consolidation
+
+1. **A cell that asserts another artifact's state is re-read when that artifact moves, not at the next milestone — and a cell that asserts a gate's answer is the one case the rule cannot pre-empt.** Five consecutive passes recorded this class against the plan — `#F3`, `#F6`, `#F4`, `#F9`, `#F10`. The first four were closed by correcting the table as a table. The fifth could not be: the answer did not exist when the cell was written, so the plan states a gate as pending and the first turn after the answer sets it. Both halves are now the plan's own rule.
+2. **An objective met and a milestone sanctioned are two different facts, and a phase can be right about the first while wrong about the second.** All three objectives were met at iteration 3 and twelve of thirteen criteria held on the artifacts that owned them, while the plan reported three as failing and the stakeholder refused the advance. A plan that reports its own tables as the milestone's state reports the wrong thing.
+3. **A narrow correction pass does not cost less than a broad one; re-reading the live artifact surface is what costs.** The forecast that iteration 4 would be cheaper than iteration 3 was falsified in agent time (25 min 57 s against 27 min 53 s) and only just held in tokens. Correcting four cells required re-deriving thirteen criteria against eleven artifacts, and eleven artifacts were re-read by two lenses to verify it. Cost scales with the artifact surface times the number of times it is read, not with the volume a pass emits.
+4. **A gate put a second time on the same question costs queue time even when the answer is Yes.** The queue rose from 7 min 11 s to 10 min 05 s on an unchanged count of recorded interactions. The first refusal was the right call — a Major stood — and the fourth put is the price of the third's refusal being recorded rather than argued around. A gate should be put when its evidence is complete, not when the work around it is.
 
