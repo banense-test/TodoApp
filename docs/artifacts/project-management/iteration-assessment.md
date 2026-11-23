@@ -100,37 +100,34 @@ O9 --> PH
 No objective was missed and none was deferred. Every one of the four Minors still open sits on content the milestone approves: none states an objective unmet, and the stakeholder's order of 2026-11-23 assigns each to its owner in Excavation's first iteration.
 
 ## Adherence to Plan
-The plan was a strictly sequential chain of nine work items plus the human gates, and it ran as planned: every work item reached Complete, the review came last, and gate H1 was answered inside the iteration rather than queued behind the review. The divergence is in the last two gates — the review returned six open Major findings, so the milestone review closed with a verdict of iteration required, and gate H2, the perimeter sanction put at that review, was answered No.
+The plan for iteration 2 was a strictly sequential chain of nine work items — the rework the SBC review ordered, the two lenses, the re-taken gate and the verdict — and it ran as planned: every item reached its close in the planned order, gate H2 was answered inside the iteration rather than queued behind the verdict, and the reconciliation placed no risk in the grant band that the stakeholder had not already granted. The phase's divergence sits in its first iteration, whose review returned six open Major findings and a refused sanction, and it is what this second iteration existed to repair.
 
 ```plantuml
 @startuml
-title Critical chain of Survey iteration 1 - the sequential stretches from start to the gate, and the gate's refusal
-
+title Survey iteration 2 - the critical chain, what each stretch produced, and the gate that closed the phase
 skinparam shadowing false
-skinparam wrapWidth 200
+skinparam wrapWidth 240
 
-|Process Engineer|
+|Owners named by the SBC review|
 start
-:Development Case - tailoring, classifications, optional triggers, measurement policy;
-:Contribution contract - docs/CONTRIBUTING.md and the label table;
-
-|Software Archaeologist|
-:System Inventory - Documentation - what the delivery describes and what it does not;
-:System Inventory - Perimeter - four processes, 19 components, 9 external systems, 22 entry points;
-:System Inventory - Anomalies and Priorities - 21 anomalies, 8 ordered areas, coverage declared;
-
+:Risk List - all 22 risks scored once from the one published mapping;
+:R004 and R011 land at 4 x 3 = 12 under the stakeholder's grant;
+|Process Engineer and Software Archaeologist|
+:Development Case - the duplication deleted, no enterprise version policy asserted;
+:System Inventory - the AN-021 row carries EP-007, Coverage reproduces 79 plus 54 = 133;
 |Project Manager|
-:Risk List - 22 risks, 21 refined from an anomaly, each scored, owned, mitigated;
-:Iteration Plan - eight-milestone roadmap, ten work items, twelve exit criteria;
-
+:Iteration Plan - C2 split, C6 on the reproduced figure, C7 split into carriage and reproducibility;
+:twelve entry-point-bearing anomalies named with their 21 edges;
 |Reviewer|
-:Technical lens - 7 findings - 0 Critical, 4 Major, 3 Minor - Approved with Changes;
-
+:technical lens - seven prior findings resolved, two new Minors, no Major;
 |Management Reviewer|
-:Management lens - 3 findings - 0 Critical, 2 Major, 1 Minor - No-Go;
-
+:management lens - three prior findings resolved, two new Minors, C1 to C10 re-taken;
+:gate H2 put again;
+|Stakeholder|
+:gate H2 answered Yes on 2026-11-23 - perimeter confirmed as recorded, sanction to advance past SBC;
+:order - no Minor left unattended in the next phase;
 |Review Coordinator|
-:Milestone verdict - SBC not achieved - iteration REQUIRED;
+:SBC verdict - no further iteration required;
 stop
 @enduml
 ```
@@ -139,56 +136,53 @@ stop
 
 | Currency | Scope | Measured | What decision it enables |
 |---|---|---|---|
-| Token spend | Survey iteration 1, whole phase to date | 11519103 | The measured basis iteration 2 is forecast from once Survey closes — not yet available, because Survey has not closed |
-| Elapsed agent time | The same stretch | 0:45:44.3700545 | The clock figure quoted beside the spend, never added to it |
-| Stakeholder queue time | Human gates in this iteration | 1:04:37.8136958 | Whether the human gates, not the agent work, dominate this phase's wall clock. Excludes the end-of-iteration approval gate, which is not measured |
+| Token spend | Survey, whole phase — iterations 1 and 2 | 20514536 | The measured basis Excavation's plan is built from now that Survey has closed. 8995433 of it is iteration 2's own spend |
+| Elapsed agent time | The same stretch | 1:15:02.09 | The clock figure quoted beside the spend, never added to it. Iteration 2 alone: 0:29:17.72 |
+| Stakeholder queue time | Human gates H1 and H3 in iteration 1, H2 in iteration 2 | 1:09:53.75 | Whether the human gates, not the agent work, dominate this phase's wall clock. Excludes both end-of-iteration approval gates, neither of which is measured |
 
-The two are reported side by side and never summed: the third row is waiting, not working, and adding it to the first two would denominate queue time as effort. No token budget exists — the project declares none — so no spend is judged against a box and no declared work was deferred to fit one. Stakeholder queue time is the larger of the two clocks in this iteration, and that is the fact iteration 2 is planned around: what lengthens a phase here is a gate waiting for an answer, not an agent working. It is also why the `R004` and `R011` grants were put in this iteration rather than held behind the score reconciliation.
+The two are reported side by side and never summed: the third row is waiting, not working. No token budget exists — the project declares none — so no spend is judged against a box and no declared work was deferred to fit one.
+
+The queue time is within twenty minutes of the agent time across a whole phase that took two iterations: what lengthens a phase here is a gate waiting for an answer, not an agent working. That is the single most useful measurement this phase produced, and it is why the two Significant acceptances were put to the stakeholder inside the iteration rather than held behind the score reconciliation. One gate was used twice — H2 was refused at the iteration-1 review and answered at the re-take, and each pass is a queue cycle the plan cannot compress by adding roles.
 
 ```plantuml
 @startuml
-title Adherence to plan - the two currencies measured apart, and never added into one figure
-
+title Two currencies for the whole of Survey - measured apart, never summed
 skinparam shadowing false
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 240
 hide empty members
+skinparam wrapWidth 240
 
 package "Agent work - working" {
-  class "Token spend" as TOK {
-    measured : 11519103
-    scope : Survey iteration 1, whole phase to date
+  class "Token spend, Survey both iterations" as TOK {
+    measured : 20514536
+    of which iteration 2 : 8995433
   }
   class "Elapsed agent time" as AGT {
-    measured : 0:45:44.3700545
-    scope : the same stretch
+    measured : 1:15:02.09
+    of which iteration 2 : 0:29:17.72
   }
 }
-package "Human gate - waiting, not working" {
+package "Human gates - waiting, not working" {
   class "Stakeholder queue time" as HUM {
-    measured : 1:04:37.8136958
-    excludes : the end-of-iteration approval gate, not measured
+    measured : 1:09:53.75
+    gates : H1 and H3 in iteration 1, H2 in iteration 2
+    excludes : both end-of-iteration approval gates
     bound : R022, ceiling 14 days, no estimate
   }
 }
 class "Token budget" as BUD {
   declared : none by the project
-  consequence : no box exists, and no declared scope is deferred to fit one
+  consequence : no box exists and no declared work was deferred
 }
-class "Forecast for iteration 2" as FC {
-  basis : measured actuals of a CLOSED phase
-  state : Survey has not closed, so no forecast is stated
+class "Forecast basis for Excavation" as FC {
+  basis : this phase's measured actual, Survey having closed
+  state : no figure is projected for Excavation
 }
 
-TOK --> BUD : judged against a budget that was never declared
-TOK --> FC : becomes the basis once Survey closes
+TOK --> BUD : judged against a budget never declared
+TOK --> FC : the measured basis
 AGT --> FC
-HUM --> FC
-
-note bottom of HUM
-  Side by side, never summed. Adding them would
-  denominate waiting as effort.
-end note
+HUM --> FC : bounds the wait, never summed with the work
 @enduml
 ```
 
@@ -205,6 +199,28 @@ end note
 | Coverage figure quoted as C6's evidence | The figure is quoted | The headline does not reproduce from the per-area table it sits beside | The headline was authored, not summed from the table | `System Inventory#F2`: recompute; then C6 cites the settled figure. C6 is restated in the Iteration Plan this iteration as met in substance with its evidence unreconciled |
 
 No work item is reopened by this assessment: an item marked Complete that delivered defective content is a finding against its artifact, which is where the reviews recorded it, not an unfinished item of the chain. The three corrections the Project Manager could make without the reconciliation — the anomaly handoff, the split of C2, and the restatement of C6 — are already written into the Iteration Plan this iteration; the remaining open items are the reconciliation of the scores and the two artifacts the other owners hold.
+
+### What the iteration-1 plan got right, and what it got wrong about itself
+
+| Planned | Outcome | Variance | Root cause | Adjustment forced |
+|---|---|---|---|---|
+| Nine work items, sequential, each owned | All nine reached Complete in the planned order | None | — | None. The chain was not re-planned: no item split, added or reordered |
+| Gate H1 answered inside the iteration | Its four questions were answered 2026-11-23 | None on perimeter membership, the priority order or `R012`/`R016` | — | None. H1 is met and recorded in the Iteration Plan's gate table |
+| The perimeter sanction treated as answered by gate H1 | It was put separately and refused; recorded as gate H2 and re-taken | An iteration the phase did not plan | The plan treated the two perimeter-membership answers as if they were the perimeter confirmation, and wrote C2 as met on them | `Iteration Plan#F1` (Management Reviewer): C2 split into C2a and C2b — resolved; C2b met at the re-take on 2026-11-23 |
+| Review closes the iteration when exit criteria pass | The iteration-1 review returned six open Major findings | Milestone slipped one iteration | Two causes inside the artifacts: scores that did not reproduce from their stated inputs, and criteria certified on evidence that did not state them | Iteration 2 planned from that record with no new scope; both causes closed this iteration |
+| Risk List scores the anomalies for sequencing | 22 risks, all owned and scored | 13 of 21 scores contradicted the inventory's own likelihood and impact; `R004` and `R011` sat below the grant band only because of it | Each anomaly was scored afresh with no single mapping from the inventory's words to the IARI scale | `Risk List#F1` under both lenses — resolved: one published mapping, every score reproduces, both risks at exposure 12 under the stakeholder's grant |
+| Hand the entry-point-bearing anomalies to Excavation | A count of twelve was stated and seven named | Five constraints on priorities 6 and 8 were not handed over | The count was written first and the list enumerated from memory rather than from the Anomalies table | `Iteration Plan#F1` (Reviewer) — resolved: all twelve named with the 21 edges |
+| Coverage figure quoted as C6's evidence | The figure is quoted | The headline did not reproduce from the table beside it | The headline was authored, not summed | `System Inventory#F2` — resolved; C6 now cites the reproduced 133 / 79 / 54 |
+
+### What this iteration got wrong about itself
+
+| Planned | Outcome | Variance | Root cause | Adjustment |
+|---|---|---|---|---|
+| Nine work items close the review's findings | Ten prior findings closed; two new Minors recorded against the Development Case and the Iteration Plan | Four Minors open at the close of the phase, none above Minor | The rework corrected content but left two status statements stale: the Development Case's lens list and the Iteration Plan's C2b evidence cell | Both addressed in this turn for the Iteration Plan; `Development Case#F2` and `System Inventory#F3` remain with their owners, ordered into Excavation's first iteration on the stakeholder's instruction of 2026-11-23 |
+| Gate H2 answered inside the iteration | Answered Yes 2026-11-23 | None | — | None. The re-take cost one queue cycle and no agent time beyond the lenses already planned |
+| The reconciliation might place a further risk in the grant band | It placed none beyond the four already granted | None | The one mapping reproduced the four at exposure 12 and left the remaining ten Significant-band risks avoided rather than accepted | None. No second questionnaire was needed and none was put |
+
+No work item is reopened by this assessment: an item marked Complete that delivered defective content is a finding against its artifact, which is where the reviews recorded it. The phase's declared scope is untouched — nothing the stakeholder said in two iterations adds, removes or reorders declared work, because Survey reads the system as it is and the declared change is worked from Inception.
 
 ## Use Cases and Scenarios Implemented
 None, correctly. Survey recovers no use case: the 22 entry points are recorded as entry points in the System Inventory, and Excavation recovers them into `UC-NNN`. What this iteration produced is the material those use cases are recovered from, and what it hands forward is constrained by the anomalies that sit on an entry point.
