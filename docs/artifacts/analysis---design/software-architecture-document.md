@@ -5,12 +5,10 @@
 - Iteration: 1, Cycle 1
 - Owner: Software Architect
 ## Architectural Representation
-The delivery carries no architecture document of its own (`.iari/README.md`, the tree holds none). What follows is recovered from code and configuration: every element cites the file and lines that carry it, and no statement of intent is attributed to authors who cannot be asked.
-
 | View | Diagram | What it is anchored to |
 |---|---|---|
 | Logical | COMP-D1 component model, COMP-D2 change axes, CLS-1 ownership mechanism | `Todo.Api/`, `Todo.Web/Server/`, `Todo.Web/Client/` |
-| Use-Case | COMP-D3, SEQ-1, SEQ-2, SEQ-3 | `EP-001` to `EP-019` as the System Inventory records them |
+| Use-Case | COMP-D3, SEQ-1, SEQ-2, SEQ-3 | `EP-001` to `EP-019` as the System Inventory records them, and the eleven use-case specifications |
 | Process | ACT-D1 | `TodoApp.ServiceDefaults/Extensions.cs`, `RateLimitExtensions.cs`, `Todo.Api/appsettings.Development.json:8-12`, `TodoApi.cs:59-63` |
 | Deployment | DEP-D1 | `TodoApp.AppHost/Program.cs`, `Program.cs` of both hosts, the `appsettings.json` pairs and `Todo.Api/appsettings.Development.json`, the two `launchSettings.json` files |
 | Implementation | IMP-D1 | `TodoApp.sln`, `Directory.Build.props`, `Directory.Packages.props`, the seven project files |
@@ -72,9 +70,9 @@ package "Shared and verification" {
 
 ACT --> C1
 C1 --> C2
+C3 --> C2 : BaseAddress, X-Requested-With
 C2 --> C4 : HTTPS /auth register, login, logout\ncookie, X-Requested-With
 C2 --> C8 : /todos/{*path}, cookie
-C3 --> C2 : BaseAddress, X-Requested-With
 C4 --> C5 : reads the authentication state
 C5 --> C6 : external cookie scheme, provider links
 C6 --> C7 : users/register, users/login
@@ -84,9 +82,11 @@ C7 --> C10
 C8 --> C11 : http://todoapi\nAuthorization: Bearer
 C11 --> C13
 C13 --> C12
+C11 --> C12
 C11 --> C14
 C11 --> C15
 C11 --> C16
+C12 --> C16 : one row per request
 C9 --> C16
 C10 --> C16
 C16 --> DB : EF Core 9 SQLite
@@ -101,6 +101,7 @@ C22 ..> C11 : HTTP through WebApplicationFactory
 C5 ..> IDP : challenge and callback
 C19 <.. C2 : compiled into
 C19 <.. C4 : compiled into
+C19 <.. C7 : compiled into
 
 note right of C18
   The one component that adds no behaviour: it is a
@@ -128,6 +129,12 @@ note bottom of C3
   a base address and an X-Requested-With header the
   cookie stack reads to answer 401 instead of
   redirecting. Todo.Web/Client/Program.cs:5-13
+end note
+
+note bottom of C12
+  Resolves the caller before any endpoint runs, and is
+  the second database read every task operation pays.
+  CheckCurrentUserAuthHandler.cs:26-35
 end note
 
 @enduml
