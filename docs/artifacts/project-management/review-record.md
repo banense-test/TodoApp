@@ -1161,3 +1161,116 @@ end note
 
 ### Management Reviewer lens
 <!-- review: Excavation I1 -->
+
+#### Verdict
+
+**No-Go.** The Architecture Recovered milestone is **not sanctioned** at the end of Excavation iteration 1.
+
+I put the milestone to the stakeholder at this review with my leaning stated — Conditional Go, seven Majors open, none requiring their decision — and the recovered set for confirmation. They answered:
+
+- **Stakeholder sanction: REFUSED.** Asked whether they confirm the recovered set as the model of the existing system — the 11 use cases and the 4 stated exclusions, the 22-component architecture across four processes, and the eight-table data model — and sanction advancing past the Architecture Recovered milestone into Consolidation with the Majors cleared first, the stakeholder answered **"No"**.
+- **Stakeholder acceptance, as given:** "We must correct all major findings."
+
+That is the whole of what they stated. No condition, limit or prohibition beyond it is recorded here, and none is inferred.
+
+**Why No-Go rather than Conditional.** A sanction is an affirmative grant; the burden of proof rests on the project team, and I may not grant what the stakeholder withheld. Two exit criteria are not met on the phase's own evidence, and both are structural rather than editorial:
+
+- **A11 — the four SBC Minors closed — is not met, three of four.** `Development Case#F2` stands. It is contained in its own document and a lens writes its block whatever the tailoring says, but the phase's plan counts it, this lens counts it, and its owner has no scheduled stage in Excavation because Environment runs at no intensity here. `R031` was written down as this exact exposure at 3 × 4 = 12. It has materialized, and that is now a statement of fact rather than a forecast.
+- **A12 — the recovered set confirmed — is refused.** The gate the phase waits on returned No.
+
+Neither is repairable by the same set of artifacts. The first needs a role the phase does not schedule; the second needs the stakeholder asked again after the Majors are cleared. A Conditional Go would have claimed the second was obtainable by editing documents, and it is not.
+
+#### Four-axis health
+
+```plantuml
+@startuml
+title AR-H1 Four-axis health scorecard for Excavation iteration 1 - no single axis decides the gate, and two of the four are red
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 260
+hide empty members
+hide circle
+
+class "Scope\nAMBER" as S <<scope>> {
+  recovered : 11 use cases over 22 entry points
+  recovered : 22 components, 8 tables, all anchored
+  recovered : 4 exclusions stated and ruled
+  gap : A2 names no work left for Consolidation
+  gap : 3 screen edges suspect, unconfirmed
+  gap : priorities 6 to 8 carry no statement
+}
+
+class "Schedule\nRED" as T <<schedule>> {
+  planned : one iteration, AR gate at its end
+  actual : gate not passed on this iteration
+  cause : A11 needs a role the phase does not schedule
+  cause : A12 refused at gate H4
+  cost : a second iteration the phase did not plan
+}
+
+class "Cost\nAMBER" as C <<cost>> {
+  declared : no token budget, so none set
+  measured : Survey 29 min agent, 5 min queue
+  measured : Survey 8,995,433 tokens, 10 runs
+  unmeasured : Excavation, open, so no figure
+  rule : no forecast invented before it closes
+}
+
+class "Quality\nRED" as Q <<quality>> {
+  open : 7 Major, 0 Critical, 5 Minor
+  cause : AN-024 reaches 3 artifacts as one fact
+  cause : R030 avoided, action unperformed
+  cause : A10 certified on the inventory's word
+  closed : 4 findings of this lens since SBC
+}
+
+Q --> T : three Majors are one cause,\nso one correction moves two axes
+S --> T : the unsupported clauses are\nwhat the next iteration re-does
+C ..> T : the second iteration is\nunmeasured until it closes
+
+note bottom of T
+  Red is not lateness: no calendar was promised. It is
+  that the phase's own exit criteria are not met on the
+  evidence it produced, which is what a gate reports.
+end note
+
+note bottom of Q
+  A red axis is not overruled by three green ones. Two
+  red means the milestone does not close, whatever the
+  other two say.
+end note
+
+note bottom of C
+  The two clocks are never added: 29 min of agent time and
+  5 min of stakeholder queue are reported apart, and the
+  queue excludes the approval gate, which is not measured.
+end note
+
+@enduml
+```
+
+**Quality is red on seven Majors and zero Criticals**, and the distribution matters more than the count: three of the seven are one anomaly — `AN-024` — stated as fact in three documents while the System Inventory records the contradiction and `R025` carries it. Correcting those three against the anomaly their own reading already found is short work with the anchor to hand. The fourth Major is a two-hop claim collapsed into one sentence; the fifth is three trace edges whose substance is right and whose confirmation was never registered; the sixth is a Significant risk recorded as retired by an action that is in no artifact; the seventh is a criterion certified on a neighbouring artifact's word.
+
+**Scope is amber, not green**, because two of the certifyable criteria were recorded Met on evidence that does not carry them. The recovered set itself is strong: eleven use cases over twenty-two entry points with every exclusion stated, twenty-two components with a `Realizes` row per use case, eight tables with keys, indexes, referential actions, and a table of the rules the schema does *not* enforce — that last being the most useful page in the phase. The amber is for the certification, not the content.
+
+**Schedule is red.** One iteration was planned with the AR gate at its end; the gate is not passed. The cause is not that the work was large — it is that one criterion depends on a role the phase does not schedule, and one gate answer cannot be obtained until the Majors are cleared.
+
+**Cost is amber and deliberately carries no projection.** The project declares no token budget, so no box exists to fit and no declared work was cut or deferred to meet an estimate. The one measured actual is the closed phase: 29 minutes of agent time, 5 minutes of stakeholder queue, 8,995,433 tokens across 10 runs — reported in the two currencies, apart, never summed. Excavation has not closed, so it has no measured actual and no forecast is stated for it.
+
+#### What is sanctioned, and what is not
+
+| Item | State |
+|---|---|
+| The Architecture Recovered milestone | **Not sanctioned** — No-Go |
+| Advancement into Consolidation | **Not sanctioned** |
+| The recovered content — 11 use cases, 22 components, 8 tables, 4 exclusions | **Exists, anchored, and not confirmed by the stakeholder** |
+| Excavation phase | **Open** — a second iteration required, planned from this record |
+| The stakeholder's order | **"We must correct all major findings."** |
+| `R031` | **Materialized** — an avoided Significant risk whose contingency is now the required path |
+
+#### Closing statement
+
+The gate holds. Seven Majors and one unmet criterion are open, the stakeholder refused the sanction, and they ordered the Majors corrected. Excavation iteration 2 is planned from this record: actions 1 to 5 of "Resolutions and Actions" are their owners' work in that iteration, and action 6 — the one Minor that holds the phase — needs the Process Engineer given a work item in an Excavation iteration, because the process does not otherwise put that role in this phase. If that item lands, A11 reads four of four on re-take. If it does not, `R031` says what happens next: the phase opens the further iteration its own register already budgeted for, and nothing the phase declared is cut to avoid it.
+
+I do not sanction a phase because the calendar says it should end. I sanction it when its exit criteria are met on the evidence each criterion cites — and at the end of Excavation iteration 1 they are not.
