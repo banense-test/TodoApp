@@ -1,14 +1,15 @@
 ## Document Control
 ### Reviewer lens
-<!-- review: Excavation I4 -->
+<!-- review: Consolidation I1 -->
 
-<!-- review: Excavation I4 -->
-
-- Phase: Excavation
-- Status: Technical lens complete for the AR (end-of-Excavation) milestone review, iteration 4. Three findings of this lens closed at their sources; one Minor recorded. No Major and no Critical stands from this lens.
-- Milestone Target: end-of-Excavation (AR) — not achieved
-- Iteration: 4, Cycle 1
-- Owner: Reviewer
+- Phase: Consolidation
+- Iteration: 1, Cycle 1
+- Milestone Target: end-of-Consolidation (GHR) — not yet achieved
+- Review type: GHR technical lens, formal inspection against checklist
+- Reviewer: Reviewer
+- Artifacts reviewed: 12 of 12
+- Findings this milestone: 0 Critical, 3 Major, 2 Minor
+- Disposition: Approved with Changes
 
 ### Management Reviewer lens
 <!-- review: Excavation I4 -->
