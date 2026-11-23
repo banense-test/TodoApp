@@ -107,13 +107,13 @@ No risk sits in a band its strategy cannot be held in: every Significant-band ri
 Not carried: no risk in this register concerns staffing, skills, turnover or friction between people. The executing agents are not a development organization and the stakeholder is the only human here, so such a risk would name no actor and is retired as not applicable rather than classified. What the people the SYSTEM serves do with it is a domain risk and stays.
 
 ## Risk Register
-Every risk traces to one anomaly of the System Inventory, and every probability and impact below is the score that anomaly's own likelihood and impact words take on the mapping stated once in `Risk Classification`. All twenty-nine anomalies are carried; R022 comes from the delivery's dependency on stakeholder gates, has no anomaly behind it, and its score is the Project Manager's own reading of the plan rather than a reading of code.
+Twenty-nine of the thirty risks below trace to one anomaly of the System Inventory, and every probability and impact for those is the score that anomaly's own likelihood and impact words take on the mapping stated once in `Risk Classification`. `R022` and `R031` refine no anomaly: they are the plan's own exposures, and their scores are the Project Manager's reading of the plan rather than a reading of code.
 
-Excavation added eight risks, R023 to R030, one for each anomaly the deeper reading produced — AN-022 to AN-029 — and none of them restates a risk already carried: R023 is the guard's omitted lockout check, R024 the BFF's two unequally protected hops, R025 the Development configuration, R026 the unconverted owner key, R027 the client's absent base address, R028 the provider account with no email, R029 the persistence registration the test host replaces, and R030 the BFF's own reading as an unstable area. `R015` was restated to the corrected AN-015: the app host holds the delivery's newest change, and it is not the only area still moving.
+Excavation added eight risks, R023 to R030, one for each anomaly the deeper reading produced — AN-022 to AN-029 — and none of them restates a risk already carried: R023 is the guard's omitted lockout check, R024 the BFF's two unequally protected hops, R025 the Development configuration, R026 the unconverted owner key, R027 the client's absent base address, R028 the provider account with no email, R029 the persistence registration the test host replaces, and R030 the BFF's own reading as an unstable area. `R015` was restated to the corrected AN-015: the app host holds the delivery's newest change, and it is not the only area still moving. `R031` is added by this iteration's planning: it is the one exit criterion whose owner the phase does not schedule.
 
 ```plantuml
 @startuml
-title Every anomaly of the System Inventory carried into one risk, and the one risk that comes from the plan rather than from an anomaly
+title Every anomaly of the System Inventory carried into one risk, and the two risks that come from the plan rather than from an anomaly
 
 skinparam shadowing false
 left to right direction
@@ -152,78 +152,53 @@ package "System Inventory anomalies - 29, each one risk" {
   component "AN-029  the session surface never settles" as A29
 }
 
-package "Risk List - 30 risks" {
-  component "R001  complete-a-todo has no user-facing path" as R001
-  component "R002  API trusts any bearer token" as R002
-  component "R003  two contract declarations drift" as R003
-  component "R004  admin branch read as intent" as R004
-  component "R005  schema never checked by tests" as R005
-  component "R006  unused test dependency" as R006
-  component "R007  container cannot build the tree" as R007
-  component "R008  README misdirects the reader" as R008
-  component "R009  Identity endpoints unlimited" as R009
-  component "R010  provider key ring not shared" as R010
-  component "R011  tests copy framework internals" as R011
-  component "R012  BFF and client untested" as R012
-  component "R013  database path relative" as R013
-  component "R014  RazorLangVersion 8.0" as R014
-  component "R015  app host holds the newest change" as R015
-  component "R016  no document of intent" as R016
-  component "R017  root redirect unconditional" as R017
-  component "R018  list and item endpoints disagree" as R018
-  component "R019  provider name taken unchecked" as R019
-  component "R020  failed sign-in swallowed" as R020
-  component "R021  every auth failure answers 401" as R021
+package "Risk List - 31 risks" {
+  component "R001 to R021, R023 to R030\none per anomaly" as ANOM
   component "R022  milestone waits on stakeholder gates" as R022
-  component "R023  lockout enforced at sign-in only" as R023
-  component "R024  one outbound hop unprotected" as R024
-  component "R025  Development halves the budget" as R025
-  component "R026  owner key moved, none converted" as R026
-  component "R027  an absent base address reads as success" as R027
-  component "R028  a provider account carries no email" as R028
-  component "R029  persistence untested end to end" as R029
-  component "R030  the session surface understated" as R030
+  component "R031  a criterion's owner is not scheduled" as R031
 }
 
-A1 --> R001 : Refines
-A2 --> R002 : Refines
-A3 --> R003 : Refines
-A4 --> R004 : Refines
-A5 --> R005 : Refines
-A6 --> R006 : Refines
-A7 --> R007 : Refines
-A8 --> R008 : Refines
-A9 --> R009 : Refines
-A10 --> R010 : Refines
-A11 --> R011 : Refines
-A12 --> R012 : Refines
-A13 --> R013 : Refines
-A14 --> R014 : Refines
-A15 --> R015 : Refines
-A16 --> R016 : Refines
-A17 --> R017 : Refines
-A18 --> R018 : Refines
-A19 --> R019 : Refines
-A20 --> R020 : Refines
-A21 --> R021 : Refines
-A22 --> R023 : Refines
-A23 --> R024 : Refines
-A24 --> R025 : Refines
-A25 --> R026 : Refines
-A26 --> R027 : Refines
-A27 --> R028 : Refines
-A28 --> R029 : Refines
-A29 --> R030 : Refines
+A1 --> ANOM : Refines
+A2 --> ANOM : Refines
+A3 --> ANOM : Refines
+A4 --> ANOM : Refines
+A5 --> ANOM : Refines
+A6 --> ANOM : Refines
+A7 --> ANOM : Refines
+A8 --> ANOM : Refines
+A9 --> ANOM : Refines
+A10 --> ANOM : Refines
+A11 --> ANOM : Refines
+A12 --> ANOM : Refines
+A13 --> ANOM : Refines
+A14 --> ANOM : Refines
+A15 --> ANOM : Refines
+A16 --> ANOM : Refines
+A17 --> ANOM : Refines
+A18 --> ANOM : Refines
+A19 --> ANOM : Refines
+A20 --> ANOM : Refines
+A21 --> ANOM : Refines
+A22 --> ANOM : Refines
+A23 --> ANOM : Refines
+A24 --> ANOM : Refines
+A25 --> ANOM : Refines
+A26 --> ANOM : Refines
+A27 --> ANOM : Refines
+A28 --> ANOM : Refines
+A29 --> ANOM : Refines
 
 note bottom of R022
   R022 has no anomaly behind it: it is the plan's own dependency
   on stakeholder answers, carried because every phase's gate depends on one.
 end note
 
-note bottom of R030
-  AN-029 makes the BFF a second unstable area beside the app host
-  AN-015 names, so R015 no longer claims the app host is the only one moving.
+note bottom of R031
+  R031 has no anomaly behind it either: the phase carries an exit
+  criterion whose owner, the Process Engineer, has no scheduled
+  slot in Excavation because Environment runs at no intensity here.
 end note
+
 @enduml
 ```
 
@@ -259,10 +234,11 @@ end note
 | R028 | A recovered registration statement says a provider-created account can be completed and recovered: the exchange sets `UserName` only and never `Email`, so such an account can never sign in with a password, confirm an address, recover a password or refresh through the framework's own endpoints — and the email index is not unique, so a duplicate address is undetectable at rest. The account's identity also depends on what the provider chose to send | `Todo.Api/Users/UsersApi.cs:40-46`; `Todo.Api/Migrations/20221123071234_Initial.cs` (`EmailIndex` not unique); `Todo.Web/Server/AuthApi.cs:70-71` | 4 | 3 | 12 | Significant | Avoid | System Analyst |
 | R029 | The recovered persistence description is checked against a registration the test host replaces: a test-only helper strips `DbContextOptions<TodoDbContext>` out of the composition root and installs its own, so no test exercises the connection-string resolution, the `Data Source=.db/Todos.db` fallback, the scoped context lifetime or the migration-built schema — the four things a deployment depends on | `Todo.Api.Tests/DbContextExtensions.cs:5-29`; `Todo.Api.Tests/TodoApplication.cs:44-46`; `Todo.Api/Program.cs:23-24` | 4 | 3 | 12 | Significant | Avoid | Database Designer |
 | R030 | A recovered use case or design treats the BFF's session surface as settled: `AuthApi.cs` is the delivery's most-reworked file at fifteen commits and the area carries thirty-three, every one of them touching a success path, so the recovered behaviour of the three flows that never worked — AN-019, AN-020, AN-021 — is an interpretation of the least stable code in the tree, on a component with no test | `Todo.Web/Server` history 33 commits; `Todo.Web/Server/AuthApi.cs` history 15 commits; `Todo.Web/Server/AuthApi.cs:64-97`; `Todo.Api.Tests/Todo.Api.Tests.csproj:9` | 4 | 3 | 12 | Significant | Avoid | System Analyst |
+| R031 | The AR milestone cannot close on this iteration's evidence because one exit criterion, A11, counts an artifact whose owner has no scheduled slot in the phase: `Development Case#F2` is the Process Engineer's, Environment runs at no intensity in Excavation, and the correction is not in the artifact. The criterion reads three of four and the phase would need an iteration it did not plan | `Development Case` — "Roles and Ownership" still omits the Management Reviewer, the Business Reviewer and the Review Coordinator, and CLS-DC-01 draws no edge from them; this plan's fine-plan item 10; Evaluation Criteria A11 | 3 | 4 | 12 | Significant | Avoid | Project Manager |
 
 ### Acceptances in this register that are the stakeholder's to grant
 
-Four risks carry the accept strategy in the Significant band, where acceptance is the stakeholder's alone. Each holds the stakeholder's own answer of 2026-11-23. No risk Excavation added takes the accept strategy, in the Significant band or outside it.
+Four risks carry the accept strategy in the Significant band, where acceptance is the stakeholder's alone. Each holds the stakeholder's own answer of 2026-11-23. No risk Excavation added takes the accept strategy, in the Significant band or outside it: `R031`, added by this iteration's planning at 3 × 4, avoids.
 
 | Risk | Exposure and band | The stakeholder's answer |
 |---|---|---|
@@ -273,7 +249,7 @@ Four risks carry the accept strategy in the Significant band, where acceptance i
 
 `R015` and `R022` accept at exposure 8, the Moderate band, which is the Project Manager's own authority. Every other risk avoids, and avoidance the Project Manager may take at any band. No risk in this register sits in the High band, so none exceeds what these four grants cover.
 
-The fifteen Significant-band risks that avoid — `R001`, `R002`, `R003`, `R005`, `R007`, `R009`, `R010`, `R018`, `R020`, `R021`, `R023`, `R024`, `R026`, `R028` and `R030` — are retired by the action its owner performs: recording the system as the code shows it. They are not accepted and need no grant.
+The sixteen Significant-band risks that avoid — `R001`, `R002`, `R003`, `R005`, `R007`, `R009`, `R010`, `R018`, `R020`, `R021`, `R023`, `R024`, `R026`, `R028`, `R030` and `R031` — are retired by the action its owner performs. They are not accepted and need no grant.
 
 ## Risk Mitigation and Contingency
 Each risk carries the action its owner takes and the sign that it has started to bite. A risk accepted carries a mitigation as well as a contingency; a risk avoided is retired by its action, which the named owner performs during Excavation.
