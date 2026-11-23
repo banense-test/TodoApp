@@ -121,66 +121,72 @@ No bar carries an absolute date or a projected calendar span. The one-day length
 
 ### This iteration's fine plan
 
-Every item below belongs to a stage the IARI process runs in Consolidation: Environment, Requirements, Analysis & Design, Discovery, Project Management, and the milestone review's three lenses. Nothing is scheduled that a later phase performs, and the two stages that close this phase's own exposures — the Database Designer's and the owners' of the suspect edges — sit ahead of the lenses that would otherwise record them.
+Every item below belongs to a stage the IARI process runs in Consolidation: Environment, Requirements, Analysis & Design, Discovery, Project Management, and the milestone review's three lenses. Nothing is scheduled that a later phase performs. Two items decide whether the milestone can be certified, and they sit in different states: the Database Designer's record of the snapshot's product version has landed, and the clearing of the four suspect edges has not.
+
+**One rule governs every state cell.** A state cell is re-derived from the artifact it describes in the turn this plan is written, never carried from the turn before. It is the rule the previous phase's iteration count taught, and it is the rule item 6 is corrected under below.
 
 ```plantuml
 @startuml
-title Critical chain of Consolidation iteration 1 - three owners close the phase's own exposures, then the record, then the lenses, then the gate and the verdict
+title Critical chain of Consolidation iteration 1 - what has run, what remains, and the gate no role can answer for the stakeholder
 skinparam shadowing false
 skinparam wrapWidth 245
 
 |Database Designer|
 start
 :C1 Persistent data - the snapshot's product version
-record ProductVersion 8.0.0 beside the three migrations
-it generated, the build's net9.0 and EF Core 9.x beside it;
-:closes R034 at its source, no file of the delivery changed;
+recorded beside the three migrations it generated,
+the build's net9.0 and EF Core 9.x beside it;
+:R034 landed at its source, no file of the delivery changed;
 
 |Designer|
-:C2 Two Specifies edges read at their own end
-CLS-001 to TBL-001 and CLS-007 to TBL-002;
-:each cleared with the reading stated, or retired and
-re-registered if the evidence no longer holds;
+:C2 CLS-001 to TBL-001 and CLS-007 to TBL-002
+read at their own end;
+:both still returned marked SUSPECT - open;
 
 |System Analyst|
-:C3 Two Realizes edges read at their own end
-CLS-020 to UC-007 and CLS-020 to UC-010;
-:the filter is attached to the /todos group naming TodoItem,
-so the create and the change both carry it;
+:C3 CLS-020 to UC-007 and CLS-020 to UC-010
+read at their own end;
+:both still returned marked SUSPECT - open;
 
 |Project Manager|
-:C4 Risk List - the register at Consolidation
-R033 and R034 carried with owner, action, contingency;
+:C4 Risk List - R033 at exposure 16
+its clearance the owners' act, not this plan's
+R034 carried with owner, action and contingency;
 :C5 Iteration Plan - this plan
 coarse roadmap, fine plan, GHR exit criteria;
+
 |Reviewer|
 :C6 GHR technical lens;
+
 |Management Reviewer|
-:C7 GHR management lens;
+:C7 GHR management lens, and the gate put;
+
 |Stakeholder|
-:C8 Gate H5 - answer not yet given
-the set asked to be accepted as the starting point
-for the declared change;
+:C8 Gate H5 - not put
+the complete set asked to be accepted as the
+starting point of the declared change;
+
 |Review Coordinator|
 :C9 GHR verdict;
+
 |Project Manager|
 :C10 Iteration Assessment
-written after the verdict, on it;
+written on the verdict;
 stop
 @enduml
 ```
 
 | # | Work item | Discipline / stage | Owner | State | Closes |
 |---|---|---|---|---|---|
-| 1 | Development Case made current for Consolidation; ACT-DC-01's phase partitions each name every discipline the canonical matrix schedules in them, Project Management included | Environment — Development Case | Process Engineer | Present at this phase and iteration | `Development Case#F4` |
+| 1 | Development Case made current for Consolidation; ACT-DC-01's phase partitions each name every discipline the canonical matrix schedules in them, Project Management included | Environment — Development Case | Process Engineer | Done — ACT-DC-01 names Project Management in every one of its seven phase partitions, at the intensity the matrix gives it | `Development Case#F4` |
 | 2 | Use-Case Model completed: `UC-001` to `UC-011` specified, the four exclusions stated, the statement of the session surface's instability beside `UC-001` to `UC-004` | Requirements — Use-Case Model | System Analyst | Present at this phase and iteration | `R030` |
 | 3 | Supplementary Specification: the cross-cutting mechanisms stated as one list, each with its anchor and the use cases that depend on it | Requirements — Supplementary Specification | System Analyst | Present at this phase and iteration | `R024`, `R025` |
 | 4 | Software Architecture Document: component view completed against the Use-Case View, every use case's path crossing a named component; mechanisms and use-case view | Analysis & Design — SAD Components, Mechanisms and Use-Case View | Software Architect | Present at this phase and iteration | `R002`, `R009`, `R010`, `R017`, `R025` |
 | 5 | Design Model: domain model, packages and classes, the relationship inventory | Analysis & Design — Domain Model, Packages and Classes | Designer | Present at this phase and iteration | `R003`, `R018`, `R027` |
-| 6 | Design Model persistent data: entities, keys and associations, the enforced rules, and the snapshot's product version recorded with the build's version beside it | Analysis & Design — Persistent Data | Database Designer | **Open — this plan's item 6** | `R026`, `R029`, **`R034`** |
-| 7 | Clear the four suspect edges, each at its own end: `CLS-001` → `TBL-001` and `CLS-007` → `TBL-002` (Designer); `CLS-020` → `UC-007` and `CLS-020` → `UC-010` (System Analyst). Each owner states why the edge still holds; an edge that does not is retired and re-registered with the link type its evidence supports | Analysis & Design + Requirements — the owner's own stage | Designer, System Analyst | **Open — this plan's live item, and the phase's one High risk** | **`R033`** |
+| 6 | Design Model persistent data: entities, keys and associations, the enforced rules, and the snapshot's product version recorded with the build's version beside it | Analysis & Design — Persistent Data | Database Designer | **Done — landed this iteration.** The persistent-data section states `HasAnnotation("ProductVersion", "8.0.0")` for `TodoDbContextModelSnapshot` against the build's `net9.0` and its EF Core 9.x packages, with the file as its anchor, and states that nothing in the delivery reconciles the two. No file of the delivery was changed | `R026`, `R029`, `R034` |
+| 7 | Clear the four suspect edges, each at its own end: `CLS-001` → `TBL-001` and `CLS-007` → `TBL-002` (Designer); `CLS-020` → `UC-007` and `CLS-020` → `UC-010` (System Analyst). Each owner states why the edge still holds; an edge that does not is retired and re-registered with the link type its evidence supports | Analysis & Design + Requirements — the owner's own stage | Designer, System Analyst | **Open — all four still return marked `SUSPECT`.** Both owners hold their stage in this iteration and both have read their own end; the graph has been cleared on none of the four. The Design Model states the reasoning for each, so the remaining act is the clearance itself, which belongs to the role the graph marks and to no other | **`R033`** |
 | 8 | System Inventory: the coverage counted, every unread file named with its reason, any reading left incomplete named | Discovery — System Inventory | Software Archaeologist | Present at this phase and iteration | — |
-| 9 | Risk List: the register at Consolidation, `R033` and `R034` carried, no accept above Moderate without a grant | Project Management — Risk List | Project Manager | Done | `Risk List#F3` |
+| 9 | Risk List: the register at Consolidation, `R033` and `R034` carried, no accept above Moderate without a grant | Project Management — Risk List | Project Manager | Done — this phase's register | `Risk List#F3` |
 | 10 | Iteration Plan: this plan — coarse roadmap, fine plan, GHR exit criteria | Project Management — Iteration Plan | Project Manager | Done — this document | `Iteration Plan#F10` |
 | 11 | GHR technical lens | Review | Reviewer | Not yet run | — |
 | 12 | GHR management lens, and the gate put | Review | Management Reviewer | Not yet run | — |
@@ -188,11 +194,13 @@ stop
 | 14 | GHR milestone verdict | Review | Review Coordinator | Not yet run | The milestone |
 | 15 | Iteration Assessment, written on the verdict | Project Management — Iteration Assessment | Project Manager | Not yet written — it cannot describe an iteration still under review | — |
 
-**`Iteration Plan#F10`, carried from Excavation.** That finding named three cells of the Excavation plan — `A12`, fine-plan item 7's state, and the human-gate table's Answer cell — and ordered them set to the fourth put's answer. The answer is recorded and is not in doubt: at gate H4's third put the stakeholder confirmed the recovered set and refused the advance while a Major stood; at the fourth put, on records that agree with the set, they sanctioned it. The cells the finding names belonged to the iteration that closed when this phase opened, and this plan replaces them with GHR's; the answer itself is carried forward here, in the coarse roadmap's row 2 and in `O1`'s note, so the record the finding asked for survives the plan it was written against. Nothing in `A1`, `A10` and `A11` of the closed phase, and nothing in the recovered content, is affected.
+**Item 7 is the one that decides whether this phase can close, and this plan can assign it but not perform it.** An edge is cleared by the role that owns its far end. The graph marks two for the Designer and two for the System Analyst; neither the Project Manager nor either lens may clear an edge it does not own, and a suspect left open at the phase close is a Major finding against the artifact that carries it — which would make the milestone need an iteration this phase did not plan. That exposure is `R033`, carried at 4 × 4 = 16 in the High band, and it is avoided rather than accepted: `R033` is firing, not hypothetical.
+
+**`Iteration Plan#F10`, carried from Excavation.** That finding named three cells of the Excavation plan — `A12`, fine-plan item 7's state, and the human-gate table's Answer cell — and ordered them set to the fourth put's answer. Those cells belonged to the iteration that closed when this phase opened. This plan replaces them with GHR's criteria and GHR's gate, and it carries the answer they were to record where the record survives: the coarse roadmap's row 2, and `O1`'s row in the objectives table. The recovered content is not involved.
 
 **Two currencies, never summed.** Items 1 to 12 and 14 are agent work, quoted in tokens and measured elapsed agent time. Item 13 is a human gate — waiting, not working — quoted only in queue time. Item 15 is written after the verdict and costs agent work.
 
-**Nothing is added and nothing is cut.** No recovered element changes, no declared work exists in this phase to cut, and no agent role is duplicated: the four roles that hold an open item are the four the process schedules here for their own disciplines.
+**Nothing is added and nothing is cut.** No recovered element changes, no declared work exists in this phase to cut, and no agent role is duplicated: the roles that hold an open item are the roles the process schedules here for their own disciplines.
 
 ### Measured actuals and what this plan is sized from
 
