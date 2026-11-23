@@ -20,22 +20,22 @@ This iteration reads the existing system and states what the project inherits. I
 | O6 | The project's plan for the rest of the sprint zero and the RUP phases exists | This artifact carries the milestone sequence and this iteration's work items with owners | Project Manager |
 
 ## Plan and Milestones
-### Coarse roadmap — the milestone sequence
+The plan is two-level. The **coarse roadmap** fixes the milestone sequence, the intensity each phase runs at and which risks each milestone confronts. The **fine plan** is this iteration's work items with their owners, bounded to Survey. No milestone below is achieved and no iteration beyond this one is planned in fine detail.
 
-The sequence is the sprint zero reading the delivery, then the RUP phases working the declared change. Survey is the phase this iteration closes. No milestone below is achieved, and no iteration beyond this one is planned in fine detail.
+### Coarse roadmap — the milestone sequence
 
 ```plantuml
 @startgantt
-title Coarse roadmap - the sprint zero then the RUP phases, with the human gate at the sprint-zero boundary - unanchored
+title Coarse roadmap - the sprint zero, then the RUP phases, with the human gate at the sprint-zero boundary - unanchored, no calendar date
 
 [Survey - SBC] lasts 1 day
 [SBC milestone review] happens at [Survey - SBC]'s end
 [SBC milestone review] is colored in Salmon
-[Stakeholder gate H1 - answered 2026-11-23] lasts 1 day
-[Stakeholder gate H1 - answered 2026-11-23] starts at [SBC milestone review]'s end
-[Stakeholder gate H1 - answered 2026-11-23] is colored in Green
+[Stakeholder gate H1 - three answers] lasts 1 day
+[Stakeholder gate H1 - three answers] starts at [SBC milestone review]'s end
+[Stakeholder gate H1 - three answers] is colored in Green
 [Excavation - AR] lasts 1 day
-[Excavation - AR] starts at [Stakeholder gate H1 - answered 2026-11-23]'s end
+[Excavation - AR] starts at [Stakeholder gate H1 - three answers]'s end
 [AR milestone review] happens at [Excavation - AR]'s end
 [AR milestone review] is colored in Salmon
 [Consolidation - GHR] lasts 1 day
@@ -61,27 +61,27 @@ title Coarse roadmap - the sprint zero then the RUP phases, with the human gate 
 @endgantt
 ```
 
-The bars carry no absolute date and no projected calendar span: no phase has run, so there is nothing measured to project one from. The one-day length is the diagram's sequencing device, not a duration claimed for the work.
+No bar carries an absolute date or a projected calendar span: no phase has closed, so nothing measured exists to project one from. The one-day length is the diagram's sequencing device, not a duration claimed for the work. The chain is strictly sequential — each milestone's review precedes the next phase, because the next phase reads what the review sanctioned.
 
-| Order | Phase | Milestone | Discipline intensity | What the milestone is judged on |
-|---|---|---|---|---|
-| 1 | Survey | SBC | Environment High, Discovery Critical, Project Management Medium | The perimeter and its priorities are stated and the anomalies carried as risks — this iteration |
-| 2 | Excavation | AR | Requirements High, Analysis & Design Critical, Discovery Critical, Project Management Medium | The recovered use-case model, architecture, design and deployment rest on anchors and cover the reading's priorities 1 to 5 |
-| 3 | Consolidation | GHR | Requirements High, Analysis & Design Medium, Discovery Critical, Project Management Medium | Coverage is counted and declared; every recovered use case, the Supplementary Specification and the fired Deployment Model are complete |
-| 4 | Inception | LCO | Requirements Critical, Environment High, Project Management High, Analysis & Design Medium, Implementation Medium, Test Low, Deployment Low, CM Medium | The declared change is scoped, a candidate architecture exists, the CM strategy is set and the Change Request ledger is opened |
-| 5 | Elaboration | LCA | Analysis & Design Critical, Requirements High, Implementation Medium, Test Medium, Environment Medium, Project Management Medium, CM Medium, Deployment Low | The architecture baseline is accepted and an executable architecture is built |
-| 6 | Construction | IOC | Implementation Critical, Test Critical, Requirements Medium, Analysis & Design High, Project Management High, Deployment Medium, CM High, Business Modeling Low | The declared scope is implemented and its test evaluation is recorded |
-| 7 | Transition | PR | Deployment Critical, Test High, Project Management Medium, Implementation Medium, Requirements Low, Analysis & Design Low, CM Medium | The release build is baselined and acceptance-tested; the Change Requests are closed |
+| Order | Phase | Milestone | Discipline intensity | Risks this milestone confronts | What the milestone is judged on |
+|---|---|---|---|---|---|
+| 1 | Survey | SBC | Environment High, Discovery Critical, Project Management Medium | Carries R001 to R021 into the register; R016 is granted for the sprint zero, R022 governs its gate. SBC retires none of the reading's risks — it makes them owned | The perimeter and its priorities are stated and the anomalies carried as scored risks — this iteration |
+| 2 | Excavation | AR | Requirements High, Analysis & Design Critical, Discovery Critical, Project Management Medium | R001, R004, R019, R020, R021 (System Analyst, Use-Case Model); R003, R018 (Designer, Design Model); R002, R009, R010, R017 (Software Architect, SAD and the fired Deployment Model) | The recovered use-case model, architecture, design and deployment rest on anchors and cover the reading's priorities 1 to 5 |
+| 3 | Consolidation | GHR | Requirements High, Analysis & Design Medium, Discovery Critical, Project Management Medium | Completes R003 and R010 where the recovered set is closed; confirms R015's volatility statement against the orchestration as it stands | Coverage is counted and declared; every recovered use case, the Supplementary Specification and the fired Deployment Model are complete |
+| 4 | Inception | LCO | Requirements Critical, Environment High, Project Management High, Analysis & Design Medium, Implementation Medium, Test Low, Deployment Low, CM Medium | R007, R013, R014 (Integrator, Build Environment Setup); R022 opens the Change Request ledger every later gate depends on | The declared change is scoped, a candidate architecture exists, the CM strategy is set and the Change Request ledger is opened |
+| 5 | Elaboration | LCA | Analysis & Design Critical, Requirements High, Implementation Medium, Test Medium, Environment Medium, Project Management Medium, CM Medium, Deployment Low | R012, R011, R005 (Test Manager and Test Designer); R006 (the test project is next touched here) | The architecture baseline is accepted and an executable architecture is built |
+| 6 | Construction | IOC | Implementation Critical, Test Critical, Requirements Medium, Analysis & Design High, Project Management High, Deployment Medium, CM High, Business Modeling Low | Completes R012's coverage of the client's todo flow; R008 (Technical Writer, User Documentation) | The declared scope is implemented and its test evaluation is recorded |
+| 7 | Transition | PR | Deployment Critical, Test High, Project Management Medium, Implementation Medium, Requirements Low, Analysis & Design Low, CM Medium | Closes what remains: R011's contingency is taken only if a deliberate upgrade lands before the release | The release build is baselined and acceptance-tested; the Change Requests are closed |
 
-Elaboration and Construction repeat no further than their own exit condition, which is stated in the table above: the architecture baseline accepted, and the declared scope implemented. No count of iterations is forecast for them — a count invented before a single phase has closed would be a figure with no measured basis.
+Sequencing is driven by the Risk List, not by convenience: the two risks whose actions the System Analyst performs (R001, R019 to R021) land at the milestone that first writes a recovered use case, and R007 — the build that cannot build the tree — lands at Inception because that is the first phase the Integrator works. Elaboration and Construction repeat no further than their exit condition stated above; no iteration count is forecast for them, because a count invented before a single phase has closed is a figure with no measured basis.
 
 ### This iteration's fine plan
 
-The work items are the stages the IARI DEVELOPMENT PROCESS runs in Survey, in its order, each owned by its role. Two items carry no size at all: nothing in this project has been measured yet, and no token budget is declared for it, so there is no figure to quote and none is invented. An iteration ends when its exit criteria pass.
+The work items are the stages the IARI DEVELOPMENT PROCESS runs in Survey, in its order, each owned by its role.
 
 ```plantuml
 @startuml
-title Critical chain of Survey (SBC) - the sequential agent stretches to the gate, which is answered
+title Critical chain of Survey (SBC) - the sequential agent stretches to the gate, then the gate
 
 skinparam shadowing false
 
@@ -99,12 +99,13 @@ four processes, 22 entry points;
 
 |Project Management|
 :Risk List
-22 risks, 21 from anomalies;
+22 risks, 21 refined from an anomaly;
 :Iteration Plan - Survey
-critical chain, resources, exit criteria;
+coarse roadmap, fine plan, exit criteria;
 
 |Reviewer|
-:Review all three artifacts;
+:Reviews Development Case, System Inventory,
+Risk List and Iteration Plan;
 
 |Management Reviewer|
 :Management review;
@@ -113,9 +114,8 @@ critical chain, resources, exit criteria;
 :Milestone verdict - SBC;
 
 |Stakeholder|
-:Answered 2026-11-23:
-perimeter and priority order stand,
-R012 and R016 granted;
+:Gate H1 - perimeter, priority order, R012 and R016
+answered 2026-11-23;
 stop
 @enduml
 ```
@@ -127,18 +127,20 @@ stop
 | 3 | System Inventory — Documentation: what the delivery describes and what it does not | Software Archaeologist | 1 | Complete | not recorded |
 | 4 | System Inventory — Perimeter: processes, components, external systems, 22 entry points | Software Archaeologist | 3 | Complete | not recorded |
 | 5 | System Inventory — Anomalies and Priorities: 21 anchored anomalies, 8 ordered areas, coverage counted | Software Archaeologist | 3 | Complete | not recorded |
-| 6 | Risk List — 22 risks scored, classified and mitigated | Project Manager | 5 | Complete | not recorded |
-| 7 | Iteration Plan — coarse roadmap, this iteration's work items, exit criteria | Project Manager | 6 | Complete | not recorded |
+| 6 | Risk List — 22 risks scored, classified, mitigated; 21 refined from an anomaly | Project Manager | 5 | Complete | not recorded |
+| 7 | Iteration Plan — coarse roadmap, fine plan, resources, exit criteria | Project Manager | 6 | Complete | not recorded |
 | 8 | Milestone review SBC — Reviewer, then Management Reviewer, then Review Coordinator | Reviewer / Management Reviewer / Review Coordinator | 2, 4, 5, 6, 7 | Not started | not recorded |
-| 9 | Stakeholder gate H1 — perimeter and priority order confirmed; R012 and R016 granted | Stakeholder | 8 | Answered 2026-11-23 | queued in days; no estimate |
+| 9 | Gate H1 — perimeter confirmed, priority order confirmed, R012 and R016 granted | Stakeholder | 8 | Answers in hand, 2026-11-23 | queued in days; no estimate |
 
-Two currencies, never summed: items 1 to 8 are agent work, measured in tokens and elapsed agent time, and nothing has been measured yet, so their forecast column is empty rather than filled with a guess. Item 9 is a human gate — waiting, not working — quoted only in days of queue time and bounded in the Risk List as R022 with a ceiling of 14 days and no estimate.
+Two currencies, never summed. Items 1 to 8 are agent work, measured in tokens and elapsed agent time; nothing has been measured yet because no phase has closed, so the forecast column is empty rather than filled with a guess. Item 9 is a human gate — waiting, not working — quoted only in days of queue time, bounded as R022 with a ceiling of 14 days and no estimate.
 
-The chain is sequential end to end: Discovery cannot read a tailoring that does not exist, Risk is scored on what Discovery found, and the review judges what Project Management wrote. Adding roles to this chain would buy no clock and would add contention over the same artifacts.
+The chain is sequential end to end: Discovery cannot read a tailoring that does not exist, Risk is scored on what Discovery found, and the review judges what Project Management wrote. Adding agent roles to this chain would buy no clock and would add contention over the same four artifacts.
 
 | Human gate | Who | What the iteration waits for | Bound | Answer |
 |---|---|---|---|---|
-| H1 | Stakeholder | The perimeter of the four-process delivery confirmed, the eight-area priority order confirmed, and the two Significant-risk acceptances (R012, R016) granted or refused | R022 — ceiling 14 days, escalates to the process suspending rather than auto-filling | Answered 2026-11-23: the order stands as it is — nothing matters more than it reflects and nothing is to be left out; R012 accepted, R016 accepted |
+| H1 | Stakeholder | Three answers: the four-process perimeter confirmed, the eight-area priority order confirmed, and the two Significant-risk acceptances (R012, R016) granted or refused | R022 — ceiling 14 days; on expiry the process suspends and nothing is auto-filled | Taken in-iteration on 2026-11-23, not queued behind the review: the priority order stands as it is with nothing left out; R012 accepted; R016 accepted. R022 is not binding this iteration, and an answer given before the review is still the stakeholder's, not the reviewers' |
+
+The two Significant accepts remain the stakeholder's to grant, and they are granted in their own words. The milestone review is the reviewers' to rule on: no work item above is closed by this plan.
 
 ## Resources
 
