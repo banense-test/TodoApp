@@ -1,8 +1,8 @@
 ## Document Control
 - Phase: Excavation
-- Status: Live register. Updated at the close of iteration 2; the AR verdict is the Review Coordinator's — iteration required — and iteration 3 is planned from the Review Record
-- Milestone Target: end-of-Excavation (AR) — not yet achieved; iteration 3 required
-- Iteration: 2, Cycle 1 closed; iteration 3 planned from the Review Record
+- Status: Live register. Iteration 3 carries the corrections the AR re-take's ledger orders; the AR verdict is the Review Coordinator's
+- Milestone Target: end-of-Excavation (AR) — not yet achieved
+- Iteration: 3, Cycle 1
 - Owner: Project Manager
 ## Risk Classification
 The scale is the IARI risk scale of the Development Case baseline, §9.10. The project Development Case records no scale of its own, and this artifact defines none. Probability and impact are scored on that scale; a risk's magnitude is the band its exposure (probability × impact) falls in — it is never chosen.
