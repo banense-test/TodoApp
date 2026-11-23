@@ -457,127 +457,109 @@ The three closures this iteration are the substance of it. `Use-Case Model#F4` w
 The System Inventory's coverage arithmetic was recomputed rather than accepted: the per-area Files column sums to 139, the Read column to 84, the unread cells to 55, and the headline reproduces. Every unread area is named with its reason and none carries a perimeter fact.
 
 ### Management Reviewer lens
-<!-- review: Excavation I2 -->
+<!-- review: Excavation I3 -->
 
-Every finding below was recorded through `record_artifact_finding` before this section was written. The Majors of the other lenses are cited because the milestone verdict reads them; they are not re-recorded here as duplicates.
+<!-- review: Excavation I3 -->
+
+Every finding below was recorded through `record_artifact_finding` before this section was written. The other lenses' Majors are cited where the milestone verdict reads them; they are not re-recorded here as duplicates.
+
+#### Stakeholder consultation — gate H4 third put, and the answer it returned
+
+Gate H4 was put for the third time at this review. Both questions were put with this lens's verdict leaning and every open defect named inside them, and neither carried a pre-filled sanction.
+
+**Stakeholder sanction: REFUSED**
+
+**Stakeholder acceptance, question 1 — verbatim:** "No"
+
+**Stakeholder acceptance, question 2 — verbatim:** "The recovered set is confirmed as the model of my system — the 11 use cases, the 4 stated exclusions, the 22 components and the eight tables: nothing is wrong or missing, and no exclusion is re-opened. I do not sanction advancing while a Major is open. No recovered content is at issue, so the next iteration changes none of it: the Project Manager restates the plan's four cells and the three Minors are corrected by their owners."
+
+Four consequences follow, and this lens applies no more than the stakeholder stated:
+
+1. The recovered set **is confirmed** — eleven use cases, four stated exclusions, twenty-two components, eight tables. No use case is wrong or missing and no exclusion is re-opened. `A12`'s second half is answered in the affirmative and is recorded as given.
+2. The sanction to advance into Consolidation is **refused**, because a Major stands. `A12` is therefore **not met**. A condition stated by the stakeholder in words is a condition; none is added beyond the refusal.
+3. No recovered content changes in the next iteration. The work is the plan's cells and the three Minors, and the stakeholder states that explicitly.
+4. Nothing else is recorded. No limit, prohibition or deadline was stated and none is inferred.
 
 #### Defect distribution
 
 ```plantuml
 @startuml
-title Defect distribution at the AR re-take - what this lens closed, what it found, and the one premise the stakeholder's order overturned
+title Defect distribution at the AR third pass - five of this lens closed, two recorded, and the one Major the milestone turns on
 
 skinparam shadowing false
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 235
+skinparam wrapWidth 240
 hide circle
 hide empty members
 
-package "Closed this iteration - 5 of this lens's findings" {
-  class "Risk List#F2  Major\nR030 no longer asserts a retirement\nit had not performed" as C1 <<closed>>
-  class "Iteration Plan#F3  Major\nA10 now certified on the recovered set" as C2 <<closed>>
-  class "Iteration Plan#F4  Minor\nA2 narrowed to what its evidence carries" as C3 <<closed>>
-  class "Iteration Plan#F5  Minor\nA12 records the refusal as given" as C4 <<closed>>
-  class "Vision#F1  Minor\nthe two ellipses are components" as C5 <<closed>>
+package "Closed this iteration - 5 of this lens" {
+  class "Risk List#F3\ncontained-defect\nR030 states the retirement as landed\nand the exposure as live" as C1 <<closed>>
+  class "Iteration Plan#F6\nexit-criterion-unmet\nA10's cell now names all four\nartifacts its test covers" as C2 <<closed>>
+  class "Iteration Plan#F7\nexit-criterion-unmet\nA13 cites the Environment stage\nas the phase's first discipline" as C3 <<closed>>
+  class "Use-Case Model#F1\nexit-criterion-unmet\nfive COMP-014 edges confirmed\nin the registered graph" as C4 <<closed>>
+  class "Development Case#F2\ncontained-defect\nsix contributors named,\nfour edges drawn into RR" as C5 <<closed>>
 }
 
-package "Open Major - 4, each a correction its owner makes in this phase" {
-  class "Iteration Plan#F6\nA10 certifies three of the four artifacts\nits own test names" as M1 <<major>>
-  class "Iteration Plan#F7\nA13 states Environment is inactive here,\nwhich the order overturned" as M2 <<major>>
-  class "Use-Case Model#F1 this lens\nfive COMP-014 edges SUSPECT at the close\n(the technical lens's F3, one correction)" as M3 <<major>>
+package "Major - 1 defect, 2 entries, holds the milestone" {
+  class "Iteration Plan#F4\nconsumed-defect\nA1, A10, A11 and O2 state defects\ntheir own artifacts corrected" as M1 <<major>>
+  class "Iteration Plan#F9\nexit-criterion-unmet\nthose four cells and A12 are the\nrecord the verdict is read on" as M2 <<major>>
 }
 
-package "Open Minor - 2, neither holding the milestone" {
-  class "Development Case#F2\ncontributor set and CLS-DC-01 omit\nthree lenses - ordered corrected now" as m1 <<minor>>
-  class "Risk List#F3\nR030's row says the action is owed\nthough it has now landed" as m2 <<minor>>
+package "Minor - 2, neither holding the milestone" {
+  class "Iteration Plan#F8\ncontained-defect\nthe fine plan's Closes column reads\n'written in this turn' for rows 6 and 7" as m1 <<minor>>
 }
 
-package "Continuity" {
-  class "Iteration 1 - this lens\n2 Major, 4 Minor" as I1 <<archive>>
+package "Recorded by the technical lens, read by this verdict" {
+  class "Risk List#F3\nR032 names Use-Case Model#F4\nas the open sixth artifact" as m2 <<minor>>
+  class "Supplementary Specification#F3\nDocument Control names iteration 2" as m3 <<minor>>
 }
 
-I1 --> C1 : re-verified at its artifact
-I1 --> C2 : re-verified at its artifact
-I1 --> C3 : re-verified at its artifact
-I1 --> C4 : re-verified at its artifact
-I1 --> C5 : re-verified at its artifact
-I1 --> M1 : same failure mode as F3,\none artifact over
-I1 --> M2 : F3's remedy named the set;\nthe order moved the set
+C1 --> M1 : the same stale-state class,\none artifact over
+C2 --> M1 : the cell was widened,\nthe rest was not
+C3 --> M1 : the sequence was corrected,\nthe cells citing it were not
+C4 --> M1 : the graph cleared,\nthe cell still reads suspect
+C5 --> M1 : the artifact was corrected,\nA11's cell still reads two of four
 
 note bottom of M1
-  Iteration Plan#F3 was closed this cycle for certifying A10 on the
-  System Inventory instead of the recovered set. Restating the
-  criterion fixed the method; the evidence cell was not widened to
-  the set the method covers. Same defect, one artifact over.
+  One finding class, five cells, one owner turn. Neither lens records
+  it twice: #F4 is the consumed-defect reading at the artifact, #F9 the
+  criterion reading at the table the verdict is decided on.
 end note
 note bottom of M2
-  A13 was Met because the Process Engineer's work was an order,
-  not a stage. The order now schedules the role in this phase and
-  refuses the carry, so the plan's own words are stale.
+  The milestone turns on this. The recovery holds; the record of the
+  recovery is one correction pass behind it.
 end note
+
 @enduml
 ```
 
-#### Iteration Plan#F6 — A10 certifies three of the four artifacts its own test names (Major, exit-criterion-unmet)
+#### Iteration Plan#F4 — four cells state defects their own artifacts have corrected (Major, `consumed-defect`)
 
-A10's test was rewritten this cycle to "No artifact in the recovered set states a behaviour the code contradicts", and its evidence cell opens "Checked in the artifacts themselves, not in the System Inventory's anomalies table." It then names three artifacts and stops: the Supplementary Specification, the Software Architecture Document, the Deployment Model.
+Recorded by the technical lens at this pass and read by this verdict. A1 reads "**Not met — open Major**" on five `COMP-014` edges "still marked suspect in the registered graph at the close"; a query of `COMP-014` upstream returns five confirmed `Realizes` edges. A10 reads "**Not met — open Major**" and closes on R6 reading "100 tokens" with no `AN-024`; R6 now reads "In force: 50 tokens, 50 per 10 s, queue 50. Code defaults: 100 tokens, 100 per 10 s, queue 100 … AN-024". A11 reads "**Not met — two of four open**"; all four Minors are corrected. Objectives O2 reads "**Not met** … Two Majors stand" on the same two closed findings.
 
-The Use-Case Model is in the recovered set and its rules diagram states one budget where two are in force. R6 reads "The per-user token bucket, /todos only: 100 tokens, 100 per 10 s, queue 100, 429" and cites no `AN-024`, while the same artifact's shared gate diagram states "the code defaults TokenLimit 100 ... and appsettings.Development.json binds all three to 50, which both launch profiles select". `Todo.Api/appsettings.Development.json:8-12` binds 50. One artifact now carries two answers to one question, and the plan certifies that no artifact contradicts the code.
+The defect is in the record three roles act on, not in the recovered content. This lens does not duplicate the entry: one correction in four cells closes it.
 
-This is the failure mode `Iteration Plan#F3` recorded and this lens closed in the same cycle. Restating the criterion fixed how it is certified; the evidence cell was not widened to the set the method covers, so the defect returns one artifact over. The four rules diagrams are what a Designer or a Test Designer reads to know what the flows enforce — the wrong half is the half that gets carried into design.
+#### Iteration Plan#F9 — five cells of the criteria table report states their artifacts and the gate have superseded (Major, `exit-criterion-unmet`)
 
-#### Iteration Plan#F7 — A13 states a premise the stakeholder's order overturned (Major, exit-criterion-unmet)
+The same class as `#F4`, recorded against the criterion rather than the artifact content, because the AR verdict is decided on this table. A1, A10, A11 and O2 report failures their artifacts no longer carry, and A12 records the second put alone — "Gate H4 was put for the second time and answered No" — while the third put has now returned a different answer: the recovered set confirmed, the sanction refused.
 
-A13 is certified Met because each work item "belongs to a stage the IARI DEVELOPMENT PROCESS runs in Excavation". Its evidence cell says the opposite of what the order now creates: "The Process Engineer's two items are recorded as the stakeholder's order of 2026-11-23, not as a discipline stage, and the Development Case records Environment as High in Survey and Inception and inactive here."
+This is the defect that holds the milestone. A1, A10 and A11 are met on the artifacts that own them, but a verdict read on the plan would certify the AR milestone on cells saying three criteria fail. The remedy is one pass by the Project Manager over five cells; no recovered content, no role and no criterion's substance is at stake.
 
-At this review the stakeholder refused the carry and ordered: the Development Case corrected now, before the milestone closes, the Process Engineer scheduled in this phase from the next iteration, A11 unchanged. The plan records no such stage: the coarse roadmap ends Excavation at this iteration, the iteration-2 fine plan ends at item 16, and no row carries the third iteration the order requires. Two work items now belong to a role the stakeholder has scheduled here by order, and the milestone sequence does not record them.
+#### Iteration Plan#F8 — the fine plan's Closes column names a moment instead of a finding's state (Minor, `contained-defect`)
 
-#### Iteration Plan — the Majors of the technical lens this verdict reads
+Rows 6 and 7 read "`Iteration Plan#F6`, `Iteration Plan#F7` — **written in this turn**" and "`Risk List#F3` — **written in this turn**". "This turn" was iteration 2's; the plan now carries iteration 3's fine plan and no reader can resolve the phrase. Contained: every other row of the column names its key and nothing turns on the annotation. Recorded separately from `#F4` because it is a different column and a different remedy.
 
-`Use-Case Model#F3` (Major, `trace-gap`) — five `COMP-014 → UC-006` to `UC-010` edges still marked «SUSPECT → System Analyst» at the phase close. This lens queried the registered graph directly and confirms it: `model_query_traces` on `COMP-014` returns five `Realizes` edges each carrying the marking, with no closure recorded. The edges are substantively right — `Todo.Api/Todos/TodoApi.cs:19-20` applies `RequirePerUserRateLimit()` to the whole `/todos` group, and the artifact's own gate diagram states the step. What is missing is the confirmation that clears the marking. Recorded under this lens as `Use-Case Model#F1` because the milestone verdict reads the graph; one correction closes both.
+#### The two Minors of the technical lens — read, not re-recorded
 
-`Use-Case Model#F4` (Major, `consumed-defect`) — the rules diagram's R6 states one budget where two are in force, and the same artifact states both several sections later. Detailed at `Iteration Plan#F6` above: the two findings are the same defect read from the criterion and from the artifact, and one correction closes both.
+`Risk List#F3` — R032's strategy cell still reads "action performed on five of six; one citing artifact open", names "the Use-Case Model's rules diagram R6, whose correction is `Use-Case Model#F4`", and sets its warning sign "**fired** at `Use-Case Model#F4`". R6 holds and `#F4` is closed, so the register reports a Significant exposure as unmitigated when its mitigation has landed. Contained: the register understates rather than overstates, `A9` holds, and no criterion turns on it.
 
-#### Development Case#F2 — the Minor the stakeholder ordered corrected now (Minor, contained-defect)
+`Supplementary Specification#F3` — Document Control reads "Iteration: 2, Cycle 1" while the other nine artifacts read iteration 3. Contained: the artifact's figures are current and no role builds on the metadata field.
 
-The contributor set for the Review Record still reads "Reviewer, CodeReviewer, plus the Configuration Manager's baseline record", omitting the Management Reviewer, the Business Reviewer and the Review Coordinator, all of which write their own block; CLS-DC-01 draws no edge from them. The defect is unchanged in content and is contained — each lens writes its block whatever the tailoring says.
+#### Artifacts with no open finding from any lens
 
-What changed is its status. The stakeholder answered at this review: "No carry. I order the Development Case corrected now, before the milestone closes: the Process Engineer is scheduled in this phase from the next iteration and corrects Development Case#F2 and #F3 there. A11 stays as written." A11 therefore stays as written and counts this finding, and the next iteration of this phase performs it. `Risk List#R031`'s contingency — another Excavation iteration planned from this record — is the mechanism.
+System Inventory, Vision, Software Architecture Document, Deployment Model and Design Model carry no open finding from any lens at this gate. Each was read at the sections previously found defective and each now holds. Silence is the approval.
 
-#### Risk List#F3 — R030's row is behind the artifact it points at (Minor, contained-defect)
-
-R030's strategy cell reads "**Avoid — not yet retired.** The retirement action is owed and not yet performed: the Use-Case Model carries no statement of the session surface beside UC-001 to UC-004. Iteration 2 item 5 performs it." The Use-Case Model now carries that statement, titled "The instability UC-001 to UC-004 sit on", citing `AN-029`, `AN-012` and `R030`, and opens the Use-Case Specifications section with a pointer to it. The register's own premise is false, and a reader is told a Significant exposure is unmitigated when its mitigation has landed. Contained — the register understates rather than overstates, and the risk itself remains live: `AN-012` stands, no test covers the surface, and the statement records an exposure rather than removing it.
-
-#### Closed this iteration — five of this lens's own findings
-
-Each was re-verified at the section named and, where the finding turned on a recovered fact, at the code.
-
-| Finding | Criterion | What closed it |
-|---|---|---|
-| Risk List#F2 | exit-criterion-unmet | R030 no longer records itself as avoided. Its strategy cell reads "**Avoid — not yet retired.** The retirement action is owed and not yet performed", and the Use-Case Model now carries the statement citing `AN-029`. Avoidance was a claim of retirement; the register no longer makes it |
-| Iteration Plan#F3 | exit-criterion-unmet | A10 is certified on the recovered set: its evidence cell opens "Checked in the artifacts themselves, not in the System Inventory's anomalies table" and the three artifacts it names are verified corrected. That the cell omits a fourth is a new finding (`#F6`), not this one recurring |
-| Iteration Plan#F4 | contained-defect | A2 no longer certifies a clause its evidence lacks. The criterion is narrowed to priorities 1 to 5, and the cell states "no deferred-set statement is required of any artifact for this row to hold" |
-| Iteration Plan#F5 | contained-defect | A12 records "**Not met — refused**" with the answer as given, and the gate is re-put once. No row states a gate the answer superseded |
-| Vision#F1 | contained-defect | `EP-020`, `EP-021` and `EP-022` are `component` shapes PM1 and PM2 under "Platform mechanisms - no actor goal, not use cases", noted to Supplementary Specification M8 and M9. Eleven `usecase` ellipses only; the count matches the Use-Case Model |
-
-#### The eight Majors of iteration 1 — all cleared and verified
-
-| Major | Verified at |
-|---|---|
-| Supplementary Specification#F1 | M3: code defaults 100 / 100 per 10 s / queue 100 and Development 50 / 50 / 50, both under `AN-024`; S2, P1 and R8 likewise |
-| Supplementary Specification#F2 | R4 states the two hops apart — the token hop inherits the standard resilience handler, the forwarder hop nothing — under `AN-023` |
-| Software Architecture Document#F1 | SP1: "**50 tokens, 50 per 10 s and a queue of 50 is the budget in force wherever this delivery runs** ... The fact is AN-024"; M3 and the bounded-load row likewise |
-| Deployment Model#F1 | Preamble narrowed to what is true; Rate limiting row reads 50 / 50 / 50 for Development against the code defaults; "**Two settings separate the environments, not one.**" |
-| Use-Case Model#F1 (technical) | The three `EP-003` edges report confirmed and the screen-entry reading is stated beside the rows |
-| Vision#F1 (technical) | The two ellipses are components; the section states eleven use cases |
-| Risk List#F2 (technical) | R024 no longer misattributes; the risk is a later role assuming equal protection, aimed at the Supplementary Specification's R4 |
-| Iteration Plan#F3 (technical) | The fine plan's State column states each row's actual outcome against the artifact it names |
-
-#### Artifacts with no open finding from this lens
-
-System Inventory, Supplementary Specification, Software Architecture Document, Deployment Model, Design Model and Iteration Assessment carry no open finding from this lens. Each was read at the sections this lens previously found defective and each now holds. Silence from this lens is the approval.
-
-The System Inventory's coverage arithmetic was recomputed rather than accepted: the Files column sums to 139, the Read column to 84, the unread cells to 55, and the headline reproduces. The Risk List's 32 rows each name strategy, owner, action, contingency and warning sign, and `R030` and `R031` state "not yet retired" and "materialized" rather than claiming retirements that have not occurred.
+The System Inventory's coverage arithmetic was recomputed rather than accepted: the per-area Files column sums to 139, the Read column to 84, the unread cells to 55, and the headline reproduces. The Risk List's rows each name strategy, owner, action, contingency and warning sign; `R030` states a retirement that landed and an exposure that stands, and `R031` states a materialization rather than a mitigation.
 
 ### Review Coordinator lens
 <!-- review: Excavation I2 -->
