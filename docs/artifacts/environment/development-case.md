@@ -172,11 +172,11 @@ Evaluated against the delivery as it stands. Re-evaluated at the start of every 
 | Test Plan | Formal delivery, regulatory audit, contractual test reporting | NOT FIRED | No regulator, contract or audit consumes test reporting. Per-iteration test scope is set by the Iteration Plan and reported in the Test Evaluation Summary. |
 
 ## Roles and Ownership
-Ownership, the two role deltas and every tool configuration this project references, in one view. Nothing of the baseline's ownership moves; every path named in this section belongs to the role beside it, and its content and its state are that role's.
+Ownership, the two role deltas, the six contributors to the Review Record and every tool configuration this project references, in one view. Nothing of the baseline's ownership moves; every path named in this section belongs to the role beside it, and its content and its state are that role's.
 
 ```plantuml
 @startuml
-title CLS-DC-01 Role-artifact ownership and the tool references of this project
+title CLS-DC-01 Role-artifact ownership, the lenses of the Review Record, and the tool references of this project
 
 skinparam classAttributeIconSize 0
 
@@ -217,7 +217,7 @@ package "Configuration and Change Management" {
   class "ConfigurationManager" as CFM
   class "ChangeControlManager" as CCM
 }
-package "Review" {
+package "Review Record lenses" {
   class "Reviewer" as RV
   class "BusinessReviewer" as BRV
   class "ManagementReviewer" as MRV
@@ -263,7 +263,6 @@ ARC --> DPM : owns
 DES --> DMO : owns
 DBD --> DMO : persistent data
 IMPL --> IM : owns
-CRV --> RR : records
 IGR --> IM : builds
 TM --> TES : owns
 TD --> TC : owns
@@ -271,15 +270,27 @@ TS --> TC : executes
 DM --> DPM : owns
 DM --> UDRN : owns
 TW --> UDRN : owns
-CFM --> RR : baseline record
 CCM --> CRQ : owns
 RV --> RR : owns
 RV --> DC : reviews
+CRV --> RR : code-review block
+MRV --> RR : management-review block
+BRV --> RR : business-review block
+RCO --> RR : ledger and actions block
+CFM --> RR : baseline record
 IGR ..> CI : references
 IGR ..> BUILD : references
 IGR ..> ENVD : references
 IMPL ..> BUILD : references
 TS ..> REQH : references
+
+note bottom of RR
+  Six contributors, one block each: the Reviewer owns the
+  document and its findings, the Code Reviewer contributes the
+  code-review lens, the Management Reviewer, the Business
+  Reviewer and the Review Coordinator each write their own
+  block, and the Configuration Manager records the baseline.
+end note
 @enduml
 ```
 
@@ -304,7 +315,7 @@ Deltas over the 26-role roster — two roles do not work, and nothing else chang
 - **BusinessProcessAnalyst — does not work.** `business-process-led = false`; the inherited process runs this role only when the Development Case records a business-process-led project.
 - **CapsuleDesigner — does not work.** `real-time-system = false`; the capsule tailoring applies only to a system with hard deadlines or concurrent event-driven behaviour.
 
-The other 24 roles work as the inherited process schedules them. No role is added, merged or renamed, and no CORE artifact's primary ownership is reassigned. Co-owned artifacts keep the contributor sets the baseline gives them — in this project: Design Model (Designer, DatabaseDesigner, UserInterfaceDesigner), Supplementary Specification and Use-Case Model (SystemAnalyst, RequirementsSpecifier, UserInterfaceDesigner), Review Record (Reviewer, CodeReviewer, plus the Configuration Manager's baseline record).
+The other 24 roles work as the inherited process schedules them. No role is added, merged or renamed, and no CORE artifact's primary ownership is reassigned. Co-owned artifacts keep the contributor sets the baseline gives them — in this project: Design Model (Designer, DatabaseDesigner, UserInterfaceDesigner), Supplementary Specification and Use-Case Model (SystemAnalyst, RequirementsSpecifier, UserInterfaceDesigner), and the Review Record (Reviewer, CodeReviewer, ManagementReviewer, BusinessReviewer, ReviewCoordinator, plus the ConfigurationManager's baseline record). Each of the six writes its own block and closes only the findings its own lens recorded; the Reviewer holds the document.
 
 ## Guidelines and Procedures
 ### Guideline ownership
