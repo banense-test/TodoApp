@@ -132,95 +132,17 @@ Recorded because it is what a deployment decision would meet, not as a recommend
 | The migration | Run by the app host, which is a development process, not a deploy step | `TodoApp.AppHost/Extensions.cs:5-21` |
 
 ## Nodes and Connectors
-
 | Node | What runs there | Placed by | Reachable from | Anchor |
 |---|---|---|---|---|
 | Browser process | COMP-001, COMP-002, COMP-003 as a WebAssembly bundle | Static assets served by COMP-004 from the same origin | Nothing — it initiates | `Todo.Web/Server/Program.cs:47-49`; `Todo.Web/Client/Program.cs:5-13` |
-| Todo.Web.Server | COMP-004 to COMP-008, COMP-021 | `AddProject<Todo_Web_Server>` with a reference to the API resource | The browser, over HTTPS 5001 / HTTP 5000 | `TodoApp.AppHost/Program.cs:9-10`; `Todo.Web/Server/Properties/launchSettings.json` |
-| Todo.Api | COMP-009 to COMP-018, COMP-021 | `AddProject<Todo_Api>` named `todoapi` | The BFF, by discovery name only — it publishes no fixed port of its own to the outside | `TodoApp.AppHost/Program.cs:5-7` |
-| TodoApp.AppHost | COMP-020 | Started by the developer | Nothing | `TodoApp.AppHost/Program.cs:1-28` |
-| `dotnet-ef` child process | `dotnet ef database update --no-build`, preceded by a global tool install | `AddExecutable`, gated on run mode and on `Todo.Api/.db` being absent | Nothing; the API waits on its completion | `TodoApp.AppHost/Extensions.cs:25-33` |
-| `tomdesinto/sqliteweb` container | A SQLite browser over the bind-mounted directory, target port 8080 | `AddContainer`, excluded from the manifest | The developer, through the app host's dashboard | `TodoApp.AppHost/Program.cs:14-19` |
+| Todo.Web.Server | COMP-004 to COMP-008, COMP-021 | `AddProject<Todo_Web_Server>("todo-web-server")` with a reference to the API resource. **No endpoint is declared in the orchestration**, so the served port is assigned by the app host. Run on its own, its profiles bind 5147 (http) and 7123 (https) | The browser, on the port the app host assigned | `TodoApp.AppHost/Program.cs:9-10`; `Todo.Web/Server/Properties/launchSettings.json` |
+| Todo.Api | COMP-009 to COMP-018, COMP-021 | `AddProject<Todo_Api>("todoapi")`. **No endpoint is declared either**; run on its own its profiles bind 5000 (http) and 5001 (https) and launch at `scalar/v1` | The BFF, by discovery name only — it publishes no endpoint of its own to the outside | `TodoApp.AppHost/Program.cs:5-7`; `Todo.Api/Properties/launchSettings.json` |
+| TodoApp.AppHost | COMP-020 | Started by the developer. Sets `UserSecretsId`, so a developer's own secrets load here | Nothing | `TodoApp.AppHost/Program.cs:1-28`; `TodoApp.AppHost/TodoApp.AppHost.csproj` |
+| `dotnet-ef` child process | `dotnet ef database update --no-build`, preceded by a global tool install it waits on | `AddExecutable`, gated on run mode and on `Todo.Api/.db` being absent | Nothing; the API and the container wait on its completion | `TodoApp.AppHost/Extensions.cs:25-33` |
+| `tomdesinto/sqliteweb` container | A SQLite browser over the bind-mounted directory, target port 8080 — the one fixed port in the tree | `AddContainer`, excluded from the manifest | The developer, through the app host's dashboard | `TodoApp.AppHost/Program.cs:14-19` |
 | File system | `Todo.Api/.db/Todos.db`; the data-protection key ring at the framework default location | Created by the migration; the ring by whichever process writes first | Todo.Api, and Todo.Web.Server for the ring | `Todo.Api/Program.cs:23`; AN-013, AN-010 |
 
-### Connectors
-
-| From | To | Protocol and properties | Anchor |
-|---|---|---|---|
-| Browser | Todo.Web.Server | HTTPS, same origin, cookie, `X-Requested-With: XMLHttpRequest` | `Todo.Web/Client/Program.cs:7-13` |
-| COMP-006 / COMP-007 | Todo.Api | HTTP, service discovery name `todoapi`, no credential, standard resilience handler applied | `Todo.Web/Server/Program.cs:23-26`; `TodoApp.ServiceDefaults/Extensions.cs:32-42` |
-| COMP-008 | Todo.Api | HTTP, any `/todos` sub-path, `Authorization: Bearer`, no resilience handler (default `ForwarderRequestConfig`) | `Todo.Web/Server/TodoApi.cs:16-25` |
-| Todo.Api | `Todos.db` | EF Core 9 SQLite over the file; single writer | `Todo.Api/Program.cs:23-24` |
-| COMP-006 | Key ring | Data protection write, protector named after the provider | `Todo.Web/Server/AuthApi.cs:82-84` |
-| COMP-010 | Key ring | Data protection read, same protector name | `Todo.Api/Users/UsersApi.cs:26-28` |
-| COMP-005 | External identity provider | HTTPS, per-provider handler, only where that provider is configured — none is | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:39-75`; `Todo.Web/Server/appsettings.json` |
-| COMP-021 | OTLP collector | HTTPS/HTTP OTLP, only when `OTEL_EXPORTER_OTLP_ENDPOINT` is non-empty | `TodoApp.ServiceDefaults/Extensions.cs:74-81` |
-| AppHost | Sqlite-web container | Container start with a bind mount of the API's `.db` directory | `TodoApp.AppHost/Program.cs:14-19` |
-
-```plantuml
-@startuml
-title DEP-D2 Start-up and schema provisioning - the order the app host imposes, and what fails without it
-
-skinparam shadowing false
-skinparam wrapWidth 215
-
-|Developer|
-start
-:Starts TodoApp.AppHost;
-|COMP-020 AppHost|
-:DistributedApplication.CreateBuilder;
-:AddTodoDbMigration();
-note right
-  ExecutionContext.IsRunMode must be true.
-  A publish or manifest run skips the whole block.
-  Extensions.cs:5-7
-end note
-if (Todo.Api/.db exists?) then (yes)
-  :no migration resource is created;
-else (no)
-  :Directory.CreateDirectory(.db);
-  :AddEfMigration<Todo_Api>("todo-db-migration");
-  :install-ef: dotnet tool install --global dotnet-ef;
-  :database update --no-build, waiting on the install;
-end if
-:AddProject<Todo_Api>("todoapi");
-:AddProject<Todo_Web_Server>("todo-web-server")
-  .WithReference(todoapi);
-:AddContainer("sqliteweb", "tomdesinto/sqliteweb")
-  .WithBindMount(.db, /db);
-if (a migration resource exists?) then (yes)
-  :todoapi.WaitForCompletion(migration);
-  :sqliteWeb.WaitForCompletion(migration);
-else (no)
-endif
-:Build().Run();
-|Todo.Api|
-:Starts only after the migration completes;
-:AddSqlite<TodoDbContext>(
-  "Data Source=.db/Todos.db");
-:AddCurrentUser, rate limiting, bearer auth,
- Identity core over TodoDbContext;
-:Listens; reachable as todoapi;
-|Todo.Web.Server|
-:Starts in parallel with the API;
-:AddHttpClient<AuthClient>(http://todoapi);
-:AddHttpForwarderWithServiceDiscovery();
-:Listens on 5000 and 5001;
-|Developer|
-:Opens the browser at the server;
-note right
-  Two failure modes this order creates and does not
-  guard: the standalone route documented in README.md
-  fails until the app host has run once, because only
-  this sequence creates .db (AN-013); and a migration
-  that no longer matches the model is caught only here,
-  because the test host builds its schema by
-  EnsureCreated (AN-005).
-end note
-stop
-
-@enduml
-```
+**Two port facts, and they are different facts.** The orchestration declares no port for either serving process; the launch profiles declare one for each, and only when that project is run alone. The 5000/5001 pair the developer container forwards belongs to `Todo.Api`'s profiles, not to the BFF's — a reader who takes the forwarded pair as the system's entry point reaches the API, not the screens.
 
 ## Environment Mapping
 
