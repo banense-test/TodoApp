@@ -41,7 +41,7 @@ Thirty of the thirty-two risks score the likelihood and impact the System Invent
 | likelihood `likely` | Probability 4 — High, 51 % to 70 % | impact `moderate` | Impact 3 — Medium |
 | | | impact `high` | Impact 4 — High |
 
-`R022` refines no anomaly: it is the plan's own dependency on stakeholder answers, and its 2 × 4 is the Project Manager's reading of the phase gate. `R031` refines none either: it is the plan's own exposure — an exit criterion whose owner the phase does not schedule — scored 3 × 4 because the correction may land in time and, if it does not, the AR milestone needs an iteration this phase did not plan; it has materialized. `R032` refines none: it is the exposure the AR review's own defect ledger establishes — one recovered fact transcribed inconsistently into the artifacts that cite it — scored 4 × 3 because four of the eight Majors at that gate are exactly that.
+`R022` refines no anomaly: it is the plan's own dependency on stakeholder answers, and its 2 × 4 is the Project Manager's reading of the phase gate. `R031` refines none either: it is the plan's own exposure — an exit criterion whose owner the phase did not schedule — scored 3 × 4 because the correction may land in time and, if it does not, the AR milestone needs an iteration this phase did not plan; it has materialized twice and the contingency is taken. `R032` refines none: it is the exposure the AR review's own defect ledger establishes — one recovered fact transcribed inconsistently into the artifacts that cite it — scored 4 × 3 because four of the eight Majors at that gate are exactly that.
 
 ```plantuml
 @startuml
@@ -101,7 +101,7 @@ end note
 | Minor | — | 0 | — |
 | Low | — | 0 | — |
 
-No risk sits in a band its strategy cannot be held in: every Significant-band risk either avoids or carries the stakeholder's granting answer, and no new Significant risk Excavation added takes the accept strategy, so both the recovery and its corrective iteration required no grant. `R031` and `R032` both avoid, so the schedule and transcription exposures this phase surfaced need no grant either. `R030` avoids and is stated as not yet retired rather than as retired.
+No risk sits in a band its strategy cannot be held in: every Significant-band risk either avoids or carries the stakeholder's granting answer, and no Significant risk this phase added takes the accept strategy, so neither the recovery nor its corrective iterations required a grant. `R030` avoids and its retirement action has landed in the Use-Case Model; the exposure stays live on `AN-012` and is stated as live, not as retired. `R031` avoids, its contingency is taken, and `R032` avoids with its action performed on five of the six citing artifacts.
 
 Not carried: no risk in this register concerns staffing, skills, turnover or friction between people. The executing agents are not a development organization and the stakeholder is the only human here, so such a risk would name no actor and is retired as not applicable rather than classified. What the people the SYSTEM serves do with it is a domain risk and stays.
 
