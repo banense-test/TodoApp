@@ -1,11 +1,9 @@
 ## Document Control
-
 - Phase: Excavation
 - Status: Draft — produced for the end-of-Excavation (AR) milestone review
 - Milestone Target: end-of-Excavation (AR) — not yet achieved
-- Iteration: 1, Cycle 1
+- Iteration: 2, Cycle 1
 - Owner: Software Architect
-
 ## Deployment Topology
 The system has **one supported placement and no deployment artifact**: no Dockerfile, compose file, Kubernetes manifest or infrastructure definition is anywhere in the tree, and `.iari/README.md` records that it is not deployed. The `ContainerImageName` and `ContainerImageTag` properties two project files still carry are a residue the tree no longer backs. What places the processes is `TodoApp.AppHost`, and it does so on one machine, in one developer's session.
 
