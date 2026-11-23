@@ -690,72 +690,71 @@ The exit criteria for this iteration's milestone (AR). Each is decided on the ev
 
 ```plantuml
 @startuml
-title AR exit criteria - the thirteen criteria and the evidence each is decided on
-
+title AR exit criteria - the thirteen criteria, what each turns on, and the five iteration 3 must turn
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 skinparam wrapWidth 250
 hide circle
 hide empty members
 
-package "Met, on the evidence the artifact it cites records - 11" {
-  class "A1 Operations recovered as use cases\n11 UCs with their EP-NNN; 4 exclusions stated" as A1 <<met>>
+package "Met on the evidence the artifact it cites records - 8" {
   class "A2 Read in the priorities' order\npriorities 1 to 5 each yield a use case" as A2 <<met>>
   class "A3 Architecture recovered and checked\n22 COMPs, Use-Case View for all 11 UCs" as A3 <<met>>
   class "A4 Data recovered with anchors\nentities, keys, rules, the owner key" as A4 <<met>>
   class "A5 Deployment modelled\nthe fired OPTIONAL, nodes, stores, key ring" as A5 <<met>>
-  class "A6 Coverage measured\n84 read, 55 unread of 139, per-area sums" as A6 <<met>>
+  class "A6 Coverage measured\n84 read, 55 unread of 139" as A6 <<met>>
   class "A7 Anomalies carried as risks\n29 Refines edges, separate origins stated" as A7 <<met>>
   class "A8 No grant-band accept without the stakeholder\n4 grants, each at exposure 12" as A8 <<met>>
   class "A9 Every risk actionable\nstrategy, owner, action, contingency, sign" as A9 <<met>>
-  class "A10 The set states the code's behaviour\nAN-024 and AN-023 carried, not contradicted" as A10 <<met>>
-  class "A13 No work the process does not run\n16 items, each an Excavation correction" as A13 <<met>>
 }
 
-package "Not met - 2" {
-  class "A11 The SBC Minors closed\n3 of 4" as A11 <<notmet>>
-  class "A12 The recovered set confirmed\nGate H4 answered No" as A12 <<refused>>
+package "Not met - 5, each one correction by its owner" {
+  class "A1 Operations recovered and trace\nfive COMP-014 edges unconfirmed" as A1 <<notmet>>
+  class "A10 The set states the code's behaviour\nR6 says 100 where Development binds 50" as A10 <<notmet>>
+  class "A11 The SBC Minors closed\n2 of 4 open, both in the Development Case" as A11 <<notmet>>
+  class "A12 The recovered set confirmed\nGate H4 answered No, twice" as A12 <<notmet>>
+  class "A13 No work the process does not run\nthe sequence records no Environment stage" as A13 <<notmet>>
 }
+
+A1 --> A10 : the same artifact carries\nboth corrections
+A11 --> A13 : the stage A11 needs is\nthe stage A13 must record
 
 note bottom of A11
-  Development Case#F2 stands: its owner, the
-  Process Engineer, has no stage in Excavation.
-  Carried as R031.
+  The stakeholder declined the carry to Inception and kept
+  the criterion as written: the Minors are corrected in this
+  phase, in the Environment stage the milestone sequence now
+  records.
 end note
 note bottom of A12
-  Turns on the stakeholder's answer alone. No
-  artifact holds it, so no evidence is cited for it.
-end note
-note bottom of A10
-  The three artifacts that stated the contradicted
-  budget now carry both values under AN-024, and
-  R4 states the two hops apart under AN-023.
+  Turns on the stakeholder's answer alone. No artifact holds it,
+  so no evidence cell cites one. Put a third time, once, on a set
+  that agrees with itself.
 end note
 @enduml
 ```
 
 | # | Criterion | Met when | State | Evidence |
 |---|---|---|---|---|
-| A1 | The operations the system performs are recovered as use cases | Every use case traces to the entry point whose code performs it, and every entry point is either carried or its exclusion stated | Met | Use-Case Model — Use-Case Survey: `UC-001` to `UC-011`, each with its `EP-NNN` list; "Not recovered, and why" accounts for `EP-020`, `EP-021`, `EP-022` and the `admin` branch of `EP-011`, `EP-013`, `EP-014`. `Use-Case Model#F1` |
-| A2 | The recovered use cases are read from the priorities the reading ordered first | Priorities 1 to 5 of the System Inventory each yield at least one recovered use case, and the recovery follows the order the stakeholder confirmed on 2026-11-23 | Met | System Inventory — Priorities: areas 1 to 5 ordered as the API's todo operations, its authorization, the BFF, the screens and the tests. The eleven use cases trace to `EP-NNN` in each of those five areas. The criterion claims nothing about the remainder: priorities 6 to 8 are orchestration, build and supporting files, no recovered use case is read from them, and no deferred-set statement is required of any artifact for this row to hold |
-| A3 | The architecture is recovered and checked against the use cases | The Software Architecture Document's components carry the paths the recovered use cases take, and every use case is reachable through a component it names | Met | Software Architecture Document — Logical View (`COMP-001` to `COMP-022` with their connectors) and Use-Case View, which names the components each of the eleven use cases' confirmed path crosses, including the seven not diagrammed. `Software Architecture Document#F1` |
-| A4 | The data is recovered with its anchors | The persistent entities, keys, associations and enforced rules are recorded, each with the file it was read from | Met | Design Model — persisted domain classes (`DM-D1`, `CLS-001` `Todo`, `CLS-007` `TodoUser`, `CLS-006` `TodoDbContext`), the relationship inventory, and "What the code does not hold" — each anchored to `TodoDbContext.cs:11-17` and the three migrations; `AN-025` recorded against the owner key as the fact it is. `Design Model#F1` |
-| A5 | The deployment is modelled | The fired OPTIONAL exists and records the processes, the stores and what must be shared between them | Met | Deployment Model — `get_optional_artifact_triggers` reports its trigger fired; Deployment Topology, Nodes and Connectors, and Environment Mapping state the processes, the stores, the ports, the shared key ring (`AN-010`) and the database directory (`AN-013`), and state the request budget as 50 / 50 / 50 in the environment every launch profile selects against the code defaults, under `AN-024`. `Deployment Model#F1` |
-| A6 | The coverage is measured and the remainder declared | Every file is either read or named with the reason it was not, and the headline figure reproduces from the per-area table | Met | System Inventory — Coverage: 84 opened and 55 unread of 139, the per-area Read column summing to 84 and its Files column to 139, and every unread file named by category with none carrying a perimeter fact |
+| A1 | The operations the system performs are recovered as use cases | Every use case traces to the entry point whose code performs it, and every entry point is either carried or its exclusion stated | **Not met — open Major** | Use-Case Model — Use-Case Survey: `UC-001` to `UC-011`, each with its `EP-NNN` list; "Not recovered, and why" accounts for `EP-020`, `EP-021`, `EP-022` and the `admin` branch of `EP-011`, `EP-013`, `EP-014`. Carriage is intact. `Use-Case Model#F3` (`trace-gap`): five `COMP-014 → UC-006` to `UC-010` `Realizes` edges are still marked suspect in the registered graph at the close, so the shared rate-limit mechanism is unconfirmed for five of the eleven use cases |
+| A2 | The recovered use cases are read from the priorities the reading ordered first | Priorities 1 to 5 of the System Inventory each yield at least one recovered use case, and the recovery follows the order the stakeholder confirmed on 2026-11-23 | Met | System Inventory — Priorities: areas 1 to 5, the API's todo operations, its authorization, the BFF, the screens and the tests. The eleven use cases trace to `EP-NNN` in each of those five areas. The criterion claims nothing about priorities 6 to 8, and no deferred-set statement is required of any artifact for this row to hold |
+| A3 | The architecture is recovered and checked against the use cases | The Software Architecture Document's components carry the paths the recovered use cases take, and every use case is reachable through a component it names | Met | Software Architecture Document — Logical View (`COMP-001` to `COMP-022` with their connectors) and Use-Case View, which names the components each of the eleven use cases' confirmed path crosses. `Software Architecture Document#F1` closed: SP1, M3 and the Quality view's bounded-load row state 50 / 50 / 50 as the bound in force under `AN-024` |
+| A4 | The data is recovered with its anchors | The persistent entities, keys, associations and enforced rules are recorded, each with the file it was read from | Met | Design Model — persisted domain classes (`DM-D1`, `CLS-001` `Todo`, `CLS-007` `TodoUser`, `CLS-006` `TodoDbContext`), the relationship inventory, and "What the code does not hold", each anchored to `TodoDbContext.cs:11-17` and the three migrations; `AN-025` recorded against the owner key. `Design Model#F1` closed |
+| A5 | The deployment is modelled | The fired OPTIONAL exists and records the processes, the stores and what must be shared between them | Met | Deployment Model — `get_optional_artifact_triggers` reports its trigger fired; Deployment Topology, Nodes and Connectors, and Environment Mapping state the processes, the stores, the ports, the shared key ring (`AN-010`) and the database directory (`AN-013`). `Deployment Model#F1` closed: the preamble is narrowed to what the files hold and the Rate limiting row reads 50 / 50 / 50 for Development |
+| A6 | The coverage is measured and the remainder declared | Every file is either read or named with the reason it was not, and the headline figure reproduces from the per-area table | Met | System Inventory — Coverage: 84 opened and 55 unread of 139, the per-area Read column summing to 84 and its Files column to 139, every unread file named by category with none carrying a perimeter fact. Both lenses recomputed the arithmetic at this milestone and it reproduces |
 | A7 | Every anomaly the recovery surfaced is carried as a scored risk | No anomaly maps to no risk, and every score reproduces from the one published mapping | Met | Risk List — Risk Register: 29 `Refines` edges from `AN-NNN`, plus `R022`, `R031` and `R032`, whose separate origins are stated in the register; every anomaly-derived row reproduces from the mapping in Risk Classification |
-| A8 | No accepted risk above Moderate lacks the stakeholder's grant | No risk the register places at Significant or High is accepted on the Project Manager's authority | Met — 2026-11-23 | Risk List — the grant table under Risk Register: four grants on `R004`, `R011`, `R012` and `R016`, each at 4 × 3 = 12, recorded verbatim. The Significant-band risks that do not accept are avoided, which is the Project Manager's authority at any band; `R031` and `R032` both avoid, so no second grant was needed and none was sought |
-| A9 | Every risk is actionable | Every risk names a strategy, an owner, an action, a contingency and a warning sign | Met | Risk List — Risk Mitigation and Contingency: every row names a strategy, an owner, an action, a contingency and a warning sign; `Risk List#F2` |
-| A10 | The recovery states what the code does, not what it was meant to do | No artifact in the recovered set states a behaviour the code contradicts, and where code and document disagree the code is recorded and the contradiction identified against its anchor | Met — certified on the recovered set | Checked in the artifacts themselves, not in the System Inventory's anomalies table. **Supplementary Specification** M3, S2, P1 and R8 state the code defaults (100 tokens, 100 per 10 s, queue 100) and the Development override (50 / 50 / 50) as two values in force, citing `AN-024`; R4 states the two outbound hops apart, the token hop inheriting the standard resilience handler and the forwarder hop inheriting nothing, citing `AN-023`. **Software Architecture Document** SP1, M3 and the Quality view's "Availability — bounded load" row state 50 / 50 / 50 as the bound in force and the code's 100 series as applying only to an environment no launch profile selects, citing `AN-024`. **Deployment Model** Environment Mapping narrows its preamble to what is true (no connection string, provider credential or address) and its Rate limiting row reads 50 / 50 / 50 for Development against the code defaults elsewhere, citing `AN-024` and `R025`. The contradictions the criterion exists to catch are carried as facts with their anchors: `AN-008`, `AN-018`, `AN-024`, `AN-025`, and `AN-023` for the two hops |
-| A11 | The Minors the SBC review left open are closed | Each of the four is corrected in the artifact that carries it | **Not met — three of four** | Corrected in their artifacts: `Iteration Plan#F2` (C2b no longer exists; A1 to A13 replace it), `Iteration Plan#F3` (the State column states each row's actual outcome) and `System Inventory#F3` (Document Control names the iteration its content belongs to). Not corrected: `Development Case#F2` — "Roles and Ownership" still reads "Reviewer, CodeReviewer, plus the Configuration Manager's baseline record", and CLS-DC-01 draws no edge into the Review Record from the Management Reviewer, the Business Reviewer or the Review Coordinator. Carried as `R031`: Environment runs at no intensity in Excavation, so its owner has no scheduled stage and the correction reaches that artifact on the stakeholder's order of 2026-11-23 alone |
-| A12 | The recovered set is confirmed by the stakeholder | Gate H4 answered Yes: the 11 use cases, the architecture and the data accepted as the models of the existing system | **Not met — refused** | Gate H4 was put at the AR review and answered **No**, with the order "We must correct all major findings." The answer is recorded as given and nothing in it is recorded as a confirmation it did not contain. The criterion turns on the stakeholder's answer alone; no artifact holds it, so no evidence cell cites one. It is re-put after iteration 2's corrective items land |
-| A13 | The plan names no work the process does not run | The milestone sequence is recorded and each work item belongs to a stage the IARI DEVELOPMENT PROCESS runs in Excavation | Met | This artifact — the sixteen iteration-2 work items are each a corrective action against an artifact an Excavation role owns. The Process Engineer's two items are recorded as the stakeholder's order of 2026-11-23, not as a discipline stage, and the Development Case records Environment as High in Survey and Inception and inactive here |
+| A8 | No accepted risk above Moderate lacks the stakeholder's grant | No risk the register places at Significant or High is accepted on the Project Manager's authority | Met — 2026-11-23 | Risk List — the grant table under Risk Register: four grants on `R004`, `R011`, `R012` and `R016`, each at 4 × 3 = 12, recorded verbatim. No risk this iteration placed in the grant band takes the accept strategy, so no second grant was needed and none is assumed |
+| A9 | Every risk is actionable | Every risk names a strategy, an owner, an action, a contingency and a warning sign | Met | Risk List — Risk Mitigation and Contingency: every row names a strategy, an owner, an action, a contingency and a warning sign. `Risk List#F2` (Management Reviewer) closed on `R030`'s corrected strategy. `Risk List#F3` is a transcription in that same cell and the criterion's subject, actionability, is not in question |
+| A10 | The recovery states what the code does, not what it was meant to do | No artifact in the recovered set states a behaviour the code contradicts, and where code and document disagree the code is recorded and the contradiction identified against its anchor | **Not met — open Major** | Decided on all four artifacts the criterion's own test names. **Supplementary Specification** M3, S2, P1 and R8 state the code defaults (100 tokens, 100 per 10 s, queue 100) and the Development override (50 / 50 / 50) as two values in force, citing `AN-024`; R4 states the two outbound hops apart, the token hop inheriting the standard resilience handler and the forwarder hop nothing, citing `AN-023` — verified. **Software Architecture Document** SP1, M3 and the Quality view's "Availability — bounded load" row state 50 / 50 / 50 as the bound in force — verified. **Deployment Model** Environment Mapping's preamble is narrowed to what is true and its Rate limiting row reads 50 / 50 / 50 for Development — verified. **Use-Case Model** is the fourth and does not yet hold: its rules diagram's R6 reads "The per-user token bucket, /todos only: 100 tokens, 100 per 10 s, queue 100, 429" and cites no `AN-024`, while the same artifact's shared gate diagram states both values and `Todo.Api/appsettings.Development.json:8-12` binds 50. One artifact carries two answers to one question. `Use-Case Model#F4`; `Iteration Plan#F6` recorded that A10's cell certified three of the four |
+| A11 | The Minors the SBC review left open are closed | Each of the four is corrected in the artifact that carries it | **Not met — two of four open** | Corrected: `Iteration Plan#F2` (C2b no longer exists; A1 to A13 replace it), `Iteration Plan#F3` (the State column states each row's actual outcome), `System Inventory#F3` (Document Control names the iteration its content belongs to). Open: `Development Case#F2` — "Roles and Ownership" still reads "Reviewer, CodeReviewer, plus the Configuration Manager's baseline record", and CLS-DC-01 draws no edge into the Review Record from the Management Reviewer, the Business Reviewer or the Review Coordinator; `Development Case#F3` — Document Control still reads Phase: Survey. Both are the Process Engineer's, and the stage exists: on the stakeholder's answer of 2026-11-23 Environment runs in every phase and is Excavation's first discipline, with that role's stage in iteration 3. The criterion is not carried to Inception and not restated |
+| A12 | The recovered set is confirmed by the stakeholder | Gate H4 answered Yes: the 11 use cases, the architecture and the data accepted as the models of the existing system | **Not met — refused** | Gate H4 was put for the second time and answered **No**, with the order that every Major be corrected and that the Development Case be corrected in this phase. The answer is recorded as given and nothing in it is recorded as a confirmation it did not contain. The criterion turns on the stakeholder's answer alone; no artifact holds it, so no evidence cell cites one. It is put a third time, once, after iteration 3's actions land |
+| A13 | The plan names no work the process does not run | The milestone sequence is recorded and each work item belongs to a stage the IARI DEVELOPMENT PROCESS runs in Excavation | **Not met — open Major** | The fine plan's items are each a corrective action against an artifact an Excavation role owns, and the milestone sequence now records the **Environment** discipline as this phase's first stage: the Process Engineer holds iteration 3's items 1 to 3 under that stage, on the stakeholder's restatement of 2026-11-23 that the process runs Environment in every phase and in Excavation as its first discipline. `Iteration Plan#F7` recorded that the sequence ended Excavation at iteration 2 and cited no stage; the sequence is corrected in this section's sibling, and this cell now cites the stage rather than an order. The criterion reads not met until the stage's work is performed |
 
-**Eleven met, two not met.** No criterion is certified on another criterion's answer and no finding is waived by a criterion's state.
+**Eight met, five not met.** No criterion is certified on another criterion's answer and no finding is waived by a criterion's state. A1 and A10 turn on one artifact and one turn by its owner; A11 and A13 turn on one stage, now recorded; A12 turns on the stakeholder's answer alone.
 
-Two criteria are not this plan's to certify:
+Three criteria are not this plan's to certify:
 
-- **A11** turns on an artifact this role does not own. It reads three of four and is carried as `R031`; it is not waived, and no row of the fine plan is marked complete on it.
-- **A12** turns on the stakeholder's answer, which was refused.
+- **A11** turns on an artifact this role does not own. It reads two of four at this pass — a third of the four having closed at the previous pass — and is neither waived nor restated: the stakeholder declined that recommendation by name.
+- **A12** turns on the stakeholder's answer, which was refused a second time.
+- **A1** and **A10** turn on the Use-Case Model, whose two Major defects are its owner's to correct and whose evidence this cell records without anticipating the correction.
 
-The nine criteria that rest on a role's artifact are certified on that artifact's own text, re-read this iteration: the three that cited a Major against their artifact — A3, A5 and A10 — are met because the corrections those Majors ordered are in the artifacts, each verified at its named section rather than taken from the finding's remedy. A10 in particular is certified on the recovered set: a criterion whose test is about what the recovered artifacts state cannot be satisfied by the System Inventory identifying the contradiction the recovered artifacts then repeat.
-
+The nine criteria that rest on a role's artifact are certified on that artifact's own text, re-read at this milestone. The three that moved from met to not met — A1, A10 and A13 — moved because the review read them harder and because the stakeholder's order changed what A13 requires, not because an artifact regressed.
