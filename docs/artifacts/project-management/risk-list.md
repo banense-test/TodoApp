@@ -34,7 +34,7 @@ The scale is the IARI risk scale of the Development Case baseline, §9.10. The p
 
 ### How each score is derived
 
-Twenty-nine of the thirty-two risks score the likelihood and impact the System Inventory states for the anomaly they refine. Those words are translated once, here, and the same word gives the same number in every row — the eight risks Excavation added use no word the Survey set did not already use.
+Twenty-nine of the thirty-four risks score the likelihood and impact the System Inventory states for the anomaly they refine. Those words are translated once, here, and the same word gives the same number in every row — the eight risks Excavation added and the one Consolidation added to that set use no word the Survey set did not already use.
 
 | Inventory word | Score | Inventory word | Score |
 |---|---|---|---|
@@ -42,11 +42,17 @@ Twenty-nine of the thirty-two risks score the likelihood and impact the System I
 | likelihood `likely` | Probability 4 — High, 51 % to 70 % | impact `moderate` | Impact 3 — Medium |
 | | | impact `high` | Impact 4 — High |
 
-`R022` refines no anomaly: it is the plan's own dependency on stakeholder answers, and its 2 × 4 is the Project Manager's reading of the phase gate. `R031` refines none either: it is the plan's own exposure — an exit criterion whose owner the phase did not schedule — scored 3 × 4 because the correction may land in time and, if it does not, the AR milestone needs an iteration this phase did not plan; it has materialized twice and the contingency is taken. `R032` refines none: it is the exposure the AR review's own defect ledger establishes — one recovered fact transcribed inconsistently into the artifacts that cite it — scored 4 × 3 because four of the eight Majors at that gate are exactly that.
+Five risks refine no anomaly, and each states its own origin where its row records it:
+
+- `R022` — the plan's own dependency on stakeholder answers. Its 2 × 4 is the Project Manager's reading of the phase gate.
+- `R031` — the plan's own exposure: an exit criterion whose owner the phase did not schedule. Scored 3 × 4 because the correction may land in time and, if it does not, the milestone needs an iteration the phase did not plan.
+- `R032` — the exposure the AR review's defect ledger establishes: one recovered fact transcribed inconsistently into the artifacts that cite it. Scored 4 × 3 because four of the eight Majors at that gate are exactly that.
+- `R033` — the one Consolidation added to the plan-born set: an edge the trace graph returns marked SUSPECT at the milestone the set is certified on. Scored 4 × 4 because the sign has already fired — the graph returns four such edges while both owners that may clear them are scheduled in this phase — and because a suspect left open at phase close is a Major finding, which is the milestone needing an iteration it did not plan.
+- `R034` — the reading this phase's own coverage count flags as incomplete: the model snapshot records a different EF Core product version from the one the build resolves. Scored 3 × 4 because the fact bites only when a migration is scaffolded against that snapshot, and because a migration discovered wrong at integration is an iteration the phase did not plan.
 
 ```plantuml
 @startuml
-title Risk scoring - the inventory's words map to probability and impact, exposure picks the band, and the band decides who may accept
+title Risk scoring - the inventory's words map to probability and impact, exposure picks the band, and the band decides who may accept it
 
 skinparam shadowing false
 skinparam classAttributeIconSize 0
@@ -76,9 +82,11 @@ class "Who may accept it" as A {
   Significant : the stakeholder
   ModerateOrLower : the Project Manager
 }
-AN "1" --> "1" RISK : 29 risks, one per anomaly
+
+AN "1" --> "1" RISK : 29 of 34, one per anomaly
 RISK --> M : falls in, never chosen
 M --> A : decides
+
 note bottom of AN
   likelihood possible = probability 3, likely = probability 4
   impact low = 2, moderate = 3, high = 4
@@ -86,9 +94,11 @@ note bottom of AN
 end note
 note bottom of A
   Avoidance and transfer are the Project Manager's at any band.
-  Acceptance hands the consequence to the stakeholder, so it is theirs to grant.
+  Acceptance hands the consequence to the stakeholder, so it is theirs.
+  Five risks refine no anomaly: R022, R031, R032, R033, R034.
   This artifact defines no scale of its own.
 end note
+
 @enduml
 ```
 
@@ -96,17 +106,17 @@ end note
 
 | Magnitude | Risks | Count | Strategy in this register |
 |---|---|---|---|
-| High | — | 0 | — |
-| Significant | R001, R002, R003, R004, R005, R007, R009, R010, R011, R012, R016, R018, R020, R021, R023, R024, R026, R028, R030, R031, R032 | 21 | R004, R011, R012 and R016 accept, each under the stakeholder's own grant of 2026-11-23; the other seventeen avoid, which is the Project Manager's authority at any band |
+| High | R033 | 1 | R033 avoids; avoidance is the Project Manager's authority at any band, so no grant is needed and none is assumed |
+| Significant | R001, R002, R003, R004, R005, R007, R009, R010, R011, R012, R016, R018, R020, R021, R023, R024, R026, R028, R030, R031, R032, R034 | 22 | R004, R011, R012 and R016 accept, each under the stakeholder's own grant of 2026-11-23; the other eighteen avoid, which is the Project Manager's authority at any band |
 | Moderate | R006, R008, R013, R014, R015, R017, R019, R022, R025, R027, R029 | 11 | R015 and R022 accept with mitigation and contingency, on the Project Manager's authority; the other nine avoid |
 | Minor | — | 0 | — |
 | Low | — | 0 | — |
 
-No risk sits in a band its strategy cannot be held in: every Significant-band risk either avoids or carries the stakeholder's granting answer. `R030` avoids and its retirement action has landed in the Use-Case Model; the exposure stays live on `AN-012` and is stated as live, not as retired. `R031` avoids, its contingency is taken and performed in the Environment stage. `R032` avoids; its action is performed on all six citing artifacts — the Use-Case Model's rules diagram R6 named among them, stating both budgets under `AN-024` — the exposure is retired by that avoidance, and the confirmation the residual named was performed at Excavation's milestone review, where both lenses re-read the six and found them agreeing.
+No risk sits in a band its strategy cannot be held in: every risk in the High and Significant bands either avoids or carries the stakeholder's granting answer. `R030` avoids and its retirement action has landed in the Use-Case Model, while the exposure stays live on `AN-012` and is stated as live, not as retired. `R031` avoids; its contingency was taken and performed in Excavation's Environment stage. `R032` avoids and its action is performed on all six citing artifacts — the Use-Case Model's rules diagram R6 among them, stating both budgets under `AN-024` — so the exposure is retired by that avoidance.
 
-Two risks are the register's own exposures rather than recovered facts — `R022`, the plan's dependency on stakeholder answers, and `R031`, an exit criterion whose owner the phase did not schedule. `R022` held: the gate's four puts cost a measured queue that stayed inside its ceiling, and no answer was assumed while open. `R031` materialized twice and its contingency was taken. Both remain live in the register: a risk's exposure is retired by its action, not by the phase that performed it.
+**Not carried, and why.** No risk in this register concerns staffing, skills, turnover or friction between people. The executing agents are not a development organization and the stakeholder is the only human here, so such a risk would name no actor and is retired as not applicable rather than classified. What the people the SYSTEM serves do with it is a domain risk and stays.
 
-Not carried: no risk in this register concerns staffing, skills, turnover or friction between people. The executing agents are not a development organization and the stakeholder is the only human here, so such a risk would name no actor and is retired as not applicable rather than classified. What the people the SYSTEM serves do with it is a domain risk and stays.
+Nor is a risk carried for the files this sprint zero never opened. The System Inventory names all 55 with the reason each stays unopened — 45 files of the vendored Bootstrap distribution, six carrying no perimeter fact, four that are other roles' artifacts of this process — and states that none carries a fact a recovered element rests on. A risk here would name no owner, no action and no decision it enables: there is nothing to retire because there is no exposure, and recording it would be a measurement with no goal. What the coverage count does expose — that every recovered element is an interpretation of code with no stated intent to check it against — is `R016`, accepted at exposure 12 under the stakeholder's grant.
 
 ## Risk Register
 Twenty-nine of the thirty-two risks below trace to one anomaly of the System Inventory, and every probability and impact for those is the score that anomaly's own likelihood and impact words take on the mapping stated once in `Risk Classification`. `R022`, `R031` and `R032` refine no anomaly: they are the plan's own exposures, and their scores are the Project Manager's reading of the plan rather than a reading of code.
