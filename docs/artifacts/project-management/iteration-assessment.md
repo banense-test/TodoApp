@@ -191,7 +191,6 @@ The twelve-anomaly handoff is the count the Iteration Plan's work items must sta
 No use-case realization, no scenario and no test case exists at this point, and none is missing: no artifact of this phase produces one.
 
 ## Results Relative to Evaluation Criteria
-
 One line per criterion the Iteration Plan carried, restated at the level the evidence supports. Where a criterion was written as one and the evidence settles only part of it, the criterion is split rather than certified whole.
 
 | # | Criterion | Result | Evidence that decides it |
@@ -204,72 +203,13 @@ One line per criterion the Iteration Plan carried, restated at the level the evi
 | C6 | The unread areas are declared | Met in substance, evidence defective | Every unread file is named with its reason. The headline count beside it does not reproduce — `System Inventory#F2`. C6 cites the recomputed figure once the Software Archaeologist settles it |
 | C7a | Every anomaly is carried as a risk, none dropped | Met | Risk List — 21 `Refines` edges from `AN-NNN`, plus `R022` whose separate origin is stated |
 | C7b | Every score reproduces from its stated inputs | Not met | `Risk List#F1`: 13 of 21 rows score differently from the inventory's likelihood and impact for the same anomaly; the same inventory word scores differently in different rows |
-| C8 | Every accepted risk above Moderate carries the stakeholder's grant | Not met | `R012` and `R016` carry the stakeholder's grant in their own words. `R004` and `R011` are recorded at Minor and Moderate because their scores were lowered, while the inventory states "likely / moderate" for both — exposure 12, the Significant band. The grant band cannot be certified from this register until the scores reconcile |
+| C8 | Every accepted risk above Moderate carries the stakeholder's grant | Met — 2026-11-23 | No risk the reconciliation can place in the grant band lacks the stakeholder's answer. `R012` and `R016` carry their own grants at exposure 12. `R004` and `R011` each carry the stakeholder's "Yes" of 2026-11-23, should the reconciled score land at 9 to 12 or above. `R001` and `R007` are avoided, which needs no grant |
 | C9 | No risk is left unactionable | Met | Risk List — Risk Mitigation and Contingency: strategy, action, owner, contingency and warning sign on every row |
 | C10 | The plan names no work the process does not run | Met | Every one of the nine work items is a stage the IARI Development PROCESS runs in Survey, or one of its three reviewing roles |
 
-Eight of the twelve result lines above are Met. Four are not, and one of those — C2 — is the gate's own condition: a perimeter confirmation is not the reviewers' or the Project Manager's to infer.
+Nine of the eleven result lines are Met, one of them — C6 — in substance with defective evidence. Two are not, and one of those is the gate's own condition: C2, because a perimeter confirmation is not the reviewers' or the Project Manager's to infer, and C7b, because the register's scores do not yet reproduce from the inputs they cite.
 
-### Metrics recorded
-
-Each is recorded with the decision it enables. None is recorded because it can be.
-
-```plantuml
-@startuml
-title Metrics recorded at this assessment - each with the decision it enables
-
-skinparam shadowing false
-skinparam classAttributeIconSize 0
-skinparam wrapWidth 260
-hide empty members
-
-class "Artifacts produced = 5" as M1 {
-  primitive : count of artifacts persisted, by owning role
-  decision : whether the Survey floor is met and what Excavation inherits
-}
-class "Agent invocations = 10" as M2 {
-  primitive : tool-issuing turns, by role
-  decision : whether the chain ran its stages in order, with no re-run
-}
-class "User interactions = 13" as M3 {
-  primitive : gate answers given by the stakeholder
-  decision : whether R022's queue time is what delays a phase
-}
-class "Token spend = 11519103" as M4 {
-  primitive : tokens, whole of Survey to date
-  decision : the measured basis iteration 2 is forecast from once Survey closes
-}
-class "Elapsed agent time = 0:45:44" as M5 {
-  primitive : measured wall clock, agents only
-  decision : the clock figure quoted beside the spend, never added to queue time
-}
-class "Stakeholder queue time = 1:04:37" as M6 {
-  primitive : measured waiting, human gates only
-  decision : whether the human gates or the agent work dominate this phase's wall clock
-}
-class "Findings = 10, of which 6 Major" as M7 {
-  primitive : findings by severity, from the review ledger
-  decision : whether the milestone closes, and what iteration 2 reworks
-}
-
-M1 --> M7 : delivery measured against its quality
-M4 --> M5 : spend beside clock
-M6 --> M5 : the two clocks, kept apart
-M2 --> M4 : invocations to spend
-@enduml
-```
-
-| Metric | Value | Primitive measure | Decision it enables |
-|---|---|---|---|
-| Artifacts produced | 5 | Artifacts persisted in Survey, by owning role | Whether the Survey floor is met and what Excavation inherits. Development Case 25697, System Inventory 49138, Risk List 23970, Iteration Plan 17254, Review Record 80884 characters |
-| Agent invocations | 10 | Tool-issuing turns, by role | Whether the chain ran its stages in order with no re-run. It did: no item was re-executed |
-| User interactions | 13 | Gate answers given by the stakeholder | Whether the human gate, not the agent work, dominates the phase clock under `R022`. This iteration: it does — queue time exceeds agent time |
-| Token spend | 11519103 | Tokens, whole of Survey to date | The measured basis iteration 2 is forecast from once Survey closes. Not yet available as a basis |
-| Elapsed agent time | 0:45:44.3700545 | Measured wall clock, agents only | Quoted beside the spend; never added to queue time |
-| Stakeholder queue time | 1:04:37.8136958 | Measured waiting at human gates | Whether the gate or the work dominates. Excludes the end-of-iteration approval gate, which is not measured |
-| Findings | 10 (0 Critical, 6 Major, 4 Minor) | Findings by severity, from the review ledger | Whether the milestone closes, and exactly what iteration 2 reworks |
-
-No defect-removal efficiency and no defect density per KLOC are stated. The only defect detector that has run is this review, and this phase produces no code, so both would carry a denominator nothing measured. No velocity and no forecast are stated: Survey has not closed, so no measured actual exists to forecast from.
+C8 moved to Met during this iteration, on the stakeholder's answers of 2026-11-23 and on nothing else. The Project Manager asked; the stakeholder granted. Until those answers arrived, the register accepted `R004` and `R011` on the Project Manager's own authority while their cited evidence placed them in the band only the stakeholder may grant — which is the defect `Risk List#F1` records. The grant closes the acceptance question, not the arithmetic: whether either risk lands in that band is still owed by item 1 of the rework, and C7b stays not met until it is paid.
 
 ## Test Results
 No test was executed and none was planned for this iteration. The Test discipline works from Elaboration, no test case is written before a use case is recovered, and the Development Case records `Test Plan` NOT FIRED. This is not a gap: no artifact Survey produces carries a test obligation, and the Review Record's own "Not findings" lists the Test Plan's absence as the Development Case's verified verdict rather than a delivery gap.
