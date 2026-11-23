@@ -176,17 +176,16 @@ end note
 No work item is reopened by this assessment: an item marked Complete that delivered defective content is a finding against its artifact, which is where the reviews recorded it, not an unfinished item of the chain. The three corrections the Project Manager could make without the reconciliation — the anomaly handoff, the split of C2, and the restatement of C6 — are already written into the Iteration Plan this iteration; the remaining open items are the reconciliation of the scores and the two artifacts the other owners hold.
 
 ## Use Cases and Scenarios Implemented
-
 None, correctly. Survey recovers no use case: the 22 entry points are recorded as entry points in the System Inventory, and Excavation recovers them into `UC-NNN`. What this iteration produced is the material those use cases are recovered from, and what it hands forward is constrained by the anomalies that sit on an entry point.
 
 | Handoff to Excavation | State after this iteration |
 |---|---|
 | Entry points | `EP-001` … `EP-022`, each with kind, initiator and anchor — the source every recovered use case cites |
-| Anomalies constraining a recovered use case | `AN-001`, `AN-002`, `AN-004`, `AN-008`, `AN-009`, `AN-010`, `AN-015`, `AN-017`, `AN-018`, `AN-019`, `AN-020`, `AN-021` — twelve, as the System Inventory's Anomalies table records them |
+| Anomalies constraining a recovered use case | `AN-001`, `AN-002`, `AN-004`, `AN-008`, `AN-009`, `AN-010`, `AN-015`, `AN-017`, `AN-018`, `AN-019`, `AN-020`, `AN-021` — twelve, each now named in the Iteration Plan's handoff table with what it forbids a recovered use case to claim |
 | Stakeholder rulings Excavation must honour | The external-provider sign-in path is a recovered use case marked unreachable in the delivered configuration; the cross-owner `admin` branch is an exceptional entity and not a recovered use case (`R004`) |
 | Risks whose action the System Analyst or Designer performs | `R001`, `R004`, `R018`, `R019`, `R020`, `R021` (System Analyst); `R003`, `R018` (Designer) — from the Risk List |
 
-The twelve-anomaly handoff is the count the Iteration Plan's work items must state consistently. `Iteration Plan#F1` (Reviewer) records that the plan names seven of the twelve, dropping `AN-008`, `AN-009`, `AN-010`, `AN-015` and `AN-017` — the ones constraining the reference-UI, Identity, key-ring and app-host reading, priorities 6 and 8 of the order Excavation reads in. Those five are named in the row above precisely so the correction has its list.
+`Iteration Plan#F1` (Reviewer) recorded that the plan stated a count of twelve and named seven, dropping `AN-008`, `AN-009`, `AN-010`, `AN-015` and `AN-017` — the ones constraining the reference-UI, Identity, key-ring and app-host reading, priorities 6 and 8 of the order Excavation reads in. The Iteration Plan is corrected in this iteration: all twelve are named there, each with the claim it forbids. The correction is recorded here because it is the iteration's own variance, not because it remains open.
 
 No use-case realization, no scenario and no test case exists at this point, and none is missing: no artifact of this phase produces one.
 
