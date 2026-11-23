@@ -530,109 +530,72 @@ System Inventory, Risk List, Iteration Plan, Vision, Use-Case Model, Supplementa
 The two Majors the Management Reviewer recorded against the Iteration Plan at iteration 3 are cited where the milestone verdict reads them and are not re-recorded as duplicates: `Iteration Plan#F8` and `#F9` are that lens's keys. My own `Iteration Plan#F4` — the same defect class read at the artifact's cells rather than at the criteria table — is closed on the evidence in Resolutions and Actions.
 
 ### Management Reviewer lens
-<!-- review: Excavation I3 -->
+<!-- review: Excavation I4 -->
 
-<!-- review: Excavation I3 -->
-
-Every finding below was recorded through `record_artifact_finding` before this section was written. The other lenses' Majors are cited where the milestone verdict reads them; they are not re-recorded here as duplicates.
-
-#### Stakeholder consultation — gate H4 third put, and the answer it returned
-
-Gate H4 was put for the third time at this review. Both questions were put with this lens's verdict leaning and every open defect named inside them, and neither carried a pre-filled sanction.
-
-**Stakeholder sanction: REFUSED**
-
-**Stakeholder acceptance, question 1 — verbatim:** "No"
-
-**Stakeholder acceptance, question 2 — verbatim:** "The recovered set is confirmed as the model of my system — the 11 use cases, the 4 stated exclusions, the 22 components and the eight tables: nothing is wrong or missing, and no exclusion is re-opened. I do not sanction advancing while a Major is open. No recovered content is at issue, so the next iteration changes none of it: the Project Manager restates the plan's four cells and the three Minors are corrected by their owners."
-
-Four consequences follow, and this lens applies no more than the stakeholder stated:
-
-1. The recovered set **is confirmed** — eleven use cases, four stated exclusions, twenty-two components, eight tables. No use case is wrong or missing and no exclusion is re-opened. `A12`'s second half is answered in the affirmative and is recorded as given.
-2. The sanction to advance into Consolidation is **refused**, because a Major stands. `A12` is therefore **not met**. A condition stated by the stakeholder in words is a condition; none is added beyond the refusal.
-3. No recovered content changes in the next iteration. The work is the plan's cells and the three Minors, and the stakeholder states that explicitly.
-4. Nothing else is recorded. No limit, prohibition or deadline was stated and none is inferred.
-
-#### Defect distribution
+#### Risk retirement at this gate — the trend, not the register
 
 ```plantuml
 @startuml
-title Defect distribution at the AR third pass - five of this lens closed, two recorded, and the one Major the milestone turns on
-
+title Project health at the AR gate - four dimensions, and the risks this phase retired
 skinparam shadowing false
-skinparam classAttributeIconSize 0
-skinparam wrapWidth 240
+skinparam wrapWidth 235
 hide circle
 hide empty members
 
-package "Closed this iteration - 5 of this lens" {
-  class "Risk List#F3\ncontained-defect\nR030 states the retirement as landed\nand the exposure as live" as C1 <<closed>>
-  class "Iteration Plan#F6\nexit-criterion-unmet\nA10's cell now names all four\nartifacts its test covers" as C2 <<closed>>
-  class "Iteration Plan#F7\nexit-criterion-unmet\nA13 cites the Environment stage\nas the phase's first discipline" as C3 <<closed>>
-  class "Use-Case Model#F1\nexit-criterion-unmet\nfive COMP-014 edges confirmed\nin the registered graph" as C4 <<closed>>
-  class "Development Case#F2\ncontained-defect\nsix contributors named,\nfour edges drawn into RR" as C5 <<closed>>
+package "The four dimensions - every rating states its evidence" {
+  class "SCOPE - Green\n11 UCs, 22 EPs, 22 COMPs, 8 tables\nevery element traced to its anchor\nno declared scope exists to measure against" as SC <<green>>
+  class "SCHEDULE - Attention\nExcavation ran 4 iterations against a\nmeasured record of 3\niterations 2 to 4 were driven by this\nplan's own status record, not by the recovery" as SD <<amber>>
+  class "COST - Not measurable\n14,424,767 tokens and 28 min of agent time\nmeasured across 3 iterations\nno token budget declared, so no variance exists\nthe fourth iteration is unmeasured" as CO <<grey>>
+  class "QUALITY - Green\n0 Critical and 0 Major open at this gate\n2 Minor open, no criterion depends on either\n4 SBC Minors closed in phase" as QU <<green>>
 }
 
-package "Major - 1 defect, 2 entries, holds the milestone" {
-  class "Iteration Plan#F4\nconsumed-defect\nA1, A10, A11 and O2 state defects\ntheir own artifacts corrected" as M1 <<major>>
-  class "Iteration Plan#F9\nexit-criterion-unmet\nthose four cells and A12 are the\nrecord the verdict is read on" as M2 <<major>>
+package "Risks this phase retired, with the action performed" {
+  class "R030 - Avoid, retirement landed\nstatement written beside UC-001 to UC-004\nunder AN-029\nthe exposure stays live, AN-012 stands" as R30 <<retired>>
+  class "R031 - the further iteration\ncontingency taken and performed in iteration 3" as R31 <<retired>>
+  class "R032 - avoidance on all six citing artifacts\nR6 named, both budgets under AN-024\nthe exposure is retired" as R32 <<retired>>
+  class "R022 - the human gate\nceiling 14 days of queue time\nactual: 7 min across three puts" as R22 <<held>>
 }
-
-package "Minor - 2, neither holding the milestone" {
-  class "Iteration Plan#F8\ncontained-defect\nthe fine plan's Closes column reads\n'written in this turn' for rows 6 and 7" as m1 <<minor>>
-}
-
-package "Recorded by the technical lens, read by this verdict" {
-  class "Risk List#F3\nR032 names Use-Case Model#F4\nas the open sixth artifact" as m2 <<minor>>
-  class "Supplementary Specification#F3\nDocument Control names iteration 2" as m3 <<minor>>
-}
-
-C1 --> M1 : the same stale-state class,\none artifact over
-C2 --> M1 : the cell was widened,\nthe rest was not
-C3 --> M1 : the sequence was corrected,\nthe cells citing it were not
-C4 --> M1 : the graph cleared,\nthe cell still reads suspect
-C5 --> M1 : the artifact was corrected,\nA11's cell still reads two of four
-
-note bottom of M1
-  One finding class, five cells, one owner turn. Neither lens records
-  it twice: #F4 is the consumed-defect reading at the artifact, #F9 the
-  criterion reading at the table the verdict is decided on.
+SD --> QU : the one non-green dimension\nis the record, not the recovery
+note bottom of SD
+  The iteration count rose for bookkeeping, never for recovered
+  content. The plan carries the rule that produced it: a cell that
+  asserts another artifact's state is re-derived in the same turn
+  that artifact changes.
 end note
-note bottom of M2
-  The milestone turns on this. The recovery holds; the record of the
-  recovery is one correction pass behind it.
-end note
-
 @enduml
 ```
 
-#### Iteration Plan#F4 — four cells state defects their own artifacts have corrected (Major, `consumed-defect`)
+Risk retirement is real but not uniform, and the difference matters at the gate. `R031` — the exposure that a milestone slips and needs an iteration it did not plan — was taken as a contingency and performed: iterations 2, 3 and 4 were each planned from the record rather than assumed. `R032` — that a citing artifact lags the fact it cites — is retired on all six citing artifacts with R6 named and both budgets under `AN-024`. `R030` records its retirement action as landed while stating the exposure stays live, because `AN-012` still stands and no test covers the session surface; that distinction is correct and the row claims neither more nor less than has occurred. The two Significant risks that remain live — `R012` (the client and BFF carry no test) and `R016` (the delivery carries no document at all) — are not retirable in the sprint zero; both carry the stakeholder's own grant of 2026-11-23 at exposure 12 and neither is claimed retired.
 
-Recorded by the technical lens at this pass and read by this verdict. A1 reads "**Not met — open Major**" on five `COMP-014` edges "still marked suspect in the registered graph at the close"; a query of `COMP-014` upstream returns five confirmed `Realizes` edges. A10 reads "**Not met — open Major**" and closes on R6 reading "100 tokens" with no `AN-024`; R6 now reads "In force: 50 tokens, 50 per 10 s, queue 50. Code defaults: 100 tokens, 100 per 10 s, queue 100 … AN-024". A11 reads "**Not met — two of four open**"; all four Minors are corrected. Objectives O2 reads "**Not met** … Two Majors stand" on the same two closed findings.
+**The SCHEDULE dimension is the one that is not green, and it is the record that drew it out.** Excavation ran four iterations against a measured record of three, and the fourth was not caused by the recovery: it was caused by this plan's own cells reporting defects their artifacts had already corrected, for four consecutive passes. That is a governance finding about the record-keeping, not about the recovered content, and the plan now carries the rule that closes it — a cell asserting another artifact's state is re-derived from that artifact in the same turn that artifact changes.
 
-The defect is in the record three roles act on, not in the recovered content. This lens does not duplicate the entry: one correction in four cells closes it.
+#### Development Case
 
-#### Iteration Plan#F9 — five cells of the criteria table report states their artifacts and the gate have superseded (Major, `exit-criterion-unmet`)
+**Approved, with `#F4` open.** Both Minors the stakeholder ordered corrected at the AR re-take are closed and verified at the artifact: the contributor set names every lens that writes into the Review Record — Reviewer, CodeReviewer, ManagementReviewer, BusinessReviewer, ReviewCoordinator and the ConfigurationManager's baseline record — with CLS-DC-01 drawing the matching edges, and Document Control reads Phase Excavation, Iteration 4, Cycle 1. The tailoring is on the baseline the stakeholder restated: Environment active in every phase, first in Excavation at Low intensity.
 
-The same class as `#F4`, recorded against the criterion rather than the artifact content, because the AR verdict is decided on this table. A1, A10, A11 and O2 report failures their artifacts no longer carry, and A12 records the second put alone — "Gate H4 was put for the second time and answered No" — while the third put has now returned a different answer: the recovered set confirmed, the sanction refused.
+`#F4` stands and does not hold the milestone. ACT-DC-01 omits Project Management from every phase partition after Survey while the artifact's own Disciplines and Intensity table declares it active in all phases per the canonical matrix. Contained because the table is the governing tailoring statement: the Iteration Plan takes its intensities from the canonical matrix, and the Project Manager demonstrably works in this phase. A11 counts the four Minors the SBC review left open; `#F4` was recorded after that count, so the criterion is neither re-opened nor left unattended — it is the owner's next turn.
 
-This is the defect that holds the milestone. A1, A10 and A11 are met on the artifacts that own them, but a verdict read on the plan would certify the AR milestone on cells saying three criteria fail. The remedy is one pass by the Project Manager over five cells; no recovered content, no role and no criterion's substance is at stake.
+#### System Inventory
 
-#### Iteration Plan#F8 — the fine plan's Closes column names a moment instead of a finding's state (Minor, `contained-defect`)
+**Approved.** Coverage reads 84 opened and 55 unread of 139, the per-area Read column summing to 84 and its Files column to 139; the arithmetic was recomputed and reproduces. No finding from any lens stands. The inventory is the artifact the recovered set's anchors rest on and its anomalies table is what the Risk List's 29 `Refines` edges hang from, so its cleanliness is load-bearing for `A1` and `A7`.
 
-Rows 6 and 7 read "`Iteration Plan#F6`, `Iteration Plan#F7` — **written in this turn**" and "`Risk List#F3` — **written in this turn**". "This turn" was iteration 2's; the plan now carries iteration 3's fine plan and no reader can resolve the phrase. Contained: every other row of the column names its key and nothing turns on the annotation. Recorded separately from `#F4` because it is a different column and a different remedy.
+#### Risk List
 
-#### The two Minors of the technical lens — read, not re-recorded
+**Approved, `#F3` closed this iteration.** `R032` now reads "avoidance performed on all six citing artifacts; the exposure is retired", names the six with R6 among them and quotes its current wording under `AN-024`; the warning-sign cell records the sign as no longer firing rather than fired against a closed finding, and the diagram's sixth-artifact node is relabelled to the single residual. `R030` and `R031` are unchanged. The grant table holds four grants, each at 4 × 3 = 12, recorded verbatim; no risk in the grant band takes the accept strategy on the Project Manager's authority.
 
-`Risk List#F3` — R032's strategy cell still reads "action performed on five of six; one citing artifact open", names "the Use-Case Model's rules diagram R6, whose correction is `Use-Case Model#F4`", and sets its warning sign "**fired** at `Use-Case Model#F4`". R6 holds and `#F4` is closed, so the register reports a Significant exposure as unmitigated when its mitigation has landed. Contained: the register understates rather than overstates, `A9` holds, and no criterion turns on it.
+#### Iteration Plan
 
-`Supplementary Specification#F3` — Document Control reads "Iteration: 2, Cycle 1" while the other nine artifacts read iteration 3. Contained: the artifact's figures are current and no role builds on the metadata field.
+**Approved, with `#F10` open.** The Major that held the third put is closed and its four cells verified at their artifacts: `A1` on a fresh `COMP-014` query, `A10` on R6's current wording, `A11` on four of four Minors, `O2` on the same reading. The restated table no longer cites a superseded sentence.
 
-#### Artifacts with no open finding from any lens
+`#F10` records the one defect this pass finds: three cells still describe the fourth put as unanswered, and it has been answered Yes. The same class as `#F9`, in the one place the earlier pass could not reach — the answer did not exist when the cells were written. Contained: `A12` is satisfied by the answer itself, which is recorded in this lens's Disposition, and the Review Coordinator reads it there.
 
-System Inventory, Vision, Software Architecture Document, Deployment Model and Design Model carry no open finding from any lens at this gate. Each was read at the sections previously found defective and each now holds. Silence is the approval.
+#### Vision, Use-Case Model, Supplementary Specification, Software Architecture Document, Deployment Model, Design Model
 
-The System Inventory's coverage arithmetic was recomputed rather than accepted: the per-area Files column sums to 139, the Read column to 84, the unread cells to 55, and the headline reproduces. The Risk List's rows each name strategy, owner, action, contingency and warning sign; `R030` states a retirement that landed and an exposure that stands, and `R031` states a materialization rather than a mitigation.
+**Approved — no open finding from any lens.** Each Major recorded against these artifacts in earlier iterations of this phase is closed and was re-verified at its source for this review: the Vision's two platform mechanisms are drawn as components and the section states eleven use cases, agreeing with the Use-Case Model, the Iteration Plan's `A1` and the SAD's Use-Case View; the Use-Case Model's R6 states both budgets under `AN-024` and the five `COMP-014` edges are confirmed in the graph; the Supplementary Specification's Document Control reads Iteration 4, Cycle 1, with M3, S2, P1, R8 and R4 stating the two budgets and the two outbound hops apart; the SAD's SP1, M3 and bounded-load row read 50 / 50 / 50 as the bound in force; the Deployment Model's Environment Mapping is narrowed to what the files hold and its Rate limiting row reads 50 / 50 / 50 for Development; the Design Model's PD-D3 cites `AN-025` for the unconverted owner key and `AN-005` only for the `EnsureCreated` schema.
+
+#### Iteration Assessment
+
+**Not judged.** The Project Manager authors it in the Assess touchpoint that follows this review, so at review time it cannot describe the iteration being reviewed. Its state is not a finding and not a gate condition.
 
 ### Review Coordinator lens
 <!-- review: Excavation I3 -->
