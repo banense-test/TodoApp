@@ -1186,7 +1186,7 @@ end note
 
 **No-Go.** The Architecture Recovered milestone is **not sanctioned** at the end of Excavation iteration 1.
 
-I put the milestone to the stakeholder at this review with my leaning stated — Conditional Go, seven Majors open, none requiring their decision — and the recovered set for confirmation. They answered:
+I put the milestone to the stakeholder at this review with my leaning stated — Conditional Go, seven Majors open at the time of asking, none requiring their decision — and the recovered set for confirmation. They answered:
 
 - **Stakeholder sanction: REFUSED.** Asked whether they confirm the recovered set as the model of the existing system — the 11 use cases and the 4 stated exclusions, the 22-component architecture across four processes, and the eight-table data model — and sanction advancing past the Architecture Recovered milestone into Consolidation with the Majors cleared first, the stakeholder answered **"No"**.
 - **Stakeholder acceptance, as given:** "We must correct all major findings."
@@ -1238,7 +1238,7 @@ class "Cost\nAMBER" as C <<cost>> {
 }
 
 class "Quality\nRED" as Q <<quality>> {
-  open : 7 Major, 0 Critical, 5 Minor
+  open : 8 Major, 0 Critical, 6 Minor
   cause : AN-024 reaches 3 artifacts as one fact
   cause : R030 avoided, action unperformed
   cause : A10 certified on the inventory's word
@@ -1270,7 +1270,7 @@ end note
 @enduml
 ```
 
-**Quality is red on seven Majors and zero Criticals**, and the distribution matters more than the count: three of the seven are one anomaly — `AN-024` — stated as fact in three documents while the System Inventory records the contradiction and `R025` carries it. Correcting those three against the anomaly their own reading already found is short work with the anchor to hand. The fourth Major is a two-hop claim collapsed into one sentence; the fifth is three trace edges whose substance is right and whose confirmation was never registered; the sixth is a Significant risk recorded as retired by an action that is in no artifact; the seventh is a criterion certified on a neighbouring artifact's word.
+**Quality is red on eight Majors and zero Criticals**, and the distribution matters more than the count: three of the eight are one anomaly — `AN-024` — stated as fact in three documents while the System Inventory records the contradiction and `R025` carries it. Correcting those three against the anomaly their own reading already found is short work with the anchor to hand. The fourth Major is a two-hop claim collapsed into one sentence; the fifth is three trace edges whose substance is right and whose confirmation was never registered; the sixth is a use-case count stated as thirteen where the artifact that owns the set recovers eleven; the seventh is a Significant risk recorded as retired by an action that is in no artifact; the eighth is a criterion certified on a neighbouring artifact's word.
 
 **Scope is amber, not green**, because two of the certifyable criteria were recorded Met on evidence that does not carry them. The recovered set itself is strong: eleven use cases over twenty-two entry points with every exclusion stated, twenty-two components with a `Realizes` row per use case, eight tables with keys, indexes, referential actions, and a table of the rules the schema does *not* enforce — that last being the most useful page in the phase. The amber is for the certification, not the content.
 
@@ -1291,6 +1291,6 @@ end note
 
 #### Closing statement
 
-The gate holds. Seven Majors and one unmet criterion are open, the stakeholder refused the sanction, and they ordered the Majors corrected. Excavation iteration 2 is planned from this record: actions 1 to 5 of "Resolutions and Actions" are their owners' work in that iteration, and action 6 — the one Minor that holds the phase — needs the Process Engineer given a work item in an Excavation iteration, because the process does not otherwise put that role in this phase. If that item lands, A11 reads four of four on re-take. If it does not, `R031` says what happens next: the phase opens the further iteration its own register already budgeted for, and nothing the phase declared is cut to avoid it.
+The gate holds. Eight Majors and two unmet criteria are open, the stakeholder refused the sanction, and they ordered the Majors corrected. Excavation iteration 2 is planned from this record: actions 1 to 5 of "Resolutions and Actions" are their owners' work in that iteration, and action 6 — the one Minor that holds the phase — needs the Process Engineer given a work item in an Excavation iteration, because the process does not otherwise put that role in this phase. If that item lands, A11 reads four of four on re-take. If it does not, `R031` says what happens next: the phase opens the further iteration its own register already budgeted for, and nothing the phase declared is cut to avoid it.
 
 I do not sanction a phase because the calendar says it should end. I sanction it when its exit criteria are met on the evidence each criterion cites — and at the end of Excavation iteration 1 they are not.
