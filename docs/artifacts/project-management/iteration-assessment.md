@@ -271,7 +271,6 @@ No test was executed in this iteration and none was planned. The Test discipline
 Three test-related risks carry into Consolidation and beyond, registered rather than recorded as findings: `R012` (the BFF and the client carry no test of any kind, and the three defective `/auth` flows are exactly the untested ones — granted at exposure 12), `R005` (the test host builds the schema with `EnsureCreated`) and `R011` (the suite reproduces the bearer-token ticket format from framework internals — granted at exposure 12). None is retired by this phase and none can be: writing tests is work no phase before Elaboration runs.
 
 ## External Changes
-
 ```plantuml
 @startuml
 title What changed outside this role's artifacts this iteration, and what each change forced in the plan
@@ -280,15 +279,15 @@ skinparam wrapWidth 235
 hide circle
 hide empty members
 
-package "The stakeholder, at gate H4 third put" {
-  class "the recovered set CONFIRMED\n11 UCs, 4 exclusions, 22 COMPs, 8 tables" as S1 <<confirmed>>
-  class "the advance into Consolidation REFUSED\nwhile a Major stands" as S2 <<refused>>
-  class "the next iteration changes no recovered content" as S3 <<order>>
+package "At gate H4 fourth put" {
+  class "the advance into Consolidation SANCTIONED\nrecords that agree with the set they report" as S1 <<granted>>
+  class "the recovered set already confirmed\nat the third put, unchanged" as S2 <<confirmed>>
+  class "two Minors carried with an owner\nscheduled in Consolidation, none waived" as S3 <<order>>
 }
 package "What it forced" {
-  class "A12 recorded in both halves\nno condition added beyond the refusal" as F1 <<forced>>
-  class "the phase does not close;\na fourth iteration is planned from the record" as F2 <<forced>>
-  class "scope untouched: no plan cell may reopen\nan exclusion or re-read code to settle a fact" as F3 <<forced>>
+  class "A12 Met on the stakeholder's answer;\nthe milestone's evidence is complete" as F1 <<forced>>
+  class "the phase closes; Consolidation is next,\nno further Excavation iteration" as F2 <<forced>>
+  class "F10 corrected in this record's turn;\nthe cell class is closed, not deferred" as F3 <<forced>>
 }
 package "Nothing else moved" {
   class "no Change Request - the Change Control Manager\ndoes not work in the sprint zero" as N1 <<none>>
@@ -298,18 +297,20 @@ package "Nothing else moved" {
 S1 --> F1
 S2 --> F2
 S3 --> F3
-note bottom of F2
-  Bought by one record correction, not by any gap in the recovery.
+note bottom of F1
+  The answer is the stakeholder's, recorded as given. Nothing is read
+  into it beyond the advance it grants.
 end note
 @enduml
 ```
 
 | Change | Effect on this iteration | Handled by |
 |---|---|---|
-| The stakeholder confirmed the recovered set as the model of the existing system, and refused the sanction while a Major stands | `A12`'s recovery half is answered in the affirmative and recorded as given; the milestone does not close and a fourth iteration is required | Iteration Plan — the milestone sequence and the next iteration's fine plan; this record's Rework Required |
-| The stakeholder stated that the next iteration changes no recovered content and that the three Minors are corrected by their owners | No plan cell may re-open an exclusion, add or drop a use case, or re-read code to settle a fact. The work is four owner turns over the plan's cells, the register and one metadata field | Iteration Plan — fine plan items 1 to 4; Risk List |
-| The stakeholder stated that no exclusion is re-opened and nothing is wrong or missing | The four exclusions stand as recorded; Consolidation receives them as closed, not as open questions | This record's handoff table |
-| `R004`, `R011`, `R012` and `R016` remain accepted at exposure 12 on the stakeholder's answers of 2026-11-23 | No risk in the Significant or High band lacks a grant; no new grant was required | Risk List — the four-row grant table |
+| The stakeholder sanctioned the advance past the Architecture Recovered milestone into Consolidation at gate H4's fourth put | `A12` is Met on the answer; the phase's thirteen criteria all hold; the Review Coordinator issued AR: no further iteration required | This record's Results Relative to Evaluation Criteria; the Iteration Plan's coarse roadmap and Evaluation Criteria |
+| The stakeholder had confirmed the recovered set at the third put and stated then that the next iteration changes no recovered content | No plan cell reopened an exclusion, added or dropped a use case, or re-read code to settle a fact. Iteration 4 was four record corrections and touched nothing recovered | Iteration Plan — fine plan items 1 to 4; this record's Use Cases and Scenarios Implemented |
+| `R004`, `R011`, `R012` and `R016` remain accepted at exposure 12 on the stakeholder's answers of 2026-11-23 | No risk in the Significant or High band lacks a grant; no new grant was required, and no risk entered the grant band this iteration | Risk List — the four-row grant table; `Risk List#F3` closed on `R032` |
+| `Development Case#F4` was recorded by the technical lens at this gate | One contained Minor on one diagram; no exit criterion depends on it. It carries to the Process Engineer's first stage in Consolidation with its corrective action named | Review Record — the Review Coordinator's action table, row 2 |
+| `Iteration Plan#F10` was recorded by the management lens at this gate | Three cells described the fourth put as unanswered after it had been answered. Corrected in this assessment's closing turn: `A12` reads Met — 2026-11-23 with both puts, fine-plan item 7 reads the answer, and the human-gate Answer cell records the Yes | Iteration Plan — Plan and Milestones and Evaluation Criteria, both restated |
 | No scope change reached the project and no Change Request was opened | Nothing said adds, removes or reorders declared work; the delivery declares no scope | This record; the Review Record's ledger |
 | No SCM condition arose | The repository carries no IARI pipeline on `main`, no branch of this process and no open pull request. Establishing the pipeline is the Integrator's Inception work item | Not reported as passing or failing |
 
