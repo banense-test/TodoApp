@@ -187,101 +187,20 @@ stop
 
 | # | Work item | Owner | Planned state | Actual state | Variance and root cause |
 |---|---|---|---|---|---|
-| 1 | Risk List — the recovery's anomalies as scored, owned risks; the grants verbatim | Project Manager | Complete | Delivered; `Risk List#F2` and `#F4` recorded against it | `R030` read as avoided while its retirement action landed in no artifact, and `R024`'s premise named an artifact that already holds the correct fact. Both are mine and both are corrected in this turn |
-| 2 | Iteration Plan — the coarse roadmap, the fine plan and its two carried Minors | Project Manager | Complete | Delivered; `Iteration Plan#F3`, `#F4`, `#F5` recorded against it | A10 was certified on the System Inventory's word rather than on the recovered set; A2 cited a clause its evidence does not carry; A12 stated a state the answer superseded. All three are mine and corrected in this turn |
-| 3 | Vision, Use-Case Model, Supplementary Specification | System Analyst | Complete | Delivered; 4 Majors, 3 Minors recorded | Three Majors are one cause: a code fact the phase had already recorded as `AN-024` was contradicted in three artifacts, one of them twice. The fourth is the Vision's count |
-| 4 | The recovery's own failure statements written into the flows | System Analyst | Complete | Delivered | `R030`'s statement was assigned to this stretch by the plan's own risk-sequencing diagram and was written nowhere. That is the gap it was supposed to close |
-| 5 | Software Architecture Document | Software Architect | Complete | Delivered; `#F1` recorded | Read the rate-limit figure from the Supplementary Specification and reproduced it. The artifact records `AN-023` at P6 correctly and declined to edit an artifact it does not own — the right division of ownership, executed on the wrong side of one fact |
-| 6 | Deployment Model | Software Architect | Complete | Delivered; `#F1` recorded | Inherited item 5's copy. The environment table is the artifact's whole purpose and it states the differing setting backwards |
-| 7 | Design Model — the domain model and the classes | Designer | Complete | Delivered; `#F1` recorded | One diagram cites `AN-005` where the subject is `AN-025`. Contained |
+| 1 | Risk List — the recovery's anomalies as scored, owned risks; the grants verbatim | Project Manager | Complete | Delivered; `Risk List#F2` recorded under both lenses | `R030` read as avoided while its retirement action landed in no artifact (Management Reviewer, Major), and `R024`'s premise named an artifact that already holds the correct fact (Reviewer, Minor). Both are mine and both are corrected in this turn |
+| 2 | Iteration Plan — the coarse roadmap, the fine plan and its two carried Minors | Project Manager | Complete | Delivered; `Iteration Plan#F3`, `#F4`, `#F5` recorded against it | A10 was certified on the System Inventory's word rather than on the recovered set (Major); A2 cited a clause its evidence does not carry and A12 stated a state the answer had superseded (both Minor). All three are mine and corrected in this turn |
+| 3 | Vision, Use-Case Model, Supplementary Specification | System Analyst | Complete | Delivered; 4 Majors and 2 Minors recorded across the three artifacts | Both Supplementary Specification Majors are one code fact the phase had already recorded as `AN-024` and `AN-023`, contradicted in the artifact that owns them. The Use-Case Model's Major is three unconfirmed `EP-003` edges; the Vision carries one Major and one Minor for the same two ellipses |
+| 4 | The recovery's own failure statements written into the flows | System Analyst | Complete | **Incomplete — five of six** | `R019`, `R020`, `R021`, `R023` and `R028` were written; `R030`'s statement was not. The item was planned as one stretch over six risks and assessed over the five that landed: a stretch that closes five of six is not complete |
+| 5 | Software Architecture Document | Software Architect | Complete | Delivered; `Software Architecture Document#F1` recorded | Read the rate-limit figure from the Supplementary Specification and reproduced it. The artifact records `AN-023` at P6 correctly and declined to edit an artifact it does not own — the right division of ownership, executed on the wrong side of one fact |
+| 6 | Deployment Model | Software Architect | Complete | Delivered; `Deployment Model#F1` recorded | Inherited item 5's copy. The environment table is the artifact's whole purpose and it states the differing setting backwards |
+| 7 | Design Model — the domain model and the classes | Designer | Complete | Delivered; `Design Model#F1` recorded | One diagram cites `AN-005` where the subject is `AN-025`. Contained |
 | 8 | Persistent data | Database Designer | Complete | Delivered; no finding from either lens | The one item the review did not fault |
-| 9 | System Inventory — anomalies, history and coverage; `System Inventory#F3` | Software Archaeologist | Complete | Delivered; `#F3` closed, then `#F4` recorded | Coverage arithmetic and the anomaly count reproduce; the fourth finding is a Minor on the history section |
-| 10 | Development Case — `Development Case#F2`, the contributor set | Process Engineer | Not started, on order alone | **Not started.** `#F2` stands and `#F3` was recorded at this gate | The item was planned as a dependency of the lenses, and it was recorded as unresolved. The plan named the exposure — `R031` — and did not resolve it, because the phase gives its owner no stage. Recording an exposure is not retiring it |
+| 9 | System Inventory — anomalies, history and coverage; `System Inventory#F3` | Software Archaeologist | Complete | Delivered; `#F3` closed and no new finding recorded | Coverage arithmetic reproduces from the per-area table (84 read, 55 unread of 139); the 29 anomalies are anchored; Document Control names the iteration its content belongs to. Both lenses read it whole and recorded nothing |
+| 10 | Development Case — `Development Case#F2`, the contributor set | Process Engineer | Not started, on order alone | **Not started.** `#F2` stands and `#F3` was recorded at this gate | The item was planned as a dependency of the lenses and was recorded as unresolved. The plan named the exposure — `R031` — and did not resolve it, because the phase gives its owner no stage. Recording an exposure is not retiring it |
 | 11 | Technical lens | Reviewer | Not started | 11 findings: 6 Major, 5 Minor | — |
 | 12 | Management lens | Management Reviewer | Not started | 6 findings: 2 Major, 4 Minor; A1 to A13 re-taken | — |
 | 13 | Gate H4 | Stakeholder | Queued | **Answered No** | Queue time 0:02:27.21 — the gate was answered inside the review cycle, not behind it |
 | 14 | AR verdict | Review Coordinator | Not started | **Iteration required** | — |
-
-### Two currencies, measured apart
-
-| Currency | Scope | Measured | What decision it enables |
-|---|---|---|---|
-| Token spend | Excavation iteration 1, whole iteration | 43,561,437 | The figure iteration 2 is planned from, beside Survey's 8,995,433 for a closed phase. Excavation cost 4.84 times Survey's tokens over seven recovered artifacts |
-| Elapsed agent time | The same stretch | 1:19:41.05 | The clock quoted beside the spend, never added to it. Survey's closed phase measured 0:29:00 |
-| Agent invocations | The same stretch | 16 | Whether the chain branched. Sixteen invocations for one sequential chain over twelve artifacts is more than one pass per artifact and fewer than two, which is what a recovery read twice by its own owners and never revised against its own anomalies looks like |
-| Stakeholder queue time | Gate H4 | 0:02:27.21 | Whether waiting, not working, dominates the wall clock. Here it did not: the gate was answered inside the review cycle. Excludes the end-of-iteration approval gate, which is not measured |
-| Artifacts under review | Ten of the twelve in the project | 12 artifacts, 10 reviewed | The surface every later phase re-reads, and what the phase's cost is dominated by |
-
-The two clocks are reported side by side and never summed: the last row of the human table is waiting, not working. No token budget exists — the project declares none — so no spend is judged against a box, no figure is proposed for the stakeholder to accept, and no declared work was cut or deferred to fit one.
-
-```plantuml
-@startuml
-title Excavation iteration 1 - the two currencies, measured apart, and what each one decides
-skinparam shadowing false
-skinparam classAttributeIconSize 0
-hide empty members
-skinparam wrapWidth 240
-
-package "Agent work - working" {
-  class "Token spend" as TOK {
-    measured : 43561437
-    against Survey : 8995433
-  }
-  class "Elapsed agent time" as AGT {
-    measured : 1:19:41.05
-    against Survey : 0:29:00
-  }
-  class "Agent invocations" as INV {
-    measured : 16
-    against Survey : 10
-  }
-}
-package "Human gates - waiting, not working" {
-  class "Stakeholder queue time" as HUM {
-    measured : 0:02:27.21
-    gates : H4 at the AR review
-    excludes : the end-of-iteration approval gate
-    bound : R022, ceiling 14 days, no estimate
-  }
-}
-class "Token budget" as BUD {
-  declared : none
-  consequence : no box exists, and no declared work is cut to fit one
-}
-class "What iteration 2 is planned from" as FC {
-  basis : this phase's own measured figure
-  state : the phase has not closed, so no phase actual exists yet
-}
-
-TOK --> BUD
-TOK --> FC
-AGT --> FC
-HUM --> FC : quoted beside the work, never added to it
-INV --> FC
-
-note bottom of TOK
-  Excavation cost 4.8 times Survey's tokens over seven recovered
-  artifacts. Spend here follows the artifact surface read and
-  re-read, not the volume a phase emits.
-end note
-note bottom of HUM
-  Two and a half minutes of queue time across the whole iteration:
-  the stakeholder answered the gate inside the review cycle, so
-  waiting did not dominate this phase as it did Survey's.
-end note
-@enduml
-```
-
-### What this iteration got wrong about itself
-
-| Planned | Outcome | Variance | Root cause | Adjustment iteration 2 carries |
-|---|---|---|---|---|
-| Item 10 would run before the lenses ruled, so A11 would read four of four | It did not run; A11 reads three of four | The AR milestone needs an iteration the phase did not plan | The plan assigned an exit criterion to a role the phase does not schedule, and recorded the exposure rather than giving the role a stage. `R031` named the consequence exactly and the plan still did not act on it | Iteration 2 plans the Process Engineer's item explicitly, as work the phase runs on the stakeholder's order, and re-takes A11 after it lands |
-| The recovery's own anomalies would be written into the flows (item 4) | Five of six were; `R030`'s statement was not | A Significant risk was read as retired with its retirement unperformed | The item was planned as one stretch over six risks, and its completion was assessed over the five that landed. A stretch that closes five of six is not complete | `R030` is restated as not yet retired in this turn, and iteration 2 either writes the statement beside the session flows or keeps the risk open |
-| A10 would be certified on the recovered set | It was certified on the System Inventory's identification of the same contradiction | A criterion met on an adjacent answer, which is the defect a prior phase's lesson names | The criterion's own test is about the recovered set; its evidence cell cited the artifact that spotted the problem rather than the three that carry it | A10 is restated to name the three artifacts and reads not met until they are corrected |
-| Two independent lenses would catch what one missed | Both found the same defect independently, and classified it the same way at the artifact level | No variance: the double read worked | A real defect shows up twice; a lens artefact does not. This one did | None. The finding was real, the correction is cheap, and the duplication cost one lens read |
-| The recovered set was ready to put to the stakeholder | It was put, and refused | The gate was answered but not satisfied | Three of the eight Majors are one wrong figure, and one is a count the Vision states differently from the model. What the stakeholder was asked to sanction was not yet coherent with itself | Gate H4 is re-put only after the eight Majors land, so the sanction is asked for once and on a set that agrees with itself |
-
 ## Use Cases and Scenarios Implemented
 None implemented — correctly. Excavation recovers what the existing system performs; it writes no code, and the Implementation discipline does not work in the sprint zero. The work item "recovery" produces a use-case model, not a realization. What the iteration did deliver is the recovered set itself, and it is the material every later realization, test case and design is written against.
 
