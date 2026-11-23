@@ -1,10 +1,9 @@
 ## Document Control
 - Phase: Survey
-- Status: Draft — iteration 1 assessed; six Major findings open, so the SBC milestone is not achieved
-- Milestone Target: end-of-Survey (SBC) — not achieved; iteration 2 planned from the Iteration Assessment
-- Iteration: 1, Cycle 1 (the plan is re-issued as iteration 2's on the Review Record's open findings)
+- Status: Draft — issued for iteration 2 on the SBC review's findings and the stakeholder's order of 2026-11-23
+- Milestone Target: end-of-Survey (SBC) — not achieved
+- Iteration: 2, Cycle 1
 - Owner: Project Manager
-
 ## Iteration Objectives
 
 This iteration reads the existing system and states what the project inherits. It is the whole of Survey (SBC), the first of the sprint zero's three phases; nothing declared by the stakeholder is worked here.
