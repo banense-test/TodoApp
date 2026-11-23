@@ -253,22 +253,22 @@ No test was executed in this iteration and none was planned. The Test discipline
 
 | Detector that operated | What it found | What it decided |
 |---|---|---|
-| Technical lens (Reviewer) | 3 of its own findings closed, 1 Major and 2 Minor recorded — `Iteration Plan#F4`, `Risk List#F3`, `Supplementary Specification#F3` | That the recovered set holds and the plan's record of it does not: twelve of the thirteen criteria hold on the artifact that owns each while the plan says three fail |
-| Management lens (Management Reviewer) | 5 of its own findings closed, `Iteration Plan#F9` and `#F8` recorded; A1 to A13 re-taken; gate H4 put a third time | That the only Major is one owner pass over five cells; the gate answered on both halves |
-| Review Coordinator | 39 cumulative entries over twelve artifacts, 34 closed by their recording lens, 5 open — 0 Critical, 2 Major entries covering 1 defect, 3 Minor | AR: iteration required. No escalation to change control — no systemic process failure, and the Change Control Manager does not work in the sprint zero |
+| Technical lens (Reviewer) | 3 of its own findings closed, 1 Minor recorded — `Development Case#F4`; the recovered set passing all nine checklist items on ten artifacts | That the recovery holds, that the plan's corrected cells now agree with their artifacts, and that the one contained defect is on a diagram no criterion depends on |
+| Management lens (Management Reviewer) | 2 of its own findings closed — `Iteration Plan#F9` and `#F8`; 1 Minor recorded — `Iteration Plan#F10`; A1 to A13 re-taken | That the Major holding the third put is closed cell by cell, and that three cells still recorded the fourth put as unanswered |
+| Review Coordinator | 42 cumulative entries over twelve artifacts, 40 closed by their recording lens, 2 open — 0 Critical, 0 Major, 2 Minor | AR: no further iteration required. The gate's condition — no Critical, no Major — is met for the first time at this milestone. No escalation to change control: no systemic process failure, and the Change Control Manager does not work in the sprint zero |
 
 | Review measure | Value | The decision it enables |
 |---|---|---|
 | Review coverage | 10 of 10 reviewed artifacts read by both executed lenses; 12 artifacts read for findings | Whether any artifact advanced unwatched. None did |
-| Finding entries, cumulative | 39 — 34 closed, 5 open | Whether the correction converges. It does: 16 open at iteration 1's gate, 8 at iteration 2's, 5 at this one |
-| Open entries by severity | 0 Critical, 2 Major entries over 1 defect, 3 Minor | Whether a stakeholder decision is needed to unblock. It is not: no Critical, every remaining defect one its owner corrects |
-| Artifacts carrying an open Major | 1 — the Iteration Plan | Where the next iteration's work concentrates: this role's own record, and one table's cells |
-| Defect density by discipline, open entries | Project Management 5 over 2 artifacts, Requirements 1, Environment 0, Analysis & Design 0, Discovery 0 | That the recovery disciplines are clear and the residual is administrative |
-| Duplicate subjects reached by both lenses | 1 — the five cells of this iteration's tables | That the Major is a real defect, not one lens's reading |
+| Finding entries, cumulative | 42 — 40 closed, 2 open | Whether the correction converges. It does: 16 open at iteration 1's gate, 8 at iteration 2's, 5 at iteration 3's, 2 at this one |
+| Open entries by severity | 0 Critical, 0 Major, 2 Minor | Whether a stakeholder decision is needed to unblock. It is not: both remaining defects are record corrections their owners perform in Consolidation |
+| Artifacts carrying an open Major | 0 | Where the next iteration's work concentrates: nowhere in this phase. The phase's residual is two contained Minors |
+| Defect density by discipline, open entries | Environment 1, Project Management 1; Requirements 0, Analysis & Design 0, Discovery 0 | That the recovery disciplines are clear and the residual is administrative |
+| Duplicate subjects reached by both lenses | 2 — the five cells under `#F4` and `#F9`, and `#F9` against `#F10` as successive keys on one class | That the closed Major was a real defect, not one lens's reading; and that `#F10` is the same class reached in the one place an answer did not yet exist |
 | Defect removal efficiency | Not computable | No test execution has run in the sprint zero; no ratio is invented |
 | Rework effort | Not measured per finding | No per-finding token or elapsed attribution exists. The iteration's spend is recorded whole in Adherence to Plan |
 
-Three test-related risks carry into Consolidation, registered rather than recorded as findings: `R012` (the BFF and the client carry no test of any kind, and the three defective `/auth` flows are exactly the untested ones — granted at exposure 12), `R005` (the test host builds the schema with `EnsureCreated`) and `R011` (the suite reproduces the bearer-token ticket format from framework internals — granted at exposure 12). None is retired by this phase and none can be: writing tests is work no phase before Elaboration runs.
+Three test-related risks carry into Consolidation and beyond, registered rather than recorded as findings: `R012` (the BFF and the client carry no test of any kind, and the three defective `/auth` flows are exactly the untested ones — granted at exposure 12), `R005` (the test host builds the schema with `EnsureCreated`) and `R011` (the suite reproduces the bearer-token ticket format from framework internals — granted at exposure 12). None is retired by this phase and none can be: writing tests is work no phase before Elaboration runs.
 
 ## External Changes
 
