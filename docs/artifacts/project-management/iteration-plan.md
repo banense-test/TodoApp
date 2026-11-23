@@ -164,36 +164,38 @@ Each gate is answered by the stakeholder in their own words, and none is inferre
 
 ```plantuml
 @startuml
-title Which finding blocks what - the order the rework runs in
+title The order the rework runs in - what each finding blocks and what it unblocks
 
 skinparam shadowing false
 left to right direction
 skinparam componentStyle rectangle
 
-package "Rework this iteration" {
-  component "Risk List#F1 (Reviewer)\nscores reconciled to one mapping" as RL1
-  component "Risk List#F1 (Management Reviewer)\ngrant band re-derived" as RL2
-  component "Iteration Plan#F1 (Management Reviewer)\nC2, C6, C7 on their own evidence" as IP1
-  component "Iteration Plan#F1 (Reviewer)\ntwelve anomalies handed over" as IP2
-  component "Development Case#F1 (Reviewer)\nversion-policy claim corrected" as DC1
-  component "System Inventory#F1 and F2\nAN-021 row, Coverage figure" as SI1
+package "Rework ordered by the SBC review" {
+  component "Risk List#F1 (Reviewer)\nscore every risk once from one mapping" as RL1
+  component "Risk List#F1 (Management Reviewer)\nre-derive the grant band from those scores" as RL2
+  component "Iteration Plan#F1 (Management Reviewer)\nrestate C2, C6, C7 on their own evidence" as IP1
+  component "Iteration Plan#F1 (Reviewer)\nname the twelve anomalies or drop the count" as IP2
+  component "Development Case#F1 (Reviewer)\nname the file or state central pinning" as DC1
+  component "System Inventory#F1, F2\nAN-021 row, Coverage figure" as SI1
 }
 
-package "Unblocked by it" {
-  component "Gate H2\nperimeter confirmed, sanction taken" as H2
-  component "Excavation reads a settled\nconstraint list and tailoring" as EX
+package "What it unblocks" {
+  component "Gate H2\nthe sanction question, put again" as H2
+  component "Excavation reads a settled constraint list\nand a tailoring that does not misdirect" as EX
 }
 
-RL1 --> RL2 : arithmetic first
+RL1 --> RL2 : the arithmetic is the grant band's input
 RL1 --> IP1 : reconciled scores are C7's evidence
 SI1 --> IP1 : the reproduced figure is C6's evidence
-IP2 --> EX : constraints named
-DC1 --> EX : tailoring no longer misdirects
-RL2 --> H2 : every acceptance inside its grant
+IP2 --> EX : the constraints Excavation reads
+DC1 --> EX : the tailoring Excavation reads
+RL2 --> H2 : no acceptance left outside its grant
 IP1 --> H2 : the evidence column the verdict reads
-H2 --> EX : sanction
+H2 --> EX : the sanction
 @enduml
 ```
+
+Each edge is one finding's remediation feeding another: the scores reconcile before the grant band is re-derived, the band and the criteria settle before the sanction question is put, and Excavation reads nothing this iteration leaves unsettled. R022 bounds the wait at gate H2 and no risk is retired by the rework.
 
 ## Resources
 The roles are the 26-role roster of the IARI DC baseline, minus the two the Development Case records as not working in this project. No role is added, merged or renamed.
