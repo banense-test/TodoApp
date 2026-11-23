@@ -140,6 +140,58 @@ The delivery states no usability requirement and carries no documentation of the
 | U10 | No documentation of the interface is delivered. The root `README.md` documents how to run the system | `.iari/README.md`; `README.md` |
 
 ## Reliability
+```plantuml
+@startuml
+title The two outbound hops from the BFF - what each carries under a transient API failure
+
+skinparam shadowing false
+skinparam wrapWidth 230
+
+actor "Person" as P
+component "Todo.Web.Client\nBlazor WebAssembly" as CL
+component "BFF /auth endpoints\nAuthApi.cs:14-97" as AUTH
+component "BFF forwarder /todos\nTodoApi.cs:12-25" as FWD
+component "AuthClient\nHttpClient, container-built" as AC
+component "YARP IHttpForwarder\ndefault ForwarderRequestConfig" as YF
+component "Todo.Api\nhttp://todoapi, no HSTS, no redirection" as API
+
+P --> CL
+CL --> AUTH : register, login
+CL --> FWD : /todos
+AUTH --> AC
+AC --> API : hop 1 - token hop
+FWD --> YF
+YF --> API : hop 2 - forwarder hop
+
+note right of AC
+  ConfigureHttpClientDefaults installs
+  AddStandardResilienceHandler on every
+  container-built HttpClient (Extensions.cs:32-42).
+  Retry, circuit breaker, timeout and rate limiter
+  all apply. A transient failure is retried.
+  What finally fails still collapses into one
+  401 with no body (AN-021, F2).
+end note
+
+note right of YF
+  Built with no resilience handler at all.
+  It neither retries nor breaks a circuit.
+  A transient failure is surfaced to the person
+  as a silent no-op on the list
+  (TodoList.razor:57-76).
+end note
+
+note bottom of API
+  Neither hop has a fallback, and neither is protected in
+  transit: the target is the literal http://todoapi and the
+  API sets no HSTS, no redirection and no antiforgery (DC13).
+  The two hops are not equally protected and the difference is
+  what a caller sees on a transient failure - R4, AN-023.
+end note
+
+@enduml
+```
+
 No availability, recovery, tolerance or degradation target is stated in the delivery. The behaviours below are what the code has, not a requirement it was built to meet.
 
 | # | Behaviour, as the code has it | Anchor |
@@ -153,6 +205,9 @@ No availability, recovery, tolerance or degradation target is stated in the deli
 | R7 | A caller holding the `admin` role can reach, change and delete a row the list does not show, and nothing in the running system grants that role | AN-004, AN-018 |
 | R8 | The per-user token bucket rejects with 429 above the request budget of the environment the API runs in: **50 tokens per caller per 10-second period with a queue of 50 under Development**, which both launch profiles set and which is the only environment this delivery starts in; **100 tokens per caller per 10-second period with a queue of 100** wherever no `RateLimiting` configuration section overrides the code defaults. `/users` is not covered by the policy at all | AN-024; `Todo.Api/Extensions/RateLimitExtensions.cs:20-40`; `Todo.Api/appsettings.Development.json:8-12`; `Todo.Api/Properties/launchSettings.json:14-16,25-27` |
 | R9 | The session surface is the least stable part of the delivery and its failure paths have never been modified: `Todo.Web/Server` carries 33 commits and `AuthApi.cs` 15, none of which touched the unconditional redirect, the swallowed failure or the bare 401 (`AN-019`, `AN-020`, `AN-021`), and no test covers any of them | AN-029; AN-012; `Todo.Web/Server/AuthApi.cs:64-97`; `Todo.Api.Tests/Todo.Api.Tests.csproj:9` |
+| R10 | **Nothing protects the hop between the two processes, and nothing degrades gracefully when it fails.** The forwarder's only target is the literal `http://todoapi`; the API registers no HTTPS redirection, no HSTS and no antiforgery; no TLS terminator is configured in the tree. The bearer token, which is derived from the session cookie, therefore crosses that boundary in clear text unless a terminator outside the delivery fronts the API. Neither process filters the `Host` header it answers (`AllowedHosts` is `*` in both base settings files). No fallback, retry or degraded mode exists on that hop, and the API's own `TODO` records that it accepts a bearer token from any caller (`F7`) | `Todo.Web/Server/TodoApi.cs:18`; `Todo.Web/Server/Program.cs:23-26`; `Todo.Api/Program.cs:1-77`; `Todo.Api/appsettings.json:8`; `Todo.Web/Server/appsettings.json:10`; AN-002; DC13, DC14 |
+| R11 | The API's HSTS, redirection and antiforgery posture is the framework's default, which is to register none of them: the BFF's three protections stop at the BFF's own edge and are not inherited by the API it forwards to | `Todo.Web/Server/Program.cs:38-47`; `Todo.Api/Program.cs:1-77`; AS9 |
+
 ## Performance
 | # | What the code fixes, which a later threshold would have to sit on | Anchor |
 |---|---|---|
