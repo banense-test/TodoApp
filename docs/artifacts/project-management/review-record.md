@@ -1040,11 +1040,9 @@ This is the Management Reviewer's lens. The milestone verdict on the consolidate
 The recovered set leaves this phase as the model of the existing system, confirmed by the stakeholder: eleven use cases over twenty-two entry points and twenty-two components across four processes, with four stated exclusions — external-provider sign-in recovered and unreachable in the delivered configuration, the cross-owner admin branch an exceptional entity and not a use case, and `EP-020`, `EP-021` and `EP-022` carrying no use case — and an eight-table data model with the unconverted owner key recorded under `AN-025`. Nothing in it changed across the four puts and nothing in it is deferred to Consolidation.
 
 ### Review Coordinator lens
-<!-- review: Excavation I3 -->
+<!-- review: Excavation I4 -->
 
-<!-- review: Excavation I3 -->
-
-**Milestone verdict on the consolidated ledger: the Architecture Recovered milestone is NOT sanctioned. Excavation iteration 3 does not close it, and the phase auto-iterates.**
+**Milestone verdict on the consolidated ledger: the Architecture Recovered (AR) milestone is SANCTIONED. Excavation closes and the project advances into Consolidation.**
 
 The verdict is anchored to the finding data and to the stakeholder's recorded answer, never to judgment:
 
@@ -1052,84 +1050,64 @@ The verdict is anchored to the finding data and to the stakeholder's recorded an
 |---|---|---|
 | `[FINDINGS]` unread = none | Twelve artifacts read, none unread | Met |
 | Open Critical = 0 | No lens recorded a Critical finding against any artifact | Met |
-| Open Major = 0 | One distinct Major defect, two lens entries — `Iteration Plan#F4` and `#F9` | **Not met** |
-| Stakeholder sanction GRANTED | REFUSED on 2026-11-23; the answer is recorded as given, and no condition is inferred from it | **Not met** |
-| Recovery confirmed | Confirmed by the stakeholder as the model of the existing system — eleven use cases, four stated exclusions, twenty-two components, eight tables | Met |
-
-Both executed lenses reach the same conclusion by different routes. The technical lens returns **Approved with Changes**, holding on the plan's four cells. The Management Reviewer returns **No-Go**, holding on the same defect as `#F9` and on A12. Neither recorded a Critical finding, so nothing in this ledger requires a stakeholder decision the stakeholder has not already been asked for.
+| Open Major = 0 | No Major stands against any artifact; the four that held iterations 2 and 3 are closed and verified at their sources | Met |
+| Stakeholder sanction GRANTED | Gate H4, fourth put, 2026-11-23: **Yes** — the advance sanctioned on records that agree with the set they report | Met |
+| Recovery confirmed | Confirmed by the stakeholder at the third put as the model of the existing system — eleven use cases, four stated exclusions, twenty-two components, eight tables | Met |
 
 ```plantuml
 @startuml
-title Disposition at the AR gate, Excavation iteration 3 - what is approved, what is not, and what the next iteration is
-
+title Milestone verdict at gate H4 put 4 - every branch decided from the finding data, none from judgment
 skinparam shadowing false
-skinparam wrapWidth 240
-hide circle
-hide empty members
-
-package "Approved - the recovered set and its supporting artifacts, 8 of 10 under review" {
-  class "System Inventory\ndevelopment case\nvision\nuse-case model\nsoftware architecture document\ndeployment model\ndesign model" as AP <<approved>>
-}
-
-package "Approved with changes - 2 artifacts, Minors only, none holding the milestone" {
-  class "Risk List\nF3 - R032 behind the Use-Case Model" as AC1 <<minor>>
-  class "Supplementary Specification\nF3 - one Document Control field" as AC2 <<minor>>
-}
-
-package "Changes required - 1 artifact, 3 entries, 1 Major" {
-  class "Iteration Plan\nF4 and F9 - five cells one pass behind\nF8 - the Closes column names a moment" as CR <<major>>
-}
-
-package "Not judged" {
-  class "Iteration Assessment\nauthored after this review;\ncannot describe the iteration it follows" as NJ <<none>>
-}
-
-package "Verdict" {
-  class "0 Critical, 1 Major defect, 3 Minor\nAR milestone NOT sanctioned" as V <<verdict>>
-  class "requiresIteration true\none further iteration of Excavation" as R <<route>>
-}
-
-AP --> V
-AC1 --> V : does not hold the milestone
-AC2 --> V : does not hold the milestone
-CR --> V : holds the milestone
-NJ ..> V : outside this review's scope
-
-note bottom of V
-  A verdict of Done would certify the milestone on a plan whose
-  cells say three criteria fail. Twelve of thirteen hold; the
-  record read on them does not.
-end note
-note bottom of R
-  No recovered content changes. Four owner turns, all
-  artifact transcription. No declared scope is cut or deferred.
-end note
-
+skinparam wrapWidth 235
+start
+:read_artifact_findings on the 12 artifacts
+unread = none;
+if (open Critical > 0?) then (yes)
+  :escalate to the stakeholder
+  requiresIteration true;
+else (no)
+  if (open Major > 0?) then (yes)
+    :requiresIteration true
+    the phase auto-iterates;
+  else (no)
+    if (Stakeholder sanction GRANTED?) then (no)
+      :requiresIteration true
+      put the next pass to the stakeholder;
+    else (yes)
+      :AR milestone sanctioned
+      requiresIteration false
+      advance into Consolidation;
+    endif
+  endif
+endif
+stop
 @enduml
 ```
 
-**What this consolidation records as settled.** Twelve of the thirteen AR exit criteria are met on the artifact that owns each: A2, A3, A4, A5, A6, A7, A8, A9, A10, A11 and A13, plus A1. The recovered set is not in question and the stakeholder has confirmed it in words — eleven use cases over twenty-two entry points, a twenty-two component architecture across four processes, and an eight-table data model, each resting on the file and lines it cites. Seven findings were closed this iteration and each closure was verified at the graph, the file or the peer artifact rather than accepted from its owner's prose. No finding is waived, deferred or recorded as closed on a document having been written.
+Both executed lenses reach the same conclusion by their own routes. The technical lens returns **Approved with Changes** — one Minor on the Development Case, no Major, and the recovered set clean. The Management Reviewer returns **Go** — thirteen of thirteen exit criteria met on the artifact that owns each, and the sanction granted in words at the fourth put. Neither recorded a Critical finding, so nothing in this ledger requires a stakeholder decision that has not already been given.
 
-The four exclusions the stakeholder ruled on stand untouched and no finding here approaches them: external-provider sign-in is recovered and marked unreachable in the delivered configuration; the cross-owner admin branch is an exceptional entity and not a use case; and `EP-020`, `EP-021` and `EP-022` carry no use case.
+**Why no condition is attached.** A Conditional Go defers verification to a later point. There is nothing here to defer: every criterion is decided, both remaining defects are Minors that no exit criterion depends on, and the sanction the gate turns on has been granted. A condition on a Minor would record a hold the stakeholder did not impose and the exit criteria do not require.
 
-**What it records as requiring work.** One Major defect in five cells of the Iteration Plan's Evaluation Criteria and Objectives tables, and three Minors — two on the plan's Closes column and the Risk List's R032, one on a Document Control field. Every one is a transcription against content that already exists in the artifact it names. No role is added, no use case or component changes, and nothing is deferred to Consolidation to reach the gate.
+**Why the verdict is not withheld for the two open Minors.** The stakeholder's standing order, given at the SBC close, is that open Minors be addressed in the next phase rather than left unattended — and both are: each has an owner whose stage Consolidation schedules, an action that closes it, and a stated due point. A Minor is, by its definition, a defect whose owner fixes it in its next turn and which does not hold the milestone.
 
 **Disposition by artifact.**
 
 | Artifact | Disposition |
 |---|---|
-| System Inventory | **Approved** — no open finding from any lens; coverage arithmetic recomputed and reproducing |
-| Development Case | **Approved** — both Minors closed and verified; the contributor set names six lenses and Document Control reads this phase and iteration |
-| Vision | **Approved** — both lenses' findings closed on verified evidence |
-| Use-Case Model | **Approved** — both Majors and the Management Reviewer's `#F1` closed; the five `COMP-014` edges confirmed in the graph and R6 states both budgets under `AN-024` |
-| Software Architecture Document | **Approved** — Major closed and verified at source |
-| Deployment Model | **Approved** — Major closed and verified at source |
-| Design Model | **Approved** — Minor closed and verified |
-| Risk List | **Approved with changes** — `#F3` open on R032; contained, holds no criterion |
-| Supplementary Specification | **Approved with changes** — `#F3` open, one metadata field |
-| Iteration Plan | **Changes required** — `#F4`, `#F9` and `#F8` open; the Major holds the milestone |
-| Iteration Assessment | **Not judged** — authored by the Project Manager after this review; its absence before the review is not a finding |
+| Development Case | **Approved with changes** — `#F4` open, one diagram's per-phase discipline list; contained, no criterion depends on it |
+| System Inventory | **Approved** — coverage arithmetic recomputed and reproducing; no open finding from any lens |
+| Risk List | **Approved** — `#F3` closed on R032's restated retirement; the grant band reproduces and is correctly granted |
+| Iteration Plan | **Approved with changes** — `#F10` open on three gate cells; `#F4`, `#F8` and `#F9` closed and verified |
+| Vision | **Approved** — eleven use cases; the two platform mechanisms drawn as components |
+| Use-Case Model | **Approved** — R6 states both budgets under `AN-024`; five `COMP-014` edges confirmed in the graph |
+| Supplementary Specification | **Approved** — `#F3` closed; M3, S2, P1, R8 and R4 state the two budgets and the two hops apart; Document Control on iteration 4 |
+| Software Architecture Document | **Approved** — SP1, M3 and the bounded-load row verified at the file |
+| Deployment Model | **Approved** — Environment Mapping verified against the environment files |
+| Design Model | **Approved** — `PD-D3` cites `AN-025` for the owner key and `AN-005` only for `EnsureCreated` |
+| Iteration Assessment | **Not judged** — authored by the Project Manager in the Assess touchpoint that follows this review; its state before the review is not a finding |
 
-**The route — one further iteration, four owner turns.** `Risk List#R031`'s contingency, planned from the record at iteration 2 and now taken for the second consecutive iteration: one further iteration of Excavation performing actions 1 to 4 of Resolutions and Actions, then gate H4 put a fourth time once the plan's cells agree with the set they report. The stakeholder stated that no recovered content is at issue and that the next iteration changes none of it, and this disposition adds nothing to that and narrows nothing in it.
+**What this verdict does and does not decide.** It decides that the AR exit criteria are met, that the finding ledger holds no Critical and no Major, and that the stakeholder sanctioned the advance. It does not merge the iteration baseline: that is the Integrator's step after the verdict.
 
-`R031` is recorded, scored 3 × 4 = 12 and carried as avoided. Recording it did not retire it and this disposition does not claim otherwise.
+**What leaves the phase.** The recovered set leaves Excavation as the model of the existing system, confirmed by the stakeholder: eleven use cases over twenty-two entry points and twenty-two components across four processes, with four stated exclusions — external-provider sign-in recovered and unreachable in the delivered configuration, the cross-owner admin branch an exceptional entity and not a use case, and `EP-020`, `EP-021` and `EP-022` carrying no use case — and an eight-table data model with the unconverted owner key recorded under `AN-025`. No element of it was added, removed, merged or reclassified by iteration 4, whose four corrections were cells, a field and a retirement claim: records of the recovery, not the recovery.
+
+**What enters Consolidation.** Two Minors, each with an owner and an action, none holding any criterion: `Development Case#F4` (Process Engineer) and `Iteration Plan#F10` (Project Manager). No declared scope is cut or deferred to reach this gate, and no finding is waived, deferred or recorded as closed on a document having been written.
