@@ -20,14 +20,14 @@
 - Owner: Management Reviewer
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
 - Phase: Survey
-- Status: SBC milestone consolidated. Lenses executed: Technical (Reviewer), Management (Management Reviewer). Business lens — INACTIVE — did not evaluate this review. Consolidated ledger: 10 findings, 0 Critical, 6 Major, 4 Minor, 0 Info, all open. Disposition — No-Go; the milestone is not sanctioned and the stakeholder refused the sanction on 2026-11-23.
-- Milestone Target: end-of-Survey (SBC) — not achieved. Six Major findings require rework before any role consumes these artifacts and before Excavation begins.
-- Iteration: 1, Cycle 1
+- Status: SBC milestone review consolidated at iteration 2. Lenses executed: Technical (Reviewer) and Management (Management Reviewer). Business (BusinessReviewer) — INACTIVE, did not evaluate this review, carries no verdict. Consolidated from the finding ledger: 14 findings recorded across the two iterations, 10 closed by their recording lens, 4 open — 0 Critical, 0 Major, 4 Minor.
+- Milestone Target: end-of-Survey (SBC) — every gate condition met on the finding data: 0 open Critical, 0 open Major, the perimeter confirmed as the System Inventory records it and the sanction to advance granted, both by the stakeholder on 2026-11-23.
+- Iteration: 2, Cycle 1
 - Owner: Review Coordinator
 
 ## Review Scope and Criteria
