@@ -6,8 +6,121 @@
 - Owner: System Analyst
 
 ## Functionality
+The delivery declares no functional requirement. `.iari/README.md` records that no requirements document exists and that its authors cannot be asked, so every statement below is a behaviour recovered from code and anchored to the file it was read from. No threshold is invented where the code states none: what the code does not fix is recorded as not fixed.
+
+### Cross-cutting mechanisms
+
+Authentication, current-user resolution, rate limiting, validation, data protection, transport protection and the schema migration are mechanisms, not use cases. They are stated here and referenced from the use case in whose flow each one acts.
+
+```plantuml
+@startuml
+title The cross-cutting mechanisms the code applies, and the surface each one covers
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam wrapWidth 210
+
+package "Request surfaces of the running system" {
+  component "/todos group\nfive operations" as S_TODOS
+  component "/users Identity endpoint set\nEP-015" as S_ID
+  component "/users/token/{provider}\nEP-016" as S_TOKEN
+  component "/auth on the BFF\nEP-004 to EP-008" as S_AUTH
+  component "OpenAPI, reference UI,\nhealth endpoints" as S_DOCS
+}
+
+package "Mechanisms, and how far each one reaches" {
+  component "M1 Bearer authentication\nIdentity bearer scheme, no lifetime configured" as M_BEARER
+  component "M2 Current-user resolution\nand its authorization requirement" as M_CU
+  component "M3 Per-user token bucket\ncode defaults 100 / 100 per 10 s / queue 100\nDevelopment override 50 / 50 / queue 50, AN-024" as M_RATE
+  component "M4 Data-annotation validation\n400 ValidationProblemDetails" as M_VAL
+  component "M5 Data protection\nApplicationDiscriminator TodoApp,\nno key persistence configured" as M_DP
+  component "M6 Cookie session on the BFF\naccess token stored in the token set" as M_COOKIE
+  component "M7 HTTP logging\nDevelopment only" as M_LOG
+  component "M8 Telemetry, health checks\nand service discovery" as M_OBS
+  component "M9 Schema migration\napp host, run mode, .db absent" as M_MIG
+  component "M10 Transport protection\nHSTS 30 days on the BFF outside Development,\nHTTPS redirection, antiforgery -\nnone of the three on the API" as M_TLS
+  component "M11 Host filtering\nAllowedHosts * in both processes" as M_HOST
+}
+
+S_TODOS --> M_BEARER
+S_TODOS --> M_CU
+S_TODOS --> M_RATE
+S_TODOS --> M_VAL
+S_ID --> M_BEARER
+S_TOKEN --> M_VAL
+S_TOKEN --> M_DP
+S_AUTH --> M_COOKIE
+S_AUTH --> M_TLS
+S_AUTH --> M_HOST
+S_DOCS --> M_OBS
+M_LOG ..> S_TODOS : applies
+M_LOG ..> S_ID : applies
+M_MIG ..> S_TODOS : creates the schema before the API starts
+
+note right of M_VAL
+  The mechanism reaches only the parameter types an
+  endpoint registers: TodoItem on /todos and
+  ExternalUserInfo on /users/token/{provider}.
+  UserInfo -- the shape of every register and login
+  body -- is registered nowhere, so those bodies pass
+  no data-annotation check at the API. UsersApi.cs:18
+end note
+
+note right of M_RATE
+  The one mechanism applied to /todos alone:
+  /users is unlimited and the policy's partition
+  key does not exist for an anonymous caller. AN-009
+  Its budget is environment-dependent: the code
+  defaults are 100 and the Development file this
+  delivery starts in binds 50. AN-024
+end note
+
+note bottom of M_DP
+  A provider key is protected in the BFF and
+  unprotected in the API, and no PersistKeysTo
+  call exists in either program. AN-010
+end note
+
+note bottom of M_TLS
+  The API applies none of the three: Program.cs:44-47
+  runs only HTTP logging and the rate limiter, and the
+  BFF addresses it over http://todoapi (Program.cs:25-28).
+  Both hops are plain HTTP by default configuration.
+end note
+
+@enduml
+```
+
+| # | Mechanism | What the code does, with the value it fixes | Anchor | Used by |
+|---|---|---|---|---|
+| M1 | Bearer authentication on the API | Registers the Identity bearer scheme. No token lifetime, signing key or refresh interval is configured anywhere, so every value is the framework's default | `Todo.Api/Program.cs:14` | UC-001 to UC-011 through the API |
+| M2 | Current-user resolution and its requirement | A scoped service resolves the user row from the database by the token's `NameIdentifier` on every request and exposes `Id` and `IsAdmin`; a policy requirement fails unless that row exists, so a structurally valid token for a deleted account is refused. A `TODO` records that lockout is not checked | `Todo.Api/Authorization/CurrentUser.cs:6-13`; `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:14-36` | UC-006 to UC-010 |
+| M3 | Per-user token bucket, and the two budget values it runs at | Token bucket partitioned by `NameIdentifier`; `TokenLimit` 100, `TokensPerPeriod` 100, `ReplenishmentPeriod` 10 s, `QueueLimit` 100, auto-replenishment on, rejection 429 — those are the code defaults, and every one of them binds from a `RateLimiting` configuration section. Two values are therefore in force, not one: **the code defaults 100 / 100 per 10 s / queue 100**, and **`Todo.Api/appsettings.Development.json` binds `TokenLimit` 50, `TokensPerPeriod` 50 and `QueueLimit` 50**, so a process running under the Development environment enforces half the code's default. Both launch profiles set that environment, and no other environment file in the delivery carries the section, so Development is the only environment this delivery starts in and the only one whose budget differs (`AN-024`) | `Todo.Api/Extensions/RateLimitExtensions.cs:14-31,57`; `Todo.Api/appsettings.Development.json:8-12`; `Todo.Api/Properties/launchSettings.json:14-16,25-27`; `Todo.Web/Server/Properties/launchSettings.json:6-8,15-17`; AN-024 | UC-006 to UC-010 |
+| M4 | Data-annotation validation | Rejects a request whose registered parameter fails `MiniValidation` with 400 `HttpValidationProblemDetails` of content type `application/problem+json`, declared on the endpoint. Only the parameter types the endpoint registers are checked: `/todos` registers `TodoItem` and `/users` registers `ExternalUserInfo`, so a register or login body of type `UserInfo` is checked by nothing at the API and reaches Identity's own policy alone | `Todo.Api/Filters/ValidationFilter.cs:10-63`; `Todo.Api/Todos/TodoApi.cs:22`; `Todo.Api/Users/UsersApi.cs:18` | UC-003, UC-007, UC-010 |
+| M5 | Data protection | `ApplicationDiscriminator` set to `TodoApp` in both the BFF and the API. No key persistence, key lifetime or key protection is configured in either program, so the two processes share a ring only where the framework's default file location is shared | `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11`; AN-010 | UC-003 |
+| M6 | Cookie session on the BFF | The default scheme is a cookie; a second cookie holds the external ticket; the access token is stored in the session's token set and read back by the forwarder | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:14-21`; `Todo.Web/Server/TodoApi.cs:18-22`; `Todo.Web/Server/AuthApi.cs:99-116` | UC-001, UC-002, UC-003, UC-004, UC-006 to UC-008 |
+| M7 | HTTP logging | Combined request and response logging with body and header fields, enabled only when the environment is Development | `Todo.Api/Program.cs:35-46` | Every API request in Development |
+| M8 | Telemetry, health checks and service discovery | OpenTelemetry traces, metrics and logs with the ASP.NET Core, HTTP and runtime instrumentation; OTLP export only when `OTEL_EXPORTER_OTLP_ENDPOINT` is non-empty; readiness and liveness endpoints; service discovery through Aspire | `TodoApp.ServiceDefaults/Extensions.cs:1-130` | Every process |
+| M9 | Schema migration | The app host installs `dotnet-ef` and runs `database update --no-build` against the API project, waits for it, and only in run mode and only when `Todo.Api/.db` does not exist. No connection string is passed: a `TODO` records it | `TodoApp.AppHost/Extensions.cs:1-34`; `TodoApp.AppHost/Program.cs:1-28`; AN-005, AN-013 | The system's start-up, for every use case |
 | M10 | Transport protection, and where it stops | The BFF sets HSTS at 30 days in every environment except Development, redirects HTTP to HTTPS, and enforces antiforgery on its endpoints. The API sets none of the three: its request pipeline registers only HTTP logging and the rate limiter, so no HSTS, no redirection and no antiforgery runs there. The BFF addresses the API over the literal `http://todoapi`, so the hop between the two processes carries the bearer token in clear text unless a TLS terminator sits between them, and none is configured in the delivery (`DC13`) | `Todo.Web/Server/Program.cs:35-46`; `Todo.Web/Server/Program.cs:25-28`; `Todo.Api/Program.cs:44-47` | UC-001 to UC-008 |
 | M11 | Host filtering | `AllowedHosts` is `*` in both the API's and the BFF's base settings file, and their Development files carry no host section at all, so neither process restricts the `Host` header it answers (`DC14`) | `Todo.Api/appsettings.json:8`; `Todo.Api/appsettings.Development.json`; `Todo.Web/Server/appsettings.json:9`; `Todo.Web/Server/appsettings.Development.json` | Every request to either process |
+
+### Behaviours the recovered use cases must not overstate
+
+| # | Behaviour, as the code has it | Consequence for a specification | Anchor |
+|---|---|---|---|
+| F1 | No screen completes a task: the list's checkbox is bound to nothing and the client makes no update call | Completion is an API operation only. The recovered use case states no user-facing path to it | AN-001; `Todo.Web/Client/Components/TodoList.razor:24-27`; `Todo.Web/Client/TodoClient.cs:7-71` |
+| F2 | Every authentication and registration failure answers one 401 with no body, and the BFF discards the API's validation problem | No recovery flow may claim a distinguishable failure cause | AN-021; `Todo.Web/Server/AuthApi.cs:14-38`; `Todo.Web/Server/AuthClient.cs:6-34`; `Todo.Web/Client/Components/LogInForm.razor:73-98` |
+| F3 | The provider callback redirects to `/` on every path | No failure flow is stated for external sign-in | AN-020; `Todo.Web/Server/AuthApi.cs:64-97` |
+| F4 | The `admin` role admits cross-owner access on three of the five task operations and nothing in the running system grants it | The `admin` branch is an exceptional entity, not recovered as behaviour (stakeholder, 2026-11-23) | AN-004, AN-018; `Todo.Api/Todos/TodoApi.cs:33,59,69` |
+| F5 | `GET /todos` filters on `OwnerId` alone while the item operations also admit the `admin` claim | The two disagree; the model records the disagreement rather than reconciling it | AN-018 |
+| F6 | The Identity endpoints under `/users` carry no rate limit | No limit may be claimed for sign-in, registration, refresh or password recovery | AN-009 |
+| F7 | The API accepts a bearer token from any caller; the BFF sends no service credential | No service-to-service trust may be claimed. The API's own `TODO` records the gap | AN-002; `Todo.Api/Users/UsersApi.cs:16` |
+| F8 | The Create User control is `type="button"` with its own click handler, so `OnValidSubmit` and `DataAnnotationsValidator` never run on the registration path | No client field rule may be claimed for registration: only the non-empty guard in `TodoClient.CreateUserAsync` stands between the person and the API | `Todo.Web/Client/Components/LogInForm.razor:19,87-98`; `Todo.Web/Client/TodoClient.cs:55-63` |
+| F9 | `PUT /todos/{id}` replaces `Title` and `IsComplete` from the body alone, with no concurrency token | An absent `isComplete` in a request body clears a completed row, and two concurrent callers overwrite each other in arrival order | `Todo.Api/Todos/TodoApi.cs:59-63`; `Todo.Api/Todos/Todo.cs:15-21` |
+| F10 | The request budget is not one value. The code defaults all three options to 100 and `appsettings.Development.json` binds all three to 50, and both launch profiles run Development | No request budget may be stated as a single figure, and no load or throttling observation taken in Development describes any other environment | AN-024; `Todo.Api/Extensions/RateLimitExtensions.cs:14-31`; `Todo.Api/appsettings.Development.json:8-12` |
+| F11 | The bearer token reaches the API over `http://todoapi`, and the API registers no HTTPS redirection, HSTS or antiforgery | No transport-security guarantee may be claimed between the two processes. The token crosses in clear text unless a terminator outside the delivery fronts the API | `Todo.Web/Server/TodoApi.cs:18`; `Todo.Web/Server/Program.cs:25-28`; `Todo.Api/Program.cs:44-47`; `DC13` |
+| F12 | Neither process restricts the `Host` header: `AllowedHosts` is `*` in both base settings files | No host-restriction claim may be made for any request | `Todo.Api/appsettings.json:8`; `Todo.Web/Server/appsettings.json:9`; `DC14` |
 
 ## Usability
 The delivery states no usability requirement and carries no documentation of the interface beyond the README's screenshot. What the code fixes about the interface, it fixes in the three components of the client.
