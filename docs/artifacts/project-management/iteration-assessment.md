@@ -291,48 +291,46 @@ None of the three is retired by this phase, and none can be: writing tests is wo
 
 Nothing in this iteration changes what the system is asked to do. The two iterations' stakeholder answers are risk decisions, perimeter confirmations and orders about artifact content — none is a scope change.
 ## Rework Required
-Iteration 2 exists for one purpose: to close what this iteration's review left open, so the SBC gate can be re-taken. It carries no new scope — every item below is a correction to content already written, inside artifacts the sprint zero already owns. The order is the Review Coordinator's priority order, by consequence rather than by artifact.
+No rework is required to close this iteration: every Major the previous review recorded is resolved and verified, and no Critical is open. Four Minors remain open at the phase's close and carry into Excavation on the stakeholder's order of 2026-11-23 that none be left unattended. None holds an exit criterion, none blocks a downstream role, and each is corrected by its owner in Excavation's first iteration — or, for two of them, in the Project Manager's own turn closing this iteration.
 
 ```plantuml
 @startuml
-title What iteration 2 must close before the SBC gate is re-taken - in the Review Coordinator's priority order
-
+title The four Minors carried into Excavation - what each costs and who closes it
 skinparam shadowing false
-skinparam wrapWidth 220
+skinparam wrapWidth 240
 
 start
-:1  Risk List finding - score every risk once from the IARI scale and its cited evidence;
-:R004 and R011 already granted by the stakeholder 2026-11-23;
-if (the reconciliation places any other risk at Significant or High?) then (yes)
-  :ask the stakeholder for that grant in the same turn;
-else (no)
+:Iteration Plan#F2 (Management Reviewer)
+C2b read Not met after the stakeholder answered Yes;
+:corrected in this turn - C2b restated Met on the gate H2 answer of 2026-11-23;
+:Iteration Plan#F3 (Reviewer)
+the fine-plan State column contradicted the artifacts;
+:corrected in this turn - rows 1 to 9 read their actual state;
+if (the recording lens re-reads each corrected section in Excavation iteration 1?) then (yes)
+  :resolve_artifact_finding - the lens closes its own key;
+else (no - the defect still stands)
+  :re-recorded under the same key, still open;
 endif
-:2  Iteration Plan finding - restate C2, C6 and C7 on the evidence each actually holds;
-:3  Development Case finding - name the version-policy file, or state central pinning alone;
-:4  Iteration Plan finding - name all twelve entry-point-bearing anomalies, or point at the table;
-:5  System Inventory finding - add EP-007 to the AN-021 row;
-:6  Development Case duplication - delete one role-delta list and one CLS-DC-01 diagram;
-:7  System Inventory finding - recompute the Coverage headline from the per-area table;
-:8  Iteration Plan finding - move Gate H1 ahead of the Reviewer;
-:Both lenses re-run against the rework;
-:Sanction question put to the stakeholder again, with the new count;
-:Review Coordinator re-takes the SBC verdict;
+:Development Case#F2 (Management Reviewer)
+the Review Record's contributor set omits three lenses;
+:Process Engineer names every lens in the sentence and in CLS-DC-01;
+:System Inventory#F3 (Reviewer)
+Document Control reads iteration 1;
+:Software Archaeologist sets it to the iteration the content belongs to;
+:no Minor is left unattended;
 stop
 @enduml
 ```
 
-| # | Rework | Artifact | Owner | Closes | Why it ranks here |
+| Priority | Finding | Artifact and section | Owner | State at the close of this iteration | What closes it |
 |---|---|---|---|---|---|
-| 1 | Score each of the 21 risks once from the IARI scale and its cited evidence — or delete the inventory's likelihood/impact as a scoring claim and declare the score the Project Manager's own reading. Re-derive the grant band from the reconciled exposures. `R004` and `R011` already hold the stakeholder's grant of 2026-11-23; any other risk the reconciliation places at Significant or High is put to the stakeholder in the same turn | Risk List | Project Manager | `Risk List#F1` (Reviewer), `Risk List#F1` (Management Reviewer) | The defect reaches a grant the project has already taken. The two risks it named now carry the stakeholder's answer, so only the arithmetic is still owed |
-| 2 | Restate C2 as two criteria — the answered perimeter-membership and priority questions, and the confirmation of the recorded perimeter which is not met; cite the settled coverage figure for C6; split C7 into carriage and reproducibility | Iteration Plan | Project Manager | `Iteration Plan#F1` (Management Reviewer) | It is the evidence column the milestone verdict reads, and it records a confirmation the stakeholder refused |
-| 3 | Name the file recording the version policy, or replace the claim with central pinning in `Directory.Packages.props` and nuget.org as the only configured source | Development Case | Process Engineer | `Development Case#F1` (Reviewer) | It directs the Software Architect at a policy that exists nowhere, and Excavation is the next phase |
-| 4 | Name all twelve entry-point-bearing anomalies, or drop the enumeration and point at the System Inventory's Anomalies table | Iteration Plan | Project Manager | `Iteration Plan#F1` (Reviewer) | Five constraints on the areas ranked sixth and eighth are not handed to Excavation |
-| 5 | Add `EP-007` to the `AN-021` Traceability row | System Inventory | Software Archaeologist | `System Inventory#F1` (Reviewer) | One trace edge; the artifact and the tree already hold the truth |
-| 6 | Delete the duplicated role-delta list and the duplicated CLS-DC-01 diagram — the stakeholder's order of 2026-11-23 | Development Case | Process Engineer | `Development Case#F1` (Management Reviewer), `Development Case#F2` (Reviewer) | The order is the stakeholder's: executed before the un-ordered Minors, not deferred behind them |
-| 7 | Recompute the Coverage headline from the per-area table; settle whether the `docs/` rows count as read | System Inventory | Software Archaeologist | `System Inventory#F2` (Reviewer) | Contained in one artifact; it becomes C6's evidence once settled |
-| 8 | Move Gate H1 ahead of the Reviewer in the critical-chain diagram | Iteration Plan | Project Manager | `Iteration Plan#F2` (Reviewer) | Contained in one artifact; no role builds on the wrong content |
+| 1 | `Iteration Plan#F2` (Management Reviewer) | Iteration Plan — Evaluation Criteria, the C2b row | Project Manager | Corrective action written in this turn: C2b reads Met — 2026-11-23, and its evidence cell carries the gate H2 answer as given — the four-process perimeter confirmed as recorded and the sanction granted | The Management Reviewer re-reads the row and calls `resolve_artifact_finding` on its own key |
+| 2 | `Iteration Plan#F3` (Reviewer) | Iteration Plan — Plan and Milestones, the fine plan's State column | Project Manager | Corrective action written in this turn: rows 1 to 7 and 9 read Complete with what closed each, row 8 reads its answer with the date, and the column no longer contradicts the artifacts | The Reviewer re-reads the table and calls `resolve_artifact_finding` on its own key |
+| 3 | `Development Case#F2` (Management Reviewer) | Development Case — Roles and Ownership, the co-owned-artifact sentence and CLS-DC-01 | Process Engineer | Open; the correction is not yet written | The Process Engineer names Reviewer, Management Reviewer, Business Reviewer, Review Coordinator and Code Reviewer plus the Configuration Manager's baseline record among the lenses writing into the Review Record, and draws the corresponding edges in CLS-DC-01; the Management Reviewer then resolves it |
+| 4 | `System Inventory#F3` (Reviewer) | System Inventory — Document Control, the iteration field | Software Archaeologist | Open; the correction is not yet written | The Software Archaeologist sets the iteration field to the iteration the content belongs to, matching the three other artifacts; the Reviewer then resolves it |
 
-Two dependencies order the work and are not negotiable: item 1 precedes item 2, because the reconciled scores are C7's evidence; and item 7 precedes item 2's C6 line, because the recomputed figure is what that line cites. Each finding closes only when its recording lens re-reads the corrected artifact and resolves it — a correction stated in a plan does not close a finding, and the same defect recorded under two lenses closes twice.
+Two of the four are the Project Manager's and are corrected in this turn because leaving them would put this record at odds with the artifacts it assesses: a plan whose C2b cell reads "Not met" beside an assessment recording the answer that met it is two documents contradicting each other, and the State column is the progress signal the next iteration's readers consume.
 
-Item 1 is now narrower than the Review Coordinator ordered it. The coordinator held the `R004` and `R011` acceptance behind the reconciliation; the stakeholder answered both on 2026-11-23, so no gate is left waiting on that queue. What item 1 still owes is the arithmetic, and the instruction to ask stands only for a risk the reconciliation newly places in the grant band.
+**Findings close by their lens, not by their owner.** A correction written into an artifact does not close anything: each of the four closes only when the lens that recorded it re-reads the corrected section and calls `resolve_artifact_finding` on its own key. Two sit on the Iteration Plan under different lenses — F2 is the Management Reviewer's to close and F3 the Reviewer's — and this turn satisfies both subjects in one pass. A finding still open at the AR milestone becomes a Major against the artifact carrying it, which is why the stakeholder's order to address them in the next phase is a real constraint on Excavation rather than a formality.
 
+**No new scope enters Excavation from this record.** Every item above is a correction to content already written in an artifact the sprint zero owns. Excavation's own plan is not written here: it is built from this record and the Risk List at the close of Survey, and its fine work items, its owners and its milestone sequence belong to the Iteration Plan the Project Manager writes in that phase.
