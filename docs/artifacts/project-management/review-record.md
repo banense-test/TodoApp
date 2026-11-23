@@ -32,103 +32,148 @@
 
 ## Review Scope and Criteria
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-**Review type.** Lifecycle milestone review, technical lens, re-taken at the SBC (end-of-Survey) review point after the iteration-2 rework. The question applied is exit criteria: whether the four artifacts collectively satisfy the conditions for transition into Excavation.
+**Review type.** Lifecycle milestone review, technical lens, at the AR (end-of-Excavation) review point. The question applied is exit criteria: whether the artifacts this phase produced establish that the system's operations, architecture and data have been recovered from the code — each element resting on the file it cites — and whether that recovered set may be put to the stakeholder at gate H4.
 
-**Artifacts under review.** Development Case (Process Engineer), System Inventory (Software Archaeologist), Risk List (Project Manager), Iteration Plan (Project Manager). The Iteration Assessment is not reviewed here: the Project Manager authors it in the Assess touchpoint that runs after this review, so at review time it cannot yet describe the iteration being reviewed.
+**Artifacts under review — ten, read whole.**
 
-**Scope of this iteration's pass.** The lens re-ran on the four artifacts against the seven findings it recorded in iteration 1 and against the stakeholder's order of 2026-11-23 that the Major findings and the Development Case's duplicated diagrams and text be corrected. Nothing outside that rework was re-derived: the artifact content that iteration 1 cleared as accurate is not re-litigated, and no new requirement was raised against it.
+| Artifact | Owner | Discipline | Content read against |
+|---|---|---|---|
+| Vision | System Analyst | Requirements | The Use-Case Model and the System Inventory's perimeter |
+| Use-Case Model | System Analyst | Requirements | The System Inventory's entry points; the registered trace graph |
+| Supplementary Specification | System Analyst | Requirements | The mechanisms' anchors, opened |
+| Software Architecture Document | Software Architect | Analysis & Design | The manifests, the mechanisms' anchors, the use cases |
+| Deployment Model | Software Architect | Analysis & Design | The orchestration, the launch profiles, the environment files |
+| Design Model | Designer, Database Designer | Analysis & Design | The migrations, the entity declarations, the anomalies |
+| System Inventory | Software Archaeologist | Discovery | Its own arithmetic and its own trace rows |
+| Risk List | Project Manager | Project Management | Its own scoring mapping and the artifacts it cites |
+| Iteration Plan | Project Manager | Project Management | The exit criteria against the artifacts each cites |
+| Development Case | Process Engineer | Environment | The IARI DC baseline in this review's own prompt |
 
-**Checklist applied.** The same three checklists as iteration 1, so the two passes are comparable: Environment tailoring → DC Baseline Conformance and Optional Trigger Justification against the IARI baseline; Discovery → the EVIDENCE lens, every fact about an existing system resting on the file it cites; Project Management → the IARI risk scale, the two-currency rule and the phase's exit criteria.
+The Iteration Assessment is not reviewed: the Project Manager authors it in the Assess touchpoint that runs after this review, so at review time it cannot describe the iteration being reviewed. Its absence is not a finding and not a gate condition.
+
+**Checklist applied.** The EVIDENCE lens of Excavation, per artifact type: Requirements — every use case traces to the entry point whose code performs it, every entry point carried or its exclusion stated, no cross-cutting mechanism drawn as a use case, trace rows matching the graph. Analysis & Design — every component, class and mechanism resting on an anchor that says what the artifact claims, every declared technology present in a manifest, environment differences stated correctly, subsystem boundaries not named by layer. Discovery — coverage arithmetic reproducing, edge counts reproducing, Document Control naming its own iteration. Project Management — every anomaly carried, every score reproducing from one mapping, the grant band holding the stakeholder's own answers, each exit criterion certified on its own artifact's evidence. Environment — DC baseline conformance and every FIRED optional trigger holding its §5.2 condition.
+
+**Scope of this pass — and what it is not.** This lens re-read all ten artifacts whole. It is not a re-litigation of the two SBC passes: the four Survey artifacts' iteration-2 rework is confirmed closed below and the Survey findings resolved. What is new is that Excavation produced six artifacts that did not exist at SBC, and this is the first pass over them; the two facts it found wrong cut across both the new artifacts and the ones they build on.
 
 ```plantuml
 @startuml
-title Compliance matrix - the four SBC artifacts re-read after the iteration-2 rework
+title Compliance matrix - checklist item x artifact, this technical lens, Excavation iteration 1
 
-skinparam classAttributeIconSize 0
 skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 210
+hide circle
 hide empty members
 
-package "Development Case - tailoring" {
-  class "Development Case" as DC {
-    + dc-baseline roster 24 work, 2 inactive declared : Pass
-    + dc-baseline 16 CORE produced, none omitted : Pass
-    + dc-baseline ownership not reassigned : Pass
-    + dc-baseline nothing outside CORE + OPTIONAL : Pass
-    + optional-trigger Deployment Model fired, condition holds : Pass
-    + optional-trigger 5 not fired, each condition checked : Pass
-    + consumed-defect every governing statement sourced : Pass
-    + contained-defect one fact stated once : Pass
-    + Document Control current for the iteration : Pass
-    + no trace table, declares no element : Pass
+package "Requirements - anchor and shape" {
+  class "Use-Case Model\nSystem Analyst" as UCM {
+    ..
+    every use case traces to its EP-NNN : PASS
+    every entry point carried or exclusion stated : PASS
+    no cross-cutting mechanism drawn as a use case : PASS
+    one use case per goal, two scenarios not per-actor : PASS
+    Traceability rows agree with the registered graph : FAIL
+  }
+  class "Supplementary Specification\nSystem Analyst" as SS {
+    ..
+    every mechanism anchored to its file : PASS
+    behaviour the recovery must not overstate : PASS
+    figures reproduce from the stated anchor : FAIL
+    resilience stated as the code has it : FAIL
+  }
+  class "Vision\nSystem Analyst" as VIS {
+    ..
+    no scope invented for the delivery : PASS
+    every feature names its EP-NNN : PASS
+    cross-cutting mechanisms kept out of use-case notation : FAIL
+    stakeholder rulings recorded where they bite : PASS
   }
 }
 
-package "System Inventory - recovery" {
-  class "System Inventory" as SI {
-    + every perimeter component anchored : Pass
-    + every entry point has kind, initiator, anchor : Pass
-    + coverage headline reproduces from the table : Pass
-    + every unread area declared with its reason : Pass
-    + anomalies anchored and carried as risks : Pass
-    + anomaly edges equal the trace tree : Pass
-    + trace table complete for EP and AN : Pass
-    + Document Control current for the iteration : FAIL
-    + UML present and valid : Pass
+package "Analysis and Design - recovered structure" {
+  class "Software Architecture Document\nSoftware Architect" as SAD {
+    ..
+    every component carries its anchor : PASS
+    components realize the recovered use cases : PASS
+    every declared technology is in a manifest : PASS
+    a mechanism's values reproduce from its anchor : FAIL
+    upstream disagreement recorded not reconciled : PASS
+  }
+  class "Deployment Model\nSoftware Architect" as DEP {
+    ..
+    topology anchored to the orchestration : PASS
+    ports stated as profiles not orchestration : PASS
+    environment differences stated correctly : FAIL
+    OPTIONAL trigger justified in the Development Case : PASS
+  }
+  class "Design Model\nDesigner, Database Designer" as DM {
+    ..
+    every class carries its anchor : PASS
+    persistent store recovered with keys and rules : PASS
+    Data Model omitted with its trigger stated : PASS
+    anomaly citations point at the right anomaly : FAIL
   }
 }
 
-package "Risk List - scoring" {
-  class "Risk List" as RL {
-    + the IARI scale, none of its own : Pass
-    + magnitude is the band of P x I, never chosen : Pass
-    + all 21 anomalies carried as one risk each : Pass
-    + every score reproduces from one published mapping : Pass
-    + Significant accepts each hold a stakeholder grant : Pass
-    + strategy, owner, action, contingency on every row : Pass
-    + no human-team unit anywhere : Pass
-    + trace table complete for R001 to R022 : Pass
-    + UML present and valid : Pass
+package "Discovery and Project Management" {
+  class "System Inventory\nSoftware Archaeologist" as SI {
+    ..
+    every entry point and anomaly anchored : PASS
+    coverage arithmetic reproduces from its table : PASS
+    edge count reproduces from its own rows : PASS
+    Document Control names its own iteration : PASS
+  }
+  class "Risk List\nProject Manager" as RL {
+    ..
+    every anomaly carried as one risk : PASS
+    every score reproduces from one mapping : PASS
+    grant band holds the stakeholder's own answer : PASS
+    a risk's premise matches the artifact it cites : FAIL
+  }
+  class "Iteration Plan\nProject Manager" as IP {
+    ..
+    every work item is a stage the phase runs : PASS
+    exit criteria certified on their own evidence : PASS
+    State column states each row's outcome : PASS
+  }
+  class "Development Case\nProcess Engineer" as DC {
+    ..
+    no baseline redefinition : PASS
+    every FIRED optional justified per its trigger : PASS
+    Document Control names the current phase : FAIL
+    contributor set names every lens that writes : FAIL
   }
 }
 
-package "Iteration Plan - sequencing" {
-  class "Iteration Plan" as IP {
-    + each criterion has a satisfied-when and an owner : Pass
-    + no calendar date projected : Pass
-    + milestone sequence matches the inherited process : Pass
-    + every risk lands on a milestone : Pass
-    + work items are stages the process runs in Survey : Pass
-    + twelve anomalies handed forward, 21 edges : Pass
-    + each gate placed ahead of the verdict it feeds : Pass
-    + C2 split into the answers and the refused sanction : Pass
-    + fine-plan State column agrees with the artifacts : FAIL
-    + UML present and valid : Pass
-  }
-}
-
-DC --> SI : tailoring Excavation inherits
-SI --> RL : anomalies scored
-RL --> IP : risks sequence the plan
-IP --> DC : roles and gates
 @enduml
 ```
 
-**Anchor verdict — the four statements this iteration's rework rests on, opened rather than trusted.**
+**Prior findings of this lens — reconciled before new defects were recorded.**
+
+| Artifact | Finding | State this pass | What was checked |
+|---|---|---|---|
+| System Inventory | `System Inventory#F3` (Minor) — Document Control still read iteration 1 | Resolved | Document Control now reads "Iteration: Excavation iteration 1, cycle 1", the iteration its content belongs to |
+| Iteration Plan | `Iteration Plan#F3` (Minor) — the fine plan's State column contradicted the artifacts | Resolved | The section commits to stating each row's actual outcome; row 9 cites the Document Control correction, verified in the artifact; row 10 records `Development Case#F2` as Not started rather than complete, which is the true state |
+
+`Development Case#F2` — the contributor set omitting three lenses, ordered corrected by the stakeholder on 2026-11-23 — belongs to the **Management Reviewer's** lens, not this one, and this lens leaves it to that lens. The Iteration Plan's item 10 and its criterion A11 already record it as outstanding and carried as `R031`; the artifact still reads "Reviewer, CodeReviewer, plus the Configuration Manager's baseline record". This lens records nothing against it because it has no finding of its own on it — a second lens's key must be closed by that lens.
+
+**Anchor verdict — the statements this phase's recovery rests on, opened rather than trusted.**
 
 | Claim under review | Anchor opened | Verdict |
 |---|---|---|
-| No enterprise version policy is recorded; version selection follows central pinning and a nuget.org-only source | `global.json`, `nuget.config`, `Directory.Packages.props` as cited | Confirmed — `global.json` pins SDK `9.0.100` with `rollForward: latestFeature`; `nuget.config` clears the sources, adds only `nuget.org` and maps `*` to it, so a package from another feed does not restore. The Development Case states this and asserts no policy |
-| The Development Case's contribution contract is the published one and it holds over the delivery's README | `docs/CONTRIBUTING.md` §1–§5 | Confirmed — the label table, the branch and review rules, and the code and test conventions are stated there with each convention cited to the file that carries it; the README states no label, branch or review rule |
-| The Coverage figure reproduces from the per-area table | System Inventory "Coverage": Files and Read columns | Confirmed — Read sums to 79 (23 + 7 + 8 + 0 + 14 + 1 + 6 + 2 + 1 + 7 + 1 + 2 + 1 + 1 + 4 + 1), Files to 133, and 133 − 79 = 54 |
-| Every risk score reproduces from the System Inventory's likelihood and impact words | Risk List "How each score is derived" against the register's P and I columns for R001–R022, and the inventory's words for AN-001–AN-021 | Confirmed — all 21 anomaly-derived rows reproduce from the single published mapping (`possible` 3, `likely` 4; `low` 2, `moderate` 3, `high` 4) and no inventory word scores differently in different rows |
+| The rate-limit values 100 / 100 / 100 are the effective ones because no `RateLimiting` section exists | `Todo.Api/appsettings.Development.json` | **Contradicted** — the file carries `"RateLimiting": { "TokenLimit": 50, "TokensPerPeriod": 50, "QueueLimit": 50 }`. Both launch profiles set `ASPNETCORE_ENVIRONMENT` to Development, so 50 is the value that applies. The System Inventory records this as AN-024 and the Risk List as R025; three of the artifacts under review state the opposite |
+| No retry, circuit breaker or fallback is configured on either hop out of the BFF | `TodoApp.ServiceDefaults/Extensions.cs` | **Contradicted** — `ConfigureHttpClientDefaults(http => { http.AddStandardResilienceHandler(); ... })` applies the standard retry, circuit-breaker, timeout and rate-limiter pipeline to every container-built `HttpClient`, which reaches `AuthClient`. Only the YARP forwarder hop carries none. The SAD states this correctly at P6; the Supplementary Specification's R4 says "either hop" |
+| The ownership predicate is written four times and the list applies half of it | `Todo.Api/Todos/TodoApi.cs` | **Confirmed** — `Where(todo => todo.OwnerId == owner.Id)` on the list with no admin branch; `todo.OwnerId == owner.Id \|\| owner.IsAdmin` on the read, the update and the delete. AN-018 is accurately stated in the System Inventory, the Supplementary Specification and the SAD |
+| `POST /todos` copies the title alone, so a create body asking for a completed row produces `IsComplete` false | `Todo.Api/Todos/TodoApi.cs` | **Confirmed** — `new Todo { Title = newTodo.Title, OwnerId = owner.Id }`, with no assignment from `newTodo.IsComplete`. UC-007's step 5 and the Design Model's R-facts both state it correctly |
+| Every entry-point-bearing anomaly edge reproduces from the System Inventory's own row | System Inventory "Traceability" and "Anomalies", both read together | **Confirmed** — 21 `DependsOn` edges across twelve anomalies, matching the Iteration Plan's twelve-row handoff table. `AN-021` carries all three of `EP-004`, `EP-005`, `EP-007`, the edge the earlier pass found missing |
 
-No anchor opened this iteration contradicted the artifact that cites it. Both findings below sit in metadata and in the plan's own status column, not in the reading's accuracy or in its arithmetic.
+Two of five anchors opened contradicted the artifacts that cite them, and each contradiction is recorded below against every artifact that carries it.
 
-**SCM evidence.** No open pull request exists, so nothing is disposed in this review and no code review decision is owed. There is no IARI pipeline on `main` — `ci.yml` does not exist yet — so no build status exists to be red; establishing the build environment is the Integrator's Inception work item and no branch of this process exists. Neither condition is a finding, and no phase-discipline defect is available to detect in the absence of code.
+**SCM evidence.** No open pull request exists, and none should: the sprint zero writes no production code — Implementation runs from Inception — so a pull request in this phase would itself be a `scm-phase-discipline` finding. `scm_list_pull_requests(state: open)` returns none. There is no IARI pipeline on `main`, so no build status exists to be red. Nothing is disposed in this review and no code review decision is owed. This is the correct state for Excavation, not an absence to be flagged.
 
 ### Management Reviewer lens
 <!-- review: Survey I2 -->
