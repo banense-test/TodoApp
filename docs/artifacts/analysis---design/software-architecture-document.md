@@ -58,7 +58,7 @@ package "P3 Todo.Api - minimal-API REST service" {
   component "COMP-015\nData-annotation validation filter" as C15
   component "COMP-016\nPersistence: DbContext, entity model, migrations" as C16
   component "COMP-017\nOpenAPI document and Scalar UI" as C17
-  component "COMP-018\nHTTP logging, Development only" as C18
+  component "COMP-018\nHTTP logging" as C18
 }
 
 package "P4 Orchestration and platform" {
@@ -107,10 +107,11 @@ C19 <.. C4 : compiled into
 C19 <.. C7 : compiled into
 
 note right of C18
-  The one component that adds no behaviour: it is a
-  pipeline stage that writes request and response
-  bodies and headers, and only in Development.
-  Todo.Api/Program.cs:35-47
+  The one component that adds no behaviour to any use
+  case: it is a pipeline stage that writes a log record
+  per request. The stage runs in every environment; only
+  the body-and-header field set is chosen in Development.
+  Todo.Api/Program.cs:32-44
 end note
 
 note bottom of C14
@@ -136,8 +137,8 @@ end note
 
 note bottom of C12
   Resolves the caller before any endpoint runs, and is
-  the second database read every task operation pays.
-  CheckCurrentUserAuthHandler.cs:26-35
+  the second read every task operation pays.
+  CurrentUserExtensions.cs:18-36
 end note
 
 @enduml
