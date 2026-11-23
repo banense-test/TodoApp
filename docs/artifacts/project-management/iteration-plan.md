@@ -131,7 +131,7 @@ title Coarse roadmap - SBC closed, Excavation at AR with a fourth iteration unde
 @endgantt
 ```
 
-No bar carries an absolute date or a projected calendar span. The one-day and two-day lengths are the diagram's sequencing device, not durations claimed for the work: spend is measured in the two currencies — tokens and agent time, apart from stakeholder queue time — and never as a span. Each human gate sits ahead of the verdict it feeds, because the verdict reads the answer. A gate bar is coloured for the outcome it has; the fourth put's outcome is not yet taken and no colour of sanction is pre-declared.
+No bar carries an absolute date or a projected calendar span. The one-day and two-day lengths are the diagram's sequencing device, not durations claimed for the work: spend is measured in the two currencies — tokens and agent time, apart from stakeholder queue time — and never as a span. Each human gate sits ahead of the verdict it feeds, because the verdict reads the answer. A gate bar is coloured for the outcome it has; the fourth put has no outcome yet and no colour of sanction is pre-declared.
 
 | Order | Phase | Milestone | Discipline intensity | Risks this milestone confronts | What the milestone is judged on |
 |---|---|---|---|---|---|
@@ -170,8 +170,8 @@ the exposure retired, one residual named;
 
 |System Analyst|
 :E4 Supplementary Specification
-Document Control Iteration field brought
-onto the iteration whose review it is under;
+Document Control on the iteration whose
+review the artifact is under;
 
 |Reviewer|
 :E5 technical lens
@@ -193,14 +193,14 @@ stop
 
 | # | Work item | Stage | Owner | State | Closes |
 |---|---|---|---|---|---|
-| 1 | Iteration Plan — every cell of the criteria and objectives tables re-derived from the artifact it cites: A1 "Met" with the five `COMP-014` edges requoted from a fresh graph query; A10 "Met — certified on the recovered set", the Use-Case Model's R6 named as the fourth artifact with its wording under `AN-024`; A11 "Met — four of four"; A13 restated on this iteration's own items; A12 recording the third put in both halves; O1 to O3 restated at the state their artifacts hold. No superseded sentence requoted | Project Management | Project Manager | Corrected in this pass; re-derived from each artifact's current text | `Iteration Plan#F4`, `Iteration Plan#F9` |
-| 2 | Iteration Plan — the fine plan's Closes column names finding keys only; no moment and no narrative of when the work happened | Project Management | Project Manager | Corrected in this pass | `Iteration Plan#F8` |
-| 3 | Risk List — `R032` restated: the avoidance performed on all six citing artifacts with R6 named and its wording under `AN-024`, the exposure recorded as retired, the one residual named as the contingency — the four artifacts re-read in a single pass. `R030` and `R031` unchanged | Project Management | Project Manager | Corrected in this pass | `Risk List#F3` |
-| 4 | Supplementary Specification — Document Control brought onto the iteration whose review the artifact is under; no other field and no content | Requirements | System Analyst | Document Control reads iteration 4, Cycle 1 | `Supplementary Specification#F3` |
-| 5 | Technical lens re-run against the restated cells and the register | Review | Reviewer | Not yet run this iteration | — |
-| 6 | Management lens — A1 to A13 re-taken on the corrected table | Review | Management Reviewer | Not yet run this iteration | — |
-| 7 | Gate H4, fourth put — the recovered set already confirmed at the third put; the advance into Consolidation asked once on records that agree with it | Gate | Stakeholder | Not yet put | `A12`, and the milestone |
-| 8 | AR milestone verdict | Review | Review Coordinator | Not yet given | — |
+| 1 | Iteration Plan — every cell of the criteria and objectives tables re-derived from the artifact it cites: A1 "Met" with the five `COMP-014` edges requoted from a fresh graph query; A10 "Met — certified on the recovered set", the Use-Case Model's R6 named as the fourth artifact with its wording under `AN-024`; A11 "Met — four of four"; A13 restated on this iteration's own items; A12 recording the third put in both halves; O1 to O3 restated at the state their artifacts hold. No superseded sentence requoted | Project Management | Project Manager | Done | `Iteration Plan#F4`, `Iteration Plan#F9` |
+| 2 | Iteration Plan — the fine plan's Closes column names finding keys only; no moment and no narrative of when the work happened | Project Management | Project Manager | Done | `Iteration Plan#F8` |
+| 3 | Risk List — `R032` restated: the avoidance performed on all six citing artifacts with R6 named and its wording under `AN-024`, the exposure recorded as retired, the one residual named as the contingency — the four artifacts re-read in a single pass. `R030` and `R031` unchanged | Project Management | Project Manager | Done | `Risk List#F3` |
+| 4 | Supplementary Specification — Document Control on the iteration whose review the artifact is under; no other field and no content | Requirements | System Analyst | Done — Document Control reads Phase Excavation, Iteration 4, Cycle 1 | `Supplementary Specification#F3` |
+| 5 | Technical lens re-run against the restated cells and the register | Review | Reviewer | Not started | — |
+| 6 | Management lens — A1 to A13 re-taken on the corrected table | Review | Management Reviewer | Not started | — |
+| 7 | Gate H4, fourth put — the recovered set already confirmed at the third put; the advance into Consolidation asked once on records that agree with it | Gate | Stakeholder | Not put | `A12`, and the milestone |
+| 8 | AR milestone verdict | Review | Review Coordinator | Not started | — |
 
 **Two currencies, never summed.** Items 1 to 6 and 8 are agent work, quoted in tokens and measured elapsed agent time. Item 7 is a human gate — waiting, not working — quoted only in days of queue time.
 
