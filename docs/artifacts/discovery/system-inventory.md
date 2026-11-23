@@ -249,6 +249,134 @@ Excavation added three lists the Survey reading did not have, and they change on
 Two areas are unstable by two different measures, and both readings are recorded because they answer different questions. The BFF carries the most commits and is still the area whose behaviour keeps being reworked; the app host carries few commits but holds the most recent one. Reading either alone would mistake one signal for the whole picture.
 
 ## Anomalies
+Each anomaly is a risk: the evidence is anchored, the likelihood says how likely it is to bite, the impact how much it costs when it does. The Project Manager carries these into the Risk List by `AN-NNN`. Nineteen of them sit on an entry point and are carried below as forty `DependsOn` edges; the other ten concern the build, the tests, the pipeline or the delivery and have no entry point to hang from. None of the nineteen is a defect of a path the stakeholder put out of the perimeter: the provider sign-in path and the admin branch both stay in it as decided on 2026-11-23, so their anomalies stay live risks.
+
+Four of the twenty-nine are the reading's own finds against a claim made upstream or a claim this inventory made in Survey, and each is recorded here rather than left for a reader to trip over. AN-024 holds that the Development configuration halves the request budget the code sets; that contradicts Supplementary Specification S2 and the Software Architecture Document's SP1 and M3, which state 100 tokens, 100 per period and no `RateLimiting` section anywhere. AN-025 holds that the third migration re-pointed the owner key without converting a row; the Design Model records that fact and attributes it to AN-005, whose subject is the test suite building its schema with `EnsureCreated` instead of the migrations. AN-029 records that the BFF's session surface is a second unstable area beside the app host AN-015 already names. AN-028 records that the test host removes the production persistence registration rather than exercising it. The corrections these imply belong to the roles that own the statements.
+
+```plantuml
+@startuml
+title Anomalies of the delivery - the nineteen that sit on an entry point, the ten that reach none
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+left to right direction
+skinparam wrapWidth 240
+
+package "Entry points" {
+  component "EP-003 Todo list screen" as E3
+  component "EP-004 POST /auth/register" as E4
+  component "EP-005 POST /auth/login" as E5
+  component "EP-006 POST /auth/logout" as E6
+  component "EP-007 provider challenge" as E7
+  component "EP-008 provider callback" as E8
+  component "EP-009 /todos forwarder" as E9
+  component "EP-010 GET /todos" as E10
+  component "EP-011 GET /todos/{id}" as E11
+  component "EP-012 POST /todos" as E12
+  component "EP-013 PUT /todos/{id}" as E13
+  component "EP-014 DELETE /todos/{id}" as E14
+  component "EP-015 /users Identity set" as E15
+  component "EP-016 POST /users/token" as E16
+  component "EP-017 GET / redirect" as E17
+  component "EP-019 Scalar reference UI" as E19
+  component "EP-022 migration event" as E22
+}
+
+package "On an entry point - nineteen anomalies, forty edges" {
+  component "AN-001 no UI path to complete a todo" as A1
+  component "AN-002 no BFF-to-API authentication" as A2
+  component "AN-004 admin role never granted" as A4
+  component "AN-008 README names a Swagger UI" as A8
+  component "AN-009 Identity endpoints unlimited" as A9
+  component "AN-010 key ring not pinned" as A10
+  component "AN-015 app host holds the last change" as A15
+  component "AN-017 root redirect unconditional" as A17
+  component "AN-018 list ignores the admin role" as A18
+  component "AN-019 provider name taken unchecked" as A19
+  component "AN-020 failed sign-in swallowed" as A20
+  component "AN-021 every auth failure answers 401" as A21
+  component "AN-022 lockout checked on no request" as A22
+  component "AN-023 forwarder hop carries no resilience" as A23
+  component "AN-024 Development halves the request budget" as A24
+  component "AN-025 owner key moved, no row converted" as A25
+  component "AN-026 absent base address answers an empty list" as A26
+  component "AN-027 a provider account carries no email" as A27
+  component "AN-029 the session surface never settles" as A29
+}
+
+package "No entry point - ten anomalies, build, tests, delivery" {
+  component "AN-003 request contracts declared twice" as B3
+  component "AN-005 migrations not exercised" as B5
+  component "AN-006 unused test dependency" as B6
+  component "AN-007 SDK 8 image against net9.0" as B7
+  component "AN-011 token minted from framework internals" as B11
+  component "AN-012 two thirds of the system untested" as B12
+  component "AN-013 database path relative to the workdir" as B13
+  component "AN-014 RazorLangVersion left at 8.0" as B14
+  component "AN-016 no document of the system" as B16
+  component "AN-028 test host replaces the DbContext registration" as B28
+}
+
+A1 --> E3
+A1 --> E13
+A2 --> E16
+A4 --> E11
+A4 --> E13
+A4 --> E14
+A8 --> E17
+A8 --> E19
+A9 --> E15
+A10 --> E8
+A10 --> E16
+A15 --> E22
+A17 --> E17
+A17 --> E19
+A18 --> E10
+A18 --> E11
+A19 --> E7
+A20 --> E8
+A21 --> E4
+A21 --> E5
+A21 --> E7
+A22 --> E10
+A22 --> E11
+A22 --> E12
+A22 --> E13
+A22 --> E14
+A23 --> E9
+A24 --> E10
+A24 --> E11
+A24 --> E12
+A24 --> E13
+A24 --> E14
+A25 --> E22
+A26 --> E3
+A27 --> E16
+A29 --> E4
+A29 --> E5
+A29 --> E6
+A29 --> E7
+A29 --> E8
+
+note right of A4
+  AN-018 is reachable only through the path AN-004
+  describes: a token the running system never grants.
+end note
+
+note bottom of A29
+  AuthApi.cs carries fifteen commits and its failure
+  paths were touched by none of them.
+end note
+
+note bottom of B28
+  The one class no recovered model labels: it takes the
+  production DbContextOptions out of the composition root
+  and puts a test-built one in its place.
+end note
+
+@enduml
+```
+
 | ID | Anomaly | Kind | Evidence | Likelihood | Impact |
 |---|---|---|---|---|---|
 | AN-001 | The UI cannot mark a todo complete. The list renders a checkbox bound to nothing and wired to nothing, and the client exposes no update call, so the only update endpoint has no screen. Recovering "complete a todo" as a use case from the code finds no user-facing path to it | Suspicious coding style | `Todo.Web/Client/Components/TodoList.razor:24-27`; `Todo.Web/Client/TodoClient.cs:7-71` (six calls, none of them an update); `Todo.Api/Todos/TodoApi.cs:52-65` | likely | moderate |
