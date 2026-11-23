@@ -25,8 +25,8 @@ No role is added, merged or removed: the roles that work in each iteration are e
 
 ### Classification verdicts
 
-- **Business-process-led = false** (DC §4). No business process is being automated, redesigned or measured: the system is a personal task list with per-user ownership. There is no workflow, no approval chain, no organizational role model and no process artifact in the delivery. `Todo` carries an `OwnerId` foreign key to the Identity user; the API surface is `Todos` and `Users`. Business Modeling is therefore inactive for the whole project, and the `BusinessProcessAnalyst` does not work.
-- **Real-time-system = false** (DC §10). No hard deadline, no concurrent event-driven state machine, no timer, broker or reactive pipeline. Interaction is request/response CRUD over HTTP, with a browser client re-rendering on request and EF Core persisting on demand. The real-time tailoring is inactive, and the `CapsuleDesigner` does not work.
+- **Business-process-led = false** (DC §4). No business process is being automated, redesigned or measured: the system is a personal task list with per-user ownership. There is no workflow, no approval chain, no organizational role model and no process artifact in the delivery. `Todo` carries an `OwnerId` foreign key to the Identity user; the API surface is `Todos` and `Users`. Business Modeling is therefore inactive for the whole project, and the `BusinessProcessAnalyst` does not work. Re-evaluated for Consolidation on the recovered system and unchanged.
+- **Real-time-system = false** (DC §10). No hard deadline, no concurrent event-driven state machine, no timer, broker or reactive pipeline. Interaction is request/response CRUD over HTTP, with a browser client re-rendering on request and EF Core persisting on demand. The real-time tailoring is inactive, and the `CapsuleDesigner` does not work. Re-evaluated for Consolidation and unchanged.
 
 ### Shape of the process configuration
 
@@ -52,6 +52,7 @@ package "Project plug-ins - thin, this project" {
   [P3 Deployment Model OPTIONAL fired] as P3
   [P4 Tool configurations referenced by path and owner] as P4
   [P5 Measurement policy] as P5
+  [P6 Version policy read from the delivery] as P6
 }
 package "Project process deliverables" {
   [Development Case - delta only] as DC
@@ -73,6 +74,7 @@ P2 ..> DC : overrides
 P3 ..> DC : extends
 P4 ..> DC : extends
 P5 ..> DC : extends
+P6 ..> DC : extends
 DC ..> CG : conventions referenced
 @enduml
 ```
@@ -85,6 +87,17 @@ Consolidation is the sprint zero's third and last phase and the only one whose i
 - `Development Case#F4` — the Reviewer's Minor that `ACT-DC-01` named Project Management only in Survey — is corrected in the Disciplines and Intensity section: every phase partition now names every discipline the canonical matrix schedules in it.
 - The six OPTIONAL triggers and both classification verdicts are re-evaluated for this phase: five NOT FIRED, `Deployment Model` remains FIRED, and no trigger newly fires.
 - No tailoring decision of the baseline changes. No role is added, merged, removed or reassigned; no CORE artifact is omitted and no intensity deviates.
+
+### Delta this phase carries
+
+Consolidation is the sprint zero's third and last phase, and the only one whose intensity rises in Requirements while Analysis & Design falls from Critical to Medium: the reading is done, the set is being completed and counted. What this document changes for it, and nothing else:
+
+- Document Control names Consolidation, iteration 1, target end-of-Consolidation (GHR).
+- `Development Case#F4` — the Reviewer's Minor that `ACT-DC-01` named Project Management only in the Survey partition — is corrected in the Disciplines and Intensity section: every phase partition now names every discipline the canonical matrix schedules in it.
+- The six OPTIONAL triggers and both classification verdicts are re-evaluated for this phase: five NOT FIRED, `Deployment Model` remains FIRED, and no trigger newly fires.
+- The version policy the delivery fixes is recorded and cited under Roles and Ownership; no version is resolved or verified here.
+
+No tailoring decision of the baseline changes. No role is added, merged, removed or reassigned; no CORE artifact is omitted and no intensity deviates.
 
 ## Disciplines and Intensity
 Every active discipline runs at the intensity the canonical matrix fixes for its phase. **No deviation is requested and no intensity level is assigned by this document.**
