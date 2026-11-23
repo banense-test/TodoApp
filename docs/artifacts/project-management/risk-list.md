@@ -107,20 +107,20 @@ No risk sits in a band its strategy cannot be held in: every Significant-band ri
 Not carried: no risk in this register concerns staffing, skills, turnover or friction between people. The executing agents are not a development organization and the stakeholder is the only human here, so such a risk would name no actor and is retired as not applicable rather than classified. What the people the SYSTEM serves do with it is a domain risk and stays.
 
 ## Risk Register
-Twenty-nine of the thirty-one risks below trace to one anomaly of the System Inventory, and every probability and impact for those is the score that anomaly's own likelihood and impact words take on the mapping stated once in `Risk Classification`. `R022` and `R031` refine no anomaly: they are the plan's own exposures, and their scores are the Project Manager's reading of the plan rather than a reading of code.
+Thirty of the thirty-two risks below trace to one anomaly of the System Inventory, and every probability and impact for those is the score that anomaly's own likelihood and impact words take on the mapping stated once in `Risk Classification`. `R022`, `R031` and `R032` refine no anomaly: they are the plan's own exposures, and their scores are the Project Manager's reading of the plan rather than a reading of code.
 
-Excavation added eight risks, R023 to R030, one for each anomaly the deeper reading produced — AN-022 to AN-029 — and none of them restates a risk already carried: R023 is the guard's omitted lockout check, R024 the BFF's two unequally protected hops, R025 the Development configuration, R026 the unconverted owner key, R027 the client's absent base address, R028 the provider account with no email, R029 the persistence registration the test host replaces, and R030 the BFF's own reading as an unstable area. `R015` was restated to the corrected AN-015: the app host holds the delivery's newest change, and it is not the only area still moving. `R031` is added by this iteration's planning: it is the one exit criterion whose owner the phase does not schedule.
+Excavation added eight risks, R023 to R030, one for each anomaly the deeper reading produced — AN-022 to AN-029 — and none of them restates a risk already carried: R023 is the guard's omitted lockout check, R024 the BFF's two unequally protected hops, R025 the Development configuration, R026 the unconverted owner key, R027 the client's absent base address, R028 the provider account with no email, R029 the persistence registration the test host replaces, and R030 the BFF's own reading as an unstable area. `R015` was restated to the corrected AN-015: the app host holds the delivery's newest change, and it is not the only area still moving. `R031` is the plan's own exposure — the one exit criterion whose owner the phase does not schedule — and it has materialized. `R032` is the exposure the AR review's own defect pattern establishes: four of its eight Majors are one recovered fact transcribed wrongly into the artifacts that cite it.
 
 ```plantuml
 @startuml
-title Every anomaly of the System Inventory carried into one risk, and the two risks that come from the plan rather than from an anomaly
+title Every anomaly of the System Inventory carried into one risk, and the three risks that come from the plan rather than from an anomaly
 
 skinparam shadowing false
 left to right direction
 skinparam componentStyle rectangle
 skinparam wrapWidth 200
 
-package "System Inventory anomalies - 29, each one risk" {
+package "System Inventory anomalies - 30, each one risk" {
   component "AN-001  no UI path to complete a todo" as A1
   component "AN-002  no BFF-to-API authentication" as A2
   component "AN-003  request contracts declared twice" as A3
@@ -150,12 +150,14 @@ package "System Inventory anomalies - 29, each one risk" {
   component "AN-027  a provider account carries no email" as A27
   component "AN-028  test host replaces the DbContext registration" as A28
   component "AN-029  the session surface never settles" as A29
+  component "AN-030  a corrected figure is re-transcribed" as A30
 }
 
-package "Risk List - 31 risks" {
+package "Risk List - 32 risks" {
   component "R001 to R021, R023 to R030\none per anomaly" as ANOM
   component "R022  milestone waits on stakeholder gates" as R022
   component "R031  a criterion's owner is not scheduled" as R031
+  component "R032  one fact, three artifacts" as R032
 }
 
 A1 --> ANOM : Refines
@@ -197,6 +199,13 @@ note bottom of R031
   R031 has no anomaly behind it either: the phase carries an exit
   criterion whose owner, the Process Engineer, has no scheduled
   slot in Excavation because Environment runs at no intensity here.
+  It has materialized - the milestone did not close.
+end note
+
+note bottom of R032
+  R032 refines no anomaly: it is the exposure the AR review's
+  own defect ledger establishes, and its evidence is eight Major
+  findings rather than a line of code.
 end note
 
 @enduml
@@ -225,20 +234,21 @@ end note
 | R019 | A recovered use case that states the challenge's behaviour states one that raises on an unknown name: the provider name is taken straight from the route and checked against no registered scheme | `Todo.Web/Server/AuthApi.cs:55-62`; `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:39-75` | 4 | 2 | 8 | Moderate | Avoid | System Analyst |
 | R020 | A recovered use case cannot state a failure flow the system has: the provider callback redirects to `/` on every path, so a rejected provider, a null exchange and a failed cookie sign-in are indistinguishable to the person | `Todo.Web/Server/AuthApi.cs:64-97` | 4 | 3 | 12 | Significant | Avoid | System Analyst |
 | R021 | A recovered use case that states why registration or login failed states a distinction the system does not make: every authentication failure answers 401 with no body, and the BFF discards the API's validation problem | `Todo.Web/Server/AuthApi.cs:14-38`; `Todo.Web/Server/AuthClient.cs:6-34` | 4 | 3 | 12 | Significant | Avoid | System Analyst |
-| R022 | A phase's milestone cannot close while a stakeholder answer is queued. Every phase gate depends on one, and the Survey gate took two iterations to clear its own | this register; the Review Record's SBC ledger | 2 | 4 | 8 | Moderate | Accept | Project Manager |
+| R022 | A phase's milestone cannot close while a stakeholder answer is queued. Every phase gate depends on one, and both sprint-zero gates have now been refused once before being answered | this register; the Review Record's SBC and AR ledgers | 2 | 4 | 8 | Moderate | Accept | Project Manager |
 | R023 | A recovered authorization statement says a locked-out account loses its access: lockout is enforced at a password sign-in and nowhere else, so an account locked out after repeated failures keeps full access on every token it already holds. The guard's own TODO records the check it omits, and nothing re-reads `LockoutEnd` on a request or on a refresh | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:26-35`; `Todo.Api/Authorization/CurrentUserExtensions.cs:22-26`; `Todo.Api/Users/UsersApi.cs:20` | 4 | 3 | 12 | Significant | Avoid | System Analyst |
-| R024 | The Design Model describes the BFF's two outbound hops as equally protected when they are not: the token client is container-built and inherits the standard resilience handler, while the `/todos` forwarder is built with a default `ForwarderRequestConfig` and inherits nothing, so a transient API failure is retried on the sign-in path and surfaced to the person as a silent no-op on the task path | `TodoApp.ServiceDefaults/Extensions.cs:32-42`; `Todo.Web/Server/Program.cs:23-26`; `Todo.Web/Server/TodoApi.cs:12-25`; `Todo.Web/Client/Components/TodoList.razor:57-76` | 3 | 3 | 9 | Significant | Avoid | Software Architect |
+| R024 | A later role assumes the BFF's two outbound hops are equally protected, so a design or a test states a resilience property one hop does not have: the token client is container-built and inherits the standard handler, while the `/todos` forwarder is built with a default `ForwarderRequestConfig` and inherits nothing. The Design Model already states the difference correctly at PKG-D3, and the Supplementary Specification's R4 states the opposite — which is the artifact the mitigation is aimed at | `TodoApp.ServiceDefaults/Extensions.cs:32-42`; `Todo.Web/Server/Program.cs:23-26`; `Todo.Web/Server/TodoApi.cs:12-25`; `Todo.Web/Client/Components/TodoList.razor:57-76`; `Supplementary Specification` R4 | 3 | 3 | 9 | Significant | Avoid | Software Architect |
 | R025 | A load, throughput or throttling figure taken in Development describes a system no other environment runs: `appsettings.Development.json` overrides the limiter to 50 tokens, 50 per period and a queue of 50 against the code's 100, every launch profile puts both serving processes in Development, and no other environment file carries the section. Any measured budget is half the value the system runs at elsewhere | `Todo.Api/Extensions/RateLimitExtensions.cs:14-31`; `Todo.Api/appsettings.Development.json:8-12`; `Todo.Api/Properties/launchSettings.json:14-16,25-27`; `Todo.Web/Server/Properties/launchSettings.json:6-8,15-17` | 4 | 2 | 8 | Moderate | Avoid | Software Architect |
 | R026 | A deployment is pointed at a database written by migration 1 or 2 and its rows resolve to nothing: the third migration re-pointed `Todos.OwnerId` from `AspNetUsers.UserName` to `AspNetUsers.Id` and converted no row, and no migration or start-up step rewrites an existing value. A pre-existing database therefore holds user names in a column a constraint resolves against account identifiers | `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:9-44`; `Todo.Api/Migrations/20221123071234_Initial.cs`; `TodoApp.AppHost/Extensions.cs:4-21` | 3 | 4 | 12 | Significant | Avoid | Database Designer |
 | R027 | A recovered flow states a failure path the client does not have: with no base address the list call answers `200` and an empty list instead of issuing a request or reporting the absence, so a genuine failure to reach the API is indistinguishable from having no tasks, and the spinner the component carries is never reached | `Todo.Web/Client/TodoClient.cs:33-40`; `Todo.Web/Client/Components/TodoList.razor:3-8,44-55`; `Todo.Web/Client/Program.cs:7-9` | 4 | 2 | 8 | Moderate | Avoid | Designer |
 | R028 | A recovered registration statement says a provider-created account can be completed and recovered: the exchange sets `UserName` only and never `Email`, so such an account can never sign in with a password, confirm an address, recover a password or refresh through the framework's own endpoints — and the email index is not unique, so a duplicate address is undetectable at rest. The account's identity also depends on what the provider chose to send | `Todo.Api/Users/UsersApi.cs:40-46`; `Todo.Api/Migrations/20221123071234_Initial.cs` (`EmailIndex` not unique); `Todo.Web/Server/AuthApi.cs:70-71` | 4 | 3 | 12 | Significant | Avoid | System Analyst |
 | R029 | The recovered persistence description is checked against a registration the test host replaces: a test-only helper strips `DbContextOptions<TodoDbContext>` out of the composition root and installs its own, so no test exercises the connection-string resolution, the `Data Source=.db/Todos.db` fallback, the scoped context lifetime or the migration-built schema — the four things a deployment depends on | `Todo.Api.Tests/DbContextExtensions.cs:5-29`; `Todo.Api.Tests/TodoApplication.cs:44-46`; `Todo.Api/Program.cs:23-24` | 4 | 3 | 12 | Significant | Avoid | Database Designer |
-| R030 | A recovered use case or design treats the BFF's session surface as settled: `AuthApi.cs` is the delivery's most-reworked file at fifteen commits and the area carries thirty-three, every one of them touching a success path, so the recovered behaviour of the three flows that never worked — AN-019, AN-020, AN-021 — is an interpretation of the least stable code in the tree, on a component with no test | `Todo.Web/Server` history 33 commits; `Todo.Web/Server/AuthApi.cs` history 15 commits; `Todo.Web/Server/AuthApi.cs:64-97`; `Todo.Api.Tests/Todo.Api.Tests.csproj:9` | 4 | 3 | 12 | Significant | Avoid | System Analyst |
-| R031 | The AR milestone cannot close on this iteration's evidence because one exit criterion, A11, counts an artifact whose owner has no scheduled slot in the phase: `Development Case#F2` is the Process Engineer's, Environment runs at no intensity in Excavation, and the correction is not in the artifact. The criterion reads three of four and the phase would need an iteration it did not plan | `Development Case` — "Roles and Ownership" still omits the Management Reviewer, the Business Reviewer and the Review Coordinator, and CLS-DC-01 draws no edge from them; this plan's fine-plan item 10; Evaluation Criteria A11 | 3 | 4 | 12 | Significant | Avoid | Project Manager |
+| R030 | A recovered use case or design treats the BFF's session surface as settled: `AuthApi.cs` is the delivery's most-reworked file at fifteen commits and the area carries thirty-three, every one of them touching a success path, so the recovered behaviour of the three flows that never worked — AN-019, AN-020, AN-021 — is an interpretation of the least stable code in the tree, on a component with no test | `Todo.Web/Server` history 33 commits; `Todo.Web/Server/AuthApi.cs` history 15 commits; `Todo.Web/Server/AuthApi.cs:64-97`; `Todo.Api.Tests/Todo.Api.Tests.csproj:9` | 4 | 3 | 12 | Significant | **Avoid — not yet retired.** The action was due in iteration 1 and was not performed; the Use-Case Model carries no statement of the session surface beside UC-001 to UC-004. The register does not read this risk as retired | System Analyst, then Project Manager |
+| R031 | The AR milestone cannot close on iteration 1's evidence because one exit criterion, A11, counts an artifact whose owner has no scheduled slot in the phase: `Development Case#F2` is the Process Engineer's, Environment runs at no intensity in Excavation, and the correction is not in the artifact. The criterion reads three of four and the phase needs an iteration it did not plan | `Development Case` — "Roles and Ownership" still omits the Management Reviewer, the Business Reviewer and the Review Coordinator, and CLS-DC-01 draws no edge from them; the plan's iteration-1 item 10; Evaluation Criteria A11; the AR verdict | 3 | 4 | 12 | Significant | Avoid — **materialized.** Iteration 2 is the contingency, planned from the Review Record | Project Manager |
+| R032 | One recovered fact is transcribed inconsistently into the artifacts that cite it, so the set a milestone certifies contradicts the fact its own phase recorded: the AR review found four of its eight Majors are two code facts — the Development rate-limit override and the standard resilience handler — stated wrongly in four artifacts, while the System Inventory had recorded both as `AN-024` and `AN-023` in the same phase | the AR review's ledger — `Supplementary Specification#F1`, `#F2`, `Software Architecture Document#F1`, `Deployment Model#F1`; `appsettings.Development.json:8-12`; `TodoApp.ServiceDefaults/Extensions.cs:32-42` | 4 | 3 | 12 | Significant | Avoid | Project Manager |
 
 ### Acceptances in this register that are the stakeholder's to grant
 
-Four risks carry the accept strategy in the Significant band, where acceptance is the stakeholder's alone. Each holds the stakeholder's own answer of 2026-11-23. No risk Excavation added takes the accept strategy, in the Significant band or outside it: `R031`, added by this iteration's planning at 3 × 4, avoids.
+Four risks carry the accept strategy in the Significant band, where acceptance is the stakeholder's alone. Each holds the stakeholder's own answer of 2026-11-23. No risk Excavation added takes the accept strategy, in the Significant band or outside it: `R031` and `R032` both avoid.
 
 | Risk | Exposure and band | The stakeholder's answer |
 |---|---|---|
@@ -247,9 +257,9 @@ Four risks carry the accept strategy in the Significant band, where acceptance i
 | `R012` | 4 × 3 = 12, Significant | "Yes" — asked on 2026-11-23 whether they accept, for the sprint zero, that the BFF and the client carry no test of any kind. The score is unchanged by the reconciliation |
 | `R016` | 4 × 3 = 12, Significant | "Yes" — asked on 2026-11-23 whether they accept, for the sprint zero, that every element Excavation and Consolidation recover is an interpretation of code with no stated intent to check it against. The score is unchanged by the reconciliation. Excavation is inside the sprint zero, so the grant covers this phase |
 
-`R015` and `R022` accept at exposure 8, the Moderate band, which is the Project Manager's own authority. Every other risk avoids, and avoidance the Project Manager may take at any band. No risk in this register sits in the High band, so none exceeds what these four grants cover.
+`R015` and `R022` accept at exposure 8, the Moderate band, which is the Project Manager's own authority. Every other risk avoids, and avoidance the Project Manager may take at any band. No risk in this register sits in the High band, so none exceeds what these four grants cover — `R031` and `R032`, both Significant and both new, avoid rather than accept, so the AR gate required no second grant and none was sought.
 
-The sixteen Significant-band risks that avoid — `R001`, `R002`, `R003`, `R005`, `R007`, `R009`, `R010`, `R018`, `R020`, `R021`, `R023`, `R024`, `R026`, `R028`, `R030` and `R031` — are retired by the action its owner performs. They are not accepted and need no grant.
+The eighteen Significant-band risks that avoid — `R001`, `R002`, `R003`, `R005`, `R007`, `R009`, `R010`, `R018`, `R020`, `R021`, `R023`, `R024`, `R026`, `R028`, `R030`, `R031`, `R032` — are retired by the action its owner performs. They are not accepted and need no grant. `R030` is the one whose action has not been performed, and it is stated as not retired rather than as avoided.
 
 ## Risk Mitigation and Contingency
 Each risk carries the action its owner takes and the sign that it has started to bite. A risk accepted carries a mitigation as well as a contingency; a risk avoided is retired by its action, which the named owner performs.
