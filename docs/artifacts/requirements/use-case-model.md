@@ -127,7 +127,6 @@ Eleven use cases, each anchored to the entry points whose code performs it. Ever
 | The cross-owner read, update and delete a caller holding a self-minted `admin` token could perform | Same as above. It is the behaviour of one predicate, not an actor's goal |
 
 ## Use-Case Specifications
-
 Every flow below is the flow the code performs, not a flow anyone intended. Each step carries the file and lines it was read from; where the code contradicts a document, the code is recorded and the contradiction is named.
 
 ### UC-001 Create an account
@@ -380,8 +379,8 @@ stop
 
 | Alternative or exception | What the code does | Anchor |
 |---|---|---|
-| A1 — no screen reaches any of these | `TodoClient` exposes six calls and none of them is an Identity endpoint beyond register and login, so every operation here is reachable only by an API caller. The UI therefore cannot confirm an email, reset a password or refresh a token | `Todo.Web/Client/TodoClient.cs:7-71`; AN-023 |
-| A2 — an anonymous caller floods the recovery endpoints | No limit applies, and the policy as written could not simply be extended to them: it partitions on `NameIdentifier`, which an anonymous caller does not have | AN-009 |
+| A1 — no screen reaches any of these | The client makes six calls and none of them is an Identity endpoint beyond register and login: `AddTodoAsync`, `DeleteTodoAsync`, `GetTodosAsync`, `LoginAsync`, `CreateUserAsync` (which posts `/auth/register`) and `LogoutAsync`. Every operation here is reachable only by an API caller, so the UI cannot confirm an email, reset a password or refresh a token | `Todo.Web/Client/TodoClient.cs:7-71` |
+| A2 — an anonymous caller floods the recovery endpoints | No limit applies, and the policy as written could not simply be extended to them: it partitions on `NameIdentifier`, which an anonymous caller does not have | AN-009; `Todo.Api/Extensions/RateLimitExtensions.cs:38-47` |
 
 ### UC-006 See one's own tasks
 
@@ -523,12 +522,12 @@ stop
 | 2 | The API requires the token, resolves the caller and applies the rate limit. `Todo.Api/Todos/TodoApi.cs:17-20` |
 | 3 | The row is looked up by primary key. The match admits the owner; the second alternative on that predicate is not reachable in the running system. `Todo.Api/Todos/TodoApi.cs:29-36` |
 | 4 | A match answers 200 with the `TodoItem`, `OwnerId` excluded. `Todo.Api/Todos/Todo.cs:15-26` |
-| 5 | No match answers 404 for a row that is absent and for a row belonging to someone else alike. | 
+| 5 | No match answers 404 for a row that is absent and for a row belonging to someone else alike. `Todo.Api/Todos/TodoApi.cs:29-36` |
 
 | Alternative or exception | What the code does | Anchor |
 |---|---|---|
-| A1 — the route id is not an integer | The route constraint does not match and the request answers 404 before the handler runs | ASP.NET Core route matching for `{id}` |
-| A2 — the client has no path here | The client's six calls contain no read of a single todo, so this operation is reachable only by an API caller | `Todo.Web/Client/TodoClient.cs:7-71`; AN-023 |
+| A1 — the route id is not an integer | The route constraint does not match and the request answers 404 before the handler runs | route template `/{id}` at `Todo.Api/Todos/TodoApi.cs:29` |
+| A2 — the client has no path here | The client makes six calls and none of them reads a single todo, so this operation is reachable only by an API caller | `Todo.Web/Client/TodoClient.cs:7-71` |
 
 ### UC-010 Change a task, including marking it complete
 
