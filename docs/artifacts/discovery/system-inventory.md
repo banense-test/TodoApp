@@ -126,7 +126,7 @@ end note
 | Validation filter | Component | Rejects a request whose parameters fail data annotations with a 400 `ValidationProblemDetails` | `Todo.Api/Filters/ValidationFilter.cs` |
 | Per-user rate limiter | Component | Token-bucket policy partitioned by the caller's `NameIdentifier`; applied to `/todos` only | `Todo.Api/Extensions/RateLimitExtensions.cs` |
 | Persistence over SQLite | Component | `TodoDbContext` deriving from `IdentityDbContext<TodoUser>`, the entity model, and the three migrations that create and change the schema | `Todo.Api/TodoDbContext.cs:6-20; Todo.Api/Migrations/` |
-| OpenAPI and API reference | Component | Emits the OpenAPI document with the bearer scheme, serves the Scalar reference UI in Development, and redirects `/` to it | `Todo.Api/Program.cs:30,47-56,62; Todo.Api/Extensions/OpenApiOptionsExtensions.cs` |
+| OpenAPI and API reference | Component | Emits the OpenAPI document with the bearer scheme, serves the Scalar reference UI in Development, and redirects `/` to it | `Todo.Api/Program.cs:30,49-56,58,62; Todo.Api/Extensions/OpenApiOptionsExtensions.cs` |
 | HTTP logging | Component | Development-only combined request/response logging with body and header fields | `Todo.Api/Program.cs:35-42,46` |
 | Todo.Web.Server | Subsystem | Serves the WebAssembly client, holds the browser session, and forwards `/todos` to the API | `Todo.Web/Server/` |
 | Session and external-provider authentication | Component | Cookie schemes, the four configurable identity providers, and the Blazor authentication state | `Todo.Web/Server/Authentication/` |
@@ -163,19 +163,19 @@ end note
 | EP-004 | POST /auth/register | Service operation | Person, anonymous | `Todo.Web/Server/AuthApi.cs:14-25` |
 | EP-005 | POST /auth/login | Service operation | Person, anonymous | `Todo.Web/Server/AuthApi.cs:27-38` |
 | EP-006 | POST /auth/logout | Service operation | Person, authenticated | `Todo.Web/Server/AuthApi.cs:40-52` |
-| EP-007 | GET /auth/login/{provider} — issues the challenge and redirects to `/auth/signin/{provider}`; unreachable in the delivered configuration, and still a recovered use case (stakeholder, 2026-11-23) | Service operation | Person, anonymous | `Todo.Web/Server/AuthApi.cs:55-62` |
-| EP-008 | GET /auth/signin/{provider} — provider callback; exchanges the provider identity for a local user and a token, writes the session cookie; unreachable in the delivered configuration, and still a recovered use case (stakeholder, 2026-11-23) | Service operation | External identity provider, on the person's behalf | `Todo.Web/Server/AuthApi.cs:64-97` |
+| EP-007 | GET /auth/login/{provider} — issues the challenge and redirects to `/auth/signin/{provider}`; unreachable in the delivered configuration and still a recovered use case (stakeholder, 2026-11-23) | Service operation | Person, anonymous | `Todo.Web/Server/AuthApi.cs:55-62` |
+| EP-008 | GET /auth/signin/{provider} — provider callback; exchanges the provider identity for a local user and a token, writes the session cookie; unreachable in the delivered configuration and still a recovered use case (stakeholder, 2026-11-23) | Service operation | External identity provider, on the person's behalf | `Todo.Web/Server/AuthApi.cs:64-97` |
 | EP-009 | `/todos` forwarding proxy — any method, any sub-path; requires the session cookie and sets the bearer header | Service operation | Todo.Web.Client through the BFF | `Todo.Web/Server/TodoApi.cs:12-25` |
 | EP-010 | GET /todos | Service operation | Authenticated caller holding a bearer token | `Todo.Api/Todos/TodoApi.cs:24-27` |
-| EP-011 | GET /todos/{id} — admits the owner and, through a branch no running caller can enter, an `admin` role claim (AN-004, AN-018) | Service operation | Authenticated caller holding a bearer token | `Todo.Api/Todos/TodoApi.cs:29-36` |
+| EP-011 | GET /todos/{id} — admits the owner and, through a branch no running caller can enter, an `admin` role claim (AN-004, AN-018); the branch is an exceptional entity the recovered use cases do not model (stakeholder, 2026-11-23) | Service operation | Authenticated caller holding a bearer token | `Todo.Api/Todos/TodoApi.cs:29-36` |
 | EP-012 | POST /todos | Service operation | Authenticated caller holding a bearer token | `Todo.Api/Todos/TodoApi.cs:38-50` |
 | EP-013 | PUT /todos/{id} — admits the owner and the same unreachable `admin` branch (AN-004, AN-018); no client call reaches it (AN-001) | Service operation | Authenticated caller holding a bearer token | `Todo.Api/Todos/TodoApi.cs:52-65` |
 | EP-014 | DELETE /todos/{id} — admits the owner and the same unreachable `admin` branch (AN-004, AN-018) | Service operation | Authenticated caller holding a bearer token | `Todo.Api/Todos/TodoApi.cs:67-73` |
 | EP-015 | The Identity endpoint set under `/users` — register, login, refresh, confirmEmail, resendConfirmationEmail, forgotPassword, resetPassword, manage/2fa, manage/info | Service operation | Anonymous or authenticated caller | `Todo.Api/Users/UsersApi.cs:20` |
-| EP-016 | POST /users/token/{provider} — finds or creates a user for a provider identity and returns a bearer token; the exchange behind the unreachable provider path, and still part of the recovered use case (stakeholder, 2026-11-23) | Service operation | Todo.Web.Server (the BFF) | `Todo.Api/Users/UsersApi.cs:24-60` |
+| EP-016 | POST /users/token/{provider} — finds or creates a user for a provider identity and returns a bearer token; the exchange behind the unreachable provider path and part of the same recovered use case (stakeholder, 2026-11-23) | Service operation | Todo.Web.Server (the BFF) | `Todo.Api/Users/UsersApi.cs:24-60` |
 | EP-017 | GET / — redirect to `/scalar/v1` | Service operation | Any caller | `Todo.Api/Program.cs:62` |
 | EP-018 | GET /openapi/v1.json — the OpenAPI document | Service operation | Any caller | `Todo.Api/Program.cs:58` |
-| EP-019 | Scalar API reference UI | Screen | Any caller, Development environment only | `Todo.Api/Program.cs:47-56` |
+| EP-019 | Scalar API reference UI | Screen | Any caller, Development environment only | `Todo.Api/Program.cs:49-56` |
 | EP-020 | GET /health — readiness; every check must pass | Service operation | App host or operator, Development environment only | `TodoApp.ServiceDefaults/Extensions.cs:110-113` |
 | EP-021 | GET /alive — liveness, tag `live` | Service operation | App host or operator, Development environment only | `TodoApp.ServiceDefaults/Extensions.cs:115-118` |
 | EP-022 | `dotnet ef database update` raised by the app host before the API starts | Platform event | TodoApp.AppHost, only in run mode and only when `Todo.Api/.db` does not exist | `TodoApp.AppHost/Extensions.cs:1-21,32` |
