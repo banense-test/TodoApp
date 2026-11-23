@@ -225,17 +225,16 @@ Four things follow for the use cases recovered from these features, and each con
 | D5 | An OTLP endpoint, when `OTEL_EXPORTER_OTLP_ENDPOINT` is set, and the `tomdesinto/sqliteweb` image the app host starts | Telemetry and the database browser; both are outside the system boundary |
 
 ## Constraints
-
 The constraints below are the conditions any change to this system must live within. They are read from the delivery; no budget, schedule or organisational constraint is stated anywhere in it.
 
 | Constraint | Anchor |
 |---|---|
 | Target framework `net9.0`, nullable and implicit usings enabled, `LangVersion` pinned to `preview`; every project inherits them | `Directory.Build.props:4-7` |
 | Every package version is managed centrally and resolves from nuget.org alone: `nuget.config` clears the sources and maps `*` to nuget.org | `Directory.Packages.props`; `nuget.config` |
-| The topology is four processes with a reverse-proxy hop, and one of the hops is unauthenticated: the API accepts a bearer token from any caller and the BFF sends no service credential | System Inventory — Perimeter; `Todo.Api/Users/UsersApi.cs:16`; `AN-002` |
-| The only store is one SQLite file created by three EF Core migrations; there is no database script, procedure or trigger in the delivery | `.iari/README.md`; `Todo.Api/Migrations/` |
-| Several behaviours are environment-dependent: the reference UI, the OpenAPI document, the HTTP logging and both health endpoints are mapped or enabled in Development only, while the API's root redirect to the reference UI is unconditional | `Todo.Api/Program.cs:35-62`; `TodoApp.ServiceDefaults/Extensions.cs:110-118`; `AN-017` |
-| The external-provider path requires a shared data-protection key ring that the code does not configure | `AN-010`; `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11` |
+| The topology is four processes with a reverse-proxy hop, and that hop carries no service credential: the API accepts a bearer token from any caller | System Inventory — Perimeter; `Todo.Api/Users/UsersApi.cs:16`; AN-002 |
+| The only store is one SQLite file created by three EF Core migrations; there is no database script, procedure or trigger in the delivery | `.iari/README.md`; `Todo.Api/Migrations/`; `Todo.Api/Program.cs:23-24` |
+| The reference UI, the OpenAPI document and both health endpoints serve only where the process runs in Development, while the API's root redirect to the reference UI is unconditional and runs in every environment | `Todo.Api/Program.cs:49-62`; `AN-017`; System Inventory — Entry points `EP-019`, `EP-020`, `EP-021` |
+| The external-provider path requires a shared data-protection key ring that the code does not configure: only the application discriminator `TodoApp` is set in either process | `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11`; AN-010 |
 | The sprint zero works no declared change: Inception onwards is where the stakeholder's scope is worked | Development Case — Tailoring Overview |
 | No budget is declared for this project and none is set; work is sized in tokens and elapsed time only, never in person-days | Development Case — Measurement policy; this Work Order's measured actuals for Survey |
 
