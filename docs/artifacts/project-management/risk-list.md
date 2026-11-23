@@ -1,10 +1,9 @@
 ## Document Control
 - Phase: Survey
-- Status: Draft — 22 risks registered and owned; every probability and impact derives from its anomaly's stated likelihood and impact through one published mapping
-- Milestone Target: end-of-Survey (SBC) — not achieved
+- Status: 22 risks registered and owned; every probability and impact derives from its anomaly's stated likelihood and impact through one published mapping. The SBC milestone verdict is the Review Coordinator's and is recorded in the Review Record; this register declares no milestone
+- Milestone Target: end-of-Survey (SBC)
 - Iteration: 2, Cycle 1
 - Owner: Project Manager
-
 ## Risk Classification
 The scale is the IARI risk scale of the Development Case baseline, §9.10. The project Development Case records no scale of its own, and this artifact defines none. Probability and impact are scored on that scale; a risk's magnitude is the band its exposure (probability × impact) falls in — it is never chosen.
 
