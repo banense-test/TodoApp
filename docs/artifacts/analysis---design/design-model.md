@@ -2061,7 +2061,7 @@ end note
 | CLS-008 | UC-006, UC-007, UC-008 | Realizes | — |
 | CLS-009 | UC-001, UC-002 | Realizes | — |
 | CLS-010 | UC-003 | Realizes | — |
-| CLS-011 | UC-001, UC-002, UC-003 | Realizes | — |
+| CLS-011 | UC-001, UC-002, UC-003, UC-005 | Realizes | — |
 | CLS-012 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
 | CLS-013 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
 | CLS-014 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
@@ -2093,3 +2093,6 @@ end note
 | CLS-040 | — | — | — |
 | CLS-041 | — | — | — |
 | CLS-042 | — | — | — |
+
+Four framework types carry a completed flow and no `CLS` label, so they carry no row: `IdentityUser`, `IdentityDbContext` (DM-D1), and `AccessTokenResponse` and `UserLoginInfo`, whose DM-D4 record now covers the session chain's use of both. They are not classes the Implementer writes, and every row above is a class the delivery declares.
+
