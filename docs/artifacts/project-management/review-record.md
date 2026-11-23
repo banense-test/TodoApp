@@ -137,18 +137,18 @@ This is the Lifecycle Milestone Review of the System Boundary Confirmed gate, he
 
 **Artifacts reviewed, all four read whole plus the findings of every lens on them.** Development Case (Environment), System Inventory (Discovery), Risk List and Iteration Plan (Project Management). The Iteration Assessment was read for its stated state and is not judged: the Project Manager writes it in the Assessment touchpoint that runs after this review, so it cannot describe the iteration being reviewed and its currency is never a gate condition.
 
-**The criteria checked.** The eleven SBC exit criteria as the Iteration Plan states them, each judged against the artifact it cites rather than against the plan's own row. Every one carries the artifact section its verdict rests on.
+**The criteria checked.** The SBC exit criteria as the Iteration Plan states them, each judged against the artifact it cites rather than against the plan's own row. Every one carries the artifact section its verdict rests on.
 
 ```plantuml
 @startuml
-title SBC-COMPLIANCE-01 The eleven SBC exit criteria at iteration 2 - what each rests on and where it stands
+title SBC-COMPLIANCE-01 The twelve exit-criteria rows at iteration 2 - all met, and what each rests on
 
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 hide empty members
 skinparam wrapWidth 250
 
-package "Met on the evidence the artifact records" {
+package "Met on the evidence the artifact records - 9" {
   class "C1 Perimeter stated" as C1 {
     state : Met
     rests on : System Inventory, Perimeter
@@ -196,7 +196,7 @@ package "Met on the evidence the artifact records" {
   }
 }
 
-package "Met on the stakeholder's own answer" {
+package "Met on the stakeholder's answers - 3" {
   class "C2a Membership and priority answered" as C2A {
     state : Met, 2026-11-23
     rests on : three answers, quoted in the plan
@@ -205,13 +205,10 @@ package "Met on the stakeholder's own answer" {
     state : Met, 2026-11-23
     rests on : the order stands as it is
   }
-}
-
-package "Open - only the stakeholder can close it" {
   class "C2b Perimeter as recorded confirmed" as C2B {
-    state : Not met at 2026-11-23, sanction refused
-    rests on : gate H2, put again in this review
-    held by : no artifact and no reviewer
+    state : Met, 2026-11-23 - answered Yes at gate H2
+    rests on : this review's sanction question
+    also : the sanction to advance past SBC granted
   }
 }
 
@@ -232,7 +229,7 @@ C2B ..> C2A : a different question,\nnot settled by C2a
 
 **What is not a finding, and why.** The absence of a Test Plan, a Data Model and a Glossary is the Development Case's NOT FIRED verdict on each, checked against its §5.2 condition above and found to hold. The absence of an Iteration Assessment describing this iteration is correct state, not a gap. The absence of a token budget, a velocity and a forecast is correct: the project declares no budget, no phase has closed, and no figure is filled in its place. No SCM condition holds or clears this gate — the repository carries no IARI pipeline, no branch of this process, no open pull request and no defect issue, so there is no build to be red and no unmerged work to count.
 
-**Four-axis health at the gate.** Schedule is the one axis that is not green, and its cause is a refused sanction rather than a slipped deliverable. Cost carries no reading at all, which is the honest state of a phase with no declared budget and no closed phase, not a fourth green.
+**Four-axis health at the gate.** Cost carries no reading at all, which is the honest state of a phase with no declared budget and no closed phase, not a fourth green.
 
 ```plantuml
 @startuml
@@ -247,14 +244,14 @@ package "Four-axis health" {
   class "Scope" as SC {
     state : Green
     declared work in this phase : none, the sprint zero reads
-    perimeter : 4 processes, 22 entry points, 8 priorities
+    perimeter : 4 processes, 22 entry points, 8 priorities, now confirmed
     unread : 54 of 133 files, each with a reason
   }
   class "Schedule" as SD {
-    state : Amber
-    milestone : SBC, not achieved
+    state : Green
+    milestone : sanction granted and perimeter confirmed 2026-11-23
     iterations run : 2, both planned
-    cause of the extra iteration : the sanction was refused once
+    second iteration spent on : the rework the stakeholder ordered
     forecast : none, no phase has closed
   }
   class "Cost" as CO {
@@ -265,9 +262,10 @@ package "Four-axis health" {
   }
   class "Quality" as QU {
     state : Green
-    criteria met on artifact evidence : 9 of 11
-    criteria resting on a stakeholder answer : 2, one of them open
+    criteria met on artifact evidence : 9 of 12 rows
+    criteria met on a stakeholder answer : 3
     defects holding the gate from either lens : none
+    open Minors : 3, ordered corrected in the next phase
   }
 }
 
