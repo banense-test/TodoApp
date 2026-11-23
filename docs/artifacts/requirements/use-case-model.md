@@ -2,7 +2,7 @@
 - Phase: Excavation
 - Status: Draft — produced for the end-of-Excavation (AR) milestone review
 - Milestone Target: end-of-Excavation (AR) — not yet achieved
-- Iteration: 3, Cycle 1
+- Iteration: 4, Cycle 1
 - Owner: System Analyst
 ## Use-Case Diagram
 The boundary is the one the System Inventory records: four processes, two stores, and the external systems the delivery reaches. Every use case below is anchored to the entry point whose code performs it.
