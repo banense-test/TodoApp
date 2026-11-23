@@ -366,6 +366,54 @@ end note
 **The transport between the two processes is plain HTTP by default configuration.** The BFF's only address for the API is the literal `http://todoapi`, and the API itself registers no HTTPS redirection, no HSTS and no antiforgery. Nothing in the delivery terminates TLS between them, so the bearer token and the credentials that derive it cross that hop in clear text unless a terminator outside the tree is placed in front of the API — and the delivery configures none. Neither process restricts the `Host` header it answers: `AllowedHosts` is `*` in both base settings files.
 
 ## Applicable Standards
+```plantuml
+@startuml
+title The standards the delivery follows, and the one it does not
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 215
+hide circle
+hide empty members
+
+package "Followed by the code, claimed by no document" {
+  class "AS1 HTTP semantics\nverbs, status codes,\nLocation on creation" as AS1 <<followed>>
+  class "AS4 Authorization: Bearer\non every API call" as AS4 <<followed>>
+  class "AS5 OpenAPI 3\nas the API description" as AS5 <<followed>>
+  class "AS6 EF Core migrations\nas the schema's only definition" as AS6 <<followed>>
+  class "AS8 MIT licence\nplus the vendored Bootstrap licence" as AS8 <<followed>>
+}
+
+package "Followed on one surface, broken on another" {
+  class "AS2 problem details\n400 application/problem+json\nfollowed for validation only" as AS2 <<partial>>
+  class "AS3 OAuth 2.0 and OpenID Connect\nhandlers registered per scheme,\nnone registered in the delivery" as AS3 <<partial>>
+}
+
+package "Not established" {
+  class "AS7 WCAG or any accessibility standard\nno statement, no test, no attribute\nbeyond aria-label on the inert checkbox" as AS7 <<absent>>
+}
+
+package "Carried by the framework, set by no requirement" {
+  class "AS9 TLS and HTTP security headers\nHSTS 30 days on the BFF outside Development,\nHTTPS redirection, antiforgery -\nand none of the three on the API" as AS9 <<partial>>
+}
+
+class "401 with no body\non every auth failure (AN-021)" as FAIL <<defect>>
+class "No Authentication:Schemes\nsection in any settings file (AN-010)" as UNREACH <<defect>>
+class "BFF to API over http://todoapi\nno terminator in the tree (DC13)" as PLAIN <<defect>>
+
+AS2 --> FAIL : the one surface where\nthe standard is not followed
+AS3 --> UNREACH : conforms where it runs,\nnever runs here
+AS9 --> PLAIN : the process hop the\nheaders never cover
+
+note bottom of AS1
+  A document that claims no standard cannot be failed against one.
+  Every row states what the framework makes the code do, anchored
+  where the code does it - nothing here is a conformance claim the
+  delivery makes about itself.
+end note
+
+@enduml
+```
 
 **The delivery declares conformance to no standard.** No accessibility target, no protocol conformance statement, no coding standard document and no regulatory obligation appears anywhere in the tree, and `.iari/README.md` records no contract or regulator behind it.
 
@@ -379,3 +427,5 @@ end note
 | AS6 | Entity Framework Core migrations as the schema's only definition | `Todo.Api/Migrations/` | Followed; no SQL script exists |
 | AS7 | WCAG or any accessibility standard | No anchor | **Not established**: no accessibility statement, test or attribute beyond `aria-label="..."` on the inert checkbox |
 | AS8 | Licensing: the delivery is MIT-licensed, and the vendored Bootstrap distribution carries its own licence | `LICENSE`; `Todo.Web/Client/wwwroot/bootstrap/` | Followed |
+| AS9 | TLS and HTTP security headers: HSTS, HTTPS redirection, antiforgery, `Host` filtering | `Todo.Web/Server/Program.cs:38-47`; `Todo.Api/Program.cs:1-77`; `Todo.Api/appsettings.json:8`; `Todo.Web/Server/appsettings.json:10` | **Partly**: the BFF sets HSTS at 30 days outside Development, redirects HTTP and enforces antiforgery. The API sets none of the three and neither process filters the `Host` header (`DC13`, `DC14`). Claimed by no document |
+
