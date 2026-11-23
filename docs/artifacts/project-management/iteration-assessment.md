@@ -1,7 +1,6 @@
 ## Document Control
-
 - Phase: Survey
-- Status: Iteration 1 closed. The milestone is NOT achieved — the Review Coordinator's verdict is SBC iteration REQUIRED and the stakeholder refused the sanction on 2026-11-23.
+- Status: Assessed. The milestone is NOT achieved — the Review Coordinator's verdict is SBC iteration REQUIRED and the stakeholder refused the sanction on 2026-11-23.
 - Milestone Target: end-of-Survey (SBC) — not achieved; iteration 2 is planned from this record
 - Iteration: 1, Cycle 1
 - Owner: Project Manager
