@@ -454,110 +454,70 @@ All seven findings the technical lens recorded in iteration 1 are closed by `res
 This lens does not close the milestone. The SBC gate turns on gate H2 — the stakeholder's confirmation of the perimeter as the System Inventory records it — which was refused on 2026-11-23 and is re-taken after this review. The technical lens has no authority over that answer and records no verdict on it.
 
 ### Management Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+One finding is open from this lens at the end of this review, and it is a Minor. It is recorded against the artifact that carries the defect, in the finding ledger, not here as prose alone.
 
 ```plantuml
 @startuml
-title Defect distribution — Management Reviewer lens findings by severity and artifact, SBC review
+title FINDINGS-SBC-02 The management lens at iteration 2 - three prior findings closed, one new Minor, nothing holding the gate
 
 skinparam shadowing false
-skinparam classAttributeIconSize 0
-hide empty members
+left to right direction
+skinparam componentStyle rectangle
+skinparam wrapWidth 240
 
-class "Development Case" as DC {
-  Critical : 0
-  Major : 0
-  Minor : 1
-}
-note right of DC
-  Minor - contained-defect
-  duplicated role deltas and CLS-DC-01 diagram,
-  ordered corrected by the stakeholder 2026-11-23
-end note
-
-class "Risk List" as RL {
-  Critical : 0
-  Major : 1
-  Minor : 0
-}
-note right of RL
-  Major - exit-criterion-unmet
-  two accepted risks may sit in the
-  band whose acceptance is the stakeholder's
-end note
-
-class "Iteration Plan" as IP {
-  Critical : 0
-  Major : 1
-  Minor : 0
-}
-note right of IP
-  Major - exit-criterion-unmet
-  three criteria certified on evidence
-  that does not state them, C2 above all
-end note
-
-class "System Inventory" as SI {
-  Critical : 0
-  Major : 0
-  Minor : 0
-}
-note right of SI
-  no finding from this lens:
-  the perimeter, the entry points and the
-  priorities are what this gate had to establish
-end note
-
-class "Total for this lens" as TOT {
-  Critical : 0
-  Major : 2
-  Minor : 1
-  Info : 0
-  Findings : 3
+package "Recorded in iteration 1 - all closed against the corrected artifact" {
+  component "Development Case#F1 (Minor)\nthe stakeholder's duplication order" as DC1
+  component "Risk List#F1 (Major)\nthe grant band could not be established" as RL1
+  component "Iteration Plan#F1 (Major)\ncriteria certified on answers that did not state them" as IP1
 }
 
-DC ..> TOT
-RL ..> TOT
-IP ..> TOT
-SI ..> TOT
+package "Recorded in iteration 2" {
+  component "Development Case#F2 (Minor)\nthe Review Record's contributor set omits three lenses" as DC2
+}
+
+package "What each closure was verified against" {
+  component "Roles and Ownership\none CLS-DC-01 diagram, one role-deltas block" as V1
+  component "Risk Classification\none published mapping, R004 and R011 at 4 x 3 = 12" as V2
+  component "Evaluation Criteria\nC2 split into C2a met and C2b not met, C6 and C7 restated" as V3
+}
+
+package "Gate effect" {
+  component "No Major open from either lens\nno criterion fails on artifact evidence" as GATE
+  component "C2b alone stays open\nthe stakeholder's answer at gate H2" as H2
+}
+
+DC1 --> V1 : verified
+RL1 --> V2 : verified
+IP1 --> V3 : verified
+V1 --> GATE
+V2 --> GATE
+V3 --> GATE
+DC2 --> GATE : a Minor holds nothing
+H2 --> GATE : the one criterion\nno artifact can close
 @enduml
 ```
 
-This lens records three findings of its own. The five Major findings the Reviewer's lens recorded at this gate are content this verdict also rests on, and they are cited where each bears on an exit criterion below rather than re-recorded here.
-
 #### Development Case
 
-No Critical finding and no Major finding from the management lens. The tailoring verdicts hold under their own checklist: 24 roles working with two declared inactive, each behind its recorded condition (`business-process-led = false`, `real-time-system = false`), none of the 16 CORE artifacts omitted or reassigned, nothing listed outside the CORE + OPTIONAL universe, no intensity level assigned in contradiction to the canonical matrix, and the single fired OPTIONAL — Deployment Model — justified by a genuinely distributed topology (browser-hosted client, host, separate API, SQLite store, a YARP proxy hop, per-process configuration pairs). Each of the five NOT FIRED verdicts was checked against its §5.2 condition and holds: eight entity types sits below the Data Model threshold, the architecture already runs so no mechanism awaits empirical validation, no regulator or contract consumes test reporting, no UX decision waits on the stakeholder, and the vocabulary is plain English.
+`Development Case#F2` — Minor, contained defect. The contributor set the tailoring states for the Review Record omits three of the lenses that write into it: it names "Reviewer, CodeReviewer, plus the Configuration Manager's baseline record", while the artifact carries a Management Reviewer lens, a Business Reviewer lens and a Review Coordinator lens besides. The CLS-DC-01 class diagram repeats the omission, drawing no edge from any of those three roles to the Review Record. The Process Engineer corrects the co-owned-artifact sentence and the diagram in its next turn. It stays inside the document: every lens writes its own block whatever the tailoring says, so no role built on wrong content, and no SBC criterion depends on it.
 
-One Minor, and the stakeholder ordered it corrected on 2026-11-23 — an order no role declines, which lifts it above the ordinary Minor queue.
-
-- **Development Case#F1 — Minor, `contained-defect`.** "Roles and Ownership" states the two role deltas twice — as the bullet list opening "BusinessProcessAnalyst — does not work" and again in the "### Role deltas" block — and embeds the CLS-DC-01 role-artifact class diagram twice, verbatim. **Remediation:** keep one statement of the role deltas and one CLS-DC-01 diagram and delete the duplicate. This is the stakeholder's order of 2026-11-23, in their words: "The development case contains duplicated diagrams and text; it needs to be corrected." It is corrected before the milestone is re-taken, not after the Majors as an un-ordered Minor would be.
-
-#### System Inventory
-
-No finding from this lens. The System Inventory is the artifact this gate exists to certify and it does what the phase asks: 22 entry points each with kind, initiator and anchor; 19 perimeter components and 9 external systems each anchored; 5 stores and a data-protection key ring described; documentation checked claim by claim against the tree; a Coverage section that names its unread remainder and why. Both stakeholder decisions of 2026-11-23 are carried consistently into the perimeter prose, the perimeter diagram notes and the affected entry-point rows, and no marker survives the question it recorded — which is the defect this gate would otherwise have had to record.
-
-That the perimeter was not confirmed is not a defect of this artifact: it is a defect of the plan that records a confirmation which did not happen, and it is recorded against the Iteration Plan below. The Reviewer's two findings against this artifact (`System Inventory#F1`, `System Inventory#F2`) belong to that lens and are not this lens's to close.
+The defect the stakeholder ordered corrected — `Development Case#F1`, the duplicated role-delta list and the duplicated CLS-DC-01 diagram — is closed this iteration and is recorded under Resolutions and Actions, not restated here.
 
 #### Risk List
 
-The register's structure is sound and its classification table imports the IARI scale rather than defining one, deriving each magnitude as the band its exposure falls in. All 21 anomalies are carried as 21 risks with an explicit note for the 22nd's separate origin, every row names a strategy, an owner, an action, a contingency and a warning sign, and no human-team unit appears anywhere. The two Significant accepts carry the stakeholder's grant in their own words of 2026-11-23.
-
-One Major, and it is a gate condition rather than an arithmetic slip.
-
-- **Risk List#F1 — Major, `exit-criterion-unmet`.** SBC criterion C8 — every accepted risk above Moderate carries the stakeholder's grant — cannot be established from this register. R004 is recorded 2×2 (Minor) and accepted on the Project Manager's authority; R011 is recorded 4×2 (Moderate) and accepted likewise. The System Inventory states "likely / moderate" for both anomalies, which scores 4×3 = 12, the Significant band whose acceptance is the stakeholder's alone. Two rows therefore sit below the grant requirement only because their scores were lowered from what the inventory says of the same anomalies — and the R012 and R016 grants already relied on rest on the same scoring method, so the defect reaches a grant the project has already taken, not only the two rows at issue. **Remediation:** reconcile the scores first, deriving each from the IARI scale and its cited evidence; re-derive the grant band from the reconciled exposures; then put every risk landing at Significant or High to the stakeholder in this cycle, with R004 and R011 as the two candidates, before the SBC verdict is re-taken. Until a magnitude reproduces from its stated probability and impact, no claim that its acceptance is the Project Manager's can stand.
+No finding from this lens. The register is the artifact this iteration changed most and it now holds under the management lens's own tests: every score reproduces from the one mapping published in "Risk Classification", the band table agrees with the register row for row, every Significant-band acceptance carries the stakeholder's own answer verbatim, and the register states without embellishment that SBC retires no risk. `Risk List#F1` is closed under Resolutions and Actions.
 
 #### Iteration Plan
 
-The plan is otherwise conformant to the process it instantiates: the milestone sequence runs the sprint zero then the four RUP phases in order, every discipline intensity quoted matches the canonical matrix, the roles recorded as working are exactly the Survey row's plus its three reviewing roles, every work item is a stage the inherited process runs in Survey, no calendar date is projected from an estimate, and the two currencies are kept apart with the human gate bounded as R022 and never estimated. Every one of the six objectives carries a "satisfied when" and an owner, and all six were delivered.
+No finding from this lens. `Iteration Plan#F1` is closed: C2 is split into the answered membership and priority questions and the confirmation the stakeholder did not give, C6 cites the coverage figure the System Inventory reproduces from its own table, and C7 is split into carriage and reproducibility, each decided on the artifact it cites. The plan's evidence column is now the artifact the verdict can rest on, and C2b is stated as not met rather than folded into a criterion that passed. The fine-plan State column carries `Iteration Plan#F3` from the technical lens, a Minor on a status field that the Project Manager corrects in its next turn; this lens records no finding of its own on it, and no criterion depends on it.
 
-One Major, and it decides this verdict.
+#### System Inventory
 
-- **Iteration Plan#F1 — Major, `exit-criterion-unmet`.** The Evaluation Criteria table certifies C2, C5 and C8 as "Met — 2026-11-23" on the gate H1 answers. None of the three answers given on 2026-11-23 confirms the perimeter as the System Inventory states it: two of them settle whether the external-provider path and the admin branch are inside the perimeter, and the third declines to reorder the priorities. Asked at this review whether they confirm the perimeter as recorded and sanction advancing past SBC, the stakeholder answered "No" — so C2 is not met and is recorded as met, which is the one error a gate cannot absorb: the plan's evidence column is exactly what the Review Coordinator's verdict reads. Two further criteria ride on the same weakness: C6 rests on a coverage figure the System Inventory itself cannot reproduce, and C7 passes as a counting test while the scores it counts do not reproduce — the Risk List finding above. **Remediation:** restate C2 as two criteria — the perimeter-membership questions and the priority order, which are answered and quote the answers, and the perimeter as recorded confirmed by the stakeholder, which is not met pending re-take. Cite the recomputed coverage figure for C6 once the System Inventory settles it. Split C7 into "every anomaly is carried" (met, 21 of 21) and "every score reproduces from its stated inputs" (not met). Never record an answer as a confirmation it does not contain.
+No finding from this lens, in either iteration. The reading is the artifact this gate exists to establish and it is the strongest of the four: the perimeter is anchored component by component, the 22 entry points carry kind, initiator and anchor, the priorities are ordered with the stakeholder's answer recorded in their own words, the coverage figure reproduces from its own per-area table, and every anchor this lens followed read as the artifact cites it. The two questions the reading could not settle were put to the stakeholder and are recorded as decided, with the external-provider path kept as a recovered use case marked unreachable and the `admin` branch recorded as an exceptional entity — both in the reading's own text, not only in an answer that has since been lost.
 
-The Reviewer's further two findings against this artifact (`Iteration Plan#F1` — the twelve-anomaly handoff that names seven, `Iteration Plan#F2` — the gate drawn after the verdict it feeds) belong to that lens; the first is content Excavation would consume and so also bears on C10's substance, which is why C10 is passed on the work items while the handoff list is corrected under that lens.
+**Not this lens's findings, and not this lens's to close.** The technical lens's two open Minors — `System Inventory#F3` and `Iteration Plan#F3`, both status metadata — belong to that lens and are closed by it. They are named here only so the Review Coordinator's consolidated count is complete.
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
