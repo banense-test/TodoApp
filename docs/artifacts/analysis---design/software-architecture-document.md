@@ -513,7 +513,6 @@ participant "COMP-016\nPersistence" as EF
 database "Todos.db" as DB
 
 U -> UI : opens /
-boot -> CLI
 UI -> CLI : GetTodosAsync()
 CLI -> BOOT : the registered client
 BOOT --> CLI : BaseAddress\nX-Requested-With
