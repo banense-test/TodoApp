@@ -718,18 +718,20 @@ The order is the System Inventory's Priorities order 1 to 5 — the API's todo o
 ## Resources
 The roles are the 26-role roster of the IARI DC baseline, minus the two the Development Case records as not working in this project. No role is added, merged or renamed.
 
-| Role | Discipline | Iteration 1 | Iteration 2 | Why |
+**Environment runs in every phase.** The stakeholder restated the baseline at the AR re-take of 2026-11-23: the process runs Environment in every phase, and in Excavation it is the phase's first discipline, at Low intensity, with the Process Engineer's stage. Iteration 3 records that stage and the role works in it — the two Minors the SBC review left open and the tailoring statement the same answer ordered corrected are corrected there.
+
+| Role | Discipline | Iterations 1–2 | Iteration 3 | Why |
 |---|---|---|---|---|
-| System Analyst | Requirements | Yes | Yes | Recovers the use cases, the actors and the supplementary constraints; in iteration 2 corrects the four Majors against them |
-| Software Architect | Analysis & Design | Yes | Yes | Recovers the architecture, its mechanisms and the deployment; in iteration 2 corrects the figure it inherited and the environment table |
-| Designer | Analysis & Design | Yes | Yes | Recovers the domain model and the classes; in iteration 2 corrects one citation |
-| Database Designer | Analysis & Design | Yes | No | Recovers the persistent data; no finding was recorded against it, so no work item exists for it |
-| Software Archaeologist | Discovery | Yes | No | Deepens the System Inventory and closes `System Inventory#F3`; the Minor `#F4` it recorded is on its history section and is not scheduled here |
-| Project Manager | Project Management | Yes | Yes | Carries the anomalies as risks, plans both iterations, and states the criteria and strategies as the evidence establishes them |
-| Reviewer | Review | Yes | Yes | Technical lens on the recovered set, then on the eight Majors |
-| Management Reviewer | Review | Yes | Yes | Management lens — the AR exit criteria re-taken |
-| Review Coordinator | Review | Yes | Yes | AR milestone verdict, read twice |
-| Process Engineer | Environment | **On order only — did not run** | **Yes, on the stakeholder's order** | Environment runs at no intensity in Excavation. In iteration 1 the role worked for one reason — `Development Case#F2`, a Minor the stakeholder ordered closed in this phase on 2026-11-23 — and it did not run: "Roles and Ownership" still omits three lenses, A11 counts it, and the milestone could not close. Iteration 2 plans it explicitly, as work the phase runs on the stakeholder's order and NOT as a discipline stage; the Development Case records Environment at no intensity here and this plan does not override it |
+| Process Engineer | Environment | **Did not run** — no stage recorded in the plan | **Yes — the phase's first discipline, at Low** | Corrects `Development Case#F2` (the contributor set and CLS-DC-01), `Development Case#F3` (Document Control), and states the phase baseline: Environment runs in every phase, first in Excavation. A11 counts the first two |
+| System Analyst | Requirements | Yes | Yes | Corrects the two Majors in the Use-Case Model: R6's request budget under `AN-024`, and the five `COMP-014` edge confirmations |
+| Project Manager | Project Management | Yes | Yes | Records the Environment stage and cites it in A13; names the Use-Case Model's R6 in A10's evidence cell; restates `R030`'s strategy cell |
+| Reviewer | Review | Yes | Yes | Technical lens on the corrected artifacts |
+| Management Reviewer | Review | Yes | Yes | Management lens — A1 to A13 re-taken, including A11 on four of four |
+| Review Coordinator | Review | Yes | Yes | AR milestone verdict, read on the answer gate H4 returns |
+| Software Architect | Analysis & Design | Yes | No | Both its Majors are closed; no finding remains against the Software Architecture Document or the Deployment Model |
+| Designer | Analysis & Design | Yes | No | `Design Model#F1` closed; no finding remains |
+| Database Designer | Analysis & Design | Yes | No | No finding was recorded against the persistent data in either iteration |
+| Software Archaeologist | Discovery | Yes | No | The System Inventory has no open finding; both lenses recomputed its coverage and it reproduces |
 | Requirements Specifier | Requirements | No — Elaboration | No — Elaboration | Use-case detail and NFR thresholds are written against a declared scope; the delivery declares none |
 | User Interface Designer | Analysis & Design | No — Elaboration | No — Elaboration | Storyboards and the navigation map follow the use-case specification |
 | Capsule Designer | Analysis & Design | No — inactive | No — inactive | `real-time-system = false` |
@@ -743,11 +745,10 @@ The roles are the 26-role roster of the IARI DC baseline, minus the two the Deve
 | Technical Writer | Deployment | No — Construction | No — Construction | — |
 | Configuration Manager | Configuration & Change Management | No — Inception | No — Inception | No baseline exists yet |
 | Change Control Manager | Configuration & Change Management | No — Inception | No — Inception | The Change Request ledger is opened at LCO |
-| Business Reviewer | Review | No — from LCO | No — from LCO | Excavation's milestone review runs Reviewer, Management Reviewer, Review Coordinator |
 
-The stakeholder is not an agent role: they are the only human in the process, and their work is gate H4 — put in iteration 1 and refused, re-put once in iteration 2.
+The stakeholder is not an agent role: they are the only human in the process, and their work is gate H4 — put twice, refused twice, and put once more after iteration 3's corrections land.
 
-The Process Engineer's presence is the one resource decision iteration 2 makes, and it is the smallest one available: four metadata fields and one sentence in a diagram, from a role the phase does not otherwise reach. The alternative — assigning the correction to a role that has a stage — is not open: the artifact's owner is fixed, and a role editing another's artifact is the defect ownership exists to prevent.
+The Process Engineer's presence is the one resource change iteration 3 makes, and it is the smallest one that exists: three turns on one document, from the discipline the phase now runs first. The alternative — assigning the correction to a role that already has a stage — is not open: the artifact's owner is fixed, and a role editing another's artifact is the defect ownership exists to prevent.
 ## Use Cases and Scenarios Addressed
 Eleven use cases, recovered from the 22 entry points the System Inventory records. Every use case traces to the `EP-NNN` whose code performs it, and no use case is recovered from an intent the code does not carry. Every anomaly cited below is cited for the fact the System Inventory's Anomalies table gives it.
 
