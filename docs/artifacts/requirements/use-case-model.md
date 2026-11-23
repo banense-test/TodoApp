@@ -189,7 +189,109 @@ Eleven use cases, each anchored to the entry points whose code performs it. Ever
 | The cross-owner read, update and delete a caller holding a self-minted `admin` token could perform | Same as above. It is the behaviour of one predicate, not an actor's goal |
 
 ## Use-Case Specifications
-Every flow below is the flow the code performs, not a flow anyone intended. Each step carries the file and lines it was read from; where the code contradicts a document, the code is recorded and the contradiction is named.
+Every flow below is the flow the code performs, not a flow anyone intended. Each step carries the file and lines it was read from, and each step is followed by the rule the code enforces at that step; where the code contradicts a document or another part of itself, the code is recorded and the contradiction is named.
+
+```plantuml
+@startuml
+title The rules the recovered flows enforce, and the use case each one guards
+
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam wrapWidth 230
+left to right direction
+
+package "Entered by the person, in the client" {
+  component "Email required, at most 256 characters; password 6 to 32\ncarrying a digit, an upper case, a lower case and a symbol" as R1
+  component "No request is sent unless the email and the password\nare both non-empty" as R2
+  component "A new todo requires a title" as R3
+}
+
+package "Checked at the API boundary" {
+  component "Only the parameter types an endpoint registers are validated:\nTodoItem on /todos, ExternalUserInfo on /users. A violation is\n400 application/problem+json" as R4
+  component "A bearer token, and a user row for its NameIdentifier.\nA deleted account's token is refused" as R5
+  component "The per-user token bucket, /todos only:\n100 tokens, 100 per 10 s, queue 100, 429" as R6
+  component "The route id is an integer" as R7
+}
+
+package "Held on the row and on the write" {
+  component "Title is required, on the row and on both request shapes" as R8
+  component "OwnerId is required, set from the resolved caller,\nnever read from a body, never returned" as R9
+  component "IsComplete is created false and every PUT replaces it" as R10
+  component "PUT refuses a body id that differs from the route id" as R11
+  component "Ownership: the caller's row, or an admin claim no caller holds.\nNo match answers 404, never 403" as R12
+}
+
+package "Between the BFF and the API" {
+  component "The BFF requires the cookie and rewrites the token set's\naccess token into Authorization: Bearer" as R13
+  component "An auth failure answers 401 with no body, whatever its cause" as R14
+  component "The provider key is protected under a protector named after\nthe provider; a key from another ring raises" as R15
+}
+
+package "Use cases" {
+  component "UC-001 Create an account" as U1
+  component "UC-002 Sign in with a password" as U2
+  component "UC-003 Sign in with a provider" as U3
+  component "UC-004 Sign out" as U4
+  component "UC-005 Maintain one's own account" as U5
+  component "UC-006 See one's own tasks" as U6
+  component "UC-007 Add a task" as U7
+  component "UC-008 Remove a task" as U8
+  component "UC-009 Read one task" as U9
+  component "UC-010 Change a task" as U10
+}
+
+R1 --> U2 : step 2, the submit path
+R1 ..> U1 : never runs on the create control
+R2 --> U1 : step 4
+R2 --> U2 : step 3
+R3 --> U7 : step 2
+R4 --> U3 : step 5
+R4 --> U7 : 400 when the title is absent
+R4 --> U10 : 400 when the title is absent
+R5 --> U6
+R5 --> U7
+R5 --> U8
+R5 --> U9
+R5 --> U10
+R6 --> U6
+R6 --> U7
+R6 --> U8
+R6 --> U9
+R6 --> U10
+R7 --> U8
+R7 --> U9
+R7 --> U10
+R8 --> U7 : step 5
+R8 --> U10 : step 4
+R9 --> U7 : step 5, the owner comes from the token
+R10 --> U7 : created false whatever the body says
+R10 --> U10 : step 4, both fields replaced
+R11 --> U10 : step 3
+R12 --> U8 : step 4
+R12 --> U9 : steps 3 and 5
+R12 --> U10 : step 4
+R13 --> U6 : step 3
+R13 --> U7 : step 4
+R13 --> U8 : step 3
+R14 --> U1 : the one refusal it can give
+R14 --> U2 : the one refusal it can give
+R14 --> U4 : a refused sign-out is silent
+R15 --> U3 : step 6
+
+note right of R4
+  The /users group registers ExternalUserInfo alone with the
+  validation filter, so a register or login body passes no
+  data-annotation check at the API. UsersApi.cs:18
+end note
+
+note bottom of R12
+  The list endpoint filters on OwnerId alone and declares no
+  order; the item endpoints also admit the admin claim.
+  The disagreement is recorded, not reconciled. AN-018
+end note
+
+@enduml
+```
 
 ### UC-001 Create an account
 
@@ -203,22 +305,23 @@ Every flow below is the flow the code performs, not a flow anyone intended. Each
 | # | Main flow — the screen route |
 |---|---|
 | 1 | The person enters an email and a password on `EP-002` and activates Create User. `Todo.Web/Client/Components/LogInForm.razor:3-26` |
-| 2 | The client validates the fields: both required, the email at most 256 characters, the password 6 to 32 characters containing a lower-case letter, an upper-case letter, a digit and a special character. A failure stops the flow and the form reports the field error. `Todo.Web/Client/Components/LogInForm.razor:55-68` |
-| 3 | The client posts `{ email, password }` to `/auth/register` `EP-004`. `Todo.Web/Client/TodoClient.cs` (`CreateUserAsync`) |
+| 2 | The create control is `type="button"` with its own click handler, so the form's `OnValidSubmit` never runs and `DataAnnotationsValidator` reports no field error on this path: **none of the component's field rules guards registration**. `Todo.Web/Client/Components/LogInForm.razor:19,87-98` |
+| 3 | The client posts `{ email, password }` to `/auth/register` `EP-004`, and refuses to post unless both values are non-empty. `Todo.Web/Client/TodoClient.cs:55-63` |
 | 4 | The BFF posts the same body to the API's `/users/register` `EP-015`. `Todo.Web/Server/AuthClient.cs` (`CreateUserAsync`) |
-| 5 | Identity creates the user, or refuses it against its password and email policy. `Todo.Api/Users/UsersApi.cs:20` |
-| 6 | On success the BFF posts `/users/login`, receives an access token, and signs in on the cookie scheme with the email as both `NameIdentifier` and `Name`, storing the token in the token set. `Todo.Web/Server/AuthApi.cs:14-25,99-116` |
+| 5 | Identity creates the user, or refuses it against its own password and email policy. No data-annotation check runs on the body at the API: the `/users` group registers `ExternalUserInfo` for validation and `UserInfo` is not among the types it validates. `Todo.Api/Users/UsersApi.cs:18-20`; `Todo.Api/Filters/ValidationFilter.cs:20-58` |
+| 6 | On success the BFF posts `/users/login`, receives an access token, and signs in on the cookie scheme with the email as both `NameIdentifier` and `Name`, storing the token in the token set. A null token becomes 401 with no body. `Todo.Web/Server/AuthApi.cs:14-25,99-116` |
 | 7 | The shell re-renders as signed in and shows the todo list `EP-003`. `Todo.Web/Client/TodoApp.razor:3-11` |
 
 | Alternative or exception | What the code does | Anchor |
 |---|---|---|
 | A1 — the API refuses the registration | The API's answer is discarded and the BFF answers `401` with no body; the form shows the fixed string "Failed to create user". The same answer covers an email already taken, a password the Identity policy refuses, and an unreachable API. No recovered flow may claim a distinguishable failure | AN-021; `Todo.Web/Server/AuthApi.cs:14-25`; `Todo.Web/Server/AuthClient.cs`; `Todo.Web/Client/Components/LogInForm.razor:73-84` |
 | A2 — the registration succeeds but the follow-up login fails | The user row now exists and no cookie is written; the person sees the same "Failed to create user" and a second attempt with the same email is refused as taken | `Todo.Web/Server/AuthClient.cs` (`CreateUserAsync`, which returns the token from a second call) |
-| S2 — the direct route, ACT-003 | The caller posts to `EP-015` `/users/register` and then `/users/login`, and receives an `AccessTokenResponse` with `tokenType`, `accessToken`, `expiresIn` and `refreshToken`. No cookie is involved and the client-side validation of step 2 does not apply | `README.md`, "Using the API standalone"; `Todo.Api/Users/UsersApi.cs:20` |
+| A3 — either field is empty | Nothing is posted and the same fixed string is shown, because `CreateUserAsync` returns false before its request | `Todo.Web/Client/TodoClient.cs:55-63`; `Todo.Web/Client/Components/LogInForm.razor:87-98` |
+| S2 — the direct route, ACT-003 | The caller posts to `EP-015` `/users/register` and then `/users/login`, and receives an `AccessTokenResponse` with `tokenType`, `accessToken`, `expiresIn` and `refreshToken`. No cookie is involved and the client's empty-value guard does not apply | `README.md`, "Using the API standalone"; `Todo.Api/Users/UsersApi.cs:20` |
 
 ```plantuml
 @startuml
-title UC-001 Create an account and UC-002 Sign in with email and password - the flow the code performs, and the one answer it gives on failure
+title UC-001 Create an account - the create control the code has: no submit, no client rule, no API annotation check
 
 skinparam shadowing false
 skinparam wrapWidth 225
@@ -226,52 +329,48 @@ skinparam wrapWidth 225
 |ACT-001 Person and client|
 start
 :Enters an email and a password on EP-002;
-:Client validation: both required, email at most 256
-characters, password 6 to 32 with a lower-case letter,
-an upper-case letter, a digit and a special character;
-if (client validation fails) then (yes)
-  :the form reports the field error and posts nothing;
+note right
+  The Create User control is type="button" with its own
+  click handler, so OnValidSubmit never runs and
+  DataAnnotationsValidator never reports a field error.
+  LogInForm.razor:19,87-98
+end note
+:Activates Create User;
+if (the client's own guard accepts email and password) then (both non-empty)
+else (either is empty)
+  :CreateUserAsync returns false without posting;
+  |ACT-001 Person and client|
+  :shows "Failed to create user";
   stop
-else (no)
 endif
-if (the person chose Create User) then (create)
-  :POST /auth/register EP-004;
-  |BFF|
-  :POST /users/register to the API EP-015;
-  |API|
-  :Identity creates the user, or refuses it
-  against its own password and email policy;
-  |BFF|
-  if (the API answered success) then (yes)
-    :POST /users/login to the API EP-015;
-    |API|
-    :Verifies the credentials and returns an access token;
-    |BFF|
-  else (no)
-    :401 with no body;
-    |ACT-001 Person and client|
-    :shows the fixed string "Failed to create user";
-    note right
-      The same answer covers an email already taken, a password
-      the Identity policy refuses, and an unreachable API:
-      the BFF discards the API's validation problem. AN-021
-    end note
-    stop
-  endif
-else (login)
-  :POST /auth/login EP-005;
-  |BFF|
+|ACT-001 Person and client|
+:POST /auth/register EP-004 with whatever was typed;
+note right
+  No length or character-class rule applies on this path,
+  and TodoClient.CreateUserAsync guards only emptiness.
+  TodoClient.cs:55-63
+end note
+|BFF|
+:POST /users/register to the API EP-015;
+|API|
+note right
+  The /users group registers ExternalUserInfo with the
+  validation filter and not UserInfo, so the body passes
+  no data-annotation check here. UsersApi.cs:16-20
+end note
+:Identity creates the user or refuses it
+against its own password and email policy;
+|BFF|
+if (the API answered success) then (yes)
   :POST /users/login to the API EP-015;
   |API|
   :Verifies the credentials and returns an access token;
   |BFF|
-endif
-if (the token is null) then (yes)
+else (no)
   :401 with no body;
   |ACT-001 Person and client|
-  :shows the fixed string "Login failed";
+  :shows the fixed string "Failed to create user";
   stop
-else (no)
 endif
 |BFF|
 :Signs in on the cookie scheme with NameIdentifier = the email,
@@ -294,17 +393,18 @@ stop
 | # | Main flow — the screen route |
 |---|---|
 | 1 | The person enters an email and a password on `EP-002` and activates Login. `Todo.Web/Client/Components/LogInForm.razor:3-26` |
-| 2 | The client applies the same field validation as UC-001 step 2 and stops on a failure. `Todo.Web/Client/Components/LogInForm.razor:55-68` |
-| 3 | The client posts `{ email, password }` to `/auth/login` `EP-005`. `Todo.Web/Client/TodoClient.cs` (`LoginAsync`) |
+| 2 | The Login control is a submit button, so `OnValidSubmit` runs and the component's four field rules apply: the email is required and at most 256 characters; the password is required, 6 to 32 characters, and carries at least one lower-case letter, an upper-case letter, a digit and a character outside the alphanumeric classes. A failure stops the flow and the form reports the field error. `Todo.Web/Client/Components/LogInForm.razor:17,55-68` |
+| 3 | The client posts `{ email, password }` to `/auth/login` `EP-005`, and refuses to post unless both values are non-empty — a second guard, independent of step 2. `Todo.Web/Client/TodoClient.cs:47-53` |
 | 4 | The BFF posts the same body to the API's `/users/login` `EP-015`. `Todo.Web/Server/AuthClient.cs` (`GetTokenAsync`) |
-| 5 | Identity verifies the credentials and answers an access token. `Todo.Api/Users/UsersApi.cs:20` |
+| 5 | Identity verifies the credentials and answers an access token. No lockout check is made anywhere on this path: the current-user handler carries a `TODO` for it, and the login endpoint applies the framework's own rules alone. `Todo.Api/Users/UsersApi.cs:20`; `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:28-31` |
 | 6 | The BFF signs in on the cookie scheme with the email as both `NameIdentifier` and `Name`, and stores the token in the token set. `Todo.Web/Server/AuthApi.cs:27-38,99-116` |
 | 7 | The shell re-renders as signed in and shows the todo list `EP-003`. `Todo.Web/Client/TodoApp.razor:3-11` |
 
 | Alternative or exception | What the code does | Anchor |
 |---|---|---|
 | A1 — the credentials are refused | `401` with no body; the form shows "Login failed". A wrong password, an unconfirmed account, a locked account and an unreachable API are one answer | AN-021; `Todo.Web/Server/AuthApi.cs:27-38`; `Todo.Web/Server/AuthClient.cs` (`GetTokenAsync`) |
-| A2 — the field validation fails | Nothing is posted. The password rule is the client's own and is stricter than the server's: the client rejects a password shorter than 6 or longer than 32 characters before Identity ever sees it | `Todo.Web/Client/Components/LogInForm.razor:60-68` |
+| A2 — the field validation of step 2 fails | Nothing is posted and the field error is shown. The client's rule is the one the person meets first, and it is stricter than the server's on length: a password longer than 32 characters is refused here though Identity imposes no upper bound | `Todo.Web/Client/Components/LogInForm.razor:60-68` |
+| A3 — either field is empty and step 2 did not run | `LoginAsync` returns false before its request and the form shows "Login failed" | `Todo.Web/Client/TodoClient.cs:47-53` |
 | S2 — the direct route, ACT-003 | The caller posts `{ email, password }` to `EP-015` `/users/login` and receives an `AccessTokenResponse`; it attaches `Authorization: Bearer <accessToken>` to the task operations itself | `README.md`, "Using the API standalone" |
 
 ### UC-003 Sign in with an external provider
@@ -322,16 +422,16 @@ stop
 | 2 | The BFF issues a challenge with the provider name taken from the route as the scheme list and `RedirectUri` set to `/auth/signin/{provider}`, and redirects to the provider. The name is checked against no registered scheme. `Todo.Web/Server/AuthApi.cs:55-62` |
 | 3 | The provider authenticates the person and redirects to `/auth/signin/{provider}` `EP-008`. |
 | 4 | The BFF authenticates the external cookie and reads `NameIdentifier`, and the email falling back to the principal name. `Todo.Web/Server/AuthApi.cs:64-77` |
-| 5 | The BFF protects the provider key with a data-protection protector named after the provider and posts `{ username, providerKey }` to `/users/token/{provider}` `EP-016`. `Todo.Web/Server/AuthApi.cs:82-84` |
-| 6 | The API creates a protector of the same name, unprotects the key, and finds or creates the user and its login row, then signs the principal in and returns an access token. `Todo.Api/Users/UsersApi.cs:24-60` |
-| 7 | The BFF writes the session cookie with `NameIdentifier`, `Name`, the access token and the provider name in the authentication properties. `Todo.Web/Server/AuthApi.cs:88-90,99-116` |
-| 8 | The BFF deletes the external cookie and redirects to `/`. `Todo.Web/Server/AuthApi.cs:92-94` |
+| 5 | The BFF protects the provider key with a data-protection protector named after the provider and posts `{ username, providerKey }` to `/users/token/{provider}` `EP-016`. Both fields are required by the request shape, and this is the one `/users` endpoint the validation filter reaches, so a missing field answers 400 `ValidationProblem` — which the BFF then discards as a null token. `Todo.Web/Server/AuthApi.cs:82-84`; `Todo.Api/Users/UsersApi.cs:18`; `Todo.Web/Shared/SharedClass.cs:24-32` |
+| 6 | The API creates a protector of the same name, unprotects the key, and finds the user by provider and key; when none exists it creates a user named after the posted user name and adds the login row. It then creates the principal and returns an access token; a failed identity result answers a validation problem naming each error code. `Todo.Api/Users/UsersApi.cs:24-60` |
+| 7 | The BFF writes the session cookie with `NameIdentifier` the provider's subject, `Name` the email-or-name, the access token and the provider name in the authentication properties — only when the token is not null. `Todo.Web/Server/AuthApi.cs:88-90,99-116` |
+| 8 | The BFF deletes the external cookie and redirects to `/` on every path. `Todo.Web/Server/AuthApi.cs:92-97` |
 
 | Alternative or exception | What the code does | Anchor |
 |---|---|---|
 | A1 — the provider name in the route is not a registered scheme | The challenge names a scheme that does not exist and the handler raises rather than answering a redirect or a 404 | AN-019; `Todo.Web/Server/AuthApi.cs:55-62` |
 | A2 — the external ticket is absent, the token exchange returns null, or the cookie sign-in does not take effect | No cookie is written; the external cookie is still deleted; the person is redirected to `/` with no message and cannot tell a rejected provider from an unreachable API. The code's own `// TODO: Handle the failure somehow` marks it | AN-020; `Todo.Web/Server/AuthApi.cs:64-97` |
-| A3 — the two processes do not share a data-protection key ring | `Unprotect` in the API fails on a key protected in the BFF. Only the application discriminator is set in either process | AN-010; `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11` |
+| A3 — the two processes do not share a data-protection key ring | `Unprotect` in the API fails on a key protected in the BFF, so the exchange answers a null token and A2 follows. Only the application discriminator is set in either process | AN-010; `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11` |
 | A4 — the provider identity has no email claim | The user is created with the principal name as its user name, and that name becomes the account identity with no password | `Todo.Web/Server/AuthApi.cs:70-71` |
 
 ```plantuml
@@ -376,11 +476,13 @@ if (the external ticket) then (succeeded)
   protects the provider key for transport;
   :POST /users/token/{provider} EP-016;
   |API|
+  :The request shape requires username and providerKey,
+  the one /users type the validation filter covers;
   :Creates a protector of the same name and unprotects the key;
   if (a login for that provider and key exists) then (yes)
     :uses that user;
   else (no)
-    :creates a user named after the email;
+    :creates a user named after the posted user name;
     :adds the login for the provider and key;
   endif
   :Signs the principal in and returns an access token;
@@ -415,7 +517,7 @@ stop
 | 1 | The person activates Logout on `EP-001`. `Todo.Web/Client/TodoApp.razor:8` |
 | 2 | The client posts to `/auth/logout` `EP-006`. `Todo.Web/Client/TodoClient.cs` (`LogoutAsync`) |
 | 3 | The endpoint requires authorization, so a request without a valid cookie is refused at the door. `Todo.Web/Server/AuthApi.cs:49-50` |
-| 4 | The cookie is signed out. No remote sign-out is performed: the code's own `// TODO: Support remote logout` marks the gap, so a provider session opened by UC-003 stays open at the provider. `Todo.Web/Server/AuthApi.cs:40-52` |
+| 4 | The cookie is signed out — and only the cookie. No remote sign-out is performed: the code's own `// TODO: Support remote logout` marks the gap, so a provider session opened by UC-003 stays open at the provider even though the provider name is stored in the cookie's properties for exactly that purpose. `Todo.Web/Server/AuthApi.cs:40-52,108-112` |
 | 5 | On success the client clears the displayed user and the shell renders the login form `EP-002`. `Todo.Web/Client/TodoApp.razor:19-21,32-38` |
 
 | Alternative or exception | What the code does | Anchor |
@@ -434,15 +536,15 @@ stop
 
 | # | Main flow of the shared shape |
 |---|---|
-| 1 | The caller posts to one of the endpoints the framework maps under `/users` `EP-015`: `refresh`, `confirmEmail`, `resendConfirmationEmail`, `forgotPassword`, `resetPassword`, `manage/2fa`, `manage/info`. `Todo.Api/Users/UsersApi.cs:20` |
-| 2 | No rate limit applies: the token-bucket policy is required on `/todos` only. `Todo.Api/Extensions/RateLimitExtensions.cs:38-47`; `Todo.Api/Todos/TodoApi.cs:19` |
-| 3 | The endpoint performs its operation against the Identity stores and answers the framework's own shape, which for a failure is a problem detail naming the cause — not the single 401 that UC-001 and UC-002 collapse to. `Todo.Api/Users/UsersApi.cs:20` |
+| 1 | The caller posts to one of the endpoints the framework maps under `/users` `EP-015`: `refresh`, `confirmEmail`, `resendConfirmationEmail`, `forgotPassword`, `resetPassword`, `manage/2fa`, `manage/info`. The delivery adds or removes none of them and configures none. `Todo.Api/Users/UsersApi.cs:20` |
+| 2 | No rate limit applies: the token-bucket policy is required on `/todos` only. `Todo.Api/Extensions/RateLimitExtensions.cs:53-56`; `Todo.Api/Todos/TodoApi.cs:19` |
+| 3 | The endpoint applies the framework's own rules — a refresh or manage call needs a bearer token, a recovery call does not — and answers the framework's own shape, which for a failure is a problem detail naming the cause, not the single 401 that UC-001 and UC-002 collapse to. No data-annotation check added by the delivery applies to these bodies. `Todo.Api/Users/UsersApi.cs:18-20` |
 | 4 | The effect is durable: the person's email is confirmed, their password replaced, or a new token pair issued. |
 
 | Alternative or exception | What the code does | Anchor |
 |---|---|---|
 | A1 — no screen reaches any of these | The client makes six calls and none of them is an Identity endpoint beyond register and login: `AddTodoAsync`, `DeleteTodoAsync`, `GetTodosAsync`, `LoginAsync`, `CreateUserAsync` (which posts `/auth/register`) and `LogoutAsync`. Every operation here is reachable only by an API caller, so the UI cannot confirm an email, reset a password or refresh a token. ACT-001 therefore carries no edge to this use case | `Todo.Web/Client/TodoClient.cs:7-71` |
-| A2 — an anonymous caller floods the recovery endpoints | No limit applies, and the policy as written could not simply be extended to them: it partitions on `NameIdentifier`, which an anonymous caller does not have | AN-009; `Todo.Api/Extensions/RateLimitExtensions.cs:38-47` |
+| A2 — an anonymous caller floods the recovery endpoints | No limit applies, and the policy as written could not simply be extended to them: it partitions on `NameIdentifier`, which an anonymous caller does not have, so the partition step dereferences a claim that is absent | AN-009; `Todo.Api/Extensions/RateLimitExtensions.cs:38-47` |
 
 ### UC-006 See one's own tasks
 
@@ -456,18 +558,18 @@ stop
 | # | Main flow — the screen route |
 |---|---|
 | 1 | The shell resolves the authentication state and, when a user name is present, renders the todo list `EP-003` with a spinner while the load is in flight. `Todo.Web/Server/App.razor:44-52`; `Todo.Web/Client/Components/TodoList.razor:3-8` |
-| 2 | The list calls `GET todos` on initialization. `Todo.Web/Client/Components/TodoList.razor:44-55` |
+| 2 | The list calls `GET todos` on initialization; on a client with no base address it returns an empty list instead, so no request is made. `Todo.Web/Client/Components/TodoList.razor:44-55`; `Todo.Web/Client/TodoClient.cs:32-38` |
 | 3 | The request reaches the BFF's `/todos` group `EP-009`, which requires the cookie and rewrites the session's access token into `Authorization: Bearer`. `Todo.Web/Server/TodoApi.cs:12-25` |
 | 4 | The API requires a bearer token and resolves the caller from the database by the token's `NameIdentifier`; a token for a user row that does not exist fails the requirement. `Todo.Api/Todos/TodoApi.cs:17`; `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:31-36` |
 | 5 | The per-user token bucket applies to the whole group, answering 429 when empty. `Todo.Api/Todos/TodoApi.cs:19-20`; `Todo.Api/Extensions/RateLimitExtensions.cs:38-47` |
-| 6 | The query filters on `OwnerId` equal to the caller and declares no order; `OwnerId` is excluded from the returned shape. `Todo.Api/Todos/TodoApi.cs:24-27`; `Todo.Api/Todos/Todo.cs:15-21` |
+| 6 | The query filters on `OwnerId` equal to the caller and declares no order, so the order of the rows is whatever SQLite returns; `OwnerId` is excluded from the returned shape. `Todo.Api/Todos/TodoApi.cs:24-27`; `Todo.Api/Todos/Todo.cs:14-26` |
 | 7 | The list renders one row per task with its title and a remove control. The checkbox beside each row is bound to nothing. `Todo.Web/Client/Components/TodoList.razor:21-31` |
 
 | Alternative or exception | What the code does | Anchor |
 |---|---|---|
 | A1 — the load answers 401 or 403 | The shell drops to the login form: the list raises `OnForbidden` and the shell's handler signs out | `Todo.Web/Client/Components/TodoList.razor:47-55`; `Todo.Web/Client/TodoApp.razor:3-11` |
-| A2 — the caller's rows are empty | No list is rendered and no empty state is shown; the input stays available | `Todo.Web/Client/Components/TodoList.razor:21-31` |
-| A3 — the bucket is empty | 429, and the client reports nothing; the spinner leaves the list empty | `Todo.Api/Extensions/RateLimitExtensions.cs:38-47` |
+| A2 — the caller's rows are empty | No list is rendered and no empty state is shown; the input stays available. The new-todo input is inside the `else` branch, so it is present whenever the load has completed | `Todo.Web/Client/Components/TodoList.razor:9-31` |
+| A3 — the bucket is empty | 429, and the client reports nothing: the status is not `Forbidden` or `Unauthorized`, so the shell stays signed in and the list leaves an empty spinner-free area | `Todo.Api/Extensions/RateLimitExtensions.cs:38-47`; `Todo.Web/Client/Components/TodoList.razor:47-55` |
 | S2 — the direct route, ACT-003 | The caller sends `GET /todos` with `Authorization: Bearer` itself and receives the `TodoItem` array. Steps 1 to 3 do not apply | `README.md`, "Using the API standalone"; `Todo.Api/Todos/TodoApi.cs:24-27` |
 | Not modelled | The list applies no `admin` branch, while `EP-011`, `EP-013` and `EP-014` each admit one, so a caller in that role can reach a row by id that this use case cannot show. The disagreement is recorded (AN-018); the branch is not recovered as behaviour | AN-018; `Todo.Api/Todos/TodoApi.cs:24-27` vs `:29-36,52-65,67-73` |
 
@@ -483,18 +585,18 @@ stop
 | # | Main flow — the screen route |
 |---|---|
 | 1 | The person types a title in the input on `EP-003` and submits. `Todo.Web/Client/Components/TodoList.razor:12-19` |
-| 2 | The client validates the title, which is required; an empty value stops the flow and the field error is shown. `Todo.Web/Client/Components/TodoList.razor:36-38,12-19` |
-| 3 | The client posts `{ title }` to `todos` `EP-009`. `Todo.Web/Client/TodoClient.cs` (`AddTodoAsync`) |
+| 2 | The input's model is `[Required]`, so the form's validator blocks the submit on an empty title and shows the field error. `Todo.Web/Client/Components/TodoList.razor:31-33,36-38` |
+| 3 | The client posts `{ title }` to `todos` `EP-009`, and returns null without a request when the title is null or empty — a second guard independent of step 2. `Todo.Web/Client/TodoClient.cs:7-13` |
 | 4 | The BFF requires the cookie and rewrites the token; the API requires the token, resolves the caller, applies the rate limit and validates `Title` as required, answering 400 with a problem detail when it is missing. `Todo.Web/Server/TodoApi.cs:12-25`; `Todo.Api/Todos/TodoApi.cs:17-22`; `Todo.Api/Filters/ValidationFilter.cs:12-63` |
-| 5 | A `Todo` row is inserted with `OwnerId` set to the caller and `IsComplete` left false. `Todo.Api/Todos/TodoApi.cs:38-50` |
+| 5 | A `Todo` row is inserted with `OwnerId` set to the caller and `IsComplete` left false. The request shape is `TodoItem`, which carries no `OwnerId`, and its `IsComplete` is not copied: a create body that carries `isComplete: true` produces a row with `IsComplete` false. `Todo.Api/Todos/TodoApi.cs:38-50`; `Todo.Api/Todos/Todo.cs:15-21` |
 | 6 | The API answers 201 with `Location: /todos/{id}` and the created `TodoItem`. `Todo.Api/Todos/TodoApi.cs:49` |
 | 7 | The client appends the returned row to the list without reloading, clears the input and marks the form unmodified. `Todo.Web/Client/Components/TodoList.razor:57-67` |
 
 | Alternative or exception | What the code does | Anchor |
 |---|---|---|
 | A1 — the title is empty | The client posts nothing and shows the field error; a caller that posts an empty title anyway receives 400 `ValidationProblemDetails` | `Todo.Web/Client/Components/TodoList.razor:36-38`; `Todo.Api/Filters/ValidationFilter.cs` |
-| A2 — the API answers a failure | The client returns null, nothing is appended and nothing is reported to the person | `Todo.Web/Client/TodoClient.cs` (`AddTodoAsync`); `Todo.Web/Client/Components/TodoList.razor:57-67` |
-| A3 — the body's `OwnerId` | The request shape carries no `OwnerId`, so a caller cannot create a row for someone else: the field is set from the resolved caller | `Todo.Api/Todos/Todo.cs:15-21`; `Todo.Api/Todos/TodoApi.cs:38-50` |
+| A2 — the API answers a failure | The client returns null, nothing is appended and nothing is reported to the person. A 429 is covered by this path and is indistinguishable from a 400 | `Todo.Web/Client/TodoClient.cs:7-27`; `Todo.Web/Client/Components/TodoList.razor:57-67` |
+| A3 — the body's `OwnerId` | The request shape carries no `OwnerId`, so a caller cannot create a row for someone else: the field is set from the resolved caller. `OwnerId` is required on the entity and required in the database | `Todo.Api/Todos/Todo.cs:3-12,15-21`; `Todo.Api/Todos/TodoApi.cs:38-50` |
 | S2 — the direct route, ACT-003 | The caller posts `{ title }` with its own bearer token and receives 201 with the created item | `README.md`; `Todo.Api/Todos/TodoApi.cs:38-50` |
 
 ```plantuml
@@ -515,7 +617,7 @@ if (the title is empty) then (yes)
 else (no)
 endif
 :TodoClient.AddTodoAsync posts {title} to /todos
-EP-009;
+EP-009, and posts nothing for a null or empty title;
 
 |BFF|
 :A cookie session is required;
@@ -538,6 +640,11 @@ endif
 |API|
 :Insert Todo {Title, OwnerId = the caller,
 IsComplete = false};
+note right
+  The request shape carries no OwnerId and its IsComplete
+  is not copied: a body asking for a completed row still
+  produces IsComplete false. TodoApi.cs:38-50
+end note
 :201 Created with the created TodoItem;
 |ACT-001 Person and client|
 :appends the returned row and clears the input;
@@ -558,9 +665,9 @@ stop
 |---|---|
 | 1 | The person activates the remove control on a row of `EP-003`. `Todo.Web/Client/Components/TodoList.razor:28` |
 | 2 | The client sends `DELETE todos/{id}` through `EP-009`. `Todo.Web/Client/TodoClient.cs` (`DeleteTodoAsync`) |
-| 3 | The BFF requires the cookie and rewrites the token; the API requires the token, resolves the caller and applies the rate limit. `Todo.Web/Server/TodoApi.cs:12-25`; `Todo.Api/Todos/TodoApi.cs:17-20` |
-| 4 | The delete runs against the rows where `Id` equals the route id and `OwnerId` equals the caller. `Todo.Api/Todos/TodoApi.cs:69-71` |
-| 5 | One row affected answers 200 with no body; the client removes the row from the list without reloading. `Todo.Api/Todos/TodoApi.cs:73`; `Todo.Web/Client/Components/TodoList.razor:69-76` |
+| 3 | The BFF requires the cookie and rewrites the token; the API requires the token, resolves the caller and applies the rate limit. The route id must be an integer or the request answers 404 before the handler runs. `Todo.Web/Server/TodoApi.cs:12-25`; `Todo.Api/Todos/TodoApi.cs:17-20,67` |
+| 4 | One statement deletes the rows where `Id` equals the route id and `OwnerId` equals the caller. `Todo.Api/Todos/TodoApi.cs:69-71` |
+| 5 | One row affected answers 200 with no body; zero answers 404. The client removes the row from the list without reloading on a success and does nothing on a failure. `Todo.Api/Todos/TodoApi.cs:73`; `Todo.Web/Client/Components/TodoList.razor:69-76` |
 
 | Alternative or exception | What the code does | Anchor |
 |---|---|---|
@@ -580,9 +687,9 @@ stop
 
 | # | Main flow |
 |---|---|
-| 1 | The caller sends `GET /todos/{id}` with a bearer token `EP-011`. `Todo.Api/Todos/TodoApi.cs:29-36` |
+| 1 | The caller sends `GET /todos/{id}` with a bearer token `EP-011`; a non-integer segment does not match the route and answers 404 before the handler runs. `Todo.Api/Todos/TodoApi.cs:29` |
 | 2 | The API requires the token, resolves the caller and applies the rate limit. `Todo.Api/Todos/TodoApi.cs:17-20` |
-| 3 | The row is looked up by primary key. The match admits the owner; the second alternative on that predicate is not reachable in the running system. `Todo.Api/Todos/TodoApi.cs:29-36` |
+| 3 | The row is looked up by primary key, then matched on `OwnerId` equal to the caller. The second alternative on that predicate is not reachable in the running system. `Todo.Api/Todos/TodoApi.cs:29-36` |
 | 4 | A match answers 200 with the `TodoItem`, `OwnerId` excluded. `Todo.Api/Todos/Todo.cs:15-26` |
 | 5 | No match answers 404 for a row that is absent and for a row belonging to someone else alike. `Todo.Api/Todos/TodoApi.cs:29-36` |
 
@@ -590,6 +697,7 @@ stop
 |---|---|---|
 | A1 — the route id is not an integer | The route constraint does not match and the request answers 404 before the handler runs | route template `/{id}` at `Todo.Api/Todos/TodoApi.cs:29` |
 | A2 — the client has no path here | The client makes six calls and none of them reads a single todo, so this operation is reachable only by an API caller | `Todo.Web/Client/TodoClient.cs:7-71` |
+| Not modelled | The predicate admits an `admin` role claim no running caller holds, so a self-minted token could read another person's row | AN-004; `Todo.Api/Todos/TodoApi.cs:33` |
 
 ### UC-010 Change a task, including marking it complete
 
@@ -598,14 +706,14 @@ stop
 | Primary actor | ACT-003. **API operation only**: the client makes no update call and the list's checkbox is bound to nothing (AN-001, stakeholder decision of 2026-11-23) |
 | Trigger | A caller sends `PUT /todos/{id}` |
 | Precondition | The caller is authorized as in UC-006 |
-| Postcondition | That row's `Title` and `IsComplete` are set to the request's values |
+| Postcondition | That row's `Title` and `IsComplete` are set to the request's values; nothing else on the row changes |
 
 | # | Main flow |
 |---|---|
 | 1 | The caller sends `PUT /todos/{id}` with `{ id, title, isComplete }` and a bearer token `EP-013`. `Todo.Api/Todos/TodoApi.cs:52-65` |
-| 2 | The API requires the token, resolves the caller, applies the rate limit, and validates `Title` as required. `Todo.Api/Todos/TodoApi.cs:17-22`; `Todo.Api/Filters/ValidationFilter.cs` |
+| 2 | The API requires the token, resolves the caller, applies the rate limit, and validates `Title` as required — a missing or empty title answers 400 and no row is read. `Todo.Api/Todos/TodoApi.cs:17-22`; `Todo.Api/Todos/Todo.cs:18-19`; `Todo.Api/Filters/ValidationFilter.cs` |
 | 3 | A body whose `id` differs from the route id answers 400 and no row is read. `Todo.Api/Todos/TodoApi.cs:54-57` |
-| 4 | One statement sets `Title` and `IsComplete` on the rows where `Id` equals the route id and `OwnerId` equals the caller. `Todo.Api/Todos/TodoApi.cs:59-63` |
+| 4 | One statement sets `IsComplete` and `Title` on the rows where `Id` equals the route id and `OwnerId` equals the caller. The two fields named are the whole update: an absent `isComplete` in the body is read as false and clears a completed row, and there is no concurrency token, so the last write wins over any other caller's update. `Todo.Api/Todos/TodoApi.cs:59-63` |
 | 5 | Zero rows affected answers 404; otherwise 200 with no body. `Todo.Api/Todos/TodoApi.cs:65` |
 
 | Alternative or exception | What the code does | Anchor |
@@ -661,7 +769,13 @@ if (rows affected is zero) then (yes)
   stop
 else (no)
 endif
-:Sets Title and IsComplete on that row;
+:Sets IsComplete and Title on that row;
+note right
+  Both fields are replaced by the body's values, so an
+  absent isComplete clears a completed row, and no
+  concurrency token exists: the last write wins.
+  TodoApi.cs:59-63
+end note
 :200 Ok with no body;
 stop
 @enduml
@@ -673,56 +787,77 @@ The four task use cases pass the same gate, which is stated once here and refere
 
 ```plantuml
 @startuml
-title UC-006, UC-009, UC-010 and UC-008 - the gate every task operation passes, and the one rule that decides which rows it may touch
+title The gate UC-006, UC-009, UC-010 and UC-008 share, and the one predicate that decides which rows it may touch
 
 skinparam shadowing false
-skinparam wrapWidth 225
+skinparam wrapWidth 228
 
 |Caller|
 start
 :An HTTP request to /todos or /todos/{id};
 note right
-  Reached two ways: through EP-009, where the BFF requires a
-  cookie and rewrites it into a bearer header, or directly at
-  the API with any bearer token the caller holds. AN-002
+  Two ways in: through EP-009, where the BFF requires the
+  cookie and rewrites the token set's access token into a
+  bearer header, or straight at the API with any bearer
+  token the caller holds. Todo.Web/Server/TodoApi.cs:12-25;
+  AN-002
 end note
 
 |API|
 if (a bearer token is present and valid) then (yes)
 else (no)
-  :401;
+  :401 from the challenge;
   stop
 endif
 :The current user is resolved from the database
 by the token's NameIdentifier;
-if (the row exists) then (yes)
+if (a user row exists for it) then (yes)
 else (no)
-  :the authorization handler does not succeed, so the
-  requirement fails and the request is refused;
+  :the requirement is not satisfied and the
+  request is refused, which the client treats
+  as a sign-out;
   stop
 endif
-:The per-user token bucket applies to the whole /todos group;
-if (the bucket is empty) then (yes)
+note right
+  Lockout is not checked; the handler carries a TODO.
+  CheckCurrentUserAuthHandler.cs:28-40
+end note
+if (the caller has a token in the bucket) then (yes)
+else (no)
   :429 Too Many Requests;
   stop
+endif
+note right
+  Token bucket partition on NameIdentifier: TokenLimit 100,
+  TokensPerPeriod 100 every 10 s, QueueLimit 100, so up to
+  100 requests wait rather than fail. The whole /todos group
+  and nothing else, and no RateLimiting section exists so
+  these are the effective values. RateLimitExtensions.cs:14-57
+end note
+if (the endpoint registers a validated parameter type) then (yes)
+  :Body parameters of that type are checked;
+  if (a model is invalid) then (yes)
+    :400 ValidationProblemDetails;
+    stop
+  else (no)
+  endif
 else (no)
 endif
-:Body parameters are checked against data annotations;
-if (a model is invalid) then (yes)
-  :400 ValidationProblemDetails;
-  stop
-else (no)
-endif
-:Query on the caller's own rows;
+note right
+  /todos registers TodoItem; /users registers ExternalUserInfo
+  and UserInfo is not among them. TodoApi.cs:22; UsersApi.cs:18
+end note
+:The row is reached through the ownership predicate;
 note right
   UC-006 filters on OwnerId equals the caller and declares no
   order. UC-009, UC-010 and UC-008 admit the same predicate plus
   an admin role claim no running caller holds, and answer 404
-  when no row matches, so a row belonging to someone else is
-  never distinguished from one that does not exist. AN-004, AN-018
+  when no row matches, so another person's row is never
+  distinguished from one that does not exist. AN-004, AN-018
 end note
 if (the operation is UC-006) then (yes)
-  :200 with the caller's TodoItem list, OwnerId excluded;
+  :200 with the caller's rows in an undeclared order,
+  OwnerId excluded;
   stop
 else (no)
 endif
