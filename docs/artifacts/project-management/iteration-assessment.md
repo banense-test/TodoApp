@@ -278,23 +278,23 @@ end note
 | No SCM condition arose | The repository carries no IARI pipeline on `main`, no branch of this process and no open pull request. Establishing the pipeline is the Integrator's Inception work item | Not reported as passing or failing |
 
 ## Rework Required
-A fourth Excavation iteration is required, and it is one correction pass over records: four owner turns, no recovered content, no code, no test. Three are mine; one is the System Analyst's.
+A fourth Excavation iteration is required, and it is one correction pass over records: four owner turns, no recovered content, no code, no test. Three are mine and were performed in this record's own closing turn; one is the System Analyst's.
 
 ```plantuml
 @startuml
-title The fourth iteration - four owner turns, the gate put once on records that agree with themselves, and the verdict
+title The fourth iteration - four record corrections, three of them landed in this closing turn, then the gate on records that agree
 skinparam shadowing false
 skinparam wrapWidth 240
 hide circle
 hide empty members
 
 package "Project Manager - one pass, one rule" {
-  class "A1, A10, A11, O2 and A12 restated at the state\ntheir artifacts and the gate now hold" as M1 <<major>>
-  class "the fine plan's Closes column\nreads finding keys only" as M2 <<minor>>
-  class "R032 - avoidance performed on all six,\nthe exposure retired, one residual named" as M3 <<minor>>
+  class "A1, A10, A11, O2 and A12 restated at the state\ntheir artifacts and the gate now hold\nPERFORMED" as M1 <<major>>
+  class "the fine plan's Closes column\nreads finding keys only\nPERFORMED" as M2 <<minor>>
+  class "R032 - avoidance performed on all six,\nthe exposure retired, one residual named\nPERFORMED" as M3 <<minor>>
 }
 package "System Analyst" {
-  class "Supplementary Specification Document Control\nIteration: 3, Cycle 1" as S1 <<minor>>
+  class "Supplementary Specification Document Control\nIteration field only\nOUTSTANDING" as S1 <<minor>>
 }
 package "The gate and the verdict" {
   class "gate H4 fourth put\non records that agree with the recovered set" as G <<gate>>
@@ -312,13 +312,13 @@ end note
 @enduml
 ```
 
-| # | Action | Artifact | Owner | Closes | Due point |
+| # | Action | Artifact | Owner | Closes | State |
 |---|---|---|---|---|---|
-| 1 | Restate the five cells at the state their evidence supports: A1 "Met" with the five `COMP-014` edges confirmed and requoted from a fresh query; A10 "Met — certified on the recovered set" with R6 named as the fourth artifact and its current wording under `AN-024`; A11 "Met — four of four"; O2 met on its own terms; A12 recording the third put in both halves — the set confirmed, the sanction refused while a Major stands | Iteration Plan | Project Manager | `Iteration Plan#F4`, `Iteration Plan#F9` | First — it is the only Major and the verdict is read on that table |
-| 2 | Drop the moment from the fine plan's Closes cells and leave the finding key, as every other row of the column does | Iteration Plan | Project Manager, same pass | `Iteration Plan#F8` | With action 1 |
-| 3 | Restate `R032`: the avoidance performed on all six citing artifacts, R6 named with its wording under `AN-024`, the exposure recorded as retired, the one residual — the four artifacts re-read in a single pass — named as the contingency | Risk List | Project Manager | `Risk List#F3` | After action 1 |
-| 4 | Set the Document Control Iteration field to the iteration the content belongs to | Supplementary Specification | System Analyst | `Supplementary Specification#F3` | Owner's next turn |
-| 5 | Put gate H4 once, on records that agree with the recovered set, and record the answer as given | — | Project Manager puts it; the stakeholder answers | `A12`, and the milestone | After actions 1 to 4 |
+| 1 | Restate the five cells at the state their evidence supports: A1 "Met" with the five `COMP-014` edges confirmed and requoted from a fresh query; A10 "Met — certified on the recovered set" with R6 named as the fourth artifact and its current wording under `AN-024`; A11 "Met — four of four"; O2 met on its own terms; A12 recording the third put in both halves — the set confirmed, the sanction refused while a Major stands | Iteration Plan | Project Manager | `Iteration Plan#F4`, `Iteration Plan#F9` | **Performed in this closing turn**; awaits the lens re-read |
+| 2 | Name finding keys only in the fine plan's Closes column; drop the moment | Iteration Plan | Project Manager, same pass | `Iteration Plan#F8` | **Performed** |
+| 3 | Restate `R032`: the avoidance performed on all six citing artifacts, R6 named with its wording under `AN-024`, the exposure recorded as retired, the one residual — the four artifacts re-read in a single pass — named as the contingency | Risk List | Project Manager | `Risk List#F3` | **Performed** |
+| 4 | Set the Document Control Iteration field to the iteration the content belongs to | Supplementary Specification | System Analyst | `Supplementary Specification#F3` | Outstanding — the only correction left before the gate |
+| 5 | Put gate H4 once, on records that agree with the recovered set, and record the answer as given | — | Project Manager puts it; the stakeholder answers | `A12`, and the milestone | After action 4 |
 
 ### What the next iteration changes, and what it does not
 
@@ -330,7 +330,7 @@ end note
 | Agent role assignment | **Unchanged** — Environment keeps the stage it now holds, first in the phase; every other item sits under the stage the process runs | The stage exists in the plan and the process baseline; nothing this iteration found fault with it |
 | The plan's own rule | **Added** — a cell that asserts another artifact's state is re-derived from that artifact in the same turn the artifact changes | Four consecutive passes recorded the same defect class against this plan. The lenses caught each one; the plan must stop producing them |
 
-No figure is projected for the phase: Excavation has not closed, so no phase actual exists. What can be said of the next iteration is a claim about the work and not a measurement — four one-cell corrections against this iteration's eleven items: `[ASSUMPTION — requires validation: the next iteration costs less in tokens and less agent time than this one; the basis is four corrections over existing sections against eleven items, and the only measured comparator is this iteration's 14,424,767 tokens and 27 min 53 s against iteration 2's 20,675,161 and 41 min 21 s — a broader corrective pass, not a narrower one]`.
+No figure is projected for the phase: Excavation has not closed, so no phase actual exists. What can be said of the next iteration is a claim about the work and not a measurement — four record corrections against this iteration's eleven items: `[ASSUMPTION — requires validation: the next iteration costs less in tokens and less agent time than this one; the basis is four corrections over existing sections against eleven items, and the only measured comparator is this iteration's 14,424,767 tokens and 27 min 53 s against iteration 2's 20,675,161 and 41 min 21 s — a broader corrective pass, not a narrower one]`.
 
 ### Lessons carried into the next iteration
 
@@ -338,3 +338,4 @@ No figure is projected for the phase: Excavation has not closed, so no phase act
 2. **An objective met and a milestone sanctioned are two different facts.** All three phase objectives were met at this iteration's close and twelve of thirteen criteria held on the artifacts that own them; the sanction was still refused. A plan that reports its own objectives as the milestone's state reports the wrong thing.
 3. **The queue falls when the question is asked in the turn it is found, and not when fewer questions are asked.** 18 recorded interactions in both this iteration and the last; 7 h 08 min of queue then, 7 min 11 s now. `R022`'s mitigation is measured, and the mitigation is timing, not restraint.
 4. **A forecast about work shape can be tested by the next measured pair, and should be stated so it can be.** The previous record predicted a narrower pass costs less in both agent currencies and marked it as an assumption for want of a comparator. This iteration supplied one: two-thirds the tokens and two-thirds the agent time. The assumption is retired by measurement, not by argument.
+
