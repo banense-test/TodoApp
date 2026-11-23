@@ -147,11 +147,11 @@ Sequencing is driven by the Risk List, not by convenience. The risks whose actio
 
 ### This iteration's fine plan
 
-The fourth iteration is one correction pass over records, on the stakeholder's own statement that no recovered content is at issue: four owner turns over this plan, the Risk List and one metadata field. Each item is a remediation a recording lens wrote; none is new scope, none belongs to another phase, and none changes the recovered set.
+The fourth iteration is one correction pass over records, on the stakeholder's own statement that no recovered content is at issue. Three of the four correctives are performed in the plan's own closing turn and await the lenses' re-read; the fourth is the System Analyst's, and it is one metadata field. No item touches the recovered set.
 
 ```plantuml
 @startuml
-title Critical chain of Excavation iteration 4 - four record corrections, then the lenses, then the gate on records that agree
+title Critical chain of Excavation iteration 4 - the correctives landed in the closing turn, then the lenses, then the gate on records that agree
 skinparam shadowing false
 skinparam wrapWidth 245
 
@@ -172,7 +172,8 @@ Document Control Iteration field only;
 
 |Reviewer|
 :E5 technical lens
-the restated cells against their artifacts;
+the restated cells against their artifacts,
+the register against R032's own action;
 |Management Reviewer|
 :E6 management lens
 A1 to A13 re-taken on the corrected table;
@@ -186,16 +187,16 @@ stop
 @enduml
 ```
 
-| # | Work item | Stage | Owner | Depends on | Closes |
+| # | Work item | Stage | Owner | State | Closes |
 |---|---|---|---|---|---|
-| 1 | Iteration Plan — the five cells restated at the state their evidence supports: A1 "Met" with the five `COMP-014` edges confirmed and requoted from a fresh graph query; A10 "Met — certified on the recovered set" naming the Use-Case Model's R6 as the fourth artifact with its wording under `AN-024`; A11 "Met — four of four"; Objectives O2 met on its own terms; A12 recording the third put in both halves — the set confirmed, the sanction refused while a Major stands. No superseded sentence requoted | Project Management | Project Manager | — | `Iteration Plan#F4`, `Iteration Plan#F9` |
-| 2 | Iteration Plan — the fine plan's Closes column drops the moment from rows 6 and 7 and leaves the finding key, as every other row of the column does | Project Management | Project Manager | — | `Iteration Plan#F8` |
-| 3 | Risk List — `R032` restated: the avoidance performed on all six citing artifacts with R6 named and its wording under `AN-024`, the exposure recorded as retired by the avoidance, the one residual named as the contingency — the four artifacts re-read in a single pass. `R030` and `R031` unchanged | Project Management | Project Manager | — | `Risk List#F3` |
-| 4 | Supplementary Specification — the Document Control Iteration field set to the iteration its content belongs to; no other field and no content | Requirements | System Analyst | — | `Supplementary Specification#F3` |
-| 5 | Technical lens re-run against the restated cells and the register | Review | Reviewer | 1 to 4 | — |
-| 6 | Management lens — A1 to A13 re-taken on the corrected table, and the gate put | Review | Management Reviewer | 5 | — |
-| 7 | Gate H4, fourth put — the recovered set already confirmed; the advance into Consolidation asked once on records that agree with it | Gate | Stakeholder | 6 | `A12`'s second half, and the milestone |
-| 8 | AR milestone verdict | Review | Review Coordinator | 7 | — |
+| 1 | Iteration Plan — the five cells restated at the state their evidence supports: A1 "Met" with the five `COMP-014` edges confirmed and requoted from a fresh graph query; A10 "Met — certified on the recovered set" naming the Use-Case Model's R6 as the fourth artifact with its wording under `AN-024`; A11 "Met — four of four"; Objectives O2 met on its own terms; A12 recording the third put in both halves — the set confirmed, the sanction refused while a Major stands. No superseded sentence requoted | Project Management | Project Manager | Performed in the closing turn; awaits the lens re-read | `Iteration Plan#F4`, `Iteration Plan#F9` |
+| 2 | Iteration Plan — the fine plan's Closes column names finding keys only; the moment is dropped | Project Management | Project Manager | Performed in the closing turn | `Iteration Plan#F8` |
+| 3 | Risk List — `R032` restated: the avoidance performed on all six citing artifacts with R6 named and its wording under `AN-024`, the exposure recorded as retired, the one residual named as the contingency — the four artifacts re-read in a single pass. `R030` and `R031` unchanged | Project Management | Project Manager | Performed in the closing turn | `Risk List#F3` |
+| 4 | Supplementary Specification — the Document Control Iteration field set to the iteration its content belongs to; no other field and no content | Requirements | System Analyst | This iteration's only outstanding correction | `Supplementary Specification#F3` |
+| 5 | Technical lens re-run against the restated cells and the register | Review | Reviewer | — | — |
+| 6 | Management lens — A1 to A13 re-taken on the corrected table, and the gate put | Review | Management Reviewer | — | — |
+| 7 | Gate H4, fourth put — the recovered set already confirmed; the advance into Consolidation asked once on records that agree with it | Gate | Stakeholder | — | `A12`, and the milestone |
+| 8 | AR milestone verdict | Review | Review Coordinator | — | — |
 
 **Two currencies, never summed.** Items 1 to 6 and 8 are agent work, quoted in tokens and measured elapsed agent time. Item 7 is a human gate — waiting, not working — quoted only in days of queue time.
 
