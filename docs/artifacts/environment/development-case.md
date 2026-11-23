@@ -79,7 +79,6 @@ DC ..> CG : conventions referenced
 ```
 
 ## Disciplines and Intensity
-
 Every active discipline runs at the intensity the canonical matrix fixes for its phase. **No deviation is requested and no intensity level is assigned by this document.**
 
 Inactive disciplines and inactive periods:
@@ -88,43 +87,55 @@ Inactive disciplines and inactive periods:
 |---|---|
 | Business Modeling | Inactive for the whole project — `business-process-led = false` (see Classification verdicts). The glossary and use-case-model work the Business Process Analyst would contribute is carried by Requirements. |
 | Discovery | Active in the sprint zero only (Survey, Excavation, Consolidation, Critical). It does not run from Inception on. |
-| Environment | Active in Survey, Inception and Elaboration. After the Elaboration (LCA) baseline the tailoring is stable and the discipline does not run again; the Development Case is then maintained only where an iteration assessment or a change request requires it. |
+| Environment | **Active in every phase**, per the canonical matrix: High in Survey and Inception, Medium in Elaboration, Low in Excavation, Consolidation, Construction and Transition. It opens each phase as that phase's first discipline, so the Development Case is current for the phase before the first working role of that iteration starts. No phase is one the process skips it in. |
 | Requirements, Analysis & Design, Implementation, Test, Deployment, Configuration & Change Management, Project Management | Active in all phases, per canonical matrix. |
 
 ```plantuml
 @startuml
-title ACT-DC-01 Delivery workflow - the sprint zero, then the RUP phases
+title ACT-DC-01 Delivery workflow - the sprint zero, then the RUP phases, each opened by the Environment discipline
 
 start
 partition "Sprint zero - reads the existing system" {
-  :Survey (SBC) - Environment High
+  :Survey (SBC) - Environment High, the phase's first discipline
   ProcessEngineer: Development Case, docs/CONTRIBUTING.md;
   :Survey (SBC) - Discovery Critical
   SoftwareArchaeologist: System Inventory (documentation, perimeter, anomalies and priorities);
   :Survey (SBC) - Project Management Medium
   ProjectManager: Risk List, Iteration Plan;
-  :Survey milestone review - Reviewer, then Management Reviewer, then Review Coordinator;
+  :SBC milestone review - Reviewer, then Management Reviewer, then Review Coordinator;
+  :Excavation (AR) - Environment Low, the phase's first discipline
+  ProcessEngineer: Development Case made current for the phase;
   :Excavation (AR) - Requirements High, Analysis and Design Critical
   recovered Vision, Use-Case Model, Supplementary Specification, Software Architecture Document, Design Model, Deployment Model;
-  :Excavation milestone review;
+  :AR milestone review;
+  :Consolidation (GHR) - Environment Low, the phase's first discipline
+  ProcessEngineer: Development Case made current for the phase;
   :Consolidation (GHR) - Requirements High, Analysis and Design Medium, Discovery Critical
   recovered set completed, coverage counted;
-  :Consolidation milestone review;
+  :GHR milestone review;
 }
 partition "RUP phases - the declared change is worked from Inception on" {
-  :Inception (LCO) - Requirements Critical, Environment High
+  :Inception (LCO) - Environment High, the phase's first discipline
+  ProcessEngineer: Development Case, docs/CONTRIBUTING.md;
+  :Inception (LCO) - Requirements Critical
   candidate architecture, CM strategy, Change Request ledger opened;
   :LCO milestone review;
   repeat
+    :Elaboration (LCA) - Environment Medium, the phase's first discipline
+    ProcessEngineer: Development Case;
     :Elaboration (LCA) - Analysis and Design Critical
     architecture baseline, test cases, executable architecture;
     :LCA milestone review;
   repeat while (architecture baseline accepted?) is (no) not (yes)
   repeat
+    :Construction (IOC) - Environment Low, the phase's first discipline
+    ProcessEngineer: Development Case;
     :Construction (IOC) - Implementation Critical, Test Critical
     component implementation, iteration build, test evaluation;
     :IOC milestone review;
   repeat while (iteration scope complete?) is (no) not (yes)
+  :Transition (PR) - Environment Low, the phase's first discipline
+  ProcessEngineer: Development Case;
   :Transition (PR) - Deployment Critical, Test High
   release build, acceptance tests, release baseline;
   :PR milestone review;
