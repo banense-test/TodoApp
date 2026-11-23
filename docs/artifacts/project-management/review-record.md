@@ -575,14 +575,14 @@ Thirty-five finding entries stand against the ten artifacts under review. Twenty
 | 1 | Five `COMP-014 → UC-006` … `UC-010` edges remain marked SUSPECT in the registered graph at the phase close | `Use-Case Model#F3` (Reviewer), `Use-Case Model#F1` (Management Reviewer) | both | `trace-gap` / `exit-criterion-unmet` | System Analyst | Re-register the five edges as confirmed, each checked against the gate diagram the artifact already carries and against `Todo.Api/Todos/TodoApi.cs:19-20`; record beside the gate diagram why a throttling mechanism that gates an operation is not the operation itself — the reading already written for the `EP-003` screen edges | A1 |
 | 2 | The rules diagram's R6 states one request budget where two are in force | `Use-Case Model#F4` | Reviewer | `consumed-defect` | System Analyst | State both values in R6 — the code defaults 100 / 100 per 10 s / queue 100 from `Todo.Api/Extensions/RateLimitExtensions.cs:14-31`, and the Development override 50 / 50 / 50 from `Todo.Api/appsettings.Development.json:8-12`, which is what the delivery enforces — and cite `AN-024` as the other rules do | A10 |
 | 3 | A10 is certified on three of the four artifacts its own test covers | `Iteration Plan#F6` | Management Reviewer | `exit-criterion-unmet` | Project Manager | Name the Use-Case Model's R6 in A10's evidence cell and hold the criterion until it states both budgets under `AN-024`, or narrow the stated test to the artifacts the cell verifies | A10 |
-| 4 | A13 states Environment is inactive in this phase, while the stakeholder's order schedules the Process Engineer here from the next iteration | `Iteration Plan#F7` | Management Reviewer | `exit-criterion-unmet` | Project Manager | Record the order of 2026-11-23 as the stage it creates: add the next Excavation iteration to the milestone sequence, place the two Development Case items against the Process Engineer in it, and restate A13's evidence cell to state that the role runs here from that iteration on the order — not as a discipline stage, not as work carried to another phase | A13 |
+| 4 | A13 states Environment is inactive in this phase, while the process runs it here as the first discipline | `Iteration Plan#F7` | Management Reviewer | `exit-criterion-unmet` | Project Manager | Record the Environment stage in the milestone sequence as the phase's first discipline, place the two Development Case items against the Process Engineer in the next iteration, and restate A13's evidence cell to cite that stage rather than a stakeholder order | A13 |
 
 **Open findings — the three Minors. Recorded, owned, none holding the milestone.**
 
 | Artifact | Key | Lens | Criterion | Owner | The corrective action |
 |---|---|---|---|---|---|
-| Development Case | F2 | Management Reviewer | `contained-defect` | Process Engineer, scheduled here from the next iteration | Name every lens writing into the Review Record — Reviewer, Management Reviewer, Business Reviewer, Review Coordinator, CodeReviewer, plus the Configuration Manager's baseline record — and draw the corresponding edges in CLS-DC-01. **A11 counts this finding** |
-| Development Case | F3 | Reviewer | `contained-defect` | Process Engineer, same turn | Bring the four Document Control fields forward from Survey to Excavation iteration 2; the tailoring content is current. **A11 counts this finding** |
+| Development Case | F2 | Management Reviewer | `contained-defect` | Process Engineer | Name every lens writing into the Review Record — Reviewer, Management Reviewer, Business Reviewer, Review Coordinator, CodeReviewer, plus the Configuration Manager's baseline record — and draw the corresponding edges in CLS-DC-01. **A11 counts this finding** |
+| Development Case | F3 | Reviewer | `contained-defect` | Process Engineer | Bring the four Document Control fields forward from Survey to Excavation iteration 2; the tailoring content is otherwise current. **A11 counts this finding** |
 | Risk List | F3 | Management Reviewer | `contained-defect` | Project Manager | Restate R030's strategy cell: the retirement action has been performed and is in the Use-Case Model under `AN-029`; the exposure stays live because `AN-012` stands and no test covers the surface |
 
 ```plantuml
@@ -599,7 +599,7 @@ package "Major - 5 entries, 4 distinct defects" {
   class "Use-Case Model#F3 (Reviewer)\nUse-Case Model#F1 (Management Reviewer)\ntrace-gap\nfive COMP-014 edges SUSPECT at the close" as M1 <<major>>
   class "Use-Case Model#F4 (Reviewer)\nconsumed-defect\nR6 states 100 where Development binds 50" as M2 <<major>>
   class "Iteration Plan#F6 (Management Reviewer)\nexit-criterion-unmet\nA10 checks three of the four artifacts its test names" as M3 <<major>>
-  class "Iteration Plan#F7 (Management Reviewer)\nexit-criterion-unmet\nA13 states Environment inactive here, the order schedules the role" as M4 <<major>>
+  class "Iteration Plan#F7 (Management Reviewer)\nexit-criterion-unmet\nA13 states Environment inactive here; it is the phase's first discipline" as M4 <<major>>
 }
 
 package "Minor - 3 entries, 3 distinct defects" {
@@ -612,20 +612,21 @@ package "Blocks the milestone" {
   class "A1 contested" as A1 <<criterion>>
   class "A10 contested" as A10 <<criterion>>
   class "A13 contested" as A13 <<criterion>>
-  class "A11 not met - three of four" as A11 <<criterion>>
+  class "A11 not met - two of four closed" as A11 <<criterion>>
 }
 
 M1 --> A1 : one confirmation per edge
 M2 --> A10 : the rules diagram is in the set
 M3 --> A10 : the cell must cover the set
 M4 --> A13 : the sequence must carry the stage
-m1 --> A11 : the fourth Minor A11 counts
+m1 --> A11 : a Minor A11 counts
 m2 --> A11 : same artifact, same turn
 
 note right of m1
-  The stakeholder's order of 2026-11-23 schedules the
-  Process Engineer in this phase from the next iteration
-  and keeps A11 as written.
+  The stakeholder's answer of 2026-11-23 places the
+  Process Engineer's turn in the next Excavation
+  iteration, alongside the other corrections, and
+  keeps A11 as written.
 end note
 note bottom of m3
   Contained: A9 holds, the register understates the
@@ -642,23 +643,31 @@ end note
 | The five `COMP-014` edges | Reviewer records `Use-Case Model#F3`; Management Reviewer records `Use-Case Model#F1` — same five edges, same marking, same remedy | **One defect, two keys.** Each lens verified it against the registered graph independently. One correction closes both, and each lens closes only its own key. Neither entry is doubled in the action plan |
 | The request budget (AN-024) | Reviewer records `Use-Case Model#F4` at the artifact; Management Reviewer records `Iteration Plan#F6` at the criterion | **One cause, two consequences.** `#F6` cannot pass while R6 says 100; `#F4` is the correction that lets it pass. Reconciled as two findings because two things must change — the artifact and the criterion's evidence cell — and each has its own owner act |
 | The Vision's two ellipses | Both lenses recorded `Vision#F1` at iteration 1, the Reviewer as Major and the Management Reviewer as Minor | **Closed by both lenses.** No reconciliation is needed at this gate; the disagreement on consequence was resolved at the previous milestone in favour of the Major band, and one correction closed both keys |
-| `Development Case#F2` and `#F3` | Two keys, two lenses, two distinct defects on one artifact, both named in the stakeholder's order | **Not a duplicate.** Both are counted by A11 and both are corrected in one turn by one owner. They are sequenced together as one action, not two |
+| `Development Case#F2` and `#F3` | Two keys, two lenses, two distinct defects on one artifact, both counted by A11 | **Not a duplicate.** Both are corrected in one turn by one owner and are sequenced as one action |
 | `Risk List#F2` (Reviewer, Minor) and `Risk List#F3` (Management Reviewer, Minor) | `#F2` closed on R024; `#F3` was recorded open against R030's strategy cell in the same pass | **Successive, not contradictory.** `#F3` arose from the correction `#F2` and the Management Reviewer's own R030 closure; the register now understates the position rather than overstating it |
 
 No lens contradicts another on a fact. The one severity disagreement of this milestone was adjudicated at the previous gate; no finding at this gate carries a disputed band.
 
-**Priority of what remains — Major before Minor, and within the Major band the item that unblocks another first.**
+**Stakeholder finding recorded at this milestone — Environment is a discipline stage in Excavation.**
+
+The stakeholder answered the routing question put with this verdict. Their answer, verbatim: "Same iteration: the Process Engineer works in the next Excavation iteration, with the Use-Case Model and Iteration Plan corrections, so the phase closes in one iteration. It is not an exception on my order: the process now runs Environment in every phase, and in Excavation it is the first discipline, with the Process Engineer's stage. In that turn the Process Engineer corrects Development Case#F2 and #F3 and brings what the Development Case states about when Environment runs to the baseline — active in every phase. A11 stays as written; A13's evidence cites the Environment stage, not an order of mine."
+
+Verified against the artifacts, not deferred: the Iteration Plan's A13 evidence cell states "the Development Case records Environment as High in Survey and Inception and inactive here", and the Development Case is where that statement is made — so the artifact the order corrects is identified and the correction is a tailoring statement, not a new role. The answer matches the canonical intensity matrix, under which Environment runs in every phase (Low in Excavation) — the phase is not one the process skips it in. `Development Case#F2` and `#F3` remain open findings with their own criteria; this answer supplies the stage on which their owner acts, and closes neither.
+
+**Priority of what remains — one iteration, Major before Minor, and within the Major band the item that unblocks another first.**
 
 | Priority | Finding | Why it ranks here |
 |---|---|---|
-| 1 | `Iteration Plan#F7` | The only finding the stakeholder ordered by name at this review, and the only one that creates a stage another finding depends on: the Process Engineer's turn is what closes `Development Case#F2` and `#F3`, and `A11` cannot be met without it |
-| 2 | `Use-Case Model#F4` | One diagram, one citation. It is also the artefact behind `Iteration Plan#F6`, so correcting it is the precondition for that criterion to be certifiable |
-| 3 | `Use-Case Model#F3` and `#F1` | Five confirmations against evidence the artifact already holds; closes A1 and the widest mechanism in the Use-Case View. Ranks after `#F4` because a single owner turn performs both |
-| 4 | `Iteration Plan#F6` | A certification cell, corrected once the artifact it must name is correct. Certifying it before `#F4` lands would repeat the defect it records |
-| 5 | `Development Case#F2` then `#F3` | One turn, one owner, both named in the order; `A11` counts both and stays as written |
-| 6 | `Risk List#F3` | A transcription of a fact that has already landed; a Minor that holds no criterion |
+| 1 | `Iteration Plan#F7` | Establishes the stage every other action depends on and the one criterion that turns on the plan's own sequence. It is the Project Manager's record of a discipline stage, not of an exception |
+| 2 | `Use-Case Model#F4` | One diagram, one citation; also the artifact behind `Iteration Plan#F6`, so correcting it is the precondition for that criterion to be certifiable |
+| 3 | `Use-Case Model#F3` and `#F1` | Five confirmations against evidence the artifact already holds; closes A1 and the widest mechanism in the Use-Case View |
+| 4 | `Iteration Plan#F6` | A certification cell, corrected once action 2 supplies the fact it must name |
+| 5 | `Development Case#F2` | Names every lens writing into the Review Record and draws the edges; the Process Engineer's turn is the same iteration |
+| 6 | `Development Case#F3` | The four Document Control fields, in the same turn and by the same owner |
+| 7 | Environment's stage stated in the Development Case baseline | Active in every phase, first discipline in Excavation — the tailoring correction the stakeholder ordered in the same turn as the two Minors |
+| 8 | `Risk List#F3` | A transcription of a fact that has already landed; a Minor that holds no criterion |
 
-**What the ledger says about the review process.** Four of the eight open entries are four distinct defects, not eight problems: the recovery is substantively right and its remaining fault is transcription and confirmation, not reading. The two lenses converged on the same defect twice without seeing each other's keys, which is the signature of a real defect rather than a lens artefact. Every Major carries an owner who holds the artifact and a stage in this phase — the condition `Development Case#F2` did not satisfy for two iterations, and which the stakeholder's order has now created.
+**What the ledger says about the review process.** Four of the eight open entries are four distinct defects, not eight problems: the recovery is substantively right and its remaining fault is transcription and confirmation, not reading. The two lenses converged on the same defect twice without seeing each other's keys, which is the signature of a real defect rather than a lens artefact. Every open finding now has an owner with a stage in this phase and a turn in the next iteration — the condition `Development Case#F2` lacked for two iterations, and which the stakeholder has now supplied.
 
 ## Resolutions and Actions
 ### Reviewer lens
