@@ -14,8 +14,8 @@
 <!-- review: Survey I2 -->
 
 - Phase: Survey
-- Status: Management lens complete for the re-taken SBC milestone review. Findings recorded by this lens over two iterations: 3 in iteration 1, all resolved this iteration; 2 new this iteration. Open from this lens: 0 Critical, 0 Major, 2 Minor. Disposition — Go. Stakeholder sanction GRANTED on 2026-11-23.
-- Milestone Target: end-of-Survey (SBC) — the perimeter is confirmed and the sanction to advance past SBC is granted. The verdict on the milestone is the Review Coordinator's.
+- Status: Management lens complete for the re-taken SBC milestone review. Findings recorded by this lens over two iterations: 3 in iteration 1, all resolved this iteration; 2 new this iteration, both Minor and both open. Disposition — Go. Stakeholder sanction GRANTED on 2026-11-23.
+- Milestone Target: end-of-Survey (SBC) — every exit criterion met, the perimeter confirmed and the sanction to advance granted. The milestone verdict is the Review Coordinator's.
 - Iteration: 2, Cycle 1
 - Owner: Management Reviewer
 
