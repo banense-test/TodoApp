@@ -240,32 +240,32 @@ skinparam classAttributeIconSize 0
 hide empty members
 
 class "Process Engineer\nEnvironment" as PE {
-  iteration 1 : Development Case, contribution contract
-  iteration 2 : one copy of each, version-policy claim corrected
+  iteration1 : Development Case, contribution contract
+  iteration2 : one copy of each, version-policy claim corrected
 }
 class "Software Archaeologist\nDiscovery" as SA {
-  iteration 1 : System Inventory, 22 entry points, 21 anomalies
-  iteration 2 : AN-021 row, Coverage figure
+  iteration1 : System Inventory, 22 entry points, 21 anomalies
+  iteration2 : AN-021 row, Coverage figure
 }
 class "Project Manager\nProject Management" as PM {
-  iteration 1 : Risk List, Iteration Plan
-  iteration 2 : scores reconciled, C2 C6 C7 restated
+  iteration1 : Risk List, Iteration Plan
+  iteration2 : scores reconciled, C2 C6 C7 restated
 }
 class "Reviewer\nReview" as RV {
-  iteration 1 : technical lens, 7 findings
-  iteration 2 : technical lens re-run
+  iteration1 : technical lens, 7 findings
+  iteration2 : technical lens re-run
 }
 class "Management Reviewer\nReview" as MR {
-  iteration 1 : management lens, 3 findings, sanction refused
-  iteration 2 : management lens re-run, sanction put again
+  iteration1 : management lens, sanction refused
+  iteration2 : management lens re-run, sanction put again
 }
 class "Review Coordinator\nReview" as RC {
-  iteration 1 : verdict iteration REQUIRED
-  iteration 2 : milestone verdict
+  iteration1 : verdict iteration REQUIRED
+  iteration2 : milestone verdict
 }
 class "Stakeholder\nhuman gate" as SH {
-  iteration 1 : H1 answered, H3 granted, H2 refused
-  iteration 2 : H2 re-taken
+  iteration1 : H1 answered, H3 granted, H2 refused
+  iteration2 : H2 re-taken
 }
 
 PM --> RV : hands the reworked plan
