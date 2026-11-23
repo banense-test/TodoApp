@@ -489,6 +489,191 @@ end note
 
 @enduml
 ```
+
+### SEQ-1 UC-006 See one's own tasks — the screen route through all four processes
+
+```plantuml
+@startuml
+title SEQ-1 UC-006 See one's own tasks - the screen route across all four process boundaries
+
+skinparam shadowing false
+skinparam wrapWidth 200
+skinparam maxMessageSize 190
+
+participant "ACT-001\nPerson" as U
+participant "COMP-001\nClient shell\nand screens" as UI
+participant "COMP-003\nClient bootstrap\nand connector" as BOOT
+participant "COMP-002\nClient HTTP\ngateway" as CLI
+participant "COMP-008\n/todos\nforwarder" as FWD
+participant "COMP-011\nTodo\nendpoints" as TODOS
+participant "COMP-013\nAuthorization\nrequirement" as AUTHZ
+participant "COMP-014\nToken\nbucket" as RATE
+participant "COMP-012\nCurrent-user\nresolution" as CU
+participant "COMP-016\nPersistence" as EF
+database "Todos.db" as DB
+
+U -> UI : opens /
+boot -> CLI
+UI -> CLI : GetTodosAsync()
+CLI -> BOOT : the registered client
+BOOT --> CLI : BaseAddress\nX-Requested-With
+CLI -> CLI : BaseAddress null?\nthen return empty, no request
+CLI -> FWD : GET /todos\ncookie, X-Requested-With
+FWD -> FWD : require cookie;\nread access token from the token set
+FWD -> TODOS : GET /todos\nAuthorization: Bearer
+TODOS -> AUTHZ : RequireCurrentUser
+AUTHZ -> CU : User resolved?
+CU -> EF : find by NameIdentifier
+EF -> DB : SELECT AspNetUsers
+DB --> EF : row or none
+EF --> CU : TodoUser?
+CU --> AUTHZ : User or null
+alt User is null
+  AUTHZ --> TODOS : requirement not satisfied
+  TODOS --> FWD : 401
+  FWD --> CLI : 401
+  CLI --> UI : status 401
+  UI -> UI : OnForbidden, shell signs out
+else User exists
+  TODOS -> RATE : partition on NameIdentifier
+  alt bucket empty
+    RATE --> TODOS : 429
+    TODOS --> CLI : 429
+    CLI --> UI : status 429, todos null
+    note right : nothing is reported and the shell\nstays signed in - UC-006 A3
+  else token available
+    TODOS -> EF : Where(OwnerId == owner.Id)\nAsNoTracking, no order
+    EF -> DB : SELECT Todos
+    DB --> EF : rows
+    EF --> TODOS : List<Todo>
+    TODOS --> FWD : 200, TodoItem[]
+    FWD --> CLI : 200
+    CLI --> UI : (200, rows)
+    UI -> UI : one row per task,\ncheckbox bound to nothing
+  end
+end
+@enduml
+```
+
+### SEQ-2 UC-001 Create an account — the write that depends on a second process
+
+```plantuml
+@startuml
+title SEQ-2 UC-001 Create an account - the screen route, and the two processes it needs to agree
+
+skinparam shadowing false
+skinparam wrapWidth 200
+skinparam maxMessageSize 190
+
+participant "ACT-001\nPerson" as U
+participant "COMP-001\nClient shell\nand screens" as UI
+participant "COMP-002\nClient HTTP\ngateway" as CLI
+participant "COMP-006\n/auth session\nendpoints" as AUTH
+participant "COMP-007\nBFF-to-API\ntoken client" as AC
+participant "COMP-019\nShared request\ncontracts" as SH
+participant "COMP-009\nIdentity endpoint\nsurface" as ID
+participant "COMP-016\nPersistence" as EF
+database "Todos.db" as DB
+participant "COMP-005\nSession\nauthentication" as SESS
+
+U -> UI : email and password,\nactivates Create User
+UI -> UI : type=button, own handler:\nOnValidSubmit never runs,\nno field rule applies
+UI -> CLI : CreateUserAsync(email, password)
+CLI -> CLI : both non-empty?
+alt either is empty
+  CLI --> UI : false, nothing posted
+  UI --> U : "Failed to create user"
+else both present
+  CLI -> AUTH : POST /auth/register\n{email, password}
+  AUTH -> AC : CreateUserAsync
+  AC -> SH : UserInfo
+  AC -> ID : POST users/register
+  ID -> EF : Identity create with its own policy
+  EF -> DB : INSERT AspNetUsers
+  DB --> EF : ok or refused
+  alt Identity refused it
+    ID --> AC : 400 problem detail
+    AC --> AUTH : null (the problem is discarded)
+    AUTH --> CLI : 401 with no body
+    CLI --> UI : false
+    UI --> U : the same fixed string - AN-021
+  else created
+    AC -> ID : POST users/login
+    ID --> AC : AccessTokenResponse
+    AC -> SH : AuthToken
+    AC --> AUTH : access token
+    AUTH -> SESS : SignIn(email, email, token)
+    SESS --> AUTH : cookie with NameIdentifier,\nName, and the token set
+    AUTH --> CLI : 200, Set-Cookie
+    CLI --> UI : true
+    UI -> UI : shell re-renders signed in
+  end
+end
+@enduml
+```
+
+### SEQ-3 UC-003 Sign in with an external provider — the mechanism, and where configuration stops it
+
+```plantuml
+@startuml
+title SEQ-3 UC-003 Sign in with an external provider - the cross-process mechanism, and where the delivered configuration stops it
+
+skinparam shadowing false
+skinparam wrapWidth 200
+skinparam maxMessageSize 185
+
+participant "COMP-001\nClient shell" as UI
+participant "COMP-006\n/auth session\nendpoints" as AUTH
+participant "COMP-005\nSession auth and\nprovider registry" as SESS
+participant "ACT-002\nExternal identity\nprovider" as IDP
+participant "COMP-007\nBFF-to-API\ntoken client" as AC
+participant "COMP-010\nExternal token\nexchange" as EX
+participant "COMP-016\nPersistence" as EF
+participant "COMP-019\nShared\ncontracts" as SH
+
+note over SESS
+  The delivered configuration has no
+  Authentication:Schemes section, so no
+  provider is registered, no link renders
+  and this flow cannot be entered.
+  appsettings.json has no such key;
+  AuthenticationExtensions.cs:57-75
+end note
+
+UI -> AUTH : GET /auth/login/{provider}
+AUTH -> AUTH : Results.Challenge with the\nroute segment as the scheme list
+note right : no check against a registered\nscheme - AN-019
+AUTH -> IDP : redirect, scheme {provider}
+alt scheme not registered
+  IDP -x AUTH : the handler raises
+else a provider were registered
+  IDP -> AUTH : GET /auth/signin/{provider}
+  AUTH -> SESS : AuthenticateAsync(External)
+  SESS --> AUTH : principal, or not succeeded
+  alt ticket absent
+    AUTH -> AUTH : skip the exchange
+  else ticket present
+    AUTH -> AUTH : protect NameIdentifier with a\nprotector named after the provider
+    AUTH -> AC : GetOrCreateUserAsync(provider,\n{username, providerKey})
+    AC -> SH : ExternalUserInfo
+    AC -> EX : POST users/token/{provider}
+    EX -> EX : CreateProtector(provider),\nUnprotect the key
+    note right : needs the key ring the BFF\nprotected it on - AN-010
+    EX -> EF : FindByLoginAsync(provider, key)
+    alt no login for that pair
+      EX -> EF : create TodoUser(username),\nAddLogin(provider, key)
+    end
+    EX --> AC : SignIn(principal), or a\nvalidation problem
+    AC --> AUTH : token, or null
+  end
+  AUTH -> SESS : SignIn only when the token is non-null
+  AUTH -> SESS : SignOutAsync(External) on every path
+end
+AUTH --> UI : redirect to / on every path
+note right : a rejected provider and an\nunreachable API are identical - AN-020
+@enduml
+```
+
 ## Logical View
 Twenty-two components in four processes. The decomposition is **by change axis**, not by feature: each component below encapsulates one thing that can change for the whole system, and the diagram after the table names which ones it fails to encapsulate.
 
