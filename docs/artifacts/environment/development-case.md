@@ -536,3 +536,59 @@ stop
 - **After each iteration:** the process findings of the Iteration Assessment are the input. A change to this document names the finding it answers; a change with no finding behind it is not made.
 - **How a change to this document is requested:** through the `Change Control Manager`, who carries it as a change request with `nature:enhancement` or `nature:refactoring`. The label table is in `docs/CONTRIBUTING.md`.
 
+### Process evolution and support
+
+The three activity clusters, and which of them recur. ACT-DC-02 is the discipline's own workflow; the state machine of this document's owner is an instance of it.
+
+```plantuml
+@startuml
+title ACT-DC-02 The Environment discipline in this project - three activity clusters, and which of them recur
+
+start
+partition "Prepare for project - once, in Survey" {
+  :Assess the development organization - the eight findings of the baseline table;
+  :Select the RUP subset this project uses - 16 CORE artifacts, one OPTIONAL fired, two roles inactive;
+  :Tailor - classification verdicts and OPTIONAL triggers recorded against the delivery;
+  :Publish docs/CONTRIBUTING.md and this Development Case before any other role works;
+}
+partition "Prepare for iteration - at the start of every iteration" {
+  :Re-evaluate both classification verdicts and all six OPTIONAL triggers;
+  :Set Document Control to this phase and this iteration;
+  if (a finding or a stakeholder order names this document?) then (yes)
+    :Correct the named section, and nothing else;
+  else (no)
+    :Preserve it unchanged - no upsert without a finding behind it;
+  endif
+  :Hand the iteration a current Development Case before its first working role starts;
+}
+partition "Support during iteration - continuous, every iteration" {
+  repeat
+    :Answer a process question inside the iteration it is asked in;
+    if (the question blocks a role?) then (yes)
+      :Escalate to the stakeholder in the same turn it is found;
+    else (no)
+      :Answer, and record it in the file that carries the rule;
+    endif
+    :Read token spend and elapsed time for the closed phases, two clocks kept apart;
+  repeat while (the iteration is open?) is (yes)
+  :Iteration close - take the process findings of the Iteration Assessment as the input;
+  :Change this document only for a finding it names;
+  :Carry a Minor to its owner's next scheduled stage, named in the exit criterion;
+}
+stop
+@enduml
+```
+
+- **Before each iteration:** the optional triggers and both classification verdicts are re-evaluated and this document made current before the first working role of that iteration starts. A trigger that has fired is not un-fired by a later reading.
+- **During each iteration:** a process question is answered inside the iteration it is asked in. A blocking one — an approval whose approver is unstated, a template that cannot be applied — is escalated to the stakeholder in the same turn it is found.
+- **After each iteration:** the process findings of the Iteration Assessment are the input. A change to this document names the finding it answers; a change with no finding behind it is not made.
+- **How a change to this document is requested:** through the `Change Control Manager`, who carries it as a change request with `nature:enhancement` or `nature:refactoring`. The label table is in `docs/CONTRIBUTING.md`.
+
+### Process rule this phase adds
+
+**A document that reports another artifact's state re-derives it from that artifact in the same turn the artifact changes — and until that turn, the state is not written.** Five findings of one class were recorded against the Iteration Plan across four Excavation iterations (`Iteration Plan#F3`, `#F6`, `#F4`, `#F9`, `#F10`): a table cell or diagram node asserting a fact its own artifact had already changed. Three of the five were corrected in single passes once the whole table — not the cell a finding named — was re-read.
+
+The rule is written here because it is a process rule and not a project-management one, and it governs every section of this document as much as any table: the Disciplines and Intensity diagram states each phase's disciplines and is therefore re-derived from the canonical matrix whenever a phase's intensity is read again, and the Roles and Ownership and Optional Artifact Triggers sections state decisions that are re-derived from their recorded values at each re-evaluation rather than carried by memory of the previous iteration.
+
+The rule's one limit is stated with it: a cell that asserts a gate's answer cannot be right before the gate is answered, and is corrected by the first turn after the answer. `Iteration Plan#F10` was that case, and it is the reason the rule is written as a same-turn obligation rather than as an error to be avoided.
+
