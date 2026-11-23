@@ -852,11 +852,12 @@ else (no)
   stop
 endif
 note right
-  Token bucket partition on NameIdentifier: TokenLimit 100,
-  TokensPerPeriod 100 every 10 s, QueueLimit 100, so up to
-  100 requests wait rather than fail. The whole /todos group
-  and nothing else, and no RateLimiting section exists so
-  these are the effective values. RateLimitExtensions.cs:14-57
+  Token bucket partitioned on NameIdentifier, applied to the
+  whole /todos group and nothing else. The budget is the one
+  option set the environment binds: code defaults TokenLimit 100,
+  TokensPerPeriod 100 every 10 s, QueueLimit 100, and
+  appsettings.Development.json binds all three to 50, which both
+  launch profiles select. RateLimitExtensions.cs:14-57; AN-024
 end note
 if (the endpoint registers a validated parameter type) then (yes)
   :Body parameters of that type are checked;
