@@ -7,12 +7,11 @@
 - Owner: Software Archaeologist
 
 ## Perimeter
-
-The delivery is a four-process .NET 9 system: a Blazor WebAssembly client running in a browser, an ASP.NET Core host that serves it and acts as its backend-for-frontend, a minimal-API REST service, and an Aspire app host that starts them and creates the database. Nothing is scheduled, nothing is consumed from a message broker and no report is produced: every entry point below is reached by an HTTP request, except the one platform event the app host raises before the API starts.
+The delivery is a four-process .NET 9 system: a Blazor WebAssembly client running in a browser, an ASP.NET Core host that serves it and acts as its backend-for-frontend, a minimal-API REST service, and an Aspire app host that starts them and creates the database. Nothing is scheduled, nothing is consumed from a message broker and no report is produced: every entry point below is reached by an HTTP request, except the one platform event the app host raises before the API starts. The root `README.md` describes only two of the four processes.
 
 ```plantuml
 @startuml
-title Perimeter of the delivered Todo App - components, stores and what it reaches
+title Perimeter of the delivered Todo App — four processes, two stores, what it reaches
 
 skinparam componentStyle rectangle
 skinparam shadowing false
@@ -20,86 +19,92 @@ skinparam packageStyle rectangle
 
 actor "Person with a task list" as USER
 
-package "Browser" {
-  component "Todo.Web.Client\nBlazor WebAssembly 9.0.8" as CLIENT
+package "Process 1 — Browser" {
+  component "Todo.Web.Client\nBlazor WebAssembly 9.0.8\ntwo screens: login form, todo list" as CLIENT
 }
 
-package "Todo.Web.Server - host and BFF" {
-  component "Cookie session and /auth endpoints" as BFF
-  component "External provider registration" as EXTREG
-  component "YARP IHttpForwarder proxy" as PROXY
+package "Process 2 — Todo.Web.Server: host and backend-for-frontend" {
+  component "Razor host and session cookie\nApp.razor, /auth endpoints" as BFF
+  component "External provider registration\nGitHub, Google, Microsoft, Auth0\nregistered only when configured" as EXTREG
+  component "YARP IHttpForwarder\n/todos - cookie rewritten to bearer" as PROXY
 }
 
-package "Todo.Api - minimal-API REST service" {
-  component "Todo endpoints /todos" as TODOS
-  component "Identity endpoints /users" as USERS
-  component "Current-user resolution and authorization" as AUTHZ
+package "Process 3 — Todo.Api: minimal-API REST service" {
+  component "Todo endpoints\n/todos" as TODOS
+  component "Identity endpoints and /users/token" as USERS
+  component "Current-user resolution\nand ownership authorization" as AUTHZ
   component "Validation filter" as VALID
-  component "Per-user rate limiter" as RATE
-  component "EF Core persistence" as EF
+  component "Per-user rate limiter\n/todos only" as RATE
+  component "EF Core 9 persistence\nTodoDbContext" as EF
+  component "OpenAPI document and Scalar reference UI\nDevelopment only" as DOCS
 }
 
-package "Host defaults and orchestration" {
-  component "TodoApp.ServiceDefaults\nhealth, service discovery, OpenTelemetry" as DEF
-  component "TodoApp.AppHost\nAspire orchestration" as APPHOST
+package "Process 4 — TodoApp.AppHost and ServiceDefaults" {
+  component "Aspire orchestration\nstarts the others, runs the migration" as APPHOST
+  component "Service defaults\nhealth, discovery, OpenTelemetry" as DEF
 }
 
-package "Delivery" {
+package "Delivery, not running" {
   component "Todo.Api.Tests\nintegration tests over the API" as TESTS
   component "Build and package configuration" as BUILD
   component "CI pipeline" as CI
+  component "Developer environment\n.devcontainer, .aspire, .vscode" as DEVENV
 }
 
-database "Todos.db\nSQLite file" as DB
-database "In-memory SQLite\n(test host only)" as TESTDB
+database "Todos.db\nSQLite file, 8 tables" as DB
+database "In-memory SQLite\ntest host only, EnsureCreated" as TESTDB
 
 cloud "Outside the boundary" {
   component "GitHub / Google / Microsoft / Auth0" as IDP
-  component "OTLP collector, Aspire Dashboard" as OTEL
-  component "nuget.org feed" as NUGET
-  component "sqliteweb container image" as SQLWEB
+  component "OTLP collector and Aspire Dashboard" as OTEL
+  component "nuget.org" as NUGET
+  component "tomdesinto/sqliteweb image" as SQLWEB
 }
 
-USER --> CLIENT : uses
-CLIENT --> BFF : /auth
-CLIENT --> PROXY : /todos
-BFF --> USERS : register, login, token
+USER --> CLIENT : uses in a browser
+CLIENT --> BFF : /auth register, login, logout
+CLIENT --> PROXY : /todos create, list, delete
+BFF --> USERS : /users/token/{provider}
 BFF --> IDP : challenge and callback
 EXTREG --> IDP : schemes named in configuration
-PROXY --> TODOS : access token as bearer header
+PROXY --> TODOS : bearer token in Authorization header
 TODOS --> AUTHZ
 TODOS --> VALID
 TODOS --> RATE
 TODOS --> EF
 USERS --> EF
 EF --> DB
-TESTS ..> TODOS
+TESTS ..> TODOS : over HTTP
 TESTS --> TESTDB
 APPHOST --> TODOS : starts, waits for the migration
 APPHOST --> BFF : starts
-APPHOST --> SQLWEB : runs
-APPHOST ..> DB : ef database update
+APPHOST --> SQLWEB : runs with the database directory mounted
+APPHOST ..> DB : dotnet ef database update
 DEF ..> TODOS : telemetry
 DEF ..> BFF : telemetry
 DEF ..> OTEL : OTLP when an endpoint is set
 BUILD ..> NUGET : restore
 CI ..> BUILD
 CI ..> TESTS
+DEVENV ..> BUILD : names the SDK image
 
 note right of TODOS
-  Anchors: Todo.Api/Todos/TodoApi.cs
-  Ownership: OwnerId == caller, or the admin role claim
+  Anchors: Todo.Api/Todos/TodoApi.cs:8-76
+  OwnerId == caller, or the admin role claim.
+  Nothing in the running system grants that role (AN-004).
+end note
+
+note bottom of PROXY
+  No service-to-service authentication between the BFF
+  and the API: the API accepts a bearer token from any caller
+  (AN-002). Todo.Web/Server/TodoApi.cs
 end note
 
 note bottom of IDP
   Anchors: Todo.Web/Server/Authentication/AuthenticationExtensions.cs
   A provider is registered only when
-  Authentication:Schemes:<name> exists
-end note
-
-note right of APPHOST
-  Anchors: TodoApp.AppHost/Program.cs
-  TodoApp.AppHost/Extensions.cs
+  Authentication:Schemes:<name> exists, so none is reachable
+  in the delivered configuration.
 end note
 
 @enduml
@@ -115,16 +120,17 @@ end note
 | Current-user resolution and authorization | Component | Resolves the caller from the database on every request, exposes it as `CurrentUser`, and fails the request when no such user exists | `Todo.Api/Authorization/CurrentUser.cs:6-13; Todo.Api/Authorization/CurrentUserExtensions.cs; Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:14-36` |
 | Validation filter | Component | Rejects a request whose parameters fail data annotations with a 400 `ValidationProblemDetails` | `Todo.Api/Filters/ValidationFilter.cs` |
 | Per-user rate limiter | Component | Token-bucket policy partitioned by the caller's `NameIdentifier`; applied to `/todos` only | `Todo.Api/Extensions/RateLimitExtensions.cs` |
-| Persistence over SQLite | Component | `TodoDbContext` deriving from `IdentityDbContext<TodoUser>`, the entity model, and the three migrations that create and change the schema | `Todo.Api/TodoDbContext.cs:5-21; Todo.Api/Migrations/` |
-| OpenAPI and API reference | Component | Emits the OpenAPI document, documents the bearer scheme, serves the Scalar reference UI in Development | `Todo.Api/Program.cs:29-31,49-58; Todo.Api/Extensions/OpenApiOptionsExtensions.cs` |
+| Persistence over SQLite | Component | `TodoDbContext` deriving from `IdentityDbContext<TodoUser>`, the entity model, and the three migrations that create and change the schema | `Todo.Api/TodoDbContext.cs:6-20; Todo.Api/Migrations/` |
+| OpenAPI and API reference | Component | Emits the OpenAPI document, documents the bearer scheme, serves the Scalar reference UI in Development, and redirects `/` to it | `Todo.Api/Program.cs:29-30,49-58,62; Todo.Api/Extensions/OpenApiOptionsExtensions.cs` |
+| HTTP logging | Component | Development-only combined request/response logging with body and header fields | `Todo.Api/Program.cs:35-42,46` |
 | Todo.Web.Server | Subsystem | Serves the WebAssembly client, holds the browser session, and forwards `/todos` to the API | `Todo.Web/Server/` |
 | Session and external-provider authentication | Component | Cookie schemes, the four configurable identity providers, and the Blazor authentication state | `Todo.Web/Server/Authentication/` |
-| Session endpoints `/auth` | Component | register, login, logout, external challenge, external callback | `Todo.Web/Server/AuthApi.cs:10-120` |
-| Forwarding proxy | Component | YARP `IHttpForwarder` that rewrites the session cookie into a bearer token for `/todos` | `Todo.Web/Server/TodoApi.cs` |
+| Session endpoints `/auth` | Component | register, login, logout, external challenge, external callback | `Todo.Web/Server/AuthApi.cs:10-97` |
+| Forwarding proxy | Component | YARP `IHttpForwarder` that rewrites the session cookie into a bearer token for `/todos` | `Todo.Web/Server/TodoApi.cs:8-25` |
 | Todo.Web.Client | Component | Blazor WebAssembly UI: login and create-user form, todo list, logout | `Todo.Web/Client/` |
 | Shared contracts | Component | `TodoItem`, `UserInfo`, `ExternalUserInfo` and `AuthToken` as compiled into client and BFF | `Todo.Web/Shared/SharedClass.cs:1-31` |
-| Service defaults | Component | Service discovery, HTTP resilience, liveness and readiness endpoints, OpenTelemetry | `TodoApp.ServiceDefaults/Extensions.cs` |
-| AppHost orchestration | Component | Starts the API and the server, runs the EF migration, runs the sqliteweb container | `TodoApp.AppHost/Program.cs:1-28; TodoApp.AppHost/Extensions.cs:3-34` |
+| Service defaults | Component | Service discovery, HTTP resilience, liveness and readiness endpoints, OpenTelemetry | `todoapp.servicedefaults/extensions.cs` |
+| AppHost orchestration | Component | Starts the API and the server, runs the EF migration, runs the sqliteweb container | `TodoApp.AppHost/Program.cs:1-28; TodoApp.AppHost/Extensions.cs:1-34` |
 | Integration test suite | Component | Exercises the API over HTTP through `WebApplicationFactory`, seeding users and rows directly | `Todo.Api.Tests/` |
 | Build and package configuration | Layer | Target framework, language level, central package versions, package-source pinning, solution | `Directory.Build.props; Directory.Packages.props; global.json; nuget.config; TodoApp.sln` |
 
@@ -133,11 +139,11 @@ end note
 | External actor or system | Reached through | Anchor |
 |---|---|---|
 | Person with a task list — the only human actor; owns their todo rows, is anonymous until they register or log in | Service — HTTPS to the BFF, rendered by the Blazor client | `Todo.Web/Server/App.razor:5`; `Todo.Web/Client/Components/LogInForm.razor:3-26` |
-| GitHub (OAuth 2.0 provider) | Remote call — registered only when `Authentication:Schemes:GitHub` exists | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs` |
-| Google (OAuth 2.0 provider) | Remote call — registered only when `Authentication:Schemes:Google` exists | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs` |
-| Microsoft account (OAuth 2.0 provider) | Remote call — registered only when `Authentication:Schemes:Microsoft` exists | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs` |
-| Auth0 (OpenID Connect provider) | Remote call — registered only when `Authentication:Schemes:Auth0` exists; its sign-in scheme is pinned to the external cookie | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs` |
-| OTLP collector, viewed in the Aspire Dashboard | Remote call — OTLP exporter, enabled only when `OTEL_EXPORTER_OTLP_ENDPOINT` is non-empty | `TodoApp.ServiceDefaults/Extensions.cs` |
+| GitHub (OAuth 2.0 provider) | Remote call — registered only when `Authentication:Schemes:GitHub` exists | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:43` |
+| Google (OAuth 2.0 provider) | Remote call — registered only when `Authentication:Schemes:Google` exists | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:44` |
+| Microsoft account (OAuth 2.0 provider) | Remote call — registered only when `Authentication:Schemes:Microsoft` exists | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:45` |
+| Auth0 (OpenID Connect provider) | Remote call — registered only when `Authentication:Schemes:Auth0` exists; its sign-in scheme is pinned to the external cookie | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:46-47,78-92` |
+| OTLP collector, viewed in the Aspire Dashboard | Remote call — OTLP exporter, enabled only when `OTEL_EXPORTER_OTLP_ENDPOINT` is non-empty | `TodoApp.ServiceDefaults/Extensions.cs:74-81` |
 | nuget.org | Remote call — the only package source; every pattern maps to it | `nuget.config` |
 | `tomdesinto/sqliteweb` container image | Remote call — the app host starts it with the database directory bind-mounted; excluded from the manifest | `TodoApp.AppHost/Program.cs:13-17` |
 | Todos.db — the SQLite database file | Data manager — EF Core 9 SQLite provider; the store itself is described under Persistent Data | `Todo.Api/Program.cs:23-24` |
@@ -148,13 +154,13 @@ end note
 |---|---|---|---|---|
 | EP-001 | Application shell at `/` — renders the login form when no user is signed in, the todo list when one is, and carries the logout control | Screen | Person, anonymous or authenticated | `Todo.Web/Server/App.razor:5` |
 | EP-002 | Login and create-user form — email, password, Login, Create User, and one link per configured provider | Screen | Person, anonymous | `Todo.Web/Client/Components/LogInForm.razor:3-26` |
-| EP-003 | Todo list — loading spinner, new-todo input, the list with a per-item remove control | Screen | Person, authenticated | `Todo.Web/Client/Components/TodoList.razor:13-32` |
+| EP-003 | Todo list — loading spinner, new-todo input, the list with a per-item remove control | Screen | Person, authenticated | `Todo.Web/Client/Components/TodoList.razor:3-32` |
 | EP-004 | POST /auth/register | Service operation | Person, anonymous | `Todo.Web/Server/AuthApi.cs:14-25` |
-| EP-005 | POST /auth/login | Service operation | Person, anonymous | `Todo.Web/Server/AuthApi.cs:27-40` |
-| EP-006 | POST /auth/logout | Service operation | Person, authenticated | `Todo.Web/Server/AuthApi.cs:42-56` |
-| EP-007 | GET /auth/login/{provider} — issues the challenge and redirects to `/auth/signin/{provider}` | Service operation | Person, anonymous | `Todo.Web/Server/AuthApi.cs:58-67` |
-| EP-008 | GET /auth/signin/{provider} — provider callback; exchanges the provider identity for a local user and a token, writes the session cookie | Service operation | External identity provider, on the person's behalf | `Todo.Web/Server/AuthApi.cs:69-113` |
-| EP-009 | `/todos` forwarding proxy — any method, any sub-path; requires the session cookie and sets the bearer header | Service operation | Todo.Web.Client through the BFF | `Todo.Web/Server/TodoApi.cs` |
+| EP-005 | POST /auth/login | Service operation | Person, anonymous | `Todo.Web/Server/AuthApi.cs:27-38` |
+| EP-006 | POST /auth/logout | Service operation | Person, authenticated | `Todo.Web/Server/AuthApi.cs:40-52` |
+| EP-007 | GET /auth/login/{provider} — issues the challenge and redirects to `/auth/signin/{provider}` | Service operation | Person, anonymous | `Todo.Web/Server/AuthApi.cs:55-62` |
+| EP-008 | GET /auth/signin/{provider} — provider callback; exchanges the provider identity for a local user and a token, writes the session cookie | Service operation | External identity provider, on the person's behalf | `Todo.Web/Server/AuthApi.cs:64-97` |
+| EP-009 | `/todos` forwarding proxy — any method, any sub-path; requires the session cookie and sets the bearer header | Service operation | Todo.Web.Client through the BFF | `Todo.Web/Server/TodoApi.cs:12-25` |
 | EP-010 | GET /todos | Service operation | Authenticated caller holding a bearer token | `Todo.Api/Todos/TodoApi.cs:24-27` |
 | EP-011 | GET /todos/{id} | Service operation | Authenticated caller holding a bearer token | `Todo.Api/Todos/TodoApi.cs:29-36` |
 | EP-012 | POST /todos | Service operation | Authenticated caller holding a bearer token | `Todo.Api/Todos/TodoApi.cs:38-50` |
@@ -165,9 +171,9 @@ end note
 | EP-017 | GET / — redirect to `/scalar/v1` | Service operation | Any caller | `Todo.Api/Program.cs:62` |
 | EP-018 | GET /openapi/v1.json — the OpenAPI document | Service operation | Any caller | `Todo.Api/Program.cs:58` |
 | EP-019 | Scalar API reference UI | Screen | Any caller, Development environment only | `Todo.Api/Program.cs:49-56` |
-| EP-020 | GET /health — readiness; every check must pass | Service operation | App host or operator, Development environment only | `TodoApp.ServiceDefaults/Extensions.cs` |
-| EP-021 | GET /alive — liveness, tag `live` | Service operation | App host or operator, Development environment only | `TodoApp.ServiceDefaults/Extensions.cs` |
-| EP-022 | `dotnet ef database update` raised by the app host before the API starts | Platform event | TodoApp.AppHost, only in run mode and only when `Todo.Api/.db` does not exist | `TodoApp.AppHost/Extensions.cs:3-21,32` |
+| EP-020 | GET /health — readiness; every check must pass | Service operation | App host or operator, Development environment only | `TodoApp.ServiceDefaults/Extensions.cs:110-113` |
+| EP-021 | GET /alive — liveness, tag `live` | Service operation | App host or operator, Development environment only | `TodoApp.ServiceDefaults/Extensions.cs:115-118` |
+| EP-022 | `dotnet ef database update` raised by the app host before the API starts | Platform event | TodoApp.AppHost, only in run mode and only when `Todo.Api/.db` does not exist | `TodoApp.AppHost/Extensions.cs:1-21,32` |
 
 ## Technology and Size
 
