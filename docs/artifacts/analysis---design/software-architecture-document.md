@@ -1345,7 +1345,7 @@ Each quality attribute is stated with the tactic the architecture actually embod
 | Maintainability — change isolation | The contract is the only axis no boundary encapsulates: the API redeclares the shapes rather than referencing them | ADR-009 | No compiler checks the two declarations agree (AN-003) |
 | Maintainability — version consistency | Every package centrally pinned in one file; one source feed | `Directory.Packages.props`; `nuget.config` | `RazorLangVersion` 8.0 in a 9.0 solution (AN-014); the container names SDK 8.0 (AN-007); the `sqliteweb` image carries no tag at all |
 | Testability | The API is bootable in-process through `WebApplicationFactory` with a seeded user and rows, and every production dependency is substitutable | COMP-022 (M13, ADR-013) | Neither the BFF nor the client has any test, and the three defective `/auth` flows are exactly the untested ones (AN-012); the suite mints tokens by reproducing framework internals (AN-011); and the four substitutions mean the migrations, the cross-process key ring and the issued token format are observed by nothing |
-| Operability | Readiness and liveness; OTLP export gated on one environment variable; body-and-header logging in Development | COMP-021, COMP-018 | Health endpoints and logging are Development-only, so an operating instance carries no readiness probe and no request log (S8) |
+| Operability | Readiness and liveness; OTLP export gated on one environment variable; the request log's body-and-header field set, selected in Development | COMP-021, COMP-018 | The health endpoints are mapped only in Development and the body-and-header field set is selected only there — the logging middleware itself runs in every environment, so an operating instance carries no readiness probe and a default-field request log (S8). The OpenAPI document is mapped unconditionally, so it is the diagnostic surface that does survive |
 | Portability | One placement, no deployment artifact; the orchestrator declares no endpoint, port or replica | COMP-020 (ADR-012) | Not deployed anywhere; two project files still carry container image properties the tree no longer backs (DC12) |
 
 ```plantuml
@@ -1379,7 +1379,7 @@ package "What defeats the tactic" {
   component "AN-021, AN-020\nEvery auth failure is one 401;\nthe callback reports nothing" as A7
   component "AN-014, AN-007, untagged image\nThree version disagreements" as A8
   component "AN-012, AN-011, ADR-013\nTwo thirds untested, tokens minted\nfrom framework internals, and four\nsubstitutions" as A9
-  component "S8\nBoth are Development-only" as A10
+  component "S8\nHealth endpoints and the log field set\nare Development-only, while the\nOpenAPI document is not" as A10
 }
 
 T1 --> A1
