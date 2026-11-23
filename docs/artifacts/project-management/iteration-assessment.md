@@ -252,3 +252,77 @@ Two dependencies order the work and are not negotiable: item 1 precedes item 2, 
 
 Item 1 is now narrower than the Review Coordinator ordered it. The coordinator held the `R004` and `R011` acceptance behind the reconciliation; the stakeholder answered both on 2026-11-23, so no gate is left waiting on that queue. What item 1 still owes is the arithmetic, and the instruction to ask stands only for a risk the reconciliation newly places in the grant band.
 
+### What iteration 2 does not do
+
+- **It does not add agent roles.** The chain of iteration 1 was sequential and stayed inside its budget; the milestone slipped on the quality of two artifacts, not on the capacity to produce them. Adding roles would buy no clock and would add contention over the same three artifacts.
+- **It does not cut declared scope.** Nothing is dropped to reach the gate: the System Inventory's perimeter, entry points and priorities stand as confirmed and are not re-read.
+- **It does not restate a forecast.** No phase has closed, so no measured actual exists; iteration 2's work items carry owners and no size. Spend and elapsed time are recorded after the fact, as they were here.
+- **It does not treat the six Major findings as new scope or open a Change Request for them.** The Change Control Manager does not work in the sprint zero; the order reached its owners through the Review Record, and its ledger is the record.
+
+### The stakeholder's grants on the two contested bands
+
+```plantuml
+@startuml
+title Grants recorded on 2026-11-23 - who may accept which band, and where R004 and R011 stand after the answer
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 250
+hide empty members
+
+class "The band test" as BAND {
+  rule : magnitude is the band of probability x impact
+  rule2 : never chosen, never lowered to fit an authority
+}
+class "The Project Manager's authority" as PM {
+  bands : Moderate, Minor, Low
+  strategies : avoid or transfer at any band
+  never : acceptance of High or Significant
+}
+class "The stakeholder's authority" as SH {
+  bands : High 15 to 25, Significant 9 to 12
+  form : granted in their own words, or not at all
+}
+class "R004  admin branch read as intent" as R004 {
+  recorded : 2 x 2 = 4, Minor, Avoid
+  inventory words : likely / moderate, which scores 12
+  grant : Yes, 2026-11-23, should the reconciled score land at 9 to 12 or above
+}
+class "R011  tests copy framework internals" as R011 {
+  recorded : 4 x 2 = 8, Moderate, Accept
+  inventory words : likely / moderate, which scores 12
+  grant : Yes, 2026-11-23, should the reconciled score land at 9 to 12 or above
+}
+class "Reconciliation owed" as REC {
+  owner : Project Manager
+  when : iteration 2, before the SBC gate is re-taken
+  closes : Risk List finding F1, both lenses
+}
+
+BAND --> PM
+BAND --> SH
+R004 --> SH : the band that needs a grant
+R011 --> SH : the band that needs a grant
+R004 --> REC
+R011 --> REC
+
+note bottom of SH
+  Both grants say Yes to the question as put. Neither is
+  narrowed, widened or made subject to a further approval here.
+end note
+@enduml
+```
+
+The Review Coordinator ordered the `R004` and `R011` acceptance question held until the scores reconcile. The Project Manager put it anyway, conditionally, and the stakeholder answered both on 2026-11-23:
+
+| Risk | The question as put | The stakeholder's answer |
+|---|---|---|
+| `R004` — the cross-owner `admin` branch read as live functionality when nothing in the running system grants that role | If the reconciled score lands at exposure 9 to 12 or above, do you accept this risk for the sprint zero, until Excavation records the branch as the exceptional entity you ruled it to be? | Yes |
+| `R011` — a framework upgrade breaks the test suite while no product behaviour changes, because the suite reproduces the bearer-token ticket format from framework internals | If the reconciled score lands at exposure 9 to 12 or above, do you accept this risk for the sprint zero? | Yes |
+
+Both are the stakeholder's own grants, on their own words, and neither is a self-granted acceptance: the Project Manager asked, the stakeholder answered, and the Risk List may now record an acceptance at the Significant band for either risk once the reconciliation places it there.
+
+The grant does not itself move either risk's band. Whether `R004` and `R011` sit at Significant or below is arithmetic, and item 1 still owes it: the System Inventory states "likely / moderate" for `AN-004` and `AN-011`, which on the IARI scale is 4 × 3 = 12, while the register records 2 × 2 and 4 × 2. What changed on 2026-11-23 is that the band the arithmetic may produce no longer has an unanswered question behind it. The SBC gate is not waiting on a second queue cycle when it is re-taken, and the Risk List's remediation is complete apart from the reconciliation pass.
+
+The Project Manager's reason for not following the coordinator's ordering stands on this iteration's measured facts: stakeholder queue time of 1:04:37.8136958 against agent time of 0:45:44.3700545 means the human gate, not the agent work, is what lengthens a phase here. A conditional grant binds the reconciled outcome without asking on a magnitude the register could not yet state.
+
