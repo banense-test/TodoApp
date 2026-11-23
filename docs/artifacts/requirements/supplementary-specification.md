@@ -32,7 +32,7 @@ package "Request surfaces of the running system" {
 package "Mechanisms, and how far each one reaches" {
   component "Bearer authentication\nIdentity bearer scheme, no lifetime configured" as M_BEARER
   component "Current-user resolution\nand its authorization requirement" as M_CU
-  component "Per-user token bucket\n100 tokens per 10 s, queue 100, 429" as M_RATE
+  component "Per-user token bucket\ncode defaults 100 / 100 per 10 s / queue 100\nDevelopment override 50 / 50 / queue 50, AN-024" as M_RATE
   component "Data-annotation validation\n400 ValidationProblemDetails" as M_VAL
   component "Data protection\nApplicationDiscriminator TodoApp,\nno key persistence configured" as M_DP
   component "Cookie session on the BFF\naccess token stored in the token set" as M_COOKIE
@@ -68,6 +68,9 @@ note right of M_RATE
   The one mechanism applied to /todos alone:
   /users is unlimited and the policy's partition
   key does not exist for an anonymous caller. AN-009
+  Its budget is environment-dependent: the code
+  defaults are 100 and the Development file this
+  delivery starts in binds 50. AN-024
 end note
 
 note bottom of M_DP
@@ -83,7 +86,7 @@ end note
 |---|---|---|---|---|
 | M1 | Bearer authentication on the API | Registers the Identity bearer scheme. No token lifetime, signing key or refresh interval is configured anywhere, so every value is the framework's default | `Todo.Api/Program.cs:14` | UC-001 to UC-011 through the API |
 | M2 | Current-user resolution and its requirement | A scoped service resolves the user row from the database by the token's `NameIdentifier` on every request and exposes `Id` and `IsAdmin`; a policy requirement fails unless that row exists, so a structurally valid token for a deleted account is refused. A `TODO` records that lockout is not checked | `Todo.Api/Authorization/CurrentUser.cs:6-13`; `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:14-36` | UC-006 to UC-010 |
-| M3 | Per-user token bucket | Token bucket partitioned by `NameIdentifier`; `TokenLimit` 100, `TokensPerPeriod` 100, `ReplenishmentPeriod` 10 s, `QueueLimit` 100, auto-replenishment on, rejection 429. Every value is bindable from a `RateLimiting` configuration section and no such section exists in the delivery, so these defaults are the effective values. Applied to the whole `/todos` group and to nothing else | `Todo.Api/Extensions/RateLimitExtensions.cs:14-57`; `Todo.Api/Todos/TodoApi.cs:19-20` | UC-006 to UC-010 |
+| M3 | Per-user token bucket, and the two budget values it runs at | Token bucket partitioned by `NameIdentifier`; `TokenLimit` 100, `TokensPerPeriod` 100, `ReplenishmentPeriod` 10 s, `QueueLimit` 100, auto-replenishment on, rejection 429 — those are the code defaults, and every one of them binds from a `RateLimiting` configuration section. Two values are therefore in force, not one: **the code defaults 100 / 100 per 10 s / queue 100**, and **`Todo.Api/appsettings.Development.json` binds `TokenLimit` 50, `TokensPerPeriod` 50 and `QueueLimit` 50**, so a process running under the Development environment enforces half the code's default. Both launch profiles set that environment, and no other environment file in the delivery carries the section, so Development is the only environment this delivery starts in and the only one whose budget differs (`AN-024`) | `Todo.Api/Extensions/RateLimitExtensions.cs:14-31,57`; `Todo.Api/appsettings.Development.json:8-12`; `Todo.Api/Properties/launchSettings.json:14-16,25-27`; `Todo.Web/Server/Properties/launchSettings.json:6-8,15-17`; AN-024 | UC-006 to UC-010 |
 | M4 | Data-annotation validation | Rejects a request whose registered parameter fails `MiniValidation` with 400 `HttpValidationProblemDetails` of content type `application/problem+json`, declared on the endpoint. Only the parameter types the endpoint registers are checked: `/todos` registers `TodoItem` and `/users` registers `ExternalUserInfo`, so a register or login body of type `UserInfo` is checked by nothing at the API and reaches Identity's own policy alone | `Todo.Api/Filters/ValidationFilter.cs:10-63`; `Todo.Api/Todos/TodoApi.cs:22`; `Todo.Api/Users/UsersApi.cs:18` | UC-003, UC-007, UC-010 |
 | M5 | Data protection | `ApplicationDiscriminator` set to `TodoApp` in both the BFF and the API. No key persistence, key lifetime or key protection is configured in either program, so the two processes share a ring only where the framework's default file location is shared | `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11`; AN-010 | UC-003 |
 | M6 | Cookie session on the BFF | The default scheme is a cookie; a second cookie holds the external ticket; the access token is stored in the session's token set and read back by the forwarder | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:14-21`; `Todo.Web/Server/TodoApi.cs:18-22`; `Todo.Web/Server/AuthApi.cs:99-116` | UC-001, UC-002, UC-003, UC-004, UC-006 to UC-008 |
@@ -104,6 +107,7 @@ end note
 | F7 | The API accepts a bearer token from any caller; the BFF sends no service credential | No service-to-service trust may be claimed. The API's own `TODO` records the gap | AN-002; `Todo.Api/Users/UsersApi.cs:16` |
 | F8 | The Create User control is `type="button"` with its own click handler, so `OnValidSubmit` and `DataAnnotationsValidator` never run on the registration path | No client field rule may be claimed for registration: only the non-empty guard in `TodoClient.CreateUserAsync` stands between the person and the API | `Todo.Web/Client/Components/LogInForm.razor:19,87-98`; `Todo.Web/Client/TodoClient.cs:55-63` |
 | F9 | `PUT /todos/{id}` replaces `Title` and `IsComplete` from the body alone, with no concurrency token | An absent `isComplete` in a request body clears a completed row, and two concurrent callers overwrite each other in arrival order | `Todo.Api/Todos/TodoApi.cs:59-63`; `Todo.Api/Todos/Todo.cs:15-21` |
+| F10 | The request budget is not one value. The code defaults all three options to 100 and `appsettings.Development.json` binds all three to 50, and both launch profiles run Development | No request budget may be stated as a single figure, and no load or throttling observation taken in Development describes any other environment | AN-024; `Todo.Api/Extensions/RateLimitExtensions.cs:14-31`; `Todo.Api/appsettings.Development.json:8-12` |
 
 ## Usability
 The delivery states no usability requirement and carries no documentation of the interface beyond the README's screenshot. What the code fixes about the interface, it fixes in the three components of the client.
