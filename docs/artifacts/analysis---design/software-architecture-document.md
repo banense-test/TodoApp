@@ -673,6 +673,71 @@ note right : a rejected provider and an\nunreachable API are identical - AN-020
 @enduml
 ```
 
+### SEQ-4 UC-007 Add a task — the validation filter, and the one place `OwnerId` is assigned on a write
+
+```plantuml
+@startuml
+title SEQ-4 UC-007 Add a task - the validation filter, and the one place OwnerId is assigned on a write
+
+skinparam shadowing false
+skinparam wrapWidth 200
+skinparam maxMessageSize 190
+
+participant "ACT-001\nPerson" as U
+participant "COMP-001\nClient shell\nand screens" as UI
+participant "COMP-002\nClient HTTP\ngateway" as CLI
+participant "COMP-008\n/todos\nforwarder" as FWD
+participant "COMP-015\nValidation\nfilter" as VAL
+participant "COMP-011\nTodo\nendpoints" as TODOS
+participant "COMP-013\nAuthorization\nrequirement" as AUTHZ
+participant "COMP-012\nCurrent-user\nresolution" as CU
+participant "COMP-016\nPersistence" as EF
+database "Todos.db" as DB
+
+U -> UI : types a title in the new-todo input
+UI -> UI : the form blocks an empty submit - R3
+alt title empty
+  UI --> U : nothing is posted
+else title present
+  UI -> CLI : AddTodoAsync(title)
+  CLI -> FWD : POST /todos\ncookie, X-Requested-With
+  FWD -> FWD : read the access token\nfrom the token set
+  FWD -> TODOS : POST /todos\nAuthorization: Bearer
+  TODOS -> AUTHZ : RequireCurrentUser
+  AUTHZ -> CU : the caller's row
+  CU -> EF : find by NameIdentifier
+  EF -> DB : SELECT AspNetUsers
+  DB --> EF : row or none
+  EF --> CU : TodoUser?
+  CU --> AUTHZ : User or null
+  alt no user row
+    AUTHZ --> TODOS : requirement not satisfied
+    TODOS --> UI : 401 - the client reports nothing
+  else caller resolved
+    TODOS -> VAL : validate the registered TodoItem
+    alt Title absent or whitespace
+      VAL --> TODOS : 400 application/problem+json
+      TODOS --> UI : 400, which the client does not render
+      note over VAL : the input keeps its text and no\nmessage is shown - UC-007 A2
+    else the body is valid
+      TODOS -> TODOS : OwnerId := the resolved caller,\nnever the body - R9\nIsComplete := false, whatever the body said - R10
+      TODOS -> EF : save the new row
+      EF -> DB : INSERT Todos
+      DB --> EF : ok
+      EF --> TODOS : the row
+      TODOS --> FWD : 201 Created\nLocation /todos/{id}
+      FWD --> CLI : 201
+      CLI --> UI : the created item
+      UI -> UI : append the row, clear the input
+    end
+  end
+end
+note over FWD : no resilience handler on this hop, so a\ntransient failure is a silent no-op - AN-023
+@enduml
+```
+
+**Why this use case carries its own diagram.** UC-007 is the only use case where the ownership assignment on a write is exercised end to end, and the only one that reaches COMP-015: the validation filter guards this body and UC-010's, and no other. The diagram shows the three things the architecture fixes about it — that `OwnerId` comes from the resolved caller and never from the body (`R9`), that `IsComplete` is created false whatever the body says (`R10`), and that a 400 from the filter is a status the client does not render (`AN-021`).
+
 ## Logical View
 Twenty-two components in four processes. The decomposition is **by change axis**, not by feature: each component below encapsulates one thing that can change for the whole system, and the diagram after the table names which ones it fails to encapsulate.
 
