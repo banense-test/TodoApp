@@ -264,7 +264,7 @@ Each risk carries the action its owner takes and the sign that it has started to
 
 ```plantuml
 @startuml
-title Where the three plan-born exposures stand after iteration 3 - one retired with its exposure live, one materialized with its contingency taken, one avoided on all six citing artifacts
+title Where the three plan-born exposures stand at the close of Excavation - one retired with its exposure live, one materialized with its contingency taken, one avoided on all six citing artifacts and its residual re-read
 skinparam shadowing false
 skinparam componentStyle rectangle
 skinparam wrapWidth 230
@@ -278,13 +278,13 @@ package "R030 - the session surface read as settled" {
 package "R031 - a criterion whose owner had no stage" {
   component "3 x 4 = 12, Significant" as R31
   component "materialized twice: A11 read 3 of 4, then 2 of 4" as R31A
-  component "contingency taken - iteration 3 ran,\nEnvironment the phase's first stage,\nboth Minors corrected" as R31B
+  component "contingency taken - the phase opened a further iteration,\nEnvironment the phase's first stage,\nboth Minors corrected" as R31B
 }
 package "R032 - one fact transcribed inconsistently" {
   component "4 x 3 = 12, Significant" as R32
   component "avoidance performed on all six citing artifacts:\nSupplementary Specification, Software Architecture Document,\nDeployment Model, Vision, Design Model, Use-Case Model" as R32A
   component "R6 states both budgets under AN-024\n- the exposure is retired" as R32B
-  component "residual: the four artifacts re-read\nin one pass at the next milestone" as R32C
+  component "residual discharged: the four artifacts re-read\nin one pass at this milestone, and they agree" as R32C
 }
 
 R30 --> R30A
@@ -303,15 +303,15 @@ end note
 note bottom of R31B
   Recording an exposure is not retiring it. It materialized in
   two iterations for one reason: the milestone sequence gave
-  its owner no row. The stage now exists in this plan and in the
+  its owner no row. The stage now exists in the plan and in the
   process baseline the stakeholder restated, and the correction
   was performed in it.
 end note
 note bottom of R32C
-  The six citing artifacts now state one fact once. What the
-  contingency names is not a sixth artifact still open but the
-  single re-read that confirms the set agrees - the exposure
-  itself is retired by the avoidance.
+  The six citing artifacts now state one fact once, and the
+  confirmation the residual named has been performed: both
+  lenses re-read the six at this milestone and found them
+  agreeing. Nothing is owed on this exposure.
 end note
 @enduml
 ```
@@ -348,8 +348,9 @@ end note
 | R028 | Avoid | Record in the recovered registration statement that a provider-created account carries no email, so it cannot sign in with a password, confirm, recover or refresh through the framework's endpoints, and that the email index is not unique | System Analyst | A phase designs address confirmation or password recovery for a provider account, and the flow is corrected against the exchange | A recovered flow shows a provider account confirming an address |
 | R029 | Avoid | Record in the persistent-data description that the test host replaces the production `DbContextOptions` registration, so no test exercises the connection-string resolution, the `.db` fallback, the context lifetime or the migration-built schema | Database Designer | A phase cites the suite as evidence about persistence, and the citation is withdrawn or the suite is extended | A persistence statement is called verified by the test suite |
 | R030 | Avoid — **retirement landed; the exposure stays live** | The statement is written beside UC-001 to UC-004 in the Use-Case Model, titled "The instability UC-001 to UC-004 sit on", citing `AN-029`, `AN-012` and this risk: the file carrying them is the delivery's most-reworked at fifteen commits within an area of thirty-three, and no test covers it. The avoidance is performed; the exposure is not removed, because `AN-012` stands and no executable statement covers the surface | System Analyst, then Project Manager | A phase treats the session behaviour as stable and builds on it without re-reading; the flows are re-read against the file before the baseline | A design cites the session surface as settled |
-| R031 | Avoid — **materialized twice; contingency taken and performed** | The correction to `Development Case#F2` was performed in iteration 3 in the Environment stage, on the stakeholder's restatement of 2026-11-23 that the process runs Environment in every phase and that it is Excavation's first discipline. `Development Case#F2` and `#F3` are corrected and A11 now reads four of four. A11 is certified on the artifact, not on this row | Process Engineer, planned by Project Manager | Taken and performed: the correction did not land in iteration 2, A11 read two of four, and the phase opened a third iteration planned from the Review Record. Declared work was not cut to avoid it | The technical lens returns and "Roles and Ownership" still omits the three lenses |
-| R032 | Avoid — **avoidance performed on all six citing artifacts; the exposure is retired** | Settle the fact once, in the artifact that owns it, and correct the others against it. All six citing artifacts now hold: the Supplementary Specification (M3, S2, P1, R8 under `AN-024`; R4 under `AN-023`), the Software Architecture Document (SP1, M3 and the bounded-load row), the Deployment Model (the Rate limiting row and the narrowed preamble), the Vision, the Design Model, and the Use-Case Model, whose rules diagram R6 now reads "In force: 50 tokens, 50 per 10 s, queue 50. Code defaults: 100 tokens, 100 per 10 s, queue 100" under `AN-024`, its note citing `RateLimitExtensions.cs:14-31` and `appsettings.Development.json:8-12`. One fact, one place, six artifacts agreeing | Project Manager | Residual after retirement: the four artifacts are re-read in one pass at the next milestone to confirm the set still agrees. A corrected figure transcribed wrongly a second time is resolved by reading the code, never by choosing between artifacts | Two artifacts cite one `AN-NNN` and state different values for it — **fired at `Use-Case Model#F4` in iteration 2; no longer firing: R6 and the other five now state one value under `AN-024`** |
+| R031 | Avoid — **materialized twice; contingency taken and performed** | The correction to `Development Case#F2` was performed in the Environment stage, on the stakeholder's restatement of 2026-11-23 that the process runs Environment in every phase and that it is Excavation's first discipline. `Development Case#F2` and `#F3` are corrected and A11 now reads four of four. A11 is certified on the artifact, not on this row | Process Engineer, planned by Project Manager | Taken and performed: the correction did not land in iteration 2, A11 read two of four, and the phase opened a further iteration planned from the Review Record. Declared work was not cut to avoid it | The technical lens returns and "Roles and Ownership" still omits the three lenses |
+| R032 | Avoid — **avoidance performed on all six citing artifacts; the exposure retired; the residual discharged** | Settle the fact once, in the artifact that owns it, and correct the others against it. All six citing artifacts now hold: the Supplementary Specification (M3, S2, P1, R8 under `AN-024`; R4 under `AN-023`), the Software Architecture Document (SP1, M3 and the bounded-load row), the Deployment Model (the Rate limiting row and the narrowed preamble), the Vision, the Design Model, and the Use-Case Model, whose rules diagram R6 now reads "In force: 50 tokens, 50 per 10 s, queue 50. Code defaults: 100 tokens, 100 per 10 s, queue 100" under `AN-024`, its note citing `RateLimitExtensions.cs:14-31` and `appsettings.Development.json:8-12`. One fact, one place, six artifacts agreeing | Project Manager | Residual after retirement: the four artifacts that carry the figure are re-read in one pass at the next milestone to confirm the set still agrees — **discharged at Excavation iteration 4's milestone review: both lenses re-read them and they agree.** A corrected figure transcribed wrongly a second time is resolved by reading the code, never by choosing between artifacts | Two artifacts cite one `AN-NNN` and state different values for it — **fired at `Use-Case Model#F4` in iteration 2; no longer firing: R6 and the other five now state one value under `AN-024`** |
+
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
