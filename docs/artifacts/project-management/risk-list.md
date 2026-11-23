@@ -34,7 +34,7 @@ The scale is the IARI risk scale of the Development Case baseline, §9.10. The p
 
 ### How each score is derived
 
-Twenty-nine of the thirty-one risks score the likelihood and impact the System Inventory states for the anomaly they refine. Those words are translated once, here, and the same word gives the same number in every row — the eight risks Excavation added use no word the Survey set did not already use.
+Thirty of the thirty-two risks score the likelihood and impact the System Inventory states for the anomaly they refine. Those words are translated once, here, and the same word gives the same number in every row — the eight risks Excavation added use no word the Survey set did not already use.
 
 | Inventory word | Score | Inventory word | Score |
 |---|---|---|---|
@@ -42,7 +42,7 @@ Twenty-nine of the thirty-one risks score the likelihood and impact the System I
 | likelihood `likely` | Probability 4 — High, 51 % to 70 % | impact `moderate` | Impact 3 — Medium |
 | | | impact `high` | Impact 4 — High |
 
-`R022` refines no anomaly: it is the plan's own dependency on stakeholder answers, and its 2 × 4 is the Project Manager's reading of the phase gate. `R031` refines none either: it is the plan's own exposure — an exit criterion whose owner the phase does not schedule — scored 3 × 4 because the correction may land in time and, if it does not, the AR milestone needs an iteration this phase did not plan.
+`R022` refines no anomaly: it is the plan's own dependency on stakeholder answers, and its 2 × 4 is the Project Manager's reading of the phase gate. `R031` refines none either: it is the plan's own exposure — an exit criterion whose owner the phase does not schedule — scored 3 × 4 because the correction may land in time and, if it does not, the AR milestone needs an iteration this phase did not plan; it has materialized. `R032` refines none: it is the exposure the AR review's own defect ledger establishes — one recovered fact transcribed inconsistently into the artifacts that cite it — scored 4 × 3 because four of the eight Majors at that gate are exactly that.
 
 ```plantuml
 @startuml
@@ -76,7 +76,7 @@ class "Who may accept it" as A {
   Significant : the stakeholder
   ModerateOrLower : the Project Manager
 }
-AN "1" --> "1" RISK : every risk but R022 and R031
+AN "1" --> "1" RISK : every risk but R022, R031 and R032
 RISK --> M : falls in, never chosen
 M --> A : decides
 note bottom of AN
@@ -97,12 +97,12 @@ end note
 | Magnitude | Risks | Count | Strategy in this register |
 |---|---|---|---|
 | High | — | 0 | — |
-| Significant | R001, R002, R003, R004, R005, R007, R009, R010, R011, R012, R016, R018, R020, R021, R023, R024, R026, R028, R030, R031 | 20 | R004, R011, R012 and R016 accept, each under the stakeholder's own grant of 2026-11-23; the other sixteen avoid, which is the Project Manager's authority at any band |
+| Significant | R001, R002, R003, R004, R005, R007, R009, R010, R011, R012, R016, R018, R020, R021, R023, R024, R026, R028, R030, R031, R032 | 21 | R004, R011, R012 and R016 accept, each under the stakeholder's own grant of 2026-11-23; the other seventeen avoid, which is the Project Manager's authority at any band. `R030` is stated as not yet retired rather than as avoided |
 | Moderate | R006, R008, R013, R014, R015, R017, R019, R022, R025, R027, R029 | 11 | R015 and R022 accept with mitigation and contingency, on the Project Manager's authority; the other nine avoid |
 | Minor | — | 0 | — |
 | Low | — | 0 | — |
 
-No risk sits in a band its strategy cannot be held in: every Significant-band risk either avoids or carries the stakeholder's granting answer, and no new Significant risk Excavation added takes the accept strategy, so the recovery required no second grant. `R031` avoids, so the schedule exposure this iteration surfaced needs no grant either.
+No risk sits in a band its strategy cannot be held in: every Significant-band risk either avoids or carries the stakeholder's granting answer, and no new Significant risk Excavation added takes the accept strategy, so the recovery and its corrective iteration required no grant. `R031` and `R032` both avoid, so the schedule and transcription exposures this phase surfaced need no grant either.
 
 Not carried: no risk in this register concerns staffing, skills, turnover or friction between people. The executing agents are not a development organization and the stakeholder is the only human here, so such a risk would name no actor and is retired as not applicable rather than classified. What the people the SYSTEM serves do with it is a domain risk and stays.
 
