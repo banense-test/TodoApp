@@ -192,7 +192,7 @@ stop
 | 13 | Gate H4 — the recovered set confirmed by the stakeholder | Stakeholder | 12 | Queued — a human gate, quoted in days of queue time; no estimate |
 | 14 | AR milestone verdict — read on the answer gate H4 returns | Review Coordinator | 13 | Not started |
 
-Item 10 is the one work item this iteration carries open. Its artifact is not this plan's to correct and no other row waits on it; A11 in Evaluation Criteria records it as the criterion that is not met.
+**Item 10 is the one work item this iteration carries open, and it is a schedule question, not a status note.** It is the only item that runs on the stakeholder's order rather than on a discipline stage, because Environment has no intensity in Excavation; and A11 in Evaluation Criteria counts it, so its artifact is a milestone exit criterion while its owner is a role the phase does not otherwise schedule. If it lands before the technical lens returns, A11 reads Met on four of four and nothing else in this iteration depends on it. If it does not, A11 reads three of four and the AR milestone cannot close on this iteration's evidence — and the remedy is a second Excavation iteration, planned from the Review Record once the lenses have ruled, not more roles in this one. That is the trade this plan makes: another iteration protects what the phase declared, and no declared work is dropped to avoid one.
 
 **Two currencies, never summed.** Items 1 to 12 and 14 are agent work, quoted in tokens and measured elapsed agent time. Item 13 is a human gate — waiting, not working — quoted only in days of queue time.
 
