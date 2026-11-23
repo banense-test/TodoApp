@@ -276,191 +276,179 @@ stop
 
 ## Findings
 ### Reviewer lens
-<!-- review: Excavation I2 -->
+<!-- review: Excavation I3 -->
 
-<!-- review: Excavation I2 -->
+<!-- review: Excavation I3 -->
 
 #### Compliance matrix
 
-Each artifact against the eight items of this milestone's checklist. An item is marked Pass only where the artifact carries the evidence itself; N/A marks an item the artifact's shape does not engage.
+Each artifact against the nine items of this milestone's checklist. An item is marked Pass only where the artifact carries the evidence itself; N/A marks an item the artifact's shape does not engage.
 
 ```plantuml
 @startuml
-title Compliance: the recovered set against the Excavation checklist - 10 artifacts, 8 checklist items
+title Compliance: the recovered set at Excavation iteration 3 - 10 artifacts, 9 checklist items
 
 skinparam shadowing false
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 210
+skinparam wrapWidth 215
 hide circle
 hide empty members
 
 package "Checklist items tested" {
-  class "C1 Recovered, not declared\nno undeclared-scope element" as C1 <<check>>
-  class "C2 Every element anchored\nto the file it was read from" as C2 <<check>>
+  class "C1 Recovered, not declared" as C1 <<check>>
+  class "C2 Anchored to the file it cites" as C2 <<check>>
   class "C3 No cross-cutting mechanism\ncarried as a use case" as C3 <<check>>
-  class "C4 One goal, one use case\nnot one per actor" as C4 <<check>>
-  class "C5 Declared trace rows\ncarried by the trace tree" as C5 <<check>>
+  class "C4 One goal, one use case" as C4 <<check>>
+  class "C5 Declared trace rows carried\nby the registered graph" as C5 <<check>>
   class "C6 No suspect trace open\nat the phase close" as C6 <<check>>
-  class "C7 Document Control on\nthis phase and iteration" as C7 <<check>>
-  class "C8 Diagram-dominant\nformal UML content" as C8 <<check>>
+  class "C7 Document Control on this\nphase and iteration" as C7 <<check>>
+  class "C8 Diagram-dominant" as C8 <<check>>
+  class "C9 A state a row asserts about\nanother artifact matches it" as C9 <<check>>
 }
 
 package "Artifacts reviewed" {
-  class "Development Case\nF3 open" as A_DC <<minor>>
-  class "System Inventory\nclean" as A_SI <<pass>>
-  class "Risk List\nclean" as A_RL <<pass>>
-  class "Iteration Plan\nclean" as A_IP <<pass>>
-  class "Vision\nclean" as A_VIS <<pass>>
-  class "Use-Case Model\nF3, F4 open" as A_UCM <<major>>
-  class "Supplementary Specification\nclean" as A_SS <<pass>>
-  class "Software Architecture Document\nclean" as A_SAD <<pass>>
-  class "Deployment Model\nclean" as A_DM <<pass>>
-  class "Design Model\nclean" as A_DES <<pass>>
+  class "Development Case" as A_DC <<pass>>
+  class "System Inventory" as A_SI <<pass>>
+  class "Risk List" as A_RL <<minor>>
+  class "Iteration Plan" as A_IP <<major>>
+  class "Vision" as A_VIS <<pass>>
+  class "Use-Case Model" as A_UCM <<pass>>
+  class "Supplementary Specification" as A_SS <<minor>>
+  class "Software Architecture Document" as A_SAD <<pass>>
+  class "Deployment Model" as A_DM <<pass>>
+  class "Design Model" as A_DES <<pass>>
 }
 
-C1 --> A_UCM : partial
-C1 --> A_VIS : pass
+C1 --> A_UCM : pass
 C2 --> A_SI : pass
 C2 --> A_SAD : pass
 C3 --> A_UCM : pass
 C3 --> A_VIS : pass
 C4 --> A_UCM : pass
 C5 --> A_UCM : pass
-C5 --> A_DES : pass
 C5 --> A_SAD : pass
-C6 --> A_UCM : FAIL
-C7 --> A_DC : FAIL
+C5 --> A_DES : pass
+C6 --> A_UCM : pass
+C7 --> A_SS : FAIL
 C8 --> A_SI : pass
 C8 --> A_SAD : pass
 C8 --> A_DES : pass
+C9 --> A_IP : FAIL
+C9 --> A_RL : FAIL
 
 note right of A_UCM
-  C6 fails: five COMP-014 edges are
-  marked SUSPECT and no closure is
-  recorded. C1 partial: the rules
-  diagram states one request budget
-  where the recovered fact is two.
+  All nine items pass. The five COMP-014
+  edges report confirmed and R6 states
+  both budgets under AN-024.
 end note
-note bottom of A_DC
-  C7 fails on the four Document Control
-  fields, carried from iteration 1 under F3.
-  The tailoring content itself is current.
+note bottom of A_IP
+  C9 fails: A1, A10, A11 and O2 state defects
+  their own artifacts have corrected.
+end note
+note bottom of A_SS
+  C7 fails on one field: Iteration reads
+  2, Cycle 1. Its recovered facts are current.
 end note
 
 @enduml
 ```
 
-| Artifact | C1 | C2 | C3 | C4 | C5 | C6 | C7 | C8 |
-|---|---|---|---|---|---|---|---|---|
-| Development Case | N/A | Pass | Pass | N/A | N/A | N/A | **Fail** | Pass |
-| System Inventory | Pass | Pass | Pass | N/A | N/A | Pass | Pass | Pass |
-| Risk List | Pass | Pass | N/A | N/A | Pass | Pass | Pass | Pass |
-| Iteration Plan | N/A | Pass | N/A | N/A | N/A | N/A | Pass | Pass |
-| Vision | Pass | Pass | Pass | Pass | N/A | N/A | Pass | Pass |
-| Use-Case Model | **Partial** | Pass | Pass | Pass | Pass | **Fail** | Pass | Pass |
-| Supplementary Specification | Pass | Pass | Pass | Pass | N/A | N/A | Pass | Pass |
-| Software Architecture Document | Pass | Pass | N/A | Pass | Pass | Pass | Pass | Pass |
-| Deployment Model | Pass | Pass | N/A | N/A | N/A | N/A | Pass | Pass |
-| Design Model | Pass | Pass | N/A | N/A | Pass | Pass | Pass | Pass |
+| Artifact | C1 | C2 | C3 | C4 | C5 | C6 | C7 | C8 | C9 |
+|---|---|---|---|---|---|---|---|---|---|
+| Development Case | N/A | Pass | Pass | N/A | N/A | N/A | Pass | Pass | Pass |
+| System Inventory | Pass | Pass | Pass | N/A | N/A | Pass | Pass | Pass | N/A |
+| Risk List | Pass | Pass | N/A | N/A | Pass | Pass | Pass | Pass | **Fail** |
+| Iteration Plan | N/A | Pass | N/A | N/A | N/A | N/A | Pass | Pass | **Fail** |
+| Vision | Pass | Pass | Pass | Pass | N/A | N/A | Pass | Pass | N/A |
+| Use-Case Model | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | N/A |
+| Supplementary Specification | Pass | Pass | Pass | Pass | N/A | N/A | **Fail** | Pass | N/A |
+| Software Architecture Document | Pass | Pass | N/A | Pass | Pass | Pass | Pass | Pass | N/A |
+| Deployment Model | Pass | Pass | N/A | N/A | N/A | N/A | Pass | Pass | N/A |
+| Design Model | Pass | Pass | N/A | N/A | Pass | Pass | Pass | Pass | N/A |
 
 #### Defect distribution
 
 ```plantuml
 @startuml
-title Defect distribution: findings open at the AR review, by severity and artifact
+title Defect distribution: the technical lens at Excavation iteration 3 - what closed, what it found, what the corrections left behind
 
 skinparam shadowing false
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 220
+skinparam wrapWidth 230
 hide circle
 hide empty members
 
 package "Critical - 0" {
-  class "none\nno stakeholder decision\nis outstanding" as NOCRIT <<none>>
+  class "none\nno stakeholder decision\nis outstanding from this lens" as NC <<none>>
 }
 
-package "Major - 2" {
-  class "Use-Case Model#F3\ntrace-gap\nfive COMP-014 edges SUSPECT" as M1 <<major>>
-  class "Use-Case Model#F4\nconsumed-defect\none budget stated where two are in force" as M2 <<major>>
+package "Major - 1, found this iteration" {
+  class "Iteration Plan#F4\nconsumed-defect\nA1, A10, A11 and O2 state defects\ntheir own artifacts have corrected" as M1 <<major>>
 }
 
-package "Minor - 1" {
-  class "Development Case#F3\ncontained-defect\nDocument Control a phase behind" as M3 <<minor>>
+package "Minor - 2, found this iteration" {
+  class "Risk List#F3\ncontained-defect\nR032 keeps a Significant exposure\nlive whose action has landed" as m1 <<minor>>
+  class "Supplementary Specification#F3\ncontained-defect\nDocument Control names iteration 2" as m2 <<minor>>
 }
 
-package "Closed this iteration - 9" {
-  class "Vision#F1\nuse-case-shape" as C1 <<closed>>
-  class "Use-Case Model#F1\ntrace-gap" as C2 <<closed>>
-  class "Use-Case Model#F2\ncontained-defect" as C3 <<closed>>
-  class "Supplementary Specification#F1\nconsumed-defect" as C4 <<closed>>
-  class "Supplementary Specification#F2\nconsumed-defect" as C5 <<closed>>
-  class "Software Architecture Document#F1\nconsumed-defect" as C6 <<closed>>
-  class "Deployment Model#F1\nconsumed-defect" as C7 <<closed>>
-  class "Design Model#F1\ncontained-defect" as C8 <<closed>>
-  class "Risk List#F2\ncontained-defect" as C9 <<closed>>
+package "Closed this iteration - 3 of this lens" {
+  class "Development Case#F3\ncontained-defect\nDocument Control brought to Excavation 3" as C1 <<closed>>
+  class "Use-Case Model#F3\ntrace-gap\nfive COMP-014 edges now confirmed" as C2 <<closed>>
+  class "Use-Case Model#F4\nconsumed-defect\nR6 states both budgets under AN-024" as C3 <<closed>>
 }
 
-M1 --> C2 : the same class of defect\nrecurring on another edge
-M2 --> C4 : the same fact, in the one\nartifact the AR Majors missed
+M1 --> C1 : the same class of defect -\na cell behind its artifact
+M1 --> C2 : a row still reporting\nthe pre-correction state
+m1 --> C3 : R032 names F4 as open,\nand F4 is closed
+m2 --> C1 : one field, one artifact,\nthe same remedy C1 records
 
 note bottom of M1
-  Both open Majors are the two failure modes the
-  nine closures removed, found elsewhere in the set:
-  a recovered fact transcribed inconsistently, and
-  a trace edge never confirmed. Neither is new work.
+  Both corrections the plan's rows describe have landed and
+  been verified at the artifact. The plan is now the artifact
+  a reader cannot trust, not the Use-Case Model.
 end note
-note bottom of C9
-  Eight of the nine were the AR review's own ledger.
-  The ninth, Vision#F1, was the use-case-shape defect
-  the same review recorded.
+note bottom of C3
+  Verified in the artifact and against the code:
+  appsettings.Development.json binds 50/50/50 and
+  RateLimitExtensions.cs carries 100/100/100.
 end note
 
 @enduml
 ```
 
-#### Use-Case Model — the two open Majors
+#### Iteration Plan#F4 — four places state a defect their own artifact has corrected (Major, consumed-defect)
 
-##### Use-Case Model#F3 — five COMP-014 edges are suspect at the phase close (Major, trace-gap)
+**A1** reads "**Not met — open Major**" and gives one reason: "five `COMP-014 → UC-006` to `UC-010` `Realizes` edges are still marked suspect in the registered graph at the close". A fresh query of the graph on `COMP-014` upstream returns the five edges with no SUSPECT marking. `Use-Case Model#F3` is closed.
 
-The registered graph marks `COMP-014 → UC-006`, `UC-007`, `UC-008`, `UC-009` and `UC-010` each «SUSPECT → System Analyst». The System Analyst is the role named, and the Use-Case Model is that role's artifact. The edges are substantively right: `Todo.Api/Todos/TodoApi.cs:19-20` applies `RequirePerUserRateLimit()` to the whole `/todos` group, and the artifact's own shared gate diagram already states the step — "The per-user token bucket applies to the whole group". What is missing is the confirmation that clears the marking, and a phase that closes with it open certifies a Use-Case View whose widest mechanism is unconfirmed for every task use case.
+**A10** reads "**Not met — open Major**" and closes on "**Use-Case Model** — the fourth of the four — does not hold: its rules diagram's R6 reads … 100 tokens … and cites no `AN-024`". R6 now reads "In force: 50 tokens, 50 per 10 s, queue 50. Code defaults: 100 tokens, 100 per 10 s, queue 100 … AN-024", with both files cited in its note. `Use-Case Model#F4` is closed, and all four artifacts the criterion's own test names hold.
 
-**Remediation.** Re-register the five edges as confirmed, having checked each against the artifact and the code. If the marking was raised because a throttling mechanism is not the operation itself, record that reading beside the gate diagram's step — the bucket gates the operation, it does not perform it — as was done for the EP-003 screen edges. The Use-Case Survey's "Why a screen entry point and the forwarded operation are both named" is the pattern to follow.
+**A11** reads "**Not met — two of four open**" and quotes both Development Case Minors as standing. Document Control now reads Phase: Excavation, Iteration 3, Cycle 1, and CLS-DC-01 draws `CRV`, `MRV`, `BRV` and `RCO` edges into `RR` with the co-written sentence naming all six contributors. Both Minors A11 counts are corrected.
 
-##### Use-Case Model#F4 — the rules diagram states one request budget where two are in force (Major, consumed-defect)
+**O2** reads "**Not met** … Two Majors stand: `Use-Case Model#F3` … and `Use-Case Model#F4`" — the same two closed findings, stated a fourth time at the head of the plan.
 
-The rules diagram's R6 reads "The per-user token bucket, /todos only: 100 tokens, 100 per 10 s, queue 100, 429" and cites no anomaly. `Todo.Api/appsettings.Development.json` binds all three to 50 and both launch profiles select Development, so 50 is the budget in force wherever this delivery runs (AN-024). The same artifact states it correctly in the gate diagram note a few sections later, so the model now carries two answers to one question. The four rules diagrams are what a Designer or a Test Designer reads to know what the flows enforce.
+These are three of the thirteen criteria this milestone is decided on. The plan tells the Management Reviewer's re-take and the Review Coordinator's verdict that three criteria fail on defects that have been fixed, one of which the stakeholder ordered corrected by name. The cell that asserts another artifact's state is the artifact that must be re-read when that state changes — not at the next milestone.
 
-**Remediation.** State the two values in force in R6 — the code defaults 100 / 100 per 10 s / queue 100 from `RateLimitExtensions.cs`, and the Development override 50 / 50 / 50 from `appsettings.Development.json` which is what the delivery enforces — and add the AN-024 citation the other rules carry. Where the diagram needs one number, give 50 as the value in force.
+**Remediation.** Re-read the four places against the corrected artifacts and restate each at the state its evidence now supports: A1 "Met" with the five edges recorded as confirmed and requoted from a fresh graph query; A10 "Met — certified on the recovered set", naming R6 as the fourth artifact verified corrected and quoting its current wording under `AN-024`; A11 "Met — four of four", naming the four closed Minors and quoting no superseded sentence; O2 met on its own terms, since neither correction added or removed a use case. The sequence, the fine plan and A13's cell are correct and need no change.
 
-#### Closed this iteration
+#### Risk List#F3 — R032 keeps a live exposure whose retirement action has landed (Minor, contained-defect)
 
-Nine findings of this lens were closed on evidence, each verified at the section named and, for the four Majors about recovered facts, at the code itself.
+R032's strategy cell reads "**Avoid — action performed on five of six; one citing artifact open**" and names the sixth as "the Use-Case Model's rules diagram R6, whose correction is `Use-Case Model#F4`". The warning-sign cell reads "**fired** at `Use-Case Model#F4`; the register keeps the row open until the fourth artifact holds", and the diagram beside the table carries a contingency node for the sixth. R6 states both budgets under `AN-024` and `#F4` is closed, so all six citing artifacts hold and the register reports a Significant exposure as unmitigated. The register's own opening rule is the one broken, in the other direction: a claim about a retirement that has occurred.
 
-| Finding | Criterion | What closed it |
-|---|---|---|
-| Vision#F1 | use-case-shape | U12 and U13 are gone; the two mechanisms are `component` shapes under "Platform mechanisms - no actor goal, not use cases", cross-referenced to M8 and M9. The Vision states eleven use cases, as the Use-Case Model does |
-| Use-Case Model#F1 | trace-gap | The three EP-003 edges report OK in the graph, and the artifact states the screen-entry reading beside the rows |
-| Use-Case Model#F2 | contained-defect | The Actors section states the rule separating the two entry-point lists, and the matrix edges are labelled with what the actor acts on |
-| Supplementary Specification#F1 | consumed-defect | M3, S2, P1, R8 and F10 state both budgets under AN-024 and cite `appsettings.Development.json:8-12` |
-| Supplementary Specification#F2 | consumed-defect | R4 states the two hops apart under AN-023, with the three anchors the finding asked for |
-| Software Architecture Document#F1 | consumed-defect | SP1, M3, Process View P4 and the Quality row state 50 as the bound in force under AN-024; the code default is named as the value no profile selects |
-| Deployment Model#F1 | consumed-defect | The preamble is narrowed to what the files hold, and the Rate limiting row reads 50 / 50 / 50 for Development against the code defaults elsewhere |
-| Design Model#F1 | contained-defect | PD-D3 cites AN-025 for the unconverted owner key; AN-005 is cited only for `EnsureCreated`. A paragraph at the head of the classes section states the two subjects apart |
-| Risk List#F2 | contained-defect | R024 no longer attributes to the Design Model a state it does not hold; the mitigation now aims at the Supplementary Specification's R4, which was the artifact carrying the error |
+**Remediation.** Restate R032: the action performed on all six citing artifacts, R6 named among them with its current wording under `AN-024`, the exposure retired by the avoidance. Remove or relabel the diagram's contingency node to the one residual — the four artifacts re-read in one pass at the next milestone — and set the warning-sign cell to the state it now holds. `R030` and `R031` are correct as written and unchanged.
 
-#### Development Case — the Minor that persists
+#### Supplementary Specification#F3 — Document Control names iteration 2 (Minor, contained-defect)
 
-##### Development Case#F3 — Document Control is a phase behind (Minor, contained-defect)
+It reads "Iteration: 2, Cycle 1" while the other nine artifacts under this review read iteration 3. The artifact's content was corrected in iteration 2 and not touched this iteration, which is why the field was not brought forward. Contained: M3, S2, P1 and R8 state both budgets under `AN-024` and R4 the two hops under `AN-023`, no role builds on the metadata and no criterion turns on it. C7 asks each artifact to name the iteration whose review it is under.
 
-Document Control still reads "Phase: Survey", "Status: Draft — produced for the end-of-Survey (SBC) milestone review", "Milestone Target: end-of-Survey (SBC) — not yet achieved", "Iteration: 2, Cycle 1". Every other artifact under this review reads Phase: Excavation, Iteration 2. The Development Case is the CORE artifact this milestone's tailoring depends on. It is contained: the tailoring content is current — both classification verdicts and all six optional triggers were re-evaluated against the recovery, and the Deployment Model's fired trigger still holds — and no criterion depends on the metadata. It is carried in second place behind the two Majors, as an un-ordered Minor.
+**Remediation.** Set the Iteration field to "3, Cycle 1". Change no other field and no content.
 
-**Remediation.** Bring the four Document Control fields forward to Excavation, iteration 2, status Draft for the AR review. No other content changes.
+#### Artifacts with no finding from this lens
 
-#### Artifacts with no finding
+Development Case, System Inventory, Vision, Use-Case Model, Software Architecture Document, Deployment Model and Design Model carry no open finding from this lens. Each was re-read at the sections this lens previously found defective and each now holds. Silence from this lens is the approval.
 
-System Inventory, Risk List, Iteration Plan, Supplementary Specification, Software Architecture Document, Deployment Model and Design Model carry no open finding from this lens. Each was re-read at the sections this lens previously found defective and each now holds. Silence from this lens is the approval.
+The three closures this iteration are the substance of it. `Use-Case Model#F4` was the last artifact of the six that cite `AN-024` or `AN-023`, and it now states the fact the other five carry, under the same identifier and against the same file. `Use-Case Model#F3` was the last suspect marking in the graph: `COMP-014` now returns five `Realizes` edges and every one is confirmed, so the Use-Case View states its widest mechanism as confirmed for `UC-006` to `UC-010`. `Development Case#F3` brings the tailoring document onto the phase whose process it governs, and `#F2` — the Management Reviewer's finding on the same artifact — is closed by the same turn: CLS-DC-01 draws six edges into `RR`, and the co-owned sentence names Reviewer, CodeReviewer, Management Reviewer, Business Reviewer, Review Coordinator and the Configuration Manager's baseline record.
 
-The System Inventory's coverage arithmetic was recomputed rather than accepted: the per-area Files column sums to 139, the Read column to 84, the unread cells to 55, and the headline figure reproduces. Every unread area is named with the reason it was not read and none carries a perimeter fact. The Risk List's 32 rows each name a strategy, an owner, an action, a contingency and a warning sign, and its own R030 states "not yet retired" rather than claiming an avoidance that has not happened — which is the honest form the register lacked in iteration 1.
+The System Inventory's coverage arithmetic was recomputed rather than accepted: the per-area Files column sums to 139, the Read column to 84, the unread cells to 55, and the headline reproduces. Every unread area is named with its reason and none carries a perimeter fact.
 
 ### Management Reviewer lens
 <!-- review: Excavation I2 -->
