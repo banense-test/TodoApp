@@ -209,16 +209,69 @@ No availability, recovery, tolerance or degradation target is stated in the deli
 | R11 | The API's HSTS, redirection and antiforgery posture is the framework's default, which is to register none of them: the BFF's three protections stop at the BFF's own edge and are not inherited by the API it forwards to | `Todo.Web/Server/Program.cs:38-47`; `Todo.Api/Program.cs:1-77`; AS9 |
 
 ## Performance
+```plantuml
+@startuml
+title The only numeric limit the delivery fixes on its own behaviour - and the two values it takes
+
+skinparam shadowing false
+skinparam wrapWidth 225
+
+package "Code defaults - any environment with no RateLimiting section" {
+  class "TokenLimit 100" as D1 <<default>>
+  class "TokensPerPeriod 100\nper ReplenishmentPeriod 10 s" as D2 <<default>>
+  class "QueueLimit 100" as D3 <<default>>
+}
+
+package "Bound by appsettings.Development.json - the environment this delivery starts in" {
+  class "TokenLimit 50" as E1 <<in-force>>
+  class "TokensPerPeriod 50\nper 10 s" as E2 <<in-force>>
+  class "QueueLimit 50" as E3 <<in-force>>
+}
+
+package "Launch profiles that set Development" {
+  class "Todo.Api/Properties/launchSettings.json:14-16,25-27" as L1 <<anchor>>
+  class "Todo.Web/Server/Properties/launchSettings.json:6-8,15-17" as L2 <<anchor>>
+}
+
+class "429 Too Many Requests\nthe rejection status" as REJ <<behaviour>>
+class "Policy scope: /todos only\n/users carries no limit (F6, AN-009)" as SCOPE <<behaviour>>
+class "Partition key: ClaimTypes.NameIdentifier\nthe key does not exist for an anonymous caller" as PART <<behaviour>>
+
+D1 --> E1 : binds from\nRateLimiting:TokenLimit
+D2 --> E2 : binds from\nRateLimiting:TokensPerPeriod
+D3 --> E3 : binds from\nRateLimiting:QueueLimit
+L1 --> E1
+L2 --> E1
+E1 --> REJ
+E1 --> SCOPE
+E1 --> PART
+
+note bottom of E1
+  No figure stated for the system as a whole can hold for /users, and no
+  throughput or load observation taken in Development describes another
+  environment. AN-024.
+end note
+note bottom of PART
+  The policy reads the NameIdentifier claim with a null-forgiving operator.
+  An anonymous caller has no partition, so the limit cannot be described
+  as per-user for a request that carries no user.
+end note
+
+@enduml
+```
+
 | # | What the code fixes, which a later threshold would have to sit on | Anchor |
 |---|---|---|
 | P1 | A request budget with **two values in force**. The code defaults are 100 tokens per caller per 10-second period with a queue of 100, refilled every 10 seconds, answered 429 when exhausted; `Todo.Api/appsettings.Development.json` binds all three options to 50, and both launch profiles run Development, so **the environment this delivery starts in allows 50 tokens per caller per 10-second period with a queue of 50**. This is the only numeric limit the delivery fixes on its own behaviour, and it is the one number in the delivery that differs between environments (`AN-024`) | `Todo.Api/Extensions/RateLimitExtensions.cs:20-30`; `Todo.Api/appsettings.Development.json:8-12`; `Todo.Api/Properties/launchSettings.json:14-16,25-27`; `Todo.Web/Server/Properties/launchSettings.json:6-8,15-17`; AN-024 |
-| P2 | No payload size limit is configured on any endpoint | `Todo.Api/Program.cs`; `Todo.Web/Server/Program.cs` |
+| P2 | No payload size limit is configured on any endpoint: no `MaxRequestBodySize`, no request-size limit and no `[RequestSizeLimit]` appears in either program, so the Kestrel default of 30,000,000 bytes applies unmodified and nothing narrower is declared | `Todo.Api/Program.cs`; `Todo.Web/Server/Program.cs` |
 | P3 | Every task read and write is one SQL statement over an indexed `OwnerId`, or one primary-key lookup. No pagination and no ordering is declared, so the list returns every row the caller owns in one response | `Todo.Api/Todos/TodoApi.cs:24-51`; System Inventory — Persistent Data |
 | P4 | The API resolves the user row from the database on every request, in addition to the query the request performs | `Todo.Api/Authorization/CurrentUser.cs:6-13` |
 | P5 | The response body and headers of every API request are logged when the environment is Development | `Todo.Api/Program.cs:35-46` |
 | P6 | The token lifetime is the framework default: no lifetime, signing key or refresh interval is configured | `Todo.Api/Program.cs:14` |
+| P7 | The hop between the BFF and the API carries no compression, no batching and no caching configured by the delivery: the forwarder passes each request through as it arrives, over plain HTTP to `http://todoapi` | `Todo.Web/Server/TodoApi.cs:12-25`; DC13 |
 
 **What a later threshold must not assume.** The rate limit is per caller and the Identity endpoints have none, so no figure stated for the system as a whole can hold for `/users`. The list endpoint has no page bound, so no response-time figure can hold for a caller with an unbounded number of rows. And the budget is environment-dependent: an observation taken in Development measures 50 per caller per 10 seconds, not the 100 the code defaults to in any environment whose configuration file does not override it (`AN-024`) — so no throughput or load figure may be carried from Development to another environment.
+
 ## Supportability
 | # | What the delivery fixes | Anchor |
 |---|---|---|
