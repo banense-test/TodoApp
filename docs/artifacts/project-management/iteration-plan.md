@@ -277,16 +277,16 @@ The chain is sequential at its load-bearing points: four corrections precede the
 ## Resources
 The roles are the 26-role roster of the IARI DC baseline, minus the two the Development Case records as not working in this project. No role is added, merged or renamed.
 
-**Environment runs in every phase.** The stakeholder restated the baseline at the AR re-take of 2026-11-23: the process runs Environment in every phase, and in Excavation it is the phase's first discipline, at Low intensity, with the Process Engineer's stage. Iteration 3 held that stage and the tailoring document is now on the baseline. The fourth iteration schedules no Environment item: nothing it corrects is a Development Case section.
+**Environment runs in every phase.** The stakeholder restated the baseline at the AR re-take of 2026-11-23: the process runs Environment in every phase, and in Excavation it is the phase's first discipline, at Low intensity, with the Process Engineer's stage. Iteration 3 held that stage and the tailoring document is now on the baseline. The fourth iteration scheduled no Environment item: nothing it corrected is a Development Case section.
 
 | Role | Discipline | Iterations 1–2 | Iteration 3 | Iteration 4 | Why |
 |---|---|---|---|---|---|
-| Project Manager | Project Management | Yes | Yes | **Yes** | Corrects its own record: the five cells of the criteria and objectives tables, the fine plan's Closes column, and `R032`'s strategy cell. Three of the four open findings are this role's |
+| Project Manager | Project Management | Yes | Yes | **Yes** | Corrects its own record: the cells of the criteria and objectives tables, the fine plan's Closes column, and `R032`'s strategy cell. Three of the four findings open at iteration 4's start were this role's, and `Iteration Plan#F10` was recorded against it at the gate |
 | System Analyst | Requirements | Yes | Yes | **Yes** | One metadata field on the Supplementary Specification; no recovered content changes |
-| Reviewer | Review | Yes | Yes | **Yes** | Technical lens on the restated cells and the register |
-| Management Reviewer | Review | Yes | Yes | **Yes** | Management lens — A1 to A13 re-taken, and the gate put |
+| Reviewer | Review | Yes | Yes | **Yes** | Technical lens on the restated cells and the register; recorded `Development Case#F4` |
+| Management Reviewer | Review | Yes | Yes | **Yes** | Management lens — A1 to A13 re-taken, and the gate put; recorded `Iteration Plan#F10` |
 | Review Coordinator | Review | Yes | Yes | **Yes** | AR milestone verdict, read on the answer |
-| Process Engineer | Environment | **Did not run** — no stage recorded | **Yes — the phase's first discipline, at Low** | No | Its three turns ran in iteration 3: `Development Case#F2` and `#F3` are closed and the tailoring states the baseline. No finding remains against the document |
+| Process Engineer | Environment | **Did not run** — no stage recorded | **Yes — the phase's first discipline, at Low** | No | Its three turns ran in iteration 3: `Development Case#F2` and `#F3` are closed and the tailoring states the baseline. One Minor stands against the document — `Development Case#F4`, ACT-DC-01's per-phase discipline list — and it is corrected in the Process Engineer's first stage in Consolidation, which is where that role next works |
 | Software Architect | Analysis & Design | Yes | No | No | Both its Majors are closed; no finding remains against the Software Architecture Document or the Deployment Model |
 | Designer | Analysis & Design | Yes | No | No | `Design Model#F1` closed; no finding remains |
 | Database Designer | Analysis & Design | Yes | No | No | No finding was recorded against the persistent data in any iteration |
@@ -305,9 +305,10 @@ The roles are the 26-role roster of the IARI DC baseline, minus the two the Deve
 | Configuration Manager | Configuration & Change Management | No — Inception | No — Inception | No — Inception | No baseline exists yet |
 | Change Control Manager | Configuration & Change Management | No — Inception | No — Inception | No — Inception | The Change Request ledger is opened at LCO |
 
-The stakeholder is not an agent role: they are the only human in the process, and their work is gate H4 — put three times, answered with the set confirmed and the advance refused, and put once more on records that agree with it.
+The stakeholder is not an agent role: they are the only human in the process, and their work is gate H4 — put four times, refused at the first and second, answered at the third with the set confirmed and the advance refused while a Major stood, and answered Yes at the fourth on records that agree with the set.
 
-**The role profile narrows, and this is the intended direction.** Iteration 3 ran six agent roles; the fourth runs five, because the one correction that needed the Software Architect, the Designer and the Database Designer is behind the phase. A smaller profile is not a cheaper plan: it is what remains when the recovery is done and only the record of it is behind.
+**The role profile narrows, and this is the intended direction.** Iteration 3 ran six agent roles; the fourth ran five, because the one correction that needed the Software Architect, the Designer and the Database Designer is behind the phase. A smaller profile is not a cheaper plan: it is what remains when the recovery is done and only the record of it is behind.
+
 ## Use Cases and Scenarios Addressed
 Eleven use cases, recovered from the 22 entry points the System Inventory records. Every use case traces to the `EP-NNN` whose code performs it, and no use case is recovered from an intent the code does not carry. Every anomaly cited below is cited for the fact the System Inventory's Anomalies table gives it.
 
