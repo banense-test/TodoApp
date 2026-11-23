@@ -35,148 +35,56 @@
 
 ## Review Scope and Criteria
 ### Reviewer lens
-<!-- review: Excavation I1 -->
+<!-- review: Excavation I2 -->
 
-<!-- review: Excavation I1 -->
+<!-- review: Excavation I2 -->
 
-**Review type.** Lifecycle milestone review, technical lens, at the AR (end-of-Excavation) review point. The question applied is exit criteria: whether the artifacts this phase produced establish that the system's operations, architecture and data have been recovered from the code — each element resting on the file it cites — and whether that recovered set may be put to the stakeholder at gate H4.
+#### Review scope — Excavation iteration 2, technical lens
 
-**Artifacts under review — ten, read whole.**
+The ten artifacts the AR review left findings against, plus the two this lens read for exit-criteria evidence. Each was re-read at the section its finding named, and each corrected fact was checked at its source code rather than taken from the finding's remedy.
 
-| Artifact | Owner | Discipline | Content read against |
-|---|---|---|---|
-| Vision | System Analyst | Requirements | The Use-Case Model and the System Inventory's perimeter |
-| Use-Case Model | System Analyst | Requirements | The System Inventory's entry points; the registered trace graph |
-| Supplementary Specification | System Analyst | Requirements | The mechanisms' anchors, opened |
-| Software Architecture Document | Software Architect | Analysis & Design | The manifests, the mechanisms' anchors, the use cases |
-| Deployment Model | Software Architect | Analysis & Design | The orchestration, the launch profiles, the environment files |
-| Design Model | Designer, Database Designer | Analysis & Design | The migrations, the entity declarations, the anomalies |
-| System Inventory | Software Archaeologist | Discovery | Its own arithmetic and its own trace rows |
-| Risk List | Project Manager | Project Management | Its own scoring mapping and the artifacts it cites |
-| Iteration Plan | Project Manager | Project Management | The exit criteria against the artifacts each cites |
-| Development Case | Process Engineer | Environment | The IARI DC baseline in this review's own prompt |
-
-The Iteration Assessment is not reviewed: the Project Manager authors it in the Assess touchpoint that runs after this review, so at review time it cannot describe the iteration being reviewed. Its absence is not a finding and not a gate condition.
-
-**Checklist applied.** The EVIDENCE lens of Excavation, per artifact type: Requirements — every use case traces to the entry point whose code performs it, every entry point carried or its exclusion stated, no cross-cutting mechanism drawn as a use case, trace rows matching the graph. Analysis & Design — every component, class and mechanism resting on an anchor that says what the artifact claims, every declared technology present in a manifest, environment differences stated correctly, subsystem boundaries not named by layer. Discovery — coverage arithmetic reproducing, edge counts reproducing, Document Control naming its own iteration. Project Management — every anomaly carried, every score reproducing from one mapping, the grant band holding the stakeholder's own answers, each exit criterion certified on its own artifact's evidence. Environment — DC baseline conformance and every FIRED optional trigger holding its §5.2 condition.
-
-**Scope of this pass — and what it is not.** This lens re-read all ten artifacts whole. It is not a re-litigation of the two SBC passes: the four Survey artifacts' iteration-2 rework is confirmed closed below and the Survey findings resolved. What is new is that Excavation produced six artifacts that did not exist at SBC, and this is the first pass over them; the two facts it found wrong cut across both the new artifacts and the ones they build on.
-
-```plantuml
-@startuml
-title Compliance matrix - checklist item x artifact, this technical lens, Excavation iteration 1
-
-skinparam shadowing false
-skinparam classAttributeIconSize 0
-skinparam wrapWidth 210
-hide circle
-hide empty members
-
-package "Requirements - anchor and shape" {
-  class "Use-Case Model\nSystem Analyst" as UCM {
-    ..
-    every use case traces to its EP-NNN : PASS
-    every entry point carried or exclusion stated : PASS
-    no cross-cutting mechanism drawn as a use case : PASS
-    one use case per goal, two scenarios not per-actor : PASS
-    Traceability rows agree with the registered graph : FAIL
-  }
-  class "Supplementary Specification\nSystem Analyst" as SS {
-    ..
-    every mechanism anchored to its file : PASS
-    behaviour the recovery must not overstate : PASS
-    figures reproduce from the stated anchor : FAIL
-    resilience stated as the code has it : FAIL
-  }
-  class "Vision\nSystem Analyst" as VIS {
-    ..
-    no scope invented for the delivery : PASS
-    every feature names its EP-NNN : PASS
-    cross-cutting mechanisms kept out of use-case notation : FAIL
-    stakeholder rulings recorded where they bite : PASS
-  }
-}
-
-package "Analysis and Design - recovered structure" {
-  class "Software Architecture Document\nSoftware Architect" as SAD {
-    ..
-    every component carries its anchor : PASS
-    components realize the recovered use cases : PASS
-    every declared technology is in a manifest : PASS
-    a mechanism's values reproduce from its anchor : FAIL
-    upstream disagreement recorded not reconciled : PASS
-  }
-  class "Deployment Model\nSoftware Architect" as DEP {
-    ..
-    topology anchored to the orchestration : PASS
-    ports stated as profiles not orchestration : PASS
-    environment differences stated correctly : FAIL
-    OPTIONAL trigger justified in the Development Case : PASS
-  }
-  class "Design Model\nDesigner, Database Designer" as DM {
-    ..
-    every class carries its anchor : PASS
-    persistent store recovered with keys and rules : PASS
-    Data Model omitted with its trigger stated : PASS
-    anomaly citations point at the right anomaly : FAIL
-  }
-}
-
-package "Discovery and Project Management" {
-  class "System Inventory\nSoftware Archaeologist" as SI {
-    ..
-    every entry point and anomaly anchored : PASS
-    coverage arithmetic reproduces from its table : PASS
-    edge count reproduces from its own rows : PASS
-    Document Control names its own iteration : PASS
-  }
-  class "Risk List\nProject Manager" as RL {
-    ..
-    every anomaly carried as one risk : PASS
-    every score reproduces from one mapping : PASS
-    grant band holds the stakeholder's own answer : PASS
-    a risk's premise matches the artifact it cites : FAIL
-  }
-  class "Iteration Plan\nProject Manager" as IP {
-    ..
-    every work item is a stage the phase runs : PASS
-    exit criteria certified on their own evidence : PASS
-    State column states each row's outcome : PASS
-  }
-  class "Development Case\nProcess Engineer" as DC {
-    ..
-    no baseline redefinition : PASS
-    every FIRED optional justified per its trigger : PASS
-    Document Control names the current phase : FAIL
-    contributor set names every lens that writes : FAIL
-  }
-}
-
-@enduml
-```
-
-**Prior findings of this lens — reconciled before new defects were recorded.**
-
-| Artifact | Finding | State this pass | What was checked |
-|---|---|---|---|
-| System Inventory | `System Inventory#F3` (Minor) — Document Control still read iteration 1 | Resolved | Document Control now reads "Iteration: Excavation iteration 1, cycle 1", the iteration its content belongs to |
-| Iteration Plan | `Iteration Plan#F3` (Minor) — the fine plan's State column contradicted the artifacts | Resolved | The section commits to stating each row's actual outcome; row 9 cites the Document Control correction, verified in the artifact; row 10 records `Development Case#F2` as Not started rather than complete, which is the true state |
-
-`Development Case#F2` — the contributor set omitting three lenses, ordered corrected by the stakeholder on 2026-11-23 — belongs to the **Management Reviewer's** lens, not this one, and this lens leaves it to that lens. The Iteration Plan's item 10 and its criterion A11 already record it as outstanding and carried as `R031`; the artifact still reads "Reviewer, CodeReviewer, plus the Configuration Manager's baseline record". This lens records nothing against it because it has no finding of its own on it — a second lens's key must be closed by that lens.
-
-**Anchor verdict — the statements this phase's recovery rests on, opened rather than trusted.**
-
-| Claim under review | Anchor opened | Verdict |
+| Artifact | Reviewed for | Iteration-2 outcome |
 |---|---|---|
-| The rate-limit values 100 / 100 / 100 are the effective ones because no `RateLimiting` section exists | `Todo.Api/appsettings.Development.json` | **Contradicted** — the file carries `"RateLimiting": { "TokenLimit": 50, "TokensPerPeriod": 50, "QueueLimit": 50 }`. Both launch profiles set `ASPNETCORE_ENVIRONMENT` to Development, so 50 is the value that applies. The System Inventory records this as AN-024 and the Risk List as R025; three of the artifacts under review state the opposite |
-| No retry, circuit breaker or fallback is configured on either hop out of the BFF | `TodoApp.ServiceDefaults/Extensions.cs` | **Contradicted** — `ConfigureHttpClientDefaults(http => { http.AddStandardResilienceHandler(); ... })` applies the standard retry, circuit-breaker, timeout and rate-limiter pipeline to every container-built `HttpClient`, which reaches `AuthClient`. Only the YARP forwarder hop carries none. The SAD states this correctly at P6; the Supplementary Specification's R4 says "either hop" |
-| The ownership predicate is written four times and the list applies half of it | `Todo.Api/Todos/TodoApi.cs` | **Confirmed** — `Where(todo => todo.OwnerId == owner.Id)` on the list with no admin branch; `todo.OwnerId == owner.Id \|\| owner.IsAdmin` on the read, the update and the delete. AN-018 is accurately stated in the System Inventory, the Supplementary Specification and the SAD |
-| `POST /todos` copies the title alone, so a create body asking for a completed row produces `IsComplete` false | `Todo.Api/Todos/TodoApi.cs` | **Confirmed** — `new Todo { Title = newTodo.Title, OwnerId = owner.Id }`, with no assignment from `newTodo.IsComplete`. UC-007's step 5 and the Design Model's R-facts both state it correctly |
-| Every entry-point-bearing anomaly edge reproduces from the System Inventory's own row | System Inventory "Traceability" and "Anomalies", both read together | **Confirmed** — 21 `DependsOn` edges across twelve anomalies, matching the Iteration Plan's twelve-row handoff table. `AN-021` carries all three of `EP-004`, `EP-005`, `EP-007`, the edge the earlier pass found missing |
+| Development Case | Document Control currency; tailoring against the IARI baseline; optional triggers | 1 Minor open |
+| System Inventory | Coverage arithmetic; anomalies anchored; entry points accounted for | Clean |
+| Risk List | Score reproducibility; retirement claims; the grant band | Clean — F2 closed |
+| Iteration Plan | Exit-criteria evidence; risk sequencing | Clean |
+| Vision | Use-case count; mechanism shapes | Clean — F1 closed |
+| Use-Case Model | The recovered set; trace rows against the graph; the two entry-point readings | 2 Major open |
+| Supplementary Specification | The recovered figures under AN-024 and AN-023 | Clean — F1, F2 closed |
+| Software Architecture Document | The recovered figures; component trace rows | Clean — F1 closed |
+| Deployment Model | Environment mapping against the files it maps | Clean — F1 closed |
+| Design Model | Anomaly citations; the persistent store | Clean — F1 closed |
 
-Two of five anchors opened contradicted the artifacts that cite them, and each contradiction is recorded below against every artifact that carries it.
+#### Criteria applied
 
-**SCM evidence.** No open pull request exists, and none should: the sprint zero writes no production code — Implementation runs from Inception — so a pull request in this phase would itself be a `scm-phase-discipline` finding. `scm_list_pull_requests(state: open)` returns none. There is no IARI pipeline on `main`, so no build status exists to be red. Nothing is disposed in this review and no code review decision is owed. This is the correct state for Excavation, not an absence to be flagged.
+This milestone's question is EXIT CRITERIA, not feasibility or completion. Eight items were tested; each is a test with a pass or fail answer, not an opinion.
+
+| # | Criterion | What passes |
+|---|---|---|
+| C1 | Recovered, not declared | No element claims scope the delivery does not hold; a recovered element cites the file it was read from |
+| C2 | Anchored | Every recovered element rests on the file and lines it names |
+| C3 | No cross-cutting mechanism as a use case | Authentication, sync, logging, audit, health and migration are mechanisms, not actor goals |
+| C4 | One goal, one use case | A multi-actor process is one use case with scenarios; not one per actor |
+| C5 | Trace rows carried | Every row a trace-chain artifact declares is carried by the registered graph |
+| C6 | No suspect trace open at the phase close | No edge named in a declared row carries a SUSPECT marking |
+| C7 | Document Control current | Phase, Status, Milestone Target and Iteration name the phase and iteration whose review the artifact is under |
+| C8 | Diagram-dominant | Formal UML carries the content; prose supplements what a diagram cannot express |
+
+#### Evidence verified at source this iteration
+
+The four Majors the AR review raised were all about one class of defect — a recovered fact transcribed inconsistently into the artifacts citing it. Closing them on the artifact's own text alone would have repeated the mistake that created them, so each corrected fact was opened at the code it cites.
+
+| Fact | Artifact statements checked | Code opened | Result |
+|---|---|---|---|
+| Development halves the request budget | Supplementary Specification M3, S2, P1, R8, F10; SAD SP1, M3, Process View P4, Quality; Deployment Model Environment Mapping and its Rate limiting row | `Todo.Api/appsettings.Development.json` — `RateLimiting` `TokenLimit` 50, `TokensPerPeriod` 50, `QueueLimit` 50; `RateLimitExtensions.cs` — the code defaults 100, 100, queue 100 bound from a `RateLimiting` section | Reproduces. All three artifacts now state both values under AN-024 |
+| Two BFF hops, unequal resilience | Supplementary Specification R4 | `TodoApp.ServiceDefaults/Extensions.cs:32-42` — `ConfigureHttpClientDefaults` with `AddStandardResilienceHandler()`; `Todo.Web/Server/TodoApi.cs` — `MapForwarder("{*path}", "http://todoapi", new ForwarderRequestConfig(), …)` with no handler | Reproduces. R4 states the two hops apart under AN-023 |
+| Coverage arithmetic | System Inventory Coverage — 139 files, 84 read, 55 unread | Per-area Files column sums to 139, Read to 84, unread cells to 55; every unread category is named | Reproduces |
+| The three EP-003 trace edges | Use-Case Model Traceability rows for UC-006, UC-007, UC-008 | Trace graph, EP-003 downstream | All three now report OK; the SUSPECT marking is gone |
+
+#### SCM and build evidence
+
+The repository reports no pull requests in any state and no IARI pipeline file, so there is no code review or CI result to weigh at this gate. That is correct for the phase rather than a defect: Excavation produces no production code, and the tree's own code is unchanged since `307a1ea` of 2026-02-12. This lens's disposition therefore rests on artifact evidence alone, and the absence of SCM evidence is stated here rather than silently omitted.
 
 ### Management Reviewer lens
 <!-- review: Excavation I1 -->
