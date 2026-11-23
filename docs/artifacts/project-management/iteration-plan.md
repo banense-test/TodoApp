@@ -89,7 +89,7 @@ Sequencing is driven by the Risk List, not by convenience. The risks whose actio
 
 ### This iteration's fine plan
 
-The work items are the stages the IARI DEVELOPMENT PROCESS runs in Excavation, plus the four Minors the SBC review left open, which the stakeholder ordered closed in this phase rather than left unattended. No work item adds a stage the process does not run and none belongs to another phase.
+The work items are the stages the IARI DEVELOPMENT PROCESS runs in Excavation, plus the four Minors the SBC review left open, which the stakeholder ordered closed in this phase rather than left unattended. No work item adds a stage the process does not run and none belongs to another phase. The State column states each row's actual outcome against the artifact it names — no row reads complete whose correction is not in the artifact.
 
 ```plantuml
 @startuml
@@ -101,54 +101,51 @@ skinparam wrapWidth 240
 |Project Manager|
 start
 :R1 - Risk List
-carry the recovery's anomalies
-as scored risks;
+the recovery's anomalies
+carried as scored risks;
+:R2 - Iteration Plan
+the coarse roadmap, this fine plan,
+and the two Minors it carries;
 
 |System Analyst|
-:R2 - Vision, Use-Case Model
+:R3 - Vision, Use-Case Model
 Supplementary Specification
 11 use cases recovered from 22 entry points;
-:R3 - the recovery's own findings
+:R4 - the recovery's own findings
 R019, R020, R021, R023, R028, R030
 written into the recovered flows;
 
 |Software Architect|
-:R4 - Software Architecture Document
-components and connectors,
-then mechanisms, technology and deployment;
-:R5 - Deployment Model
+:R5 - Software Architecture Document
+the views and the mechanisms,
+then the deployment;
+:R6 - Deployment Model
 the phase's fired OPTIONAL;
 
 |Designer and Database Designer|
-:R6 - Design Model
-domain model, then packages and classes;
-:R7 - persistent data
+:R7 - Design Model
+the domain model and the classes;
+:R8 - persistent data
 entities, keys, associations,
 the owner key and the enforced rules;
 
 |Software Archaeologist|
-:R8 - System Inventory
+:R9 - System Inventory
 anomalies, then history and coverage;
 note right
-  Together with System Inventory#F3,
-  the iteration field of Document Control.
-end note
-
-|Project Manager|
-:R9 - Iteration Plan
-coarse roadmap and this fine plan;
-note right
-  Together with Iteration Plan#F2 and
-  Iteration Plan#F3, both Minors.
+  Carries System Inventory#F3: Document Control
+  names the iteration its content belongs to.
 end note
 
 |Process Engineer|
 :R10 - Development Case
-the contributor set corrected;
+the contributor set, outstanding;
 note right
-  Development Case#F2, a Minor. Environment is
-  inactive in Excavation: this stretch runs on the
-  stakeholder's order alone, not as a discipline stage.
+  Development Case#F2. Environment runs at no
+  intensity in Excavation, so this stretch runs on
+  the stakeholder's order of 2026-11-23 alone.
+  Until it runs, the Minor stays open and the
+  criterion that counts it stays not met.
 end note
 
 |Reviewer|
@@ -167,7 +164,7 @@ the recovered set confirmed,
 or not;
 note right
   Human gate: waiting, not working. Bound as R022,
-  ceiling 14 days, no estimate.
+  ceiling 14 days of queue time, no estimate.
 end note
 
 |Review Coordinator|
@@ -180,20 +177,22 @@ stop
 
 | # | Work item | Owner | Depends on | State |
 |---|---|---|---|---|
-| 1 | Risk List — carry the recovery's anomalies as scored, owned risks; record the acceptance grants verbatim | Project Manager | — | Complete — 29 anomalies carried as R001 to R030; 8 added by Excavation (R023 to R030); the four Significant-band acceptances hold the stakeholder's 2026-11-23 answer |
-| 2 | Vision, Use-Case Model, Supplementary Specification — recover the operations, the actors and the constraints | System Analyst | 1 | Complete — 11 use cases from 22 entry points, each tracing to its `EP-NNN`; UC-003 marked unreachable and UC-009, UC-010 API-only, per the stakeholder's rulings |
-| 3 | The recovery's own failure statements written into the flows | System Analyst | 2 | Complete — R019, R020, R021, R023 and R028 are recorded as the flows the code performs, each anchored, not as intended behaviour |
-| 4 | Software Architecture Document — components and connectors, then mechanisms, technology and deployment | Software Architect | 2 | Complete — components recovered with their anchors; SP1 and M3 state the limiter; M9 the migration event |
-| 5 | Deployment Model — the phase's fired OPTIONAL | Software Architect | 4 | Complete — the triggered artifact exists; the key-ring decision and the environment table are stated |
-| 6 | Design Model — domain model, then packages and classes | Designer | 2 | Complete — the domain model and the classes recovered, with the two contract declarations recorded against one element |
-| 7 | Persistent data — entities, keys, associations, enforced rules | Database Designer | 6 | Complete — the tables, the owner key and its migration history, and the rules the schema enforces |
-| 8 | System Inventory — anomalies, then history and coverage; and `System Inventory#F3` | Software Archaeologist | 1 | Complete — 29 anomalies anchored, 20 history listings, coverage 84 read of 139; Document Control reads Excavation iteration 1 |
-| 9 | Iteration Plan — the coarse roadmap and this fine plan; and `Iteration Plan#F2` and `Iteration Plan#F3` | Project Manager | 1 | Complete — this section; C2b restated Met on the gate H2 answer, and the State column carries each row's outcome |
-| 10 | Development Case — `Development Case#F2`, the contributor set | Process Engineer | — | Complete — the co-owned-artifact sentence and CLS-DC-01 name the three lenses that write into the Review Record |
-| 11 | Technical lens re-run against the recovered set | Reviewer | 2, 3, 4, 5, 6, 7, 8, 9, 10 | Not started — the lens this iteration's artifacts are reviewed by |
+| 1 | Risk List — carry the recovery's anomalies as scored, owned risks; record the acceptance grants verbatim | Project Manager | — | Complete — 29 anomalies carried as `R001` to `R030`, with `R022`'s separate origin stated; the eight Excavation added (`R023` to `R030`) each restate no prior risk; the four Significant-band acceptances hold the stakeholder's own answer of 2026-11-23 |
+| 2 | Iteration Plan — the coarse roadmap, this fine plan, and `Iteration Plan#F2` with `Iteration Plan#F3` | Project Manager | 1 | Complete — this section and Evaluation Criteria; the State column states each row's actual outcome, and the criteria table records no answer the stakeholder did not give |
+| 3 | Vision, Use-Case Model, Supplementary Specification — recover the operations, the actors and the constraints | System Analyst | 1 | Complete — 11 use cases from 22 entry points, each tracing to its `EP-NNN`; `UC-003` marked unreachable and `UC-009`, `UC-010` API-only, per the stakeholder's rulings of 2026-11-23 |
+| 4 | The recovery's own failure statements written into the flows | System Analyst | 3 | Complete — `R019`, `R020`, `R021`, `R023` and `R028` are recorded as the flows the code performs, each anchored, not as intended behaviour |
+| 5 | Software Architecture Document — the views, the mechanisms, then the deployment | Software Architect | 3 | Complete — 22 components recovered with their anchors; SP1 and M3 state the limiter, M9 the migration event, P6 the two hops' unequal protection, and the disagreement with Supplementary Specification R4 is recorded rather than reconciled |
+| 6 | Deployment Model — the phase's fired OPTIONAL | Software Architect | 5 | Complete — `get_optional_artifact_triggers` reports the trigger fired; the one-machine placement, the nodes and connectors, the environment mapping and the key-ring requirement (`AN-010`) are stated |
+| 7 | Design Model — the domain model and the classes | Designer | 3 | Complete — 42 classes recovered with their anchors; the two contract declarations recorded against one element and the list's absent error path recorded at `AN-026` |
+| 8 | Persistent data — entities, keys, associations, enforced rules | Database Designer | 7 | Complete — the entities, the owner key and its re-point by the third migration, what the migrations enforce, and "What the code does not hold" |
+| 9 | System Inventory — anomalies, then history and coverage; and `System Inventory#F3` | Software Archaeologist | 1 | Complete — 29 anomalies anchored, 20 history listings, coverage 84 read of 139; Document Control now reads Excavation iteration 1, the iteration its content belongs to |
+| 10 | Development Case — `Development Case#F2`, the contributor set | Process Engineer | — | **Not started** — "Roles and Ownership" still reads "Reviewer, CodeReviewer, plus the Configuration Manager's baseline record", and CLS-DC-01 draws no edge into the Review Record from the Management Reviewer, the Business Reviewer or the Review Coordinator. Environment runs at no intensity in Excavation, so this runs on the stakeholder's order of 2026-11-23 alone |
+| 11 | Technical lens re-run against the recovered set | Reviewer | 3, 4, 5, 6, 7, 8, 9, 10 | Not started — the lens this iteration's artifacts are reviewed by |
 | 12 | Management lens — the AR exit criteria re-taken on the evidence each cites | Management Reviewer | 11 | Not started |
 | 13 | Gate H4 — the recovered set confirmed by the stakeholder | Stakeholder | 12 | Queued — a human gate, quoted in days of queue time; no estimate |
 | 14 | AR milestone verdict — read on the answer gate H4 returns | Review Coordinator | 13 | Not started |
+
+Item 10 is the one work item this iteration carries open. Its artifact is not this plan's to correct and no other row waits on it; A11 in Evaluation Criteria records it as the criterion that is not met.
 
 **Two currencies, never summed.** Items 1 to 12 and 14 are agent work, quoted in tokens and measured elapsed agent time. Item 13 is a human gate — waiting, not working — quoted only in days of queue time.
 
@@ -205,7 +204,7 @@ stop
 | Survey — agent runs | 10 |
 | Survey — artifacts | 6 |
 
-That is the one measured actual this project holds, and it is per phase, not per iteration: no per-iteration figure is recorded and none is quoted as a velocity. Excavation has no measured actual yet — it has not closed — so no forecast figure is stated and none is invented. What can be said is the basis on which a forecast is made once this phase closes: Excavation recovered six artifacts from the same 139-file tree Survey read, each citing an anchor, so what it cost is a question only its own measurement answers. `[ASSUMPTION — requires validation: the relative size of Excavation's reading surface against Survey's is the Project Manager's reading of the two phases' work, not a measurement]`.
+That is the one measured actual this project holds, and it is per phase, not per iteration: no per-iteration figure is recorded and none is quoted as a velocity. Excavation has no measured actual yet — it has not closed — so no forecast figure is stated and none is invented. What can be said is the basis on which a forecast is made once this phase closes: Excavation recovered seven artifacts from the same 139-file tree Survey read, each citing an anchor, so what it cost is a question only its own measurement answers. `[ASSUMPTION — requires validation: the relative size of Excavation's reading surface against Survey's is the Project Manager's reading of the two phases' work, not a measurement]`.
 
 The project declares no token budget, so there is no box to fit: no figure is proposed for the stakeholder to accept, and no declared work is cut or deferred to meet an estimate.
 
@@ -213,7 +212,7 @@ The chain is sequential at its load-bearing points: the architecture, the design
 
 | Human gate | Who | What the iteration waits for | Bound | Answer |
 |---|---|---|---|---|
-| H4 | Stakeholder | The recovered set confirmed: the 11 use cases as the operations the existing system performs, the architecture as the components it already has, and the data as it is stored — each as an interpretation of code with its anchor, since the delivery states no intent to check them against | R022 — ceiling 14 days of queue time; on expiry the process suspends and nothing is auto-filled | Not yet asked. It is put after this iteration's review, so the stakeholder is asked only what the reviewers have settled |
+| H4 | Stakeholder | The recovered set confirmed: the 11 use cases as the operations the existing system performs, the architecture as the components it already has, and the data as it is stored — each as an interpretation of code with its anchor, since the delivery states no intent to check them against | `R022` — ceiling 14 days of queue time; on expiry the process suspends and nothing is auto-filled | Not yet asked. It is put after this iteration's review, so the stakeholder is asked only what the reviewers have settled |
 
 ### Risk-driven sequencing of this iteration
 
