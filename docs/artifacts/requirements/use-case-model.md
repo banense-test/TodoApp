@@ -221,6 +221,8 @@ Consolidation therefore inherits no deferred use case from this model. The eleve
 ## Use-Case Specifications
 Every flow below is the flow the code performs, not a flow anyone intended. Each step carries the file and lines it was read from, and each step is followed by the rule the code enforces at that step; where the code contradicts a document or another part of itself, the code is recorded and the contradiction is named.
 
+The four session flows — UC-001, UC-002, UC-003 and UC-004 — sit on a surface whose failure paths were never modified and whose behaviour no test confirms. That statement is made once, with its anchors, in "The instability UC-001 to UC-004 sit on" at the end of this section; read it before those four flows.
+
 ```plantuml
 @startuml
 title The rules the recovered flows enforce, and the use case each one guards
@@ -929,15 +931,73 @@ stop
 
 ### The instability UC-001 to UC-004 sit on
 
-The four account use cases pass through the BFF's session surface, and that surface is the least settled part of the delivery: `Todo.Web/Server` carries 33 commits and `AuthApi.cs` alone carries 15, every one of them touching a success path, and none of them touching the three failure paths that now stand as `AN-019`, `AN-020` and `AN-021` (`AN-029`). The whole surface carries no test of any kind (`AN-012`).
+The four account use cases pass through the BFF's session surface. That surface has moved 33 times and been verified zero times, and its three failure paths were never modified — they are `AN-019`, `AN-020` and `AN-021`, and `AN-029` records the shape they share. **R030 carries this exposure.** No flow in UC-001 to UC-004 is settled behaviour; each is a reading of the code alone.
 
-Three consequences bear on these four specifications, and a reader must not treat any flow below as settled:
+```plantuml
+@startuml
+title The session surface UC-001 to UC-004 sit on - what the flows were read from, and the steps the exposure reaches
+
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam wrapWidth 230
+left to right direction
+
+package "The four session flows, and the steps the exposure reaches" {
+  component "UC-001 Create an account\nA1, A2: one 401 for every refusal" as U1
+  component "UC-002 Sign in with a password\nA1: the same single 401" as U2
+  component "UC-003 Sign in with a provider\nA1 unchecked scheme; A2 silent redirect" as U3
+  component "UC-004 Sign out\nstep 4: the cookie only" as U4
+}
+
+package "The reading those flows rest on" {
+  component "Todo.Web/Server: 33 commits,\nAuthApi.cs 15, every one on a success path" as C1
+  component "AN-012 no test of the surface" as C2
+  component "AN-010 the key ring is not pinned" as C3
+}
+
+component "AN-029\nthe failure paths were never modified" as AN29
+component "AN-019, AN-020, AN-021\nthe three failure paths themselves" as AN3
+component "R030" as R30
+
+C1 --> AN29 : is the evidence of
+AN3 --> AN29
+AN29 --> U1 : shapes A1, A2
+AN29 --> U2 : shapes A1
+AN29 --> U3 : shapes A1, A2
+C2 --> U1 : unconfirmed by execution
+C2 --> U2 : unconfirmed by execution
+C2 --> U3 : unconfirmed by execution
+C2 --> U4 : unconfirmed by execution
+C3 --> U1 : step 6
+C3 --> U2 : step 6
+C3 --> U3 : A3
+C3 --> U4 : step 4
+AN29 ..> R30 : carried as
+AN3 ..> R30 : carried as
+
+note bottom of AN29
+  The flow shapes in UC-001 to UC-004 are the original ones
+  by absence of change rather than by intent: the single 401,
+  the unconditional redirect, the provider name taken unchecked
+  from the route.
+end note
+
+note bottom of U4
+  No flow above is confirmed by execution. Each is a reading of
+  the code alone, and none asserts that it survives the next move
+  of this surface.
+end note
+
+@enduml
+```
+
+Three consequences bear on these four specifications, each anchored:
 
 | Consequence | Which flows it reaches | Anchor |
 |---|---|---|
 | The failure paths were never modified while every success path was, so the flow shapes here are the original ones by absence of change rather than by intent — including the single 401, the unconditional redirect, and the provider name taken unchecked from the route | UC-001 A1 and A2; UC-002 A1; UC-003 A1 and A2 | AN-029, AN-021, AN-020, AN-019; `Todo.Web/Server/AuthApi.cs:14-38,55-97` |
 | No test exercises any of it, so no flow below is confirmed by execution — each is a reading of the code alone | UC-001 to UC-004 | AN-012; `Todo.Api.Tests/Todo.Api.Tests.csproj:9` |
-| The session cookie, its token set and the provider ticket are the state these flows read and write, and the key ring behind the provider protection is not pinned (`AN-010`) | UC-001 step 6; UC-002 step 6; UC-003 A3; UC-004 step 4 | AN-010; `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11` |
+| The session cookie, its token set and the provider ticket are the state these flows read and write, and the key ring behind the provider protection is not pinned | UC-001 step 6; UC-002 step 6; UC-003 A3; UC-004 step 4 | AN-010; `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11` |
 
 A change to any of UC-001 to UC-004 lands on code that has moved 33 times and been verified zero times. Nothing in this model asserts that the flow as specified will survive the next move of that surface.
 
