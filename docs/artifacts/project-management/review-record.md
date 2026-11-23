@@ -1300,3 +1300,85 @@ end note
 The gate holds. Eight Majors and two unmet criteria are open, the stakeholder refused the sanction, and they ordered the Majors corrected. Excavation iteration 2 is planned from this record: actions 1 to 5 of "Resolutions and Actions" are their owners' work in that iteration, and action 6 — the one Minor that holds the phase — needs the Process Engineer given a work item in an Excavation iteration, because the process does not otherwise put that role in this phase. If that item lands, A11 reads four of four on re-take. If it does not, `R031` says what happens next: the phase opens the further iteration its own register already budgeted for, and nothing the phase declared is cut to avoid it.
 
 I do not sanction a phase because the calendar says it should end. I sanction it when its exit criteria are met on the evidence each criterion cites — and at the end of Excavation iteration 1 they are not.
+
+### Review Coordinator lens
+<!-- review: Excavation I1 -->
+
+<!-- review: Excavation I1 -->
+
+**Verdict — the AR milestone is NOT sanctioned on Excavation iteration 1's evidence.** The decision is read from the ledger, not from judgment: the `[FINDINGS]` line reports 12 artifacts read, unread none, 0 open Critical, 8 open Major, 8 open Minor; the recovery's own statement of completeness leaves exit criterion A11 at three of four; and the stakeholder answered gate H4 **No**, with the order "We must correct all major findings." Nothing in this record advances the project past Architecture Recovered.
+
+```plantuml
+@startuml
+title AR milestone verdict - the guard each path is taken on, read from the finding ledger
+
+skinparam shadowing false
+skinparam wrapWidth 240
+
+start
+:read the ledger - read_artifact_findings on every artifact;
+:emit the FINDINGS line - read, unread, open Critical, open Major;
+if (any unresolved Critical?) then (yes)
+  :ESCALATE - each open Critical put to the stakeholder verbatim;
+  :requiresIteration true;
+elseif (any open Major, or an unread artifact, or no GRANTED sanction line?) then (yes)
+  :STAKEHOLDER CONTRIBUTION - fold the answer in, iterate;
+  :requiresIteration true;
+  note right
+    Taken at this gate. 8 open Major, unread none,
+    and gate H4 answered No, so the sanction line
+    reads REFUSED. The milestone is not sanctioned
+    and the phase iterates.
+  end note
+else (no)
+  :SCOPE COMPLETE - verify on data, then ask before advancing;
+  :requiresIteration false;
+endif
+stop
+
+@enduml
+```
+
+**The guard, taken on data.** Three of its four conditions are false, so the milestone does not advance and the phase iterates.
+
+| Guard condition | Required | At this milestone | Holds |
+|---|---|---|---|
+| Unresolved Critical findings | 0 | 0 | Yes |
+| Open Major findings | 0 | 8 | **No** |
+| Artifacts unread at the gate | none | none — all 12 read | Yes |
+| Stakeholder sanction line | GRANTED | **REFUSED** — gate H4 answered No on 2026-11-23 | **No** |
+
+**The recovery's own completeness, as the two criteria read.**
+
+| Criterion | State | Evidence |
+|---|---|---|
+| A11 — the Minors the SBC review left open are closed | **Not met — three of four** | `Iteration Plan#F2`, `Iteration Plan#F3` and `System Inventory#F3` are corrected in their artifacts. `Development Case#F2` stands: "Roles and Ownership" still omits the Management Reviewer, the Business Reviewer and the Review Coordinator, and CLS-DC-01 draws no edge from them into this artifact. Carried as `R031` |
+| A12 — the recovered set is confirmed by the stakeholder | **Not met — refused 2026-11-23** | Gate H4 answered No. The 11 use cases, the 22-component architecture, the eight-table data model and the four stated exclusions were put and not accepted |
+| A10 — the recovery states what the code does | **Not met as written** | Three artifacts state AN-024's contradicted value as fact: the Supplementary Specification, the Software Architecture Document and the Deployment Model. The criterion is certified on the inventory's identification of the contradiction, not on the recovered set |
+
+A11 is not waived and no row of the plan is marked complete on it. A12 is the stakeholder's to give and is not this record's to supply.
+
+**What this milestone found, in one paragraph.** The recovery itself is sound: eleven use cases each anchored to the entry point whose code performs it, four exclusions stated with their reasons and confirmed by the stakeholder's own rulings of 2026-11-23, 22 components with their connectors, eight tables with their keys and enforced rules, and 84 of 139 files opened with the remainder named. The defects are one class and they are not reading failures: a fact the phase had already recorded as `AN-024` was asserted backwards in three documents, and the phase already held the correct statement in its own inventory and register. Four of the eight Majors are that one file. The Vision's count is the cheapest of the rest. The eighth, `Iteration Plan#F3`, is a criterion certified on an adjacent artifact's answer — the shape a milestone verdict exists to catch.
+
+**The stakeholder's contribution, collected at this milestone and recorded as given.** Gate H4 was put inside this milestone, which is where the Management Reviewer's gate sits, and answered: **No** to confirming the recovered set and sanctioning advancement into Consolidation, with the direction **"We must correct all major findings."**
+
+- Recorded as the sanction answer and as a `Stakeholder finding` this record acts on. It is verified against the ledger rather than deferred: the eight open Majors are exactly the items it names, each carries an owner and a due point in Resolutions and Actions, and none is recorded as closed or waived.
+- No new defect is minted for the order — every item it names is already in the ledger with a owner and a remedy.
+- The question of what else the second pass should read was answered in the same breath: correct all major findings, no prohibition stated, no exclusion re-opened, no recovered use case named as wrong or missing. Nothing further is asked of the stakeholder here.
+
+**What does not move.**
+
+| Item | Standing |
+|---|---|
+| Declared scope | The delivery declares none, so nothing is deferred or cut to protect a figure |
+| The four stated exclusions | Untouched. The stakeholder re-opened none of them: external-provider sign-in stays recovered and unreachable, the admin branch stays an exceptional entity, the health endpoints and the migration event stay outside the use-case set |
+| `R031` | Stays an avoided Significant risk. Its contingency — a second iteration planned from this record — is what is now required, not what is declined |
+| The recovered set | Not withdrawn. Every element remains in its artifact with its anchor; what fails is the claim that it is confirmed and complete |
+| The plan | Not re-sized. Excavation has no measured actual — it has not closed — so no forecast is stated and none is invented. The two currencies stay apart: agent work in tokens and elapsed time, the stakeholder's queue in days of waiting, never summed |
+| The measured actuals of the closed phase | Survey: 29 min agent time, 5 min stakeholder queue, 8,995,433 tokens, 10 agent runs, 6 artifacts. Per phase, not per iteration; no velocity is quoted from it |
+
+**What the next iteration carries.** Excavation iteration 2, planned from this record: the fourteen actions in Resolutions and Actions, taken in the order given — the three rate-limit corrections and the resilience correction first, because one settled figure unblocks four artifacts and one criterion; then the three EP-003 edges and the Vision's count; then the two Management Reviewer Majors, the one on `R030` and the one on A10; then the eight Minors, `Development Case#F2` first among them because A11 counts it.
+
+**A second iteration is not a schedule failure.** The rework is cheap now and would not have been later: the Deployment Model's environment table is the only statement in the delivery of what differs between environments, and Consolidation would have copied it unchanged. Seven of the eight Majors were avoidable within this iteration had each artifact been corrected against the anomaly the phase's own reading had already recorded.
+
+**Recorded through the process's own channel.**
