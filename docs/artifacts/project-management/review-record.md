@@ -1080,3 +1080,102 @@ A milestone is not advanced because the calendar says the iteration is over. It 
 | Software Architecture Document | **Approved** — `#F1` closed and verified |
 | Deployment Model | **Approved** — `#F1` closed and verified |
 | Design Model | **Approved** — `#F1` closed and verified |
+
+### Review Coordinator lens
+<!-- review: Excavation I2 -->
+
+<!-- review: Excavation I2 -->
+
+**Milestone verdict on the consolidated ledger: the Architecture Recovered milestone is NOT sanctioned. Excavation iteration 2 does not close it.**
+
+The verdict is anchored to the finding data and to the stakeholder's recorded answer, not to judgment:
+
+| Condition for sanction | The data |
+|---|---|
+| `[FINDINGS]` unread = none | Met — twelve artifacts read, none unread |
+| Open Critical = 0 | Met — none recorded by either executed lens |
+| Open Major = 0 | **Not met** — five Major entries over four distinct defects |
+| Stakeholder sanction GRANTED | **Not met** — REFUSED on 2026-11-23, with the order that all major findings be corrected |
+| Recovery confirmed | **Not confirmed** — A12 turns on the stakeholder's answer alone |
+
+Both executed lenses reach the same conclusion by different routes: the technical lens returns **Approved with Changes**, holding on the two Use-Case Model Majors; the Management Reviewer returns **No-Go**, holding on A11, A12 and A13. Neither lens recorded a Critical finding, so nothing in this ledger requires a stakeholder decision that has not already been given.
+
+```plantuml
+@startuml
+title AR milestone disposition - eight criteria met, three contested, two not met, and the route the stakeholder's order sanctions
+
+skinparam shadowing false
+skinparam wrapWidth 240
+hide circle
+hide empty members
+
+package "Met on the artifact that owns the evidence - 8" {
+  class "A2 read from priorities 1 to 5" as A2 <<met>>
+  class "A3 architecture recovered and checked" as A3 <<met>>
+  class "A4 data recovered with its anchors" as A4 <<met>>
+  class "A5 deployment modelled - the fired OPTIONAL" as A5 <<met>>
+  class "A6 coverage measured - 84 read, 55 unread of 139" as A6 <<met>>
+  class "A7 anomalies carried as scored risks - 29 Refines" as A7 <<met>>
+  class "A8 no grant-band accept without the stakeholder" as A8 <<met>>
+  class "A9 every risk actionable" as A9 <<met>>
+}
+
+package "Contested - held by an open Major at its own artifact - 3" {
+  class "A1 operations recovered as use cases\nfive COMP-014 edges SUSPECT at the close" as A1 <<contested>>
+  class "A10 the set states the code's behaviour\nR6 states one budget where two are in force" as A10 <<contested>>
+  class "A13 no work the process does not run\nthe sequence records no Process Engineer stage" as A13 <<contested>>
+}
+
+package "Not met - 2" {
+  class "A11 the SBC Minors closed\ntwo of the four stand - Development Case#F2 and #F3" as A11 <<notmet>>
+  class "A12 the recovered set confirmed\nsanction REFUSED 2026-11-23" as A12 <<refused>>
+}
+
+package "Verdict" {
+  class "0 Critical, 5 Major entries over 4 defects, 3 Minor" as V <<gate>>
+  class "Milestone NOT sanctioned\nrequiresIteration true" as R <<verdict>>
+}
+
+A1 --> V : one confirmation per edge
+A10 --> V : one diagram, one evidence cell
+A13 --> V : one stage to record
+A11 --> V : one owner turn, created by A13's correction
+A12 --> V : the stakeholder's answer alone
+V --> R
+
+note bottom of A12
+  Certified by the stakeholder's answer and by nothing else.
+  No artifact can hold it, so no evidence cell cites one.
+end note
+note bottom of A11
+  A11 stays as written on the order of 2026-11-23.
+  It is neither waived nor restated, and both Minors
+  are corrected in the next iteration of this phase.
+end note
+
+@enduml
+```
+
+**What this consolidation records as settled.** Eight of the thirteen AR criteria are met on the artifact that owns each. The recovered set is not in question: eleven use cases, a 22-component architecture across four processes, and an eight-table data model, each resting on the file and lines it cites. Seven Major findings were cleared this iteration and verified at source rather than accepted from the artifacts' own text, and no finding is waived, deferred or recorded as closed on its owner's prose. The four exclusions the stakeholder ruled on stand untouched: external-provider sign-in is recovered and unreachable, the admin branch is an exceptional entity, and `EP-020`, `EP-021` and `EP-022` are not use cases.
+
+**What it records as requiring work.** Four Major defects and three Minors, all corrections their owners make inside this phase, itemized in Resolutions and Actions. Three of the four Major defects sit on two artifacts. The one that gates the process rather than an artifact is `Iteration Plan#F7`: as the plan stands the phase schedules no Process Engineer stage, so the criterion A11 counts cannot be satisfied and `Development Case#F2` has no owner turn — the condition `R031` predicted and which has now materialized twice.
+
+**The route.** `Risk List#R031`'s contingency, and the stakeholder's order of 2026-11-23, both point to the same thing: **one further iteration of this phase**, performing actions 1 to 7, then gate H4 re-put once the recovered set agrees with itself. No declared scope is cut or deferred to reach it, and no role is added that the process does not run — the Process Engineer is placed here by the stakeholder's order, and that order is the only authority that places the role.
+
+**Disposition by artifact.**
+
+| Artifact | Disposition |
+|---|---|
+| System Inventory | **Approved** — no open finding from any lens; coverage arithmetic recomputed and reproducing |
+| Vision | **Approved** — both lenses' findings closed on verified evidence |
+| Supplementary Specification | **Approved** — both Majors closed and verified at source |
+| Software Architecture Document | **Approved** — Major closed and verified at source |
+| Deployment Model | **Approved** — Major closed and verified at source |
+| Design Model | **Approved** — Minor closed and verified |
+| Risk List | **Approved with changes** — `#F3` open, one strategy cell behind the artifact it points at; holds no criterion |
+| Use-Case Model | **Changes required** — `#F4`, `#F3` and the Management Reviewer's `#F1` open |
+| Iteration Plan | **Changes required** — `#F6` and `#F7` open |
+| Development Case | **Changes required** — `#F2` and `#F3` open; the owner is scheduled by order from the next iteration |
+| Iteration Assessment | **Not judged** — authored after this review; it cannot describe the iteration it follows |
+
+**Stakeholder contribution required.** The next iteration cannot complete without the stakeholder's input on one point: the plan must record the Process Engineer's stage in this phase for A11 to be satisfiable, and the wording of that record is the stakeholder's order to confirm. The request is put in this turn, and the answer is folded into this record as a stakeholder finding before it is acted on.
