@@ -477,3 +477,11 @@ Every anchor an anomaly row or an entry-point row cites was read against the fil
 | AN-019 | — | DependsOn | EP-007 |
 | AN-020 | — | DependsOn | EP-008 |
 | AN-021 | — | DependsOn | EP-004, EP-005, EP-007 |
+| AN-022 | — | DependsOn | EP-010, EP-011, EP-012, EP-013, EP-014 |
+| AN-023 | — | DependsOn | EP-009 |
+| AN-024 | — | DependsOn | EP-010, EP-011, EP-012, EP-013, EP-014 |
+| AN-025 | — | DependsOn | EP-022 |
+| AN-026 | — | DependsOn | EP-003 |
+| AN-027 | — | DependsOn | EP-016 |
+| AN-028 | — | — | — |
+
