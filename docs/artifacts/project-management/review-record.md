@@ -32,94 +32,103 @@
 
 ## Review Scope and Criteria
 ### Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-**Review type.** Milestone review, technical lens, at the SBC (end-of-Survey) review point. The question applied is exit criteria: whether the four artifacts collectively satisfy the conditions for transition into Excavation — not whether the iteration's objectives were completed.
+<!-- review: Survey I2 -->
 
-**Artifacts under review.** Development Case (Process Engineer), System Inventory (Software Archaeologist), Risk List (Project Manager), Iteration Plan (Project Manager). All four are the artifacts the SBC inventory carries; the Review Record is this lens's own output.
+**Review type.** Lifecycle milestone review, technical lens, re-taken at the SBC (end-of-Survey) review point after the iteration-2 rework. The question applied is exit criteria: whether the four artifacts collectively satisfy the conditions for transition into Excavation.
 
-**Checklist applied.** Per artifact type: Environment tailoring → DC Baseline Conformance and Optional Trigger Justification against the IARI baseline held in this prompt. Recovery → EVIDENCE, the Survey lens: every fact about an existing system must rest on the file it cites, so the anchors were opened rather than trusted. Project Management → the IARI risk scale, the two-currency rule, and the phase's exit criteria.
+**Artifacts under review.** Development Case (Process Engineer), System Inventory (Software Archaeologist), Risk List (Project Manager), Iteration Plan (Project Manager). The Iteration Assessment is not reviewed here: the Project Manager authors it in the Assess touchpoint that runs after this review, so at review time it cannot yet describe the iteration being reviewed.
 
-**Method.** All 41 registered trace edges were read. The perimeter and anomaly anchors were opened in the repository: `Todo.Api/Program.cs`, `Todo.Api/Todos/TodoApi.cs`, `Todo.Api/Todos/Todo.cs`, `Todo.Api/Users/UsersApi.cs`, `Todo.Api/Authorization/CurrentUser.cs`, `Todo.Api/Extensions/RateLimitExtensions.cs`, `Todo.Api/TodoDbContext.cs`, `Todo.Web/Server/AuthApi.cs`, `Todo.Web/Server/AuthClient.cs`, `Todo.Web/Server/Program.cs`, `Todo.Web/Server/TodoApi.cs`, `Todo.Web/Server/Authentication/AuthenticationExtensions.cs`, `Todo.Web/Server/appsettings.json`, `Todo.Web/Server/Todo.Web.Server.csproj`, `Todo.Web/Client/TodoList.razor`, `Todo.Web/Client/TodoClient.cs`, `Todo.Web/Client/TodoApp.razor`, `Todo.Web/Client/Components/LogInForm.razor`, `Todo.Web/Server/App.razor`, `Todo.Web/Shared/SharedClass.cs`, `Todo.Api.Tests/TodoApplication.cs`, `Todo.Api.Tests/TokenService.cs`, `Todo.Api.Tests/Todo.Api.Tests.csproj`, `TodoApp.AppHost/Extensions.cs`, `.devcontainer/devcontainer.json`, `Directory.Build.props`, `global.json`, `README.md`, `Requests/todo.http`, `docs/CONTRIBUTING.md`, `.iari/README.md`.
+**Scope of this iteration's pass.** The lens re-ran on the four artifacts against the seven findings it recorded in iteration 1 and against the stakeholder's order of 2026-11-23 that the Major findings and the Development Case's duplicated diagrams and text be corrected. Nothing outside that rework was re-derived: the artifact content that iteration 1 cleared as accurate is not re-litigated, and no new requirement was raised against it.
 
-**Anchor verdict.** Every load-bearing anchor states what the artifacts claim it states, including the claims that carry the most risk: the admin branch at `TodoApi.cs:33,59,69` with nothing granting the role, `AuthApi.cs:55-62` taking the provider name straight from the route, `AuthApi.cs:64-97` redirecting to `/` on every path, `UsersApi.cs:16`'s own service-to-service auth TODO, the two `/todos` policies in `Program.cs` versus `UsersApi.cs:10-20`, `TodoList.razor:24-27`'s unbound checkbox, and `.devcontainer/devcontainer.json`'s SDK 8.0 image against `net10.0` — the target in `Directory.Build.props` being `net9.0` and the pin `9.0.100`. No finding is raised against the reading's accuracy. Every finding below sits in a count, an edge, a score or an unsourced assertion.
-
-**SCM evidence.** No open pull requests exist, so nothing is disposed in this review. The repository carries no IARI pipeline file on `main`: the build environment is the Integrator's Inception work item and no branch or build of this process exists yet. No red build and no open pull request is therefore a finding, and no phase-discipline defect is available to detect.
+**Checklist applied.** The same three checklists as iteration 1, so the two passes are comparable: Environment tailoring → DC Baseline Conformance and Optional Trigger Justification against the IARI baseline; Discovery → the EVIDENCE lens, every fact about an existing system resting on the file it cites; Project Management → the IARI risk scale, the two-currency rule and the phase's exit criteria.
 
 ```plantuml
 @startuml
-title Compliance matrix — the four SBC artifacts against the Reviewer checklist
+title Compliance matrix - the four SBC artifacts re-read after the iteration-2 rework
 
 skinparam classAttributeIconSize 0
 skinparam shadowing false
 hide empty members
 
-package "Development Case — tailoring" {
+package "Development Case - tailoring" {
   class "Development Case" as DC {
-    dc-baseline / roster 24 work, 2 declared inactive : Pass
-    dc-baseline / 16 CORE produced, none omitted : Pass
-    dc-baseline / ownership unchanged : Pass
-    dc-baseline / nothing outside CORE and OPTIONAL : Pass
-    optional-trigger / Deployment Model fired, condition holds : Pass
-    optional-trigger / 5 not fired, each condition checked : Pass
-    consumed-defect / every governing statement sourced : FAIL
-    contained-defect / one fact stated once : FAIL
-    Document Control current : Pass
-    UML present and valid : Pass
+    + dc-baseline roster 24 work, 2 inactive declared : Pass
+    + dc-baseline 16 CORE produced, none omitted : Pass
+    + dc-baseline ownership not reassigned : Pass
+    + dc-baseline nothing outside CORE + OPTIONAL : Pass
+    + optional-trigger Deployment Model fired, condition holds : Pass
+    + optional-trigger 5 not fired, each condition checked : Pass
+    + consumed-defect every governing statement sourced : Pass
+    + contained-defect one fact stated once : Pass
+    + Document Control current for the iteration : Pass
+    + no trace table, declares no element : Pass
   }
 }
 
-package "System Inventory — recovery" {
+package "System Inventory - recovery" {
   class "System Inventory" as SI {
-    every perimeter component anchored : Pass
-    every external system anchored : Pass
-    every entry point has kind, initiator, anchor : Pass
-    size and file counts anchored : Pass
-    every unread area declared with its reason : Pass
-    coverage arithmetic equals the per-area table : FAIL
-    anomalies anchored and carried as risks : Pass
-    anomaly edges equal the trace tree : FAIL
-    documentation checked claim by claim : Pass
-    trace table complete for EP and AN : Pass
-    UML present and valid : Pass
+    + every perimeter component anchored : Pass
+    + every entry point has kind, initiator, anchor : Pass
+    + coverage headline reproduces from the table : Pass
+    + every unread area declared with its reason : Pass
+    + anomalies anchored and carried as risks : Pass
+    + anomaly edges equal the trace tree : Pass
+    + trace table complete for EP and AN : Pass
+    + Document Control current for the iteration : FAIL
+    + UML present and valid : Pass
   }
 }
 
-package "Risk List — scoring" {
+package "Risk List - scoring" {
   class "Risk List" as RL {
-    the IARI scale, none of its own : Pass
-    magnitude is the band of P x I, never chosen : Pass
-    all 21 anomalies carried : Pass
-    scores agree with the inventory likelihood and impact : FAIL
-    Significant accepts granted by the stakeholder : Pass
-    each risk has strategy, owner, action, contingency : Pass
-    no human-team unit anywhere : Pass
-    trace table complete for R001 to R022 : Pass
-    UML present and valid : Pass
+    + the IARI scale, none of its own : Pass
+    + magnitude is the band of P x I, never chosen : Pass
+    + all 21 anomalies carried as one risk each : Pass
+    + every score reproduces from one published mapping : Pass
+    + Significant accepts each hold a stakeholder grant : Pass
+    + strategy, owner, action, contingency on every row : Pass
+    + no human-team unit anywhere : Pass
+    + trace table complete for R001 to R022 : Pass
+    + UML present and valid : Pass
   }
 }
 
-package "Iteration Plan — sequencing" {
+package "Iteration Plan - sequencing" {
   class "Iteration Plan" as IP {
-    each objective has a satisfied-when and an owner : Pass
-    no calendar date projected : Pass
-    milestone sequence matches the inherited process : Pass
-    every risk lands on a milestone : Pass
-    work items are stages the process runs in Survey : Pass
-    roles working match the Development Case : Pass
-    anomaly handoff agrees with the System Inventory : FAIL
-    gate position agrees with the recorded answer : FAIL
-    exit criteria stated and evidenced : Pass
-    UML present and valid : Pass
+    + each criterion has a satisfied-when and an owner : Pass
+    + no calendar date projected : Pass
+    + milestone sequence matches the inherited process : Pass
+    + every risk lands on a milestone : Pass
+    + work items are stages the process runs in Survey : Pass
+    + twelve anomalies handed forward, 21 edges : Pass
+    + each gate placed ahead of the verdict it feeds : Pass
+    + C2 split into the answers and the refused sanction : Pass
+    + fine-plan State column agrees with the artifacts : FAIL
+    + UML present and valid : Pass
   }
 }
 
-DC --> SI : consumed by Excavation
+DC --> SI : tailoring Excavation inherits
 SI --> RL : anomalies scored
 RL --> IP : risks sequence the plan
 IP --> DC : roles and gates
 @enduml
 ```
+
+**Anchor verdict — the four statements this iteration's rework rests on, opened rather than trusted.**
+
+| Claim under review | Anchor opened | Verdict |
+|---|---|---|
+| No enterprise version policy is recorded; version selection follows central pinning and a nuget.org-only source | `global.json`, `nuget.config`, `Directory.Packages.props` as cited | Confirmed — `global.json` pins SDK `9.0.100` with `rollForward: latestFeature`; `nuget.config` clears the sources, adds only `nuget.org` and maps `*` to it, so a package from another feed does not restore. The Development Case states this and asserts no policy |
+| The Development Case's contribution contract is the published one and it holds over the delivery's README | `docs/CONTRIBUTING.md` §1–§5 | Confirmed — the label table, the branch and review rules, and the code and test conventions are stated there with each convention cited to the file that carries it; the README states no label, branch or review rule |
+| The Coverage figure reproduces from the per-area table | System Inventory "Coverage": Files and Read columns | Confirmed — Read sums to 79 (23 + 7 + 8 + 0 + 14 + 1 + 6 + 2 + 1 + 7 + 1 + 2 + 1 + 1 + 4 + 1), Files to 133, and 133 − 79 = 54 |
+| Every risk score reproduces from the System Inventory's likelihood and impact words | Risk List "How each score is derived" against the register's P and I columns for R001–R022, and the inventory's words for AN-001–AN-021 | Confirmed — all 21 anomaly-derived rows reproduce from the single published mapping (`possible` 3, `likely` 4; `low` 2, `moderate` 3, `high` 4) and no inventory word scores differently in different rows |
+
+No anchor opened this iteration contradicted the artifact that cites it. Both findings below sit in metadata and in the plan's own status column, not in the reading's accuracy or in its arithmetic.
+
+**SCM evidence.** No open pull request exists, so nothing is disposed in this review and no code review decision is owed. There is no IARI pipeline on `main` — `ci.yml` does not exist yet — so no build status exists to be red; establishing the build environment is the Integrator's Inception work item and no branch of this process exists. Neither condition is a finding, and no phase-discipline defect is available to detect in the absence of code.
 
 ### Management Reviewer lens
 <!-- review: Survey I1 -->
