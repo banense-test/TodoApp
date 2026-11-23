@@ -1085,110 +1085,96 @@ The correction is one turn by one owner over five cells. No recovered content is
 `R031` has materialized for the second consecutive iteration. It is recorded, scored 3 × 4 = 12 and avoided; recording it has not retired it, and this disposition does not claim otherwise.
 
 ### Review Coordinator lens
-<!-- review: Excavation I2 -->
+<!-- review: Excavation I3 -->
 
-<!-- review: Excavation I2 -->
+<!-- review: Excavation I3 -->
 
-**Milestone verdict on the consolidated ledger: the Architecture Recovered milestone is NOT sanctioned. Excavation iteration 2 does not close it.**
+**Milestone verdict on the consolidated ledger: the Architecture Recovered milestone is NOT sanctioned. Excavation iteration 3 does not close it, and the phase auto-iterates.**
 
-The verdict is anchored to the finding data and to the stakeholder's recorded answer, not to judgment:
+The verdict is anchored to the finding data and to the stakeholder's recorded answer, never to judgment:
 
-| Condition for sanction | The data |
-|---|---|
-| `[FINDINGS]` unread = none | Met — twelve artifacts read, none unread |
-| Open Critical = 0 | Met — none recorded by either executed lens |
-| Open Major = 0 | **Not met** — five Major entries over four distinct defects |
-| Stakeholder sanction GRANTED | **Not met** — REFUSED on 2026-11-23, with the order that all major findings be corrected |
-| Recovery confirmed | **Not confirmed** — A12 turns on the stakeholder's answer alone |
+| Condition for sanction | The data | State |
+|---|---|---|
+| `[FINDINGS]` unread = none | Twelve artifacts read, none unread | Met |
+| Open Critical = 0 | No lens recorded a Critical finding against any artifact | Met |
+| Open Major = 0 | One distinct Major defect, two lens entries — `Iteration Plan#F4` and `#F9` | **Not met** |
+| Stakeholder sanction GRANTED | REFUSED on 2026-11-23; the answer is recorded as given, and no condition is inferred from it | **Not met** |
+| Recovery confirmed | Confirmed by the stakeholder as the model of the existing system — eleven use cases, four stated exclusions, twenty-two components, eight tables | Met |
 
-Both executed lenses reach the same conclusion by different routes: the technical lens returns **Approved with Changes**, holding on the two Use-Case Model Majors; the Management Reviewer returns **No-Go**, holding on A11, A12 and A13. Neither lens recorded a Critical finding, so nothing in this ledger requires a stakeholder decision that has not already been given.
+Both executed lenses reach the same conclusion by different routes. The technical lens returns **Approved with Changes**, holding on the plan's four cells. The Management Reviewer returns **No-Go**, holding on the same defect as `#F9` and on A12. Neither recorded a Critical finding, so nothing in this ledger requires a stakeholder decision the stakeholder has not already been asked for.
 
 ```plantuml
 @startuml
-title AR milestone disposition - eight criteria met, three contested, two not met, and the single iteration that closes the phase
+title Disposition at the AR gate, Excavation iteration 3 - what is approved, what is not, and what the next iteration is
 
 skinparam shadowing false
 skinparam wrapWidth 240
 hide circle
 hide empty members
 
-package "Met on the artifact that owns the evidence - 8" {
-  class "A2 read from priorities 1 to 5" as A2 <<met>>
-  class "A3 architecture recovered and checked" as A3 <<met>>
-  class "A4 data recovered with its anchors" as A4 <<met>>
-  class "A5 deployment modelled - the fired OPTIONAL" as A5 <<met>>
-  class "A6 coverage measured - 84 read, 55 unread of 139" as A6 <<met>>
-  class "A7 anomalies carried as scored risks - 29 Refines" as A7 <<met>>
-  class "A8 no grant-band accept without the stakeholder" as A8 <<met>>
-  class "A9 every risk actionable" as A9 <<met>>
+package "Approved - the recovered set and its supporting artifacts, 8 of 10 under review" {
+  class "System Inventory\ndevelopment case\nvision\nuse-case model\nsoftware architecture document\ndeployment model\ndesign model" as AP <<approved>>
 }
 
-package "Contested - held by an open Major at its own artifact - 3" {
-  class "A1 operations recovered as use cases\nfive COMP-014 edges SUSPECT at the close" as A1 <<contested>>
-  class "A10 the set states the code's behaviour\nR6 states one budget where two are in force" as A10 <<contested>>
-  class "A13 no work the process does not run\nthe plan records Environment as inactive here" as A13 <<contested>>
+package "Approved with changes - 2 artifacts, Minors only, none holding the milestone" {
+  class "Risk List\nF3 - R032 behind the Use-Case Model" as AC1 <<minor>>
+  class "Supplementary Specification\nF3 - one Document Control field" as AC2 <<minor>>
 }
 
-package "Not met - 2" {
-  class "A11 the SBC Minors closed\ntwo of the four stand - Development Case#F2 and #F3" as A11 <<notmet>>
-  class "A12 the recovered set confirmed\nsanction REFUSED 2026-11-23" as A12 <<refused>>
+package "Changes required - 1 artifact, 3 entries, 1 Major" {
+  class "Iteration Plan\nF4 and F9 - five cells one pass behind\nF8 - the Closes column names a moment" as CR <<major>>
+}
+
+package "Not judged" {
+  class "Iteration Assessment\nauthored after this review;\ncannot describe the iteration it follows" as NJ <<none>>
 }
 
 package "Verdict" {
-  class "0 Critical, 5 Major entries over 4 defects, 3 Minor" as V <<gate>>
-  class "Milestone NOT sanctioned\nrequiresIteration true" as R <<verdict>>
+  class "0 Critical, 1 Major defect, 3 Minor\nAR milestone NOT sanctioned" as V <<verdict>>
+  class "requiresIteration true\none further iteration of Excavation" as R <<route>>
 }
 
-package "The iteration that closes the phase" {
-  class "Environment stage recorded as the phase's first discipline\nProcess Engineer corrects Development Case#F2, #F3\nand the Environment tailoring statement" as N <<route>>
-  class "Use-Case Model R6 corrected, five COMP-014 edges confirmed" as N2 <<route>>
-  class "A10 and A13 evidence cells restated on what they certify" as N3 <<route>>
-}
+AP --> V
+AC1 --> V : does not hold the milestone
+AC2 --> V : does not hold the milestone
+CR --> V : holds the milestone
+NJ ..> V : outside this review's scope
 
-A1 --> V : one confirmation per edge
-A10 --> V : one diagram, one evidence cell
-A13 --> V : one stage to record
-A11 --> V : one owner turn on that stage
-A12 --> V : the stakeholder's answer alone
-V --> R
-N --> A11 : performs it
-N2 --> A1 : certifies it
-N2 --> A10 : certifies it
-N3 --> A13 : certifies it
-
-note bottom of A12
-  Certified by the stakeholder's answer and by nothing else.
-  No artifact can hold it, so no evidence cell cites one.
+note bottom of V
+  A verdict of Done would certify the milestone on a plan whose
+  cells say three criteria fail. Twelve of thirteen hold; the
+  record read on them does not.
 end note
-note bottom of N
-  Environment runs in every phase; in Excavation it is the
-  first discipline. A11 stays as written and both Minors are
-  corrected in that turn.
+note bottom of R
+  No recovered content changes. Four owner turns, all
+  artifact transcription. No declared scope is cut or deferred.
 end note
 
 @enduml
 ```
 
-**What this consolidation records as settled.** Eight of the thirteen AR criteria are met on the artifact that owns each. The recovered set is not in question: eleven use cases, a 22-component architecture across four processes, and an eight-table data model, each resting on the file and lines it cites. Seven Major findings were cleared this iteration and verified at source rather than accepted from the artifacts' own text, and no finding is waived, deferred or recorded as closed on its owner's prose. The four exclusions the stakeholder ruled on stand untouched: external-provider sign-in is recovered and unreachable, the admin branch is an exceptional entity, and `EP-020`, `EP-021` and `EP-022` are not use cases.
+**What this consolidation records as settled.** Twelve of the thirteen AR exit criteria are met on the artifact that owns each: A2, A3, A4, A5, A6, A7, A8, A9, A10, A11 and A13, plus A1. The recovered set is not in question and the stakeholder has confirmed it in words — eleven use cases over twenty-two entry points, a twenty-two component architecture across four processes, and an eight-table data model, each resting on the file and lines it cites. Seven findings were closed this iteration and each closure was verified at the graph, the file or the peer artifact rather than accepted from its owner's prose. No finding is waived, deferred or recorded as closed on a document having been written.
 
-**What it records as requiring work.** Four Major defects and three Minors, all corrections their owners make inside this phase, itemized in Resolutions and Actions. Three of the four Major defects sit on two artifacts, and one owner turn performs both Use-Case Model corrections. `Iteration Plan#F7` gates the rest: the plan records Environment as inactive in Excavation, so the stage on which `Development Case#F2` and `#F3` are corrected does not exist in it — the condition `R031` predicted and which has now materialized twice.
+The four exclusions the stakeholder ruled on stand untouched and no finding here approaches them: external-provider sign-in is recovered and marked unreachable in the delivered configuration; the cross-owner admin branch is an exceptional entity and not a use case; and `EP-020`, `EP-021` and `EP-022` carry no use case.
 
-**The route — one iteration.** `Risk List#R031`'s contingency and the stakeholder's answer of 2026-11-23 both point to a single further iteration of this phase, performing actions 1 to 8, then gate H4 re-put once the recovered set agrees with itself. The stakeholder placed the Process Engineer's turn in that same iteration, so the phase closes in one iteration rather than two, and stated that Environment runs in every phase and is Excavation's first discipline with the Process Engineer's stage — not an exception to the process. A13's evidence cell cites that stage. No declared scope is cut or deferred to reach it.
+**What it records as requiring work.** One Major defect in five cells of the Iteration Plan's Evaluation Criteria and Objectives tables, and three Minors — two on the plan's Closes column and the Risk List's R032, one on a Document Control field. Every one is a transcription against content that already exists in the artifact it names. No role is added, no use case or component changes, and nothing is deferred to Consolidation to reach the gate.
 
 **Disposition by artifact.**
 
 | Artifact | Disposition |
 |---|---|
 | System Inventory | **Approved** — no open finding from any lens; coverage arithmetic recomputed and reproducing |
+| Development Case | **Approved** — both Minors closed and verified; the contributor set names six lenses and Document Control reads this phase and iteration |
 | Vision | **Approved** — both lenses' findings closed on verified evidence |
-| Supplementary Specification | **Approved** — both Majors closed and verified at source |
+| Use-Case Model | **Approved** — both Majors and the Management Reviewer's `#F1` closed; the five `COMP-014` edges confirmed in the graph and R6 states both budgets under `AN-024` |
 | Software Architecture Document | **Approved** — Major closed and verified at source |
 | Deployment Model | **Approved** — Major closed and verified at source |
 | Design Model | **Approved** — Minor closed and verified |
-| Risk List | **Approved with changes** — `#F3` open, one strategy cell behind the artifact it points at; holds no criterion |
-| Use-Case Model | **Changes required** — `#F4`, `#F3` and the Management Reviewer's `#F1` open |
-| Iteration Plan | **Changes required** — `#F6` and `#F7` open |
-| Development Case | **Changes required** — `#F2` and `#F3` open, plus the Environment tailoring statement; the owner's stage is recorded in the next iteration |
-| Iteration Assessment | **Not judged** — authored after this review; it cannot describe the iteration it follows |
+| Risk List | **Approved with changes** — `#F3` open on R032; contained, holds no criterion |
+| Supplementary Specification | **Approved with changes** — `#F3` open, one metadata field |
+| Iteration Plan | **Changes required** — `#F4`, `#F9` and `#F8` open; the Major holds the milestone |
+| Iteration Assessment | **Not judged** — authored by the Project Manager after this review; its absence before the review is not a finding |
 
-**Stakeholder contribution — answered and recorded.** The stakeholder's answer to the routing question is folded into Findings as a stakeholder finding and into Resolutions and Actions as the due point of every action. A11 stays as written; the two Development Case Minors are corrected in the next iteration; A13's evidence cites the Environment stage, not an order. Nothing beyond what the stakeholder stated is recorded.
+**The route — one further iteration, four owner turns.** `Risk List#R031`'s contingency, planned from the record at iteration 2 and now taken for the second consecutive iteration: one further iteration of Excavation performing actions 1 to 4 of Resolutions and Actions, then gate H4 put a fourth time once the plan's cells agree with the set they report. The stakeholder stated that no recovered content is at issue and that the next iteration changes none of it, and this disposition adds nothing to that and narrows nothing in it.
+
+`R031` is recorded, scored 3 × 4 = 12 and carried as avoided. Recording it did not retire it and this disposition does not claim otherwise.
