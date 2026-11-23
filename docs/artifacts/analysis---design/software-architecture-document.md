@@ -197,26 +197,27 @@ No enterprise version policy is recorded for this project (`get_version_policy` 
 Three build-level disagreements are recorded, not reconciled: the developer container names SDK 8.0 against a `net9.0` solution and a `9.0.100` pin, so the container cannot build the solution it ships with (AN-007); the server project pins `RazorLangVersion` to 8.0 against the same `net9.0` solution (AN-014); and the test project pins `Microsoft.EntityFrameworkCore.InMemory` 9.0.8 which nothing in the suite calls (AN-006). The `sqliteweb` image is the one dependency the tree declares with no version at all.
 
 ## Use-Case View
-
-Eleven use cases were recovered by the System Analyst, each anchored to the entry point whose code performs it. The four below are the architecturally significant ones: they cross the most process boundaries, or they carry a mechanism that no other use case exercises. Each was walked through the code from its entry point in S3, and the components it crosses below are the ones the walk confirmed — not the ones the decomposition predicts.
+Eleven use cases were recovered by the System Analyst, each anchored to the entry point whose code performs it. The four below are the architecturally significant ones: they cross the most process boundaries, or they carry a mechanism that no other use case exercises. Each was walked through the completed use-case specification step by step, and the components named below are the ones those steps run through.
 
 | Use case | Why it is architecturally significant | Components its confirmed path crosses |
 |---|---|---|
-| UC-006 See one's own tasks | The widest path in the system: every layer on the screen route, plus the four mechanisms that gate every task operation | COMP-001, COMP-002, COMP-004, COMP-008, COMP-011, COMP-012, COMP-013, COMP-014, COMP-016 |
-| UC-007 Add a task | Crosses the same path and adds the validation filter; the only use case where the ownership assignment on a write is exercised end to end | COMP-001, COMP-002, COMP-004, COMP-008, COMP-011, COMP-013, COMP-014, COMP-015, COMP-016 |
-| UC-001 Create an account | The only use case that makes one process's write depend on a second call into the other process before a session exists; the mechanism is the token client, shared with UC-002 | COMP-001, COMP-002, COMP-004, COMP-006, COMP-007, COMP-009, COMP-016 |
-| UC-003 Sign in with an external provider | Crosses more components than any other — both cookies, the provider registry, data protection on both sides of the process boundary, and the token exchange — and cannot be entered in the delivered configuration | COMP-001, COMP-004, COMP-005, COMP-006, COMP-007, COMP-010, COMP-016 |
+| UC-006 See one's own tasks | The widest path in the system: every layer on the screen route, plus the four mechanisms that gate every task operation | COMP-001, COMP-002, COMP-003, COMP-004, COMP-008, COMP-011, COMP-012, COMP-013, COMP-014, COMP-016 |
+| UC-007 Add a task | Crosses the same path and adds the validation filter; the only use case where the ownership assignment on a write is exercised end to end | COMP-001, COMP-002, COMP-003, COMP-004, COMP-008, COMP-011, COMP-012, COMP-013, COMP-014, COMP-015, COMP-016 |
+| UC-001 Create an account | The only use case that makes one process's write depend on a second call into the other process before a session exists; the mechanism is the token client, shared with UC-002, and the request shape is the shared contract the API redeclares rather than references | COMP-001, COMP-002, COMP-003, COMP-004, COMP-006, COMP-007, COMP-009, COMP-016, COMP-019 |
+| UC-003 Sign in with an external provider | Crosses more components than any other — both cookies, the provider registry, data protection on both sides of the process boundary, and the token exchange — and cannot be entered in the delivered configuration | COMP-001, COMP-004, COMP-005, COMP-006, COMP-007, COMP-010, COMP-016, COMP-019 |
+
+**Four components the completed specifications make load-bearing.** The flows name them where the architecture did not: **COMP-003** configures the connector every client call runs on — the base address the call resolves against and the `X-Requested-With` header the cookie stack reads — so it is on the path of every screen-route use case, and it is why UC-006 alternative A2 answers an empty list instead of failing (`Todo.Web/Client/Program.cs:5-13`; AN-026). **COMP-012** resolves the caller for every task operation, not UC-006 alone: UC-007 to UC-010 resolve it through the same requirement. **COMP-019** carries `UserInfo`, `ExternalUserInfo` and `AuthToken` into the client and the BFF, which is how the three account use cases reach the API's `users` endpoints at all — while the API redeclares the same shapes instead of referencing the assembly (AN-003). **COMP-016** is what UC-005 writes its account rows through, so the Identity surface is not a component pair of its own.
 
 The remaining seven, and how far the architecture is exercised on each:
 
 | Use case | Components its confirmed path crosses | Diagram |
 |---|---|---|
-| UC-002 Sign in with email and password | COMP-001, COMP-002, COMP-004, COMP-006, COMP-007, COMP-009 | SEQ-2 is UC-001; UC-002 differs only in skipping the register call and reaching COMP-009 once instead of twice |
-| UC-004 Sign out | COMP-001, COMP-002, COMP-004, COMP-005, COMP-006 | None — its path is three components shorter than UC-001's and adds no connector |
-| UC-005 Maintain one's own account | COMP-009 alone | None — it is a framework surface mapped wholesale, with no local code and no client path |
-| UC-008 Remove a task | COMP-001, COMP-002, COMP-004, COMP-008, COMP-011, COMP-013, COMP-014, COMP-016 | None — it is SEQ-1 with the query replaced by one delete statement |
-| UC-009 Read one task by id | COMP-011, COMP-013, COMP-014, COMP-016 | None — SEQ-1 without the client and the forwarder |
-| UC-010 Change a task | COMP-011, COMP-013, COMP-014, COMP-015, COMP-016 | None — SEQ-1 with the query replaced by one update statement; it is the only writer of `IsComplete` (AN-001) |
+| UC-002 Sign in with email and password | COMP-001, COMP-002, COMP-003, COMP-004, COMP-006, COMP-007, COMP-009, COMP-019 | SEQ-2 is UC-001; UC-002 differs only in skipping the register call and reaching COMP-009 once instead of twice |
+| UC-004 Sign out | COMP-001, COMP-002, COMP-003, COMP-004, COMP-005, COMP-006 | None — its path is shorter than UC-001's and adds no connector |
+| UC-005 Maintain one's own account | COMP-009, COMP-016, COMP-019 | None — the framework surface mapped wholesale, with no local code, no screen path and no client call; it writes the account rows and answers the `AuthToken` shape the shared contract declares |
+| UC-008 Remove a task | COMP-001, COMP-002, COMP-003, COMP-004, COMP-008, COMP-011, COMP-012, COMP-013, COMP-014, COMP-016 | None — it is SEQ-1 with the query replaced by one delete statement |
+| UC-009 Read one task by id | COMP-011, COMP-012, COMP-013, COMP-014, COMP-016 | None — SEQ-1 without the client, the bootstrap and the forwarder |
+| UC-010 Change a task | COMP-011, COMP-012, COMP-013, COMP-014, COMP-015, COMP-016 | None — SEQ-1 with the query replaced by one update statement; it is the only writer of `IsComplete` (AN-001) |
 | UC-011 Consult the API reference | COMP-017 | None — one component, no connector |
 
 ```plantuml
@@ -245,6 +246,7 @@ package "Use cases, by the entry point they were recovered from" {
 package "Components the paths cross" {
   component "COMP-001\nClient shell and screens" as C1
   component "COMP-002\nClient HTTP gateway" as C2
+  component "COMP-003\nClient bootstrap and\nconnector settings" as C3
   component "COMP-004\nRazor host" as C4
   component "COMP-005\nSession auth and providers" as C5
   component "COMP-006\n/auth endpoints" as C6
@@ -259,65 +261,81 @@ package "Components the paths cross" {
   component "COMP-015\nValidation filter" as C15
   component "COMP-016\nPersistence" as C16
   component "COMP-017\nOpenAPI and Scalar UI" as C17
+  component "COMP-019\nShared request contracts" as C19
 }
 
 UC1 --> C1
 UC1 --> C2
+UC1 --> C3
 UC1 --> C4
 UC1 --> C6
 UC1 --> C7
 UC1 --> C9
 UC1 --> C16
+UC1 --> C19
 UC2 --> C1
 UC2 --> C2
+UC2 --> C3
 UC2 --> C4
 UC2 --> C6
 UC2 --> C7
 UC2 --> C9
+UC2 --> C19
 UC3 --> C1
 UC3 --> C4
-UC3 --> C6
 UC3 --> C5
+UC3 --> C6
 UC3 --> C7
 UC3 --> C10
 UC3 --> C16
+UC3 --> C19
 UC4 --> C1
 UC4 --> C2
+UC4 --> C3
 UC4 --> C4
-UC4 --> C6
 UC4 --> C5
+UC4 --> C6
 UC5 --> C9
+UC5 --> C16
+UC5 --> C19
 UC6 --> C1
 UC6 --> C2
+UC6 --> C3
 UC6 --> C4
 UC6 --> C8
 UC6 --> C11
-UC6 --> C13
 UC6 --> C12
+UC6 --> C13
 UC6 --> C14
 UC6 --> C16
 UC7 --> C1
 UC7 --> C2
+UC7 --> C3
 UC7 --> C4
 UC7 --> C8
 UC7 --> C11
+UC7 --> C12
 UC7 --> C13
 UC7 --> C14
 UC7 --> C15
 UC7 --> C16
 UC8 --> C1
 UC8 --> C2
+UC8 --> C3
 UC8 --> C4
 UC8 --> C8
 UC8 --> C11
+UC8 --> C12
 UC8 --> C13
 UC8 --> C14
 UC8 --> C16
 UC9 --> C11
+UC9 --> C12
 UC9 --> C13
 UC9 --> C14
 UC9 --> C16
 UC10 --> C11
+UC10 --> C12
 UC10 --> C13
 UC10 --> C14
 UC10 --> C15
@@ -330,9 +348,18 @@ note right of UC3
 end note
 
 note right of UC5
-  Crosses COMP-009 alone: no screen, no client call
-  and no BFF endpoint reaches EP-015 beyond
-  register and login.
+  EP-015 is reached by no screen and by no client
+  call, so the path is the Identity surface, the
+  account rows it writes and the token shape the
+  shared contract declares.
+end note
+
+note right of C3
+  On every screen-route path: it sets the base address
+  the client's calls resolve against and the
+  X-Requested-With header the cookie stack reads to
+  answer 401 rather than redirecting.
+  Todo.Web/Client/Program.cs:5-13
 end note
 
 note right of C4
@@ -341,193 +368,27 @@ note right of C4
   which of the two shells renders. App.razor:44-52
 end note
 
+note right of C12
+  Reached by all five task use cases: the authorization
+  requirement resolves the caller through it before any
+  endpoint runs. CheckCurrentUserAuthHandler.cs:14-36
+end note
+
 note bottom of C11
   The widest component: five of the eleven use cases
   end here, and COMP-012 to COMP-015 are only reached
   through it.
 end note
 
-@enduml
-```
-
-### UC-006 See one's own tasks — the screen route through all four processes
-
-```plantuml
-@startuml
-title SEQ-1 UC-006 See one's own tasks - the screen route across all four process boundaries
-
-skinparam shadowing false
-skinparam wrapWidth 200
-skinparam maxMessageSize 190
-
-participant "ACT-001\nPerson" as U
-participant "COMP-001\nClient shell\nand screens" as UI
-participant "COMP-002\nClient HTTP\ngateway" as CLI
-participant "COMP-008\n/todos\nforwarder" as FWD
-participant "COMP-011\nTodo\nendpoints" as TODOS
-participant "COMP-013\nAuthorization\nrequirement" as AUTHZ
-participant "COMP-014\nToken\nbucket" as RATE
-participant "COMP-012\nCurrent-user\nresolution" as CU
-participant "COMP-016\nPersistence" as EF
-database "Todos.db" as DB
-
-U -> UI : opens /
-UI -> UI : COMP-004 hands over\nuserName and provider list
-UI -> CLI : GetTodosAsync()
-CLI -> CLI : BaseAddress null?\nthen return empty, no request
-CLI -> FWD : GET /todos\ncookie, X-Requested-With
-FWD -> FWD : require cookie;\nread access token from the token set
-FWD -> TODOS : GET /todos\nAuthorization: Bearer
-TODOS -> AUTHZ : RequireCurrentUser
-AUTHZ -> CU : User resolved?
-CU -> EF : find by NameIdentifier
-EF -> DB : SELECT AspNetUsers
-DB --> EF : row or none
-EF --> CU : TodoUser?
-CU --> AUTHZ : User or null
-alt User is null
-  AUTHZ --> TODOS : requirement not satisfied
-  TODOS --> FWD : 401
-  FWD --> CLI : 401
-  CLI --> UI : status 401
-  UI -> UI : OnForbidden, shell signs out
-else User exists
-  TODOS -> RATE : partition on NameIdentifier
-  alt bucket empty
-    RATE --> TODOS : 429
-    TODOS --> CLI : 429
-    CLI --> UI : status 429, todos null
-    note right : nothing is reported and the shell\nstays signed in - UC-006 A3
-  else token available
-    TODOS -> EF : Where(OwnerId == owner.Id)\nAsNoTracking, no order
-    EF -> DB : SELECT Todos
-    DB --> EF : rows
-    EF --> TODOS : List<Todo>
-    TODOS --> FWD : 200, TodoItem[]
-    FWD --> CLI : 200
-    CLI --> UI : (200, rows)
-    UI -> UI : one row per task,\ncheckbox bound to nothing
-  end
-end
-@enduml
-```
-
-### UC-001 Create an account — the write that depends on a second process
-
-```plantuml
-@startuml
-title SEQ-2 UC-001 Create an account - the screen route, and the two processes it needs to agree
-
-skinparam shadowing false
-skinparam wrapWidth 200
-skinparam maxMessageSize 190
-
-participant "ACT-001\nPerson" as U
-participant "COMP-001\nClient shell\nand screens" as UI
-participant "COMP-002\nClient HTTP\ngateway" as CLI
-participant "COMP-006\n/auth session\nendpoints" as AUTH
-participant "COMP-007\nBFF-to-API\ntoken client" as AC
-participant "COMP-009\nIdentity endpoint\nsurface" as ID
-participant "COMP-016\nPersistence" as EF
-database "Todos.db" as DB
-participant "COMP-005\nSession\nauthentication" as SESS
-
-U -> UI : email and password,\nactivates Create User
-UI -> UI : type=button, own handler:\nOnValidSubmit never runs,\nno field rule applies
-UI -> CLI : CreateUserAsync(email, password)
-CLI -> CLI : both non-empty?
-alt either is empty
-  CLI --> UI : false, nothing posted
-  UI --> U : "Failed to create user"
-else both present
-  CLI -> AUTH : POST /auth/register\n{email, password}
-  AUTH -> AC : CreateUserAsync
-  AC -> ID : POST users/register
-  ID -> EF : Identity create with its own policy
-  EF -> DB : INSERT AspNetUsers
-  DB --> EF : ok or refused
-  alt Identity refused it
-    ID --> AC : 400 problem detail
-    AC --> AUTH : null (the problem is discarded)
-    AUTH --> CLI : 401 with no body
-    CLI --> UI : false
-    UI --> U : the same fixed string - AN-021
-  else created
-    AC -> ID : POST users/login
-    ID --> AC : AccessTokenResponse
-    AC --> AUTH : access token
-    AUTH -> SESS : SignIn(email, email, token)
-    SESS --> AUTH : cookie with NameIdentifier,\nName, and the token set
-    AUTH --> CLI : 200, Set-Cookie
-    CLI --> UI : true
-    UI -> UI : shell re-renders signed in
-  end
-end
-@enduml
-```
-
-### UC-003 Sign in with an external provider — the mechanism, and where configuration stops it
-
-```plantuml
-@startuml
-title SEQ-3 UC-003 Sign in with an external provider - the cross-process mechanism, and where the delivered configuration stops it
-
-skinparam shadowing false
-skinparam wrapWidth 200
-skinparam maxMessageSize 185
-
-participant "COMP-001\nClient shell" as UI
-participant "COMP-006\n/auth session\nendpoints" as AUTH
-participant "COMP-005\nSession auth and\nprovider registry" as SESS
-participant "ACT-002\nExternal identity\nprovider" as IDP
-participant "COMP-007\nBFF-to-API\ntoken client" as AC
-participant "COMP-010\nExternal token\nexchange" as EX
-participant "COMP-016\nPersistence" as EF
-participant "COMP-019\nShared\ncontracts" as SH
-
-note over SESS
-  The delivered configuration has no
-  Authentication:Schemes section, so no
-  provider is registered, no link renders
-  and this flow cannot be entered.
-  appsettings.json has no such key;
-  AuthenticationExtensions.cs:57-75
+note bottom of C19
+  Compile-time reference only, into the client and the BFF.
+  The API redeclares the same three shapes and references
+  nothing, so no compiler checks the two declarations agree.
+  AN-003
 end note
 
-UI -> AUTH : GET /auth/login/{provider}
-AUTH -> AUTH : Results.Challenge with the\nroute segment as the scheme list
-note right : no check against a registered\nscheme - AN-019
-AUTH -> IDP : redirect, scheme {provider}
-alt scheme not registered
-  IDP -x AUTH : the handler raises
-else a provider were registered
-  IDP -> AUTH : GET /auth/signin/{provider}
-  AUTH -> SESS : AuthenticateAsync(External)
-  SESS --> AUTH : principal, or not succeeded
-  alt ticket absent
-    AUTH -> AUTH : skip the exchange
-  else ticket present
-    AUTH -> AUTH : protect NameIdentifier with a\nprotector named after the provider
-    AUTH -> AC : GetOrCreateUserAsync(provider,\n{username, providerKey})
-    AC -> SH : ExternalUserInfo
-    AC -> EX : POST users/token/{provider}
-    EX -> EX : CreateProtector(provider),\nUnprotect the key
-    note right : needs the key ring the BFF\nprotected it on - AN-010
-    EX -> EF : FindByLoginAsync(provider, key)
-    alt no login for that pair
-      EX -> EF : create TodoUser(username),\nAddLogin(provider, key)
-    end
-    EX --> AC : SignIn(principal), or a\nvalidation problem
-    AC --> AUTH : token, or null
-  end
-  AUTH -> SESS : SignIn only when the token is non-null
-  AUTH -> SESS : SignOutAsync(External) on every path
-end
-AUTH --> UI : redirect to / on every path
-note right : a rejected provider and an\nunreachable API are identical - AN-020
 @enduml
 ```
-
 ## Logical View
 Twenty-two components in four processes. The decomposition is **by change axis**, not by feature: each component below encapsulates one thing that can change for the whole system, and the diagram after the table names which ones it fails to encapsulate.
 
