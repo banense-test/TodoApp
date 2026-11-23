@@ -897,6 +897,7 @@ node "Developer workstation - one machine, no container" {
   folder "File system" as FS {
     artifact "Todo.Api/.db/Todos.db" as DBF
     artifact "Data-protection key ring\ndefault framework location" as KF
+    artifact "appsettings.Development.json\nRateLimiting 50 / 50 / 50" as CFG
   }
 }
 cloud "External network" as NET {
@@ -919,6 +920,7 @@ A10 --> A16
 A16 --> DBF : SQLite file
 B5 ..> KF : write
 A10 ..> KF : read
+CFG ..> A14 : binds TokenLimit,\nTokensPerPeriod, QueueLimit
 H20 --> MIG : AddExecutable, WaitForCompletion
 MIG --> DBF : creates the schema
 HOST --> API : AddProject
@@ -938,6 +940,13 @@ note bottom of KF
   No PersistKeysTo call exists in either process,
   so the ring is shared only where the framework's
   default location is shared. AN-010
+end note
+
+note bottom of CFG
+  The only environment file in the tree that
+  changes a mechanism's values. Both launch
+  profiles of both serving processes select
+  Development, so it always applies. AN-024
 end note
 
 note right of HOST
@@ -969,10 +978,9 @@ end note
 | TodoApp.AppHost | COMP-020 | The process a developer starts, through `dotnet run` or the Aspire CLI pinned by `.aspire/settings.json`; it exits with the others, and sets `UserSecretsId` so a developer's own secrets load here | `TodoApp.AppHost/Program.cs:1-28`; `TodoApp.AppHost/TodoApp.AppHost.csproj`; `.aspire/settings.json` |
 | `dotnet-ef` child process | The migration | `AddExecutable`, gated on run mode and on `Todo.Api/.db` being absent, preceded by a global `dotnet tool install` it waits on; the API and the container wait for its completion | `TodoApp.AppHost/Extensions.cs:4-34` |
 | `tomdesinto/sqliteweb` container | A SQLite browser over the same directory | `AddContainer` with target port 8080 — the one fixed port in the tree — the `.db` directory bind-mounted and `ExcludeFromManifest()` | `TodoApp.AppHost/Program.cs:14-19` |
-| File system | `Todos.db`, the data-protection key ring | A relative path inside the API's project directory; the framework's default key location | `Todo.Api/Program.cs:23`; AN-013, AN-010 |
+| File system | `Todos.db`, the data-protection key ring, `appsettings.Development.json` | A relative path inside the API's project directory; the framework's default key location; the configuration file the runtime loads from the content root | `Todo.Api/Program.cs:23`; `Todo.Api/appsettings.Development.json:8-12`; AN-013, AN-010, AN-024 |
 
-**Two environments, and one setting that differs.** `Development` is the only environment in which the reference UI, the health endpoints and body-and-header logging exist; `Todo.Api/Program.cs:49-56` and `TodoApp.ServiceDefaults/Extensions.cs:110-118` gate on it, and both launch profiles set that environment. The root redirect is not gated and fires in every environment (AN-017). No environment file carries a connection string, a provider credential or a rate-limit value: `Todo.Api/appsettings.json` and `Todo.Web/Server/appsettings.json` hold logging levels and `AllowedHosts` alone.
-
+**Two environments, and what differs between them.** `Development` is the only environment in which the reference UI, the health endpoints and body-and-header logging exist; `Todo.Api/Program.cs:49-56` and `TodoApp.ServiceDefaults/Extensions.cs:110-118` gate on it, and every launch profile in both serving processes sets it, so it is the environment the delivery runs in. The root redirect is not gated and fires in every environment (AN-017). Two settings separate Development from any other environment: the three Development-only surfaces above, and the request budget — `appsettings.Development.json:8-12` binds `TokenLimit`, `TokensPerPeriod` and `QueueLimit` to 50 where the code defaults them to 100 / 100 / queue 100, so the bucket in force is half its code default (AN-024, M3, SP1). Neither environment file — `Todo.Api/appsettings.json` and `Todo.Web/Server/appsettings.json` — carries a connection string or a provider credential; the only connection string in the delivery is the literal `Data Source=.db/Todos.db` written in `Todo.Api/Program.cs:23`, identical in both environments.
 ## Implementation View
 
 ```plantuml
