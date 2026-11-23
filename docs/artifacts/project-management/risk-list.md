@@ -222,18 +222,18 @@ end note
 
 ### Acceptances in this register that are the stakeholder's to grant
 
-Four risks carry the accept strategy in the Significant band, where acceptance is the stakeholder's alone. Each holds their own answer of 2026-11-23, given in their words and binding whatever the reconciliation returned:
+Four risks carry the accept strategy in the Significant band, where acceptance is the stakeholder's alone. Each holds the stakeholder's own answer of 2026-11-23:
 
 | Risk | Exposure and band | The stakeholder's answer |
 |---|---|---|
-| `R004` | 4 × 3 = 12, Significant | "Yes" — to accepting, for the sprint zero, that a later role treats the `admin` branch as live functionality, until Excavation records it as the exceptional entity they ruled it to be |
-| `R011` | 4 × 3 = 12, Significant | "Yes" — to accepting that a framework upgrade breaks the suite while no product behaviour changes, for the sprint zero, should the reconciled score land at 9 to 12 or above |
-| `R012` | 4 × 3 = 12, Significant | "Yes" — to accepting that the BFF and the client carry no test of any kind, for the sprint zero |
-| `R016` | 4 × 3 = 12, Significant | "Yes" — to accepting that every element Excavation and Consolidation recover is an interpretation of code with no stated intent to check it against, for the sprint zero |
+| `R004` | 4 × 3 = 12, Significant | "Yes" — asked on 2026-11-23 whether they accept, for the sprint zero and until Excavation records the `admin` branch as the exceptional entity they ruled it to be, that a later role treats it as live functionality should the reconciled score land in the grant band. The reconciled score lands at 12 |
+| `R011` | 4 × 3 = 12, Significant | "Yes" — asked on 2026-11-23 whether they accept, for the sprint zero, that a framework upgrade breaks the suite while no product behaviour changes, should the reconciled score land in the grant band. The reconciled score lands at 12 |
+| `R012` | 4 × 3 = 12, Significant | "Yes" — asked on 2026-11-23 whether they accept, for the sprint zero, that the BFF and the client carry no test of any kind. The score is unchanged by the reconciliation |
+| `R016` | 4 × 3 = 12, Significant | "Yes" — asked on 2026-11-23 whether they accept, for the sprint zero, that every element Excavation and Consolidation recover is an interpretation of code with no stated intent to check it against. The score is unchanged by the reconciliation |
 
-`R015` and `R022` accept at exposure 8, the Moderate band, which is the Project Manager's own authority. Every other risk avoids or transfers, and both of those the Project Manager may choose at any band.
+`R015` and `R022` accept at exposure 8, the Moderate band, which is the Project Manager's own authority. Every other risk avoids, and avoidance the Project Manager may take at any band. No risk in this register sits in the High band, so none exceeds what these four grants cover.
 
-No risk in this register sits in the High band, so none exceeds what these grants cover.
+The ten Significant-band risks that avoid — `R001`, `R002`, `R003`, `R005`, `R007`, `R009`, `R010`, `R018`, `R020` and `R021` — are retired by the action its owner performs: recording the system as the code shows it. They are not accepted and need no grant.
 
 ## Risk Mitigation and Contingency
 Each risk carries the action its owner takes and the sign that it has started to bite. A risk accepted carries a mitigation as well as a contingency; a risk avoided is retired by its action, which the named owner performs.
