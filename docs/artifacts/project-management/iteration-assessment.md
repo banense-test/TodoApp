@@ -6,9 +6,60 @@
 - Owner: Project Manager
 
 ## Iteration Objectives Reached
+Six objectives were planned; six were delivered; two of the six carry a defect inside them that keeps the milestone open. Objective delivery and milestone exit are separate questions and this record answers them separately.
+
+```plantuml
+@startuml
+title The iteration's six objectives - each against what it delivered, and the milestone that stayed open
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 240
+hide empty members
+
+class "O1  The tailoring that governs the sprint zero exists" as O1 {
+  verdict : Met
+  evidence : two disciplines inactive behind their recorded conditions, one OPTIONAL fired, measurement policy stated
+}
+class "O2  The existing system is read and its perimeter stated" as O2 {
+  verdict : Met
+  evidence : four processes, 19 components, 9 external systems, 5 stores, 22 entry points anchored
+}
+class "O3  The unread remainder is declared" as O3 {
+  verdict : Met, one count unreconciled
+  evidence : every unread file named with its reason; the headline does not reproduce from the per-area table
+}
+class "O4  The anomalies are carried as scored, owned risks" as O4 {
+  verdict : Met in structure, not in arithmetic
+  evidence : 21 of 21 carried with strategy, owner, action, contingency; 13 scores contradict the inventory's own words
+}
+class "O5  The priorities are ordered and the answer recorded" as O5 {
+  verdict : Met
+  evidence : eight areas ordered with reasons; the 2026-11-23 answer quoted
+}
+class "O6  The plan for the sprint zero and the phases exists" as O6 {
+  verdict : Met
+  evidence : eight-milestone roadmap, ten work items with owners, twelve exit criteria
+}
+
+class "Iteration acceptance" as IA {
+  objectives delivered : 6 of 6
+  delivered with a defect inside : 2
+  milestone : not achieved - iteration REQUIRED
+}
+
+O1 --> IA
+O2 --> IA
+O3 --> IA
+O4 --> IA
+O5 --> IA
+O6 --> IA
+@enduml
+```
+
 | # | Objective | Owner | Verdict | Basis |
 |---|---|---|---|---|
-| O1 | The tailoring that governs the sprint zero exists | Process Engineer | Met | Development Case records `business-process-led = false` and `real-time-system = false`, one OPTIONAL fired (Deployment Model) with its §5.2 condition, five NOT FIRED each justified, and the measurement policy |
+| O1 | The tailoring that governs the sprint zero exists | Process Engineer | Met | Development Case records `business-process-led = false` and `real-time-system = false`, one OPTIONAL fired (Deployment Model) with its §5.2 condition, five NOT FIRED each justified, and the measurement policy. `Development Case#F1` (Reviewer) finds an unsourced assertion inside it, which is a defect of the content, not a missing objective |
 | O2 | The existing system is read and its perimeter stated | Software Archaeologist | Met | System Inventory records four processes, 19 components, 9 external systems, 5 stores and `EP-001`…`EP-022`, each with kind, initiator and anchor. No finding is raised against any anchor the reviewers opened |
 | O3 | The unread remainder is declared rather than left implicit | Software Archaeologist | Met, one count unreconciled | Coverage names every unread file and its reason. `System Inventory#F2` records that the headline count does not reproduce from the per-area table |
 | O4 | The anomalies are carried as scored, actionable risks | Project Manager | Met in structure, not in arithmetic | All 21 anomalies map to `R001`…`R021` with strategy, owner, action, contingency and warning sign. `Risk List#F1` records 13 scores that contradict the inventory's own likelihood and impact |
