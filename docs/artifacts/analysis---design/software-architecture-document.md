@@ -196,6 +196,99 @@ No enterprise version policy is recorded for this project (`get_version_policy` 
 
 Three build-level disagreements are recorded, not reconciled: the developer container names SDK 8.0 against a `net9.0` solution and a `9.0.100` pin, so the container cannot build the solution it ships with (AN-007); the server project pins `RazorLangVersion` to 8.0 against the same `net9.0` solution (AN-014); and the test project pins `Microsoft.EntityFrameworkCore.InMemory` 9.0.8 which nothing in the suite calls (AN-006). The `sqliteweb` image is the one dependency the tree declares with no version at all.
 
+### The Supplementary Specification, answered by this architecture
+
+Every group of the Supplementary Specification's requirements is answered below by the mechanism that implements it, or recorded as an absence the architecture carries. An absence is written as an absence — no mechanism is claimed where the code has none.
+
+```plantuml
+@startuml
+title SPEC-D1 The Supplementary Specification, answered by the architecture - each group of its requirements against the mechanism that implements it
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam wrapWidth 205
+left to right direction
+
+package "Supplementary Specification" {
+  component "Functionality\nM1-M11 mechanisms\nF1-F12 behaviours not to overstate" as SS1
+  component "Usability\nU1-U10" as SS2
+  component "Reliability\nR1-R11" as SS3
+  component "Performance\nP1-P7" as SS4
+  component "Supportability\nS1-S18" as SS5
+  component "Design Constraints\nDC1-DC14" as SS6
+  component "Interfaces\nI1-I20" as SS7
+  component "Applicable Standards\nAS1-AS9" as SS8
+}
+
+package "Mechanisms in this document that implement them" {
+  component "M1 bearer authentication\nM2 caller resolution\nM6 browser session\nM7 session-to-bearer" as SADM1
+  component "M3 token bucket\nM4 request-shape validation\nM5 cross-process data protection" as SADM2
+  component "M8 discovery and resilience\nM9 observability and health\nM10 schema provisioning" as SADM3
+  component "M11 request diagnostics\nM12 API description\nM13 isolated verification host" as SADM4
+}
+
+package "Views that carry their consequence" {
+  component "Process View P1-P6\nthe two hops stated apart" as PV
+  component "Deployment View\none placement, key ring on the file system" as DV
+  component "Size and Performance SP1-SP7\nthe budget in force, 50 / 50 / 50" as SZ
+  component "Quality\ntactic against the anomaly that defeats it" as QL
+  component "Implementation View\ncentral pinning, the missing reference" as IV
+}
+
+package "Where the architecture answers with an absence" {
+  component "AN-002 no service credential\nAN-010 no pinned key store\nAN-023 no forwarder resilience" as G1
+  component "AN-009 /users unlimited\nAN-005 EnsureCreated schema\nAN-012 BFF and client untested" as G2
+  component "DC12 not deployed anywhere\nS8 diagnostics Development-only\nAS7 accessibility not established" as G3
+}
+
+SS1 --> SADM1
+SS1 --> SADM2
+SS2 --> SADM1
+SS3 --> SADM3
+SS3 --> PV
+SS4 --> SADM2
+SS4 --> SZ
+SS5 --> SADM3
+SS5 --> SADM4
+SS6 --> IV
+SS6 --> SADM1
+SS7 --> SADM4
+SS7 --> DV
+SS8 --> SADM4
+SS8 --> G3
+
+SADM1 --> G1
+SADM2 --> G2
+DV --> G3
+
+note bottom of G1
+  Three requirements the specification states the code
+  does NOT meet, and the architecture records the absence
+  rather than a tactic. AN-002, AN-010, AN-023.
+end note
+
+note bottom of G3
+  The architecture carries these as constraints on any
+  later change, not as defects of a design: nothing in
+  the tree contradicts them and nothing in the tree
+  supplies them. DC12, S8, AS7.
+end note
+
+@enduml
+```
+
+| Specification group | How the architecture answers it | Where it is answered | Absent, and named |
+|---|---|---|---|
+| Functionality, M1-M11 | Each mechanism is carried as M1 to M13 with the capability it provides, the properties the code fixes, its product where one is stated, and the use cases that use it | Logical View — Architectural mechanisms | Nothing in this group is absent; M14 to M16 of the specification are host and transport posture, carried as DC13 and DC14 below because no component provides them |
+| Functionality, F1-F12 | Each behaviour not to be overstated is honoured by the view it constrains: F1 keeps the completion write out of every screen path, F4 and F5 keep the `admin` branch an exceptional entity the flows do not follow, F6 and F10 keep the budget stated at both its values, F7, F11 and F12 keep every trust and transport claim withdrawn | Use-Case View (per-use-case component sets), Size and Performance SP1, Quality, Goals and Constraints (Constraints) | None |
+| Usability, U1-U10 | The three screens and their rules are carried by COMP-001 and COMP-002, whose responsibilities name the two shells, the login and create-user form, the task list and the client's six operations | Logical View — Components; Deployment View (the browser node) | U7's two inert controls and U8's missing empty state are behaviours of COMP-001 and are recorded, not answered: no component supplies them (AN-001) |
+| Reliability, R1-R11 | M9 carries health and telemetry, M10 carries schema provisioning, M13 carries the isolated verification host, and the two BFF hops are stated apart | Process View P6; Deployment View; Quality (Reliability rows) | R10's transport protection and R11's inheritance of the BFF posture are absent between the processes: the API registers no HSTS, redirection or antiforgery and the target is the literal `http://todoapi` (DC13) |
+| Performance, P1-P7 | SP1 to SP7 state what the code fixes on its own behaviour, with the budget in force separated from the code default | Size and Performance | No threshold is claimed: the delivery states none, and SP2 records that no payload limit exists |
+| Supportability, S1-S18 | S2 and S10 are the two configuration surfaces the architecture exposes; S13, S14, S15 and S17 are the four that are fixed in code and need a redeploy; S5, S6 and S7 are the verification gaps | Deployment View (Nodes and Connectors, Environment Mapping); Implementation View; Quality (Testability) | S16 and S18 are absent: no deployment artifact exists (DC12) and no diagnostic surface exists outside Development (S8) |
+| Design Constraints, DC1-DC14 | DC1 and DC2 are the build root in the Implementation View; DC3 to DC5 and DC11 are the data path; DC6 to DC9 are the contract and key-ring boundaries; DC10, DC13 and DC14 are the environment and transport posture | Implementation View; Data View; Goals and Constraints (Constraints) | None — each is a constraint the architecture lives within, and the Quality view names the anomaly each one leaves |
+| Interfaces, I1-I20 | The connectors table gives each hop its mechanism, and the Deployment View places each endpoint on its node | Logical View — Connectors; Deployment View | No interface is claimed to be authenticated between the two processes: I6 and I13 cross a boundary that carries no service credential (AN-002) |
+| Applicable Standards, AS1-AS9 | AS1, AS4, AS5 and AS6 are held by the framework the components are built on; AS2 is held for validation errors only; AS9 is held at the BFF's edge only | Quality (Maintainability, Security); Data View (the schema's single definition) | AS3 is unexercised (no provider registered, AN-010) and AS7 is not established at all — no accessibility statement, test or attribute beyond `aria-label` on one inert control |
+
 ## Use-Case View
 Eleven use cases were recovered by the System Analyst, each anchored to the entry point whose code performs it. The four below are the architecturally significant ones: they cross the most process boundaries, or they carry a mechanism that no other use case exercises. Each was walked through the completed use-case specification step by step, and the components named below are the ones those steps run through.
 
