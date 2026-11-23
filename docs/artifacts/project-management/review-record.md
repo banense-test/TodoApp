@@ -1,13 +1,13 @@
 ## Document Control
 ### Reviewer lens
-<!-- review: Excavation I1 -->
+<!-- review: Excavation I2 -->
 
-<!-- review: Excavation I1 -->
+<!-- review: Excavation I2 -->
 
 - Phase: Excavation
-- Status: Technical lens complete for the AR (end-of-Excavation) milestone review. Ten findings recorded this milestone: 0 Critical, 6 Major, 4 Minor, 0 Info. Two prior findings of this lens closed. Disposition — Approved with Changes, with the six Majors holding the milestone until their artifacts are reworked.
-- Milestone Target: end-of-Excavation (AR) — not achieved. The six Majors are open and the recovery's own figures are contradicted by the code in three artifacts; gate H4 has not been put and is not this lens's to put.
-- Iteration: 1, Cycle 1
+- Status: Technical lens complete for the AR (end-of-Excavation) milestone review, iteration 2. Nine findings of this lens closed on verified evidence; three open — 0 Critical, 2 Major, 1 Minor. Disposition — Approved with Changes; the two Majors hold the milestone until their artifact is reworked.
+- Milestone Target: end-of-Excavation (AR) — not achieved. Two Majors are open on the Use-Case Model, and a suspect trace remains registered at the phase close.
+- Iteration: 2, Cycle 1
 - Owner: Reviewer
 
 ### Management Reviewer lens
