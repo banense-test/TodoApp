@@ -1094,27 +1094,26 @@ Three properties matter to the architecture rather than to the schema. **The sch
 **What a later threshold must not assume.** No figure stated for the system as a whole can hold for `/users`, which is unlimited (AN-009) and whose policy could not be moved as written. No response-time figure can hold for a caller with an unbounded number of rows, because the list has no page bound. And the two hops out of the BFF are not equivalent under failure: only the token hop retries (P6).
 
 ## Quality
-
 Each quality attribute is stated with the tactic the architecture actually embodies and the element that carries it. No attribute is recorded as "to be addressed later": where the delivery holds no tactic, the cell says so and names the anomaly.
 
 | Attribute | Tactic the code embodies | Where it lives | Where the tactic fails or is absent |
 |---|---|---|---|
 | Security — data isolation | Ownership enforced in the query and the write statement, not in a service layer; 404 for both absent and not-owned | COMP-011 | The predicate is repeated in four statements and the list applies half of it (AN-018); a role claim no caller holds widens it (AN-004) |
 | Security — credential handling | The browser never holds a bearer token; the token stays in the session's token set and is written server-side | COMP-006, COMP-008 | The API accepts a bearer token from any caller, so the boundary the token crosses is unauthenticated (AN-002) |
-| Security — cross-process secret transport | The provider key is protected with a named protector in one process and unprotected in the other | COMP-006, COMP-010 | No key store is pinned, so the ring is shared only by accident of the default file location (AN-010) |
+| Security — cross-process secret transport | The provider key is protected with a named protector in one process and unprotected in the other | COMP-006, COMP-010 (M5) | No key store is pinned, so the ring is shared only by accident of the default file location (AN-010) — and the one host that could have proven the two rings differ substitutes an ephemeral provider (ADR-013), so no test exercises this |
 | Availability — bounded load | Per-caller token bucket with a wait queue and a 429 rejection status | COMP-014 | Applied to `/todos` only; the authentication surface is unbounded and the policy could not be moved as written (AN-009) |
 | Availability — transient failure | A standard resilience handler on every container-built `HttpClient` | COMP-021 reaching COMP-007 | The forwarder hop has none, so the task path is not protected while the auth path is (P6) |
-| Reliability — referential integrity | `OwnerId` required, indexed, cascade on delete, re-pointed to the identity key by migration 3 | COMP-016 | The test host builds its schema by `EnsureCreated`, so no test exercises the migrations (AN-005) |
+| Reliability — referential integrity | `OwnerId` required, indexed, cascade on delete, re-pointed to the identity key by migration 3 | COMP-016 | The test host builds its schema by `EnsureCreated` rather than the migrations (M13), so no test exercises them and a migration that no longer matches the model fails only in the app host (AN-005) |
 | Reliability — failure reporting | Problem details for validation errors | COMP-015 | Every authentication failure answers one 401 with no body and the BFF discards the API's problem (AN-021); the provider callback reports nothing and always redirects (AN-020) |
 | Maintainability — change isolation | The contract is the only axis no boundary encapsulates: the API redeclares the shapes rather than referencing them | ADR-009 | No compiler checks the two declarations agree (AN-003) |
-| Maintainability — version consistency | Every package centrally pinned; one source feed | `Directory.Packages.props`; `nuget.config` | `RazorLangVersion` 8.0 in a 9.0 solution (AN-014); the container names SDK 8.0 (AN-007) |
-| Testability | The API is bootable in-process through `WebApplicationFactory` with a seeded user and rows | COMP-022 | Neither the BFF nor the client has any test, and the three defective `/auth` flows are exactly the untested ones (AN-012); the suite mints tokens by reproducing framework internals (AN-011) |
+| Maintainability — version consistency | Every package centrally pinned in one file; one source feed | `Directory.Packages.props`; `nuget.config` | `RazorLangVersion` 8.0 in a 9.0 solution (AN-014); the container names SDK 8.0 (AN-007); the `sqliteweb` image carries no tag at all |
+| Testability | The API is bootable in-process through `WebApplicationFactory` with a seeded user and rows, and every production dependency is substitutable | COMP-022 (M13, ADR-013) | Neither the BFF nor the client has any test, and the three defective `/auth` flows are exactly the untested ones (AN-012); the suite mints tokens by reproducing framework internals (AN-011); and the four substitutions mean the migrations, the cross-process key ring and the issued token format are observed by nothing |
 | Operability | Readiness and liveness; OTLP export gated on one environment variable; body-and-header logging in Development | COMP-021, COMP-018 | Health endpoints and logging are Development-only, so an operating instance carries no readiness probe and no request log (S8) |
-| Portability | One placement, no deployment artifact | COMP-020 | Not deployed anywhere; two project files still carry container image properties the tree no longer backs (DC12) |
+| Portability | One placement, no deployment artifact; the orchestrator declares no endpoint, port or replica | COMP-020 (ADR-012) | Not deployed anywhere; two project files still carry container image properties the tree no longer backs (DC12) |
 
 ```plantuml
 @startuml
-title QUAL-D1 Each quality tactic, the component that carries it, and the anomaly that defeats it
+title QUAL-D1 Each quality tactic, the component that carries it, and what defeats it
 
 skinparam componentStyle rectangle
 skinparam shadowing false
@@ -1129,20 +1128,20 @@ package "Tactics the code holds" {
   component "Migrations as the only schema" as T6
   component "Problem details for validation" as T7
   component "Central package pinning" as T8
-  component "WebApplicationFactory boot" as T9
+  component "Substitutable in-process test host" as T9
   component "Health checks and OTLP" as T10
 }
 
 package "What defeats the tactic" {
   component "AN-018, AN-004\nThe predicate drifted and admits\na claim nobody holds" as A1
   component "AN-002\nThe API trusts any bearer token" as A2
-  component "AN-010\nNo key store is pinned" as A3
+  component "AN-010, ADR-013\nNo key store is pinned, and the\nephemeral provider hides it" as A3
   component "AN-009\n/users is unlimited and the policy\ncannot be moved as written" as A4
   component "P6\nThe forwarder hop has no handler" as A5
-  component "AN-005\nNo test reproduces the migrations" as A6
+  component "AN-005, ADR-013\nEnsureCreated replaces the migrations" as A6
   component "AN-021, AN-020\nEvery auth failure is one 401;\nthe callback reports nothing" as A7
-  component "AN-014, AN-007\nTwo version disagreements" as A8
-  component "AN-012, AN-011\nTwo thirds untested; tokens minted\nfrom framework internals" as A9
+  component "AN-014, AN-007, untagged image\nThree version disagreements" as A8
+  component "AN-012, AN-011, ADR-013\nTwo thirds untested, tokens minted\nfrom framework internals, and four\nsubstitutions" as A9
   component "S8\nBoth are Development-only" as A10
 }
 
@@ -1161,6 +1160,13 @@ note bottom of A5
   The only tactic with no anomaly behind it: it is
   an asymmetry between two hops, found by following
   both calls out of the BFF. See the Process View.
+end note
+
+note bottom of A9
+  The same substitution that makes the suite
+  trustworthy about behaviour is what makes it
+  silent about the deployment: it removes the
+  migration, the key ring and the token format.
 end note
 
 @enduml
