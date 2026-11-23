@@ -1052,3 +1052,105 @@ The defects are corrections to content already written, not new scope, and all s
 **What reopens this gate.** All six Major findings reworked and closed by their owners, both review lenses re-run against the rework, the Development Case's duplication deleted on the stakeholder's order, and any risk the reconciled scores place at Significant or High put to the stakeholder and granted or refused in their own words. Then the sanction question is asked again — with the new count in it — and the verdict re-taken. Until then the Review Coordinator has no sanction to record and Excavation has no perimeter to recover from.
 
 **Sanction token for the record.** Stakeholder sanction: REFUSED — 2026-11-23.
+
+### Review Coordinator lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+**Verdict: No-Go.** The System Boundary Confirmed milestone is **not achieved**. The stakeholder refused the sanction on 2026-11-23 and six Major findings stand open. The project does not advance into Excavation on this baseline.
+
+**Basis, copied from the finding data — not from judgment.**
+
+| Gate condition | Actual |
+|---|---|
+| Artifacts read from the ledger | 4 of 4, plus the Review Record — unread: none |
+| Open Critical | 0 |
+| Open Major | 6 |
+| Open Minor | 4 |
+| Perimeter confirmed by the stakeholder | No |
+| Stakeholder sanction | REFUSED — 2026-11-23 |
+| Milestone verdict | requiresIteration: true |
+
+Zero Critical findings means nothing at this gate needs a stakeholder decision in order to be *corrected*. It does not mean the gate passes: the decision the gate itself required — confirming the perimeter — was put to the stakeholder and answered No, and six Major findings require rework before any role consumes these artifacts.
+
+**Review effectiveness — this event only.** This is the project's first review: no prior review event exists, so no trend is computed and none is claimed. The metrics below are this event's measured values.
+
+```plantuml
+@startuml
+title Review effectiveness at SBC - what this event measured, and what has no denominator yet
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide empty members
+skinparam wrapWidth 240
+
+class "Coverage" as COV {
+  planned artifacts : 4
+  formally reviewed : 4
+  coverage : 100 percent
+  scheduled review events : 1
+  events held : 1
+  lenses scheduled at SBC : 2
+  lenses executed : 2
+}
+
+class "Defect density" as DEN {
+  Development Case : 3 findings
+  System Inventory : 2 findings
+  Risk List : 2 findings
+  Iteration Plan : 3 findings
+  page denominator : not measured
+  KLOC denominator : not applicable, no code produced
+}
+
+class "Severity composition" as SEV {
+  Critical : 0
+  Major : 6
+  Minor : 4
+  Info : 0
+  Major share : 60 percent
+}
+
+class "Defect removal efficiency" as DRE {
+  found in review : 10
+  found in test : none executed
+  ratio : not computable yet
+  first test execution : Elaboration
+}
+
+class "Rework effort" as RWK {
+  findings requiring rework : 10
+  rework performed : none yet
+  tokens spent on rework : not measured
+  basis : no phase closed
+}
+
+COV --> DEN : the denominators coverage makes meaningful
+DEN --> SEV
+SEV --> DRE : review-only detection\nuntil a test phase runs
+DRE --> RWK : rework follows closure,\nnot detection
+
+note right of DRE
+  A removal efficiency needs a second
+  detector. At SBC the only detector
+  is this review, so the ratio is stated
+  as not computable, never as 100 percent.
+end note
+@enduml
+```
+
+**Interpretation.**
+
+- **Coverage is complete and that is the honest reading, not a flattering one.** Four artifacts were scheduled for this review and four were formally reviewed by both lenses the Survey schedule runs. Coverage carries no denominator for code: this phase produces no code.
+- **Defect density is reported as counts per artifact, without a page or KLOC denominator.** Page counts are not measured for these artifacts and code volume is zero in Survey. Inventing a normalizer would produce a number no reader could reproduce — the same defect this review records against the Risk List's scores.
+- **Six of ten findings are Major, and that concentration is the finding about the artifacts, not about the review.** Each Major sits where a downstream role would build on wrong content: a version policy no file records, a constraint list five short of its own count, thirteen scores that contradict the inventory they cite, and three exit criteria certified on answers that do not state them.
+- **Defect removal efficiency is not computable at this event** and is not stated as 100 percent. The only defect detector that has run is this review. The ratio needs a second detector, and the first test execution is Elaboration.
+- **Rework effort has no measurement because no rework has occurred.** No phase has closed, so no measured spend exists, and no figure is filled in its place.
+- **Both lenses executed and neither was mismatched to its artifact domain.** The Business Reviewer's absence is the Survey schedule, and is recorded as INACTIVE rather than as an approval.
+
+**Iteration acceptance, kept apart from the milestone verdict.** The management lens assessed all six of this iteration's objectives and found every one delivered: the tailoring exists, the system is read and its perimeter stated, the unread remainder declared, the anomalies carried as scored and owned risks, the priorities ordered with the stakeholder's answer recorded, and the plan for the sprint zero and the phases exists. The work of iteration 1 was done. What it produced is not certifiable. Those are different questions, and this record answers them differently on purpose.
+
+**Sanction token for the record.** Stakeholder sanction: REFUSED — 2026-11-23.
+
+**Stakeholder finding folded in.** "The development case contains duplicated diagrams and text; it needs to be corrected. Additionally, the major findings must be corrected." Verified against the finding ledger rather than deferred: the duplication is a recorded defect under two keys (Development Case#F2 Reviewer, Development Case#F1 Management Reviewer), both assigned to the Process Engineer, and the Major findings are six recorded defects, all open, all owned. No new defect is minted for the second instruction, because every Major it names is already in the ledger.
