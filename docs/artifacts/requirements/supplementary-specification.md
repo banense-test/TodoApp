@@ -368,7 +368,7 @@ package "Persistence - fixed" {
 
 package "Contracts and boundaries - fixed" {
   class "DC6 the request shapes are declared twice\nTodo.Api/Todos/Todo.cs and\nTodo.Web/Shared/SharedClass.cs\nin assemblies that do not reference each other" as DC6 <<constraint>>
-  class "DC7 OwnerId excluded from\n every response shape" as DC7 <<constraint>>
+  class "DC7 OwnerId excluded from\nevery response shape" as DC7 <<constraint>>
   class "DC8 the BFF reaches the API through YARP\nIHttpForwarder, service name todoapi" as DC8 <<constraint>>
   class "DC9 both processes must share a key ring\nonly the discriminator TodoApp is set" as DC9 <<constraint>>
 }
@@ -409,13 +409,13 @@ end note
 | DC5 | A task belongs to one account: `OwnerId` is a required foreign key to `AspNetUsers.Id`, indexed, on delete cascade, and it was re-pointed from `UserName` to `Id` by the third migration | `Todo.Api/Todos/Todo.cs:3-12`; `Todo.Api/TodoDbContext.cs:11-17`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs` |
 | DC6 | The request shapes are declared twice, in `Todo.Api/Todos/Todo.cs` and in `Todo.Web/Shared/SharedClass.cs`, in assemblies that do not reference each other, so nothing checks that they still agree | AN-003; `Todo.Api/Todos/Todo.cs:15-21` vs `Todo.Web/Shared/SharedClass.cs:5-11` |
 | DC7 | `OwnerId` is deliberately excluded from every response shape | `Todo.Api/Todos/Todo.cs:14-26` |
-| DC8 | The BFF reaches the API through YARP `IHttpForwarder` under the service name `todoapi`, rewriting the session's access token into the bearer header | `Todo.Web/Server/TodoApi.cs:12-25`; `Todo.Web/Server/Program.cs` |
+| DC8 | The BFF reaches the API through YARP `IHttpForwarder` under the service name `todoapi`, rewriting the session's access token into the bearer header | `Todo.Web/Server/TodoApi.cs:12-25`; `Todo.Web/Server/Program.cs:18` |
 | DC9 | The BFF and the API must share a data-protection key ring for the provider exchange to work; only the application discriminator is set | `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11`; AN-010 |
 | DC10 | Development-only surfaces: the reference UI, the HTTP logging fields, and the `RazorLangVersion` 8.0 pin on the server project against a `net9.0` solution | `Todo.Api/Program.cs:35-62`; `Todo.Web/Server/Todo.Web.Server.csproj:7`; AN-014 |
 | DC11 | The migration is raised by the app host, in run mode, only when `Todo.Api/.db` does not exist, and with no connection string passed | `TodoApp.AppHost/Extensions.cs:1-34`; AN-013 |
 | DC12 | The system is not deployed anywhere: no Dockerfile, compose file or deployment manifest is in the tree, though two project files still carry container image properties | `.iari/README.md`; System Inventory — Documentation |
-| DC13 | The hop between the BFF and the API is plain HTTP. The forwarder's only target is the literal `http://todoapi`; the API registers no HTTPS redirection, no HSTS and no antiforgery; no TLS terminator is configured anywhere in the tree. The bearer token and the session credentials that derive it therefore cross the process boundary in clear text unless a terminator outside the delivery is placed in front of the API. This is a constraint the architecture carries, not a security requirement the delivery states | `Todo.Web/Server/TodoApi.cs:18`; `Todo.Web/Server/Program.cs:23-26`; `Todo.Api/Program.cs:1-77` |
-| DC14 | Neither process restricts the `Host` header it answers: `AllowedHosts` is `*` in both base settings files and neither Development file carries a host section | `Todo.Api/appsettings.json:8`; `Todo.Web/Server/appsettings.json:10`; `Todo.Api/appsettings.Development.json`; `Todo.Web/Server/appsettings.Development.json` |
+| DC13 | The hop between the BFF and the API is plain HTTP. The forwarder's only target is the literal `http://todoapi`; the API registers no HTTPS redirection, no HSTS and no antiforgery; no TLS terminator is configured anywhere in the tree. The bearer token and the session credentials that derive it therefore cross the process boundary in clear text unless a terminator outside the delivery is placed in front of the API. This is a constraint the architecture carries, not a security requirement the delivery states | `Todo.Web/Server/TodoApi.cs:18`; `Todo.Web/Server/Program.cs:25-28`; `Todo.Api/Program.cs:44-47` |
+| DC14 | Neither process restricts the `Host` header it answers: `AllowedHosts` is `*` in both base settings files and neither Development file carries a host section | `Todo.Api/appsettings.json:8`; `Todo.Web/Server/appsettings.json:9`; `Todo.Api/appsettings.Development.json`; `Todo.Web/Server/appsettings.Development.json` |
 
 ## Interfaces
 ```plantuml
