@@ -1046,71 +1046,78 @@ end note
 **What Excavation inherits from this gate.** A perimeter the stakeholder has confirmed in this review; a constraint list of twelve entry-point-bearing anomalies with the 21 edges the System Inventory records, the nine anomalies with no entry point carried through the Risk List; a register whose every score reproduces and whose four acceptances above the Moderate band each hold the stakeholder's own answer; a plan that names no work the process does not run in Survey; and the order to close the open Minors rather than leave them unattended.
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-**Verdict: No-Go.** The System Boundary Confirmed milestone is **not achieved**. The stakeholder refused the sanction on 2026-11-23 and six Major findings stand open. The project does not advance into Excavation on this baseline.
+**Verdict: Go.** The System Boundary Confirmed milestone is **achieved**, and the phase advances into Excavation on this baseline.
 
 **Basis, copied from the finding data — not from judgment.**
 
+`[FINDINGS] read=Development Case, System Inventory, Risk List, Iteration Plan, Iteration Assessment, Review Record, unread=none, open Critical=0, open Major=0, open Minor=4`
+
 | Gate condition | Actual |
 |---|---|
-| Artifacts read from the ledger | 4 of 4, plus the Review Record — unread: none |
+| Artifacts read from the ledger | 6 of the 6 artifacts that exist — unread: none |
 | Open Critical | 0 |
-| Open Major | 6 |
+| Open Major | 0 |
 | Open Minor | 4 |
-| Perimeter confirmed by the stakeholder | No |
-| Stakeholder sanction | REFUSED — 2026-11-23 |
-| Milestone verdict | requiresIteration: true |
-
-**The guard the verdict was taken on.**
+| Perimeter confirmed by the stakeholder | Yes — 2026-11-23 |
+| Stakeholder sanction | GRANTED — 2026-11-23 |
+| Lenses executed | 2 of 3 — Business Reviewer INACTIVE by process schedule |
+| Milestone verdict | requiresIteration: false |
 
 ```plantuml
 @startuml
-title Milestone verdict path for SBC - the guards the coordinator applies to the finding data
-
+title Milestone verdict path at SBC iteration 2 - the guards applied to the finding data
 skinparam shadowing false
 skinparam wrapWidth 240
 
 start
-:read_artifact_findings on all four artifacts plus the Review Record;
-:[FINDINGS] line - unread=none, open Critical=0, open Major=6, Minor=4;
+:read_artifact_findings on Development Case, System Inventory, Risk List, Iteration Plan, Iteration Assessment, Review Record;
+:[FINDINGS] unread=none, open Critical=0, open Major=0, open Minor=4;
 note right
-  Counts copied from the ledger,
-  never from a Review Record sentence.
+  Counts copied from the ledger.
+  No Review Record sentence is
+  accepted as a resolution.
 end note
 if (any unresolved Critical?) then (yes)
-  :VERDICT_ESCALATE_CRITICAL;
-  :ask the stakeholder for a decision;
-  :record requiresIteration:true;
+  :VERDICT_ESCALATE_CRITICAL - stakeholder decision required;
+  :record requiresIteration true;
   stop
 else (no)
 endif
-if (open Major > 0, or perimeter not confirmed, or sanction REFUSED?) then (yes)
+if (open Major > 0\nor perimeter not confirmed\nor sanction withheld?) then (yes)
   :VERDICT_CONTRIB - stakeholder contribution asked;
-  :fold the answer in as a Stakeholder finding;
-  :record requiresIteration:true;
+  :fold it in as a Stakeholder finding;
+  :record requiresIteration true;
   stop
 else (no)
-  :VERDICT_DONE - scope complete;
-  :put it to the stakeholder before advancing;
-  :record requiresIteration:false;
-  stop
 endif
+:VERDICT_DONE - phase scope complete on the ledger;
+:the sanction question is already answered inside this milestone review\n- gate H2 returned Yes on 2026-11-23, recorded in this Review Record;
+:record requiresIteration false;
+note right
+  The sanction is not re-put: the stakeholder
+  answered the same proposition, on the same
+  finding data, in this review. A standing
+  answer is not re-opened.
+end note
+stop
 @enduml
 ```
 
-The path taken is the second branch: open Major 6, perimeter not confirmed, sanction REFUSED. The third branch — scope complete and advance — is not reachable on this data, because three of its guards fail at once.
+The third branch is the one taken: 0 open Critical, 0 open Major, the perimeter confirmed and the sanction granted. The first two branches are unreachable on this ledger.
 
-Zero Critical findings means nothing at this gate needs a stakeholder decision in order to be *corrected*. It does not mean the gate passes: the decision the gate itself required — confirming the perimeter — was put to the stakeholder and answered No, and six Major findings require rework before any role consumes these artifacts.
+**Why the sanction is not put to the stakeholder a second time.** The same proposition — confirm the perimeter as the System Inventory records it, and sanction advancing past SBC — was asked inside this milestone review and answered **Yes** on 2026-11-23, with the added instruction that the open Minors be addressed in Excavation. It was asked on exactly this finding data: 0 Critical, 0 Major, the four Minors, the Business Reviewer INACTIVE. Asking it again in the same review would re-open an answer already given, and the answer would be the same. The answer is on record in the management lens's Disposition and in the table above; it is not restated as a new question.
 
-**Review effectiveness — this event only.** This is the project's first review: no prior review event exists, so no trend is computed and none is claimed. The metrics below are this event's measured values.
+**Stakeholder finding folded in.** "Yes, let's move on to the next phase. Minor findings should also be addressed during the next phase—let's not leave them unattended." Verified against the ledger rather than deferred: the four open Minors are exactly the four items the order names, all four carry an owner and a due point in Excavation's first iteration (Resolutions and Actions, actions 1 to 4), and none is left without one. No new defect is minted for the order, because every item it names is already in the ledger and the order reaches its owners through this record.
+
+**Review effectiveness — this event, measured values only.** Two iterations of the SBC review have run; the counts below span both. No trend in effort, cost or velocity is claimed: no phase has closed, so neither clock has a closed-phase measurement to compare against, and this report states current values only.
 
 ```plantuml
 @startuml
-title Review effectiveness at SBC - what this event measured, and what has no denominator yet
-
+title Review effectiveness at SBC - measured values of this event, and what has no denominator
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 hide empty members
@@ -1120,70 +1127,73 @@ class "Coverage" as COV {
   planned artifacts : 4
   formally reviewed : 4
   coverage : 100 percent
-  scheduled review events : 1
-  events held : 1
+  lens passes held : 2 per iteration
+  iterations reviewed : 2
   lenses scheduled at SBC : 2
   lenses executed : 2
+  lenses inactive : 1, Business Reviewer, by process schedule
 }
 
-class "Defect density" as DEN {
-  Development Case : 3 findings
-  System Inventory : 2 findings
-  Risk List : 2 findings
-  Iteration Plan : 3 findings
+class "Findings by severity" as SEV {
+  recorded over two iterations : 14
+  critical : 0
+  major : 6
+  minor : 8
+  resolved and verified : 10
+  open : 4, all Minor
+}
+
+class "Density" as DEN {
   page denominator : not measured
   KLOC denominator : not applicable, no code produced
+  reported as : counts per artifact
 }
 
-class "Severity composition" as SEV {
-  Critical : 0
-  Major : 6
-  Minor : 4
-  Info : 0
-  Major share : 60 percent
-}
-
-class "Defect removal efficiency" as DRE {
-  found in review : 10
+class "Removal efficiency" as DRE {
+  found in review : 14
   found in test : none executed
-  ratio : not computable yet
+  ratio : not computable
   first test execution : Elaboration
 }
 
-class "Rework effort" as RWK {
-  findings requiring rework : 10
-  rework performed : none yet
+class "Rework" as RWK {
+  findings requiring rework : 6 Major
+  rework performed : 6, verified by the recording lens
   tokens spent on rework : not measured
   basis : no phase closed
 }
 
-COV --> DEN : the denominators coverage makes meaningful
-DEN --> SEV
-SEV --> DRE : review-only detection\nuntil a test phase runs
-DRE --> RWK : rework follows closure,\nnot detection
-
+COV --> SEV
+SEV --> DEN : density needs a normalizer\nthis event cannot supply
+SEV --> DRE : review is the only detector\nthat has run
+DRE --> RWK : rework follows closure
 note right of DRE
-  A removal efficiency needs a second
-  detector. At SBC the only detector
-  is this review, so the ratio is stated
-  as not computable, never as 100 percent.
+  A removal efficiency needs a second detector.
+  At SBC the only detector is this review, so the
+  ratio is stated as not computable, never 100 percent.
+end note
+note bottom of RWK
+  No trend is claimed across iterations for cost or
+  effort: no phase has closed and no figure was measured.
+  The finding counts are the only values the ledger holds.
 end note
 @enduml
 ```
 
 **Interpretation.**
 
-- **Coverage is complete and that is the honest reading, not a flattering one.** Four artifacts were scheduled for this review and four were formally reviewed by both lenses the Survey schedule runs. Coverage carries no denominator for code: this phase produces no code.
-- **Defect density is reported as counts per artifact, without a page or KLOC denominator.** Page counts are not measured for these artifacts and code volume is zero in Survey. Inventing a normalizer would produce a number no reader could reproduce — the same defect this review records against the Risk List's scores.
-- **Six of ten findings are Major, and that concentration is the finding about the artifacts, not about the review.** Each Major sits where a downstream role would build on wrong content: a version policy no file records, a constraint list five short of its own count, thirteen scores that contradict the inventory they cite, and three exit criteria certified on answers that do not state them.
-- **Defect removal efficiency is not computable at this event** and is not stated as 100 percent. The only defect detector that has run is this review. The ratio needs a second detector, and the first test execution is Elaboration.
-- **Rework effort has no measurement because no rework has occurred.** No phase has closed, so no measured spend exists, and no figure is filled in its place.
-- **Both lenses executed and neither was mismatched to its artifact domain.** The Business Reviewer's absence is the Survey schedule, and is recorded as INACTIVE rather than as an approval.
+- **Coverage is complete, and that is a reading rather than a compliment.** Four artifacts were scheduled for this review and four were formally reviewed by both lenses the SBC schedule runs, over two iterations. Coverage carries no denominator for code: this phase produces no code.
+- **Defect density is reported as counts per artifact, with no page or KLOC denominator.** Page counts are not measured for these artifacts and code volume is zero in Survey. Inventing a normalizer would produce a figure no reader could reproduce — the same class of defect this review recorded against the Risk List's scores.
+- **Major findings outnumbered Minors six to eight across the two iterations, and all six Majors sat where a downstream role would build on wrong content:** a version policy no file records, a trace edge missing from a table, thirteen scores contradicting the inventory they cite, five constraints dropped from a handoff, and three exit criteria certified on answers that did not state them. Every one is closed against the corrected section.
+- **Defect removal efficiency is not computable at this event** and is not stated as 100 percent. The only defect detector that has run is this review; the ratio needs a second detector, and the first test execution is Elaboration.
+- **Rework effort has no measured figure because no phase has closed.** The rework itself is verifiable — six Majors reworked and each closure verified by its recording lens — but the tokens and elapsed time it cost are not measured, and no figure is filled in their place.
+- **Both executed lenses were matched to their artifact domain** — Environment, Discovery and Project Management artifacts read by the technical and management lenses. The Business Reviewer's absence is the Survey schedule and is recorded as INACTIVE, never as an approval.
 
-**Iteration acceptance, kept apart from the milestone verdict.** The management lens assessed all six of this iteration's objectives and found every one delivered: the tailoring exists, the system is read and its perimeter stated, the unread remainder declared, the anomalies carried as scored and owned risks, the priorities ordered with the stakeholder's answer recorded, and the plan for the sprint zero and the phases exists. The work of iteration 1 was done. What it produced is not certifiable. Those are different questions, and this record answers them differently on purpose.
+**Iteration acceptance, kept apart from the milestone verdict.** All six of the iteration's objectives are delivered: the tailoring exists, the system is read and its perimeter stated, the unread remainder declared, the anomalies carried as scored and owned risks, the priorities ordered with the stakeholder's answers recorded, and the plan for the sprint zero and the phases exists. That is the Iteration Assessment's question and it is answered in its own artifact. What this record answers is narrower and is the one the phase turns on: whether the four artifacts can be certified to Excavation, and they can.
 
-**Sanction token for the record.** Stakeholder sanction: REFUSED — 2026-11-23.
-
-**Stakeholder finding folded in.** "The development case contains duplicated diagrams and text; it needs to be corrected. Additionally, the major findings must be corrected." Verified against the finding ledger rather than deferred: the duplication is a recorded defect under two keys (Development Case#F2 Reviewer, Development Case#F1 Management Reviewer), both assigned to the Process Engineer, and the Major findings are six recorded defects, all open, all owned. No new defect is minted for the second instruction, because every Major it names is already in the ledger. This is also the contribution the coordinator's verdict path requires of the stakeholder before the phase iterates, and it was given inside this milestone review rather than asked for a second time.
-
-**Not asked at this gate, and why.** The grant of R004 and R011 — the two risks whose reconciled scores may land in the stakeholder's band — is not put to the stakeholder now. Their current scores are exactly what this review has declared unreproducible, so the question cannot be stated on data the register does not yet hold. The Project Manager reconciles the scores first and puts the acceptance immediately after, as action 1 orders.
+**What Excavation inherits from this gate.**
+- A perimeter the stakeholder has confirmed in this review — four processes, 22 entry points, 21 anomalies each anchored, eight priority areas with nothing left out.
+- A constraint list of twelve entry-point-bearing anomalies carrying the 21 edges the System Inventory records, with the nine anomalies that carry no entry point traced through the Risk List.
+- A register whose every score reproduces from one published mapping, and whose four acceptances in the Significant band each hold the stakeholder's own answer.
+- A plan that names no work the process does not run in Survey, whose evidence column is the artifact the next milestone's verdict will read.
+- Four open Minors with owners and due points, ordered closed rather than left unattended.
