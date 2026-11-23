@@ -8,7 +8,6 @@
 - Baseline: IARI DC baseline (26-role roster, 16 CORE artifacts, 6 OPTIONAL artifacts, canonical intensity matrix). This document carries **deltas only**; anything it does not state follows the baseline unchanged.
 
 ## Tailoring Overview
-
 This project is built on an existing system: a copy of the public sample `davidfowl/TodoApp` (MIT licence, commit `307a1ead`, 12 February 2026). The delivery therefore runs a **sprint zero** that reads the system as it stands — Survey, Excavation, Consolidation — before the RUP phases, and only from Inception is the declared change worked. Nothing declared is worked in the sprint zero; what the sprint zero produces is the recovered system, and its elements cite the anchor they were read from.
 
 ### Organization baseline
@@ -24,7 +23,7 @@ This project is built on an existing system: a copy of the public sample `davidf
 | No defined process of its own | No plan, no review record, no change record. The project starts at *defined-process-by-adoption*: IARI supplies the process, and guideline content lives in files the roles write, not in prose re-stated here |
 | Contribution contract | `docs/CONTRIBUTING.md`, owned by the Process Engineer. The root `README.md` documents how to run the system and is not a contribution guide (no labels, no branch rules, no review process) |
 
-Working roles per iteration are the sets the inherited process names for each phase (Survey 3 working roles, Excavation 6, Consolidation 4, Inception 5, Elaboration 10, Construction 10, Transition 8, plus the reviewing roles of each milestone). No role is added, merged or removed.
+No role is added, merged or removed: the roles that work in each iteration are exactly those the inherited process names for the phase, plus the reviewing roles of its milestone.
 
 ### Classification verdicts
 
