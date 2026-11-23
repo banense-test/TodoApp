@@ -364,23 +364,90 @@ SH --> REV : the answer the verdict reads
 ```
 
 ## Use Cases and Scenarios Addressed
-Eleven use cases, recovered from the 22 entry points the System Inventory records. Every use case traces to the `EP-NNN` whose code performs it, and no use case is recovered from an intent the code does not carry.
+Eleven use cases, recovered from the 22 entry points the System Inventory records. Every use case traces to the `EP-NNN` whose code performs it, and no use case is recovered from an intent the code does not carry. Every anomaly cited below is cited for the fact the System Inventory's Anomalies table gives it.
 
-| Use case | Primary actor | Recovered from | What the recovery may not claim |
+```plantuml
+@startuml
+title The eleven recovered use cases, the entry points each was read from, and what carries no use case
+
+skinparam shadowing false
+skinparam wrapWidth 210
+left to right direction
+skinparam componentStyle rectangle
+
+package "Recovered - 11 use cases over 22 entry points" {
+  component "UC-001 Create an account\nEP-002, EP-004, EP-015" as U1
+  component "UC-002 Sign in with email and password\nEP-002, EP-005, EP-015" as U2
+  component "UC-003 Sign in with an external provider\nEP-007, EP-008, EP-016" as U3
+  component "UC-004 Sign out\nEP-006" as U4
+  component "UC-005 Maintain one's own account\nEP-015" as U5
+  component "UC-006 See one's own tasks\nEP-001, EP-003, EP-009, EP-010" as U6
+  component "UC-007 Add a task\nEP-003, EP-009, EP-012" as U7
+  component "UC-008 Remove a task\nEP-003, EP-009, EP-014" as U8
+  component "UC-009 Read one task by id\nEP-011" as U9
+  component "UC-010 Change a task, including complete\nEP-013" as U10
+  component "UC-011 Consult the API reference\nEP-017, EP-018, EP-019" as U11
+}
+
+package "The two routes, where both exist" {
+  component "screen route\ncookie, four components" as SCR
+  component "direct API route\nbearer token" as API
+}
+package "Not recovered, and stated as such" {
+  component "EP-020 readiness, EP-021 liveness\nplatform mechanism, no named actor" as X1
+  component "EP-022 migration platform event\na component's start-up step" as X2
+  component "the admin branch of EP-011,\nEP-013, EP-014\nexceptional entity - nothing\ngrants the role (AN-004)" as X3
+}
+
+U1 --> SCR
+U1 --> API
+U2 --> SCR
+U2 --> API
+U6 --> SCR
+U6 --> API
+U7 --> SCR
+U7 --> API
+U8 --> SCR
+U8 --> API
+U5 --> API
+U9 --> API
+U10 --> API
+U11 --> API
+U3 --> SCR
+U4 --> SCR
+
+note bottom of U3
+  Recovered and marked unreachable: no provider
+  is registered in the delivered configuration.
+  Stakeholder ruling 2026-11-23.
+end note
+note bottom of U10
+  API operation only. The one operation writing
+  IsComplete, and no screen reaches it (AN-001).
+end note
+note right of X3
+  Recorded as an exceptional entity, not a use
+  case, by the stakeholder's ruling of 2026-11-23.
+end note
+
+@enduml
+```
+
+| Use case | Primary actor | Recovered from | What the recovery may not claim, and where that is carried |
 |---|---|---|---|
-| `UC-001` Create an account | ACT-001, ACT-003 | `EP-002`, `EP-004`, `EP-015` | That the client's field rules guard registration: the create control does not submit, so none of them runs (`AN-021`) |
-| `UC-002` Sign in with email and password | ACT-001, ACT-003 | `EP-002`, `EP-005`, `EP-015` | That a failed sign-in names its cause: every authentication failure answers 401 with no body (`AN-021`) |
-| `UC-003` Sign in with an external provider | ACT-001, with ACT-002 authenticating | `EP-007`, `EP-008`, `EP-016` | That it is reachable: no provider is registered in the delivered configuration. Recovered and marked unreachable, per the stakeholder's ruling of 2026-11-23 |
-| `UC-004` Sign out | ACT-001 | `EP-006` | That the provider's own session ends: only the local cookie is cleared (`AN-029`) |
-| `UC-005` Maintain one's own account | ACT-003 | `EP-015` | That a screen reaches it: no client call does (`AN-009`, `AN-027`) |
-| `UC-006` See one's own tasks | ACT-001, ACT-003 | `EP-001`, `EP-003`, `EP-009`, `EP-010` | That the list shows a row to a caller in the `admin` role: it filters on the owner alone (`AN-018`, `AN-026`) |
-| `UC-007` Add a task | ACT-001, ACT-003 | `EP-003`, `EP-009`, `EP-012` | That a create body can set a row complete: `IsComplete` is created false whatever the body says (`AN-023`) |
-| `UC-008` Remove a task | ACT-001, ACT-003 | `EP-003`, `EP-009`, `EP-014` | That another person's row is distinguished from one that does not exist: both answer 404 (`AN-004`) |
-| `UC-009` Read one task by id | ACT-003 | `EP-011` | That a screen reaches it: none does. An API operation only |
-| `UC-010` Change a task, including marking it complete | ACT-003 | `EP-013` | That a user-facing path completes a task: the only operation writing `IsComplete` has no screen (`AN-001`) |
-| `UC-011` Consult the API reference | ACT-003 | `EP-017`, `EP-018`, `EP-019` | That a Swagger UI is mounted, or that the root redirect resolves outside Development (`AN-008`, `AN-017`) |
+| `UC-001` Create an account | ACT-001, ACT-003 | `EP-002`, `EP-004`, `EP-015` | That a refusal names its cause: the API answers validation problems and the BFF discards them, so every authentication failure reaches the person as one 401 with no body (`AN-021`, `AN-020`) |
+| `UC-002` Sign in with email and password | ACT-001, ACT-003 | `EP-002`, `EP-005`, `EP-015` | That a failed sign-in distinguishes a wrong password from a locked or absent account — one 401 covers all three (`AN-021`) — and that lockout ends the access a token already holds: the guard checks it at sign-in alone (`AN-022`) |
+| `UC-003` Sign in with an external provider | ACT-001, with ACT-002 authenticating | `EP-007`, `EP-008`, `EP-016` | That it is reachable: no provider is registered in the delivered configuration. Recovered and marked unreachable, per the stakeholder's ruling of 2026-11-23. Also that a callback reports its outcome — it redirects to `/` on every path (`AN-020`) — and that the scheme is checked: it is taken straight from the route (`AN-019`) |
+| `UC-004` Sign out | ACT-001 | `EP-006` | That the provider's own session ends: one call signs the local cookie scheme out and nothing else (`Todo.Web/Server/AuthApi.cs:40-52`) |
+| `UC-005` Maintain one's own account | ACT-003 | `EP-015` | That a screen reaches it: the client's six operations contain no account-maintenance call, so the framework's endpoint set is mapped with no UI path to it (`Todo.Web/Client/TodoClient.cs:7-71`) |
+| `UC-006` See one's own tasks | ACT-001, ACT-003 | `EP-001`, `EP-003`, `EP-009`, `EP-010` | That the list honours the `admin` role: it filters on the owner alone while the item endpoints admit the role, so the four statements disagree (`AN-018`). Also that an unreachable API is distinguishable from an empty list — an absent base address answers `200` and no rows (`AN-026`) |
+| `UC-007` Add a task | ACT-001, ACT-003 | `EP-003`, `EP-009`, `EP-012` | That a create body can set a row complete: the insert copies the title alone, so `IsComplete` is created false whatever the body says (`Todo.Api/Todos/TodoApi.cs:38-50`) |
+| `UC-008` Remove a task | ACT-001, ACT-003 | `EP-003`, `EP-009`, `EP-014` | That another person's row is distinguished from one that does not exist: the delete filters on the owner and answers 404 either way, never 403 (`Todo.Api/Todos/TodoApi.cs:67-73`) |
+| `UC-009` Read one task by id | ACT-003 | `EP-011` | That a screen reaches it: none does. An API operation only. Its `admin` branch is the exceptional entity `AN-004` records — nothing in the running system grants the role |
+| `UC-010` Change a task, including marking it complete | ACT-003 | `EP-013` | That a user-facing path completes a task: the client makes no update call and the list's checkbox is bound to nothing, so the only operation writing `IsComplete` has no screen (`AN-001`) |
+| `UC-011` Consult the API reference | ACT-003 | `EP-017`, `EP-018`, `EP-019` | That a Swagger UI is mounted, as the README states — the code mounts the Scalar reference UI (`AN-008`) — or that the root redirect resolves outside Development, where that UI is not mapped (`AN-017`) |
 
-Three entry-point groups carry no use case and the Use-Case Model says why: `EP-020` and `EP-021` are a platform mechanism with no actor the delivery names, `EP-022` is a component's start-up step, and the `admin` branch of `EP-011`, `EP-013` and `EP-014` is an exceptional entity no running caller can enter — the stakeholder's ruling of 2026-11-23, recorded in the System Inventory's Perimeter.
+Three entry-point groups carry no use case and the Use-Case Model says why: `EP-020` and `EP-021` are a platform mechanism with no actor the delivery names, `EP-022` is a component's start-up step, and the `admin` branch of `EP-011`, `EP-013` and `EP-014` is an exceptional entity no running caller can enter — the stakeholder's ruling of 2026-11-23, recorded in the System Inventory's Perimeter and in `AN-004`.
 
 **Scenarios.** Five of the eleven carry two scenarios rather than one: `UC-001`, `UC-002`, `UC-006`, `UC-007` and `UC-008` have a screen route and a direct API route. They are one use case with two scenarios, never one use case per actor: the two routes reach the same operation and differ only in how the caller authenticated.
 
