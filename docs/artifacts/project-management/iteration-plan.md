@@ -24,7 +24,7 @@ package "O1 Complete the set - every artifact of the set present" {
 }
 package "O2 Count the coverage - and say what stays unread" {
   class "System Inventory: 84 of 139 opened,\n67 anchored, 55 named with the reason each stays shut" as O2 <<standing>>
-  class "one reading named as incomplete:\nthe model snapshot's product version" as O2B <<handed-forward>>
+  class "one reading named as incomplete:\nthe model snapshot's product version, R034\nits action performed in the persistent-data description" as O2B <<standing>>
 }
 package "O3 Hand the set forward - the register and the plan" {
   class "Risk List: 34 risks, 29 Refines edges,\nno accept above Moderate without a grant" as O3 <<standing>>
@@ -50,6 +50,12 @@ end note
 | O3 | Leave the phase a register and a plan, not a set of notes | Every open anomaly is a scored risk with an owner and an action, no accepted risk above Moderate lacks the stakeholder's grant, and every work item of this phase belongs to a stage the process runs here | Project Manager | **Standing** — 34 risks, 29 `Refines` edges, four grants at exposure 12, and the two exposures this phase adds (`R033`, `R034`) carried with owners that this plan schedules |
 
 The stakeholder confirmed the recovered content at gate H4 and sanctioned the advance into this phase. Nothing in this phase reopens it, and the objectives above add nothing to it: they complete, count and hand forward.
+
+### What the two exposures this phase adds now stand at
+
+`R034`'s action is performed: the persistent-data description records the snapshot's `ProductVersion` `8.0.0` against the build's `net9.0` and its EF Core 9.x packages, so no role scaffolds a migration against it unread. The incompatibility itself is not corrected — the snapshot is the delivery's file and this process records the system as it is.
+
+`R033`'s action is not performed. The graph returns all four edges still marked `SUSPECT`, so the one criterion this phase can still fail on is `G7`, and it fails on an act only the Designer and the System Analyst may perform.
 
 ## Plan and Milestones
 The plan is two-level. The **coarse roadmap** fixes the milestone sequence across the project and what each milestone is judged on. The **fine plan** is this iteration's work items with their owners, bounded to Consolidation. What a completed iteration delivered and what it cost belongs in the Iteration Assessment, not here.
