@@ -212,6 +212,12 @@ The edge is `EP-003 → UC-NNN` because the actor's goal is entered through the 
 
 A reader who needs one list rather than two reads the Survey's **Source** column as the entry point whose code performs the use case; the actor-goal matrix in "Actors" names the entry point the actor acts through. Both are correct for their question, and the Survey's rows name both where both apply.
 
+### Nothing is held back for Consolidation
+
+All twenty-two entry points are accounted for in this model: nineteen carry a use case, and the three that do not — `EP-020`, `EP-021`, `EP-022` — are permanent exclusions reasoned in the table above, not work postponed. No operation of the delivery is recovered in a later phase. The recoverable operations all sit in the entry-point-bearing areas this reading orders first — the Todo API's task surface and its authorization, and the BFF session surface — and the areas it leaves carry no entry point at all: orchestration, build and container manifests and supporting files.
+
+Consolidation therefore inherits no deferred use case from this model. The eleven counted above are the whole use-case set of the delivery as it stands, and the four rows under "Not recovered, and why" are exclusions that no later phase re-opens.
+
 ## Use-Case Specifications
 Every flow below is the flow the code performs, not a flow anyone intended. Each step carries the file and lines it was read from, and each step is followed by the rule the code enforces at that step; where the code contradicts a document or another part of itself, the code is recorded and the contradiction is named.
 
