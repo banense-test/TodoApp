@@ -336,21 +336,21 @@ stop
 
 ## Findings
 ### Reviewer lens
-<!-- review: Excavation I3 -->
+<!-- review: Excavation I4 -->
 
-<!-- review: Excavation I3 -->
+<!-- review: Excavation I4 -->
 
 #### Compliance matrix
 
-Each artifact against the nine items of this milestone's checklist. An item is marked Pass only where the artifact carries the evidence itself; N/A marks an item the artifact's shape does not engage.
+Each of the ten artifacts against the nine items of this milestone's checklist. An item is marked Pass only where the artifact carries the evidence itself; N/A marks an item the artifact's shape does not engage.
 
 ```plantuml
 @startuml
-title Compliance: the recovered set at Excavation iteration 3 - 10 artifacts, 9 checklist items
+title Compliance: the recovered set at Excavation iteration 4 - 10 artifacts, 9 checklist items, every item decided on its own evidence
 
 skinparam shadowing false
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 215
+skinparam wrapWidth 220
 hide circle
 hide empty members
 
@@ -366,48 +366,42 @@ package "Checklist items tested" {
   class "C9 A state a row asserts about\nanother artifact matches it" as C9 <<check>>
 }
 
-package "Artifacts reviewed" {
+package "Artifacts reviewed - 10, no open finding from this lens" {
   class "Development Case" as A_DC <<pass>>
   class "System Inventory" as A_SI <<pass>>
-  class "Risk List" as A_RL <<minor>>
-  class "Iteration Plan" as A_IP <<major>>
+  class "Risk List" as A_RL <<pass>>
+  class "Iteration Plan" as A_IP <<pass>>
   class "Vision" as A_VIS <<pass>>
   class "Use-Case Model" as A_UCM <<pass>>
-  class "Supplementary Specification" as A_SS <<minor>>
+  class "Supplementary Specification" as A_SS <<pass>>
   class "Software Architecture Document" as A_SAD <<pass>>
   class "Deployment Model" as A_DM <<pass>>
   class "Design Model" as A_DES <<pass>>
 }
 
-C1 --> A_UCM : pass
-C2 --> A_SI : pass
-C2 --> A_SAD : pass
-C3 --> A_UCM : pass
-C3 --> A_VIS : pass
-C4 --> A_UCM : pass
-C5 --> A_UCM : pass
-C5 --> A_SAD : pass
-C5 --> A_DES : pass
-C6 --> A_UCM : pass
-C7 --> A_SS : FAIL
-C8 --> A_SI : pass
-C8 --> A_SAD : pass
-C8 --> A_DES : pass
-C9 --> A_IP : FAIL
-C9 --> A_RL : FAIL
+C7 --> A_SS : pass on the field that failed last pass
+C9 --> A_RL : pass - R032 now states R6 as R6 reads
+C9 --> A_IP : pass - A1, A10, A11, A12 and O2\nre-derived from their artifacts
+C5 --> A_UCM : pass - 11 rows against 22 EP edges
+C5 --> A_SAD : pass - 22 COMP rows against the graph
+C5 --> A_DES : pass - 42 CLS rows against the graph
+C6 --> A_UCM : pass - COMP-014 returns five\nRealizes edges, none marked
+C2 --> A_SI : pass - coverage recomputed:\n84 + 55 = 139
 
 note right of A_UCM
-  All nine items pass. The five COMP-014
-  edges report confirmed and R6 states
-  both budgets under AN-024.
+  Every item passes, on four successive passes of
+  correction. The rules diagram's R6 states both
+  budgets and the five COMP-014 edges are confirmed.
 end note
 note bottom of A_IP
-  C9 fails: A1, A10, A11 and O2 state defects
-  their own artifacts have corrected.
+  The one Info entry of this pass is an observation on
+  A11's evidence cell, not a failed item: the cell's count
+  is right, its enumeration does not say which four it counts.
 end note
-note bottom of A_SS
-  C7 fails on one field: Iteration reads
-  2, Cycle 1. Its recovered facts are current.
+note bottom of A_SI
+  Coverage arithmetic and every anchor spot-checked
+  against the file: appsettings.Development.json binds
+  50/50/50, RateLimitExtensions.cs:22-24 carries 100/100/100.
 end note
 
 @enduml
@@ -415,100 +409,90 @@ end note
 
 | Artifact | C1 | C2 | C3 | C4 | C5 | C6 | C7 | C8 | C9 |
 |---|---|---|---|---|---|---|---|---|---|
-| Development Case | N/A | Pass | Pass | N/A | N/A | N/A | Pass | Pass | Pass |
+| Development Case | N/A | Pass | Pass | N/A | N/A | N/A | Pass | **Pass with observation** | Pass |
 | System Inventory | Pass | Pass | Pass | N/A | N/A | Pass | Pass | Pass | N/A |
-| Risk List | Pass | Pass | N/A | N/A | Pass | Pass | Pass | Pass | **Fail** |
-| Iteration Plan | N/A | Pass | N/A | N/A | N/A | N/A | Pass | Pass | **Fail** |
+| Risk List | Pass | Pass | N/A | N/A | Pass | Pass | Pass | Pass | Pass |
+| Iteration Plan | N/A | Pass | N/A | N/A | N/A | N/A | Pass | Pass | Pass |
 | Vision | Pass | Pass | Pass | Pass | N/A | N/A | Pass | Pass | N/A |
 | Use-Case Model | Pass | Pass | Pass | Pass | Pass | Pass | Pass | Pass | N/A |
-| Supplementary Specification | Pass | Pass | Pass | Pass | N/A | N/A | **Fail** | Pass | N/A |
+| Supplementary Specification | Pass | Pass | Pass | Pass | N/A | N/A | Pass | Pass | N/A |
 | Software Architecture Document | Pass | Pass | N/A | Pass | Pass | Pass | Pass | Pass | N/A |
 | Deployment Model | Pass | Pass | N/A | N/A | N/A | N/A | Pass | Pass | N/A |
 | Design Model | Pass | Pass | N/A | N/A | Pass | Pass | Pass | Pass | N/A |
+
+The Development Case's C8 cell is the only qualified one: ACT-DC-01 is a formal activity diagram that carries the phase sequence correctly, and the discipline list it annotates per phase omits Project Management after Survey. That is one defect on one diagram, recorded below as a Minor, and not a failure of the artifact's diagram-dominance.
 
 #### Defect distribution
 
 ```plantuml
 @startuml
-title Defect distribution: the technical lens at Excavation iteration 3 - what closed, what it found, what the corrections left behind
+title Defect distribution: the technical lens at Excavation iteration 4 - three of this lens closed, one contained defect found, nothing holding the milestone
 
 skinparam shadowing false
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 230
+skinparam wrapWidth 235
 hide circle
 hide empty members
 
 package "Critical - 0" {
-  class "none\nno stakeholder decision\nis outstanding from this lens" as NC <<none>>
+  class "none\nno stakeholder decision\noutstanding from this lens" as NC <<none>>
 }
 
-package "Major - 1, found this iteration" {
-  class "Iteration Plan#F4\nconsumed-defect\nA1, A10, A11 and O2 state defects\ntheir own artifacts have corrected" as M1 <<major>>
+package "Major - 0" {
+  class "none\nno artifact this lens reads\ncontradicts its own evidence" as NM <<none>>
 }
 
-package "Minor - 2, found this iteration" {
-  class "Risk List#F3\ncontained-defect\nR032 keeps a Significant exposure\nlive whose action has landed" as m1 <<minor>>
-  class "Supplementary Specification#F3\ncontained-defect\nDocument Control names iteration 2" as m2 <<minor>>
+package "Minor - 1, found this pass" {
+  class "Development Case#F4\ncontained-defect\nACT-DC-01 draws Project Management only\nin Survey, while the same document declares it\nactive in every phase" as m1 <<minor>>
 }
 
-package "Closed this iteration - 3 of this lens" {
-  class "Development Case#F3\ncontained-defect\nDocument Control brought to Excavation 3" as C1 <<closed>>
-  class "Use-Case Model#F3\ntrace-gap\nfive COMP-014 edges now confirmed" as C2 <<closed>>
-  class "Use-Case Model#F4\nconsumed-defect\nR6 states both budgets under AN-024" as C3 <<closed>>
+package "Closed this pass - 3, each verified at its source" {
+  class "Iteration Plan#F4\nconsumed-defect\nA1, A10 and O2 restated at the state\ntheir artifacts hold" as C1 <<closed>>
+  class "Risk List#F3\ncontained-defect\nR032 states the avoidance performed on\nall six and the exposure retired" as C2 <<closed>>
+  class "Supplementary Specification#F3\ncontained-defect\nDocument Control reads iteration 4" as C3 <<closed>>
 }
 
-M1 --> C1 : the same class of defect -\na cell behind its artifact
-M1 --> C2 : a row still reporting\nthe pre-correction state
-m1 --> C3 : R032 names F4 as open,\nand F4 is closed
-m2 --> C1 : one field, one artifact,\nthe same remedy C1 records
+package "Read, not re-recorded - another lens's open entries" {
+  class "Iteration Plan#F8 and #F9\nManagement Reviewer\nCloses column; criteria table" as O1 <<open>>
+}
 
-note bottom of M1
-  Both corrections the plan's rows describe have landed and
-  been verified at the artifact. The plan is now the artifact
-  a reader cannot trust, not the Use-Case Model.
+C1 --> m1 : same artifact, a different section -\nthe diagram was not in the cells corrected
+C2 --> C1 : R032 named F4 as open;\nF4 is closed and the row says so
+C3 --> C1 : the plan's A11 cell counts\nfour of four, and the field now agrees
+
+note bottom of m1
+  Contained: the Disciplines table governs the tailoring and
+  the Iteration Plan takes its intensities from the canonical
+  matrix, so no role builds on the diagram's phase list.
 end note
-note bottom of C3
-  Verified in the artifact and against the code:
-  appsettings.Development.json binds 50/50/50 and
-  RateLimitExtensions.cs carries 100/100/100.
+note bottom of O1
+  Recorded by the management lens at iteration 3 and still open.
+  This lens cites them where the milestone verdict reads them
+  and does not duplicate the entries.
 end note
 
 @enduml
 ```
 
-#### Iteration Plan#F4 — four places state a defect their own artifact has corrected (Major, consumed-defect)
+#### Development Case#F4 — ACT-DC-01 omits Project Management from every phase after Survey (Minor, `contained-defect`)
 
-**A1** reads "**Not met — open Major**" and gives one reason: "five `COMP-014 → UC-006` to `UC-010` `Realizes` edges are still marked suspect in the registered graph at the close". A fresh query of the graph on `COMP-014` upstream returns the five edges with no SUSPECT marking. `Use-Case Model#F3` is closed.
+ACT-DC-01 names disciplines for each phase it draws: "Excavation (AR) — Requirements High, Analysis and Design Critical", "Consolidation (GHR) — Requirements High, Analysis and Design Medium, Discovery Critical", "Inception (LCO) — Requirements Critical". Project Management appears once, in the Survey partition, and never again. The same document's Disciplines and Intensity table declares it "Active in all phases, per canonical matrix", and the canonical matrix assigns it Medium in Excavation, High in Inception and Construction, Medium in every phase that follows.
 
-**A10** reads "**Not met — open Major**" and closes on "**Use-Case Model** — the fourth of the four — does not hold: its rules diagram's R6 reads … 100 tokens … and cites no `AN-024`". R6 now reads "In force: 50 tokens, 50 per 10 s, queue 50. Code defaults: 100 tokens, 100 per 10 s, queue 100 … AN-024", with both files cited in its note. `Use-Case Model#F4` is closed, and all four artifacts the criterion's own test names hold.
+The omission is not a generalisation the picture leaves open; it is a per-phase list that drops a discipline, so a reader taking the diagram as the project's role schedule concludes the Project Manager does not work in Excavation — which the artifact's own table, its six optional-trigger verdicts and every iteration of this phase's plan contradict. The Project Manager demonstrably works here: the Risk List and the Iteration Plan under this review are its output.
 
-**A11** reads "**Not met — two of four open**" and quotes both Development Case Minors as standing. Document Control now reads Phase: Excavation, Iteration 3, Cycle 1, and CLS-DC-01 draws `CRV`, `MRV`, `BRV` and `RCO` edges into `RR` with the co-written sentence naming all six contributors. Both Minors A11 counts are corrected.
+Contained: the Disciplines and Intensity table is the governing tailoring statement, the Iteration Plan takes its intensities from the canonical matrix and not from the picture, and no exit criterion turns on the diagram. It is recorded rather than held, and it does not affect the milestone.
 
-**O2** reads "**Not met** … Two Majors stand: `Use-Case Model#F3` … and `Use-Case Model#F4`" — the same two closed findings, stated a fourth time at the head of the plan.
+**Remediation.** Add the Project Management discipline to the Excavation, Consolidation, Inception, Elaboration, Construction and Transition partitions of ACT-DC-01, naming its stage as the Survey partition does — in Excavation, "Project Management Medium — ProjectManager: Risk List, Iteration Plan". Change nothing in the Disciplines and Intensity table, which is correct. If the diagram illustrates only the Environment opening, retitle it and drop the per-phase intensity annotations that make it read as a full schedule.
 
-These are three of the thirteen criteria this milestone is decided on. The plan tells the Management Reviewer's re-take and the Review Coordinator's verdict that three criteria fail on defects that have been fixed, one of which the stakeholder ordered corrected by name. The cell that asserts another artifact's state is the artifact that must be re-read when that state changes — not at the next milestone.
+#### An observation on A11's evidence cell — no defect, no action required
 
-**Remediation.** Re-read the four places against the corrected artifacts and restate each at the state its evidence now supports: A1 "Met" with the five edges recorded as confirmed and requoted from a fresh graph query; A10 "Met — certified on the recovered set", naming R6 as the fourth artifact verified corrected and quoting its current wording under `AN-024`; A11 "Met — four of four", naming the four closed Minors and quoting no superseded sentence; O2 met on its own terms, since neither correction added or removed a use case. The sequence, the fine plan and A13's cell are correct and need no change.
-
-#### Risk List#F3 — R032 keeps a live exposure whose retirement action has landed (Minor, contained-defect)
-
-R032's strategy cell reads "**Avoid — action performed on five of six; one citing artifact open**" and names the sixth as "the Use-Case Model's rules diagram R6, whose correction is `Use-Case Model#F4`". The warning-sign cell reads "**fired** at `Use-Case Model#F4`; the register keeps the row open until the fourth artifact holds", and the diagram beside the table carries a contingency node for the sixth. R6 states both budgets under `AN-024` and `#F4` is closed, so all six citing artifacts hold and the register reports a Significant exposure as unmitigated. The register's own opening rule is the one broken, in the other direction: a claim about a retirement that has occurred.
-
-**Remediation.** Restate R032: the action performed on all six citing artifacts, R6 named among them with its current wording under `AN-024`, the exposure retired by the avoidance. Remove or relabel the diagram's contingency node to the one residual — the four artifacts re-read in one pass at the next milestone — and set the warning-sign cell to the state it now holds. `R030` and `R031` are correct as written and unchanged.
-
-#### Supplementary Specification#F3 — Document Control names iteration 2 (Minor, contained-defect)
-
-It reads "Iteration: 2, Cycle 1" while the other nine artifacts under this review read iteration 3. The artifact's content was corrected in iteration 2 and not touched this iteration, which is why the field was not brought forward. Contained: M3, S2, P1 and R8 state both budgets under `AN-024` and R4 the two hops under `AN-023`, no role builds on the metadata and no criterion turns on it. C7 asks each artifact to name the iteration whose review it is under.
-
-**Remediation.** Set the Iteration field to "3, Cycle 1". Change no other field and no content.
+The Iteration Plan's A11 cell certifies "Met — four of four, as the SBC review counted them" and then names five items: `Iteration Plan#F2`, `Iteration Plan#F3`, `System Inventory#F3`, and `Development Case#F2` with `#F3`. The count of four is correct — `F2` and `F3` on the Iteration Plan were the two the Survey review counted as one pair, and the cell's own text reads them as such — but a reader counting the identifiers reads five against a stated four. The evidence is not wrong and nothing follows from the presentation; it is recorded here so the Project Manager may make the enumeration self-counting in the next turn it takes on the plan.
 
 #### Artifacts with no finding from this lens
 
-Development Case, System Inventory, Vision, Use-Case Model, Software Architecture Document, Deployment Model and Design Model carry no open finding from this lens. Each was re-read at the sections this lens previously found defective and each now holds. Silence from this lens is the approval.
+System Inventory, Risk List, Iteration Plan, Vision, Use-Case Model, Supplementary Specification, Software Architecture Document, Deployment Model and Design Model carry no open finding from this lens. Each was re-read at the sections earlier passes found defective, and each now holds. Silence from this lens is the approval.
 
-The three closures this iteration are the substance of it. `Use-Case Model#F4` was the last artifact of the six that cite `AN-024` or `AN-023`, and it now states the fact the other five carry, under the same identifier and against the same file. `Use-Case Model#F3` was the last suspect marking in the graph: `COMP-014` now returns five `Realizes` edges and every one is confirmed, so the Use-Case View states its widest mechanism as confirmed for `UC-006` to `UC-010`. `Development Case#F3` brings the tailoring document onto the phase whose process it governs; the contributor-set defect the Management Reviewer recorded on the same artifact is corrected in the same text — CLS-DC-01 draws six edges into `RR`, and the co-owned sentence names Reviewer, CodeReviewer, Management Reviewer, Business Reviewer, Review Coordinator and the Configuration Manager's baseline record. That defect is the Management Reviewer's to dispose of under its own key.
-
-The System Inventory's coverage arithmetic was recomputed rather than accepted: the per-area Files column sums to 139, the Read column to 84, the unread cells to 55, and the headline reproduces. Every unread area is named with its reason and none carries a perimeter fact.
+The two Majors the Management Reviewer recorded against the Iteration Plan at iteration 3 are cited where the milestone verdict reads them and are not re-recorded as duplicates: `Iteration Plan#F8` and `#F9` are that lens's keys. My own `Iteration Plan#F4` — the same defect class read at the artifact's cells rather than at the criteria table — is closed on the evidence in Resolutions and Actions.
 
 ### Management Reviewer lens
 <!-- review: Excavation I3 -->
