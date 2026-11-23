@@ -11,17 +11,17 @@
 - Owner: Reviewer
 
 ### Management Reviewer lens
-<!-- review: Excavation I3 -->
-
-<!-- review: Excavation I3 -->
+<!-- review: Excavation I4 -->
 
 - Phase: Excavation
-- Status: Lifecycle Milestone Review (AR) taken at iteration 3 — 0 Critical, 1 Major, 3 Minor open. The recovered set is confirmed by the stakeholder as the model of the existing system; the sanction is refused while the Major stands
-- Milestone Target: end-of-Excavation (AR) — not achieved
-- Iteration: 3, Cycle 1
+- Status: Lifecycle Milestone Review (AR) taken at iteration 4 — 0 Critical, 0 Major, 1 Minor open. Gate H4 put a fourth time and granted
+- Milestone Target: end-of-Excavation (AR) — sanctioned by the stakeholder at gate H4 put 4 on 2026-11-23; the milestone verdict is the Review Coordinator's, issued after this review
+- Iteration: 4, Cycle 1
 - Review point: Lifecycle Milestone Review, exit-criteria lens
 - Reviewers executed: Reviewer, then Management Reviewer; the Business Reviewer is inactive at AR
-- Verdict this lens issues: No-Go
+- Verdict this lens issues: Go
+- Stakeholder sanction: GRANTED
+- Stakeholder acceptance: "Yes" — asked whether, on records that agree with the set they report, they sanction advancing past the Architecture Recovered milestone into Consolidation, having confirmed at the third put that the recovered set is the model of their system
 
 ### Review Coordinator lens
 <!-- review: Excavation I3 -->
