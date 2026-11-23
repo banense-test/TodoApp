@@ -1,8 +1,8 @@
 ## Document Control
 - Phase: Excavation
-- Status: Assessed. The milestone verdict is the Review Coordinator's — AR: iteration required — and this record assesses iteration 3 given that verdict; it declares no milestone of its own.
-- Milestone Target: end-of-Excavation (AR) — not achieved; a further iteration is required
-- Iteration: 3, Cycle 1
+- Status: Assessed. The milestone verdict is the Review Coordinator's — AR: no further iteration required — and this record assesses iteration 4 against it. It declares no milestone of its own.
+- Milestone Target: end-of-Excavation (AR). Gate H4's fourth put was answered Yes on 2026-11-23 and the Review Coordinator sanctioned the advance into Consolidation. Consolidation is the next phase.
+- Iteration: 4, Cycle 1
 - Owner: Project Manager
 
 ## Iteration Objectives Reached
