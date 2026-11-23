@@ -707,15 +707,15 @@ Twenty-two components in four processes. The decomposition is **by change axis**
 
 | From | To | Mechanism, as the code has it | Anchor |
 |---|---|---|---|
-| COMP-001 | COMP-002 | In-process method calls | `Todo.Web/Client/Components/TodoList.razor:44-76` |
 | COMP-003 | COMP-002 | In-process registration of the typed client: the base address every call resolves against, and the `X-Requested-With` header the cookie stack reads to answer 401 rather than redirecting. When no base address resolves, the call answers an empty result and issues no request (AN-026) | `Todo.Web/Client/Program.cs:5-13`; `Todo.Web/Client/TodoClient.cs:33-40` |
+| COMP-001 | COMP-002 | In-process method calls | `Todo.Web/Client/Components/TodoList.razor:44-76` |
 | COMP-002 | COMP-004 | HTTPS to `/auth/*` on the same origin as the page, carrying the cookie | `Todo.Web/Client/TodoClient.cs:47-71`; `Todo.Web/Client/Program.cs:7-10` |
 | COMP-002 | COMP-008 | HTTPS to `/todos*` on the same origin, carrying the cookie | `Todo.Web/Client/TodoClient.cs:7-43` |
 | COMP-006, COMP-007 | COMP-009, COMP-010 | HTTP over service discovery at `http://todoapi`, base address only, no credential | `Todo.Web/Server/Program.cs:23-26`; `Todo.Web/Server/AuthClient.cs:5-33` |
 | COMP-007 | COMP-019 | Compile-time reference: `ExternalUserInfo` and `AuthToken` are the shapes the token client sends and receives | `Todo.Web/Shared/SharedClass.cs:23-31`; `Todo.Web/Server/AuthClient.cs:32-42` |
 | COMP-008 | COMP-011 | HTTP for any `/todos` sub-path, `Authorization: Bearer <session token>` | `Todo.Web/Server/TodoApi.cs:12-25` |
 | COMP-011 | COMP-012, COMP-013, COMP-014, COMP-015, COMP-016 | In-process: one scoped service, one authorization handler, one rate-limit policy, one endpoint filter, one `DbContext` | `Todo.Api/Todos/TodoApi.cs:17-22` |
-| COMP-012 | COMP-016 | In-process: the caller's row is read from the same `DbContext` scope the request uses | `Todo.Api/Authorization/CurrentUser.cs:6-13` |
+| COMP-012 | COMP-016 | In-process: the caller's row is read from the same `DbContext` scope the request uses, before any endpoint runs | `Todo.Api/Authorization/CurrentUser.cs:6-13`; `CheckCurrentUserAuthHandler.cs:26-35` |
 | COMP-006 | the key ring | Data protection, protector named after the provider | `Todo.Web/Server/AuthApi.cs:82-84` |
 | COMP-010 | the key ring | Data protection, protector of the same name, `Unprotect` | `Todo.Api/Users/UsersApi.cs:26-28` |
 | COMP-016 | Todos.db | EF Core 9 SQLite over `Data Source=.db/Todos.db` | `Todo.Api/Program.cs:23-24` |
@@ -725,7 +725,7 @@ Twenty-two components in four processes. The decomposition is **by change axis**
 
 Two connectors the completed use-case flows added to this table, and neither is a new dependency in the code. **COMP-003 to COMP-002** is the registration that makes every client call possible: without it the client's base address is unset and the list answers empty rather than failing, which is why UC-006 alternative A2 states an unreachable API and no tasks alike (`AN-026`). **COMP-012 to COMP-016** is the second database read every task operation pays — the caller resolution reads the same `DbContext` scope before the endpoint runs its own statement (`SP4`, `P5`).
 
-No component depends on more than four others, and the widest fan-in is COMP-016 (six callers: COMP-009, COMP-010, COMP-011, COMP-012, COMP-015 through the `DbContext`, COMP-022). The only cyclic risk in the model is absent: the client never calls the API directly, and the API never calls the BFF.
+No component depends on more than four others, and the widest fan-in is COMP-016 (five callers: COMP-009, COMP-010, COMP-011, COMP-012 and COMP-022). The only cyclic risk in the model is absent: the client never calls the API directly, and the API never calls the BFF.
 
 ### What the decomposition encapsulates, and what it does not
 
