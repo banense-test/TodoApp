@@ -806,11 +806,6 @@ The verdict below is No-Go, and the reason is not the count of findings. Four Ma
 
 **Actions, in the order the next iteration of this phase takes them.** Each action is the remediation its recording lens wrote. No action carries a calendar date: the phase declares none, and a date projected from an estimate would read downstream as an observation. The due point is a state of the work.
 
-```plantuml
-@staruml
-@enduml
-```
-
 | # | Action | Artifact | Owner | Closes | Due point | Escalates if |
 |---|---|---|---|---|---|---|
 | 1 | Record the stakeholder's order of 2026-11-23 as the stage it creates: add the next Excavation iteration to the milestone sequence, place the two Development Case items in it against the Process Engineer, restate A13's evidence cell | Iteration Plan | Project Manager | `Iteration Plan#F7` | Before the Process Engineer's turn, so the stage exists when the role works | The plan again records the phase as not running the role |
@@ -825,9 +820,62 @@ Actions 2 and 3 are one turn by one owner on one artifact and are sequenced only
 
 **Escalation — what is escalated, and what is not.**
 
+```plantuml
+@startuml
+title The escalation path a finding takes when its owner has no stage in the phase, applied to Development Case#F2
+
+skinparam shadowing false
+skinparam wrapWidth 245
+
+|Recording lens|
+start
+:record_artifact_finding - severity, criterion, recommendation;
+if (owner has a stage in this phase?) then (yes)
+  :owner's next turn, after the Critical and Major findings;
+  :lens re-reads the corrected section;
+  if (defect gone?) then (yes)
+    :resolve_artifact_finding by the recording lens;
+    stop
+  else (no)
+    :stays open, re-recorded under its key;
+    stop
+  endif
+else (no)
+  :escalate - written notice to the Project Manager
+  with the ledger entry as evidence;
+  note right
+    Development Case#F2. The plan records no Process
+    Engineer stage in Excavation. R031 predicted this
+    and has materialized twice. The finding is not waived.
+  end note
+endif
+
+|Project Manager|
+:Record the stage that gives the owner a turn;
+note right
+  The stakeholder's order of 2026-11-23 creates it:
+  the Process Engineer runs in this phase from the
+  next iteration, and A11 stays as written.
+end note
+if (stage recorded?) then (yes)
+  :owner performs the correction in that turn;
+else (no)
+  :the criterion stays not met;
+  :the milestone cannot close on this iteration's evidence;
+endif
+
+|Review Coordinator|
+:Record the criterion's true state in the ledger;
+:neither waive nor close it;
+:report it to the milestone verdict;
+stop
+
+@enduml
+```
+
 | Item | State | Why |
 |---|---|---|
-| `Development Case#F2` | **Escalated to the Project Manager until the order lands** | Its owner has no stage in this phase as the plan stands, which is what `R031` predicted and what has materialized. The stakeholder's order creates the stage; action 1 is the Project Manager recording it. Until action 1 is performed the finding's owner cannot act, and a criterion depends on it |
+| `Development Case#F2` | **Escalated to the Project Manager until the order is recorded in the plan** | Its owner has no stage in this phase as the plan stands, which is what `R031` predicted and what has materialized. The stakeholder's order creates the stage; action 1 is the Project Manager recording it. Until action 1 is performed the finding's owner cannot act, and a criterion depends on it |
 | Every other open finding | **Not escalated** | Each owner holds a stage in this phase. No finding is overdue: the phase has not closed, and the due point of each is the next iteration's work |
 | Systemic process failure | **No escalation to the Configuration and Change Management Board** | The ledger shows no repeated architecture violation and no skipped review. The same defect appearing twice across lenses is convergence, not process failure. The Change Control Manager does not work in the sprint zero, so no change request is opened for any finding; the stakeholder's order reaches its owners through this record and through their Work Orders |
 
@@ -839,13 +887,13 @@ Actions 2 and 3 are one turn by one owner on one artifact and are sequenced only
 | Finding entries recorded | 29 | 35 cumulative | `read_artifact_findings` across the ten artifacts |
 | Open at the gate | 16 — 0 Critical, 8 Major, 8 Minor | 8 — 0 Critical, 5 Major entries over 4 defects, 3 Minor | The `[FINDINGS]` line |
 | Closed by their recording lens | 13 | 27 cumulative | Resolution objects on the ledger |
-| Defect density, open entries by discipline | Requirements 6, Analysis & Design 3, Project Management 5, Environment 2, Discovery 0 | Requirements 4 (2 defects), Project Management 2, Environment 2, Analysis & Design 0, Discovery 0 | Open entries at each gate, by the artifact carrying them |
-| Duplicate defects across lenses | 1 subject (the rate limiter) | 2 subjects reached independently by both lenses (the five `COMP-014` edges; the rate budget at artifact and criterion) | The reconciliation table |
+| Defect density, open entries by discipline | Requirements 6, Analysis & Design 3, Project Management 5, Environment 2, Discovery 0 | Requirements 4 over 2 defects, Project Management 2, Environment 2, Analysis & Design 0, Discovery 0 | Open entries at each gate, by the artifact carrying them |
+| Duplicate subjects reached by both lenses | 1 — the rate limiter | 2 — the five `COMP-014` edges, and the rate budget at artifact and criterion | The reconciliation table in Findings |
 | Scope of the correction required | 8 Majors across 7 artifacts | 4 Major defects across 2 artifacts | The open Major ledger |
 | Defect removal efficiency | Not computable | Not computable | No test execution has occurred in the sprint zero; nothing is found by test against which review-found defects could be compared, and no ratio is invented |
 | Rework effort | Not measured | Not measured | No per-finding token or elapsed-time attribution exists; the phase has not closed, so no measured actual is available to attribute |
 
-**What the metrics say.** Open entries fell from 16 to 8 and the artifacts carrying a Major fell from 7 to 2, while coverage held at 10 of 10. The correction still owed is concentrated: two of the four Major defects sit on one artifact and are performed in one owner turn. The indicator that did not improve is the one that matters most for the gate — a criterion whose evidence cell certifies a subset of what its own test covers reappeared one artifact over (`Iteration Plan#F3` closed at this pass, `#F6` opened against the same method), which says the plan's evidence column is restated reactively rather than derived from the criterion. The process found it in the same pass it recorded it, which is the mechanism working; it did not prevent it.
+**What the metrics say.** Open entries fell from 16 to 8 and the artifacts carrying a Major fell from 7 to 2, while coverage held at 10 of 10. What remains is concentrated: three of the four Major defects sit on two artifacts and are performed in two owner turns. The indicator that did not improve is the one the gate turns on — a criterion whose evidence cell certifies a subset of what its own test covers reappeared one artifact over; `Iteration Plan#F3` closed at this pass and `#F6` opened against the same method. The process found it in the same pass that recorded it, which is the mechanism working; it did not prevent it.
 
 **No finding is recorded for three absences.** The Data Model, the Glossary and the Test Plan are absent on the Development Case's NOT FIRED verdict on each trigger, which both executed lenses checked against the §5.2 conditions. The Iteration Assessment describes no iteration being reviewed because the Project Manager authors it after this review. No SCM condition exists to report: the sprint zero runs no build, opens no pull request and files no defect, which is the phase's correct state.
 
