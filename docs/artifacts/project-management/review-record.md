@@ -778,23 +778,65 @@ IP1 --> IP2 : the dropped five are\nconstraints the criteria certify
 
 ## Resolutions and Actions
 ### Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-**Prior findings of this lens.** None. This is iteration 1 of Survey and no finding of the Reviewer lens existed on any of the four artifacts before this review, so nothing is resolved, deferred or rejected in this pass.
+<!-- review: Survey I2 -->
 
-**Actions ordered by this review.** Each is the remediation of a finding above, and each is closed by the same lens that raised it in the next pass.
+The actions that close this lens's findings, each with its owner and the artifact section the correction lands in. Closure was executed in the dedicated reconciliation step, before any new finding was recorded: `resolve_artifact_finding` first, this narrative second.
 
-| Action | Artifact | Owner | Finding |
-|---|---|---|---|
-| Name the file recording the version policy, or replace the claim with central pinning and nuget.org-only | Development Case | Process Engineer | Development Case#F1 |
-| Delete the duplicated role-delta list and the duplicated CLS-DC-01 diagram | Development Case | Process Engineer | Development Case#F2 |
-| Add EP-007 to the AN-021 Traceability row | System Inventory | Software Archaeologist | System Inventory#F1 |
-| Recompute Coverage from the per-area table; settle whether the `docs/` rows count as read | System Inventory | Software Archaeologist | System Inventory#F2 |
-| Reconcile every probability and impact against the inventory, or state the score is the Project Manager's own reading; put any Significant or High acceptance to the stakeholder | Risk List | Project Manager | Risk List#F1 |
-| Name all twelve entry-point-bearing anomalies, or point at the Anomalies table | Iteration Plan | Project Manager | Iteration Plan#F1 |
-| Move Gate H1 ahead of the Reviewer in the critical-chain diagram | Iteration Plan | Project Manager | Iteration Plan#F2 |
+```plantuml
+@startuml
+title Resolution status of the technical lens findings - seven closed in iteration 2, two new Minors open with their owners
 
-**Not a finding.** The absence of a Test Plan, a Data Model and a Glossary is the Development Case's own NOT FIRED verdict on each, checked and found to hold — not a gap in the delivery. The absence of an Iteration Assessment is correct at this point: the Project Manager authors it after this review, and its absence is never a gate condition.
+skinparam shadowing false
+left to right direction
+skinparam componentStyle rectangle
+
+package "Iteration 1 findings - all closed" {
+  component "Development Case#F1 (Major)\nversion policy sourced" as DC1
+  component "Development Case#F2 (Minor)\nthe stakeholder's duplication order" as DC2
+  component "System Inventory#F1 (Major)\nAN-021 third edge" as SI1
+  component "System Inventory#F2 (Minor)\ncoverage figure reproduces" as SI2
+  component "Risk List#F1 (Major)\none mapping, every score reproduces" as RL1
+  component "Iteration Plan#F1 (Major)\ntwelve anomalies, 21 edges" as IP1
+  component "Iteration Plan#F2 (Minor)\ngate ahead of the verdict" as IP2
+}
+
+package "Iteration 2 findings - open Minors" {
+  component "System Inventory#F3 (Minor)\nDocument Control iteration field" as SI3
+  component "Iteration Plan#F3 (Minor)\nfine-plan State column" as IP3
+}
+
+package "What the closures unblock" {
+  component "Excavation reads a settled constraint\nlist and a tailoring that misdirects nobody" as EX
+  component "Management lens re-runs C1 to C10\non evidence that now reproduces" as MG
+}
+
+DC1 --> EX : no policy invented in Excavation
+DC2 --> EX : one authoritative statement per fact
+SI1 --> MG : the anomaly edges match the tree
+SI2 --> MG : C6 cites a figure it can reproduce
+RL1 --> MG : C7b and C8 rest on reproducible scores
+IP1 --> EX : the constraint list Excavation consumes
+IP2 --> MG : the plan's gate order matches its answers
+SI3 --> MG : metadata reads one iteration
+IP3 --> MG : the plan's status reads the truth
+@enduml
+```
+
+| Artifact | Finding | Severity | Owner | Status | Action that closes it |
+|---|---|---|---|---|---|
+| Development Case | F1 | Major | Process Engineer | Resolved | State central pinning and the nuget.org-only source, assert no enterprise policy — done at "Tool and configuration references" |
+| Development Case | F2 | Minor | Process Engineer | Resolved | One role-deltas statement and one CLS-DC-01 diagram — done at "Roles and Ownership", as the stakeholder ordered |
+| System Inventory | F1 | Major | Software Archaeologist | Resolved | Add EP-007 to the AN-021 row — done at "Traceability" |
+| System Inventory | F2 | Minor | Software Archaeologist | Resolved | Recompute Coverage from the per-area table and decide the docs row — done at "Coverage" |
+| Risk List | F1 | Major | Project Manager | Resolved | Publish one mapping and reconcile every score to it; put each Significant acceptance to the stakeholder — done at "Risk Classification" and the grant table |
+| Iteration Plan | F1 | Major | Project Manager | Resolved | Name all twelve anomalies or drop the count — done at "Use Cases and Scenarios Addressed" |
+| Iteration Plan | F2 | Minor | Project Manager | Resolved | Place gate H2 ahead of the verdict it feeds — done in the coarse roadmap and the critical chain |
+| System Inventory | F3 | Minor | Software Archaeologist | Open | Set the Document Control iteration field to 2, Cycle 1 |
+| Iteration Plan | F3 | Minor | Project Manager | Open | Correct the fine-plan State column for rows 4, 5 and 6, or remove the column |
+
+The two open findings are Minors. Neither holds the milestone, neither blocks a downstream role, and both are corrected by their owner in its next turn; the artifacts they sit in are approved from this lens.
 
 ### Management Reviewer lens
 <!-- review: Survey I1 -->
