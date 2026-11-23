@@ -687,9 +687,9 @@ Verified against the artifacts, not deferred: the Iteration Plan's A13 evidence 
 
 ## Resolutions and Actions
 ### Reviewer lens
-<!-- review: Excavation I2 -->
+<!-- review: Excavation I3 -->
 
-<!-- review: Excavation I2 -->
+<!-- review: Excavation I3 -->
 
 #### Closures materialized this iteration
 
@@ -697,36 +697,31 @@ Each row is a `resolve_artifact_finding` call that transitioned the ledger, not 
 
 | Finding | Criterion | Resolution | Evidence read |
 |---|---|---|---|
-| Vision#F1 | use-case-shape | Resolved | Features diagram: `component … PM1` / `PM2` under "Platform mechanisms - no actor goal, not use cases"; eleven `usecase` shapes only |
-| Use-Case Model#F1 | trace-gap | Resolved | Trace graph, EP-003 downstream: three `Refines` edges, all OK |
-| Use-Case Model#F2 | contained-defect | Resolved | Actors: "Two entry points, two different questions"; matrix edges read `acts on EP-003` / `calls EP-013` |
-| Supplementary Specification#F1 | consumed-defect | Resolved | R8, P1, S2 all state 50 / 50 / 50 under AN-024; `appsettings.Development.json` opened and confirmed |
-| Supplementary Specification#F2 | consumed-defect | Resolved | R4 states the token hop and the forwarder hop apart under AN-023; `ServiceDefaults/Extensions.cs:32-42` and `Todo.Web/Server/TodoApi.cs` opened and confirmed |
-| Software Architecture Document#F1 | consumed-defect | Resolved | SP1: "50 tokens, 50 per 10 s and a queue of 50 is the budget in force wherever this delivery runs … The fact is AN-024" |
-| Deployment Model#F1 | consumed-defect | Resolved | Environment Mapping preamble narrowed; Rate limiting row reads 50 / 50 / 50 for Development |
-| Design Model#F1 | contained-defect | Resolved | PD-D3 note cites AN-025; AN-005 confined to the `EnsureCreated` statement |
-| Risk List#F2 | contained-defect | Resolved | R024: "The Design Model already states the difference correctly at PKG-D3, and the Supplementary Specification's R4 states the opposite - which is the artifact the mitigation is aimed at" |
+| Development Case#F3 | contained-defect | Resolved | Document Control: "- Phase: Excavation / - Status: Draft — made current for the end-of-Excavation (AR) milestone review / - Milestone Target: end-of-Excavation (AR) — not yet achieved / - Iteration: 3, Cycle 1" |
+| Use-Case Model#F3 | trace-gap | Resolved | `model_query_traces` on `COMP-014` upstream: five `Realizes` edges — UC-010, UC-009, UC-008, UC-007, UC-006 — none marked SUSPECT; Software Architecture Document Traceability row `COMP-014` names the same five |
+| Use-Case Model#F4 | consumed-defect | Resolved | Use-Case Model rules diagram R6: "In force: 50 tokens, 50 per 10 s, queue 50. Code defaults: 100 tokens, 100 per 10 s, queue 100. Over budget answers 429. AN-024"; note citing `RateLimitExtensions.cs:14-31` and `appsettings.Development.json:8-12` |
 
 #### Actions this iteration opens
 
-Each is an owner's corrective action, stated so it can be performed without a follow-up question. The first two hold the milestone; the third does not.
+Each is an owner's corrective action, stated so it can be performed without a follow-up question. The first holds the milestone; the other two do not.
 
 | Finding | Owner | Action | Holds the milestone |
 |---|---|---|---|
-| Use-Case Model#F3 | System Analyst | Confirm the five `COMP-014 → UC-006` to `UC-010` edges in the registered graph, each checked against `Todo.Api/Todos/TodoApi.cs:19-20`, and record in the shared gate diagram that the bucket gates each operation rather than performing it. Re-query the graph and report no SUSPECT marking on any edge the Use-Case Model declares | Yes — a suspect trace open at phase close fails criterion C6 |
-| Use-Case Model#F4 | System Analyst | Correct R6 in the rules diagram to state the code defaults 100 / 100 per 10 s / queue 100 and the Development override 50 / 50 / 50 as the value in force, citing AN-024 and `appsettings.Development.json:8-12`, so the artifact holds one answer to the question its gate diagram already answers correctly | Yes — the four Majors of the AR review were this same class of defect |
-| Development Case#F3 | Process Engineer | Bring the four Document Control fields to Excavation, iteration 2, status Draft for the AR review. No other content changes | No — a Minor does not hold the milestone |
+| Iteration Plan#F4 | Project Manager | Re-read the four places against the corrected artifacts and restate each: A1 "Met" with the five `COMP-014` edges confirmed and requoted from a fresh graph query; A10 "Met — certified on the recovered set" naming R6 as the fourth artifact and quoting its current wording under `AN-024`; A11 "Met — four of four"; O2 met on its own terms. Requote no superseded sentence and change nothing in the sequence, the fine plan or A13 | Yes — A1, A10 and A11 are three of the thirteen criteria the milestone is decided on, and the verdict reads those cells |
+| Risk List#F3 | Project Manager | Restate R032: the action performed on all six citing artifacts, R6 named with its wording under `AN-024`, the exposure retired by the avoidance; remove or relabel the diagram's contingency node to the residual — the four artifacts re-read in one pass at the next milestone; set the warning-sign cell to its current state. Leave `R030` and `R031` unchanged | No — a Minor, contained, no criterion turns on it |
+| Supplementary Specification#F3 | System Analyst | Set the Iteration field to "3, Cycle 1". Change no other field and no content | No — a Minor, one metadata field |
 
 #### Carried state read for this disposition
 
 | Item | State read |
 |---|---|
-| Gate H4 (the stakeholder's confirmation of the recovered set) | The AR review records it answered No, with the order "We must correct all major findings." That order is what this iteration performed. It is not this lens's to re-put |
-| The AR review's own ledger of eight Majors | Of those within this lens, four Majors (Supplementary Specification#F1, #F2; Software Architecture Document#F1; Deployment Model#F1) and one Minor (Design Model#F1) were this lens's. All five are closed on verified evidence. The two remaining Majors of this lens (#F3, #F4) are new defects found in this iteration's re-read, not survivors of the old ledger |
-| Exit criterion A10 (the recovery states what the code does) | Certifiable on the recovered set as this lens reads it, on condition that Use-Case Model#F4 is corrected: as the artifact stands, one of its own diagrams contradicts the fact the criterion turns on |
-| Suspect traces | Five remain registered against COMP-014 at the phase close. Criterion C6 is not satisfied |
-| Open pull requests | None in any state |
-| Build status | No IARI pipeline file exists; nothing to report for `main`. Excavation produces no production code, so this is correct for the phase, not a gap |
+| Gate H4 (the stakeholder's confirmation of the recovered set) | The AR review of iteration 2 records it answered No, twice, with the order that the Development Case be corrected in this phase and that every Major be corrected. That order is performed: both Development Case Minors are corrected and both Use-Case Model Majors are closed. Re-putting the gate is not this lens's to do |
+| The stakeholder's routing answer of 2026-11-23 | Applied and verified in the artifacts, not merely recorded: the Iteration Plan puts the Process Engineer's three items in this iteration under the Environment stage, and the Development Case states Environment active in every phase with Excavation first. A11 is neither waived nor restated |
+| `Risk List#F3` (Management Reviewer) | R030's strategy cell now reads "**Avoid — retirement landed; the exposure stays live**", with the statement located in the Use-Case Model under `AN-029` and the reason it stays live — `AN-012` stands, no test covers the surface. That finding is closed by its own lens; this lens reads the cell and finds it true |
+| Suspect traces | None. `COMP-014` — the only component this lens ever found carrying a marking — now returns five confirmed edges, and the three `EP-003` edges were confirmed at the previous pass |
+| Open pull requests | None in any state. The repository was queried: no pull request exists to approve, request changes on, or defer, and none is expected — Excavation produces no production code |
+| Build status | No IARI pipeline file exists; nothing is reported for `main`. This is the phase's correct state, not a gap |
+| Exit criterion A10 (the recovery states what the code does) | Certifiable on the recovered set as this lens reads it. The four artifacts its test names all hold: Supplementary Specification M3, S2, P1, R8 and F10; Software Architecture Document SP1, M3 and the bounded-load row; Deployment Model Environment Mapping; Use-Case Model R6. The criterion's evidence cell is the plan's to restate — `Iteration Plan#F4` |
 
 ### Management Reviewer lens
 <!-- review: Excavation I2 -->
