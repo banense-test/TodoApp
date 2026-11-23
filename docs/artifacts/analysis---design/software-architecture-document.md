@@ -1048,12 +1048,11 @@ end note
 @enduml
 ```
 ## Traceability
-
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
 | COMP-001 | UC-001, UC-002, UC-003, UC-004, UC-006, UC-007, UC-008 | Realizes | — |
 | COMP-002 | UC-001, UC-002, UC-004, UC-006, UC-007, UC-008 | Realizes | — |
-| COMP-003 | — | — | — |
+| COMP-003 | UC-001, UC-002, UC-004, UC-006, UC-007, UC-008 | Realizes | — |
 | COMP-004 | UC-001, UC-002, UC-003, UC-004, UC-006, UC-007, UC-008 | Realizes | — |
 | COMP-005 | UC-003, UC-004 | Realizes | — |
 | COMP-006 | UC-001, UC-002, UC-003, UC-004 | Realizes | — |
@@ -1062,14 +1061,16 @@ end note
 | COMP-009 | UC-001, UC-002, UC-005 | Realizes | — |
 | COMP-010 | UC-003 | Realizes | — |
 | COMP-011 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
-| COMP-012 | UC-006 | Realizes | — |
+| COMP-012 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
 | COMP-013 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
 | COMP-014 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
 | COMP-015 | UC-007, UC-010 | Realizes | — |
-| COMP-016 | UC-001, UC-003, UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| COMP-016 | UC-001, UC-003, UC-005, UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
 | COMP-017 | UC-011 | Realizes | — |
 | COMP-018 | — | — | — |
-| COMP-019 | UC-003 | Realizes | — |
+| COMP-019 | UC-001, UC-002, UC-003, UC-005 | Realizes | — |
 | COMP-020 | — | — | — |
 | COMP-021 | — | — | — |
 | COMP-022 | — | — | — |
+
+Four components carry no `Realizes` edge, and each is stated with its anchor instead of a composed one: COMP-018 adds no behaviour to any use case (a Development-only logging stage, `Todo.Api/Program.cs:35-47`); COMP-020 and COMP-021 are the platform that starts and instruments the processes rather than any path an actor's goal runs through (`TodoApp.AppHost/Program.cs:1-28`; `TodoApp.ServiceDefaults/Extensions.cs:24-130`); COMP-022 is the verification host and realizes the use cases it exercises only in the sense that it calls their endpoints, which `Tests` already records (`Todo.Api.Tests/TodoApplication.cs`).
