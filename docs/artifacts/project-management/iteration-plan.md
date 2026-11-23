@@ -399,6 +399,7 @@ Three entry-point groups carry no use case and the Use-Case Model says why: `EP-
 
 **Scenarios.** Five of the eleven carry two scenarios rather than one: `UC-001`, `UC-002`, `UC-006`, `UC-007` and `UC-008` have a screen route and a direct API route. They are one use case with two scenarios, never one use case per actor: the two routes reach the same operation and differ only in how the caller authenticated.
 
+**Nothing is qualified.** Both findings that bore on the count at iteration 2 are closed and verified at the Use-Case Model: the five `COMP-014` `Realizes` edges are confirmed in the registered graph, so the shared throttling mechanism is certified for the five use cases that cross it, and the rules diagram's R6 states both request budgets under `AN-024`. The set the fourth iteration hands to Consolidation is the set the stakeholder confirmed on 2026-11-23 — eleven use cases, four exclusions, twenty-two components, eight tables — with no outstanding qualification against `UC-001` to `UC-011`.
 ## Evaluation Criteria
 The exit criteria for this iteration's milestone (AR). Each is decided on the evidence the artifact it cites records, never on an adjacent artifact's answer: a criterion about the recovered set is certified on the recovered set, and one about a role's artifact is certified on that artifact's text. An evidence cell names only sections the cited artifact carries.
 
