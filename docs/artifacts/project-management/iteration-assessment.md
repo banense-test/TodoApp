@@ -259,18 +259,25 @@ Twelve of twelve are met. The criterion that decided this phase's iteration coun
 
 No open finding bears on a criterion. The four Minors carried into Excavation — `Development Case#F2` (Management Reviewer), `Iteration Plan#F2` (Management Reviewer), `Iteration Plan#F3` (Reviewer) and `System Inventory#F3` (Reviewer) — are corrections to status statements and one lens list; no line above depends on their subject and no downstream role is misdirected by them.
 ## Test Results
-No test was executed and none was planned for this iteration. The Test discipline works from Elaboration, no test case is written before a use case is recovered, and the Development Case records `Test Plan` NOT FIRED. This is not a gap: no artifact Survey produces carries a test obligation, and the Review Record's own "Not findings" lists the Test Plan's absence as the Development Case's verified verdict rather than a delivery gap.
+No test was executed in this iteration and none was planned. The Test discipline works from Elaboration, no test case is written before a use case is recovered, and the Development Case records `Test Plan` NOT FIRED. This is not a gap: no artifact Survey produces carries a test obligation, and the Review Record's own "Not findings" lists the Test Plan's absence as the Development Case's verified verdict rather than a delivery gap.
 
-There is also no Test Evaluation Summary in this phase, because the Test Manager does not work in Survey. This assessment therefore rests on the Review Record alone — both executed lenses and the coordinator's consolidated ledger — and on the artifacts themselves. No result is derived from a test execution, and none is presented as if one had occurred.
+There is no Test Evaluation Summary in this phase, because the Test Manager does not work in Survey. This assessment therefore rests on the Review Record — both executed lenses and the Review Coordinator's consolidated ledger — and on the artifacts themselves. No result below is derived from a test execution and none is presented as if one had occurred.
 
-Three consequences follow for the next plan, and each is already a registered risk rather than a finding against this iteration:
+| Detector that operated in this iteration | What it found | What it decided |
+|---|---|---|
+| Technical lens (Reviewer) | Seven iteration-1 findings resolved; two new Minors recorded | No Critical, no Major; the four artifacts approved from this lens |
+| Management lens (Management Reviewer) | Three iteration-1 findings resolved; two new Minors recorded; C1 to C10 re-taken | Sanction question put and answered Yes |
+| Review Coordinator | Fourteen findings over two iterations; ten closed, four open, all Minor | Consolidated count: 0 open Critical, 0 open Major |
 
-- `R012` — the BFF and the Blazor client carry no test of any kind, and the three defective `/auth` flows are exactly the untested ones. Accepted by the stakeholder on 2026-11-23 for the sprint zero; the mitigation is test coverage of the BFF session, the `/auth` flows and the client's todo flow from Elaboration.
-- `R005` — the test host builds the schema with `EnsureCreated`, so a migration that no longer matches the model is planned over undetected. The Test Manager's action is a migration-applies check in the architecture test scope.
-- `R011` — the suite reproduces the bearer-token ticket format from framework internals, so a framework upgrade breaks it with no behaviour changing. Accepted with mitigation and contingency, and the stakeholder granted it on 2026-11-23 for the band the reconciliation may place it in. Whether that band is Significant or Moderate is still owed by the reconciliation.
+The only defect detector that has operated in this phase is the milestone review. Because no test execution has run, no defect-removal efficiency can be computed at this gate and none is claimed in its place.
 
-Because no test execution has run, no defect-removal efficiency can be computed at this gate and none is claimed in its place. The only defect detector that has operated is the milestone review.
+Three test-related risks carry forward, each already registered rather than a finding against this iteration:
 
+- `R012` — the BFF and the Blazor client carry no test of any kind, and the three defective `/auth` flows are exactly the untested ones. Accepted by the stakeholder for the sprint zero; the mitigation is test coverage of the BFF session, the `/auth` flows and the client's todo flow from Elaboration, where the Test discipline first works.
+- `R005` — the test host builds the schema with `EnsureCreated`, so a migration that no longer matches the model is planned over undetected. The Test Manager's action is a migration-applies check in the architecture test scope at Elaboration.
+- `R011` — the suite reproduces the bearer-token ticket format from framework internals, so a framework upgrade breaks it with no behaviour changing. Accepted with mitigation and contingency, granted by the stakeholder at the reconciled exposure 12; its contingency is taken only if a deliberate upgrade lands before the release.
+
+None of the three is retired by this phase, and none can be: writing tests is work no phase before Elaboration runs.
 ## External Changes
 | Change | Effect on this iteration | Handled by |
 |---|---|---|
