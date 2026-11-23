@@ -3,12 +3,13 @@
 <!-- review: Consolidation I1 -->
 
 - Phase: Consolidation
-- Iteration: 1, Cycle 1
+- Status: Draft — the GHR technical lens, taken before the milestone verdict; 0 Critical, 3 Major, 2 Minor open from this lens
 - Milestone Target: end-of-Consolidation (GHR) — not yet achieved
-- Review type: GHR technical lens, formal inspection against checklist
+- Iteration: 1, Cycle 1
+- Review point: Lifecycle Milestone Review, exit-criteria lens
+- Review type: formal inspection against checklist
 - Reviewer: Reviewer
 - Artifacts reviewed: 12 of 12
-- Findings this milestone: 0 Critical, 3 Major, 2 Minor
 - Disposition: Approved with Changes
 
 ### Management Reviewer lens
