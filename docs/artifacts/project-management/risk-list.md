@@ -220,21 +220,6 @@ end note
 | R021 | A recovered use case that states why registration or login failed states a distinction the system does not make: every authentication failure answers 401 with no body, and the BFF discards the API's validation problem | `Todo.Web/Server/AuthApi.cs:14-38`; `Todo.Web/Server/AuthClient.cs:6-34` | 4 | 3 | 12 | Significant | Avoid | System Analyst |
 | R022 | A phase's milestone cannot close while a stakeholder answer is queued. Every phase gate depends on one, and this iteration's gate asked for three answers | this register, R012, R016, and the priority-order question answered 2026-11-23 | 2 | 4 | 8 | Moderate | Accept | Project Manager |
 
-### The stakeholder's grants on the two contested bands
-
-Two risks in this register may sit above the Moderate band once their scores are reconciled, and acceptance at Significant or High is the stakeholder's alone. Both were put to the stakeholder on 2026-11-23, each question stated conditionally so that the answer binds whatever the reconciliation returns:
-
-| Risk | Anomaly | Recorded here | What the System Inventory states | Exposure those words give | The stakeholder's answer |
-|---|---|---|---|---|---|
-| `R004` | `AN-004` | 2 × 2 = 4, Minor | "likely / moderate" | 4 × 3 = 12, Significant | Yes — accepted for the sprint zero should the reconciled score land at 9 to 12 or above, until Excavation records the branch as the exceptional entity the stakeholder ruled it to be |
-| `R011` | `AN-011` | 4 × 2 = 8, Moderate | "likely / moderate" | 4 × 3 = 12, Significant | Yes — accepted for the sprint zero should the reconciled score land at 9 to 12 or above |
-
-Both are the stakeholder's own grants, in their own words. Neither condition, limit nor prohibition beyond the one the question itself stated was added by this register.
-
-The grant does not settle the arithmetic and is not a substitute for it: the two rows above still record the scores the review declared unreproducible, and the reconciliation is owed before the SBC gate is re-taken. What the grant does settle is that no risk this register can place in the Significant or High band lacks the stakeholder's answer — which is the condition `Risk List#F1` (Management Reviewer) found unmet.
-
-`R001`, `R007`, `R012` and `R016` are unaffected: `R001` and `R007` are avoided, which is the Project Manager's authority at any band, and `R012` and `R016` carry the stakeholder's own grants of 2026-11-23 for their recorded exposure of 12.
-
 ### Acceptances in this register that are the stakeholder's to grant
 
 Four risks carry the accept strategy in the Significant band, where acceptance is the stakeholder's alone. Each holds their own answer of 2026-11-23, given in their words and binding whatever the reconciliation returned:
