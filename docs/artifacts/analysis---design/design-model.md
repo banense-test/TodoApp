@@ -443,7 +443,7 @@ note bottom of T3
   migration rewrites an existing OwnerId value: a row
   written before migration 3 keeps what it held where the
   constraint now expects an Id. No data conversion
-  statement exists anywhere in the tree. AN-005.
+  statement exists anywhere in the tree. AN-025.
 end note
 
 @enduml
@@ -457,7 +457,7 @@ end note
 
 Two facts about this history govern any later work on the store, and both are consequences of the schema as it stands.
 
-**No migration converts existing `OwnerId` values.** Between migration 1 and migration 3 the principal key moved from the account's user name to its identifier, and the third migration contains only constraint and nullability changes. A database written by migration 1 or 2 therefore holds user names in `OwnerId` under a constraint that now requires identifiers. Whether such a database exists outside the test host cannot be determined from the tree.
+**No migration converts existing `OwnerId` values** (AN-025). Between migration 1 and migration 3 the principal key moved from the account's user name to its identifier, and the third migration contains only constraint and nullability changes. A database written by migration 1 or 2 therefore holds user names in `OwnerId` under a constraint that now requires identifiers. Whether such a database exists outside the test host cannot be determined from the tree.
 
 **The deployed schema and the tested schema are built by different mechanisms.** `Todos.db` is built by these three migrations, run by the app host; the test host builds its schema with `EnsureCreated` from the model and never runs a migration (AN-005). A divergence between the model and the migration history is invisible to the test suite and surfaces only where the app host runs the migration.
 
