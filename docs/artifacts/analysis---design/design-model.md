@@ -499,7 +499,7 @@ package "Enforced by a DDL construct the migrations declare" {
   class "PK_AspNetUsers on AspNetUsers.Id, NOT NULL" as C_UPK
   class "UserNameIndex on NormalizedUserName\nUNIQUE" as C_UQ
   class "PK_AspNetUserLogins\n(LoginProvider, ProviderKey)" as C_LPK
-  class "Six further FK constraints\nall ON DELETE CASCADE" as C_FK6
+  class "The six remaining FK constraints\nall ON DELETE CASCADE" as C_FK6
 }
 
 package "Rested on, and enforced by no construct" {
@@ -556,10 +556,10 @@ note bottom of G_UNIQ
   SQLite evaluates a UNIQUE index per row and admits any number
   of rows whose key column is NULL. Since UserName is nullable,
   a row written with no user name is outside UserNameIndex
-  altogether. Reachable only through a caller that posts /users
-  register or /users/token with no user name; the register body
-  is validated by Identity's own annotations, the token body by
-  ExternalUserInfo at UsersApi.cs:18.
+  altogether. Reachable only through a caller that posts to
+  /users register or /users/token with no user name: the register
+  body is validated by Identity's own annotations, the token body
+  by ExternalUserInfo at UsersApi.cs:18.
 end note
 
 @enduml
@@ -569,27 +569,29 @@ end note
 |---|---|---|---|---|
 | A task row is addressable by one integer key | `PK_Todos` on `Todos.Id`, `INTEGER`, `Sqlite:Autoincrement` | A duplicate or null id; an insert that names its own id | — | `Todo.Api/Migrations/20221123071234_Initial.cs:220-240` |
 | A task belongs to an account that exists | `FK_Todos_AspNetUsers_OwnerId`, `OwnerId` → `AspNetUsers.Id`, `ON DELETE CASCADE` | A row whose `OwnerId` names no account | A row owned by the wrong account — G1 | `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:33-44` |
-| Deleting an account takes everything that names it | The seven FKs, all `ON DELETE CASCADE`: `FK_Todos_AspNetUsers_OwnerId`, and against `AspNetUsers` the six on `AspNetUserLogins`, `AspNetUserClaims`, `AspNetUserRoles`, `AspNetUserTokens`, plus `FK_AspNetUserClaims_AspNetUsers_UserId`, `FK_AspNetRoleClaims_AspNetRoles_RoleId` and `FK_AspNetUserRoles_AspNetRoles_RoleId` against `AspNetRoles` | An orphan row after either parent is deleted | — | `Todo.Api/Migrations/20221123071234_Initial.cs:78-190, 246` |
+| Deleting an account or a role takes every row that names it | All seven FKs, each `ON DELETE CASCADE`: five reference `AspNetUsers` — `AspNetUserLogins.UserId`, `AspNetUserClaims.UserId`, `AspNetUserRoles.UserId`, `AspNetUserTokens.UserId`, `Todos.OwnerId`; two reference `AspNetRoles` — `AspNetRoleClaims.RoleId`, `AspNetUserRoles.RoleId` | An orphan row after either parent is deleted | — | `Todo.Api/Migrations/20221123071234_Initial.cs:78-190, 246` |
 | A task row carries no null in `Id`, `Title`, `IsComplete`, `OwnerId` | The four `nullable: false` column declarations | A null title, a null owner, a null flag | An empty title — G3 | `Todo.Api/Migrations/20221123071234_Initial.cs:220-235` |
 | The list's filter is an index seek, not a scan | `IX_Todos_OwnerId` on `OwnerId` | — | — | `Todo.Api/Migrations/20221123071234_Initial.cs:244-247` |
 | One account per normalised user name | `UserNameIndex` on `NormalizedUserName`, `unique: true` | A second row with the same non-null `NormalizedUserName` | Any number of rows with a null one — G5 | `Todo.Api/Migrations/20221123071234_Initial.cs:216-220` |
 | An account is addressable by one identifier | `PK_AspNetUsers` on `Id`, `TEXT` `NOT NULL` | A null or duplicate id | — | `Todo.Api/Migrations/20221123071234_Initial.cs:33-56` |
 | One provider identity per login provider, keyed | `PK_AspNetUserLogins` on (`LoginProvider`, `ProviderKey`) | A duplicate pair, so the exchange's lookup is a key lookup | — | `Todo.Api/Migrations/20221123071234_Initial.cs:120-140` |
-| A role is one normalised name | `RoleNameIndex` on `NormalizedName`, `unique: true` | A duplicate normalised role name | — Nothing writes a role row at all | `Todo.Api/Migrations/20221123071234_Initial.cs:200-204` |
+| A role is one normalised name | `RoleNameIndex` on `NormalizedName`, `unique: true` | A duplicate normalised role name | — nothing writes a role row at all | `Todo.Api/Migrations/20221123071234_Initial.cs:200-204` |
 
-**Five rules the store does not enforce, and the construct that would.** Each is held by a handler, a client control or nothing; each is recorded because a reader of the completed use cases will assume the database holds it.
+**Five rules the store does not enforce, and what holds each instead.** Each is held by a handler, a client control or nothing; each is recorded because a reader of the completed use cases will assume the database holds it.
 
 | Rule | Where it actually lives | What a write bypassing the API produces | Anchor |
 |---|---|---|---|
 | G1 — a caller reads and writes only its own rows | The predicate `OwnerId == owner.Id \|\| owner.IsAdmin` in four handlers | Any account's row reachable by any caller | `Todo.Api/Todos/TodoApi.cs:26, 33, 59, 69`; `AN-018` |
-| G2 — the completion flag is a boolean | The `bool` CLR type and the `INTEGER` column; no `CHECK` | Any integer in `IsComplete` | `Todo.Api/Migrations/20221123071234_Initial.cs:226-228` |
+| G2 — the completion flag is a boolean | The `bool` CLR type over an `INTEGER` column; no `CHECK` | Any integer in `IsComplete` | `Todo.Api/Migrations/20221123071234_Initial.cs:226-228` |
 | G3 — a task's title is not empty | `[Required]` on `Todo` and `TodoItem`, run by the validation filter registered on `/todos` | An empty string, which `NOT NULL` admits | `Todo.Api/Todos/Todo.cs:5-6, 16-17`; `Todo.Api/Filters/ValidationFilter.cs:10-63` |
-| G4 — the external-identity exchange creates an account and its login as one unit | Nothing. Two `UserManager` calls, each committing | An account with no login row, unreachable by any provider and by no password | `Todo.Api/Users/UsersApi.cs:38-46` |
+| G4 — the external-identity exchange creates an account and its login as one unit | Nothing. Two `UserManager` calls, each committing | An account with no login row, reachable by no provider and by no password | `Todo.Api/Users/UsersApi.cs:38-46` |
 | G5 — one account per user name, without exception | `UserNameIndex`, which admits nulls | Accounts whose `NormalizedUserName` is null, any number of them | `Todo.Api/Migrations/20221123071234_Initial.cs:216-220`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:18-27` |
 
-**Two of the five are defects the schema could have prevented and does not.** G4 is the one an atomicity boundary would close: the exchange at `UsersApi.cs:38-46` calls `CreateAsync` and then `AddLoginAsync` with no `IDbContextTransaction` and no `BeginTransaction` over the pair, so a failure between the two commits leaves an account row that no provider link names — and because the exchange reuses the submitted user name, the retry meets `UserNameIndex` and is refused rather than converging. G5 follows from migration 3: its `Up` makes `UserName` nullable and drops the unique constraint on it, and it never restores either in `Up`, so the only uniqueness standing on the account table is over the normalised column, which SQLite's unique index does not bind when null. Neither is a rule the recovered set states the system should have; both are what the migrations actually enforce, and they are recorded as such rather than proposed against a declared requirement.
+**Two of the five are defects the schema could have prevented and does not.** G4 is the one an atomicity boundary would close: the exchange at `UsersApi.cs:38-46` calls `CreateAsync` and then `AddLoginAsync` with no transaction over the pair, so a failure between the two commits leaves an account row that no provider link names — and because the exchange reuses the submitted user name, the retry meets `UserNameIndex` and is refused rather than converging. G5 follows from migration 3: its `Up` makes `UserName` nullable and drops the unique constraint on it, and restores neither in `Up`, so the only uniqueness standing on the account table is over the normalised column, which SQLite's unique index does not bind when null. Neither is a rule the recovered set states the system should have; both are what the migrations actually enforce, and they are recorded as such rather than proposed against a requirement nothing declares.
 
-The two tables beside this block carry the rest of the persistent surface: the eight tables with every column (`PD-D1`), the class-to-table mapping with identity strategy and load policy, the index justification per statement, and the three migrations with their rollback and the row conversion none of them performs. No persistent class the completed use cases rely on lacks its table, and no table lacks its anchor.
+**Which persistent classes the completed use cases reach.** Every one of the eleven use cases resolves its rows through `TodoDbContext` (CLS-006) and, except UC-011, through `TodoUser` (CLS-007); the five task use cases write and read `Todo` (CLS-001) alone. UC-003 is the only use case that reaches `AspNetUserLogins` (TBL-003), through `FindByLoginAsync` and `AddLoginAsync`. The remaining five Identity tables are reached by no completed use case's path: `AspNetUserRoles` and `AspNetRoles` are written by nothing at all (`AN-004`), and `AspNetUserClaims`, `AspNetUserTokens` and `AspNetRoleClaims` are read and written only by framework endpoints that no screen and no client call reaches. The class-to-table mapping, identity strategy and load policy per class are stated in `PD-D2` and its table above; the eight tables with every column are `PD-D1`; each index against the statement it serves is `PD-D3`; the three migrations, their rollback and the row conversion none performs is `PD-D4`.
+
+[OMITTED: Data Model — the Development Case's §5.2 trigger has not fired for this project: the store holds eight persisted entity types, below the ten-entity threshold; the system is not data-centric, since every operation is a single-row or single-owner-set statement; and no data migration is in scope, the three migrations being recovered history rather than declared work. Persistence therefore lives inline in this model, as the sections above it record]
 
 ## Domain Model
 ```plantuml
