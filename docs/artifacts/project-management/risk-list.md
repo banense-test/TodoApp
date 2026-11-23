@@ -1,7 +1,7 @@
 ## Document Control
 - Phase: Excavation
-- Status: 30 risks registered and owned; every probability and impact derives from its anomaly's stated likelihood and impact through the one mapping published under Risk Classification. The AR milestone verdict is the Review Coordinator's and is recorded in the Review Record; this register declares no milestone
-- Milestone Target: end-of-Excavation (AR)
+- Status: Draft — produced for the end-of-Excavation (AR) milestone review
+- Milestone Target: end-of-Excavation (AR) — not yet achieved
 - Iteration: 1, Cycle 1
 - Owner: Project Manager
 
