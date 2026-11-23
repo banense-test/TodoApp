@@ -277,7 +277,7 @@ No stakeholder statement of what matters exists for this delivery — the owner'
 | 8 | Requests, CI, dev container | Supporting material: a hand-run request collection, a four-step pipeline, and a container whose SDK contradicts AN-007 | `Requests/todo.http; .github/workflows/ci.yaml; .devcontainer/` |
 
 ## Coverage
-Of 130 files in the tree (36 of the 166 entries are directories), 104 were opened. Everything in `Todo.Api`, `Todo.Api.Tests`, `TodoApp.AppHost`, `TodoApp.ServiceDefaults`, `Requests`, `.aspire`, `.vscode` and `.github` was read; the unread remainder is vendored assets, two binary files, one stylesheet and four small files named below.
+Of 129 files in the tree (37 of the 166 entries are directories), 77 were opened. Everything in `Todo.Api`, `Todo.Api.Tests`, `TodoApp.AppHost`, `TodoApp.ServiceDefaults`, `Requests`, `.aspire`, `.vscode` and `.github` was read; the unread remainder is vendored assets, two binary files, one stylesheet and four small files named below.
 
 | Area | Files | Read | Unread and why |
 |---|---|---|---|
