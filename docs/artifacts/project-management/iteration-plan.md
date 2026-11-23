@@ -1,9 +1,8 @@
 ## Document Control
-
 - Phase: Survey
-- Status: Draft — produced for the end-of-Survey (SBC) milestone review
-- Milestone Target: end-of-Survey (SBC) — not yet achieved
-- Iteration: 1, Cycle 1
+- Status: Draft — iteration 1 assessed; six Major findings open, so the SBC milestone is not achieved
+- Milestone Target: end-of-Survey (SBC) — not achieved; iteration 2 planned from the Iteration Assessment
+- Iteration: 1, Cycle 1 (the plan is re-issued as iteration 2's on the Review Record's open findings)
 - Owner: Project Manager
 
 ## Iteration Objectives
