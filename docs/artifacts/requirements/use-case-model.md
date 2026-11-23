@@ -241,7 +241,7 @@ package "Entered by the person, in the client" {
 package "Checked at the API boundary" {
   component "Only the parameter types an endpoint registers are validated:\nTodoItem on /todos, ExternalUserInfo on /users. A violation is\n400 application/problem+json" as R4
   component "A bearer token, and a user row for its NameIdentifier.\nA deleted account's token is refused" as R5
-  component "The per-user token bucket, /todos only:\n50 tokens, 50 per 10 s, queue 50, 429. AN-024" as R6
+  component "The per-user token bucket, /todos only.\nIn force: 50 tokens, 50 per 10 s, queue 50.\nCode defaults: 100 tokens, 100 per 10 s, queue 100.\nOver budget answers 429. AN-024" as R6
   component "The route id is an integer" as R7
 }
 
@@ -317,12 +317,13 @@ note right of R4
 end note
 
 note bottom of R6
-  Two budgets, one in force. RateLimitExtensions.cs:14-31 carries
-  the code defaults of 100 tokens, 100 per 10 s and a queue of 100;
-  appsettings.Development.json:8-12 binds all three to 50, and both
-  launch profiles of both serving processes select Development.
-  The delivery configures no other environment, so 50 / 50 / 50 is
-  the budget everywhere this system runs. AN-024
+  Two budgets, one in force; R6 states both. RateLimitExtensions.cs:14-31
+  carries the code defaults of 100 tokens, 100 per 10 s and a queue of 100;
+  appsettings.Development.json:8-12 binds all three to 50, and both launch
+  profiles of both serving processes select Development. The delivery
+  configures no other environment, so 50 / 50 / 50 is the budget everywhere
+  this system runs, and 50 is the number to read wherever one number is
+  needed. AN-024
 end note
 
 note bottom of R12
@@ -923,6 +924,8 @@ endif
 stop
 @enduml
 ```
+
+**The five `COMP-014` edges are confirmed.** `COMP-014 → UC-006`, `UC-007`, `UC-008`, `UC-009` and `UC-010` each hold as `Realizes`, and none carries a pending marking. Each was checked against this diagram and against `Todo.Api/Todos/TodoApi.cs:19-20`, where `RequirePerUserRateLimit()` is applied to the `/todos` group before any of the five operations runs: the bucket is the gate every one of them passes, not the goal any of them serves, and each flow above names that gate at its own step — UC-006 step 5, UC-007 step 4, UC-008 step 3, UC-009 step 2, UC-010 step 2. The reading is the one already used for the `EP-003` screen edges in the Survey, where the screen is what the actor acts on and the operation is what performs it.
 
 ### UC-011 Consult the API reference
 
