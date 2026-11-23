@@ -198,7 +198,7 @@ Every project inherits `net9.0`, `Nullable=enable`, `ImplicitUsings=enable` and 
 | .devcontainer | JSON, shell | Image `mcr.microsoft.com/dotnet/sdk:8.0`; forwards 5000 and 5001; installs `dotnet-ef` globally on create | 2 | `.devcontainer/devcontainer.json:1-11; .devcontainer/init.sh` |
 | .aspire | JSON | Pins the app host for the Aspire CLI: `appHostPath` resolves to `TodoApp.AppHost/TodoApp.AppHost.csproj` | 1 | `.aspire/settings.json:1-3` |
 | .vscode | JSON | Editor recommendations only: the C# extension and the REST client extension the request collection needs | 1 | `.vscode/extensions.json:1-6` |
-| docs | Markdown | This process's output — the contribution contract, the Development Case and this inventory — not the system's own documentation | 3 | `docs/CONTRIBUTING.md; docs/artifacts/environment/development-case.md; docs/artifacts/discovery/system-inventory.md` |
+| docs | Markdown | This process's output, not the system's own documentation: the contribution contract and the sprint-zero artifacts of five roles | 7 | `docs/CONTRIBUTING.md; docs/artifacts/` (environment, discovery and project-management subdirectories) |
 | .iari | Markdown | The delivery owner's note | 1 | `.iari/README.md` |
 
 ## Persistent Data
