@@ -55,7 +55,7 @@ The plan is two-level. The **coarse roadmap** fixes the milestone sequence, the 
 
 ```plantuml
 @startgantt
-title Coarse roadmap - SBC closed, Excavation at AR with a third iteration planned, the RUP phases ahead - unanchored, no calendar date
+title Coarse roadmap - SBC closed, Excavation at AR with a fourth iteration planned, the RUP phases ahead - unanchored, no calendar date
 
 [Survey iteration 1 - SBC] lasts 1 day
 [Survey iteration 1 - SBC] is colored in Gray
@@ -89,13 +89,25 @@ title Coarse roadmap - SBC closed, Excavation at AR with a third iteration plann
 [AR lens review iteration 3] lasts 1 day
 [AR lens review iteration 3] starts at [Excavation iteration 3 - Environment stage, then the corrections]'s end
 [AR lens review iteration 3] is colored in Salmon
-[Gate H4 put 3 - a set that agrees with itself] lasts 1 day
-[Gate H4 put 3 - a set that agrees with itself] starts at [AR lens review iteration 3]'s end
-[Gate H4 put 3 - a set that agrees with itself] is colored in Green
-[AR verdict - Review Coordinator] lasts 1 day
-[AR verdict - Review Coordinator] starts at [Gate H4 put 3 - a set that agrees with itself]'s end
+[Gate H4 put 3 - set confirmed, advance refused] lasts 1 day
+[Gate H4 put 3 - set confirmed, advance refused] starts at [AR lens review iteration 3]'s end
+[Gate H4 put 3 - set confirmed, advance refused] is colored in Crimson
+[AR verdict iteration 3 - iteration required] lasts 1 day
+[AR verdict iteration 3 - iteration required] starts at [Gate H4 put 3 - set confirmed, advance refused]'s end
+[AR verdict iteration 3 - iteration required] is colored in Gray
+[Excavation iteration 4 - the plan's own cells] lasts 1 day
+[Excavation iteration 4 - the plan's own cells] starts at [AR verdict iteration 3 - iteration required]'s end
+[AR lens review iteration 4] lasts 1 day
+[AR lens review iteration 4] starts at [Excavation iteration 4 - the plan's own cells]'s end
+[AR lens review iteration 4] is colored in Salmon
+[Gate H4 put 4 - records that agree] lasts 1 day
+[Gate H4 put 4 - records that agree] starts at [AR lens review iteration 4]'s end
+[Gate H4 put 4 - records that agree] is colored in Green
+[AR verdict iteration 4] lasts 1 day
+[AR verdict iteration 4] starts at [Gate H4 put 4 - records that agree]'s end
+[AR verdict iteration 4] is colored in Gray
 [Consolidation - GHR] lasts 1 day
-[Consolidation - GHR] starts at [AR verdict - Review Coordinator]'s end
+[Consolidation - GHR] starts at [AR verdict iteration 4]'s end
 [GHR review] happens at [Consolidation - GHR]'s end
 [GHR review] is colored in Salmon
 [Inception - LCO] lasts 1 day
@@ -122,139 +134,120 @@ No bar carries an absolute date or a projected calendar span. The one-day and tw
 | Order | Phase | Milestone | Discipline intensity | Risks this milestone confronts | What the milestone is judged on |
 |---|---|---|---|---|---|
 | 1 | Survey | SBC — passed | Environment High, Discovery Critical, Project Management Medium | Carried R001 to R021 into the register; R016, R012, R004 and R011 granted for the sprint zero. SBC retires none of the reading's risks — it makes them owned | The perimeter and its priorities stated, and the anomalies carried as scored risks. Met at the re-take on 2026-11-23 |
-| 2 | Excavation | AR — iterations 1 and 2 assessed, iteration 3 required | Environment Low, Requirements High, Analysis & Design Critical, Discovery Critical, Project Management Medium | R001, R004, R019, R020, R021, R023, R028, R030 (System Analyst); R002, R009, R010, R017, R024, R025, R015 (Software Architect); R003, R018, R027 (Designer); R026, R029 (Database Designer); R031 and R032 (the plan's own exposures, both materialized) | The recovered use cases, architecture, design and deployment rest on anchors and state the code's behaviour; the coverage is measured; the stakeholder confirms the recovery at gate H4. **Iterations 1 and 2 did not close it: A1, A10, A11 and A13 unmet, H4 refused twice.** What remains is two corrections in one artifact and three in one tailoring document, each one turn by its owner |
+| 2 | Excavation | AR — iterations 1 to 3 assessed, iteration 4 required | Environment Low, Requirements High, Analysis & Design Critical, Discovery Critical, Project Management Medium | R001, R004, R019, R020, R021, R023, R028, R030 (System Analyst); R002, R009, R010, R017, R024, R025, R015 (Software Architect); R003, R018, R027 (Designer); R026, R029 (Database Designer); R031 and R032 (the plan's own exposures — R031's contingency performed, R032's avoidance performed on all six citing artifacts) | The recovered use cases, architecture, design and deployment rest on anchors and state the code's behaviour; the coverage is measured; the stakeholder confirms the recovery at gate H4. **Iterations 1 to 3 did not close it: H4 refused three times, though at the third the set was confirmed and only the advance refused.** Twelve of thirteen criteria hold on the artifact that owns each; what remains is this plan's own cells and one metadata field |
 | 3 | Consolidation | GHR | Environment Low, Requirements High, Analysis & Design Medium, Discovery Critical, Project Management Medium | Completes R003 and R010 where the recovered set is closed; confirms R015's volatility statement against the orchestration as it stands; R030's statement is read again if the session surface moves | Every use case, the Supplementary Specification and the Glossary trigger are complete; the coverage is final |
 | 4 | Inception | LCO | Environment High, Requirements Critical, Project Management High, Analysis & Design Medium, Implementation Medium, Test Low, Deployment Low, CM Medium | R007, R013, R014 (Integrator, Build Environment Setup); the Change Request ledger opens and every later gate depends on it | The declared change is scoped, a candidate architecture exists, the CM strategy is set, the Change Request ledger is opened |
 | 5 | Elaboration | LCA | Environment Medium, Analysis & Design Critical, Requirements High, Implementation Medium, Test Medium, Project Management Medium, CM Medium, Deployment Low | R012, R011, R005 (Test Manager and Test Designer); R006, R029 (the test project is next touched here) | The architecture baseline is accepted and an executable architecture is built |
 | 6 | Construction | IOC | Environment Low, Implementation Critical, Test Critical, Requirements Medium, Analysis & Design High, Project Management High, Deployment Medium, CM High, Business Modeling Low | Completes R012's coverage of the client's todo flow; R008 (Technical Writer, User Documentation); R027 and R024 corrected in the implementation they constrain | The declared scope is implemented and its test evaluation is recorded |
 | 7 | Transition | PR | Environment Low, Deployment Critical, Test High, Project Management Medium, Implementation Medium, Requirements Low, Analysis & Design Low, CM Medium | Closes what remains: R011's contingency is taken only if a deliberate upgrade lands before the release; R026 becomes a release-blocking conversion if a pre-existing database is in the release's path | The release build is baselined and acceptance-tested; the Change Requests are closed |
 
-**Environment runs in every phase, and in Excavation it is the first discipline at Low intensity.** That is the baseline the stakeholder restated at the AR re-take of 2026-11-23; the Process Engineer holds the stage in iteration 3 that carries `Development Case#F2`, `#F3` and the tailoring statement the same answer ordered corrected. The Development Case is brought to that baseline in iteration 3, not the other way round.
+**Environment runs in every phase, and in Excavation it is the first discipline at Low intensity.** That is the baseline the stakeholder restated at the AR re-take of 2026-11-23; the Process Engineer held the stage in iteration 3 and the tailoring document is now on that baseline. No iteration-4 item needs the stage: nothing it corrects is a Development Case section.
 
-Sequencing is driven by the Risk List, not by convenience. The risks whose actions the System Analyst performs land in Excavation because it is the one that writes the recovered use-case model; the architecture risks land beside them because the SAD is recovered from the same code. R007 — the build that cannot build the tree — waits for Inception because that is the first phase the Integrator works, and no plan here schedules it earlier.
+Sequencing is driven by the Risk List, not by convenience. The risks whose actions the System Analyst performs landed in Excavation because it is the one that writes the recovered use-case model; the architecture risks landed beside them because the SAD is recovered from the same code. R007 — the build that cannot build the tree — waits for Inception because that is the first phase the Integrator works, and no plan here schedules it earlier.
 
 ### This iteration's fine plan
 
-Every item is one of the actions the Review Record's coordinator lens ordered for iteration 3, with the owner its recording lens assigned. No item is new scope, none belongs to another phase, and each is a correction to a section that already exists.
+The fourth iteration is one correction pass over records, on the stakeholder's own statement that no recovered content is at issue: four owner turns over this plan, the Risk List and one metadata field. Each item is a remediation a recording lens wrote; none is new scope, none belongs to another phase, and none changes the recovered set.
 
 ```plantuml
 @startuml
-title Critical chain of Excavation iteration 3 - Environment first, then one artifact corrected by its owner, then the gate
+title Critical chain of Excavation iteration 4 - four record corrections, then the lenses, then the gate on records that agree
 skinparam shadowing false
 skinparam wrapWidth 245
 
-|Process Engineer|
+|Project Manager|
 start
-:E1 Development Case - F2
-every lens writing into the Review Record named,
-CLS-DC-01 draws the edges;
-:E2 Development Case - F3
-four Document Control fields to this phase;
-:E3 Development Case - tailoring
-Environment runs in every phase,
-first discipline in Excavation;
+:E1 Iteration Plan - the five cells
+A1, A10, A11, O2 and A12 restated at
+the state their artifacts and the gate hold;
+:E2 Iteration Plan - the Closes column
+finding keys only, no moment;
+:E3 Risk List - R032
+avoidance performed on all six,
+the exposure retired, one residual named;
 
 |System Analyst|
-:E4 Use-Case Model - F4
-R6 states both budgets under AN-024;
-:E5 Use-Case Model - F3 and F1
-five COMP-014 edges confirmed,
-the gating reading recorded;
-
-|Project Manager|
-:E6 Iteration Plan - F7 and F6
-the Environment stage in the sequence,
-A13 cites it, A10's cell names R6;
-:E7 Risk List - F3
-R030 retirement stated as landed,
-the exposure stated as live;
+:E4 Supplementary Specification
+Document Control Iteration field only;
 
 |Reviewer|
-:E8 technical lens
-the two Majors and the Minor re-read;
+:E5 technical lens
+the restated cells against their artifacts;
 |Management Reviewer|
-:E9 management lens
-A1 to A13 re-taken, A11 on four of four;
+:E6 management lens
+A1 to A13 re-taken on the corrected table;
 |Stakeholder|
-:E10 gate H4 third put
+:E7 gate H4 fourth put
 ANSWERED, as given;
 |Review Coordinator|
-:E11 AR verdict
+:E8 AR verdict
 read on the answer;
 stop
-
 @enduml
 ```
 
 | # | Work item | Stage | Owner | Depends on | Closes |
 |---|---|---|---|---|---|
-| 1 | Development Case — name every lens that writes into the Review Record (Reviewer, Management Reviewer, Business Reviewer, Review Coordinator, CodeReviewer, plus the Configuration Manager's baseline record) and draw the corresponding edges in CLS-DC-01 | Environment | Process Engineer | — | `Development Case#F2` — **A11 counts this** |
-| 2 | Development Case — the four Document Control fields brought to the phase and iteration the document governs | Environment | Process Engineer | — | `Development Case#F3` — **A11 counts this** |
-| 3 | Development Case — the tailoring states that Environment runs in every phase, and in Excavation as its first discipline | Environment | Process Engineer | 1, 2 | The tailoring statement the stakeholder ordered corrected alongside the two Minors |
-| 4 | Use-Case Model — the rules diagram's R6 states both budgets under `AN-024`: the code defaults 100 / 100 per 10 s / queue 100 from `RateLimitExtensions.cs:14-31`, and the Development override 50 / 50 / 50 from `appsettings.Development.json:8-12` as the value in force | Requirements | System Analyst | — | `Use-Case Model#F4` |
-| 5 | Use-Case Model — the five `COMP-014 → UC-006` to `UC-010` edges re-registered as confirmed, each checked against `TodoApi.cs:19-20`, with the reading recorded beside the gate diagram that a throttling mechanism gates an operation without being it | Requirements | System Analyst | — | `Use-Case Model#F3`, `Use-Case Model#F1` |
-| 6 | Iteration Plan — A10's evidence cell names the Use-Case Model's R6, so the criterion is certified on all four artifacts its test covers; A13's evidence cell cites the Environment stage | Project Management | Project Manager | 4 — the cell cannot certify what is not yet correct | `Iteration Plan#F6`, `Iteration Plan#F7` |
-| 7 | Risk List — `R030`'s strategy cell restated: the retirement has landed in the Use-Case Model under `AN-029`, and the exposure stays live because `AN-012` stands and no test covers the surface | Project Management | Project Manager | 5 | `Risk List#F3` |
-| 8 | Technical lens re-run against the corrected artifacts | Review | Reviewer | 1 to 7 | — |
-| 9 | Management lens — A1 to A13 re-taken on the evidence each cites | Review | Management Reviewer | 8 | — |
-| 10 | Gate H4, third put — the recovered set confirmed or not, on a set that agrees with itself | Gate | Stakeholder | 9 | `A12` |
-| 11 | AR milestone verdict | Review | Review Coordinator | 10 | — |
+| 1 | Iteration Plan — the five cells restated at the state their evidence supports: A1 "Met" with the five `COMP-014` edges confirmed and requoted from a fresh graph query; A10 "Met — certified on the recovered set" naming the Use-Case Model's R6 as the fourth artifact with its wording under `AN-024`; A11 "Met — four of four"; Objectives O2 met on its own terms; A12 recording the third put in both halves — the set confirmed, the sanction refused while a Major stands. No superseded sentence requoted | Project Management | Project Manager | — | `Iteration Plan#F4`, `Iteration Plan#F9` |
+| 2 | Iteration Plan — the fine plan's Closes column drops the moment from rows 6 and 7 and leaves the finding key, as every other row of the column does | Project Management | Project Manager | — | `Iteration Plan#F8` |
+| 3 | Risk List — `R032` restated: the avoidance performed on all six citing artifacts with R6 named and its wording under `AN-024`, the exposure recorded as retired by the avoidance, the one residual named as the contingency — the four artifacts re-read in a single pass. `R030` and `R031` unchanged | Project Management | Project Manager | — | `Risk List#F3` |
+| 4 | Supplementary Specification — the Document Control Iteration field set to the iteration its content belongs to; no other field and no content | Requirements | System Analyst | — | `Supplementary Specification#F3` |
+| 5 | Technical lens re-run against the restated cells and the register | Review | Reviewer | 1 to 4 | — |
+| 6 | Management lens — A1 to A13 re-taken on the corrected table, and the gate put | Review | Management Reviewer | 5 | — |
+| 7 | Gate H4, fourth put — the recovered set already confirmed; the advance into Consolidation asked once on records that agree with it | Gate | Stakeholder | 6 | `A12`'s second half, and the milestone |
+| 8 | AR milestone verdict | Review | Review Coordinator | 7 | — |
 
-**Two currencies, never summed.** Items 1 to 9 and 11 are agent work, quoted in tokens and measured elapsed agent time. Item 10 is a human gate — waiting, not working — quoted only in days of queue time.
+**Two currencies, never summed.** Items 1 to 6 and 8 are agent work, quoted in tokens and measured elapsed agent time. Item 7 is a human gate — waiting, not working — quoted only in days of queue time.
 
-**Nothing is added and nothing is cut.** The iteration count rose by one because the set was put to the stakeholder twice before it agreed with itself; declared work is untouched and no agent role is added or duplicated. The one resource change — the Process Engineer holding the Environment stage — is the stakeholder's own restatement of the process baseline at the AR re-take of 2026-11-23, not a deviation this role grants. `R031`'s contingency is the mechanism that opened this iteration, as the register predicted: the correction did not land, A11 read two of four, and the phase opened a third iteration planned from the Review Record.
+**The rule this iteration writes into the plan.** A cell that asserts another artifact's state is re-derived from that artifact in the same turn the artifact changes. Four consecutive AR passes recorded the same defect class against this plan — `#F3`, `#F6`, `#F4`, `#F9` — and each was found by the lens that recorded it. The lenses caught every one; the plan kept producing them. The remedy is not a better warning but the rule: the table is corrected as a table, never one cell at a time.
+
+**Nothing is added and nothing is cut.** The iteration count rises by one for a record correction, not for recovery: declared work is untouched, no agent role is added or duplicated, and no recovered element changes. `R031`'s contingency — a further iteration planned from the record — was taken and performed in iteration 3; `R032`'s avoidance is performed on all six citing artifacts and the exposure is retired.
 
 ### Risk-driven sequencing of this iteration
 
 ```plantuml
 @startuml
-title Why iteration 3 runs in this order - the stage first, then the artifact, then the criteria that read it
+title Why iteration 4 runs in this order - the record first, then the lenses that read it, then the gate that reads them
 skinparam shadowing false
 skinparam componentStyle rectangle
 skinparam wrapWidth 225
 left to right direction
 
 package "What each stretch produces" {
-  component "Development Case\ncontributor set, Document Control,\nthe phase baseline stated" as DC
-  component "Use-Case Model\nR6 with both budgets, five edges confirmed" as UC
-  component "Iteration Plan and Risk List\nA10 and A13 on the corrected evidence" as PLAN
+  component "Iteration Plan\nfive cells restated, one column cleaned" as PLAN
+  component "Risk List\nR032 retired with one residual named" as RL
+  component "Supplementary Specification\none metadata field" as SS
 }
 
-package "The risks it retires" {
-  component "R031\nthe criterion whose owner\nhad no stage" as R31
-  component "R032\none fact transcribed\ninconsistently" as R32
-  component "R030\nthe register behind\nthe artifact it points at" as R30
+package "The exposures this iteration closes" {
+  component "the plan behind its own set\none Major, two lens keys" as MAJ
+  component "R032\nthe register behind\nits own mitigation" as R32
 }
 
 package "The gate and the verdict" {
-  component "Gate H4 third put\nthe recovered set confirmed" as H4
+  component "gate H4 fourth put\nthe advance asked on records that agree" as H4
   component "AR verdict\nReview Coordinator" as ARV
 }
 
-DC --> UC : A11 closes first, so the\nset A12 asks about is complete
-UC --> PLAN : the fact is settled once,\nthe cell cites it
-DC --> R31
-UC --> R32
-PLAN --> R30
-R31 --> H4
+PLAN --> MAJ
+RL --> R32
+SS --> R32
+MAJ --> H4 : the verdict is read on this table
 R32 --> H4
-R30 --> H4
 H4 --> ARV : the verdict reads the answer
 
-note bottom of R31
-  The exposure was the plan's own: it recorded the stage it
-  needed but gave its owner no row. The order is inverted this
-  iteration, so no criterion waits on a role the phase does not run.
+note bottom of MAJ
+  The only Major. No recovered content is at issue: the plan's
+  account of the recovery is one correction pass behind it.
 end note
 note bottom of R32
-  Settle the fact in the artifact that owns it, then correct the
-  others against it. Iteration 3 corrects the last of the four.
+  A retired exposure still reported as open is as wrong as a live
+  one reported as retired. The register states the position it holds.
 end note
-
 @enduml
 ```
 
-The order is the Review Record's own priority: the stage exists before the role's turn, the fact is settled before the cell cites it, and the gate is put once — on a set that agrees with itself — rather than a third time on a set that does not. Nothing here is deferred to protect a figure, because the project declares no budget and no figure exists to protect.
+The order is the Review Record's own priority: the Major before the Minors, the record before the lenses that read it, and the gate put once — on records that agree with the set they report — rather than a fourth time on a record that does not.
 
 ### Measured actuals and the forecast
 
@@ -264,28 +257,24 @@ The order is the Review Record's own priority: the stage exists before the role'
 | Survey — stakeholder queue | 5 min |
 | Survey — tokens | 8,995,433 |
 | Survey — agent runs | 10 |
-| Excavation iteration 1 — agent time | 1:19:41.05 |
-| Excavation iteration 1 — stakeholder queue | 0:02:27.21 |
+| Excavation iteration 1 — agent time / stakeholder queue | 1:19:41.05 / 0:02:27.21 |
 | Excavation iteration 1 — tokens | 43,561,437 |
-| Excavation iteration 2 — agent time | 0:41:20.67 |
-| Excavation iteration 2 — stakeholder queue | 7:08:04.38 |
-| Excavation iteration 2 — tokens | 20,675,161 |
-| Excavation iteration 2 — agent invocations | 16 |
-| Excavation iteration 2 — stakeholder interactions recorded | 18 |
+| Excavation iteration 2 — agent time / stakeholder queue | 0:41:20.67 / 7:08:04.38 |
+| Excavation iteration 2 — tokens / agent invocations | 20,675,161 / 16 |
+| Excavation iteration 3 — agent time / stakeholder queue | 0:27:52.95 / 0:07:10.73 |
+| Excavation iteration 3 — tokens / agent invocations / stakeholder interactions | 14,424,767 / 17 / 18 |
 
-The forecast made at iteration 1 — that a corrective pass costs less in tokens and in elapsed agent time than the cold reading that preceded it — is borne out by measurement: 20.7 million tokens against 43.6 million, and 41 minutes against 80. That comparison is between a cold reading of a 139-file tree and a broad corrective pass over seven artifacts; it says nothing measured about a narrow pass of eight one-turn corrections.
+The forecast made at iteration 2 — that a narrower corrective pass costs less in both agent currencies than the broad one before it — is settled by measurement: 14.4 million tokens against 20.7 million, and 27 min 53 s against 41 min 21 s. The queue fell from 7 h 08 min to 7 min 11 s on the same count of recorded interactions, which tests `R022`'s mitigation and finds it is timing, not restraint.
 
-`[ASSUMPTION — requires validation: iteration 3 costs less in tokens and in elapsed agent time than iteration 2. The basis is the shape of the work — eight actions, five of them a sentence or a cell in a section that already exists — against iteration 2's sixteen items, seven of which re-read a section to correct it. The only measured pair bearing on it is iteration 2's 20,675,161 tokens against iteration 1's 43,561,437, which compares a broad correction with a cold reading, not a narrow one]`
+`[ASSUMPTION — requires validation: iteration 4 costs less in tokens and in elapsed agent time than iteration 3. The basis is the shape of the work — four corrections, each a cell or a field in a section that already exists, against iteration 3's eleven items — and the measured trend of the two passes before it, 20.7 million then 14.4 million. The narrowest pass measured so far was not narrower than this one and no pair yet compares two record-only passes]`
 
-No figure is projected for the phase as a whole: Excavation has not closed, so no phase actual exists, and a phase's cost is the sum of iterations that are not measured until it closes.
+No figure is projected for the phase as a whole: Excavation has not closed, so no phase actual exists, and a phase's cost is the sum of iterations that are not measured until it closes. The project declares no token budget, so there is no box to fit: no figure is proposed for the stakeholder to accept, and no declared work is cut or deferred to meet an estimate.
 
-The project declares no token budget, so there is no box to fit: no figure is proposed for the stakeholder to accept, and no declared work is cut or deferred to meet an estimate.
-
-The chain is sequential at its load-bearing points: the corrections precede the lenses that re-read them, and the gate follows the lenses. Adding agent roles would buy no clock and would add contention over the same artifact surface — eight corrections across three owners, one turn each, is not work a fourth owner shortens.
+The chain is sequential at its load-bearing points: four corrections precede the lenses that re-read them, and the gate follows the lenses. Adding agent roles would buy no clock and would add contention over the same artifact surface — four corrections across two owners, one turn each, is not work a third owner shortens.
 
 | Human gate | Who | What the iteration waits for | Bound | Answer |
 |---|---|---|---|---|
-| H4 | Stakeholder | The recovered set confirmed: the 11 use cases as the operations the existing system performs, the architecture as the components it already has, and the data as it is stored — each as an interpretation of code with its anchor, since the delivery states no intent to check them against | `R022` — ceiling 14 days of queue time; on expiry the process suspends and nothing is auto-filled | **Put twice, refused twice** — at the iteration-1 and iteration-2 reviews, with the order that every Major be corrected and, at the second, that the Development Case be corrected in this phase with A11 as written. Put a third time, once, after items 1 to 7 land. Queue cost so far: 2 min 27 s and 7 h 08 min 04 s, reported apart from agent time |
+| H4 | Stakeholder | The advance into Consolidation, on records that agree with a recovered set already confirmed as the model of the existing system | `R022` — ceiling 14 days of queue time; on expiry the process suspends and nothing is auto-filled | **Put three times.** Refused at the first and second; at the third the recovered set was confirmed and the advance refused while a Major stood. Queue cost so far: 2 min 27 s, 7 h 08 min 04 s, 7 min 11 s — reported apart from agent time, never added to it |
 
 ## Resources
 The roles are the 26-role roster of the IARI DC baseline, minus the two the Development Case records as not working in this project. No role is added, merged or renamed.
