@@ -106,20 +106,20 @@ end note
 | F9 | `PUT /todos/{id}` replaces `Title` and `IsComplete` from the body alone, with no concurrency token | An absent `isComplete` in a request body clears a completed row, and two concurrent callers overwrite each other in arrival order | `Todo.Api/Todos/TodoApi.cs:59-63`; `Todo.Api/Todos/Todo.cs:15-21` |
 
 ## Usability
-
 The delivery states no usability requirement and carries no documentation of the interface beyond the README's screenshot. What the code fixes about the interface, it fixes in the three components of the client.
 
 | # | Requirement, as the code has it | Anchor |
 |---|---|---|
 | U1 | The client presents an email field and a password field, with a Login and a Create User action, and one link per configured provider | `Todo.Web/Client/Components/LogInForm.razor:3-34` |
-| U2 | Client-side validation reports field-level messages: the email is required and at most 256 characters; the password is required, 6 to 32 characters, and carries at least one lower-case letter, an upper-case letter, a digit and a special character | `Todo.Web/Client/Components/LogInForm.razor:55-68` |
-| U3 | A password that fails that rule is never sent, so the client's rule is the one the person meets first and it is stricter than the server's | `Todo.Web/Client/Components/LogInForm.razor:60-68` |
-| U4 | The todo list shows a spinner while the load is in flight, one row per task, a remove control per row and a new-todo input that requires a value | `Todo.Web/Client/Components/TodoList.razor:3-38` |
-| U5 | A failed login or registration reports one fixed string: "Login failed" or "Failed to create user". No cause is reported | `Todo.Web/Client/Components/LogInForm.razor:76-95`; AN-021 |
-| U6 | Two interface elements are present and inert: the checkbox on every row, bound to nothing, and a stylesheet class on the remove control that no stylesheet defines | `Todo.Web/Client/Components/TodoList.razor:24,28`; AN-001 |
-| U7 | No empty state is rendered when the caller has no tasks | `Todo.Web/Client/Components/TodoList.razor:21-31` |
-| U8 | The interface is built on the vendored Bootstrap 5 distribution under `wwwroot/bootstrap/`, which the contribution contract forbids editing | `Todo.Web/Client/wwwroot/bootstrap/`; `docs/CONTRIBUTING.md` |
-| U9 | No documentation of the interface is delivered. The root `README.md` documents how to run the system | `.iari/README.md`; `README.md` |
+| U2 | The Login action submits through the form, so the component's own field rules run and report field-level messages: the email is required and at most 256 characters; the password is required, 6 to 32 characters, and carries at least one lower-case letter, an upper-case letter, a digit and a special character | `Todo.Web/Client/Components/LogInForm.razor:17,55-68` |
+| U3 | The Create User action does not submit the form — it is `type="button"` with its own click handler — so none of those field rules guards registration. The only client-side rule on that path is that both values are non-empty, and a failure there reports the same fixed string a server refusal does | `Todo.Web/Client/Components/LogInForm.razor:19,87-98`; `Todo.Web/Client/TodoClient.cs:55-63` |
+| U4 | The password rule is the strictest the person meets and it is stricter than the server's on length: `Identity` imposes no 32-character ceiling, so a long password the API would accept is refused in the browser on the Login path | `Todo.Web/Client/Components/LogInForm.razor:60-68` |
+| U5 | The todo list shows a spinner while the load is in flight, one row per task, a remove control per row and a new-todo input that requires a value | `Todo.Web/Client/Components/TodoList.razor:3-38` |
+| U6 | A failed login or registration reports one fixed string: "Login failed" or "Failed to create user". No cause is reported | `Todo.Web/Client/Components/LogInForm.razor:73-98`; AN-021 |
+| U7 | Two interface elements are present and inert: the checkbox on every row, bound to nothing, and a stylesheet class on the remove control that no stylesheet defines | `Todo.Web/Client/Components/TodoList.razor:24,28`; AN-001 |
+| U8 | No empty state is rendered when the caller has no tasks | `Todo.Web/Client/Components/TodoList.razor:9-31` |
+| U9 | The interface is built on the vendored Bootstrap 5 distribution under `wwwroot/bootstrap/`, which the contribution contract forbids editing | `Todo.Web/Client/wwwroot/bootstrap/`; `docs/CONTRIBUTING.md` |
+| U10 | No documentation of the interface is delivered. The root `README.md` documents how to run the system | `.iari/README.md`; `README.md` |
 
 ## Reliability
 
