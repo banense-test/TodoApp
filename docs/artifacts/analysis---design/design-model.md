@@ -22,6 +22,471 @@ The design model is recovered in the System Inventory's priority order, and this
 `[OMITTED: Data Model — the Development Case's §5.2 trigger has not fired: the store holds eight persisted entity types, below the >10 threshold, the system is not data-centric and no data migration is in scope, so the data lives inline in this model]`
 
 **What the model is anchored to.** The System Inventory records the recovery order and the System Analyst records which entry point performs each use case; the Software Architecture Document records the component each file belongs to. Where those and the code disagree, the code is recorded and the disagreement is named.
+
+### Persistent data — the recovered store, its keys and its associations
+
+The store is recovered as it exists: SQLite through the EF Core 9 SQLite provider, one file, eight tables, and no SQL script, view, trigger, stored procedure or database-resident rule anywhere in the tree. Every table, key, index and referential action below is read from the three migrations and the model snapshot that are the schema's only definitions. Nothing here is proposed; each element carries the file it was read from.
+
+Tables are named by their physical names, not by minted labels: the Data Model is not produced in this phase, so no `TBL-NNN` family is declared and the schema elements are identified by the names the database itself carries.
+
+```plantuml
+@startuml
+title PD-D1 Todos.db - eight tables, their columns, keys and referential actions
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 250
+hide circle
+hide empty members
+
+package "Todo.Api persistence - SQLite, TEXT and INTEGER storage classes only" {
+
+  class Todos <<table>> {
+    Id : INTEGER [PK] auto
+    Title : TEXT
+    IsComplete : INTEGER
+    OwnerId : TEXT [FK]
+  }
+
+  class AspNetUsers <<table>> {
+    Id : TEXT [PK]
+    UserName : TEXT(256)?
+    NormalizedUserName : TEXT(256)?
+    Email : TEXT(256)?
+    NormalizedEmail : TEXT(256)?
+    EmailConfirmed : INTEGER
+    PasswordHash : TEXT?
+    SecurityStamp : TEXT?
+    ConcurrencyStamp : TEXT?
+    PhoneNumber : TEXT?
+    PhoneNumberConfirmed : INTEGER
+    TwoFactorEnabled : INTEGER
+    LockoutEnd : TEXT?
+    LockoutEnabled : INTEGER
+    AccessFailedCount : INTEGER
+  }
+
+  class AspNetRoles <<table>> {
+    Id : TEXT [PK]
+    Name : TEXT(256)?
+    NormalizedName : TEXT(256)?
+    ConcurrencyStamp : TEXT?
+  }
+
+  class AspNetUserClaims <<table>> {
+    Id : INTEGER [PK] auto
+    UserId : TEXT [FK]
+    ClaimType : TEXT?
+    ClaimValue : TEXT?
+  }
+
+  class AspNetRoleClaims <<table>> {
+    Id : INTEGER [PK] auto
+    RoleId : TEXT [FK]
+    ClaimType : TEXT?
+    ClaimValue : TEXT?
+  }
+
+  class AspNetUserLogins <<table>> {
+    LoginProvider : TEXT [PK]
+    ProviderKey : TEXT [PK]
+    ProviderDisplayName : TEXT?
+    UserId : TEXT [FK]
+  }
+
+  class AspNetUserRoles <<table>> {
+    UserId : TEXT [PK][FK]
+    RoleId : TEXT [PK][FK]
+  }
+
+  class AspNetUserTokens <<table>> {
+    UserId : TEXT [PK][FK]
+    LoginProvider : TEXT [PK]
+    Name : TEXT [PK]
+    Value : TEXT?
+  }
+}
+
+AspNetUsers "1" <-- "0..*" Todos : FK_Todos_AspNetUsers_OwnerId\nOwnerId to Id, ON DELETE CASCADE
+AspNetUsers "1" <-- "0..*" AspNetUserClaims : FK_AspNetUserClaims_AspNetUsers_UserId\nON DELETE CASCADE
+AspNetUsers "1" <-- "0..*" AspNetUserLogins : FK_AspNetUserLogins_AspNetUsers_UserId\nON DELETE CASCADE
+AspNetUsers "1" <-- "0..*" AspNetUserRoles : FK_AspNetUserRoles_AspNetUsers_UserId\nON DELETE CASCADE
+AspNetUsers "1" <-- "0..*" AspNetUserTokens : FK_AspNetUserTokens_AspNetUsers_UserId\nON DELETE CASCADE
+AspNetRoles "1" <-- "0..*" AspNetUserRoles : FK_AspNetUserRoles_AspNetRoles_RoleId\nON DELETE CASCADE
+AspNetRoles "1" <-- "0..*" AspNetRoleClaims : FK_AspNetRoleClaims_AspNetRoles_RoleId\nON DELETE CASCADE
+
+note bottom of Todos
+  Four columns and nothing else: no row version,
+  no soft-delete flag, no timestamp, no ordering
+  column, no check constraint, no DEFAULT clause.
+  Migrations/20221123071234_Initial.cs
+end note
+
+note right of AspNetUsers
+  No IsAdmin column: it was dropped after the first
+  migration. UserName is nullable as of the third.
+  Migrations/20221123165051_RemoveIsAdmin.cs
+  Migrations/20230714032431_ForeignKeyChange.cs
+end note
+
+legend right
+  [PK] primary key, [PK][FK] composite key part that is also a foreign key
+  [FK] foreign key, ? nullable, TEXT(n) declared maximum length
+  Every column not marked ? is NOT NULL. No ON UPDATE
+  action is declared on any key.
+endlegend
+
+@enduml
+```
+
+#### Tables to entities
+
+Every table traces to the class that maps it. Eight tables, and only two are mapped by a class the delivery writes: `Todos` by CLS-001 `Todo`, `AspNetUsers` by CLS-007 `TodoUser`. The six Identity child tables are mapped by framework entity types that `IdentityDbContext<TodoUser>` maps without the delivery declaring them.
+
+| Table | Mapped by | Kind of mapping | Anchor |
+|---|---|---|---|
+| `Todos` | CLS-001 `Todo` | Hand-declared entity; the context exposes it as `DbSet<Todo> Todos` | `Todo.Api/Todos/Todo.cs:3-12`; `Todo.Api/TodoDbContext.cs:8` |
+| `AspNetUsers` | CLS-007 `TodoUser` | Derives from `IdentityUser`; the table carries every `IdentityUser` property and nothing of `TodoUser`'s own | `Todo.Api/Users/TodoUser.cs:8`; `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` — `TodoApi.TodoUser` |
+| `AspNetUserLogins` | `IdentityUserLogin<string>` | Framework type, mapped wholesale; no delivery class exists for it | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs`; `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `AspNetUserClaims` | `IdentityUserClaim<string>` | Framework type, mapped wholesale | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` |
+| `AspNetUserTokens` | `IdentityUserToken<string>` | Framework type, mapped wholesale | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` |
+| `AspNetUserRoles` | `IdentityUserRole<string>` | Framework type, mapped wholesale; no delivery code writes a row | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` |
+| `AspNetRoles` | `IdentityRole<string>` | Framework type, mapped wholesale; no delivery code writes a row | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` |
+| `AspNetRoleClaims` | `IdentityRoleClaim<string>` | Framework type, mapped wholesale; no delivery code writes a row | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` |
+
+**The request, response and mapping shapes persist nothing.** CLS-002, CLS-003, CLS-004, CLS-005, CLS-008, CLS-009, CLS-010 and CLS-011 have no table: they exist for the duration of a request as serialized JSON. `TodoItem` is a projection of `Todos` built by CLS-003, and `AuthToken` wraps a token the API issues, never a value stored at rest.
+
+#### How inheritance is stored
+
+There is no inheritance hierarchy in the schema. `TodoUser` derives from `IdentityUser`, but `IdentityUser` is not a mapped entity of its own: `IdentityDbContext<TodoUser>` maps the derived type only, so the base class contributes columns to one table and produces no parent table and no discriminator. The single level of inheritance is flattened into `AspNetUsers` — one table, one concrete type, no `Discriminator` column.
+
+The delivery declares no abstract entity, no table-per-type split and no shared base for `Todo` and `TodoUser`. The snapshot holds exactly two delivery entity types (`Todo`, `TodoApi.TodoUser`) and six framework ones, each mapped to one table.
+
+#### Primary keys and identity strategy
+
+| Table | Primary key | Identity strategy | Anchor |
+|---|---|---|---|
+| `Todos` | `PK_Todos (Id)` | Declared `Sqlite:Autoincrement`; `ValueGeneratedOnAdd` in the snapshot, so the database assigns the value | `Todo.Api/Migrations/20221123071234_Initial.cs`; `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` |
+| `AspNetUsers` | `PK_AspNetUsers (Id)` | No database default. The value is generated in the Identity store and supplied on insert | `Todo.Api/Migrations/20221123071234_Initial.cs`; `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` |
+| `AspNetRoles` | `PK_AspNetRoles (Id)` | No database default; supplied by the store | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `AspNetUserLogins` | `PK_AspNetUserLogins (LoginProvider, ProviderKey)` | None — both parts supplied. The provider identity is the key, so one row per provider account | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `AspNetUserRoles` | `PK_AspNetUserRoles (UserId, RoleId)` | None — a junction row, both parts supplied | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `AspNetUserTokens` | `PK_AspNetUserTokens (UserId, LoginProvider, Name)` | None — all parts supplied | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `AspNetUserClaims` | `PK_AspNetUserClaims (Id)` | Declared `Sqlite:Autoincrement` | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `AspNetRoleClaims` | `PK_AspNetRoleClaims (Id)` | Declared `Sqlite:Autoincrement` | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+
+`Todos.Id` and `AspNetUsers.Id` are the only keys the delivery's own statements address: `FindAsync(id)` and the `Where(t => t.Id == id && …)` predicates of the update and the delete on one side, the per-request account lookup on the other. The six Identity child tables are reached only through `UserManager<TodoUser>` and the Identity endpoint set.
+
+#### Foreign keys to associations
+
+Seven foreign keys, every one `ON DELETE CASCADE` and none with an `ON UPDATE` action. No `RESTRICT`, `NO ACTION` or `SET NULL` exists anywhere in the schema.
+
+| Association recovered | From | To | Multiplicity | Referential action | Anchor |
+|---|---|---|---|---|---|
+| Ownership — a task belongs to one account | `Todos.OwnerId` | `AspNetUsers.Id` | 0..* tasks to 1 account, required on the task side | `FK_Todos_AspNetUsers_OwnerId`, cascade delete | `Todo.Api/TodoDbContext.cs:11-17`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs` |
+| Session claims of an account | `AspNetUserClaims.UserId` | `AspNetUsers.Id` | 0..* to 1 | `FK_AspNetUserClaims_AspNetUsers_UserId`, cascade delete | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| Provider identities of an account | `AspNetUserLogins.UserId` | `AspNetUsers.Id` | 0..* to 1 | `FK_AspNetUserLogins_AspNetUsers_UserId`, cascade delete | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| Role membership | `AspNetUserRoles.UserId`, `.RoleId` | `AspNetUsers.Id`, `AspNetRoles.Id` | 0..* to each; composite key | both cascade delete | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| Identity token store | `AspNetUserTokens.UserId` | `AspNetUsers.Id` | 0..* to 1 | `FK_AspNetUserTokens_AspNetUsers_UserId`, cascade delete | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| Claims of a role | `AspNetRoleClaims.RoleId` | `AspNetRoles.Id` | 0..* to 1 | `FK_AspNetRoleClaims_AspNetRoles_RoleId`, cascade delete | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+
+**The ownership association is declared at neither end.** `Todo.OwnerId` is a plain `string` and `TodoUser` has no `Todo` collection: the relation exists only as the fluent declaration in the context and as the constraint in the database. No navigation property exists on either class, so no delivery query joins the two tables and no ORM lazy or eager loading can occur along it. Deleting an account deletes every task it owned, and no delivery statement does that deliberately — it happens by cascade.
+
+**Cascade is the only delete policy in the schema.** Nothing in the delivery deletes an `AspNetUsers` row, so the cascade onto `Todos` is latent rather than exercised: the test host's `CreateUserAsync` inserts accounts and its `Dispose` drops the whole in-memory database.
+
+#### Indexes, and the statement each one serves
+
+```plantuml
+@startuml
+title PD-D2 The indexes and keys the migrations declare, and the statement each one serves
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 250
+hide circle
+hide empty members
+
+package "Todos - the only table the delivery queries in its own code" {
+  class Todos <<table>> {
+    Id : INTEGER [PK]
+    OwnerId : TEXT [FK]
+  }
+  class "PK_Todos" as P1 <<index>> {
+    Id : INTEGER
+  }
+  class "IX_Todos_OwnerId" as I1 <<index>> {
+    OwnerId : TEXT
+    not unique
+  }
+}
+
+package "AspNetUsers - reached only through UserManager" {
+  class AspNetUsers <<table>> {
+    Id : TEXT [PK]
+  }
+  class "PK_AspNetUsers" as P2 <<index>> {
+    Id : TEXT
+  }
+  class "UserNameIndex" as I2 <<index>> {
+    NormalizedUserName : TEXT
+    UNIQUE
+  }
+  class "EmailIndex" as I3 <<index>> {
+    NormalizedEmail : TEXT
+    not unique
+  }
+}
+
+package "Identity child tables" {
+  class AspNetUserLogins <<table>> {
+    LoginProvider : TEXT [PK]
+    ProviderKey : TEXT [PK]
+  }
+  class AspNetUserRoles <<table>> {
+    UserId : TEXT [PK]
+    RoleId : TEXT [PK]
+  }
+  class AspNetUserClaims <<table>> {
+    Id : INTEGER [PK]
+  }
+  class AspNetRoleClaims <<table>> {
+    Id : INTEGER [PK]
+  }
+  class AspNetUserTokens <<table>> {
+    UserId : TEXT [PK]
+  }
+  class "IX_AspNetUserLogins_UserId" as I4 <<index>>
+  class "IX_AspNetUserRoles_RoleId" as I5 <<index>>
+  class "IX_AspNetUserClaims_UserId" as I6 <<index>>
+  class "IX_AspNetRoleClaims_RoleId" as I7 <<index>>
+  class "PK_AspNetUserLogins" as P3 <<index>>
+  class "PK_AspNetUserRoles" as P4 <<index>>
+  class "PK_AspNetUserTokens" as P5 <<index>>
+  class "RoleNameIndex" as I8 <<index>> {
+    NormalizedName : TEXT
+    UNIQUE
+  }
+}
+
+Todos --> P1
+Todos --> I1
+AspNetUsers --> P2
+AspNetUsers --> I2
+AspNetUsers --> I3
+AspNetUserLogins --> I4
+AspNetUserLogins --> P3
+AspNetUserRoles --> I5
+AspNetUserRoles --> P4
+AspNetUserClaims --> I6
+AspNetRoleClaims --> I7
+AspNetUserTokens --> P5
+I8 ..> AspNetUsers : constrains a table nothing writes
+
+note right of I1
+  Serves the three predicates written against
+  OwnerId: the list, the update and the delete.
+  The item read is a primary-key lookup.
+  Todos/TodoApi.cs
+end note
+
+note right of I2
+  Unique on NormalizedUserName - the account-name
+  rule. The delivery issues no query of its own
+  against it; UserManager does.
+end note
+
+note bottom of I4
+  One non-unique index per foreign key column,
+  created by the first migration and unchanged
+  since. No composite index exists on
+  AspNetUserLogins beyond its key pair.
+  Migrations/20221123071234_Initial.cs
+end note
+
+note bottom of I8
+  Nothing in the running system writes a row to
+  AspNetRoles, so this unique index constrains an
+  empty table. AN-004
+end note
+
+@enduml
+```
+
+| Index | Table and columns | Unique | The statement or rule it serves | Anchor |
+|---|---|---|---|---|
+| `IX_Todos_OwnerId` | `Todos (OwnerId)` | no | The list predicate `t.OwnerId == owner.Id`; the `OwnerId` half of the update and delete predicates. The item read uses the primary key instead | `Todo.Api/Migrations/20221123071234_Initial.cs`; `Todo.Api/Todos/TodoApi.cs:26,60,70` |
+| `PK_Todos` | `Todos (Id)` | yes | `FindAsync(id)` and the `t.Id == id` predicates of update and delete | `Todo.Api/Migrations/20221123071234_Initial.cs`; `Todo.Api/Todos/TodoApi.cs:31,60,70` |
+| `PK_AspNetUsers` | `AspNetUsers (Id)` | yes | The per-request account lookup every authorized call pays, and the principal key of the ownership association | `Todo.Api/Authorization/CurrentUserExtensions.cs:22-26`; `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `UserNameIndex` | `AspNetUsers (NormalizedUserName)` | yes | The account-name uniqueness rule, enforced where Identity looks an account up by name. No delivery statement queries it | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `EmailIndex` | `AspNetUsers (NormalizedEmail)` | no | Identity's account-by-email lookup. **Not unique**, so nothing in the schema stops two accounts holding one email | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `RoleNameIndex` | `AspNetRoles (NormalizedName)` | yes | The role-name rule, constraining a table nothing in the running system writes | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `PK_AspNetUserLogins` | `AspNetUserLogins (LoginProvider, ProviderKey)` | yes | The provider-identity lookup the token exchange performs before creating a login row | `Todo.Api/Users/UsersApi.cs:38-46`; `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `IX_AspNetUserLogins_UserId` | `AspNetUserLogins (UserId)` | no | The foreign-key column, so the cascade delete can find the rows | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `IX_AspNetUserClaims_UserId` | `AspNetUserClaims (UserId)` | no | Foreign-key column, as above | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `IX_AspNetUserRoles_RoleId` | `AspNetUserRoles (RoleId)` | no | Foreign-key column; the composite key already covers `UserId` first | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `IX_AspNetRoleClaims_RoleId` | `AspNetRoleClaims (RoleId)` | no | Foreign-key column | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+
+No index beyond these exists: there is no full-text index, no partial index, no covering index, no index on `Todos.Title` and none on `Todos.IsComplete`. The item read (`GET /todos/{id}`) reaches a row by primary key and then filters it in memory against `OwnerId`, which the index on `OwnerId` cannot help with.
+
+#### Constraints the schema enforces, and the rules it leaves to code
+
+| Rule | Enforced in the schema | How | Anchor |
+|---|---|---|---|
+| A task has a title | yes | `Todos.Title` is `TEXT` NOT NULL, from `[Required]` on CLS-001 | `Todo.Api/Todos/Todo.cs:6-7`; `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| A task belongs to an account | yes | `Todos.OwnerId` is `TEXT` NOT NULL with a foreign key to `AspNetUsers.Id` | `Todo.Api/Todos/Todo.cs:10-11`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs` |
+| Two accounts cannot share a provider identity | yes | `AspNetUserLogins` composite primary key on `(LoginProvider, ProviderKey)` | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| Two accounts cannot share a user name | yes | `UserNameIndex` unique on `NormalizedUserName` | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| Two accounts cannot share an email | **no** | `EmailIndex` is not unique; Identity performs a duplicate check in code, not in the schema | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| A completion flag is a boolean | only by type affinity | `IsComplete` is `INTEGER` with no `CHECK (IsComplete IN (0,1))` | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| A task title has a length bound | **no** | `Todos.Title` is unbounded `TEXT`; the `[StringLength]` rules are Razor component attributes, not schema | `Todo.Web/Client/Components/LogInForm.razor:55-68`; `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| Two concurrent writes cannot overwrite each other | **no, on `Todos`** | `Todos` carries no row version or concurrency token; `AspNetUsers` and `AspNetRoles` carry `ConcurrencyStamp`, marked `IsConcurrencyToken` | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs`; `Todo.Api/Todos/TodoApi.cs:59-63` |
+| A task's owner is an existing account | yes | The foreign key refuses an orphan row | `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs` |
+| A caller is an administrator | **no** | No column and no seeded row; `IsAdmin` was dropped and `AspNetRoles`/`AspNetUserRoles` are never written, so the rule behind AN-004 exists nowhere at rest | `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs`; AN-004 |
+| An account has a user name | **no, as of migration 3** | The re-point made `UserName` nullable and dropped `AK_AspNetUsers_UserName` in the same step | `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs` |
+
+**No `CHECK` constraint exists in any table, and no database-resident rule of any kind.** There is no trigger, no stored procedure, no view, no computed column, no sequence and no default expression in the schema. Every rule the system enforces beyond keys and nullability is application code: the data-annotation filter in CLS-020, Identity's own policies, and the ownership predicate written four times in CLS-012. The schema's contribution to integrity is primary keys, foreign keys with cascade, two unique indexes and NOT NULL.
+
+#### Normalization, as the schema stands
+
+Recorded as found, with no change proposed:
+
+| Table | Form | Evidence |
+|---|---|---|
+| `Todos` | 3NF | Four atomic columns, one key, no repeating group, no transitive dependency. One flat table — a task belongs to an account and to nothing else |
+| `AspNetUsers` | 3NF, with two application-maintained derived columns | `NormalizedUserName` and `NormalizedEmail` are functions of `UserName` and `Email`, written by Identity on every save. The redundancy is Identity's strategy for case-insensitive uniqueness under SQLite's default collation, not a delivery decision |
+| The six Identity child tables | 3NF | Junction and detail tables keyed on their own or their parent's key, with no attribute depending on a non-key |
+
+#### Object/relational mapping, per persistent class
+
+| Design class | Table | Column mapping | Identity | Loading policy, as the code has it | Anchor |
+|---|---|---|---|---|---|
+| CLS-001 `Todo` | `Todos` | `Id`→`Id`, `Title`→`Title`, `IsComplete`→`IsComplete`, `OwnerId`→`OwnerId`; no property renamed, no value converter, no owned type | `Id` is database-generated; the entity is inserted with `Id` unset | Read by projection with `AsNoTracking()` in the list; tracked by `FindAsync` in the item read; the update and the delete bypass the change tracker through `ExecuteUpdateAsync` and `ExecuteDeleteAsync` | `Todo.Api/TodoDbContext.cs:8`; `Todo.Api/Todos/TodoApi.cs:24-73` |
+| CLS-007 `TodoUser` | `AspNetUsers` | Every property inherited from `IdentityUser` maps one-to-one; `TodoUser` adds none | `Id` is supplied by the Identity store, not by the database | Never loaded through a `DbSet<TodoUser>`; resolved by `UserManager.FindByIdAsync` once per request in the claims transformation, then read only for its existence and its `Id` | `Todo.Api/Users/TodoUser.cs:8`; `Todo.Api/Authorization/CurrentUserExtensions.cs:16-30` |
+| `IdentityUserLogin<string>` | `AspNetUserLogins` | Framework mapping | Composite key, both parts supplied | Written by the token exchange when no row matches `(LoginProvider, ProviderKey)` | `Todo.Api/Users/UsersApi.cs:38-46` |
+| `IdentityUserClaim<string>`, `IdentityUserToken<string>`, `IdentityUserRole<string>`, `IdentityRole<string>`, `IdentityRoleClaim<string>` | their five remaining tables | Framework mapping | As declared | No delivery code path reads or writes any of them; they are reachable only through `UserManager<TodoUser>` | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` |
+
+No navigation property exists on either delivery entity, so no lazy-loading proxy, no `Include` and no eager-loading policy is involved anywhere in the delivery. There is no repository, no unit of work and no specification object: handlers receive `TodoDbContext` and CLS-013 directly.
+
+**Two of the five task operations do not use the change tracker.** The update and the delete issue one SQL statement each and never call `SaveChangesAsync`, so no entity is materialized and no concurrency check can occur — consistent with `Todos` having no concurrency token. The create is the only operation that materializes an entity and calls `SaveChangesAsync`.
+
+#### The schema's history and how it reached its present shape
+
+```plantuml
+@startuml
+title PD-D3 How the schema reached its present shape - three migrations, one moved principal key, one dropped column
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 250
+hide circle
+hide empty members
+
+package "Migration 1 - 20221123071234_Initial" {
+  class "Todos" as T1 <<table>> {
+    Id : INTEGER [PK] auto
+    Title : TEXT
+    IsComplete : INTEGER
+    OwnerId : TEXT [FK to UserName]
+  }
+  class "AspNetUsers" as U1 <<table>> {
+    Id : TEXT [PK]
+    IsAdmin : INTEGER
+    UserName : TEXT(256) UNIQUE
+  }
+}
+
+note right of U1
+  Creates all eight tables and every index in one
+  Up(). FK_Todos_AspNetUsers_OwnerId points at
+  AspNetUsers.UserName, which carries the unique
+  constraint AK_AspNetUsers_UserName.
+end note
+
+package "Migration 2 - 20221123165051_RemoveIsAdmin" {
+  class "AspNetUsers" as U2 <<table>> {
+    Id : TEXT [PK]
+    UserName : TEXT(256) UNIQUE
+  }
+}
+
+note right of U2
+  Drops IsAdmin. Its Down() re-adds the column as
+  NOT NULL DEFAULT false.
+end note
+
+package "Migration 3 - 20230714032431_ForeignKeyChange" {
+  class "Todos" as T3 <<table>> {
+    Id : INTEGER [PK] auto
+    OwnerId : TEXT [FK to Id]
+  }
+  class "AspNetUsers" as U3 <<table>> {
+    Id : TEXT [PK]
+    UserName : TEXT(256)?
+  }
+}
+
+note right of U3
+  Drops FK_Todos_AspNetUsers_OwnerId and
+  AK_AspNetUsers_UserName, makes UserName nullable,
+  re-adds the same FK against AspNetUsers.Id. No
+  statement in the file touches Todos.OwnerId.
+end note
+
+U1 ..> U2 : migration 2 drops a column
+U2 ..> U3 : migration 3 moves the principal key
+T1 ..> T3 : same table, same row values
+
+note bottom of T3
+  The principal key moved from UserName to Id and no
+  migration rewrites an existing OwnerId value: a row
+  written before migration 3 keeps what it held where the
+  constraint now expects an Id. No data conversion
+  statement exists anywhere in the tree. AN-025.
+end note
+
+@enduml
+```
+
+| Migration | What it does to the schema | Rollback | Anchor |
+|---|---|---|---|
+| `20221123071234_Initial` | Creates all eight tables, every index, and the ownership foreign key against `AspNetUsers.UserName` with the unique constraint `AK_AspNetUsers_UserName`. `IsAdmin` is created `NOT NULL` with no default | `Down()` drops the eight tables in dependency order | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| `20221123165051_RemoveIsAdmin` | Drops `AspNetUsers.IsAdmin` | `Down()` re-adds it as `NOT NULL DEFAULT false`, so every existing row reads `false` | `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs` |
+| `20230714032431_ForeignKeyChange` | Drops the ownership foreign key and `AK_AspNetUsers_UserName`, makes `UserName` nullable, re-adds the same foreign key against `AspNetUsers.Id`. Touches no row of `Todos` | `Down()` reverses all three steps and restores `UserName` as `NOT NULL DEFAULT ""` | `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs` |
+
+Two facts about this history govern any later work on the store, and both are consequences of the schema as it stands.
+
+**No migration converts existing `OwnerId` values** (AN-025). Between migration 1 and migration 3 the principal key moved from the account's user name to its identifier, and the third migration contains only constraint and nullability changes. A database written by migration 1 or 2 therefore holds user names in `OwnerId` under a constraint that now requires identifiers. Whether such a database exists outside the test host cannot be determined from the tree.
+
+**The deployed schema and the tested schema are built by different mechanisms.** `Todos.db` is built by these three migrations, run by the app host; the test host builds its schema with `EnsureCreated` from the model and never runs a migration (AN-005). A divergence between the model and the migration history is invisible to the test suite and surfaces only where the app host runs the migration.
+
+#### What the schema does not hold
+
+Recorded so that nothing is carried forward from what a task store is usually expected to contain. Each was looked for in all three migrations and in the snapshot and is absent:
+
+| Expected | What the schema holds instead | Anchor |
+|---|---|---|
+| An administrative flag or a seeded administrator | No column and no seeded row. `IsAdmin` was dropped and `AspNetRoles` is never written, so the role the code checks has no source at rest | `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs`; AN-004 |
+| An audit, created-at or updated-at column | Nothing. `Todos` holds four columns and no row records when it was made or changed | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| A soft-delete or archival marker | Nothing. The delete is `ExecuteDeleteAsync`, a physical row removal | `Todo.Api/Todos/TodoApi.cs:68-73` |
+| A concurrency token on the task table | Nothing. `AspNetUsers` and `AspNetRoles` carry `ConcurrencyStamp`; `Todos` carries no equivalent | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` |
+| An ordering, priority or grouping column | Nothing. The list query declares no order and the schema offers no column to order by | `Todo.Api/Todos/TodoApi.cs:24-27` |
+| Any database-resident logic | No trigger, stored procedure, view, function or check constraint exists in the tree. The schema exists only as the three migrations and their snapshot | System Inventory — Documentation; DC4 |
+| A second store, a cache or a read model | Nothing. One SQLite file, one context, one set of tables. The BFF's session is a cookie, not a table | System Inventory — Persistent Data |
+| Partitioning, table spaces or storage parameters | Nothing expressible: SQLite carries no tablespace and no partitioning, and the migrations declare no storage parameter. The only physical decision is the file path `Data Source=.db/Todos.db`, relative to the API's working directory | `Todo.Api/Program.cs:23-24`; AN-013 |
+
+#### What the schema constrains in the use cases
+
+Four persistence facts bound the recovered use cases and belong with the store rather than with any single operation.
+
+| Fact | Consequence for a use case or a later implementation | Anchor |
+|---|---|---|
+| A task row's owner is never carried to the caller and never accepted from a body | The owner is set from the resolved account on insert and never read from the request, so no use case may claim to choose or to see an owner | `Todo.Api/Todos/TodoApi.cs:38-50`; CLS-002 |
+| Deleting an account destroys its tasks by cascade, and nothing in the delivery deletes an account | No recovered use case deletes an account; the cascade is a latent path only the test host could reach | `Todo.Api/Migrations/20221123071234_Initial.cs` |
+| The per-request account lookup is one indexed primary-key read | Every authorized operation pays an additional `AspNetUsers` lookup before its own statement | `Todo.Api/Authorization/CurrentUserExtensions.cs:22-26` |
+| The list returns every row the caller owns in one response | No pagination exists in the query or in the schema, so no access path may claim a bounded response | `Todo.Api/Todos/TodoApi.cs:24-27` |
+
+The ownership predicate is written four times in CLS-012 and, as AN-018 records, not identically: the list filters on `OwnerId` alone while the three single-row operations also admit the `admin` claim. The schema serves either predicate through `IX_Todos_OwnerId` and `PK_Todos`; the disagreement is in the code, and the store records nothing about it.
+
 ## Domain Model
 ```plantuml
 @startuml
