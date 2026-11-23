@@ -278,6 +278,78 @@ end note
 ## Supportability
 Nothing in this section is a target the delivery set for itself. Each row is what an operator can actually change from the tree, or what is fixed in code and cannot be changed without a code change and a redeploy.
 
+```plantuml
+@startuml
+title What the delivery gives an operator to configure, and what it leaves fixed in code or absent
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 220
+hide circle
+hide empty members
+
+package "Tunable through configuration" {
+  class "RateLimiting:TokenLimit\nTokensPerPeriod\nQueueLimit\ncarried in one file: appsettings.Development.json\n50 / 50 / 50" as S2 <<tunable>>
+  class "ConnectionStrings:Todos\nabsent -> Data Source=.db/Todos.db" as S10 <<tunable>>
+  class "Authentication:Schemes:<name>\nfour names understood, none present" as S11 <<tunable>>
+  class "OTEL_EXPORTER_OTLP_ENDPOINT\nempty -> no export" as S1 <<tunable>>
+}
+
+package "Fixed in code, not tunable" {
+  class "ApplicationDiscriminator TodoApp\nno key persistence configured" as S12 <<fixed>>
+  class "forwarder target literal http://todoapi\nno ForwarderRequestConfig override" as S13 <<fixed>>
+  class "AllowedHosts *\nin both base settings files" as S14 <<fixed>>
+  class "migration only from the app host\nrun mode, .db absent, no connection string" as S15 <<fixed>>
+}
+
+package "Testability as delivered" {
+  class "one test project over the API alone\nclient and BFF carry no test at all" as S5 <<gap>>
+  class "test host builds with EnsureCreated\nnot the migrations" as S6 <<gap>>
+  class "the suite mints tokens by reproducing\nframework internals" as S7 <<gap>>
+}
+
+package "Absent from the delivery" {
+  class "No environment file outside Development\ncarries a RateLimiting section" as GAP <<gap>>
+  class "No deployment artifact anywhere\nno Dockerfile, compose or manifest" as NODEPLOY <<gap>>
+  class "No diagnostic surface outside Development\nhealth, reference UI and OpenAPI\nare all mapped under IsDevelopment" as NODIAG <<gap>>
+}
+
+S2 --> GAP : the section exists in\none file of the whole tree
+S13 --> S14 : both are the process posture\nthe operator cannot change from settings
+S5 --> S6 : neither reproduces\nthe deployed schema path
+S15 --> NODEPLOY : the only start path\nis the developer one
+S5 --> NODIAG : the untested processes are\nalso the unobservable ones
+
+note bottom of GAP
+  Every launch profile sets Development, so the tuned budget is the only
+  one this delivery ever runs - and an operator moving the system to any
+  other environment silently gets the code defaults. AN-024.
+end note
+
+@enduml
+```
+
+| # | What the delivery fixes | Anchor |
+|---|---|---|
+| S1 | Four processes configured by `appsettings.json` and `appsettings.Development.json` per project; one environment variable of note, `OTEL_EXPORTER_OTLP_ENDPOINT`, enables OTLP export | System Inventory — Perimeter; `TodoApp.ServiceDefaults/Extensions.cs:74-81` |
+| S2 | The rate limiter's five options bind from a `RateLimiting` configuration section, and the delivery carries that section in exactly one file: `Todo.Api/appsettings.Development.json` binds `TokenLimit` 50, `TokensPerPeriod` 50 and `QueueLimit` 50, while the code defaults are 100 / 100 per 10 s / queue 100. Every launch profile sets the environment to Development, so the values are tunable — they are tuned, by the file the delivery ships, to half the default — and any other environment runs the code defaults as delivered (`AN-024`) | AN-024; `Todo.Api/Extensions/RateLimitExtensions.cs:20-31`; `Todo.Api/appsettings.Development.json:8-12`; `Todo.Api/Properties/launchSettings.json:14-16,25-27`; `Todo.Web/Server/Properties/launchSettings.json:6-8,15-17` |
+| S3 | Every package version is managed centrally and resolves from nuget.org alone | `Directory.Packages.props`; `nuget.config` |
+| S4 | The contribution procedure, its labels, branch rules and review rules are in `docs/CONTRIBUTING.md`; the delivery's own `README.md` states none | `docs/CONTRIBUTING.md`; `README.md` |
+| S5 | Testability as delivered: one test project over the API alone; the client and the BFF carry no test of any kind, and the three defective `/auth` flows are exactly the untested ones | AN-012; `Todo.Api.Tests/Todo.Api.Tests.csproj:9`; R012 |
+| S6 | The test host builds its schema with `EnsureCreated` rather than the migrations, so no test reproduces the schema the deployment creates | AN-005; `Todo.Api.Tests/TodoApplication.cs:11-14` |
+| S7 | The suite mints tokens by reproducing the bearer-token ticket format from framework internals, so a framework upgrade can break it with no behaviour change | AN-011; `Todo.Api.Tests/TokenService.cs:10,21,31-34` |
+| S8 | Diagnostic surfaces exist in Development only: the reference UI, the OpenAPI document, HTTP logging with bodies and headers, and both health endpoints | `Todo.Api/Program.cs:35-62`; `TodoApp.ServiceDefaults/Extensions.cs:110-118` |
+| S9 | The developer container names SDK 8.0 while the build targets `net9.0` and the SDK pin is 9.0.100 | AN-007; `.devcontainer/devcontainer.json:2`; `Directory.Build.props:4`; `global.json:3` |
+| S10 | The store is addressable from configuration alone: `ConnectionStrings:Todos` when present, otherwise the relative `Data Source=.db/Todos.db`. The path is resolved against the API's working directory, so the same configuration names a different file depending on where the process is started | `Todo.Api/Program.cs:23`; AN-013 |
+| S11 | Provider registration is configuration-driven and fail-quiet: a scheme is registered only when `Authentication:Schemes:<name>` exists, and the delivered files carry no such section, so the system starts with no provider and reports nothing about the absence | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:39-92`; `Todo.Web/Server/appsettings.json`; AN-010 |
+| S12 | The data-protection discriminator is the literal `TodoApp` in both programs, and neither configures key persistence, key lifetime or key protection, so the shared ring depends on the framework's default file location being shared between the two processes | `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11`; AN-010 |
+| S13 | The forwarder's target and request configuration are literals in code: `http://todoapi` and a bare `ForwarderRequestConfig` with no timeout, no version policy and no activity-timeout override. Retargeting or protecting that hop requires a code change and a redeploy, not a settings change | `Todo.Web/Server/TodoApi.cs:14-25` |
+| S14 | Host filtering is fixed at `*` in both base settings files and neither Development file overrides it, so no environment file the operator can edit narrows the accepted `Host` header | `Todo.Api/appsettings.json:8`; `Todo.Web/Server/appsettings.json:9`; `Todo.Api/appsettings.Development.json`; `Todo.Web/Server/appsettings.Development.json` |
+| S15 | The only start path that creates a schema is the developer one: the app host in its default run mode, gated on `Todo.Api/.db` being absent, with no connection string passed. There is no documented way to apply the migrations to any other database | `TodoApp.AppHost/Extensions.cs:1-34`; AN-005, AN-013 |
+| S16 | The delivery cannot be operated from its tree alone: no Dockerfile, compose file, manifest or runbook exists, two project files still carry container image properties that nothing uses, and the root `README.md` documents only the `dotnet run` path | `.iari/README.md`; `README.md`; DC12 |
+| S17 | The transport posture between the two processes is fixed in code, not in settings: the forwarder's target is the literal `http://todoapi` and the API's pipeline registers no redirection, so no configuration file the operator can edit changes whether that hop is protected | `Todo.Web/Server/TodoApi.cs:18`; `Todo.Web/Server/Program.cs:25-28`; `Todo.Api/Program.cs:44-47`; `DC13` |
+| S18 | The delivery ships no way to observe the system outside Development: the health endpoints, the reference UI and the OpenAPI document are all mapped under `IsDevelopment()`, so a non-Development run exposes no readiness probe and no diagnostic surface at all | `TodoApp.ServiceDefaults/Extensions.cs:110-118`; `Todo.Api/Program.cs:49-56`; `S8` |
+
 ## Design Constraints
 | DC8 | The BFF reaches the API through YARP `IHttpForwarder` under the service name `todoapi`, rewriting the session's access token into the bearer header | `Todo.Web/Server/TodoApi.cs:12-25`; `Todo.Web/Server/Program.cs:22` |
 
