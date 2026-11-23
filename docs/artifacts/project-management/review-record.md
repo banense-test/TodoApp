@@ -892,65 +892,48 @@ None of the four holds an exit criterion, blocks a downstream role, or changes t
 
 ## Resolutions and Actions
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-The actions that close this lens's findings, each with its owner and the artifact section the correction lands in. Closure was executed in the dedicated reconciliation step, before any new finding was recorded: `resolve_artifact_finding` first, this narrative second.
+**Prior findings of this lens, closed this milestone.**
 
-```plantuml
-@startuml
-title Resolution status of the technical lens findings - seven closed in iteration 2, two new Minors open with their owners
+| Finding | Artifact | Resolution | What was checked in the artifact |
+|---|---|---|---|
+| `System Inventory#F3` | System Inventory | Resolved — the stale Survey-era iteration is gone | Document Control reads "Iteration: Excavation iteration 1, cycle 1", "Status: Draft — produced for the end-of-Excavation (AR) milestone review", "Milestone Target: end-of-Excavation (AR) — not yet achieved". The four artifacts under that Survey review no longer disagree about which iteration's state they record |
+| `Iteration Plan#F3` | Iteration Plan | Resolved — the State column states each row's actual outcome against the artifact it names | The section commits to the rule ("no row reads complete whose correction is not in the artifact"); row 9 cites the Document Control correction, verified in the artifact itself; row 10 records `Development Case#F2` as **Not started**, naming the exact sentence that still omits three lenses; rows 11 to 14 read Not started / Queued, matching the review now being taken |
 
-skinparam shadowing false
-left to right direction
-skinparam componentStyle rectangle
+Both were closed by `resolve_artifact_finding` before any new defect was recorded, in the reconciliation state, not in this one. The two Survey Majors this lens recorded — `Development Case#F1` and `Iteration Plan#F1` — were already resolved at the SBC re-take and are not re-opened.
 
-package "Iteration 1 findings - all closed" {
-  component "Development Case#F1 (Major)\nversion policy sourced" as DC1
-  component "Development Case#F2 (Minor)\nthe stakeholder's duplication order" as DC2
-  component "System Inventory#F1 (Major)\nAN-021 third edge" as SI1
-  component "System Inventory#F2 (Minor)\ncoverage figure reproduces" as SI2
-  component "Risk List#F1 (Major)\none mapping, every score reproduces" as RL1
-  component "Iteration Plan#F1 (Major)\ntwelve anomalies, 21 edges" as IP1
-  component "Iteration Plan#F2 (Minor)\ngate ahead of the verdict" as IP2
-}
+**Open findings this milestone, ordered by what the milestone does with them.**
 
-package "Iteration 2 findings - open Minors" {
-  component "System Inventory#F3 (Minor)\nDocument Control iteration field" as SI3
-  component "Iteration Plan#F3 (Minor)\nfine-plan State column" as IP3
-}
-
-package "What the closures unblock" {
-  component "Excavation reads a settled constraint\nlist and a tailoring that misdirects nobody" as EX
-  component "Management lens re-runs C1 to C10\non evidence that now reproduces" as MG
-}
-
-DC1 --> EX : no policy invented in Excavation
-DC2 --> EX : one authoritative statement per fact
-SI1 --> MG : the anomaly edges match the tree
-SI2 --> MG : C6 cites a figure it can reproduce
-RL1 --> MG : C7b and C8 rest on reproducible scores
-IP1 --> EX : the constraint list Excavation consumes
-IP2 --> MG : the plan's gate order matches its answers
-SI3 --> MG : metadata reads one iteration
-IP3 --> MG : the plan's status reads the truth
-@enduml
-```
-
-| Artifact | Finding | Severity | Owner | Status | Action that closes it |
+| Finding | Criterion | Severity | Owner | Action | Holds the milestone |
 |---|---|---|---|---|---|
-| Development Case | F1 | Major | Process Engineer | Resolved | State central pinning and the nuget.org-only source, assert no enterprise policy — done at "Tool and configuration references" |
-| Development Case | F2 | Minor | Process Engineer | Resolved | One role-deltas statement and one CLS-DC-01 diagram — done at "Roles and Ownership", as the stakeholder ordered |
-| System Inventory | F1 | Major | Software Archaeologist | Resolved | Add EP-007 to the AN-021 row — done at "Traceability" |
-| System Inventory | F2 | Minor | Software Archaeologist | Resolved | Recompute Coverage from the per-area table and decide the docs row — done at "Coverage" |
-| Risk List | F1 | Major | Project Manager | Resolved | Publish one mapping and reconcile every score to it; put each Significant acceptance to the stakeholder — done at "Risk Classification" and the grant table |
-| Iteration Plan | F1 | Major | Project Manager | Resolved | Name all twelve anomalies or drop the count — done at "Use Cases and Scenarios Addressed" |
-| Iteration Plan | F2 | Minor | Project Manager | Resolved | Place gate H2 ahead of the verdict it feeds — done in the coarse roadmap and the critical chain |
-| System Inventory | F3 | Minor | Software Archaeologist | Open | Set the Document Control iteration field to 2, Cycle 1 |
-| Iteration Plan | F3 | Minor | Project Manager | Open | Correct the fine-plan State column for rows 4, 5 and 6, or remove the column |
+| `Supplementary Specification#F1` | `consumed-defect` | Major | System Analyst | State both rate-limit values with their sources in M3, S2, P1 and R8; cite AN-024 | Yes — the artifact's figures are contradicted by the code |
+| `Supplementary Specification#F2` | `consumed-defect` | Major | System Analyst | Replace R4 with the two hops stated apart; cite AN-023 / R024 | Yes |
+| `Software Architecture Document#F1` | `consumed-defect` | Major | Software Architect | Correct SP1 and M3; cite AN-024 | Yes — the copy the Deployment Model inherits |
+| `Deployment Model#F1` | `consumed-defect` | Major | Software Architect | Narrow the environment preamble; rewrite the Rate limiting row | Yes |
+| `Use-Case Model#F1` | `trace-gap` | Major | System Analyst | Re-register the three EP-003 edges as confirmed and explain the screen-versus-operation shape in the Survey | Yes — a suspect trace open at phase close |
+| `Vision#F1` | `use-case-shape` | Major | System Analyst | Remove U12 and U13 from the Features diagram | Yes — thirteen use cases where the recovery holds eleven |
+| `Use-Case Model#F2` | `contained-defect` | Minor | System Analyst | State the matrix-versus-Survey distinction and relabel the edges | No |
+| `Risk List#F2` | `contained-defect` | Minor | Project Manager | Restate R024's premise and point its mitigation at the artifact that still carries the error | No |
+| `Design Model#F1` | `contained-defect` | Minor | Designer | Change the PD-D3 citation from AN-005 to AN-025 | No |
+| `Development Case#F3` | `contained-defect` | Minor | Process Engineer | Bring the four Document Control fields to Excavation iteration 1 | No |
 
-The two open findings are Minors. Neither holds the milestone, neither blocks a downstream role, and both are corrected by their owner in its next turn; the artifacts they sit in are approved from this lens.
+**One correction, three artifacts.** Four of the six Majors turn on a single file. `Supplementary Specification#F1`, `Software Architecture Document#F1` and `Deployment Model#F1` are the same wrong sentence in three places — the code defaults are not the effective values, because `appsettings.Development.json` overrides all three to 50 and every launch profile runs in Development. The recovery already holds the right answer: the System Inventory records it as AN-024 and the Risk List carries it as R025, in the same phase, correctly anchored. The correction is one fact, and it must land in all three artifacts before the recovered set is put to the stakeholder, because gate H4 asks them to accept figures that are currently off by a factor of two.
+
+`Supplementary Specification#F2` is the fourth: R4 denies a resilience handler the code installs, and the Software Architecture Document already got it right at P6 and said so in the artifact rather than editing one it does not own. That is the right division of ownership; what remains is for the owner to take the correction.
+
+**Actions, and what each requires before the milestone can close.**
+
+1. The three rate-limit corrections and the resilience correction land in the Supplementary Specification, the Software Architecture Document and the Deployment Model, each citing AN-024 or AN-023 so one fact carries one identifier across four artifacts.
+2. The three `EP-003` edges are confirmed in the graph and the Use-Case Model explains why a screen entry point and the forwarded operation are both named, so the eleven-use-case count gate H4 puts is unqualified.
+3. The Vision's Features diagram carries eleven use cases, matching the Use-Case Model, the Iteration Plan's O1 and the SAD's Use-Case View.
+4. The four Minors are corrected in their owners' next turn, after the Majors — `Risk List#F2` and `Design Model#F1` are one-sentence corrections, and `Development Case#F3` is four metadata fields. None holds the milestone.
+
+**Not this lens's to close.** `Development Case#F2` — the contributor set omitting three lenses, which the stakeholder ordered corrected on 2026-11-23 — stays open in the Management Reviewer's ledger. The Iteration Plan records it as outstanding and carries it as `R031`, and criterion A11 reads three of four because of it. This lens neither resolves it nor records a duplicate: a second lens writing its own key against the same defect is what the cross-lens duplicate pattern warns against, and only the lens that emitted a finding may close it.
+
+**Not a finding, and why.** The absence of an Iteration Assessment describing this iteration is correct state — the Project Manager authors it after this review. The absence of a Data Model is the Development Case's NOT FIRED verdict on its trigger, which this lens checked and found to hold: eight persisted entity types, below the >10 threshold, no migration in scope, and the data written inline in the Design Model. The absence of an open pull request is the sprint zero's correct state, not an omission. No finding is recorded for any of the three.
 
 ### Management Reviewer lens
 <!-- review: Survey I2 -->
