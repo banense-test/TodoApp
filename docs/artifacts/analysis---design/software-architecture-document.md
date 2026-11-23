@@ -763,7 +763,6 @@ Each record states the decision the code embodies, what the delivery's own files
 | ADR-013 | Verification happens in one in-process host over the API alone, with four production mechanisms substituted: an in-memory SQLite connection whose schema is built by `EnsureCreated`, an ephemeral data-protection provider, relaxed Identity password rules, and a bearer token minted by reproducing the framework's ticket format. Recovered | Exercising the real migration, the real key ring and a real sign-in — which is what would have made AN-005 and AN-010 observable to a test | The suite is fast, isolated and free of file-system contention, and it cannot see three things the deployment depends on: the migrations, the cross-process key ring, and the token format as issued. AN-005, AN-010, AN-011; `Todo.Api.Tests/TodoApplication.cs:7,11-14,33-56`; `TokenService.cs:10-34` |
 
 ## Process View
-
 There is no background work in this system. Every thread of control is a request thread on a Kestrel pool in one of two processes, and the only concurrency the architecture has to reason about is contention on a row and contention on the bucket's queue.
 
 ```plantuml
@@ -809,7 +808,8 @@ partition "Todo.Api - request thread from the Kestrel pool" {
     Every one of these is synchronous over the
     request's own scope: no background work, no
     timer, no queue except the bucket's own
-    100-deep wait queue.
+    wait queue - 50 deep in Development, which is
+    the environment every launch profile selects.
   end note
 }
 partition "Cross-request contention" {
@@ -843,12 +843,11 @@ stop
 | P1 | No background task, timer, hosted service or message consumer exists in any process. The only scheduled work is the bucket's own replenishment | Scaling means adding request threads, not coordinating workers: there is no shared queue to partition and no idempotency requirement on any operation | `Todo.Api/Program.cs`; `Todo.Web/Server/Program.cs`; `TodoApp.AppHost/Program.cs` — no `IHostedService` is registered anywhere |
 | P2 | Two processes read and write the same SQLite file. SQLite serialises writers on the file; the API is the only writer | The write path is single-writer. A second API process writing the same file would contend on the file, not on a lock the code manages | `Todo.Api/Program.cs:23-24` |
 | P3 | A completed row can be lost by a concurrent update: the update names `Title` and `IsComplete` and carries no concurrency token | No lost-update detection. Two callers on the same row write in arrival order and neither is told | `Todo.Api/Todos/TodoApi.cs:59-63`; F9 |
-| P4 | The bucket admits up to 100 waiting requests per caller before rejecting | A burst is queued, not refused, up to 100 deep; beyond that it is 429. The client does not distinguish 429 from any other failure | `Todo.Api/Extensions/RateLimitExtensions.cs:20-30`; UC-006 A3 |
+| P4 | The bucket admits up to 50 waiting requests per caller before rejecting, and admits 50 tokens replenished 50 per 10-second period. The code defaults are 100 / 100 / queue 100; the Development configuration overrides all three and every launch profile selects Development, so 50 is the depth in force (AN-024) | A burst is queued, not refused, up to 50 deep; beyond that it is 429. The client does not distinguish 429 from any other failure | `Todo.Api/Extensions/RateLimitExtensions.cs:14-31`; `Todo.Api/appsettings.Development.json:8-12`; `Todo.Api/Properties/launchSettings.json`; UC-006 A3 |
 | P5 | Caller identity costs one additional database read on every authorized request, inside the same request scope | Two queries per task operation at minimum, neither cached across requests | `Todo.Api/Authorization/CurrentUser.cs:6-13`; `CheckCurrentUserAuthHandler.cs:31-36` |
 | P6 | **The two HTTP hops out of the BFF are not equally protected.** `ConfigureHttpClientDefaults` applies a standard resilience handler to every client the container builds, which reaches `COMP-007`'s `HttpClient`; the YARP forwarder is not built from the container defaults and carries a default `ForwarderRequestConfig` | The sign-in and registration hop retries and breaks the circuit; the task hop does not. A transient API failure is retried on one path and surfaced as a failure on the other | `TodoApp.ServiceDefaults/Extensions.cs:32-42`; `Todo.Web/Server/Program.cs:23-26`; `Todo.Web/Server/TodoApi.cs:16` |
 
-**A disagreement with an upstream artifact, recorded rather than reconciled.** Supplementary Specification R4 reads "No retry, circuit breaker or fallback is configured on either hop". The half about the forwarder hop holds; the half about the BFF-to-API token hop does not — `COMP-021` installs `AddStandardResilienceHandler()` on every container-built `HttpClient`, and `COMP-007` is one (P6). The System Analyst owns the Supplementary Specification and this document does not edit it; the correction is recorded here with its anchor for that role to take. Nothing downstream depends on the wrong half: no use case flow claims a retry, and the recovered flows describe a single attempt on each hop.
-
+**The two hops, stated apart.** `AddStandardResilienceHandler()` in `ConfigureHttpClientDefaults` gives the token hop (`COMP-007`) retry, circuit-breaker, timeout and rate-limiter behaviour; the forwarder hop (`COMP-008`) is not built from those defaults and carries none of the four. A use case that signs in and then reads its tasks crosses both, and the two are not equally protected (AN-023, R024).
 ## Deployment View
 The system has one supported placement and no deployment artifact of any kind: no Dockerfile, compose file or manifest is in the tree (DC12), and the `ContainerImageName` / `ContainerImageTag` properties two project files still carry are a residue the tree no longer backs. What places the processes is the orchestration host, and what places the data is a relative path.
 
