@@ -225,28 +225,106 @@ The owner's note states what the delivery does and does not contain. Checked cla
 | No requirements, design, architecture, test or operations document is delivered | — nothing to read: every fact in this inventory is recovered from code, configuration and commit history | — | `.iari/README.md`; the tree as returned by the repository listing |
 
 ## History
-Commit history is the only record of how the system reached its present shape; the tree carries none. Each row states the commits read and the period they cover. The system's own code has not changed since 2025-08-07 (`a6dea68`); the commits after it are this process's output.
+Commit history is the only record of how the system reached its present shape; the tree carries none. Each row states the commits listed for that area and the period they cover. **The newest commit touching any part of the system is `307a1ea` of 2026-02-12** — the same commit and date the owner's note names as the delivery's provenance (`307a1ead`, 12 February 2026). Every commit after it is this process's own output.
 
-Excavation added three lists the Survey reading did not have, and they change one reading. `Todo.Web/Server` was previously visible only inside the wider `Todo.Web` list; read on its own it carries thirty commits, the most of any area, and its `/auth` surface is the most-reworked code in the delivery. The two files every task operation rests on — `Todo.Api/Todos/TodoApi.cs` and `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs` — show **one commit each, and that commit is the file move (`bbd680d`)**: the listing filters on the path, so the changes these files took before they were moved into `Todo.Api/` are not in it. They are recorded as settled-as-they-stand with their earlier history unlisted, not as evidence that nothing about them ever changed.
+Two areas are unstable by two different measures, and both readings are kept because they answer different questions. `Todo.Web/Server` carries 33 commits across the whole life of the delivery — the most of any area of its code, and its `AuthApi.cs` is the most-reworked code file in it — which is instability by count (AN-029). `TodoApp.AppHost` carries five commits, but it holds the newest one; that is instability by recency (AN-015). Reading either signal alone mistakes it for the whole picture. The only path with more commits than the BFF is `README.md` at 43, and that count is not comparable: 29 of those commits predate 2023 and five of them predate the application.
+
+Three listings begin at a file move or a rename, not at the code's origin. `Todo.Api/Todos` carries `bbd680d` "Move files around" and nothing else; `Todo.Api/Authorization` the same; `TodoApp.AppHost` begins at the rename `3308193`. Whatever changed in them before that sits under a former path these listings do not follow. Each is recorded as settled-as-it-stands with its earlier history unlisted — never as evidence that nothing about it ever changed. This is also why the sqlite-web container and the migration step appear in no commit of the app host: they exist, and the list that would show their arrival does not reach it.
+
+The repository's history is older than the application. `README.md`'s oldest commit is 2021-05-04 and `Directory.Build.props`' is 2022-03-06, while the earliest commit any area reaches is 2022-11-12 (`.github`, `Requests`, `.vscode`) and both halves of the web tier begin at `cb67410` "Davidfowl/fe (#23)" of 2022-11-27. The delivery therefore sits on a predecessor repository whose history the code areas' path-filtered lists do not reach, which is why a file's commit count measures more than this system.
+
+```plantuml
+@startuml
+title History of the delivery - commit count, last change and reading, area by area
+
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam wrapWidth 230
+left to right direction
+
+package "Unstable" {
+  component "Todo.Web.Server\n33 commits, 2022-11-27 to 2024-11-27" as S
+  component "Todo.Web/Server/AuthApi.cs\n15 commits, 2022-11-27 to 2024-11-27" as A
+  component "TodoApp.AppHost\n5 commits, 2024-11-23 to 2026-02-12" as H
+}
+
+package "Consolidating" {
+  component "Todo.Api\n10 commits, 2024-11-23 to 2025-08-07" as API
+  component "Todo.Api/Users\n4 commits, 2024-11-23 to 2024-11-27" as U
+  component "Todo.Web/Client\n18 commits, 2022-11-27 to 2024-11-23" as C
+  component "README.md\n43 commits, 2021-05-04 to 2025-09-28" as R
+  component "Directory.Build.props\n5 commits, 2022-03-06 to 2024-11-15" as B
+  component ".github\n4 commits, 2022-11-12 to 2024-11-23" as CI
+  component ".vscode\n7 commits, 2022-11-12 to 2025-01-11" as VS
+  component "docs\n50 commits, all 2026-11-23" as D
+}
+
+package "Stable" {
+  component "Todo.Api/Todos\n1 commit, 2024-11-23" as T
+  component "Todo.Api/Authorization\n1 commit, 2024-11-23" as AZ
+  component "Todo.Api.Tests\n2 commits, 2024-11-23 to 2024-11-27" as TS
+  component "Todo.Web/Shared\n6 commits, 2022-11-27 to 2023-12-15" as SH
+  component "TodoApp.ServiceDefaults\n1 commit, 2024-11-23" as SD
+  component "Requests\n5 commits, 2022-11-12 to 2024-03-26" as RQ
+  component ".devcontainer\n6 commits, 2022-11-13 to 2023-12-15" as DC
+  component ".aspire\n1 commit, 2025-08-07" as AS
+}
+
+note bottom of S
+  Unstable by count: 33 commits across the whole life
+  of the delivery, the most of any area of its code.
+end note
+
+note bottom of A
+  The file inside that area that never settles: every
+  one of its commits touched a success path, none a
+  failure path (AN-029).
+end note
+
+note bottom of H
+  Unstable by recency, not by count: the delivery's
+  newest commit is here, 2026-02-12, after every other
+  area had stopped (AN-015).
+end note
+
+note bottom of T
+  One commit, and it is the file move bbd680d. Whatever
+  changed before the move sits under a former path this
+  listing does not follow.
+end note
+
+note bottom of R
+  43 commits, but 29 of them predate 2023 and its oldest
+  entry is 2021-05-04 - eighteen months before the first
+  commit carrying the web tier (cb67410, 2022-11-27).
+  The count measures a predecessor repository too.
+end note
+
+@enduml
+```
 
 | Area | Commits read and period | What was removed or reworked | Reading | Commits |
 |---|---|---|---|---|
-| Whole repository | 12 commits, 2025-08-07 to 2026-11-23; older history beyond them | Six commits are this process's output (Development Case, contribution guide, this inventory); the system code is untouched since `a6dea68` | Consolidating | `4083ab4`, `8a6edf7`, `5f444f4`, `38203f0`, `072d1ba`, `6332008`, `fe311a5`, `05ca5ab`, `307a1ea`, `a6ff858`, `d772504`, `a6dea68` |
-| Todo.Api | 10 commits, 2024-11-23 to 2025-08-07 | Files moved and projects renamed (`bbd680d`, `3308193`); the OpenAPI surface replaced and then reconfigured (`1449c43`, `fdc49bb`, `69127f1`); rate-limit options moved into configuration (`993421c`); a service-to-service auth TODO added (`2d890e8`) and never done | Consolidating | `a6dea68`, `a519c10`, `69127f1`, `2d890e8`, `993421c`, `fdc49bb`, `2d0d82d`, `fb0032e`, `3308193`, `bbd680d` |
-| Todo.Api/Todos — the five task operations | 1 commit, 2024-11-23 | Nothing was reworked after the move: `bbd680d` "Move files around" is the only commit the path carries, so the ownership predicate, the admin branch and the missing update path all predate the path itself. Whatever changed in them before the move is under a former path this listing does not follow, and is unlisted | Stable as it stands, with earlier history unlisted | `bbd680d` |
-| Todo.Api/Authorization — caller resolution and the authorization handler | 1 commit, 2024-11-23 | As above: `bbd680d` alone. The lockout `TODO`, the `IsAdmin` role read and the requirement handler all arrived with the move; nothing has touched them since | Stable as it stands, with earlier history unlisted | `bbd680d` |
-| Todo.Api/Users — Identity surface and the token exchange | 4 commits, 2024-11-23 to 2024-11-27 | The provider key made opaque end to end (`a519c10` "Protect the user id to make sure only the BFF can call the external auth API"); cleanup (`2d0d82d`, `2d890e8`, `bbd680d`) | Consolidating | `a519c10`, `2d890e8`, `2d0d82d`, `bbd680d` |
-| Todo.Web.Server — session, `/auth`, forwarder | 30 commits, 2022-11-28 to 2024-11-27; older history beyond them | Razor Pages replaced by Blazor SSR (`31b28b3`); the auth client renamed (`478195d`); externally issued tokens accepted in the API (`ae45c47`); Auth0 reworked three times (`ab67f3c`, `23a6c31`, `2c4300d`); Aspire introduced (`6b9f07e`); scheme type renamed (`03640dd`); the provider key made opaque (`a519c10`) | Unstable — the most commits of any area, spanning the whole life of the delivery, and the area carrying three of the four open behavioural defects | `a519c10`, `2d890e8`, `228dc29`, `3308193`, `625f34f`, `03640dd`, `6b9f07e`, `2e54de3`, `77959e2`, `31b28b3`, `88d236b`, `7f594d3`, `478195d`, `ae45c47`, `23a6c31`, `ab67f3c`, `2c4300d`, `6b9f07e`, `bbd680d`, `82898c5`, `e15c9f7`, `3dceedd`, `76a0bac`, `7804305`, `0a81ea1`, `0a7e2bd`, `6090f8d`, `d2cfc8d`, `3be1993`, `58d28fc` |
-| Todo.Web/Server/AuthApi.cs — the five session endpoints | 15 commits, 2022-11-27 to 2024-11-27 | Social sign-in introduced (`82898c5`, `cb67410`), Auth0 made to work as a provider (`23a6c31`), "Social" renamed to "External" (`3dceedd`), comments and cleanup (`0a7e2bd`), the auth client renamed (`478195d`), the provider key made opaque (`a519c10`). Every one of them touched a success path: the `// TODO: Handle the failure somehow`, the unconditional redirect and the bare `Unauthorized` are original | Unstable — the most-reworked code file in the delivery, and the one whose defects no test covers (AN-012) | `a519c10`, `228dc29`, `03640dd`, `6b9f07e`, `2e54de3`, `0a7e2bd`, `478195d`, `7804305`, `76a0bac`, `3dceedd`, `ae45c47`, `23a6c31`, `82898c5`, `e512f3e`, `cb67410` |
-| Todo.Web/Client | 15 commits, 2022-11-28 to 2024-11-23; older history beyond them | The page split into multiple components (`5d8868d`); client-side validation added (`b08f906`); create-todo made to return the created item (`a989dac`); a workaround committed under that name (`b8ffb08`) and still in `TodoClient.GetTodosAsync` | Consolidating | `625f34f`, `2e54de3`, `b8ffb08`, `31b28b3`, `88d236b`, `3be1993`, `d2cfc8d`, `2441b7e`, `82898c5`, `8e8e8a1`, `da58c44`, `ee6712c`, `b08f906`, `a989dac`, `5d8868d` |
-| Todo.Api.Tests | 2 commits, 2024-11-23 to 2024-11-27 | Files moved (`bbd680d`); the provider key made opaque end to end (`a519c10`) | Stable | `a519c10`, `bbd680d` |
-| TodoApp.AppHost | 5 commits, 2024-11-23 to 2026-02-12 | Introduced with Aspire and renamed (`3308193`); the sqlite browser added and the migration moved into the host (`09ea52d`, `485e7d4`, `beb0011`); package and SDK upgrades (`d772504`, `307a1ea`) — it holds the most recent change in the delivery, 2026-02-12, after every other area had stopped | Unstable — not by commit count, which is low, but by recency: it is the last area still moving | `307a1ea`, `d772504`, `a6dea68`, `beb0011`, `3308193` |
+| Whole repository — the 50 most recent | 50 commits listed, all 2026-11-23; older history exists beyond them and reaches the system code | Nothing of the system: every one of the 50 is this process's own artifact commit of that day | Consolidating | `5bbc9b2` … `277c534`, the 50 listed |
+| Todo.Api | 10 commits, 2024-11-23 to 2025-08-07 | Files moved and the projects renamed (`bbd680d`, `3308193`); the OpenAPI surface configured and then reconfigured (`fdc49bb`, `69127f1`); rate-limit options moved into configuration (`993421c`); a service-to-service authentication TODO added (`2d890e8`) and never done; cleanup (`2d0d82d`, `fb0032e`); the whole solution force-upgraded once (`a6dea68`) | Consolidating | `a6dea68`, `a519c10`, `69127f1`, `2d890e8`, `993421c`, `fdc49bb`, `2d0d82d`, `fb0032e`, `3308193`, `bbd680d` |
+| Todo.Api/Todos — the five task operations | 1 commit, 2024-11-23 | Nothing after the move: the path carries `bbd680d` alone, so the ownership predicate, the admin branch and the absent update path all predate it; whatever changed before the move is under a former path this listing does not follow, and is unlisted | Stable as it stands, with earlier history unlisted | `bbd680d` |
+| Todo.Api/Authorization — caller resolution and the authorization handler | 1 commit, 2024-11-23 | As above, `bbd680d` alone. The lockout `TODO` and the `IsAdmin` role read arrived with the move; nothing has touched them since | Stable as it stands, with earlier history unlisted | `bbd680d` |
+| Todo.Api/Users — Identity surface and the token exchange | 4 commits, 2024-11-23 to 2024-11-27 | The provider key made opaque end to end (`a519c10` "Protect the user id to make sure only the BFF can call the external auth API"); cleanup and a service-to-service comment (`2d890e8`, `2d0d82d`); the move (`bbd680d`) | Consolidating | `a519c10`, `2d890e8`, `2d0d82d`, `bbd680d` |
+| Todo.Web/Server — session, `/auth`, forwarder | 33 commits, 2022-11-27 to 2024-11-27 | Razor Pages replaced by Blazor SSR (`31b28b3`) and the framework's identity endpoints adopted (`7f594d3`); the auth client renamed (`478195d`); externally issued tokens accepted (`ae45c47`); Auth0 made to work as a provider and its configuration moved out of the callback (`23a6c31`, `ab67f3c`); "Social" renamed to "External" (`3dceedd`); Aspire introduced (`6b9f07e`); the scheme type renamed (`03640dd`); the provider key made opaque (`a519c10`); target framework and package management moved out of the projects (`3be1993`, `d2cfc8d`) | Unstable — 33 commits across the whole life of the delivery, the most of any area of its code, and the area carrying three live behavioural defects (AN-019, AN-020, AN-021) | `a519c10`, `2d890e8`, `228dc29`, `3308193`, `625f34f`, `03640dd`, `6b9f07e`, `2e54de3`, `77959e2`, `31b28b3`, `88d236b`, `7f594d3`, `58d28fc`, `3be1993`, `d2cfc8d`, `6090f8d`, `0a7e2bd`, `478195d`, `0a81ea1`, `7804305`, `76a0bac`, `3dceedd`, `ae45c47`, `ab67f3c`, `23a6c31`, `e15c9f7`, `82898c5`, `8e8e8a1`, `3dde5f7`, `f3825df`, `e512f3e`, `e61e3a1`, `cb67410` |
+| Todo.Web/Server/AuthApi.cs — the five session endpoints | 15 commits, 2022-11-27 to 2024-11-27 | Social sign-in introduced (`82898c5`), Auth0 made to work (`23a6c31`), externally issued tokens accepted (`ae45c47`), "Social" renamed to "External" (`3dceedd`), comments and a typo fix (`0a7e2bd`, `76a0bac`), the auth client renamed (`478195d`), the provider key made opaque (`a519c10`). Every one of them touched a success path: the `// TODO: Handle the failure somehow`, the unconditional redirect and the bare `Unauthorized` are original | Unstable — the most-reworked code file in the delivery, and the one whose defects no test covers (AN-012) | `a519c10`, `228dc29`, `03640dd`, `6b9f07e`, `2e54de3`, `0a7e2bd`, `478195d`, `7804305`, `76a0bac`, `3dceedd`, `ae45c47`, `23a6c31`, `82898c5`, `e512f3e`, `cb67410` |
+| Todo.Web/Client — the screens | 18 commits, 2022-11-27 to 2024-11-23 | Eleven of the 18 fall in its first six days: the page split into components (`5d8868d`), binding and placeholder (`9676eba`, `68f6f5f`), client-side validation (`b08f906`, `2441b7e`), create-todo made to return the created item (`a989dac`), social sign-in (`82898c5`). After that week: the target-framework and package moves (`3be1993`, `d2cfc8d`), primary constructors (`88d236b`), Blazor SSR (`31b28b3`), a workaround committed under that name (`b8ffb08`) and still in `TodoClient.GetTodosAsync`, the .NET 8 update (`2e54de3`), and email made required (`625f34f`) | Consolidating — no change since 2024-11-23, and most of its later commits are moves every project took | `625f34f`, `2e54de3`, `b8ffb08`, `31b28b3`, `88d236b`, `3be1993`, `d2cfc8d`, `2441b7e`, `82898c5`, `8e8e8a1`, `da58c44`, `ee6712c`, `b08f906`, `a989dac`, `5d8868d`, `9676eba`, `68f6f5f`, `cb67410` |
+| Todo.Web/Shared — the contracts | 6 commits, 2022-11-27 to 2023-12-15 | The token named `access_token` made to work (`34b8c87`); social sign-in (`82898c5`); nullability and implicit usings inherited (`e15c9f7`); target-framework and package moves (`3be1993`, `2e54de3`) | Stable | `2e54de3`, `34b8c87`, `3be1993`, `e15c9f7`, `82898c5`, `cb67410` |
+| Todo.Api.Tests | 2 commits, 2024-11-23 to 2024-11-27 | The move (`bbd680d`); the provider key made opaque end to end (`a519c10`) | Stable | `a519c10`, `bbd680d` |
+| TodoApp.AppHost | 5 commits, 2024-11-23 to 2026-02-12 | The project renamed into place (`3308193`); the global `dotnet-ef` install added (`beb0011`); the solution upgraded in place (`a6dea68`); package versions and configuration formatting updated (`d772504`); the Aspire SDK upgraded to 13.1.1 (`307a1ea`). Nothing was removed. The sqlite-web container and the migration step appear in no commit here: the path's list begins at the rename | Unstable — not by count, which is five, but by recency: `307a1ea` of 2026-02-12 is the newest commit touching any part of the system (AN-015) | `307a1ea`, `d772504`, `a6dea68`, `beb0011`, `3308193` |
 | TodoApp.ServiceDefaults | 1 commit, 2024-11-23 | Only the project rename (`3308193`); nothing added or removed since | Stable | `3308193` |
-| .devcontainer | 6 commits, 2022-11-13 to 2023-12-15 | Untouched since the .NET 8 RTM bump, while the target framework moved to net9.0 on 2024-11-15 (`3530e8a`); the image still names SDK 8.0 | Stable | `2e54de3`, `ee69f36`, `afdc367`, `b0f56a4`, `4f65c7b`, `993b96a` |
-| .github (CI) | 4 commits, 2022-11-12 to 2024-11-23 | Restore and build split into two steps (`5af589d`); the SDK has come from `global.json` since `e1a6c71`, not from the workflow | Consolidating | `617dfee`, `5af589d`, `e1a6c71`, `7cf04b0` |
-| README.md | 20 commits, 2022-12-02 to 2025-09-28; older history beyond them | Serilog added then replaced by OpenTelemetry (`764573c`, `5667455`); the external-OIDC section removed (`2c4300d`); docker-compose documented then dropped (`8e8e8a1`); clarity edits (`a6ff858`) | Consolidating | `a6ff858`, `beb0011`, `fdc49bb`, `3308193`, `c064cff`, `09ea52d`, `6b9f07e`, `2c4300d`, `764573c`, `5667455`, `8e8e8a1` |
-
-Two areas are unstable by two different measures, and both readings are recorded because they answer different questions. The BFF carries the most commits and is still the area whose behaviour keeps being reworked; the app host carries few commits but holds the most recent one. Reading either alone would mistake one signal for the whole picture.
+| Build and package configuration — `Directory.Build.props` | 5 commits, 2022-03-06 to 2024-11-15 | The target framework moved into this file (`3be1993`); .NET 8 preview and the identity-endpoint update (`58d28fc`, `7f594d3`); the move to net9.0 (`3530e8a`, 2024-11-15). Its oldest entry, `4c93288` "Minimal tests (#6)" of 2022-03-06, predates every code area — the file, like `README.md`, belongs to the repository's predecessor | Consolidating — its last change is the .NET 9 move, eleven months after the developer container's last (`2e54de3`, 2023-12-15), which is the interval AN-007's SDK 8.0 image against a net9.0 target dates from | `3530e8a`, `7f594d3`, `58d28fc`, `3be1993`, `4c93288` |
+| Requests | 5 commits, 2022-11-12 to 2024-03-26 | The collection created (`add0a64`), reordered (`2ac3906`), the token-issuing endpoint added to it (`f7235f9`), instructions and sample requests improved (`2c310de`), and last aligned with the framework's identity endpoints (`abd9421`). Nothing has touched it since 2024-03-26 | Stable — and it has not followed the API since: it carries no PUT, no read of a single todo and no provider call | `abd9421`, `2ac3906`, `f7235f9`, `2c310de`, `add0a64` |
+| .github — the CI pipeline | 4 commits, 2022-11-12 to 2024-11-23 | The pipeline created (`7cf04b0`); the SDK taken from `global.json` instead of the workflow (`e1a6c71`); restore and build split into two steps (`5af589d`); two workflow files added (`617dfee`) | Consolidating — nothing since 2024-11-23 | `617dfee`, `5af589d`, `e1a6c71`, `7cf04b0` |
+| .devcontainer | 6 commits, 2022-11-13 to 2023-12-15 | Created and iterated four times in one day (`993b96a`, `4f65c7b`, `b0f56a4`, `afdc367`), the post-create command fixed (`ee69f36`), and last updated for .NET 8 RTM (`2e54de3`). Nothing since — it still names `mcr.microsoft.com/dotnet/sdk:8.0` eleven months after the target framework moved to net9.0 (AN-007) | Stable | `2e54de3`, `ee69f36`, `afdc367`, `b0f56a4`, `4f65c7b`, `993b96a` |
+| .aspire | 1 commit, 2025-08-07 | Created with the solution-wide upgrade (`a6dea68`) and untouched since | Stable | `a6dea68` |
+| .vscode | 7 commits, 2022-11-12 to 2025-01-11 | Extension recommendations added (`0ffe121`, `4a460f1`), the launch configuration iterated (`4c98ac8`, `213325a`), the .NET 8 update (`2e54de3`), the email clarification (`625f34f`), and `tasks.json` and `launch.json` deleted (`1d4e043`, 2025-01-11) | Consolidating — the only thing removed from it is the pair that used to launch the API by hand | `1d4e043`, `625f34f`, `2e54de3`, `213325a`, `4c98ac8`, `0ffe121`, `4a460f1` |
+| README.md | 43 commits, 2021-05-04 to 2025-09-28 | Serilog introduced in place of OpenTelemetry (`764573c`) and documented (`5667455`), with an OpenTelemetry exporter commit earlier (`f947c99`); the external-OIDC section removed (`2c4300d`); docker-compose added to the repository (`8e8e8a1`) and no file of it left in the tree; the standalone-API and provider-configuration sections rewritten repeatedly (`fdc49bb`, `abd9421`, `09ea52d`, `6b9f07e`); clarity edits (`a6ff858`). Its five oldest commits, 2021-05-04 to 2021-06-25, predate every code area | Consolidating — more commits than any code area, but 29 of them predate 2023 and the document has not moved since 2025-09-28 | `a6ff858`, `beb0011`, `fdc49bb`, `3308193`, `c064cff`, `09ea52d`, `6b9f07e`, `abd9421`, `2e54de3`, `ea30470`, `2dbf03c`, `213325a`, `e386445`, `2c4300d`, `1c559c2`, `5667455`, `764573c`, `f8eea11`, `82898c5`, `8e8e8a1`, `2a16d3e`, `ec99127`, `c81c402`, `9b6e23b`, `78a93f1`, `63c221d`, `2c310de`, `d562d73`, `b5195f8`, `cae1562`, `f947c99`, `6e740a3`, `29d0890`, `7f4d50b`, `3d2cdc0`, `a84369d`, `4a460f1`, `ebd2de4`, `d4a4720`, `ee555fc`, `5f8044f`, `af9dd60`, `5ad1daf` |
+| docs | 50 commits, all 2026-11-23 | This process's own output: the contribution guide and every sprint-zero artifact, written and rewritten within one day. Nothing of the system was changed by any of them | Stable — and it is not the system's history | the 50 listed, each an `<role> [Excavation1]: upsert <artifact>` commit of 2026-11-23 |
 
 ## Anomalies
 Each anomaly is a risk: the evidence is anchored, the likelihood says how likely it is to bite, the impact how much it costs when it does. The Project Manager carries these into the Risk List by `AN-NNN`. Nineteen of them sit on an entry point and are carried below as forty `DependsOn` edges; the other ten concern the build, the tests, the pipeline or the delivery and have no entry point to hang from. None of the nineteen is a defect of a path the stakeholder put out of the perimeter: the provider sign-in path and the admin branch both stay in it as decided on 2026-11-23, so their anomalies stay live risks.
