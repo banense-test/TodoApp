@@ -228,17 +228,19 @@ skinparam componentStyle rectangle
 skinparam wrapWidth 220
 
 package "What each stretch produces" {
-  component "Risk List\n29 anomalies, R001 to R030" as RL
+  component "Risk List\n29 anomalies, R001 to R031" as RL
   component "Use-Case Model + Supplementary Specification\n11 use cases, anchors, mechanisms" as UC
   component "Software Architecture Document\n+ Deployment Model" as SAD
   component "Design Model\n+ persistent data" as DM
   component "System Inventory\ndeeper reading, coverage" as SI
+  component "Development Case\nthe contributor set" as DC
 }
 
 package "The risks each one retires" {
   component "R001 R004 R019 R020 R021\nR023 R028 R030" as RS1
   component "R002 R009 R010 R017\nR015 R024 R025" as RS2
   component "R003 R018 R027\nR026 R029" as RS3
+  component "R031\nthe criterion whose\nowner is unscheduled" as RS4
 }
 
 package "The gate and the verdict" {
@@ -253,9 +255,11 @@ SI --> H4 : coverage and the\nunread remainder
 UC --> RS1
 SAD --> RS2
 DM --> RS3
+DC --> RS4
 RS1 --> H4
 RS2 --> H4
 RS3 --> H4
+RS4 --> ARV : can hold the\nmilestone open
 H4 --> ARV : the verdict reads the answer
 
 note bottom of RS3
@@ -263,6 +267,13 @@ note bottom of RS3
   where a pre-existing database and the replaced registration
   become visible. Neither is retired by a document: both are
   statements of what the persistence does not guarantee.
+end note
+
+note bottom of RS4
+  R031 is the only exposure that reaches the verdict without
+  passing through gate H4: it is a criterion the phase itself
+  cannot close, so it holds the milestone whether or not the
+  stakeholder answers.
 end note
 @enduml
 ```
