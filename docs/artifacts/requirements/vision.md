@@ -1,11 +1,9 @@
 ## Document Control
-
 - Phase: Excavation
 - Status: Draft — produced for the end-of-Excavation (AR) milestone review
 - Milestone Target: end-of-Excavation (AR) — not yet achieved
-- Iteration: 1, Cycle 1
+- Iteration: 2, Cycle 1
 - Owner: System Analyst
-
 ## Problem Statement
 
 The delivery states no problem. `.iari/README.md` records what is absent from it — no requirements, design or architecture document, no manual — and the root `README.md` describes how to run the application, not what it is for. The problem the system addresses, the people it affects beyond the person who uses it, and any measure of success are therefore **not established by the delivery**. Nothing below fills them in.
