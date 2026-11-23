@@ -730,3 +730,24 @@ MR -> RC : the verdict the coordinator's milestone decision rests on
 No Critical finding was raised: nothing in these four artifacts needs a decision only the stakeholder can take, and the two decisions this iteration did need — the priority order, and the R012 and R016 acceptances — were already answered on 2026-11-23. The three Minor findings are recorded for their owners' next turn and do not hold the milestone.
 
 The four Major findings do. Each is content another role builds on: the Software Architect is directed to a policy no file records, the System Analyst is handed a constraint list five short of the count stated beside it, and the magnitudes sequence the milestones on scores that cannot be reproduced from their stated inputs. The SBC milestone is therefore not sanctioned by this lens until those four are reworked and this review re-runs against them. Excavation reads the recovered perimeter, not these corrected assertions, so it may proceed in parallel only on the reading itself.
+
+### Management Reviewer lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+**No-Go.**
+
+The System Boundary Confirmed milestone is **not achieved**, and the stakeholder withheld the sanction on 2026-11-23. The project does not advance into Excavation on this baseline.
+
+The gate's own condition failed first: asked whether they confirm the perimeter of the existing system as the System Inventory records it and sanction advancing past SBC, the stakeholder answered "No". A perimeter confirmation is not the reviewers' to infer, and the Iteration Plan records one that did not happen. That is a defect in the plan and the reason the verdict cannot be anything but No-Go even before the technical findings are counted.
+
+Six Major findings stand open across the four artifacts under review — two from this lens, four from the Reviewer's — plus six Minor. No Critical finding was raised: nothing here needs a decision only the stakeholder can take to be corrected, and the two decisions this iteration did need — the perimeter-membership questions and the priority order — were answered on 2026-11-23. The two Majors that would have required a stakeholder decision, R004's and R011's grant band, become a question to the stakeholder the moment the Project Manager reconciles the scores, and that question is ordered in the actions above.
+
+The defects are corrections to content already written, not new scope, and all six fall inside artifacts the sprint zero already owns. The reading itself — the perimeter, the entry points, the priorities, the stores, the documentation — is what this gate exists to establish and it holds without a finding from this lens: the System Inventory is the strongest artifact of the four and the only one this lens passes untouched.
+
+**Iteration acceptance, stated apart from the milestone verdict.** The iteration's six objectives were all delivered: the tailoring exists, the system is read and its perimeter stated, the unread remainder is declared, the anomalies are carried as scored and owned risks, the priorities are ordered with the stakeholder's answer recorded, and the plan for the rest of the sprint zero and the phases exists. The work of iteration 1 is done. What it produced is not yet certifiable. Those are different questions and this record answers them differently on purpose.
+
+**What reopens this gate.** All six Major findings reworked and closed by their owners, both review lenses re-run against the rework, the Development Case's duplication deleted on the stakeholder's order, and any risk the reconciled scores place at Significant or High put to the stakeholder and granted or refused in their own words. Then the sanction question is asked again — with the new count in it — and the verdict re-taken. Until then the Review Coordinator has no sanction to record and Excavation has no perimeter to recover from.
+
+**Sanction token for the record.** Stakeholder sanction: REFUSED — 2026-11-23.
