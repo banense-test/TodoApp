@@ -1280,7 +1280,6 @@ end note
 | An abstraction over the two declarations of the wire contract | None. Three declarations of the token shape and two of each request shape, with no shared type and no compiler between them | `Todo.Web/Shared/SharedClass.cs:5-31`; `Todo.Api/Todos/Todo.cs:15-21`; `Todo.Api.Tests/UserApiTests.cs:178-183` |
 
 ## Traceability
-
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
 | CLS-001 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
@@ -1295,9 +1294,9 @@ end note
 | CLS-010 | UC-003 | Realizes | — |
 | CLS-011 | UC-001, UC-002, UC-003 | Realizes | — |
 | CLS-012 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
-| CLS-013 | UC-006 | Realizes | — |
-| CLS-014 | UC-006 | Realizes | — |
-| CLS-015 | UC-006 | Realizes | — |
+| CLS-013 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-014 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-015 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
 | CLS-016 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
 | CLS-017 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
 | CLS-018 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
