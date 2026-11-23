@@ -6,7 +6,7 @@
 - Owner: Project Manager
 
 ## Iteration Objectives Reached
-Nine objectives were planned for this iteration and three phase objectives were planned for the phase; they are answered together below, because the phase objectives are what the nine exist to deliver. Four of the nine are met on the artifact that carries their evidence, two are met on carriage or existence while a Major stands against them, one is met clean, and two are not met — one because a Minor its owner the phase does not schedule, one because the stakeholder withheld the confirmation.
+Nine objectives were planned for this iteration and three phase objectives were planned for the phase; they are answered together below, because the phase objectives are what the nine exist to deliver. Two of the nine are met on the artifact that carries their evidence, two are met on carriage or existence while a Major stands against them, two are partially met, and three are not met — two because an artifact's own Major holds them, one because a Minor's owner the phase does not schedule prevented it, one because the stakeholder withheld the confirmation.
 
 The verdict this answers is not this record's: **the Review Coordinator returned AR: iteration required**, on 0 Critical, 8 Major and 8 Minor findings open at the gate. Nothing below re-decides that.
 
@@ -18,15 +18,23 @@ skinparam classAttributeIconSize 0
 hide empty members
 skinparam wrapWidth 250
 
-package "Met on the artifact that carries the evidence" {
+package "Met on the artifact that carries the evidence - 2" {
+  class "O1 use cases recovered" as O1 {
+    verdict : Met
+    evidence : 11 use cases over 22 entry points
+    open : Use-Case Model Major F1, Vision Major F1
+  }
   class "O5 design and persistent data" as O5 {
     verdict : Met
     evidence : 42 classes, 8 tables, keys and rules
     open : Design Model Minor F1
   }
+}
+
+package "Met on carriage or existence, a Major standing - 2" {
   class "O6 anomalies carried as risks" as O6 {
     verdict : Met on carriage
-    evidence : 29 anomalies, 31 risks, one mapping
+    evidence : 29 anomalies, 32 risks, one mapping
     open : Risk List Major F2 - R030 read as retired
   }
   class "O7 the plan exists at both levels" as O7 {
@@ -34,18 +42,9 @@ package "Met on the artifact that carries the evidence" {
     evidence : coarse roadmap plus 14 work items
     open : Iteration Plan Major F3
   }
-  class "O1 use cases recovered" as O1 {
-    verdict : Met
-    evidence : 11 use cases over 22 entry points
-    open : Use-Case Model Major F1, Vision Major F1
-  }
 }
 
-package "Not met as written" {
-  class "O2 supplementary constraints" as O2 {
-    verdict : Not met
-    cause : two Majors - the rate budget and R4
-  }
+package "Partially met - 2" {
   class "O3 architecture recovered" as O3 {
     verdict : Partially met
     cause : 22 components, one mechanism value wrong
@@ -53,6 +52,13 @@ package "Not met as written" {
   class "O4 deployment modelled" as O4 {
     verdict : Partially met
     cause : the one setting that differs, backwards
+  }
+}
+
+package "Not met - 3" {
+  class "O2 supplementary constraints" as O2 {
+    verdict : Not met
+    cause : two Majors - the rate budget and R4
   }
   class "O8 the four SBC Minors closed" as O8 {
     verdict : Not met - 3 of 4
@@ -111,7 +117,7 @@ The asymmetry is the iteration's own lesson: the architecture and the data were 
 | O3 | The architecture the delivery already has is recovered, not invented | Software Architect | **Partially met** | The Software Architecture Document records 22 components and connectors and the mechanisms, technology and deployment, each anchored. `Software Architecture Document#F1` holds the same rate-limit figure as O2's defect and cites no `AN-024`, and it is the copy the Deployment Model inherits |
 | O4 | The topology the delivery runs in is stated | Software Architect | **Partially met** | The Deployment Model exists — the phase's fired OPTIONAL — and records the processes, the nodes, the stores, the ports and what must be shared (`AN-010`, `AN-013`). `Deployment Model#F1` states its preamble and its Rate limiting row backwards: the artifact whose purpose is to say what differs between environments concludes that one setting does, and the second is the one that does |
 | O5 | The design and the persistent data are recovered | Designer, Database Designer | **Met** | 42 classes with their anchors, the domain model, the packages, the relationship inventory, the entities, the owner key and its re-point, the enforced rules and what the schema does not hold. `Design Model#F1` cites `AN-005` where it means `AN-025` in one diagram — a contained defect on a citation, not on the recovered data |
-| O6 | The anomalies the recovery surfaced are carried as scored, owned risks | Project Manager | **Met on carriage; one row not truthful** | 29 anomalies map to 31 risks with no silent omission, every anomaly-derived score reproduces from the one published mapping, and the four Significant-band acceptances carry the stakeholder's own answer. `Risk List#F2` (Management Reviewer) records that `R030` was read as avoided while its retirement action was performed in no artifact — a strategy asserting a retirement that did not happen. Corrected in this turn |
+| O6 | The anomalies the recovery surfaced are carried as scored, owned risks | Project Manager | **Met on carriage; one row was not truthful** | 29 anomalies map to 32 risks with no silent omission, every anomaly-derived score reproduces from the one published mapping, and the four Significant-band acceptances carry the stakeholder's own answer. `Risk List#F2` (Management Reviewer) records that `R030` was read as avoided while its retirement action was performed in no artifact — a strategy asserting a retirement that did not happen. Corrected in this turn, and the register now reads `R030` as not yet retired |
 | O7 | The plan for this phase and the milestones ahead exists | Project Manager | **Met on existence** | Both levels are present: the coarse roadmap with its milestone sequence and the fine plan with fourteen work items and their owners. `Iteration Plan#F3` (Management Reviewer) records that A10 was certified on the System Inventory's identification of a contradiction rather than on the recovered set the criterion governs. Corrected in this turn |
 | O8 | The Minors the SBC review left open are closed, not carried again | The owner each finding names | **Not met — 3 of 4** | `Iteration Plan#F2`, `Iteration Plan#F3` and `System Inventory#F3` are corrected in their artifacts and closed by their lenses. `Development Case#F2` stands: "Roles and Ownership" still omits the Management Reviewer, the Business Reviewer and the Review Coordinator, and CLS-DC-01 draws no edge from them. Its owner, the Process Engineer, has no stage in Excavation because Environment runs at no intensity here. Carried as `R031`, which has materialized |
 | O9 | The recovered set is put to the stakeholder for confirmation | Project Manager puts it; the stakeholder answers | **Not met — refused** | Gate H4 was put at the AR review and answered No, with the order "We must correct all major findings." The refusal is not a defect the team repairs and not a finding against an artifact: a sanction withheld cannot be written as granted, and this record does not write it so |
