@@ -574,127 +574,119 @@ No finding from this lens, in either iteration. The reading is the artifact this
 **Not this lens's findings, and not this lens's to close.** The technical lens's two open Minors — `System Inventory#F3` and `Iteration Plan#F3`, both status metadata — belong to that lens and are closed by it. They are named here only so the Review Coordinator's consolidated count is complete.
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-**Consolidated finding ledger.** Ten findings were recorded by two executed lenses; none carries a resolution object. Counts below are copied from `read_artifact_findings`, not from any sentence in this record: open Critical 0, open Major 6, open Minor 4, open Info 0.
+**Consolidated finding ledger.** Fourteen findings were recorded against the four artifacts by the two executed lenses across the SBC review's two iterations. Ten carry a resolution object and are closed by their recording lens; four are open, all Minor. Counts below are copied from `read_artifact_findings` on each artifact, not from any sentence in a reviewer's narrative.
 
-| Artifact | Key | Lens | Severity | Criterion | Owner | What the owner must do |
-|---|---|---|---|---|---|---|
-| Development Case | F1 | Reviewer | Major | consumed-defect | Process Engineer | Name the file recording the version policy, or replace the claim with central pinning and nuget.org-only |
-| Development Case | F2 | Reviewer | Minor | contained-defect | Process Engineer | Delete the duplicated role-delta list and the duplicated CLS-DC-01 diagram |
-| Development Case | F1 | Management Reviewer | Minor | contained-defect | Process Engineer | The same duplication, under the stakeholder's order of 2026-11-23 |
-| System Inventory | F1 | Reviewer | Major | trace-gap | Software Archaeologist | Add EP-007 to the AN-021 Traceability row |
-| System Inventory | F2 | Reviewer | Minor | contained-defect | Software Archaeologist | Recompute Coverage from the per-area table; settle the `docs/` read count |
-| Risk List | F1 | Reviewer | Major | consumed-defect | Project Manager | Score every risk once from the IARI scale and reconcile against the inventory, or declare the score the Project Manager's own reading |
-| Risk List | F1 | Management Reviewer | Major | exit-criterion-unmet | Project Manager | Re-derive the grant band from the reconciled exposures and put every Significant or High risk to the stakeholder |
-| Iteration Plan | F1 | Reviewer | Major | consumed-defect | Project Manager | Name all twelve entry-point-bearing anomalies, or point at the Anomalies table |
-| Iteration Plan | F1 | Management Reviewer | Major | exit-criterion-unmet | Project Manager | Restate C2, C6 and C7 on the evidence each actually has |
-| Iteration Plan | F2 | Reviewer | Minor | contained-defect | Project Manager | Move Gate H1 ahead of the Reviewer in the critical-chain diagram |
+| Artifact | Key | Lens | Severity | Criterion | Owner | Status | The corrective action |
+|---|---|---|---|---|---|---|---|
+| Development Case | F1 | Reviewer | Major | consumed-defect | Process Engineer | Resolved | The unsourced enterprise version policy is deleted; "Tool and configuration references" states only what `Directory.Packages.props`, `global.json` and `nuget.config` carry |
+| Development Case | F2 | Reviewer | Minor | contained-defect | Process Engineer | Resolved | One role-deltas statement and one CLS-DC-01 diagram retained; the duplicate deleted |
+| Development Case | F1 | Management Reviewer | Minor | contained-defect | Process Engineer | Resolved | The same duplication, under the stakeholder's order of 2026-11-23; verified at "Roles and Ownership" |
+| Development Case | F2 | Management Reviewer | Minor | contained-defect | Process Engineer | **Open** | The co-owned-artifact sentence and CLS-DC-01 must name Management Reviewer, Business Reviewer and Review Coordinator among the lenses writing into the Review Record |
+| System Inventory | F1 | Reviewer | Major | trace-gap | Software Archaeologist | Resolved | AN-021 row reads `DependsOn EP-004, EP-005, EP-007`, matching the diagram and the trace tree |
+| System Inventory | F2 | Reviewer | Minor | contained-defect | Software Archaeologist | Resolved | Coverage recommends itself from its own per-area table: 133 files, 79 read, 54 unread; the `docs/` row decided explicitly |
+| System Inventory | F3 | Reviewer | Minor | contained-defect | Software Archaeologist | **Open** | Set the Document Control iteration field to 2, Cycle 1 |
+| Risk List | F1 | Reviewer | Major | consumed-defect | Project Manager | Resolved | One published word-to-score mapping; all 21 anomaly-derived rows reproduce from it; R004 and R011 land at 4 × 3 = 12 |
+| Risk List | F1 | Management Reviewer | Major | exit-criterion-unmet | Project Manager | Resolved | The grant band re-derived from the reconciled exposures; every Significant-band acceptance holds the stakeholder's own answer |
+| Iteration Plan | F1 | Reviewer | Major | consumed-defect | Project Manager | Resolved | All twelve entry-point-bearing anomalies named with their 21 edges; the nine with no entry point listed separately |
+| Iteration Plan | F2 | Reviewer | Minor | contained-defect | Project Manager | Resolved | Gate H2 placed ahead of the verdict it feeds, in both the coarse roadmap and the critical chain |
+| Iteration Plan | F1 | Management Reviewer | Major | exit-criterion-unmet | Project Manager | Resolved | C2 split into C2a and C2b, C6 restated on the reproducible coverage figure, C7 split into carriage and reproducibility |
+| Iteration Plan | F3 | Reviewer | Minor | contained-defect | Project Manager | **Open** | Correct the fine-plan State column of rows 4, 5 and 6, or delete the column |
+| Iteration Plan | F2 | Management Reviewer | Minor | contained-defect | Project Manager | **Open** | C2b restated as Met on the gate H2 answer, with that answer as its evidence |
 
-**Finding lifecycle and escalation path.**
-
-```plantuml
-@startuml
-title Finding lifecycle and escalation path - where the ten SBC findings stand
-
-skinparam shadowing false
-
-[*] --> Open : lens records it via record_artifact_finding
-Open --> Assigned : owner named from the lens's Remediation
-Assigned --> InProgress : owner reworks the artifact
-InProgress --> Resolved : owner states the corrective action done
-Resolved --> Verified : the SAME lens re-reads the artifact
-Verified --> Closed : resolve_artifact_finding accepted
-Resolved --> Open : lens finds the defect still stands
-
-state "Escalated - overdue" as Escalated
-Open --> Escalated : deadline missed by more than 1 business day
-Assigned --> Escalated : no owner action by deadline
-Escalated --> Assigned : Project Manager assigns, or CCB opens a CR
-note bottom of Escalated
-  Escalation is the coordinator's channel, never
-  the coordinator's fix: written notice to the
-  Project Manager, or to the CCB when the defect
-  is a process failure across artifacts.
-end note
-
-state "Stakeholder decision required" as Critical
-Open --> Critical : severity Critical
-Critical --> Assigned : REQUIRES_USER_INPUT answered
-note bottom of Critical
-  No finding at SBC holds this state:
-  open Critical = 0.
-end note
-
-note right of Open
-  At this milestone: 10 recorded,
-  10 Open, 0 Resolved, 6 Major, 4 Minor.
-end note
-@enduml
-```
-
-**Cross-lens reconciliation — no conflict, four chains.**
-
-The two lenses raised no contradictory finding: neither found the other's defect to be absent, and no owner was given two incompatible instructions. Four relationships govern the order of rework:
+Findings on the Iteration Assessment and on the Review Record: none recorded in either iteration.
 
 ```plantuml
 @startuml
-title Cross-lens reconciliation - ten findings on four artifacts, and which rework unblocks which
-
+title Consolidated SBC ledger - fourteen findings over two iterations, four open Minors and nothing above them
 skinparam shadowing false
-skinparam wrapWidth 260
+skinparam classAttributeIconSize 0
+hide empty members
+skinparam wrapWidth 240
 
 package "Development Case" {
-  class "Development Case#F1\nReviewer / Major / consumed-defect\nan enterprise version policy no file records" as DC1
-  class "Development Case#F2\nReviewer / Minor / contained-defect\nduplicated role deltas and diagram" as DC2
-  class "Development Case#F1\nManagement Reviewer / Minor / contained-defect\nthe same duplication, ordered by the stakeholder" as DC3
+  class "DC as reviewed" as DC {
+    F1 Reviewer Major : resolved
+    F2 Reviewer Minor : resolved
+    F1 Management Minor : resolved
+    F2 Management Minor : open
+  }
 }
 
 package "System Inventory" {
-  class "System Inventory#F1\nReviewer / Major / trace-gap\nAN-021 row short of the tree by one edge" as SI1
-  class "System Inventory#F2\nReviewer / Minor / contained-defect\nCoverage headline does not reproduce" as SI2
+  class "SI as reviewed" as SI {
+    F1 Reviewer Major : resolved
+    F2 Reviewer Minor : resolved
+    F3 Reviewer Minor : open
+  }
 }
 
 package "Risk List" {
-  class "Risk List#F1\nReviewer / Major / consumed-defect\n13 scores contradict the inventory" as RL1
-  class "Risk List#F1\nManagement Reviewer / Major / exit-criterion-unmet\nC8 cannot be certified on these scores" as RL2
+  class "RL as reviewed" as RL {
+    F1 Reviewer Major : resolved
+    F1 Management Major : resolved
+  }
 }
 
 package "Iteration Plan" {
-  class "Iteration Plan#F1\nReviewer / Major / consumed-defect\ntwelve anomalies claimed, seven named" as IP1
-  class "Iteration Plan#F1\nManagement Reviewer / Major / exit-criterion-unmet\nC2, C6, C7 certified on evidence that does not state them" as IP2
-  class "Iteration Plan#F2\nReviewer / Minor / contained-defect\nGate H1 drawn after the verdict it feeds" as IP3
+  class "IP as reviewed" as IP {
+    F1 Reviewer Major : resolved
+    F2 Reviewer Minor : resolved
+    F1 Management Major : resolved
+    F3 Reviewer Minor : open
+    F2 Management Minor : open
+  }
 }
 
-DC2 -right-> DC3 : same defect, two keys\none correction, each lens closes its own
-RL1 --> RL2 : arithmetic first,\nthe grant band second
-SI2 --> IP2 : the recomputed coverage figure\nis C6's evidence
-RL1 --> IP2 : reconciled scores\nare C7's evidence
-DC1 --> DC3 : one rework pass,\none owner
-IP1 --> IP2 : the dropped five are\nconstraints the criteria certify
+class "Consolidated totals" as TOT {
+  open Critical : 0
+  open Major : 0
+  open Minor : 4
+  resolved by its recording lens : 10
+  conflict between lenses : none
+}
+
+DC --> TOT
+SI --> TOT
+RL --> TOT
+IP --> TOT
+note bottom of TOT
+  Open Major is zero from both executed lenses, so the
+  milestone is not held by a defect. The four Minors are
+  carried into Excavation on the stakeholder's order of
+  2026-11-23 that none is left unattended.
+end note
 @enduml
 ```
 
-1. **Development Case#F2 (Reviewer) and Development Case#F1 (Management Reviewer) are one defect under two keys.** Both describe the duplicated role-delta list and the duplicated CLS-DC-01 diagram. One rework pass by the Process Engineer closes the subject of both; each lens closes its own key with `resolve_artifact_finding`, and no finding is closed by the other lens's verification.
-2. **Risk List#F1 (Reviewer) is upstream of Risk List#F1 (Management Reviewer).** Reconciling the scores is the precondition for re-deriving the grant band. The Project Manager performs both in one pass; the stakeholder question it raises cannot be asked before the arithmetic is settled.
-3. **System Inventory#F2 (Reviewer) is upstream of Iteration Plan#F1 (Management Reviewer) on criterion C6.** C6 cites a coverage figure the System Inventory cannot reproduce. The figure settles first, then the criterion cites the settled figure.
-4. **Risk List#F1 (Reviewer) is upstream of Iteration Plan#F1 (Management Reviewer) on criterion C7.** C7 passes as a counting test while the scores it counts do not reproduce; it splits only once the scores are reconciled.
+**Cross-lens reconciliation — no conflict, four orderings.**
 
-**Priority order of the rework actions** — by consequence, not by artifact order:
+The two lenses raised no contradictory finding: neither found the other's defect to be absent, no owner received two incompatible instructions, and no defect was recorded twice under different criteria. Where two findings touch one subject, the order of rework was settled — and both orders have since been honoured by the owners:
+
+| Ordering | Findings | Why that order |
+|---|---|---|
+| Arithmetic before the grant | Risk List#F1 (Reviewer) → Risk List#F1 (Management Reviewer) | The grant band cannot be re-derived from scores that do not reproduce. Both closed in one Project Manager pass |
+| Figure before criterion | System Inventory#F2 (Reviewer) → Iteration Plan#F1 (Management Reviewer) on C6 | C6 cites a coverage figure; the figure had to be reproducible first |
+| Scores before criterion | Risk List#F1 (Reviewer) → Iteration Plan#F1 (Management Reviewer) on C7 | C7 passed as a counting test while the scores it counted did not reproduce |
+| Stakeholder order before the Minor queue | Development Case#F2 (Reviewer) with Development Case#F1 (Management Reviewer) | The duplication was the stakeholder's own order of 2026-11-23 and rose above the un-ordered Minors |
+
+Two findings described one defect each under two keys — `Development Case#F2` with `Development Case#F1`, and `Risk List#F1` with `Risk List#F1 (Management Reviewer)`. One rework pass closed the subject of each pair; each lens closed only its own key, and neither lens closed the other's.
+
+**Priority of what remains — the four open Minors, in the order Excavation should close them.**
 
 | Priority | Finding | Why it ranks here |
 |---|---|---|
-| 1 | Risk List#F1 (Management Reviewer) with Risk List#F1 (Reviewer) | The defect reaches a grant the project has already taken; the stakeholder question it raises must be asked in this cycle |
-| 2 | Iteration Plan#F1 (Management Reviewer) | It is the evidence column the milestone verdict reads, and it records a confirmation the stakeholder refused |
-| 3 | Development Case#F1 (Reviewer) | It directs the Software Architect at a policy that exists nowhere, and Excavation is the next phase |
-| 4 | Iteration Plan#F1 (Reviewer) | Five constraints on the areas ranked sixth and eighth are not handed to Excavation |
-| 5 | System Inventory#F1 (Reviewer) | One trace edge; the artifact and the tree already hold the truth |
-| 6 | Development Case#F1 (Management Reviewer), Development Case#F2 (Reviewer) | The stakeholder ordered this correction; it rises above the ordinary Minor queue and is not deferred behind them |
-| 7 | System Inventory#F2, Iteration Plan#F2 (Reviewer) | Contained in one artifact each; no role builds on the wrong content |
+| 1 | Iteration Plan#F2 (Management Reviewer) | The plan's evidence column currently reads "Not met" on a criterion the stakeholder has answered Yes; it misstates the project's standing to every reader who opens the plan |
+| 2 | Iteration Plan#F3 (Reviewer) | The same artifact's State column; the Project Manager corrects both in one turn |
+| 3 | Development Case#F2 (Management Reviewer) | The tailoring misdescribes who writes this Review Record — a reader of the tailoring concludes three lenses have no block in the artifact they in fact write |
+| 4 | System Inventory#F3 (Reviewer) | Status metadata only; no reader is misled about content |
 
-**Not findings, and recorded as such.** The absence of a Test Plan, a Data Model and a Glossary is the Development Case's own NOT FIRED verdict on each, checked against its §5.2 condition by both lenses; it is not a delivery gap. The absence of an Iteration Assessment is correct at this point — the Project Manager authors it after this review. The absence of a token budget, a velocity and a forecast is correct: the project declares no budget, no phase has closed, and an empty forecast column is the honest state. No SCM condition holds this gate. The Business Reviewer's non-participation is the process's own schedule, not a gap in this review.
+None of the four holds an exit criterion, blocks a downstream role, or changes the substance of the artifact it sits in. All four are the owners' corrections in Excavation's own iteration, on the stakeholder's order.
+
+**Not findings, and recorded as such.** The absence of a Test Plan, a Data Model and a Glossary is the Development Case's own NOT FIRED verdict on each, checked against its §5.2 condition by both lenses — not a delivery gap. The absence of an Iteration Assessment describing this iteration is correct state at review time. The absence of a token budget, a velocity and a forecast is correct: the project declares no budget and no phase has closed. No SCM condition holds or clears this gate: `ci.yml` does not exist on `main`, no branch of this process exists, no pull request is open and no defect issue is filed — establishing the pipeline is the Integrator's Inception work item, not a Survey defect.
 
 ## Resolutions and Actions
 ### Reviewer lens
