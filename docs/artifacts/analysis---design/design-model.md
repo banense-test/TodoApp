@@ -1677,6 +1677,134 @@ Five operations were recorded with their generic constraints and modifiers dropp
 
 **`CLS-013`'s two computed members carry an unchecked null-forgiving operator.** `Principal.FindFirstValue(ClaimTypes.NameIdentifier)!` suppresses the nullable warning rather than handling the absent claim, so `Id` is typed `string` and can be null at run time. `Principal` is initialised to `default!`, so a `CurrentUser` read before CLS-015 runs dereferences null. Both are the code's contract, not an inference (`Todo.Api/Authorization/CurrentUser.cs:8-11`).
 
+### The collaborators that carry no class, and where the call sites live
+
+Every class above names, in its constructor or its body, collaborators that are not classes the delivery declares. They fall in three kinds, and each kind is missing from the class diagrams for a different reason: a framework contract is not the Implementer's to write, a generated type has no source file, and a top-level program is not a type at all.
+
+```plantuml
+@startuml
+title PKG-D8 The collaborators the 42 classes depend on that carry no CLS label, and why
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 210
+hide circle
+hide empty members
+
+package "Framework types the delivery injects" {
+  class "UserManager&lt;TodoUser&gt;" as UM <<framework>>
+  class "SignInManager&lt;TodoUser&gt;" as SM <<framework>>
+  class "IDataProtectionProvider" as DPP <<framework>>
+  class "IAuthenticationSchemeProvider" as ASP <<framework>>
+  class "IHttpContextAccessor" as HCA <<framework>>
+  class "HttpClient" as HC <<framework>>
+  class "IClaimsTransformation" as ICT <<framework>>
+  class "IAuthorizationHandler" as IAH <<framework>>
+}
+
+package "SDK-generated at build time" {
+  class "Projects.Todo_Api" as PA <<generated>>
+  class "Projects.Todo_Web_Server" as PW <<generated>>
+}
+
+package "Top-level program statements - no type declared" {
+  class "Todo.Api/Program.cs" as P1 <<program>>
+  class "Todo.Web.Server/Program.cs" as P2 <<program>>
+  class "Todo.Web.Client/Program.cs" as P3 <<program>>
+  class "TodoApp.AppHost/Program.cs" as P4 <<program>>
+}
+
+package "Classes that carry a CLS label" {
+  class "CLS-015 ClaimsTransformation" as C15
+  class "CLS-018 CheckCurrentUserAuthHandler" as C18
+  class "CLS-019 UsersApi" as C19
+  class "CLS-023 AuthApi" as C23
+  class "CLS-024 AuthClient" as C24
+  class "CLS-026 App" as C26
+  class "CLS-028 ExternalProviders" as C28
+  class "CLS-029 HttpAuthenticationStateProvider" as C29
+  class "CLS-032 TodoClient" as C32
+  class "CLS-036 Extensions (AppHost)" as C36
+  class "CLS-040 TokenService" as C40
+  class "CLS-012 TodoApi" as C12
+  class "CLS-014 CurrentUserExtensions" as C14
+  class "CLS-016 AuthorizationHandlerExtensions" as C16
+  class "CLS-021 RateLimitExtensions" as C21
+  class "CLS-022 OpenApiOptionsExtensions" as C22
+  class "CLS-025 TodoApi (forwarder)" as C25
+  class "CLS-027 AuthenticationExtensions" as C27
+}
+
+C15 ..|> ICT : implements
+C18 ..> IAH : registered as
+C19 --> UM
+C19 --> SM
+C19 --> DPP
+C23 --> DPP
+C24 --> HC
+C26 --> HCA : resolves through CLS-029
+C28 --> ASP
+C29 --> HCA
+C32 --> HC
+C36 ..> PA
+C36 ..> PW
+C40 --> SM
+P1 ..> C19 : Maps
+P1 ..> C12 : Maps
+P1 ..> C22 : calls
+P1 ..> C21 : calls
+P1 ..> C14 : calls
+P1 ..> C16 : calls
+P2 ..> C23 : Maps
+P2 ..> C25 : Maps
+P2 ..> C27 : calls
+P3 ..> C32 : registers
+P4 ..> C36 : calls
+
+note bottom of PA
+  Aspire generates Projects.Todo_Api and
+  Projects.Todo_Web_Server from the project
+  references; no file in the tree declares
+  either.
+end note
+
+note bottom of P1
+  The four programs are top-level statements.
+  Several calls into CLS classes originate here
+  and nowhere else, which is why no class diagram
+  can show that call site: CLS-022 and CLS-025
+  each have exactly one, and it is one of these.
+end note
+
+note right of UM
+  Every one of these is a framework contract the
+  delivery implements or consumes; none is a class
+  the Implementer writes, so none takes a CLS label.
+end note
+
+@enduml
+```
+
+| Collaborator | Kind | Who depends on it | What the dependency fixes | Anchor |
+|---|---|---|---|---|
+| `UserManager<TodoUser>` | Framework contract | CLS-015, CLS-019, CLS-038, CLS-041, CLS-042 | Account creation, lookup by id, lookup by provider login, adding a login row. It is the only route to `AspNetUsers` in the delivery | `Todo.Api/Authorization/CurrentUserExtensions.cs:23`; `Todo.Api/Users/UsersApi.cs:24,36,44` |
+| `SignInManager<TodoUser>` | Framework contract | CLS-019, CLS-040 | Builds the claims principal for a sign-in; CLS-040 also reads the bearer options from it | `Todo.Api/Users/UsersApi.cs:24,53`; `Todo.Api.Tests/TokenService.cs:8,11` |
+| `IDataProtectionProvider` | Framework contract | CLS-019, CLS-023 | Protects the provider id for transport and unprotects it on exchange. Both processes share the key ring through the `TodoApp` application discriminator | `Todo.Api/Users/UsersApi.cs:24,28`; `Todo.Web/Server/AuthApi.cs:64,77`; `Todo.Api/Program.cs:11`; `Todo.Web/Server/Program.cs:15` |
+| `IAuthenticationSchemeProvider` | Framework contract | CLS-028 | The enumeration CLS-028 turns into the provider list; the class holds no registry of its own | `Todo.Web/Server/Authentication/ExternalProviders.cs:6,22` |
+| `IHttpContextAccessor` | Framework contract | CLS-026, CLS-029 | The HTTP principal CLS-029 returns as the Blazor authentication state; registered by CLS-027 | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:91`; `Todo.Web/Server/Authentication/HttpAuthenticationStateProvider.cs:3,7` |
+| `HttpClient` | Framework contract | CLS-024, CLS-032 | The only outbound HTTP in the delivery. Its base address and handlers are fixed at registration, not by the class | `Todo.Web/Server/AuthClient.cs:3`; `Todo.Web/Client/TodoClient.cs:7` |
+| `IClaimsTransformation` | Framework contract, implemented | CLS-015 | The hook CLS-015 uses to populate CLS-013 without middleware | `Todo.Api/Authorization/CurrentUserExtensions.cs:15` |
+| `IAuthorizationHandler` | Framework contract, implemented | CLS-018 | The registration CLS-018 answers through | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:7,26` |
+| `Projects.Todo_Api`, `Projects.Todo_Web_Server` | SDK-generated, no source | CLS-036 | The project paths the migration step resolves | `TodoApp.AppHost/Extensions.cs:14,25`; `TodoApp.AppHost/Program.cs:5,7` |
+| `Todo.Api/Program.cs` | Top-level statements, no type | CLS-012, CLS-014, CLS-016, CLS-019, CLS-021, CLS-022 | Maps the two endpoint groups and registers the six services they need | `Todo.Api/Program.cs:1-64` |
+| `Todo.Web.Server/Program.cs` | Top-level statements, no type | CLS-023, CLS-025, CLS-027, CLS-032 | Maps the session endpoints and the forwarder; registers `TodoClient` and the `AuthClient` `HttpClient` | `Todo.Web/Server/Program.cs:1-50` |
+| `Todo.Web.Client/Program.cs` | Top-level statements, no type | CLS-032 | Registers the client service and fixes the base address and the `X-Requested-With` header | `Todo.Web/Client/Program.cs:1-14` |
+| `TodoApp.AppHost/Program.cs` | Top-level statements, no type | CLS-036 | Calls the migration helper and wires the wait chain | `TodoApp.AppHost/Program.cs:1-29` |
+
+**Nothing in this table takes a `CLS` label.** A label is a handle for a class the Implementer writes; these are contracts the Implementer consumes, types the build generates, and entry statements that are not types. Minting labels for them would put elements in the trace graph that no implementation can be traced to.
+
+**Why this matters for the use-case realizations.** Two of the delivery's behaviours have no owning class and therefore no edge a class diagram can carry: the registration of the forwarder (`Todo.Web/Server/Program.cs:35`) and the registration of the OpenAPI bearer scheme (`Todo.Api/Program.cs:31`). Both are performed by a top-level statement. A realization that shows CLS-025 receiving a request must start from the forwarder's registration in the program, not from a message between two objects.
+
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
