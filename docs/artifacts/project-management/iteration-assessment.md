@@ -67,7 +67,8 @@ finding keys only;
 avoidance performed on all six, exposure retired, one residual;
 :E9 VARIANCE, NOT PLANNED - Iteration Plan F10
 A12, fine-plan item 7 and the gate table's Answer cell
-found at this gate recording an answer already given;
+found at this gate recording an answer already given,
+and set to it in this record's closing turn;
 
 |System Analyst|
 :E4 Supplementary Specification
@@ -99,7 +100,7 @@ stop
 | 6 | Management lens — A1 to A13 re-taken on the corrected table | Management Reviewer | After item 5 | Ran — `Iteration Plan#F9` and `#F8` closed, `Iteration Plan#F10` recorded, gate H4 put a fourth time | It recorded the one cell class the pass could not have reached: three cells still described the fourth put as unanswered |
 | 7 | Gate H4, fourth put | Stakeholder | After item 6 | **Answered Yes, 2026-11-23** — the advance into Consolidation sanctioned | — |
 | 8 | AR milestone verdict | Review Coordinator | After item 7 | **AR: no further iteration required** — 0 Critical, 0 Major, 2 Minor open | — |
-| V | **Not planned** — `A12`, the gate table's Answer cell and fine-plan item 7 set to the fourth put's answer | Project Manager | — | Outstanding at this assessment, recorded below as the variance | The plan asserted a gate's answer and the answer arrived after the cells were written. `Iteration Plan#F10` — the one class of defect the previous iteration's rule could not pre-empt, because the fact it records did not exist when the cells were written |
+| V | **Not planned** — `A12`, the gate table's Answer cell and fine-plan item 7 set to the fourth put's answer | Project Manager | — | **Performed in this record's closing turn** — `A12` reads "Met — 2026-11-23", fine-plan item 7 reads the answer, the human-gate Answer cell records the Yes | The plan asserted a gate's answer, and the answer arrived after the cells were written. `Iteration Plan#F10` is the one class of defect the previous iteration's rule could not pre-empt, because the fact it records did not exist when the cells were written |
 
 **The variance this iteration owns.** The plan's rule — a cell asserting another artifact's state is re-derived in the same turn that artifact changes — held for every artifact that existed at the start of the iteration, and it is what closed `#F4` and `#F9` in one pass after four consecutive failures. It could not cover the gate answer: `A12`, fine-plan item 7 and the human-gate Answer row described a put that had not yet been made, and their content was written when the honest content was "not yet answered". When the answer arrived the cells were one event behind, and the Management Reviewer recorded that as `Iteration Plan#F10`.
 
