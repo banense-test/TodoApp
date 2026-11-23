@@ -418,6 +418,96 @@ end note
 | DC14 | Neither process restricts the `Host` header it answers: `AllowedHosts` is `*` in both base settings files and neither Development file carries a host section | `Todo.Api/appsettings.json:8`; `Todo.Web/Server/appsettings.json:9`; `Todo.Api/appsettings.Development.json`; `Todo.Web/Server/appsettings.Development.json` |
 
 ## Interfaces
+```plantuml
+@startuml
+title The interface surface the delivery exposes, and the standards each part follows
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam wrapWidth 200
+
+actor "Person with a task list" as USER
+cloud "GitHub, Google, Microsoft account, Auth0" as IDP
+cloud "OTLP collector" as OTEL
+
+package "Todo.Web.Server - /auth, session cookie out" {
+  component "POST /auth/register - EP-004\n{email,password} -> cookie | 401 no body" as I1
+  component "POST /auth/login - EP-005\n{email,password} -> cookie | 401 no body" as I2
+  component "POST /auth/logout - EP-006\nsession -> cookie cleared, no body" as I3
+  component "GET /auth/login/{provider} - EP-007\nchallenge -> redirect, unreachable" as I4
+  component "GET /auth/signin/{provider} - EP-008\ncallback -> cookie, always redirects /" as I5
+}
+
+package "Todo.Web.Server - forwarder" {
+  component "/todos forwarder - EP-009\nany method, any sub-path\ncookie rewritten to bearer" as I6
+}
+
+package "Todo.Api - /todos, bearer required, rate limited" {
+  component "GET /todos - EP-010\n-> TodoItem array" as I7
+  component "GET /todos/{id} - EP-011\n-> TodoItem | 404" as I8
+  component "POST /todos - EP-012\n{title} -> 201 Location + TodoItem" as I9
+  component "PUT /todos/{id} - EP-013\n{id,title,isComplete} -> 200 | 400 | 404" as I10
+  component "DELETE /todos/{id} - EP-014\n-> 200 | 404" as I11
+}
+
+package "Todo.Api - /users, no rate limit on any of it" {
+  component "Identity endpoint set - EP-015\nregister login refresh confirmEmail\nresendConfirmationEmail forgotPassword\nresetPassword manage/2fa manage/info" as I12
+  component "POST /users/token/{provider} - EP-016\n{username,providerKey} -> access token | problem" as I13
+}
+
+package "Todo.Api - description, reference UI, health" {
+  component "GET / - EP-017\n-> redirect /scalar/v1" as I14
+  component "GET /openapi/v1.json - EP-018\nOpenAPI 3, bearer scheme applied" as I15
+  component "Scalar reference UI - EP-019\nDevelopment only" as I16
+  component "GET /health - EP-020\nGET /alive - EP-021\nDevelopment only" as I17
+}
+
+package "Configuration surfaces, not endpoints" {
+  component "Authentication:Schemes:<name> - I18\nno provider present in the delivery" as I18
+  component "OTEL_EXPORTER_OTLP_ENDPOINT - I19\nempty -> no OTLP export" as I19
+  component "ConnectionStrings:Todos - I20\nabsent -> Data Source=.db/Todos.db" as I20
+}
+
+USER --> I1
+USER --> I2
+USER --> I3
+USER --> I4
+IDP --> I5 : on the person's behalf
+USER --> I6 : /todos through the client
+I6 --> I7 : Authorization: Bearer
+I6 --> I8
+I6 --> I9
+I6 --> I10
+I6 --> I11
+I13 --> I18 : provider identity
+I18 --> IDP : handler registered only when configured
+I19 --> OTEL : export when non-empty
+
+note right of I5
+  AS3 - OAuth 2.0 and OpenID Connect at the provider boundary.
+  Followed by the framework handlers, unexercised in the
+  delivered configuration: no Authentication:Schemes section
+  exists, so the sign-in path is unreachable (AN-010).
+end note
+
+note bottom of I12
+  AS2 - problem details for machine-readable errors - is followed
+  on validation failures and NOT followed here: every
+  authentication and registration failure answers 401 with no
+  body (AN-021). AS7 - accessibility - is not established at all:
+  no statement, no test, and no attribute beyond aria-label on
+  the one inert control.
+end note
+
+note bottom of I9
+  AS1 - HTTP semantics: verbs, status codes and the Location header
+  on creation. AS5 - OpenAPI 3 as the API description. Both followed
+  by the code and claimed by no document.
+end note
+
+@enduml
+```
+
 **The transport between the two processes is plain HTTP by default configuration.** The BFF's only address for the API is the literal `http://todoapi`, and the API's pipeline registers only HTTP logging and the rate limiter — no HTTPS redirection, no HSTS, no antiforgery. Nothing in the delivery terminates TLS between them, so the bearer token and the credentials that derive it cross that hop in clear text unless a terminator outside the tree is placed in front of the API, and the delivery configures none (`DC13`). Neither process restricts the `Host` header it answers: `AllowedHosts` is `*` in both base settings files (`DC14`). The BFF's own three protections stop at its own edge (`R11`).
 
 | # | Interface | What it is, and what it carries | Anchor |
