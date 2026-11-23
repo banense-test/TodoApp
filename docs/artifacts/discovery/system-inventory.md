@@ -242,7 +242,7 @@ Commit history is the only record of how the system reached its present shape; t
 | README.md | 20 commits, 2022-12-02 to 2025-09-28; older history beyond them | Serilog added then replaced by OpenTelemetry (`764573c`, `5667455`); the external-OIDC section removed (`2c4300d`); docker-compose documented then dropped (`8e8e8a1`); clarity edits (`a6ff858`) | Consolidating | `a6ff858`, `beb0011`, `fdc49bb`, `3308193`, `c064cff`, `09ea52d`, `6b9f07e`, `2c4300d`, `764573c`, `5667455`, `8e8e8a1` |
 
 ## Anomalies
-Each anomaly is a risk: the evidence is anchored, the likelihood says how likely it is to bite, the impact how much it costs when it does. The Project Manager carries these into the Risk List by `AN-NNN`. Fourteen sit on an entry point and are carried below as a `DependsOn` edge; the other seven concern the build, the tests or the delivery and have no entry point to hang from.
+Each anomaly is a risk: the evidence is anchored, the likelihood says how likely it is to bite, the impact how much it costs when it does. The Project Manager carries these into the Risk List by `AN-NNN`. Twelve of them sit on an entry point and are carried below as twenty-one `DependsOn` edges; the other nine concern the build, the tests or the delivery and have no entry point to hang from. None of the twelve is a defect of a path the stakeholder excluded: the provider sign-in path and the admin branch stay in the perimeter as decided on 2026-11-23, so their anomalies stay live risks.
 
 ```plantuml
 @startuml
@@ -269,7 +269,7 @@ package "Entry points" {
   component "EP-022  migration platform event" as E22
 }
 
-package "On an entry point" {
+package "On an entry point - twelve anomalies, twenty-one edges" {
   component "AN-001  no UI path to complete a todo" as A1
   component "AN-002  no BFF-to-API authentication" as A2
   component "AN-004  admin role never granted" as A4
@@ -284,7 +284,7 @@ package "On an entry point" {
   component "AN-021  every auth failure answers 401" as A21
 }
 
-package "No entry point - build, tests, delivery" {
+package "No entry point - nine anomalies, build, tests, delivery" {
   component "AN-003  request contracts declared twice" as A3
   component "AN-005  migrations not exercised" as A5
   component "AN-006  unused test dependency" as A6
