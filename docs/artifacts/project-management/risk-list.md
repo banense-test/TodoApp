@@ -262,7 +262,50 @@ Four risks carry the accept strategy in the Significant band, where acceptance i
 The eighteen Significant-band risks that avoid — `R001`, `R002`, `R003`, `R005`, `R007`, `R009`, `R010`, `R018`, `R020`, `R021`, `R023`, `R024`, `R026`, `R028`, `R030`, `R031`, `R032` — are retired by the action its owner performs. They are not accepted and need no grant. `R030` is the one whose action has not been performed, and it is stated as not retired rather than as avoided.
 
 ## Risk Mitigation and Contingency
-Each risk carries the action its owner takes and the sign that it has started to bite. A risk accepted carries a mitigation as well as a contingency; a risk avoided is retired by its action, which the named owner performs.
+Each risk carries the action its owner takes and the sign that it has started to bite. A risk accepted carries a mitigation as well as a contingency; a risk avoided is retired by its action, which the named owner performs. A risk whose action has not been performed is stated as not yet retired: avoidance is a claim of retirement, not a status note, and this register does not make that claim where it is not true.
+
+```plantuml
+@startuml
+title What retirement actually requires - the risk whose action was planned, assigned and skipped
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam wrapWidth 230
+left to right direction
+
+package "Risk whose action did not land" {
+  component "R030\nsession surface read as settled\n4 x 3 = 12, Significant" as R30
+}
+package "What retirement requires" {
+  component "a statement beside UC-001 to UC-004\nciting AN-029" as ACT
+}
+package "What happened in iteration 1" {
+  component "item 4 closed on five of six\nR030 skipped" as GAP
+  component "register read the risk as avoided\nbefore the lens caught it" as CLAIM
+}
+package "What iteration 2 does" {
+  component "item 5 writes the statement\nor the risk stays open" as IT2
+}
+package "Where the strategy is now honest" {
+  component "R030 reads Avoid - not yet retired" as HONEST
+}
+
+R30 --> ACT : retired only by
+ACT --> GAP : not written
+GAP --> CLAIM : a closure was asserted
+CLAIM --> IT2 : corrected
+IT2 --> HONEST
+
+note bottom of GAP
+  The plan assigned six risks to one stretch and the
+  stretch was assessed over the five that landed.
+  A stretch that closes five of six is not complete.
+end note
+note bottom of HONEST
+  Avoidance is a claim of retirement, not a status note.
+  The register now says which it is.
+end note
+@enduml
+```
 
 | ID | Strategy | Action | Owner | Contingency if it materializes | Warning sign |
 |---|---|---|---|---|---|
@@ -289,15 +332,15 @@ Each risk carries the action its owner takes and the sign that it has started to
 | R021 | Avoid | Record in the recovered use cases that every authentication failure answers 401 with no body, and that the client shows one fixed string | System Analyst | A phase designs a distinction the system does not carry | A recovered flow names a cause the API does not report |
 | R022 | Accept | Mitigation: every question to the stakeholder is asked in the same turn it is found, with the answer it needs stated so a one-word reply settles it; no answer is assumed while it is open. Contingency: an open grant holds the milestone and is escalated rather than filled — the process suspends rather than auto-filling an approval | Project Manager | A gate exceeds its ceiling: nothing is auto-filled, the milestone is not closed, and the queue is reported apart from agent time | A question is found in one iteration and not asked until the next |
 | R023 | Avoid | Record in the recovered authorization statement that lockout is enforced at the password sign-in alone, that a locked account keeps every token it already holds, and that the guard's own TODO marks the check it omits | System Analyst | A phase designs a lockout enforcement the handler does not perform; the statement is corrected against the guard | An authorization flow shows a lockout check on a request |
-| R024 | Avoid | Record in the Software Architecture Document's mechanisms that the two outbound hops differ: the token client inherits the standard resilience handler, the `/todos` forwarder inherits none, and a failed write reports nothing to the person | Software Architect | A phase designs retry or circuit-breaking on the forwarder as if it existed, and the mechanism description is corrected | Both hops described as carrying the same handler |
+| R024 | Avoid | Correct the Supplementary Specification's R4 to state the two hops apart, so the only artifact that still carries the error is fixed; the Software Architecture Document's P6 and the Design Model's PKG-D3 already state the difference correctly and are the reading to correct R4 against | Software Architect | A phase designs retry or circuit-breaking on the forwarder as if it existed, and the mechanism description is corrected | Both hops described as carrying the same handler |
 | R025 | Avoid | Record beside the limiter's mechanism that the Development configuration overrides all three values to 50, that both launch profiles run in Development, and that no other environment file carries the section — so no figure measured there describes another environment | Software Architect | A capacity or throttling figure is taken in Development and published as the system's; it is re-taken with the section removed | A load observation cites a request budget of 50 |
 | R026 | Avoid | Record in the persistent-data description that the third migration re-pointed `Todos.OwnerId` from `UserName` to `Id` and converted no row, and that a database is only consistent if written after migration 3 | Database Designer | A deployment targets a pre-existing database: converting the owner column becomes a declared migration requirement — a change request, not a recovered fact | A deployment plan names an existing database file |
 | R027 | Avoid | Record in the Design Model and the recovered list flow that an absent base address answers `200` with an empty list, so the component cannot distinguish a failure from an empty list and the spinner is never reached | Designer | A phase builds error reporting on a distinction the client does not make, and the flow is corrected | A recovered flow shows the list reporting an unreachable API |
 | R028 | Avoid | Record in the recovered registration statement that a provider-created account carries no email, so it cannot sign in with a password, confirm, recover or refresh through the framework's endpoints, and that the email index is not unique | System Analyst | A phase designs address confirmation or password recovery for a provider account, and the flow is corrected against the exchange | A recovered flow shows a provider account confirming an address |
 | R029 | Avoid | Record in the persistent-data description that the test host replaces the production `DbContextOptions` registration, so no test exercises the connection-string resolution, the `.db` fallback, the context lifetime or the migration-built schema | Database Designer | A phase cites the suite as evidence about persistence, and the citation is withdrawn or the suite is extended | A persistence statement is called verified by the test suite |
-| R030 | Avoid | Record beside the recovered session flows that the file carrying them is the delivery's most-reworked file, that none of its fifteen commits touched a failure path, and that no test covers it — so what Excavation recovers there is read from code that never settled | System Analyst | A phase treats the session behaviour as stable and builds on it without re-reading; the flows are re-read against the file before the baseline | A design cites the session surface as settled |
-| R031 | Avoid | State in the plan, beside the criterion, that A11 counts an artifact whose owner the phase does not schedule, and put the correction to its owner in this iteration's Work Order so it can land before the lenses rule. Do not mark the criterion met, and do not mark the artifact's work item complete | Project Manager | The correction does not land: A11 reads three of four, the AR milestone does not close on this iteration, and the phase opens a second Excavation iteration planned from the Review Record. Declared work is never cut to avoid it | The technical lens returns and "Roles and Ownership" still omits the three lenses |
-
+| R030 | Avoid — **not yet retired** | Write a statement beside UC-001 to UC-004 in the Use-Case Model that the file carrying them is the delivery's most-reworked file, that none of its fifteen commits touched a failure path, and that no test covers it — so what Excavation recovers there is read from code that never settled, citing `AN-029`. Iteration 2 item 5. Until it is written this risk is open, not retired | System Analyst, then Project Manager | A phase treats the session behaviour as stable and builds on it without re-reading; the flows are re-read against the file before the baseline | A design cites the session surface as settled |
+| R031 | Avoid — **materialized** | The correction to `Development Case#F2` is stated as an iteration-2 work item with the Process Engineer as its owner, on the stakeholder's order of 2026-11-23, and recorded as work the phase runs on that order rather than as a discipline stage. A11 is not marked met until the artifact carries it | Project Manager | The correction does not land: A11 reads three of four again, the AR milestone does not close on iteration 2's evidence either, and the phase opens a third iteration planned from the Review Record. Declared work is never cut to avoid it | The technical lens returns and "Roles and Ownership" still omits the three lenses |
+| R032 | Avoid | Iteration 2's work items 1, 2, 7 and 8 are ordered so the fact is settled once — in the Supplementary Specification — and the other three artifacts are corrected against it, each citing `AN-024` or `AN-023`. The lenses re-read all four in one pass (item 12), so a re-transcription that disagrees is caught at the same gate rather than at a later one | Project Manager | A corrected figure is transcribed wrongly a second time: the four artifacts disagree at the next milestone, and the disagreement is resolved by reading the code rather than by choosing between the artifacts | Two artifacts cite one `AN-NNN` and state different values for it |
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
