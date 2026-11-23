@@ -242,58 +242,70 @@ Commit history is the only record of how the system reached its present shape; t
 | README.md | 20 commits, 2022-12-02 to 2025-09-28; older history beyond them | Serilog added then replaced by OpenTelemetry (`764573c`, `5667455`); the external-OIDC section removed (`2c4300d`); docker-compose documented then dropped (`8e8e8a1`); clarity edits (`a6ff858`) | Consolidating | `a6ff858`, `beb0011`, `fdc49bb`, `3308193`, `c064cff`, `09ea52d`, `6b9f07e`, `2c4300d`, `764573c`, `5667455`, `8e8e8a1` |
 
 ## Anomalies
-Each anomaly is a risk: the evidence is anchored, the likelihood says how likely it is to bite, the impact how much it costs when it does. The Project Manager carries these into the Risk List by `AN-NNN`. Twelve of them sit on an entry point and are carried below as twenty-one `DependsOn` edges; the other nine concern the build, the tests or the delivery and have no entry point to hang from. None of the twelve is a defect of a path the stakeholder put out of the perimeter: the provider sign-in path and the admin branch both stay in it as decided on 2026-11-23, so their anomalies stay live risks.
+Each anomaly is a risk: the evidence is anchored, the likelihood says how likely it is to bite, the impact how much it costs when it does. The Project Manager carries these into the Risk List by `AN-NNN`. Eighteen of them sit on an entry point and are carried below as thirty-five `DependsOn` edges; the other ten concern the build, the tests, the pipeline or the delivery and have no entry point to hang from. None of the eighteen is a defect of a path the stakeholder put out of the perimeter: the provider sign-in path and the admin branch both stay in it as decided on 2026-11-23, so their anomalies stay live risks.
+
+Two of the twenty-eight are the reading's own finds against a claim made upstream, and both are recorded here rather than left for a reader to trip over. AN-024 holds that the Development configuration halves the request budget the code sets; that contradicts Supplementary Specification S2 and the Software Architecture Document's SP1 and M3, which state 100 tokens, 100 per period and no `RateLimiting` section anywhere. AN-025 holds that the third migration re-pointed the owner key without converting a row; the Design Model records that fact and attributes it to AN-005, whose subject is the test suite building its schema with `EnsureCreated` instead of the migrations. Both corrections belong to the roles that own the statements.
 
 ```plantuml
 @startuml
-title Anomalies mapped to the entry point they sit on, and those with no entry point at all
+title Anomalies of the delivery - the eighteen that sit on an entry point, the ten that reach none
 
 skinparam componentStyle rectangle
 skinparam shadowing false
 left to right direction
+skinparam wrapWidth 240
 
 package "Entry points" {
-  component "EP-003  Todo list screen" as E3
-  component "EP-004  POST /auth/register" as E4
-  component "EP-005  POST /auth/login" as E5
-  component "EP-007  GET /auth/login/{provider}" as E7
-  component "EP-008  GET /auth/signin/{provider}" as E8
-  component "EP-010  GET /todos" as E10
-  component "EP-011  GET /todos/{id}" as E11
-  component "EP-013  PUT /todos/{id}" as E13
-  component "EP-014  DELETE /todos/{id}" as E14
-  component "EP-015  /users Identity endpoint set" as E15
-  component "EP-016  POST /users/token/{provider}" as E16
-  component "EP-017  GET / redirect" as E17
-  component "EP-019  Scalar reference UI" as E19
-  component "EP-022  migration platform event" as E22
+  component "EP-003 Todo list screen" as E3
+  component "EP-004 POST /auth/register" as E4
+  component "EP-005 POST /auth/login" as E5
+  component "EP-007 provider challenge" as E7
+  component "EP-008 provider callback" as E8
+  component "EP-009 /todos forwarder" as E9
+  component "EP-010 GET /todos" as E10
+  component "EP-011 GET /todos/{id}" as E11
+  component "EP-012 POST /todos" as E12
+  component "EP-013 PUT /todos/{id}" as E13
+  component "EP-014 DELETE /todos/{id}" as E14
+  component "EP-015 /users Identity set" as E15
+  component "EP-016 POST /users/token" as E16
+  component "EP-017 GET / redirect" as E17
+  component "EP-019 Scalar reference UI" as E19
+  component "EP-022 migration event" as E22
 }
 
-package "On an entry point - twelve anomalies, twenty-one edges" {
-  component "AN-001  no UI path to complete a todo" as A1
-  component "AN-002  no BFF-to-API authentication" as A2
-  component "AN-004  admin role never granted" as A4
-  component "AN-008  README names a Swagger UI" as A8
-  component "AN-009  Identity endpoints unlimited" as A9
-  component "AN-010  key ring not pinned" as A10
-  component "AN-015  app host still moving" as A15
-  component "AN-017  root redirect unconditional" as A17
-  component "AN-018  list ignores the admin role" as A18
-  component "AN-019  provider name taken unchecked" as A19
-  component "AN-020  failed sign-in swallowed" as A20
-  component "AN-021  every auth failure answers 401" as A21
+package "On an entry point - eighteen anomalies, thirty-five edges" {
+  component "AN-001 no UI path to complete a todo" as A1
+  component "AN-002 no BFF-to-API authentication" as A2
+  component "AN-004 admin role never granted" as A4
+  component "AN-008 README names a Swagger UI" as A8
+  component "AN-009 Identity endpoints unlimited" as A9
+  component "AN-010 key ring not pinned" as A10
+  component "AN-015 app host still moving" as A15
+  component "AN-017 root redirect unconditional" as A17
+  component "AN-018 list ignores the admin role" as A18
+  component "AN-019 provider name taken unchecked" as A19
+  component "AN-020 failed sign-in swallowed" as A20
+  component "AN-021 every auth failure answers 401" as A21
+  component "AN-022 lockout checked on no request" as A22
+  component "AN-023 forwarder hop carries no resilience" as A23
+  component "AN-024 Development halves the request budget" as A24
+  component "AN-025 owner key moved, no row converted" as A25
+  component "AN-026 absent base address answers an empty list" as A26
+  component "AN-027 a provider account carries no email" as A27
 }
 
-package "No entry point - nine anomalies, build, tests, delivery" {
-  component "AN-003  request contracts declared twice" as A3
-  component "AN-005  migrations not exercised" as A5
-  component "AN-006  unused test dependency" as A6
-  component "AN-007  SDK 8 image against net9.0" as A7
-  component "AN-011  token minted from framework internals" as A11
-  component "AN-012  two thirds of the system untested" as A12
-  component "AN-013  database path relative to the working directory" as A13
-  component "AN-014  RazorLangVersion left at 8.0" as A14
-  component "AN-016  no document of the system" as A16
+package "No entry point - ten anomalies, build, tests, delivery" {
+  component "AN-003 request contracts declared twice" as B3
+  component "AN-005 migrations not exercised" as B5
+  component "AN-006 unused test dependency" as B6
+  component "AN-007 SDK 8 image against net9.0" as B7
+  component "AN-011 token minted from framework internals" as B11
+  component "AN-012 two thirds of the system untested" as B12
+  component "AN-013 database path relative to the workdir" as B13
+  component "AN-014 RazorLangVersion left at 8.0" as B14
+  component "AN-016 no document of the system" as B16
+  component "AN-028 test host replaces the DbContext registration" as B28
 }
 
 A1 --> E3
@@ -317,10 +329,30 @@ A20 --> E8
 A21 --> E4
 A21 --> E5
 A21 --> E7
+A22 --> E10
+A22 --> E11
+A22 --> E12
+A22 --> E13
+A22 --> E14
+A23 --> E9
+A24 --> E10
+A24 --> E11
+A24 --> E12
+A24 --> E13
+A24 --> E14
+A25 --> E22
+A26 --> E3
+A27 --> E16
 
-note bottom of A4
-  AN-018 is reachable only through the path AN-004 describes:
-  a token the running system never grants.
+note right of A4
+  AN-018 is reachable only through the path AN-004
+  describes: a token the running system never grants.
+end note
+
+note bottom of B28
+  The one class no recovered model labels: it takes the
+  production DbContextOptions out of the composition root
+  and puts a test-built one in its place.
 end note
 
 @enduml
@@ -349,6 +381,13 @@ end note
 | AN-019 | The external sign-in challenge takes the provider name straight from the URL route and passes it to `Results.Challenge` as the authentication scheme list, checking it against no registered scheme. An unauthenticated caller requesting any other path segment names a scheme that does not exist, and the handler raises rather than answering a redirect or a 404 | Inferior quality | `Todo.Web/Server/AuthApi.cs:55-62`; `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:39-75` | likely | low |
 | AN-020 | The provider callback reports nothing when it fails. If the external ticket is absent, if the token exchange returns null, or if the cookie sign-in does not take effect, the handler still redirects to `/`, so the person is returned to the login form with no message and no way to tell a rejected provider from an unreachable API. The code's own `// TODO: Handle the failure somehow` marks it | Inferior quality | `Todo.Web/Server/AuthApi.cs:64-97` (the redirect at `:94` runs on every path); `Todo.Web/Client/TodoApp.razor:4-22` | likely | moderate |
 | AN-021 | Every authentication failure answers 401 with no body. Registration answers `Unauthorized` whether the email is already taken, the password fails the Identity policy, or the API is unreachable, and the BFF discards the API's validation problem in all three cases; the client then shows one fixed string, so the person is never told what to correct | Inferior quality | `Todo.Web/Server/AuthApi.cs:14-38`; `Todo.Web/Server/AuthClient.cs:6-34`; `Todo.Web/Client/Components/LogInForm.razor:76-95` | likely | moderate |
+| AN-022 | Lockout is enforced at a password sign-in and nowhere else, so an account locked out after repeated failures keeps full access on every token it already holds. The requirement handler that guards all five task operations checks only that an account row exists, and records the lockout check as a TODO it does not perform; nothing re-reads `LockoutEnd` on a request, and nothing re-checks it when a token is refreshed | Inferior quality | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:26-35` (the ONLY check, and its `// TODO: Check user if the user is locked out as well`); `Todo.Api/Authorization/CurrentUserExtensions.cs:22-26`; `Todo.Api/Program.cs:14`; `Todo.Api/Users/UsersApi.cs:20` | likely | moderate |
+| AN-023 | The two HTTP hops out of the BFF are not equally protected. The token client is a container-built `HttpClient`, so it inherits the standard resilience handler; the `/todos` forwarder is built from the YARP forwarder with a default `ForwarderRequestConfig` and inherits nothing, so the task path neither retries nor breaks the circuit while the sign-in path does. A transient API failure is retried on one path and surfaced to the person as a silent no-op on the other | Inferior quality | `TodoApp.ServiceDefaults/Extensions.cs:32-42` (`ConfigureHttpClientDefaults` + `AddStandardResilienceHandler`); `Todo.Web/Server/Program.cs:23-26` (the token client, container-built); `Todo.Web/Server/TodoApi.cs:12-25` (`new ForwarderRequestConfig()`, no handler); `Todo.Web/Client/Components/TodoList.razor:57-76` (a failed write reports nothing) | possible | moderate |
+| AN-024 | The delivered Development configuration halves the request budget the code sets. The rate-limit options are bound to a `RateLimiting` configuration section and default to 100 tokens, 100 per 10-second period and a queue of 100; `appsettings.Development.json` overrides all three to 50, and every launch profile puts both serving processes in Development — so the environment a developer measures in is throttled at half the value any other environment runs at, and a load observation taken there does not describe the system. No other environment file carries the section | Inferior quality | `Todo.Api/Extensions/RateLimitExtensions.cs:14-31` (defaults, then `.BindConfiguration("RateLimiting")`); `Todo.Api/appsettings.Development.json:8-12` (`TokenLimit` 50, `TokensPerPeriod` 50, `QueueLimit` 50); `Todo.Api/appsettings.json` (no such section); `Properties/launchSettings.json` of both hosts; contradicts Supplementary Specification S2 and Software Architecture Document SP1/M3, which state 100/100/100 as the effective values | likely | low |
+| AN-025 | The third migration moved the `Todos.OwnerId` foreign key from `AspNetUsers.UserName` to `AspNetUsers.Id` and converted no row. Its three statements drop the old constraint, alter `UserName`, and add the same constraint against a different principal column; it issues no data statement, and no other migration or start-up step rewrites an existing `OwnerId`. A database written by migration 1 or 2 therefore holds user names in a column a constraint now resolves against account identifiers | Missing from the delivery | `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:9-44` (four schema operations, no `migrationBuilder.Sql`); `Todo.Api/Migrations/20221123071234_Initial.cs` (the original key against `UserName`); `Todo.Api/Program.cs:23-24`; `TodoApp.AppHost/Extensions.cs:4-21` (the migration runs against whatever file it finds) | possible | high |
+| AN-026 | The client cannot tell a prerendering pass from a failure, and answers an empty list for both. When the HTTP client has no base address the list call returns `200` with an empty list instead of issuing a request or reporting the absence; the component therefore renders an empty list rather than the spinner it has, and a genuine failure to reach the API is indistinguishable from having no tasks. The code calls itself a hack in its own comment | Suspicious coding style | `Todo.Web/Client/TodoClient.cs:33-40` (`// This is a hack from hell to avoid having to know if this is running server or client side`, then `if (client.BaseAddress is null) return (HttpStatusCode.OK, new())`); `Todo.Web/Client/Components/TodoList.razor:3-8,44-55`; `Todo.Web/Client/Program.cs` (the base address is set only in the browser host) | likely | low |
+| AN-027 | An account created through the provider exchange carries no email and no password. The exchange builds the account from the posted user name alone and never sets `Email`, so a provider-created account can never sign in with a password, confirm an address, recover a password or refresh through the framework's own account endpoints — and because the schema's email index is not unique, nothing at rest would detect the same address arriving twice. The posted user name is the provider's email when it supplies one and the principal name when it does not, so the account's identity depends on what the provider chose to send | Inferior quality | `Todo.Api/Users/UsersApi.cs:40-46` (`new TodoUser() { UserName = userInfo.Username }` — no `Email` assigned); `Todo.Api/Program.cs:17-20`; `Todo.Api/Migrations/20221123071234_Initial.cs` (`EmailIndex` not unique); `Todo.Web/Server/AuthApi.cs:70-71` (email falling back to the principal name); UC-003 A4 | likely | moderate |
+| AN-028 | The test host does not test the production persistence registration: it removes it. A test-only helper strips `DbContextOptions<TodoDbContext>` out of the composition root and installs a singleton it built itself, and the harness then registers a context factory in place of the API's own `AddSqlite<TodoDbContext>` call. No test therefore exercises the connection-string resolution, the `Data Source=.db/Todos.db` fallback, the scoped context lifetime or the migration-built schema — the four things a deployment depends on. The class is the one in the test assembly that no recovered model labels | Suspicious coding style | `Todo.Api.Tests/DbContextExtensions.cs:5-29` (`services.RemoveAll(typeof(DbContextOptions<TContext>))`, then `AddSingleton(dbContextOptionsBuilder.Options)`); `Todo.Api.Tests/TodoApplication.cs:44-46` (`AddDbContextFactory<TodoDbContext>()` + `AddDbContextOptions<TodoDbContext>`); `Todo.Api/Program.cs:23-24` (the registration replaced) | likely | moderate |
 
 ## Priorities
 The delivery declares no scope, so this order was first set by where the code concentrates its weight, and it was then put to the stakeholder on 2026-11-23, who answered: "The order stands as it is: nothing matters more than it reflects, and nothing is to be left out." Requirements first need the operations the system performs, and analysis needs the path a request takes through them, so order 1 to 5 is the order Excavation reads them in. The reason column names the anomalies that make an area unavoidable, so the reading order and the risk order do not diverge.
