@@ -1095,8 +1095,8 @@ Each quality attribute is stated with the tactic the architecture actually embod
 | Security — data isolation | Ownership enforced in the query and the write statement, not in a service layer; 404 for both absent and not-owned | COMP-011 | The predicate is repeated in four statements and the list applies half of it (AN-018); a role claim no caller holds widens it (AN-004) |
 | Security — credential handling | The browser never holds a bearer token; the token stays in the session's token set and is written server-side | COMP-006, COMP-008 | The API accepts a bearer token from any caller, so the boundary the token crosses is unauthenticated (AN-002) |
 | Security — cross-process secret transport | The provider key is protected with a named protector in one process and unprotected in the other | COMP-006, COMP-010 (M5) | No key store is pinned, so the ring is shared only by accident of the default file location (AN-010) — and the one host that could have proven the two rings differ substitutes an ephemeral provider (ADR-013), so no test exercises this |
-| Availability — bounded load | Per-caller token bucket with a wait queue and a 429 rejection status | COMP-014 | Applied to `/todos` only; the authentication surface is unbounded and the policy could not be moved as written (AN-009) |
-| Availability — transient failure | A standard resilience handler on every container-built `HttpClient` | COMP-021 reaching COMP-007 | The forwarder hop has none, so the task path is not protected while the auth path is (P6) |
+| Availability — bounded load | Per-caller token bucket with a wait queue and a 429 rejection status | COMP-014 | The bound in force in the measured environment is **50 tokens, 50 per 10 s and a queue of 50** — the Development configuration overrides the code's 100 / 100 / queue 100 and every launch profile selects Development (AN-024, M3, SP1). Applied to `/todos` only: the authentication surface is unbounded and the policy could not be moved as written (AN-009) |
+| Availability — transient failure | A standard resilience handler on every container-built `HttpClient` | COMP-021 reaching COMP-007 | The forwarder hop has none, so the task path is not protected while the auth path is (P6, AN-023) |
 | Reliability — referential integrity | `OwnerId` required, indexed, cascade on delete, re-pointed to the identity key by migration 3 | COMP-016 | The test host builds its schema by `EnsureCreated` rather than the migrations (M13), so no test exercises them and a migration that no longer matches the model fails only in the app host (AN-005) |
 | Reliability — failure reporting | Problem details for validation errors | COMP-015 | Every authentication failure answers one 401 with no body and the BFF discards the API's problem (AN-021); the provider callback reports nothing and always redirects (AN-020) |
 | Maintainability — change isolation | The contract is the only axis no boundary encapsulates: the API redeclares the shapes rather than referencing them | ADR-009 | No compiler checks the two declarations agree (AN-003) |
@@ -1117,7 +1117,7 @@ package "Tactics the code holds" {
   component "Ownership in the predicate" as T1
   component "Token never in the browser" as T2
   component "Protected provider key" as T3
-  component "Per-caller token bucket" as T4
+  component "Per-caller token bucket\n50 / 50 per 10 s / queue 50 in force" as T4
   component "Standard resilience handler" as T5
   component "Migrations as the only schema" as T6
   component "Problem details for validation" as T7
@@ -1131,7 +1131,7 @@ package "What defeats the tactic" {
   component "AN-002\nThe API trusts any bearer token" as A2
   component "AN-010, ADR-013\nNo key store is pinned, and the\nephemeral provider hides it" as A3
   component "AN-009\n/users is unlimited and the policy\ncannot be moved as written" as A4
-  component "P6\nThe forwarder hop has no handler" as A5
+  component "P6, AN-023\nThe forwarder hop has no handler" as A5
   component "AN-005, ADR-013\nEnsureCreated replaces the migrations" as A6
   component "AN-021, AN-020\nEvery auth failure is one 401;\nthe callback reports nothing" as A7
   component "AN-014, AN-007, untagged image\nThree version disagreements" as A8
@@ -1150,6 +1150,14 @@ T8 --> A8
 T9 --> A9
 T10 --> A10
 
+note bottom of T4
+  The code defaults are 100 / 100 / queue 100.
+  appsettings.Development.json:8-12 binds all
+  three to 50 and every launch profile selects
+  Development, so 50 is the bound in force.
+  AN-024, recorded once in SP1 and M3.
+end note
+
 note bottom of A5
   The only tactic with no anomaly behind it: it is
   an asymmetry between two hops, found by following
@@ -1165,7 +1173,6 @@ end note
 
 @enduml
 ```
-
 ## Traceability
 
 | Element | Traces From | Link Type | Traces To |
