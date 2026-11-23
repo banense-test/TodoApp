@@ -360,7 +360,7 @@ No stakeholder statement of what matters exists for this delivery — the owner'
 | 8 | Requests, CI, dev container, Aspire and editor settings | Supporting material: a hand-run request collection, a four-step pipeline, a container whose SDK contradicts AN-007, and the CLI and editor settings that resolve to the app host | `Requests/todo.http; .github/workflows/ci.yaml; .devcontainer/; .aspire/settings.json; .vscode/extensions.json` |
 
 ## Coverage
-Of 129 files in the tree (37 of the 166 entries are directories), 77 were opened. Everything in `Todo.Api`, `Todo.Api.Tests`, `TodoApp.AppHost`, `TodoApp.ServiceDefaults`, `Requests`, `.aspire`, `.vscode` and `.github` was read; the unread remainder is vendored assets, two binary files, one stylesheet and four small files named below.
+Of 129 files in the tree (37 of the 166 entries are directories), 77 were opened. This iteration re-opened 36 of them to re-check the anchors every anomaly row rests on: the five Todo endpoints, the rate limiter, the current-user resolver, the whole `/auth` surface with its forwarder and its token client, the client's three components and its HTTP client, the Identity provider registration and its scheme and provider-name services, both programs' data-protection calls, the test host and its token minter, the app host's migration extension and its resource graph, the README section the code contradicts, and the build and container manifests. No file outside the 77 was opened, so the count stands. Everything in `Todo.Api`, `Todo.Api.Tests`, `TodoApp.AppHost`, `TodoApp.ServiceDefaults`, `Requests`, `.aspire`, `.vscode` and `.github` has been read; the unread remainder is vendored assets, two binary files, one stylesheet and four small files named below.
 
 | Area | Files | Read | Unread and why |
 |---|---|---|---|
@@ -378,9 +378,9 @@ Of 129 files in the tree (37 of the 166 entries are directories), 77 were opened
 | .devcontainer | 2 | 2 | — |
 | .aspire | 1 | 1 | — |
 | .vscode | 1 | 1 | — |
-| docs | 3 | 2 | `docs/artifacts/environment/development-case.md` was read as the Development Case artifact and `docs/artifacts/discovery/system-inventory.md` as this artifact, not as files of the delivery |
+| docs | 3 | 1 | `docs/CONTRIBUTING.md` (read as the process's contribution contract, not as a file of the delivery); `docs/artifacts/environment/development-case.md` was read as the Development Case artifact and `docs/artifacts/discovery/system-inventory.md` as this artifact |
 | .iari | 1 | 1 | — |
-| Commit history | — | 12 commits of the whole repository, plus the per-area lists this iteration re-read (`Todo.Web/Client` 15, `.devcontainer` 6) and the per-area lists carried from the previous reading | The repository list stops at 2025-08-07, so anything older is unread; `Todo.Web/Server`, `Todo.Web/Shared` and `Requests` have no separate commit list — their changes appear inside the `Todo.Web` list |
+| Commit history | — | 12 commits of the whole repository, plus the per-area lists this iteration re-read (`Todo.Api` 10, `Todo.Web` 30, `TodoApp.AppHost` 5, `README.md` 20) | The repository list stops at 2025-08-07, so anything older is unread; `Todo.Web/Server`, `Todo.Web/Shared` and `Requests` have no separate commit list — their changes appear inside the `Todo.Web` list |
 
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
