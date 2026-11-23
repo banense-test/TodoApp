@@ -2,7 +2,7 @@
 - Phase: Excavation
 - Status: Draft — made current for the end-of-Excavation (AR) milestone review
 - Milestone Target: end-of-Excavation (AR) — not yet achieved
-- Iteration: 3, Cycle 1
+- Iteration: 4, Cycle 1
 - Owner: Process Engineer
 - Baseline: IARI DC baseline (26-role roster, 16 CORE artifacts, 6 OPTIONAL artifacts, canonical intensity matrix). This document carries **deltas only**; anything it does not state follows the baseline unchanged.
 
