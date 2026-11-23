@@ -142,13 +142,15 @@ the build's net9.0 and EF Core 9.x beside it;
 
 |Designer|
 :C2 CLS-001 to TBL-001 and CLS-007 to TBL-002
-read at their own end;
-:both still returned marked SUSPECT - open;
+the Design Model states the evidence for both;
+:the graph returns both marked SUSPECT - open,
+and the clearance is the Designer's act;
 
 |System Analyst|
 :C3 CLS-020 to UC-007 and CLS-020 to UC-010
-read at their own end;
-:both still returned marked SUSPECT - open;
+the Design Model states the evidence for both;
+:the graph returns both marked SUSPECT - open,
+and the clearance is the System Analyst's act;
 
 |Project Manager|
 :C4 Risk List - R033 at exposure 16
@@ -186,7 +188,7 @@ stop
 | 4 | Software Architecture Document: component view completed against the Use-Case View, every use case's path crossing a named component; mechanisms and use-case view | Analysis & Design — SAD Components, Mechanisms and Use-Case View | Software Architect | Present at this phase and iteration | `R002`, `R009`, `R010`, `R017`, `R025` |
 | 5 | Design Model: domain model, packages and classes, the relationship inventory | Analysis & Design — Domain Model, Packages and Classes | Designer | Present at this phase and iteration | `R003`, `R018`, `R027` |
 | 6 | Design Model persistent data: entities, keys and associations, the enforced rules, and the snapshot's product version recorded with the build's version beside it | Analysis & Design — Persistent Data | Database Designer | **Done — landed this iteration.** The persistent-data section states `HasAnnotation("ProductVersion", "8.0.0")` for `TodoDbContextModelSnapshot` against the build's `net9.0` and its EF Core 9.x packages, with the file as its anchor, and states that nothing in the delivery reconciles the two. No file of the delivery was changed | `R026`, `R029`, `R034` |
-| 7 | Clear the four suspect edges, each at its own end: `CLS-001` → `TBL-001` and `CLS-007` → `TBL-002` (Designer); `CLS-020` → `UC-007` and `CLS-020` → `UC-010` (System Analyst). Each owner states why the edge still holds; an edge that does not is retired and re-registered with the link type its evidence supports | Analysis & Design + Requirements — the owner's own stage | Designer, System Analyst | **Open — all four still return marked `SUSPECT`.** Both owners hold their stage in this iteration and both have read their own end; the graph has been cleared on none of the four. The Design Model states the reasoning for each, so the remaining act is the clearance itself, which belongs to the role the graph marks and to no other | **`R033`** |
+| 7 | Clear the four suspect edges, each at its own end: `CLS-001` → `TBL-001` and `CLS-007` → `TBL-002` (Designer); `CLS-020` → `UC-007` and `CLS-020` → `UC-010` (System Analyst). Each owner states why the edge still holds; an edge that does not is retired and re-registered with the link type its evidence supports | Analysis & Design + Requirements — the owner's own stage | Designer, System Analyst | **Open — all four return marked `SUSPECT`.** The Design Model states the evidence for each and records that only its owner, or the System Analyst as steward of the trace repository, may clear one; both owners hold a stage in this iteration. The clearance itself has not been performed on any of the four, and no role but the marked one may perform it | **`R033`** |
 | 8 | System Inventory: the coverage counted, every unread file named with its reason, any reading left incomplete named | Discovery — System Inventory | Software Archaeologist | Present at this phase and iteration | — |
 | 9 | Risk List: the register at Consolidation, `R033` and `R034` carried, no accept above Moderate without a grant | Project Management — Risk List | Project Manager | Done — this phase's register | `Risk List#F3` |
 | 10 | Iteration Plan: this plan — coarse roadmap, fine plan, GHR exit criteria | Project Management — Iteration Plan | Project Manager | Done — this document | `Iteration Plan#F10` |
