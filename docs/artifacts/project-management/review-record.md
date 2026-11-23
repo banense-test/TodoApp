@@ -1081,98 +1081,75 @@ end note
 
 ## Disposition
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-**Disposition of the technical lens: Approved with Changes.**
+**Disposition: Approved with Changes.** Six Major, four Minor. The six Majors are open and hold the AR milestone; the four Minors do not.
 
-Every Major the lens recorded in iteration 1 is closed against the corrected artifact, and each closure is backed by the artifact section plus, where a repository claim was involved, by the file that states it. What remains open from this lens is two Minors, both status metadata — the System Inventory's Document Control iteration field and the Iteration Plan's fine-plan State column. Neither is consumed by a downstream role and neither carries an exit criterion, so neither holds the milestone, and the four artifacts are approved from this lens by default on those two points.
+**What the recovered set establishes, and why it is approved rather than rejected.** The phase's real work is sound. Eleven use cases are recovered from twenty-two entry points, each citing the `EP-NNN` whose code performs it, and the entry points that carry none — `EP-020`, `EP-021`, `EP-022` and the `admin` branch — are accounted for with a reason, not dropped. Twenty-two components are recovered with their anchors, each technology declared in the artifact exists in a manifest, and the components realize the use cases whose paths they carry. The persistent store is recovered to the level of keys, indexes, referential actions and the seven rules the schema leaves to code. The System Inventory's coverage reproduces from its own table, its twenty-one anomaly edges reproduce from its own rows, and both the Risk List and the Iteration Plan certify their claims on the artifact each cites rather than on an adjacent answer. Nothing in this lens's read found a recovered element resting on an anchor that does not say what the element claims, except in the four cases recorded as Majors — and those are figures copied from one mechanism's description, not the recovery's structure.
+
+The two contradictions are the reason this is Approved with Changes and not Approved. They are narrow and they are fully diagnosed: one code file contradicts three artifacts' statement of a value, and one service-defaults file contradicts one artifact's statement of a capability. The recovery already contains the correct answer to both, recorded as AN-024 and AN-023 in the same phase. That is why the disposition is rework rather than rejection — the artifacts do not need re-deriving, they need one fact corrected in three places and one sentence corrected in a fourth.
+
+**What the milestone must not do while the Majors stand.** Gate H4 asks the stakeholder to accept the recovered use cases, architecture and data as the models of the existing system. They cannot be asked to accept a set whose stated request budget is double the value the system runs at, whose failure-handling claim about the task path is right and about the sign-in path wrong, whose use-case count is thirteen in one artifact and eleven in three others, and three of whose screen routes rest on trace edges the graph still marks suspect. Each of those is a question the stakeholder would be answering on wrong content.
 
 ```plantuml
 @startuml
-title Defect distribution at Survey iteration 2 - technical lens, findings by severity and artifact, and the trend since iteration 1
+title Disposition of the ten artifacts - what this lens approves, what it holds, and why
 
 skinparam shadowing false
-skinparam classAttributeIconSize 0
-hide empty members
+skinparam componentStyle rectangle
+skinparam wrapWidth 225
+left to right direction
 
-package "This iteration - iteration 2, technical lens" {
-  class "Development Case" as DC {
-    Critical : 0
-    Major : 0
-    Minor : 0
-    newThisIteration : 0
-    closedFromIteration1 : 2
-  }
-  class "System Inventory" as SI {
-    Critical : 0
-    Major : 0
-    Minor : 1
-    newThisIteration : 1
-    closedFromIteration1 : 2
-  }
-  class "Risk List" as RL {
-    Critical : 0
-    Major : 0
-    Minor : 0
-    newThisIteration : 0
-    closedFromIteration1 : 1
-  }
-  class "Iteration Plan" as IP {
-    Critical : 0
-    Major : 0
-    Minor : 1
-    newThisIteration : 1
-    closedFromIteration1 : 2
-  }
+package "Approved from this lens - silence is approval" {
+  component "System Inventory\nno finding\ncoverage and edge counts reproduce" as OK1
+  component "Iteration Plan\nno finding\neach criterion on its own evidence" as OK2
 }
 
-package "Totals" {
-  class "Iteration 2 technical lens" as T2 {
-    findings : 2
-    critical : 0
-    major : 0
-    minor : 2
-    open : 2
-    holdsMilestone : no
-  }
-  class "Iteration 1 technical lens" as T1 {
-    findings : 7
-    critical : 0
-    major : 4
-    minor : 3
-    resolvedInIteration2 : 7
-    leftOpen : 0
-  }
+package "Approved with Changes - Minors only, do not hold" {
+  component "Risk List\nF2 Minor" as M1
+  component "Design Model\nF1 Minor" as M2
+  component "Development Case\nF3 Minor" as M3
 }
 
-DC --> T2
-SI --> T2
-RL --> T2
-IP --> T2
-T1 ..> T2 : seven closed, none persisting;\ntwo new Minors found in the rework
-note bottom of T2
-  A Minor stays inside its artifact: no role builds
-  on the wrong part and no exit criterion depends on it.
-  It does not hold the milestone, and the artifact is
-  approved by default from this lens.
+package "Held - Major open, rework before H4" {
+  component "Supplementary Specification\nF1 Major - rate-limit values\nF2 Major - resilience claim" as H1
+  component "Software Architecture Document\nF1 Major - rate-limit values" as H2
+  component "Deployment Model\nF1 Major - environment mapping" as H3
+  component "Use-Case Model\nF1 Major - three suspect edges\nF2 Minor" as H4
+  component "Vision\nF1 Major - thirteen use cases" as H5
+}
+
+package "Carried by another lens, not this one" {
+  component "Development Case#F2\nManagement Reviewer's finding\nIteration Plan A11 reads 3 of 4" as OTHER
+}
+
+OK1 --> H1 : AN-024 is the correct\nstatement H1 contradicts
+OK2 --> H5 : eleven use cases,\nas O1 states
+H1 --> H2 : same fact
+H1 --> H3 : same fact
+H2 --> H4 : the count H4 puts to the gate
+
+note bottom of H1
+  One file, one fact, three artifacts. The
+  correction is the same sentence three times,
+  and the recovery already holds it as AN-024.
 end note
+note bottom of OTHER
+  Only the lens that emitted a finding may
+  resolve it. This lens records nothing
+  against it and does not duplicate the key.
+end note
+
 @enduml
 ```
 
-| Artifact | Critical | Major | Minor | Info | Disposition from this lens |
-|---|---|---|---|---|---|
-| Development Case | 0 | 0 | 0 | 0 | Approved |
-| System Inventory | 0 | 0 | 1 | 0 | Approved with Changes — the Document Control iteration field |
-| Risk List | 0 | 0 | 0 | 0 | Approved |
-| Iteration Plan | 0 | 0 | 1 | 0 | Approved with Changes — the fine-plan State column |
+**What the milestone verdict may rely on from this lens.** Zero Critical: nothing in this review needs a decision only the stakeholder can take. The four stakeholder rulings that shaped the recovery — the provider path recovered as unreachable, the `admin` branch as an exceptional entity, the priority order standing, the perimeter confirmed — are recorded where they bite, in the System Inventory's Perimeter, the Use-Case Model's "Not recovered, and why", the Vision's Assumptions and the Risk List's grant table, each quoting the answer rather than paraphrasing a process decision. This lens found no element promoted to declared scope, no cross-cutting mechanism recovered as a use case except the two the Vision's diagram draws and `Vision#F1` records, and no recovered element with no anchor.
 
-**What this lens found, and what it did not.** The rework resolved every Major; no Major persists and no new one was introduced. The two defects it left behind are both the same class — a status field stating an earlier state than the content it sits beside — which is a consequence of reworking artifacts whose metadata was not touched, not a defect of the rework's substance. No anchor opened this iteration contradicted the artifact citing it: the version-policy claim now rests on `global.json` and `nuget.config` as written, the contribution contract on `docs/CONTRIBUTING.md`, the coverage figure on its own per-area table, and every risk score on one published mapping.
+**The lens's own limit, stated so the coordinator can weigh it.** This review opened five anchors and two contradicted their citing artifacts. It did not open every anchor in ten artifacts — that is not possible within one pass and the Software Archaeologist's own reading is what the coverage section measures. What this lens did establish is that where the recovery and the code disagree, the disagreement is discoverable by opening the file the artifact names, and that in the two cases found the recovery's own anomaly register already knew the answer. That is the healthiest signal in this review: the reading is honest about the system even where the artifacts built on it are not yet.
 
-**SCM evidence.** No open pull request, so nothing is disposed and no code-review decision is owed. `ci.yml` does not exist on `main`, so no build exists to be red — establishing the pipeline is the Integrator's Inception work item, not a Survey defect.
-
-**What this lens does not decide.** The SBC milestone is not this lens's verdict. It turns on gate H2 — the stakeholder's confirmation of the perimeter as the System Inventory records it and the sanction to advance — which was refused on 2026-11-23 and is re-taken after this review. The technical lens has no authority over that answer: the artifacts are now certifiable on their evidence, and whether the perimeter is confirmed is the stakeholder's to say.
+**Verdict recorded.** Approved with Changes, with the six Majors holding the AR milestone. Gate H4 is not put by this lens — it follows the lenses' ruling, and the ruling is that the corrections land first.
 
 ### Management Reviewer lens
 <!-- review: Survey I2 -->
