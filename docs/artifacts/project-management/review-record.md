@@ -116,21 +116,25 @@ The repository reports no pull requests in any state, and no IARI pipeline file 
 The four exclusions the stakeholder ruled on 2026-11-23 stand untouched and no finding here approaches them: external-provider sign-in is recovered and marked unreachable in the delivered configuration, the `admin` branch of `EP-011`, `EP-013` and `EP-014` is an exceptional entity and not a use case, and `EP-020`, `EP-021` and `EP-022` carry no use case. The recovered set — eleven use cases over twenty-two entry points, twenty-two components across four processes, eight persisted entity types — is unchanged by this iteration's corrections, none of which added or removed an element.
 
 ### Management Reviewer lens
-<!-- review: Excavation I2 -->
+<!-- review: Excavation I3 -->
 
-This lens reviews the end-of-Excavation (AR) milestone as a Lifecycle Milestone Review. The question is exit criteria: do the artifacts collectively satisfy the conditions for the phase to advance? It is not a completion review of one iteration's work.
+<!-- review: Excavation I3 -->
 
-**Artifacts reviewed (11).** Development Case, System Inventory, Risk List, Iteration Plan, Vision, Use-Case Model, Supplementary Specification, Software Architecture Document, Deployment Model, Design Model, Iteration Assessment. The Iteration Assessment was read as evidence and is not judged: the Project Manager authors it in the Assess touchpoint after this review, so it cannot yet describe the iteration being reviewed.
+#### What this review covers
 
-**Review type and date.** Lifecycle Milestone Review, exit-criteria lens, taken 2026-11-23 at Excavation iteration 2 cycle 1.
+Ten artifacts, read at the sections each finding names and at the artifact as a whole where a criterion is decided on it: Development Case, System Inventory, Risk List, Iteration Plan, Vision, Use-Case Model, Supplementary Specification, Software Architecture Document, Deployment Model, Design Model. The Iteration Assessment is not judged — the Project Manager authors it after this review and it cannot describe the iteration that follows it.
 
-**Upstream read before this lens ruled.** Every artifact above, plus the registered trace graph for `COMP-014` and for `UC-006`, and the finding ledgers of all three lenses via `read_artifact_findings`. No artifact was reviewed on its own text alone.
+Read at source, not accepted from the artifacts' own prose: the registered trace graph on `COMP-014`, the Use-Case Model's rules diagram R6 and its gate-diagram note, the Development Case's Document Control and CLS-DC-01, the Risk List's R030 and R032 cells, and the Iteration Plan's A1 to A13 sequence. Where a finding turns on what the code does, the code was read: `Todo.Api/Todos/TodoApi.cs:19-20`, `Todo.Api/Extensions/RateLimitExtensions.cs:14-31`, `Todo.Api/appsettings.Development.json:8-12`.
 
-**Checklist applied.** The thirteen AR exit criteria `A1` to `A13` as the Iteration Plan states them, each tested against the artifact its evidence cell names; and the four management quality criteria this lens owns — evidence grounding, milestone criteria coverage, risk magnitude accuracy, verdict clarity.
+#### How a criterion is decided
+
+Each of the thirteen AR criteria is decided on the artifact that owns its evidence — a criterion about the recovered set on the recovered set, a criterion about a role's artifact on that artifact's text, and A12 on the stakeholder's answer alone. An evidence cell that misreports its artifact is a defect in the plan, not a failure of the artifact the cell describes. That distinction is held deliberately: resting a criterion's state on the plan's own text would turn the plan's error into a finding against the recovered set, which is the shape of defect recorded as `Iteration Plan#F3` and `#F6` in the two previous passes.
+
+#### The thirteen criteria, and the artifact each is decided on
 
 ```plantuml
 @startuml
-title AR-C1 Exit-criteria compliance - the thirteen AR criteria at the iteration-2 re-take, the state each is certified in, and what the state rests on
+title The thirteen AR exit criteria, and the artifact each one is decided on - not on a neighbouring artifact's answer
 
 skinparam shadowing false
 skinparam classAttributeIconSize 0
@@ -138,67 +142,66 @@ skinparam wrapWidth 245
 hide circle
 hide empty members
 
-package "Met on the artifact that owns the evidence - 8" {
-  class "A2 Read from priorities 1 to 5\nnarrowed this iteration to what it establishes" as A2 <<met>>
-  class "A3 Architecture recovered and checked\n22 COMPs, Use-Case View for all 11 UCs" as A3 <<met>>
-  class "A4 Data recovered with its anchors\nentities, keys, rules, owner key" as A4 <<met>>
-  class "A5 Deployment modelled\nthe fired OPTIONAL, nodes, stores, key ring" as A5 <<met>>
-  class "A6 Coverage measured\n84 read, 55 unread of 139, per-area sums" as A6 <<met>>
-  class "A7 Anomalies carried as risks\n29 Refines edges, separate origins stated" as A7 <<met>>
-  class "A8 No grant-band accept without the stakeholder\n4 grants, each at exposure 12" as A8 <<met>>
-  class "A9 Every risk actionable\nstrategy, owner, action, contingency, sign" as A9 <<met>>
+package "Decided on the artifact that owns the evidence - 12" {
+  class "A1 operations recovered as use cases\nUse-Case Model + the registered graph" as A1 <<met>>
+  class "A2 read in the priorities' order\nSystem Inventory, areas 1 to 5" as A2 <<met>>
+  class "A3 architecture recovered and checked\nSoftware Architecture Document" as A3 <<met>>
+  class "A4 data recovered with its anchors\nDesign Model" as A4 <<met>>
+  class "A5 deployment modelled\nDeployment Model, the fired OPTIONAL" as A5 <<met>>
+  class "A6 coverage measured\nSystem Inventory, arithmetic recomputed" as A6 <<met>>
+  class "A7 anomalies carried as risks\nRisk List, 29 Refines edges" as A7 <<met>>
+  class "A8 no grant-band accept without the grant\nRisk List, four grants at 4x3" as A8 <<met>>
+  class "A9 every risk actionable\nRisk List, five fields per row" as A9 <<met>>
+  class "A10 the set states the code's behaviour\nall four artifacts, verified at source" as A10 <<met>>
+  class "A11 the SBC Minors closed\nfour of four, Development Case verified" as A11 <<met>>
+  class "A13 no work the process does not run\nIteration Plan, the sequence it records" as A13 <<met>>
 }
 
-package "Contested - held by an open Major at its own artifact - 3" {
-  class "A1 Operations recovered as use cases\n11 UCs anchored, but five COMP-014 edges\nsit SUSPECT at the phase close" as A1 <<contested>>
-  class "A10 The set states the code's behaviour\nthe Use-Case Model's R6 still says 100" as A10 <<contested>>
-  class "A13 No work the process does not run\nits evidence says Environment is inactive here,\nwhile the order schedules the role" as A13 <<contested>>
+package "Decided on the stakeholder's answer alone - 1" {
+  class "A12 the recovered set confirmed\nset confirmed; sanction refused\nwhile a Major is open" as A12 <<refused>>
 }
 
-package "Not met - 2" {
-  class "A11 The SBC Minors closed\n3 of 4 - Development Case#F2 stands" as A11 <<notmet>>
-  class "A12 The recovered set confirmed\ngate H4 re-put and answered No" as A12 <<refused>>
+package "What the plan's cells say about the same criteria - one artifact behind" {
+  class "Iteration Plan#F4 and #F9 - Major\nA1, A10, A11, O2 and A12 stated as their\nown artifacts and the gate have superseded" as F4 <<major>>
 }
 
-class "Use-Case Model#F3  Major\nfive COMP-014 edges SUSPECT" as D1 <<open>>
-class "Use-Case Model#F4  Major\nR6 states one budget where two are in force" as D2 <<open>>
-class "Iteration Plan#F6  Major\nA10 certified on three of its four artifacts" as D3 <<open>>
-class "Iteration Plan#F7  Major\nA13 states a premise the order overturned" as D4 <<open>>
+A1 --> F4 : the cell still reads\n'open Major'
+A10 --> F4 : the cell quotes\nthe superseded 100
+A11 --> F4 : the cell reads\n'two of four open'
+F4 ..> A12 : the plan is what the\nverdict reads, so it is\nrestated before the gate is\nput a fourth time
 
-D1 --> A1 : the widest mechanism unconfirmed\nfor UC-006 to UC-010
-D2 --> A10 : a Designer reads R6 and gets\nthe wrong budget
-D3 --> A10 : the criterion's own test\nnames four artifacts, checks three
-D4 --> A13 : the milestone sequence\nomits the stage the order creates
-
-note bottom of A11
-  A11 stays as written on the stakeholder's order of
-  2026-11-23. It is not waived and not restated.
-  A third iteration of this phase performs it.
-end note
 note bottom of A12
-  Certified by the stakeholder's answer alone. No artifact
-  can hold it, so no evidence cell cites one.
+  The stakeholder confirmed the recovered set in words and
+  declined the sanction while a Major stands. Both halves are
+  recorded as given; no condition was stated and none is added.
 end note
+note bottom of F4
+  A wrong evidence cell is a defect in the plan, not a failure of
+  the artifact the cell describes. That distinction is held
+  deliberately: resting a criterion on the plan's text would turn
+  the plan's error into a failure of the recovered set.
+end note
+
 @enduml
 ```
 
-| # | Criterion | State | The evidence this lens read |
-|---|---|---|---|
-| A1 | Operations recovered as use cases | **Contested** | Use-Case Model — 11 UCs each with its `EP-NNN`; exclusions stated for `EP-020`, `EP-021`, `EP-022` and the `admin` branch. The recovery is right; the Use-Case View's widest mechanism is not confirmed. `Use-Case Model#F3` |
-| A2 | Read from priorities 1 to 5 | Met | Narrowed this iteration to what its evidence establishes; states that priorities 6 to 8 carry no use case and requires no deferred-set sentence. `Iteration Plan#F4` closed on this |
-| A3 | Architecture recovered and checked | Met | Software Architecture Document — `COMP-001` to `COMP-022` with connectors, and a Use-Case View naming the components each of the 11 use cases crosses. `Software Architecture Document#F1` closed |
-| A4 | Data recovered with anchors | Met | Design Model — persisted classes `DM-D1`, `CLS-001`, `CLS-006`, `CLS-007`, the relationship inventory, and "What the code does not hold", each anchored to `TodoDbContext.cs:11-17` and the three migrations; `AN-025` recorded as fact. `Design Model#F1` closed |
-| A5 | Deployment modelled | Met | Deployment Model — trigger confirmed fired; topology, nodes and connectors, environment mapping, the shared key ring (`AN-010`), the database directory (`AN-013`), and `AN-024` stated correctly. `Deployment Model#F1` closed |
-| A6 | Coverage measured, remainder declared | Met | System Inventory — 84 read and 55 unread of 139; the per-area Read column sums to 84 and the Files column to 139. Recomputed by this lens, not accepted. |
-| A7 | Every anomaly carried as a scored risk | Met | Risk List — 29 `Refines` edges from `AN-NNN`, plus `R022`, `R031`, `R032` with separate origins stated; every anomaly-derived row reproduces from the one published mapping. |
-| A8 | No grant-band accept without the stakeholder | Met | Risk List — `R004`, `R011`, `R012`, `R016` each at 4 × 3 = 12 with the stakeholder's grant of 2026-11-23 quoted verbatim. `R031` and `R032` avoid. No acceptance sits in the grant band on the Project Manager's authority. |
-| A9 | Every risk actionable | Met | Risk List — every row names strategy, owner, action, contingency and warning sign. `R030`'s row is behind its artifact on one clause, recorded as a Minor (`Risk List#F3`); the row itself remains actionable. |
-| A10 | The set states the code's behaviour | **Contested** | Three of the four artifacts the criterion's test covers are corrected and verified by this lens: Supplementary Specification M3, Software Architecture Document SP1, Deployment Model Environment Mapping, all stating 50 / 50 / 50 under `AN-024`. The Use-Case Model's R6 still reads 100 / 100 per 10 s / queue 100 with no `AN-024` citation. `Use-Case Model#F4`, `Iteration Plan#F6` |
-| A11 | The SBC Minors closed | **Not met — three of four** | `Iteration Plan#F2`, `Iteration Plan#F3` and `System Inventory#F3` are corrected in their artifacts. `Development Case#F2` stands. A11 stays as written on the stakeholder's order; the Process Engineer is scheduled in this phase from the next iteration. |
-| A12 | The recovered set confirmed by the stakeholder | **Not met — refused** | Gate H4 was re-put at this review and answered **No**. The answer is recorded as given and nothing in it is recorded as a confirmation it did not contain. |
-| A13 | No work the process does not run | **Contested** | The plan's evidence cell states the Process Engineer's two items are "recorded as the stakeholder's order of 2026-11-23, not as a discipline stage, and the Development Case records Environment as High in Survey and Inception and inactive here". The stakeholder has since scheduled that role in this phase by order and refused the carry. The milestone sequence records no such stage. `Iteration Plan#F7` |
+| Criterion | State this lens certifies | Where it is decided |
+|---|---|---|
+| A1 | Met | Use-Case Model — eleven use cases, each tracing to the `EP-NNN` whose code performs it; all twenty-two entry points carried or their exclusion reasoned. Five `COMP-014 → UC-006` to `UC-010` `Realizes` edges confirmed in the registered graph and the rules diagram drawing R6 to U6 to U10 |
+| A2 | Met | System Inventory — Priorities areas 1 to 5 each yield a recovered use case. The criterion claims nothing about areas 6 to 8 |
+| A3 | Met | Software Architecture Document — `COMP-001` to `COMP-022` with connectors, and a Use-Case View naming a component path for each of the eleven use cases |
+| A4 | Met | Design Model — eight persisted entity types, keys, associations, enforced rules, `AN-025` against the owner key, each anchored to `TodoDbContext.cs` and the three migrations |
+| A5 | Met | Deployment Model — the fired OPTIONAL records the processes, the stores, the ports, the shared key ring under `AN-010` and the database directory under `AN-013` |
+| A6 | Met | System Inventory — 84 read and 55 unread of 139; the per-area columns reproduce and every unread category is named |
+| A7 | Met | Risk List — 29 `Refines` edges from the anomalies, plus `R022`, `R031` and `R032` with their separate origins stated |
+| A8 | Met | Risk List — four grants at 4 × 3 = 12, on `R004`, `R011`, `R012` and `R016`; no risk placed in the grant band this iteration takes the accept strategy |
+| A9 | Met | Risk List — every row names a strategy, an owner, an action, a contingency and a warning sign |
+| A10 | Met | The recovered set, all four artifacts its own test names: Supplementary Specification M3, S2, P1, R8; Software Architecture Document SP1, M3 and the bounded-load row; Deployment Model Environment Mapping; Use-Case Model R6. Each states both budgets under `AN-024` or the two hops under `AN-023` |
+| A11 | Met | Development Case — four of four: `Iteration Plan#F2`, `Iteration Plan#F3`, `System Inventory#F3`, and `Development Case#F2` with `#F3` corrected in this phase's Environment stage. Document Control reads Excavation iteration 3; the contributor set names all six lenses and CLS-DC-01 draws the four missing edges |
+| A12 | Not met — sanction refused | The stakeholder's answer alone. The recovered set is confirmed as the model of the existing system; the sanction to advance into Consolidation is refused while a Major stands |
+| A13 | Met | Iteration Plan — the milestone sequence records Environment as this phase's first discipline at Low intensity, fine-plan items 1 to 3 sit against the Process Engineer under that stage, and every other item belongs to a stage the process runs here |
 
-**Eight met, three contested, two not met. No criterion is certified on another criterion's answer.**
+Twelve of thirteen criteria hold on the evidence that owns them. A12 is refused. The one Major open is the plan's own text and is the reason the milestone does not close: the record the verdict reads would certify three criteria as failing that are met.
 
 ### Review Coordinator lens
 <!-- review: Excavation I2 -->
