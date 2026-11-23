@@ -97,8 +97,8 @@ The conventions below are the ones the code in this repository follows. Each is 
 - Framework is xunit, tests are marked `[Fact]`, and the class is `public class <Area>Tests` in namespace `TodoApi.Tests`.
 - Tests are integration tests over the HTTP surface: they start the API through `new TodoApplication()` (`WebApplicationFactory`) and act through `application.CreateClient(userId)`. The API's own types are not called directly where a request can be made.
 - A test seeds through `application.CreateTodoDbContext()` and `application.CreateUserAsync(userId)`, then asserts on the HTTP response (`HttpStatusCode.Created`, `HttpStatusCode.NotFound`, `HttpStatusCode.Forbidden`) and on the persisted row.
-- The usings the suite relies on are declared once, in `GlobalUsings.cs`.
-- Coverage is collected by `coverlet.collector`; test packages are private assets.
+- The usings the suite relies on are declared in two places: `Todo.Api.Tests/GlobalUsings.cs` for the ASP.NET Core and EF Core types, and the `<Using>` items of `Todo.Api.Tests/Todo.Api.Tests.csproj` for `System.Net`, `System.Net.Http`, `System.Net.Http.Json` and `Xunit`. A suite-wide using goes in one of those two, never in a test file.
+- `xunit.runner.visualstudio` and `coverlet.collector` carry `PrivateAssets="all"`; `xunit`, `Microsoft.NET.Test.Sdk` and `Microsoft.AspNetCore.Mvc.Testing` are referenced without it. Coverage is collected by `coverlet.collector`.
 - The API exposes its internals to the test project through `InternalsVisibleTo` in `Todo.Api/Todo.Api.csproj`.
 
 **API conventions** — `Todo.Api/Program.cs`, `Todo.Api/Filters/ValidationFilter.cs`, `Todo.Api/Todos/TodoApi.cs`, `Todo.Api/Users/UsersApi.cs`:
@@ -116,7 +116,7 @@ The conventions below are the ones the code in this repository follows. Each is 
 
 **UI** — `Todo.Web/Client/Components/`:
 
-- Razor components live under `Todo.Web/Client/Components/`, one component per file, with its `@page`, `@inject` and markup in that file; shared imports are in `_Imports.razor`.
+- Razor components live under `Todo.Web/Client/Components/`, one component per file, with its markup, `@inject` and `@code` in that file; a routable component adds `@page` there. Shared imports are in `Todo.Web/Client/_Imports.razor`.
 - HTTP calls to the API go through `TodoClient.cs`; a component does not construct an `HttpClient` for the API itself.
 - Styling is the vendored Bootstrap under `Todo.Web/Client/wwwroot/bootstrap/` plus `wwwroot/css/app.css`; the vendored copy is not edited.
 
