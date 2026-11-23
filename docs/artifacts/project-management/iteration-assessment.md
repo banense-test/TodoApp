@@ -129,7 +129,38 @@ No figure is projected for the phase as a whole as a forecast: Excavation's mile
 **Parallelism and schedule.** The phase ran four iterations against a measured record of three, and every one of iterations 2 to 4 was driven by this plan's own record rather than by the recovery. No role was added or duplicated at any point: iteration 4 was four owner turns across two owners. Adding a role would have added contention over the same artifact surface and bought no clock — and this iteration's measured cost is direct evidence for that, since three of its four corrections were cells in tables one role already owned.
 
 ## Use Cases and Scenarios Implemented
-None implemented, and none was to be. Excavation writes no code; the Implementation discipline does not work in the sprint zero, and `Test Plan` is NOT FIRED. What this iteration certified is a recovered set whose membership held unchanged across all three iterations.
+None implemented, and none was to be. Excavation writes no code; the Implementation discipline does not work in the sprint zero, and `Test Plan` is NOT FIRED. What this iteration certified is a recovered set whose membership held unchanged across all four iterations and which the stakeholder confirmed as the model of their existing system.
+
+```plantuml
+@startuml
+title The recovered set handed to Consolidation - membership unchanged through four iterations, confirmed by the stakeholder
+skinparam shadowing false
+skinparam wrapWidth 235
+hide circle
+hide empty members
+
+package "Recovered and confirmed, 2026-11-23" {
+  class "11 use cases, UC-001 to UC-011\n22 entry points, each carried or excluded" as UC <<confirmed>>
+  class "22 components, COMP-001 to COMP-022\nUse-Case View for all 11" as COMP <<confirmed>>
+  class "8 persistent entity types\nkeys, associations, enforced rules" as TBL <<confirmed>>
+}
+package "Stated exclusions, none re-opened" {
+  class "external-provider sign-in\nrecovered and unreachable in the delivered configuration" as X1 <<excluded>>
+  class "the cross-owner admin branch\nan exceptional entity, not a use case" as X2 <<excluded>>
+  class "EP-020, EP-021 health endpoints\nnot use cases" as X3 <<excluded>>
+  class "EP-022 the migration event\nnot a use case" as X4 <<excluded>>
+}
+package "Implemented here - none" {
+  class "no code, no test, no build\nImplementation and Test do not work\nin the sprint zero" as N <<none>>
+}
+UC --> COMP : every path crosses a named component
+COMP --> TBL : the stores the components persist through
+note bottom of N
+  Excavation recovers, it does not implement. What it certifies is a set
+  whose membership held unchanged across all four iterations.
+end note
+@enduml
+```
 
 | Recovered element | Count | State at this assessment |
 |---|---|---|
@@ -138,18 +169,19 @@ None implemented, and none was to be. Excavation writes no code; the Implementat
 | Actors | 3 — `ACT-001`, `ACT-002`, `ACT-003` | Signed-in person, external provider, API caller |
 | Components | 22 — `COMP-001` to `COMP-022` | Each with its anchor and connectors; the Use-Case View names the components each use case's path crosses. `COMP-014`'s five `Realizes` edges confirmed |
 | Persistent entity types | 8 | The three migrations and `TodoDbContext.cs:11-17`; the owner key's re-point under `AN-025` |
-| Stated exclusions | 4 | External-provider sign-in recovered and unreachable; the `admin` branch an exceptional entity; `EP-020`/`EP-021` and `EP-022` not use cases. **No exclusion re-opened** |
-| Open qualification on the count | 0 | Both qualifiers that stood at iteration 2 are closed; the count of eleven goes to Consolidation with nothing outstanding against it |
+| Stated exclusions | 4 | External-provider sign-in recovered and unreachable; the `admin` branch an exceptional entity; `EP-020`/`EP-021` and `EP-022` not use cases. **No exclusion re-opened** at any of the four puts |
+| Open qualification on the count | 0 | No qualifier stands against the count of eleven, and no artifact of the recovered set carries an open finding from any lens at this gate |
 
 | Handoff to Consolidation | State at this assessment |
 |---|---|
 | The eleven use cases, each with its `EP-NNN` and anchor, and the four exclusions with the ruling behind each | Delivered and confirmed by the stakeholder; no open finding |
 | The 22 components and the Use-Case View that ties them to the use cases | Delivered; no open finding |
 | The eight entity types, keys, associations and enforced rules | Delivered; not faulted in any iteration |
-| The 32 scored, owned risks | Delivered; one strategy cell to restate (`Risk List#F3`) |
+| The 29 scored, owned anomaly-derived risks plus `R022`, `R031` and `R032` | Delivered; `Risk List#F3` closed on `R032`'s restatement |
 | Coverage: 84 files read of 139, the remainder named with its reason | Delivered; both lenses recomputed the arithmetic and it reproduces |
 | What remains unrecovered | Named for Consolidation: the areas below priorities 1 to 5, and every use case the deeper reading of areas 6 to 8 may produce |
 | What Consolidation must not re-open | The four exclusions, on the stakeholder's statement that the recovered set is wrong in nothing and missing nothing |
+| The two open Minors carried into Consolidation | `Development Case#F4` to the Process Engineer and `Iteration Plan#F10` to this role, each with its corrective action in the Review Record's action table. Neither is carried unattended, as the stakeholder ordered at the SBC close |
 
 ## Results Relative to Evaluation Criteria
 ```plantuml
