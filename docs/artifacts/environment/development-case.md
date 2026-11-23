@@ -168,18 +168,113 @@ stop
 ```
 
 ## Artifacts and Templates
+All 16 CORE artifacts are produced; none is omitted and none changes owner. The one OPTIONAL artifact whose trigger fires is the **Deployment Model** (see Optional Artifact Triggers). The sprint zero's System Inventory is produced in Survey and deepened through Excavation and Consolidation.
 
-All 16 CORE artifacts are produced; none is omitted and none changes owner. The one OPTIONAL artifact whose trigger fires is the **Deployment Model** (see Optional Artifact Triggers).
+### Rules of production
 
 | Rule | Application in this project |
 |---|---|
 | Templates | The project authors no templates. Each artifact is written to its canonical section skeleton; this document adds no section to any of them. |
 | Guideline content | Lives in `docs/CONTRIBUTING.md` and in the convention files the roles own (see Guidelines and Procedures). The Development Case references those files and does not duplicate their content. |
 | Implementation Model | Written as code in the SCM, never upserted. The repository is the implementation: `Todo.Api/`, `Todo.Web/`, `TodoApp.AppHost/`, `TodoApp.ServiceDefaults/`, `Todo.Api.Tests/`. |
-| Persistent data | The `Data Model` OPTIONAL is not triggered; persistent data is described in the Design Model's persistent-data sections, owned by the `DatabaseDesigner`, anchored on `Todo.Api/TodoDbContext.cs` and the three migrations. |
-| Recovered artifacts | In Excavation and Consolidation, the existing system's architecture, use cases and data are recovered into the Software Architecture Document, Use-Case Model, Supplementary Specification and Design Model. Each recovered element cites the anchor it was read from (`Source: <path>` and lines; `Source: EP-NNN` for a recovered use case). |
+| Data Model | The `Data Model` OPTIONAL is not triggered; persistent data is written in the Design Model's persistent-data sections, owned by the `DatabaseDesigner`, anchored on `Todo.Api/TodoDbContext.cs` and the three migrations. |
+| Recovered artifacts | In the sprint zero the existing system's architecture, use cases, data and deployment are recovered into the Software Architecture Document, Use-Case Model, Supplementary Specification, Design Model and Deployment Model. Each recovered element cites the anchor it was read from — `Source: <path>` and lines, `Source: EP-NNN` for a recovered use case. |
 | Declared artifacts | From Inception on, each element cites the declared identifier it comes from (`FR-NNN`, `NFR-NNN`, `CON-NNN`, `AC-NNN`, `BG-NNN`, `RNNN`). |
-| Trace edges | One edge, one author: written in the Traceability row of its concrete end. This project's Development Case carries no trace table — it declares no traced element. |
+| Trace edges | One edge, one author: written in the Traceability row of its concrete end, with the other end in `Traces From` and `Traces To` holding only `DependsOn`. This project's Development Case declares no traced element and so carries no trace table. |
+| Co-owned artifacts | Design Model (Designer, DatabaseDesigner, UserInterfaceDesigner); Use-Case Model and Supplementary Specification (SystemAnalyst, RequirementsSpecifier, UserInterfaceDesigner); Review Record (Reviewer, CodeReviewer, ManagementReviewer, BusinessReviewer, ReviewCoordinator, plus the ConfigurationManager's baseline record). A role updates its own section through the `section` parameter and never rewrites the document. |
+
+### What this phase adds to the existing set
+
+Consolidation completes the sprint zero's recovered set. No artifact in the project is created by this phase, and no recovered element is reopened — the stakeholder confirmed the eleven use cases, the four stated exclusions, the twenty-two components and the eight entity types as the model of the existing system on 2026-11-23 and no finding reopens it.
+
+| Artifact | Owner | What Consolidation completes |
+|---|---|---|
+| Use-Case Model | System Analyst | The set completed: every use case specified to the depth the recovered behaviour supports, every entry point carried or its exclusion stated |
+| Supplementary Specification | System Analyst | The cross-cutting mechanisms stated as one list, each with the anchor it was read from and the use cases that depend on it |
+| Software Architecture Document | Software Architect | The component view completed against the Use-Case View; every use case's path crosses a named component |
+| Design Model | Designer, Database Designer | The design model completed with the persistent-data sections, entities, keys, associations and enforced rules |
+| System Inventory | Software Archaeologist | The coverage counted: every file read or named with the reason it was not, the headline reproducing from the per-area table |
+| Risk List, Iteration Plan, Iteration Assessment | Project Manager | The register rescored where this phase changed a fact, the plan and the phase's assessment |
+| Review Record | Reviewer, plus the five contributing lenses | This milestone's findings, resolutions and actions |
+
+CLS-DC-02 is the dependency map the order above follows: which artifact each role reads before producing its own.
+
+```plantuml
+@startuml
+title CLS-DC-02 Artifact dependency map - what each role reads before producing its own, at the level of identifiers
+
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 200
+hide circle
+hide empty members
+
+package "Discovery - sprint zero" {
+  class "System Inventory\nEP-NNN, AN-NNN" as SI
+}
+package "Requirements" {
+  class "Vision" as VIS
+  class "Use-Case Model\nUC-NNN, BR-NNN" as UCM
+  class "Supplementary Specification\nNFR-NNN" as SS
+}
+package "Analysis and Design" {
+  class "Software Architecture Document\nCOMP-NNN" as SAD
+  class "Design Model\nACL, CLS, INT, SEQ, API" as DM
+  class "Deployment Model\nOPTIONAL, trigger fired" as DPM
+}
+package "Implementation - in the SCM" {
+  class "Implementation Model\nsource files, TC-NNN coverage" as IM
+}
+package "Test" {
+  class "Test Case\nTC-NNN" as TC
+  class "Test Evaluation Summary" as TES
+}
+package "Deployment and documentation" {
+  class "Release Notes" as RN
+  class "User Documentation" as UD
+}
+package "Project Management" {
+  class "Risk List\nRNNN" as RL
+  class "Iteration Plan" as IP
+  class "Iteration Assessment" as IA
+}
+package "Review and change" {
+  class "Review Record\nfindings" as RR
+  class "Change Request" as CR
+}
+package "Environment" {
+  class "Development Case" as DC
+  class "docs/CONTRIBUTING.md" as CG
+}
+
+SI --> UCM : an entry point becomes a use case
+SI --> RL : every anomaly becomes a scored risk
+VIS --> UCM
+UCM --> SAD : each use case's path crosses a component
+UCM --> DM : each class realizes a use case
+UCM --> TC : each test case verifies a use case
+SS --> DM : a mechanism shapes the classes
+SAD --> DM
+SAD --> DPM : the nodes host the components
+DM --> IM : classes become source files
+DM --> TC
+TC --> TES
+IM --> RN
+UD --> RN
+RL --> IP
+IA --> IP : the next iteration's scope
+RR --> IP : open Major findings are the next iteration's work
+CR --> IP : approved change requests are planned work
+DC --> IP : the process the plan instantiates
+DC --> CG : the contract the roles follow
+CG --> IM : the conventions the code follows
+
+note bottom of DC
+  Every artifact above is CORE except the Deployment Model,
+  which is OPTIONAL with its trigger fired. The Implementation
+  Model lives in the SCM and is never upserted.
+end note
+@enduml
+```
 
 ## Optional Artifact Triggers
 
