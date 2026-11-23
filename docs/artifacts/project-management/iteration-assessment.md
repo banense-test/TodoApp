@@ -222,6 +222,22 @@ No work item is reopened by this assessment: an item marked Complete that delive
 
 No work item is reopened by this assessment: an item marked Complete that delivered defective content is a finding against its artifact, which is where the reviews recorded it. The phase's declared scope is untouched — nothing the stakeholder said in two iterations adds, removes or reorders declared work, because Survey reads the system as it is and the declared change is worked from Inception.
 
+### Process metrics and the decision each serves
+
+Only the measures a decision consumes are recorded here. A measure whose goal cannot be named is not carried.
+
+| Measure | Iteration 2 | Whole of Survey | Decision it enables |
+|---|---|---|---|
+| Agent invocations | 10 | not aggregated | Whether the chain ran sequentially as planned or branched. It ran one stretch at a time; a branch would mean two owners wrote into one artifact in the same pass, which no finding required |
+| Stakeholder interactions | 11 | not aggregated | How many queue cycles the human gates cost. Gate H2 took one interaction at the re-take; an iteration that needed several would signal a question put before the review had settled its subject |
+| Live artifacts under review | 6 | 6 | The surface every later phase re-reads. It fixes what Excavation's cost is dominated by — the artifact surface read each phase, not the volume a phase emits — and it is why no work item here adds a seventh |
+| Artifact characters, by artifact | Development Case 22722; System Inventory 50681; Risk List 27658; Iteration Plan 29724; Review Record 81412 | — | Where the reading concentrates. The System Inventory is the largest and the most cited; the Risk List and the Iteration Plan are the two this iteration rewrote, and neither grew by the rework |
+| Token spend | 8995433 | 20514536 | The measured basis Excavation's plan is built from. Reported beside the two clocks, never added to them |
+| Elapsed agent time | 0:29:17.72 | 1:15:02.09 | The clock the spend is quoted against |
+| Stakeholder queue time | 0:05:15.93 | 1:09:53.75 | Whether waiting, not working, dominates the phase's wall clock. Across Survey it very nearly equals the agent time, which is the finding the next phase's plan is built around |
+
+No velocity is quoted and none exists: a per-iteration figure is not recorded, because two iterations of one phase are not a rate. No defect count is computed as a quality measure — the only defect detector that operated is the milestone review, and its finding count is a review outcome, not a density.
+
 ## Use Cases and Scenarios Implemented
 None, correctly. Survey recovers no use case: the 22 entry points are recorded as entry points in the System Inventory, and it is Excavation that recovers them into `UC-NNN` in the reading order of the Priorities section. No use-case realization, no scenario and no test case exists at this point, and none is missing — no artifact of this phase produces one.
 
