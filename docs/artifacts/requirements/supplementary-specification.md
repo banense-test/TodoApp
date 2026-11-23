@@ -126,7 +126,6 @@ The delivery states no usability requirement and carries no documentation of the
 | U10 | No documentation of the interface is delivered. The root `README.md` documents how to run the system | `.iari/README.md`; `README.md` |
 
 ## Reliability
-
 No availability, recovery, tolerance or degradation target is stated in the delivery. The behaviours below are what the code has, not a requirement it was built to meet.
 
 | # | Behaviour, as the code has it | Anchor |
@@ -134,12 +133,12 @@ No availability, recovery, tolerance or degradation target is stated in the deli
 | R1 | Readiness fails unless every registered check passes; liveness is tagged `live`. Both are mapped only in Development | `TodoApp.ServiceDefaults/Extensions.cs:110-118`; EP-020, EP-021 |
 | R2 | The database path is relative to the API's working directory and its directory is created by the app host alone | AN-013; `Todo.Api/Program.cs:23`; `TodoApp.AppHost/Extensions.cs:4-21` |
 | R3 | The schema reaches the database only when the app host runs the migration, and only when `Todo.Api/.db` is absent. A migration that no longer matches the model fails only there | AN-005; `TodoApp.AppHost/Extensions.cs:9-21,28-29` |
-| R4 | No retry, circuit breaker or fallback is configured on either hop. The BFF's calls to the API collapse every failure into one 401 with no body | AN-021; `Todo.Web/Server/AuthClient.cs:6-34` |
+| R4 | **The two outbound hops out of the BFF are not equally protected, and the difference is what a caller sees on a transient failure.** The **token hop** — the BFF's `AuthClient` to `/users` — is a container-built `HttpClient`, so it inherits the standard resilience handler that `ConfigureHttpClientDefaults` installs: retry, circuit breaker, timeout and rate limiter apply to it. The **forwarder hop** — the BFF's `/todos` forwarder to the API — is built from the YARP forwarder with a default `ForwarderRequestConfig` and **no** resilience handler, so it neither retries nor breaks a circuit. On the sign-in and registration path a transient API failure is retried; on the task path it is surfaced to the person as a silent no-op. Neither hop has a fallback, and the token hop still collapses every failure it finally reports into one 401 with no body (F2) | AN-023; `TodoApp.ServiceDefaults/Extensions.cs:32-42`; `Todo.Web/Server/Program.cs:23-26`; `Todo.Web/Server/TodoApi.cs:12-25`; `Todo.Web/Client/Components/TodoList.razor:57-76`; AN-021 |
 | R5 | No failure of the external provider path is reported or recovered: the callback redirects to `/` on every path | AN-020 |
 | R6 | No data is lost on restart that the store does not hold: the system keeps no in-memory state across requests beyond a scoped `CurrentUser` | `Todo.Api/Authorization/CurrentUser.cs:6-13`; System Inventory — Persistent Data |
 | R7 | A caller holding the `admin` role can reach, change and delete a row the list does not show, and nothing in the running system grants that role | AN-004, AN-018 |
-| R8 | The per-user token bucket rejects with 429 above 100 requests in flight or 100 per 10-second period, per caller | `Todo.Api/Extensions/RateLimitExtensions.cs:20-40` |
-
+| R8 | The per-user token bucket rejects with 429 above the request budget of the environment the API runs in: **50 tokens per caller per 10-second period with a queue of 50 under Development**, which both launch profiles set and which is the only environment this delivery starts in; **100 tokens per caller per 10-second period with a queue of 100** wherever no `RateLimiting` configuration section overrides the code defaults. `/users` is not covered by the policy at all | AN-024; `Todo.Api/Extensions/RateLimitExtensions.cs:20-40`; `Todo.Api/appsettings.Development.json:8-12`; `Todo.Api/Properties/launchSettings.json:14-16,25-27` |
+| R9 | The session surface is the least stable part of the delivery and its failure paths have never been modified: `Todo.Web/Server` carries 33 commits and `AuthApi.cs` 15, none of which touched the unconditional redirect, the swallowed failure or the bare 401 (`AN-019`, `AN-020`, `AN-021`), and no test covers any of them | AN-029; AN-012; `Todo.Web/Server/AuthApi.cs:64-97`; `Todo.Api.Tests/Todo.Api.Tests.csproj:9` |
 ## Performance
 | # | What the code fixes, which a later threshold would have to sit on | Anchor |
 |---|---|---|
