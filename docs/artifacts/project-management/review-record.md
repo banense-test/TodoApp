@@ -640,6 +640,87 @@ The Reviewer's further two findings against this artifact (`Iteration Plan#F1` �
 
 **Not a finding.** The absence of a Test Plan, a Data Model and a Glossary is the Development Case's own NOT FIRED verdict on each, checked and found to hold — not a gap in the delivery. The absence of an Iteration Assessment is correct at this point: the Project Manager authors it after this review, and its absence is never a gate condition.
 
+### Management Reviewer lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+**Prior findings of this lens.** None. This is iteration 1 of Survey and no Management Reviewer finding existed on any of the four artifacts before this review, so nothing is resolved, deferred or rejected in this pass. The two findings this lens records above are new and carry no `findingKey` from an earlier cycle. The seven findings of the Reviewer's lens on these artifacts belong to that lens and are not this lens's to close.
+
+**Stakeholder sanction: REFUSED**
+
+**Stakeholder acceptance:** "No" — to confirming the perimeter of the existing system as the System Inventory records it and to sanctioning advancement past the System Boundary Confirmed milestone; with the instruction: "The development case contains duplicated diagrams and text; it needs to be corrected. Additionally, the major findings must be corrected."
+
+Both reasons the stakeholder gave are recorded. The first names an artifact and is carried as `Development Case#F1`, ordered corrected above the ordinary Minor queue because the order is the stakeholder's. The second names no artifact and no new defect: every one of the six Major findings open across these four artifacts already carries rework-required status, and no duplicate finding is minted to say so — the ledger's own Major rows are the record of that instruction.
+
+```plantuml
+@startuml
+title Path from this verdict to a re-taken SBC gate
+
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+
+actor "Stakeholder" as SH
+participant "Management Reviewer" as MR
+participant "Project Manager" as PM
+participant "Software Archaeologist" as SWA
+participant "Process Engineer" as PE
+participant "Reviewer" as RV
+participant "Review Coordinator" as RC
+
+SH -> MR : sanction question — confirm the perimeter and advance
+MR -> SH : leaning No-Go, five Major open, every one named
+SH --> MR : No
+note over SH, MR
+  Stakeholder sanction: REFUSED
+  2026-11-23
+  two reasons given: the Development Case's
+  duplicated diagrams and text;
+  the Major findings must be corrected
+end note
+
+par rework, four owners
+  MR -> PM : Risk List#F1 — reconcile the scores, re-derive the grant band
+else
+  MR -> PM : Iteration Plan#F1 — restate C2, C6, C7 on the evidence each has
+else
+  MR -> SWA : the Reviewer's System Inventory findings, that lens's to close
+else
+  MR -> PE : Development Case — delete the duplicate, on the stakeholder's order
+end
+
+PM -> PM : score every risk once, from the IARI scale
+PM -> SH : any risk the reconciled band puts at Significant or High
+SH --> PM : grant or refuse, in their own words
+
+PM -> MR : reworked Risk List and Iteration Plan
+PE -> MR : Development Case with one copy of each
+RV -> MR : technical lens re-run against the rework
+MR -> MR : re-take C1 to C10 on the reworked evidence
+MR -> SH : sanction question again, with the new count
+SH --> MR : answer
+MR -> RC : the verdict the coordinator's milestone decision rests on
+@enduml
+```
+
+**Actions ordered by this lens.** Each is the remediation of a finding this lens raised, and each is closed by this lens when the finding's own artifact is reworked.
+
+| Action | Artifact | Owner | Finding |
+|---|---|---|---|
+| Reconcile every probability and impact to the IARI scale and its cited evidence, then re-derive the grant band and put every risk landing at Significant or High to the stakeholder in this cycle — R004 and R011 are the two candidates | Risk List | Project Manager | Risk List#F1 |
+| Restate C2 as two criteria — the answered perimeter-membership and priority questions, and the confirmation of the recorded perimeter which is not met; cite the recomputed coverage figure for C6; split C7 into carriage and reproducibility | Iteration Plan | Project Manager | Iteration Plan#F1 |
+| Delete the duplicated role-delta list and the duplicated CLS-DC-01 diagram, on the stakeholder's order | Development Case | Process Engineer | Development Case#F1 |
+
+**Carried, not this lens's to close.** The Reviewer's five Major findings stand open and each is content a downstream role would build on: `Development Case#F1` (a version policy no file records), `System Inventory#F1` (the AN-021 row short of the tree by one edge), `Risk List#F1` (thirteen scores contradicting the inventory), `Iteration Plan#F1` (twelve anomalies claimed, seven named). They are reconciled by their own lens in its next pass, and this gate cannot be re-taken while any of them remains open.
+
+**What is not a finding.**
+
+- The absence of a Test Plan, a Data Model and a Glossary is the Development Case's own NOT FIRED verdict on each, checked against its §5.2 condition and found to hold.
+- The absence of an Iteration Assessment is correct at this point: the Project Manager authors it after this review, and its absence is never a gate condition.
+- The absence of a token budget, a velocity and a forecast is correct: the project declares no budget, no phase has closed, and an empty forecast column is the honest state rather than a gap. No figure is invented in its place.
+- No SCM condition is available to hold or clear this gate: the repository carries no IARI pipeline, no branch of this process, no open pull request and no defect issue.
+- The perimeter not being confirmed is not a defect of the System Inventory. It is a defect of the plan that records a confirmation which did not happen, and it is recorded there.
+
 ## Disposition
 ### Reviewer lens
 <!-- review: Survey I1 -->
