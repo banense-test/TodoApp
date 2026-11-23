@@ -1,0 +1,243 @@
+## Document Control
+
+- Phase: Excavation
+- Status: Draft — produced for the end-of-Excavation (AR) milestone review
+- Milestone Target: end-of-Excavation (AR) — not yet achieved
+- Iteration: 1, Cycle 1
+- Owner: Software Architect
+
+## Deployment Topology
+
+The system has **one supported placement and no deployment artifact**: no Dockerfile, compose file, Kubernetes manifest or infrastructure definition is anywhere in the tree, and `.iari/README.md` records that it is not deployed. The `ContainerImageName` and `ContainerImageTag` properties two project files still carry are a residue the tree no longer backs. What places the processes is `TodoApp.AppHost`, and it does so on one machine, in one developer's session.
+
+| Property | As the delivery has it | Anchor |
+|---|---|---|
+| Node count | One. A browser process, three .NET processes and one container, all on the same machine | `TodoApp.AppHost/Program.cs:1-28` |
+| Process count | Four .NET processes: AppHost, Todo.Web.Server, Todo.Api, and the `dotnet-ef` child it spawns once | `TodoApp.AppHost/Program.cs:5-7,9-10`; `Extensions.cs:25-33` |
+| Network hops | Two between servers: COMP-007 and COMP-008 each reach the API over `http://todoapi`. The browser reaches only the server | `Todo.Web/Server/Program.cs:23-26`; `Todo.Web/Server/TodoApi.cs:16` |
+| Discovery | By resource name through Aspire service discovery; no address is written anywhere in the code | `TodoApp.ServiceDefaults/Extensions.cs:34-35`; `Todo.Web/Server/Program.cs:25` |
+| Ports | 5000 and 5001 forwarded by the developer container; the API's port is allocated by the app host | `.devcontainer/devcontainer.json:1-11`; `Todo.Web/Server/Properties/launchSettings.json` |
+| Transport security | HTTPS between browser and server (`UseHttpsRedirection`, HSTS outside Development); HTTP in the clear between the BFF and the API | `Todo.Web/Server/Program.cs:38-45`; `Todo.Web/Server/TodoApi.cs:16` |
+| Environments | `Development` is the only one that differs: the reference UI, both health endpoints and body-and-header logging exist only there | `Todo.Api/Program.cs:35-56`; `TodoApp.ServiceDefaults/Extensions.cs:110-118` |
+| Deployment mechanism | None. `dotnet run` on the app host, or the Aspire CLI pinned by `.aspire/settings.json` | `.aspire/settings.json:1-3`; `README.md` |
+
+```plantuml
+@startuml
+title DEP-D1 Recovered deployment topology - processes, node placement and the connectors between them
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam wrapWidth 190
+skinparam nodeSep 40
+
+node "Developer workstation - one machine, no container" {
+  node "Browser process" as BROWSER {
+    component "COMP-001 screens\nCOMP-002 HTTP gateway\nBlazor WebAssembly bundle" as WASM
+  }
+  node ".NET 9 process: Todo.Web.Server\nHTTPS 5001, HTTP 5000" as BFF {
+    component "COMP-004 host" as B4
+    component "COMP-005 session" as B5
+    component "COMP-006 /auth" as B6
+    component "COMP-007 AuthClient" as B7
+    component "COMP-008 forwarder" as B8
+    component "COMP-021 service defaults" as B21
+  }
+  node ".NET 9 process: Todo.Api\nservice name todoapi, discovered" as API {
+    component "COMP-009 Identity" as A9
+    component "COMP-010 token exchange" as A10
+    component "COMP-011 Todos" as A11
+    component "COMP-012/013 authz" as A12
+    component "COMP-014 bucket" as A14
+    component "COMP-015 validation" as A15
+    component "COMP-016 persistence" as A16
+    component "COMP-017 docs" as A17
+    component "COMP-021 service defaults" as A21
+  }
+  node ".NET 9 process: TodoApp.AppHost" as HOST {
+    component "COMP-020 orchestration\nand migration" as H20
+  }
+  node "dotnet-ef child process\nmigration, once" as MIG {
+    component "database update --no-build" as M1
+  }
+  node "Container: tomdesinto/sqliteweb\nport 8080, .db bind-mounted" as SQLWEB {
+    component "SQLite browser" as S1
+  }
+  folder "File system" as FS {
+    artifact "Todo.Api/.db/Todos.db" as DBF
+    artifact "Data-protection key ring\ndefault framework location" as KF
+  }
+}
+cloud "External network" as NET {
+  component "ACT-002 identity providers\ngithub.com, google, microsoft, auth0" as IDP
+  component "OTLP collector\nAspire dashboard" as OTEL
+}
+
+WASM --> B4 : HTTPS, same origin
+B4 --> B6
+B6 --> B7
+B7 --> A9 : HTTP http://todoapi\nservice discovery
+B7 --> A10
+B8 --> A11 : HTTP http://todoapi\nAuthorization: Bearer
+A11 --> A12
+A11 --> A14
+A11 --> A15
+A11 --> A16
+A9 --> A16
+A10 --> A16
+A16 --> DBF : SQLite file
+B5 ..> KF : write
+A10 ..> KF : read
+H20 --> MIG : AddExecutable, WaitForCompletion
+MIG --> DBF : creates the schema
+HOST --> API : AddProject
+HOST --> BFF : AddProject
+HOST --> SQLWEB : AddContainer
+B5 ..> IDP : HTTPS challenge and callback
+B21 ..> OTEL : OTLP when set
+A21 ..> OTEL : OTLP when set
+
+note bottom of DBF
+  The path is relative to the API's working
+  directory and only the app host creates the
+  directory. AN-013
+end note
+
+note bottom of KF
+  No PersistKeysTo call exists in either process,
+  so the ring is shared only where the framework's
+  default location is shared. AN-010
+end note
+
+note right of HOST
+  Not a node the system serves from: it starts the
+  other three and exits with them. No Dockerfile,
+  compose file or deployment manifest exists, so
+  this workstation is the only placement the
+  delivery supports. DC12
+end note
+
+@enduml
+```
+
+### What the topology would have to change for a second node
+
+Recorded because it is what a deployment decision would meet, not as a recommendation:
+
+| Element | Why it is bound to one node | Anchor |
+|---|---|---|
+| `Todos.db` | A file path relative to the API's working directory; a second API node would need a shared store or its own file | `Todo.Api/Program.cs:23` |
+| The data-protection key ring | No key store is pinned, so two nodes share a ring only if the framework's default file location is shared between them — which a container split does not give | `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11`; AN-010 |
+| The sqlite-web container | A bind mount of the API's `.db` directory; meaningful only where that directory is on the same file system | `TodoApp.AppHost/Program.cs:14-19` |
+| Service discovery | Aspire's development-time discovery; nothing in the tree states a production resolver | `TodoApp.ServiceDefaults/Extensions.cs:30-35` |
+| The migration | Run by the app host, which is a development process, not a deploy step | `TodoApp.AppHost/Extensions.cs:5-21` |
+
+## Nodes and Connectors
+
+| Node | What runs there | Placed by | Reachable from | Anchor |
+|---|---|---|---|---|
+| Browser process | COMP-001, COMP-002, COMP-003 as a WebAssembly bundle | Static assets served by COMP-004 from the same origin | Nothing — it initiates | `Todo.Web/Server/Program.cs:47-49`; `Todo.Web/Client/Program.cs:5-13` |
+| Todo.Web.Server | COMP-004 to COMP-008, COMP-021 | `AddProject<Todo_Web_Server>` with a reference to the API resource | The browser, over HTTPS 5001 / HTTP 5000 | `TodoApp.AppHost/Program.cs:9-10`; `Todo.Web/Server/Properties/launchSettings.json` |
+| Todo.Api | COMP-009 to COMP-018, COMP-021 | `AddProject<Todo_Api>` named `todoapi` | The BFF, by discovery name only — it publishes no fixed port of its own to the outside | `TodoApp.AppHost/Program.cs:5-7` |
+| TodoApp.AppHost | COMP-020 | Started by the developer | Nothing | `TodoApp.AppHost/Program.cs:1-28` |
+| `dotnet-ef` child process | `dotnet ef database update --no-build`, preceded by a global tool install | `AddExecutable`, gated on run mode and on `Todo.Api/.db` being absent | Nothing; the API waits on its completion | `TodoApp.AppHost/Extensions.cs:25-33` |
+| `tomdesinto/sqliteweb` container | A SQLite browser over the bind-mounted directory, target port 8080 | `AddContainer`, excluded from the manifest | The developer, through the app host's dashboard | `TodoApp.AppHost/Program.cs:14-19` |
+| File system | `Todo.Api/.db/Todos.db`; the data-protection key ring at the framework default location | Created by the migration; the ring by whichever process writes first | Todo.Api, and Todo.Web.Server for the ring | `Todo.Api/Program.cs:23`; AN-013, AN-010 |
+
+### Connectors
+
+| From | To | Protocol and properties | Anchor |
+|---|---|---|---|
+| Browser | Todo.Web.Server | HTTPS, same origin, cookie, `X-Requested-With: XMLHttpRequest` | `Todo.Web/Client/Program.cs:7-13` |
+| COMP-006 / COMP-007 | Todo.Api | HTTP, service discovery name `todoapi`, no credential, standard resilience handler applied | `Todo.Web/Server/Program.cs:23-26`; `TodoApp.ServiceDefaults/Extensions.cs:32-42` |
+| COMP-008 | Todo.Api | HTTP, any `/todos` sub-path, `Authorization: Bearer`, no resilience handler (default `ForwarderRequestConfig`) | `Todo.Web/Server/TodoApi.cs:16-25` |
+| Todo.Api | `Todos.db` | EF Core 9 SQLite over the file; single writer | `Todo.Api/Program.cs:23-24` |
+| COMP-006 | Key ring | Data protection write, protector named after the provider | `Todo.Web/Server/AuthApi.cs:82-84` |
+| COMP-010 | Key ring | Data protection read, same protector name | `Todo.Api/Users/UsersApi.cs:26-28` |
+| COMP-005 | External identity provider | HTTPS, per-provider handler, only where that provider is configured — none is | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:39-75`; `Todo.Web/Server/appsettings.json` |
+| COMP-021 | OTLP collector | HTTPS/HTTP OTLP, only when `OTEL_EXPORTER_OTLP_ENDPOINT` is non-empty | `TodoApp.ServiceDefaults/Extensions.cs:74-81` |
+| AppHost | Sqlite-web container | Container start with a bind mount of the API's `.db` directory | `TodoApp.AppHost/Program.cs:14-19` |
+
+```plantuml
+@startuml
+title DEP-D2 Start-up and schema provisioning - the order the app host imposes, and what fails without it
+
+skinparam shadowing false
+skinparam wrapWidth 215
+
+|Developer|
+start
+:Starts TodoApp.AppHost;
+|COMP-020 AppHost|
+:DistributedApplication.CreateBuilder;
+:AddTodoDbMigration();
+note right
+  ExecutionContext.IsRunMode must be true.
+  A publish or manifest run skips the whole block.
+  Extensions.cs:5-7
+end note
+if (Todo.Api/.db exists?) then (yes)
+  :no migration resource is created;
+else (no)
+  :Directory.CreateDirectory(.db);
+  :AddEfMigration<Todo_Api>("todo-db-migration");
+  :install-ef: dotnet tool install --global dotnet-ef;
+  :database update --no-build, waiting on the install;
+end if
+:AddProject<Todo_Api>("todoapi");
+:AddProject<Todo_Web_Server>("todo-web-server")
+  .WithReference(todoapi);
+:AddContainer("sqliteweb", "tomdesinto/sqliteweb")
+  .WithBindMount(.db, /db);
+if (a migration resource exists?) then (yes)
+  :todoapi.WaitForCompletion(migration);
+  :sqliteWeb.WaitForCompletion(migration);
+else (no)
+endif
+:Build().Run();
+|Todo.Api|
+:Starts only after the migration completes;
+:AddSqlite<TodoDbContext>(
+  "Data Source=.db/Todos.db");
+:AddCurrentUser, rate limiting, bearer auth,
+ Identity core over TodoDbContext;
+:Listens; reachable as todoapi;
+|Todo.Web.Server|
+:Starts in parallel with the API;
+:AddHttpClient<AuthClient>(http://todoapi);
+:AddHttpForwarderWithServiceDiscovery();
+:Listens on 5000 and 5001;
+|Developer|
+:Opens the browser at the server;
+note right
+  Two failure modes this order creates and does not
+  guard: the standalone route documented in README.md
+  fails until the app host has run once, because only
+  this sequence creates .db (AN-013); and a migration
+  that no longer matches the model is caught only here,
+  because the test host builds its schema by
+  EnsureCreated (AN-005).
+end note
+stop
+
+@enduml
+```
+
+## Environment Mapping
+
+Two environments exist and one setting separates them. No environment file in the delivery carries a connection string, a provider credential, a rate-limit value or an address: the four `appsettings.json` files hold logging levels and `AllowedHosts`, and the two `appsettings.Development.json` files are read from the same tree.
+
+| Capability | Development | Any other environment | Consequence | Anchor |
+|---|---|---|---|---|
+| Scalar reference UI, `EP-019` | Mapped | Not mapped | The route does not exist outside Development | `Todo.Api/Program.cs:49-56` |
+| Redirect of `/` to `/scalar/v1`, `EP-017` | Fires | **Also fires** | The root path redirects to an endpoint the process does not serve (AN-017) | `Todo.Api/Program.cs:62` |
+| OpenAPI document, `EP-018` | Served | Served | Unconditionally mapped; it is the contract, not a diagnostic | `Todo.Api/Program.cs:58` |
+| `GET /health`, `EP-020` and `GET /alive`, `EP-021` | Mapped | Not mapped | An operating instance exposes no readiness or liveness probe at all | `TodoApp.ServiceDefaults/Extensions.cs:110-118` |
+| HTTP logging with bodies and headers | Combined logs, response body and headers | Middleware registered, no fields configured | `UseHttpLogging` runs in every environment; only the field selection is gated | `Todo.Api/Program.cs:35-44` |
+| WebAssembly debugging, HSTS | Debugging middleware | HSTS, 30 days | — | `Todo.Web/Server/Program.cs:30-39` |
+| Provider registration | None — no `Authentication:Schemes` section exists in either file | None | UC-003 cannot be entered anywhere in the delivered configuration | `Todo.Web/Server/appsettings.json`; `AuthenticationExtensions.cs:57-75` |
+| Rate limiting | Code defaults: 100 / 100 per 10 s / queue 100 | Same | No `RateLimiting` section exists anywhere, so the values are not tunable as delivered | `Todo.Api/Extensions/RateLimitExtensions.cs:20-30` |
+| Database | `Data Source=.db/Todos.db`, relative to the API's working directory | Same, unless `ConnectionStrings:Todos` is set | No environment file sets it | `Todo.Api/Program.cs:23` |
+| Telemetry export | OTLP only when `OTEL_EXPORTER_OTLP_ENDPOINT` is non-empty | Same | One environment variable is the whole OTLP switch | `TodoApp.ServiceDefaults/Extensions.cs:76-81` |
+| The developer container | `mcr.microsoft.com/dotnet/sdk:8.0`, forwards 5000 and 5001, installs `dotnet-ef` on create | — | The image's SDK contradicts the `net9.0` target and the `9.0.100` pin: the container cannot build the solution it ships with (AN-007) | `.devcontainer/devcontainer.json:1-11`; `.devcontainer/init.sh`; `Directory.Build.props:4`; `global.json:3` |
+
+**What this mapping means for anyone placing the system.** The only environment-dependent behaviour that matters to an operator is the absence of health endpoints outside Development: a process started in any other environment publishes no probe, so no orchestrator could judge its readiness. The only environment-dependent behaviour that matters to a developer is that the reference UI is Development-only while the redirect to it is not — the one asymmetry in the mapping (AN-017).
