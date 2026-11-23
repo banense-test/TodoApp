@@ -265,7 +265,7 @@ package "Four-axis health" {
     criteria met on artifact evidence : 9 of 12 rows
     criteria met on a stakeholder answer : 3
     defects holding the gate from either lens : none
-    open Minors : 3, ordered corrected in the next phase
+    open Minors : 4, ordered corrected in the next phase
   }
 }
 
