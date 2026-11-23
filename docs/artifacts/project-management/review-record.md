@@ -24,14 +24,12 @@
 - Stakeholder acceptance: "Yes" — asked whether, on records that agree with the set they report, they sanction advancing past the Architecture Recovered milestone into Consolidation, having confirmed at the third put that the recovered set is the model of their system
 
 ### Review Coordinator lens
-<!-- review: Excavation I3 -->
-
-<!-- review: Excavation I3 -->
+<!-- review: Excavation I4 -->
 
 - Phase: Excavation
-- Status: Consolidation complete for the AR (end-of-Excavation) milestone review, iteration 3, cycle 1 — 2 open Major entries over 1 distinct defect, 3 open Minor, 0 Critical
-- Milestone Target: end-of-Excavation (AR) — not achieved; the phase auto-iterates
-- Iteration: 3, Cycle 1
+- Status: Consolidation complete for the AR (end-of-Excavation) milestone review, iteration 4, cycle 1 — 0 open Critical, 0 open Major, 2 open Minor
+- Milestone Target: end-of-Excavation (AR) — sanctioned by the stakeholder at gate H4 put 4 on 2026-11-23
+- Iteration: 4, Cycle 1
 - Owner: Review Coordinator
 
 ## Review Scope and Criteria
