@@ -101,7 +101,7 @@ end note
 | Minor | — | 0 | — |
 | Low | — | 0 | — |
 
-No risk sits in a band its strategy cannot be held in: every Significant-band risk either avoids or carries the stakeholder's granting answer, and no Significant risk this phase added takes the accept strategy, so neither the recovery nor its corrective iterations required a grant. `R030` avoids and its retirement action has landed in the Use-Case Model; the exposure stays live on `AN-012` and is stated as live, not as retired. `R031` avoids, its contingency is taken, and `R032` avoids with its action performed on five of the six citing artifacts.
+No risk sits in a band its strategy cannot be held in: every Significant-band risk either avoids or carries the stakeholder's granting answer, and no Significant risk this phase added takes the accept strategy, so neither the recovery nor its corrective iterations required a grant. `R030` avoids and its retirement action has landed in the Use-Case Model; the exposure stays live on `AN-012` and is stated as live, not as retired. `R031` avoids, its contingency is taken and performed in the Environment stage. `R032` avoids; its action is performed on all six citing artifacts — the Use-Case Model's rules diagram R6 named among them, stating both budgets under `AN-024` — and the exposure is retired by that avoidance, with one confirmation still to run at the next milestone.
 
 Not carried: no risk in this register concerns staffing, skills, turnover or friction between people. The executing agents are not a development organization and the stakeholder is the only human here, so such a risk would name no actor and is retired as not applicable rather than classified. What the people the SYSTEM serves do with it is a domain risk and stays.
 
