@@ -947,13 +947,98 @@ MR -> RC : the verdict the coordinator's milestone decision rests on
 
 ## Disposition
 ### Reviewer lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-**Approved with Changes.**
+<!-- review: Survey I2 -->
 
-No Critical finding was raised: nothing in these four artifacts needs a decision only the stakeholder can take, and the two decisions this iteration did need — the priority order, and the R012 and R016 acceptances — were already answered on 2026-11-23. The three Minor findings are recorded for their owners' next turn and do not hold the milestone.
+**Disposition of the technical lens: Approved with Changes.**
 
-The four Major findings do. Each is content another role builds on: the Software Architect is directed to a policy no file records, the System Analyst is handed a constraint list five short of the count stated beside it, and the magnitudes sequence the milestones on scores that cannot be reproduced from their stated inputs. The SBC milestone is therefore not sanctioned by this lens until those four are reworked and this review re-runs against them. Excavation reads the recovered perimeter, not these corrected assertions, so it may proceed in parallel only on the reading itself.
+Every Major the lens recorded in iteration 1 is closed against the corrected artifact, and each closure is backed by the artifact section plus, where a repository claim was involved, by the file that states it. What remains open from this lens is two Minors, both status metadata — the System Inventory's Document Control iteration field and the Iteration Plan's fine-plan State column. Neither is consumed by a downstream role and neither carries an exit criterion, so neither holds the milestone, and the four artifacts are approved from this lens by default on those two points.
+
+```plantuml
+@startuml
+title Defect distribution at Survey iteration 2 - technical lens, findings by severity and artifact, and the trend since iteration 1
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "This iteration - iteration 2, technical lens" {
+  class "Development Case" as DC {
+    Critical : 0
+    Major : 0
+    Minor : 0
+    newThisIteration : 0
+    closedFromIteration1 : 2
+  }
+  class "System Inventory" as SI {
+    Critical : 0
+    Major : 0
+    Minor : 1
+    newThisIteration : 1
+    closedFromIteration1 : 2
+  }
+  class "Risk List" as RL {
+    Critical : 0
+    Major : 0
+    Minor : 0
+    newThisIteration : 0
+    closedFromIteration1 : 1
+  }
+  class "Iteration Plan" as IP {
+    Critical : 0
+    Major : 0
+    Minor : 1
+    newThisIteration : 1
+    closedFromIteration1 : 2
+  }
+}
+
+package "Totals" {
+  class "Iteration 2 technical lens" as T2 {
+    findings : 2
+    critical : 0
+    major : 0
+    minor : 2
+    open : 2
+    holdsMilestone : no
+  }
+  class "Iteration 1 technical lens" as T1 {
+    findings : 7
+    critical : 0
+    major : 4
+    minor : 3
+    resolvedInIteration2 : 7
+    leftOpen : 0
+  }
+}
+
+DC --> T2
+SI --> T2
+RL --> T2
+IP --> T2
+T1 ..> T2 : seven closed, none persisting;\ntwo new Minors found in the rework
+note bottom of T2
+  A Minor stays inside its artifact: no role builds
+  on the wrong part and no exit criterion depends on it.
+  It does not hold the milestone, and the artifact is
+  approved by default from this lens.
+end note
+@enduml
+```
+
+| Artifact | Critical | Major | Minor | Info | Disposition from this lens |
+|---|---|---|---|---|---|
+| Development Case | 0 | 0 | 0 | 0 | Approved |
+| System Inventory | 0 | 0 | 1 | 0 | Approved with Changes — the Document Control iteration field |
+| Risk List | 0 | 0 | 0 | 0 | Approved |
+| Iteration Plan | 0 | 0 | 1 | 0 | Approved with Changes — the fine-plan State column |
+
+**What this lens found, and what it did not.** The rework resolved every Major; no Major persists and no new one was introduced. The two defects it left behind are both the same class — a status field stating an earlier state than the content it sits beside — which is a consequence of reworking artifacts whose metadata was not touched, not a defect of the rework's substance. No anchor opened this iteration contradicted the artifact citing it: the version-policy claim now rests on `global.json` and `nuget.config` as written, the contribution contract on `docs/CONTRIBUTING.md`, the coverage figure on its own per-area table, and every risk score on one published mapping.
+
+**SCM evidence.** No open pull request, so nothing is disposed and no code-review decision is owed. `ci.yml` does not exist on `main`, so no build exists to be red — establishing the pipeline is the Integrator's Inception work item, not a Survey defect.
+
+**What this lens does not decide.** The SBC milestone is not this lens's verdict. It turns on gate H2 — the stakeholder's confirmation of the perimeter as the System Inventory records it and the sanction to advance — which was refused on 2026-11-23 and is re-taken after this review. The technical lens has no authority over that answer: the artifacts are now certifiable on their evidence, and whether the perimeter is confirmed is the stakeholder's to say.
 
 ### Management Reviewer lens
 <!-- review: Survey I1 -->
