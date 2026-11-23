@@ -1,13 +1,13 @@
 ## Document Control
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-- Phase: Survey
-- Status: Technical lens complete for the re-taken SBC milestone review. Two findings recorded: 0 Critical, 0 Major, 2 Minor, 0 Info. Disposition — Approved with Changes (the Changes are the two Minors, which no role consumes and no exit criterion depends on).
-- Milestone Target: end-of-Survey (SBC) — not achieved. Gate H2 was refused on 2026-11-23 and nothing in this lens closes it; the sanction is the stakeholder's to re-take.
-- Iteration: 2, Cycle 1
+- Phase: Excavation
+- Status: Technical lens complete for the AR (end-of-Excavation) milestone review. Ten findings recorded this milestone: 0 Critical, 6 Major, 4 Minor, 0 Info. Two prior findings of this lens closed. Disposition — Approved with Changes, with the six Majors holding the milestone until their artifacts are reworked.
+- Milestone Target: end-of-Excavation (AR) — not achieved. The six Majors are open and the recovery's own figures are contradicted by the code in three artifacts; gate H4 has not been put and is not this lens's to put.
+- Iteration: 1, Cycle 1
 - Owner: Reviewer
 
 ### Management Reviewer lens
