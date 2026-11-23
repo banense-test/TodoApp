@@ -179,166 +179,52 @@ Two of five anchors opened contradicted the artifacts that cite them, and each c
 **SCM evidence.** No open pull request exists, and none should: the sprint zero writes no production code — Implementation runs from Inception — so a pull request in this phase would itself be a `scm-phase-discipline` finding. `scm_list_pull_requests(state: open)` returns none. There is no IARI pipeline on `main`, so no build status exists to be red. Nothing is disposed in this review and no code review decision is owed. This is the correct state for Excavation, not an absence to be flagged.
 
 ### Management Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-This is the Lifecycle Milestone Review of the System Boundary Confirmed gate, held at the end of Survey iteration 2. The question it answers is exit criteria, not feasibility and not iteration completion: do the Survey artifacts collectively establish that the perimeter of the existing system is known, its anomalies are held as owned risks, and the phase may hand off to Excavation.
+Entry criteria were checked before the review: all twelve Excavation artifacts exist and are readable, the Software Architecture Document — the artifact this lens cannot proceed without — is present, and the Iteration Plan carries the AR exit criteria the milestone is judged on. No review was taken against a placeholder.
 
-**Artifacts reviewed, all four read whole plus the findings of every lens on them.** Development Case (Environment), System Inventory (Discovery), Risk List and Iteration Plan (Project Management). The Iteration Assessment was read for its stated state and is not judged: the Project Manager writes it in the Assessment touchpoint that runs after this review, so it cannot describe the iteration being reviewed and its currency is never a gate condition.
+**Review point and lens.** This is the Lifecycle Milestone Review at the Architecture Recovered gate. The question is neither feasibility (Project Approval, Planning) nor completion (Iteration Acceptance): it is whether the artifacts collectively satisfy the conditions for the phase transition. The criteria are the Project Manager's A1 to A13, and each is re-decided here against the artifact it names, not against the criterion's own state cell.
 
-**The criteria checked.** The SBC exit criteria as the Iteration Plan states them, each judged against the artifact it cites rather than against the plan's own row. Every one carries the artifact section its verdict rests on.
+**Artifacts read in full, not sampled:** Vision, Use-Case Model, Supplementary Specification, Software Architecture Document, Deployment Model, Design Model, System Inventory, Risk List, Iteration Plan, Development Case, and the findings ledger of every artifact under review. The Iteration Assessment is absent and its absence is not a finding: the Project Manager authors it after this review, so it cannot yet describe the iteration being judged.
 
-```plantuml
-@startuml
-title SBC-COMPLIANCE-01 The twelve exit-criteria rows at iteration 2 - all met, and what each rests on
+#### The criteria, re-decided
 
-skinparam shadowing false
-skinparam classAttributeIconSize 0
-hide empty members
-skinparam wrapWidth 250
+| # | Criterion | State after this lens | What the state rests on |
+|---|---|---|---|
+| A1 | Operations recovered as use cases | Met | 11 use cases, each with its `EP-NNN`; the four exclusions stated and ruled by the stakeholder on 2026-11-23. Use-Case Model#F1 carries the closure of three suspect screen edges |
+| A2 | Priorities 1 to 5 reached, remainder named for Consolidation | **Not met as written** | Iteration Plan#F4: the `EP-020`/`EP-021`/`EP-022`/admin rows are permanent exclusions, not work deferred to Consolidation, and priorities 6 to 8 are named nowhere |
+| A3 | Architecture recovered and checked against the use cases | **Contested, not certifiable** | 22 components with `Realizes` rows for eleven use cases, and SEQ-1 to SEQ-3 walk three of them. But Software Architecture Document#F1 (Major) leaves SP1 and M3 stating a value the code contradicts |
+| A4 | Data recovered with anchors | Met | Design Model PD-D1 to PD-D5: eight tables, keys, indexes, referential actions, enforced and unenforced rules, each anchored to the migrations and the snapshot |
+| A5 | Deployment modelled | **Contested, not certifiable** | The fired OPTIONAL exists and states nodes, stores and the shared key ring. But Deployment Model#F1 (Major) states the one setting that differs between environments backwards |
+| A6 | Coverage measured and remainder declared | Met | System Inventory Coverage: 84 opened, 55 unread of 139; the per-area Read column sums to 84 and the Files column to 139, and all 55 unread are named by category |
+| A7 | Every anomaly carried as a scored risk | Met | 29 `Refines` edges from `AN-NNN`; `R022` and `R031` state their separate origins; every anomaly-derived row reproduces from the one published word-to-score mapping |
+| A8 | No grant-band accept without the stakeholder | Met | Four accepts at 4 × 3 = 12, each holding the stakeholder's verbatim answer of 2026-11-23; the sixteen other Significant-band risks avoid, which the Project Manager may do at any band |
+| A9 | Every risk actionable | Met | 31 rows carrying strategy, action, owner, contingency and warning sign |
+| A10 | The recovery states what the code does | **Not met as written** | Iteration Plan#F3: certified on the System Inventory identifying a contradiction while three artifacts still state the contradicted value as fact |
+| A11 | The four SBC Minors closed | **Not met — three of four** | `Iteration Plan#F2`, `Iteration Plan#F3` and `System Inventory#F3` are corrected in their artifacts and verified closed. `Development Case#F2` stands: "Roles and Ownership" still reads "Reviewer, CodeReviewer, plus the Configuration Manager's baseline record", and CLS-DC-01 draws no edge into the Review Record from the Management Reviewer, the Business Reviewer or the Review Coordinator. Carried as `R031` |
+| A12 | The recovered set confirmed by the stakeholder | **Not met — refused** | Asked at this review, the stakeholder answered "No" and ordered that all major findings be corrected |
+| A13 | The plan names no work the process does not run | Met | Items 1 to 12 and 14 are Excavation stages or the stakeholder's own order; the Process Engineer's single item is recorded as that order and not as a discipline stage |
 
-package "Met on the evidence the artifact records - 9" {
-  class "C1 Perimeter stated" as C1 {
-    state : Met
-    rests on : System Inventory, Perimeter
-    shows : four processes, 19 components, 9 external systems, each anchored
-  }
-  class "C3 Entry points enumerated" as C3 {
-    state : Met
-    rests on : System Inventory, Entry points
-    shows : EP-001 to EP-022 with kind, initiator and anchor
-  }
-  class "C4 Priorities ordered" as C4 {
-    state : Met
-    rests on : System Inventory, Priorities
-    shows : eight areas, each with its reason and its anchor
-  }
-  class "C6 Unread remainder declared" as C6 {
-    state : Met
-    rests on : System Inventory, Coverage
-    shows : 79 read of 133, 54 named; per-area column sums to both totals
-  }
-  class "C7a Anomalies all carried" as C7A {
-    state : Met
-    rests on : Risk List, Risk Register
-    shows : 21 anomalies to 22 risks, 21 Refines edges
-  }
-  class "C7b Scores reproduce" as C7B {
-    state : Met
-    rests on : Risk List, Risk Classification
-    shows : one published mapping, every row reproduces from it
-  }
-  class "C8 Grant band held" as C8 {
-    state : Met
-    rests on : Risk List, the four grant rows
-    shows : 4 Significant accepts, each under the stakeholder's own answer
-  }
-  class "C9 Risks actionable" as C9 {
-    state : Met
-    rests on : Risk List, Risk Mitigation and Contingency
-    shows : 22 rows with strategy, owner, action, contingency
-  }
-  class "C10 Plan runs process work" as C10 {
-    state : Met
-    rests on : Iteration Plan, Plan and Milestones
-    shows : every work item is an SBC review action inside Survey
-  }
-}
+**The one criterion this lens adds.** A milestone gate is also the place a Conditional verdict from a prior gate is verified as resolved. The SBC re-take issued Go with one open Minor — `Development Case#F2` — and the stakeholder ordered it closed in this phase. It is not closed, and it is the only reason a criterion the phase's own plan counts cannot be certified. That is not a surprise the review should absorb silently; it is the exposure `R031` predicted, and it has materialized.
 
-package "Met on the stakeholder's answers - 3" {
-  class "C2a Membership and priority answered" as C2A {
-    state : Met, 2026-11-23
-    rests on : three answers, quoted in the plan
-  }
-  class "C5 Priority order confirmed" as C5 {
-    state : Met, 2026-11-23
-    rests on : the order stands as it is
-  }
-  class "C2b Perimeter as recorded confirmed" as C2B {
-    state : Met, 2026-11-23 - answered Yes at gate H2
-    rests on : this review's sanction question
-    also : the sanction to advance past SBC granted
-  }
-}
+#### Risk retirement, as the review reads it
 
-C2B ..> C2A : a different question,\nnot settled by C2a
-@enduml
-```
+A review that only counts open findings misses the question the register exists to answer: are the high-magnitude exposures moving? At this gate, five of the twenty Significant-band risks were due to be retired in this iteration by an action an Excavation role performs.
 
-**The checklists applied beyond the criteria.** Each is this lens's own test on the artifacts it reviewed, and each result is stated where the test found something — in Findings, or here when it found nothing.
+| Risk | Exposure | Action due in this iteration | What the artifacts show |
+|---|---|---|---|
+| R002 | 4 × 3 = 12 | Software Architect records that the BFF-to-API hop carries no service authentication | Performed — ADR-003 and the Process View record it, anchored to the code's own `TODO` |
+| R009 | 3 × 3 = 9 | Software Architect records the limiter's coverage and the partition-key gap | Performed — M3 and ADR-007 state `/todos` only, and why the policy cannot move as written |
+| R019, R020, R021 | 4 × 2 = 8; 4 × 3 = 12; 4 × 3 = 12 | System Analyst records the challenge's unchecked scheme, the callback's single exit, and the one 401 | Performed — UC-003 A1 and A2, and UC-001 A1 / UC-002 A1, each anchored |
+| R023 | 4 × 3 = 12 | System Analyst records that lockout is checked at sign-in alone | Performed — UC-002 step 5 and the shared gate diagram |
+| R024 | 3 × 3 = 9 | (Software Architect) record that the two hops differ | Performed in SAD P6, but Supplementary Specification#F2 shows the artifact that carries the false half is still uncorrected |
+| **R030** | **4 × 3 = 12** | **System Analyst records the session surface's instability beside those flows** | **Not performed — and the register records the risk as avoided.** Risk List Management Reviewer#F2 |
 
-| Check | Applied to | Result |
-|---|---|---|
-| Development Case conformance with the IARI baseline: roster, CORE ownership, CORE omissions, artifact universe, role merges | Development Case | Passes. 24 of 26 roles work; the two inactive are declared with the triggers that justify each — `business-process-led = false` and `real-time-system = false`. All 16 CORE artifacts are carried, none changes owner, no artifact outside the CORE, OPTIONAL and System Inventory universe is listed, no role is merged or renamed. |
-| Every FIRED optional trigger holds its §5.2 condition | Development Case | Passes. One trigger fires: the Deployment Model, on a genuinely distributed topology — a browser-hosted WebAssembly client, a server host, a separate API process, a SQLite store and a YARP forwarder hop between them, orchestrated by the app host, with an `appsettings` pair per process. The five NOT FIRED verdicts hold on their conditions: the vocabulary is plain English (Glossary), no untried mechanism needs empirical validation (Proof-of-Concept), 8 entity types sit below the >10 threshold with no production data to migrate (Data Model), no UX decision waits on the stakeholder (UI Prototype), and no regulator or contract consumes test reporting (Test Plan). |
-| Plan sizing in units this system can produce | Iteration Plan | Passes. The plan is sized in the two currencies that exist — token spend and elapsed time with agent and human queue separated — and no per-item figure is filled where nothing is measured. The coarse roadmap's bars carry no absolute date and no projected span, and the one-day length is stated as the diagram's sequencing device. Item 8 is a human gate, quoted in days of queue time with a ceiling of 14 and no estimate, and the roadmap states the two clocks are never added. No token budget is asserted, because the project declares none. |
-| Plan names only work the process runs in the phase | Iteration Plan | Passes, C10. Every iteration-2 work item is an SBC review action against a Survey artifact or the re-taken gate; no role is scheduled in Survey for work the IARI process assigns to a later phase. |
-| Unsourced financial or quantitative claims | all four | None found. No cost, revenue, market or staffing figure appears in any of the four artifacts, and no staffing risk is carried — correctly, since the executing agents are not a development organization and the only human is the stakeholder. |
-| Risk register is not cosmetic: magnitudes reproduce and the retirement obligation is honest | Risk List | Passes. All 21 anomaly-derived scores reproduce from one published mapping, and the register states plainly that SBC retires no risk — the phase makes the reading's risks owned and the actions that retire them are Excavation's and later. That is the correct state for this gate, not a static list: the register moved this iteration from unreproducible to reproducible, and the four acceptances above the Moderate band each hold the stakeholder's own answer. |
+Ten of the twenty Significant-band risks are retired on evidence in an artifact. R030 is the one recorded as retired by an action that is not in any artifact, and it is the largest band present. Its own warning sign — "a design cites the session surface as settled" — is precisely what Consolidation will do with a Use-Case Model that presents UC-001 to UC-004 without that caveat.
 
-**What is not a finding, and why.** The absence of a Test Plan, a Data Model and a Glossary is the Development Case's NOT FIRED verdict on each, checked against its §5.2 condition above and found to hold. The absence of an Iteration Assessment describing this iteration is correct state, not a gap. The absence of a token budget, a velocity and a forecast is correct: the project declares no budget, no phase has closed, and no figure is filled in its place. No SCM condition holds or clears this gate — the repository carries no IARI pipeline, no branch of this process, no open pull request and no defect issue, so there is no build to be red and no unmerged work to count.
+#### What this review does not claim
 
-**Four-axis health at the gate.** Cost carries no reading at all, which is the honest state of a phase with no declared budget and no closed phase, not a fourth green.
-
-```plantuml
-@startuml
-title HEALTH-SBC-01 Four axes at the SBC gate, and who carries each risk in the register
-
-skinparam shadowing false
-skinparam classAttributeIconSize 0
-hide empty members
-skinparam wrapWidth 250
-
-package "Four-axis health" {
-  class "Scope" as SC {
-    state : Green
-    declared work in this phase : none, the sprint zero reads
-    perimeter : 4 processes, 22 entry points, 8 priorities, now confirmed
-    unread : 54 of 133 files, each with a reason
-  }
-  class "Schedule" as SD {
-    state : Green
-    milestone : sanction granted and perimeter confirmed 2026-11-23
-    iterations run : 2, both planned
-    second iteration spent on : the rework the stakeholder ordered
-    forecast : none, no phase has closed
-  }
-  class "Cost" as CO {
-    state : Not measured
-    budget declared : none, so none is set
-    measured : tokens, and elapsed time with agent and human kept apart
-    forecast : none invented
-  }
-  class "Quality" as QU {
-    state : Green
-    criteria met on artifact evidence : 9 of 12 rows
-    criteria met on a stakeholder answer : 3
-    defects holding the gate from either lens : none
-    open Minors : 4, ordered corrected in the next phase
-  }
-}
-
-package "Risk register at the gate - 22 risks, 0 retired" {
-  class "Avoided - 16" as AV {
-    action : each owner records the system as the code shows it
-    Significant band : 10, the Project Manager's authority at any band
-    Moderate band : 6
-  }
-  class "Accepted - 6" as AC {
-    Significant band : 4, each under the stakeholder's own answer
-    of them R004, R011, R012, R016 : all at exposure 12
-    Moderate band : 2, R015 and R022
-  }
-  class "Accepted on the Project Manager's authority" as PMA {
-    above Moderate : 0
-    reason : none sits there to accept
-  }
-}
-
-AV --> PMA : the Significant avoided ones\nneed no grant
-AC --> PMA
-QU ..> AV : no risk is claimed retired\non evidence that does not exist
-@enduml
-```
+The Development Case's optional-trigger table is audited rather than accepted. Deployment Model FIRED on a genuinely distributed topology: a browser-hosted WebAssembly client, a server host, a separate API process, a SQLite store and a reverse-proxy hop, with per-project settings pairs. That condition holds. The five NOT FIRED verdicts each hold against the project's real facts: eight persisted entity types sit below the >10 Data Model threshold, no untried mechanism needs empirical validation, the UI is recovered rather than designed, and no regulator or contract consumes test reporting. No trigger is over-fired and none is unjustified.
 
 ### Review Coordinator lens
 <!-- review: Survey I2 -->
