@@ -8,6 +8,17 @@
 - Iteration: 1, Cycle 1
 - Owner: Reviewer
 
+### Management Reviewer lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+- Phase: Survey
+- Status: Management lens complete for the SBC milestone review. Three findings recorded by this lens: 0 Critical, 2 Major, 1 Minor. Disposition — No-Go. Stakeholder sanction REFUSED on 2026-11-23.
+- Milestone Target: end-of-Survey (SBC) — not achieved; the sanction was withheld and six Major findings stand across the four artifacts under review.
+- Iteration: 1, Cycle 1
+- Owner: Management Reviewer
+
 ## Review Scope and Criteria
 ### Reviewer lens
 <!-- review: Survey I1 -->
