@@ -454,11 +454,11 @@ This lens does not close the milestone. The SBC gate turns on gate H2 — the st
 ### Management Reviewer lens
 <!-- review: Survey I2 -->
 
-One finding is open from this lens at the end of this review, and it is a Minor. It is recorded against the artifact that carries the defect, in the finding ledger, not here as prose alone.
+Two findings are open from this lens at the end of this review, both Minors. Each is recorded against the artifact that carries the defect, in the finding ledger, not here as prose alone.
 
 ```plantuml
 @startuml
-title FINDINGS-SBC-02 The management lens at iteration 2 - three prior findings closed, one new Minor, nothing holding the gate
+title FINDINGS-SBC-02 The management lens at iteration 2 - three prior findings closed, two new Minors, nothing holding the gate
 
 skinparam shadowing false
 left to right direction
@@ -471,8 +471,9 @@ package "Recorded in iteration 1 - all closed against the corrected artifact" {
   component "Iteration Plan#F1 (Major)\ncriteria certified on answers that did not state them" as IP1
 }
 
-package "Recorded in iteration 2" {
+package "Recorded in iteration 2 - open Minors" {
   component "Development Case#F2 (Minor)\nthe Review Record's contributor set omits three lenses" as DC2
+  component "Iteration Plan#F2 (Minor)\nC2b still reads Not met after the answer was Yes" as IP2
 }
 
 package "What each closure was verified against" {
@@ -482,8 +483,8 @@ package "What each closure was verified against" {
 }
 
 package "Gate effect" {
-  component "No Major open from either lens\nno criterion fails on artifact evidence" as GATE
-  component "C2b alone stays open\nthe stakeholder's answer at gate H2" as H2
+  component "Sanction GRANTED 2026-11-23\nperimeter confirmed as recorded" as GATE
+  component "Three Minors, ordered corrected\nin the next phase by the stakeholder" as MIN
 }
 
 DC1 --> V1 : verified
@@ -492,14 +493,14 @@ IP1 --> V3 : verified
 V1 --> GATE
 V2 --> GATE
 V3 --> GATE
-DC2 --> GATE : a Minor holds nothing
-H2 --> GATE : the one criterion\nno artifact can close
+DC2 --> MIN : no criterion depends on it
+IP2 --> MIN : the criterion is met in this record
 @enduml
 ```
 
 #### Development Case
 
-`Development Case#F2` — Minor, contained defect. The contributor set the tailoring states for the Review Record omits three of the lenses that write into it: it names "Reviewer, CodeReviewer, plus the Configuration Manager's baseline record", while the artifact carries a Management Reviewer lens, a Business Reviewer lens and a Review Coordinator lens besides. The CLS-DC-01 class diagram repeats the omission, drawing no edge from any of those three roles to the Review Record. The Process Engineer corrects the co-owned-artifact sentence and the diagram in its next turn. It stays inside the document: every lens writes its own block whatever the tailoring says, so no role built on wrong content, and no SBC criterion depends on it.
+`Development Case#F2` — Minor, contained defect. The contributor set the tailoring states for the Review Record omits three of the lenses that write into it: it names "Reviewer, CodeReviewer, plus the Configuration Manager's baseline record", while the artifact carries a Management Reviewer lens, a Business Reviewer lens and a Review Coordinator lens besides. The CLS-DC-01 class diagram repeats the omission, drawing no edge from any of those three roles to the Review Record. It stays inside the document: every lens writes its own block whatever the tailoring says, so no role built on wrong content, and no SBC criterion depends on it.
 
 The defect the stakeholder ordered corrected — `Development Case#F1`, the duplicated role-delta list and the duplicated CLS-DC-01 diagram — is closed this iteration and is recorded under Resolutions and Actions, not restated here.
 
@@ -509,7 +510,9 @@ No finding from this lens. The register is the artifact this iteration changed m
 
 #### Iteration Plan
 
-No finding from this lens. `Iteration Plan#F1` is closed: C2 is split into the answered membership and priority questions and the confirmation the stakeholder did not give, C6 cites the coverage figure the System Inventory reproduces from its own table, and C7 is split into carriage and reproducibility, each decided on the artifact it cites. The plan's evidence column is now the artifact the verdict can rest on, and C2b is stated as not met rather than folded into a criterion that passed. The fine-plan State column carries `Iteration Plan#F3` from the technical lens, a Minor on a status field that the Project Manager corrects in its next turn; this lens records no finding of its own on it, and no criterion depends on it.
+`Iteration Plan#F2` — Minor, contained defect. The Evaluation Criteria table records C2b as "Not met" on the refusal of 2026-11-23, though the stakeholder has since answered gate H2, confirmed the perimeter as recorded and granted the sanction. The row's own clause — "H2 is re-taken after this iteration's review" — has been fulfilled, so the cell states a state the answer superseded. The defect is contained: C2b is verified met in this record on the stakeholder's answer, so no exit criterion fails and no role is blocked by the stale cell; only the plan's evidence column is behind.
+
+`Iteration Plan#F1` is closed: C2 is split into the answered membership and priority questions and the confirmation the stakeholder did not then give, C6 cites the coverage figure the System Inventory reproduces from its own table, and C7 is split into carriage and reproducibility, each decided on the artifact it cites. The plan's evidence column is now the artifact the verdict can rest on.
 
 #### System Inventory
 
