@@ -11,13 +11,16 @@
 - Owner: Reviewer
 
 ### Management Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-- Phase: Survey
-- Status: Management lens complete for the re-taken SBC milestone review. Findings recorded by this lens over two iterations: 3 in iteration 1, all resolved this iteration; 2 new this iteration, both Minor and both open. Disposition — Go. Stakeholder sanction GRANTED on 2026-11-23.
-- Milestone Target: end-of-Survey (SBC) — every exit criterion met, the perimeter confirmed and the sanction to advance granted. The milestone verdict is the Review Coordinator's.
-- Iteration: 2, Cycle 1
+- Phase: Excavation
+- Status: Draft — AR milestone review taken at the end of Excavation iteration 1
+- Milestone Target: end-of-Excavation (AR) — not achieved; sanction refused at gate H4 on 2026-11-23
+- Iteration: 1, Cycle 1
 - Owner: Management Reviewer
+- Review type: Lifecycle Milestone Review (AR) — exit-criteria lens, not a feasibility or completion lens
+- Verdict: No-Go
+- Stakeholder sanction: REFUSED
 
 ### Review Coordinator lens
 <!-- review: Survey I2 -->
