@@ -505,49 +505,206 @@ SBC is the only row that has occurred. Every later row is scheduled, not complet
 
 ## Findings
 ### Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-#### Iteration 2 — closures of this lens's iteration-1 findings
+Ten findings, each naming the criterion whose test it meets. Six are Major — another role builds on the wrong content, and the recovered figures the phase would put to the stakeholder at gate H4 are wrong in three artifacts by one cause.
 
-All seven findings the technical lens recorded in iteration 1 are closed by `resolve_artifact_finding`, each against the corrected artifact section named below. None persists, so none is re-recorded under its `findingKey`.
+```plantuml
+@startuml
+title Defect distribution - severity x artifact, this technical lens, Excavation iteration 1
 
-| Artifact | Finding | Criterion | Severity | Outcome | What closed it |
-|---|---|---|---|---|---|
-| Development Case | F1 | `consumed-defect` | Major | Resolved | "Tool and configuration references" now states that no enterprise version policy is recorded and asserts none, then records only what `Directory.Packages.props`, `global.json` and `nuget.config` carry. The Software Architect is no longer sent to a policy that exists nowhere |
-| Development Case | F2 | `contained-defect` | Minor | Resolved | "Roles and Ownership" carries one CLS-DC-01 diagram and one role-deltas block; the duplicated copies are gone, as the stakeholder ordered on 2026-11-23 |
-| System Inventory | F1 | `trace-gap` | Major | Resolved | The AN-021 row reads `DependsOn EP-004, EP-005, EP-007`, matching the Anomalies diagram and the three registered edges |
-| System Inventory | F2 | `contained-defect` | Minor | Resolved | Coverage now reads 133 files / 79 read / 54 unread and reproduces from its own per-area table; the docs row records 4 of 7 read and names the three unread files |
-| Risk List | F1 | `consumed-defect` | Major | Resolved | One published mapping translates the inventory's words; all 21 anomaly-derived rows reproduce from it, including R004 and R011 at 4 × 3 = 12, and every Significant acceptance holds a stakeholder grant |
-| Iteration Plan | F1 | `consumed-defect` | Major | Resolved | "Use Cases and Scenarios Addressed" names all twelve entry-point-bearing anomalies with their 21 edges and lists the nine that carry no entry point |
-| Iteration Plan | F2 | `contained-defect` | Minor | Resolved | Gate H2 sits ahead of the SBC verdict in both the coarse roadmap and the fine-plan critical chain |
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 220
+hide circle
+hide empty members
 
-#### System Inventory
+class "Supplementary Specification" as SS {
+  Major : 2
+  Minor : 0
+  Open : 2
+}
+class "Software Architecture Document" as SAD {
+  Major : 1
+  Minor : 0
+  Open : 1
+}
+class "Deployment Model" as DEP {
+  Major : 1
+  Minor : 0
+  Open : 1
+}
+class "Use-Case Model" as UCM {
+  Major : 1
+  Minor : 1
+  Open : 2
+}
+class "Vision" as VIS {
+  Major : 1
+  Minor : 0
+  Open : 1
+}
+class "Risk List" as RL {
+  Major : 0
+  Minor : 1
+  Open : 1
+}
+class "Design Model" as DM {
+  Major : 0
+  Minor : 1
+  Open : 1
+}
+class "Development Case" as DC {
+  Major : 0
+  Minor : 2
+  Open : 2
+}
+class "System Inventory" as SI {
+  Major : 0
+  Minor : 0
+  Open : 0
+}
+class "Iteration Plan" as IP {
+  Major : 0
+  Minor : 0
+  Open : 0
+}
 
-**Finding SI-1 (F3, Minor, `contained-defect`) — Document Control states iteration 1.**
+note bottom of SS
+  One file, one fact, three artifacts:
+  appsettings.Development.json carries a
+  RateLimiting section at 50/50/50, and this
+  artifact, the SAD and the Deployment Model
+  each state that no such section exists.
+end note
+note bottom of SAD
+  The SAD's second defect is not this file at all:
+  it is the Supplementary Specification's R4, which
+  the SAD already states correctly at P6.
+end note
+note bottom of UCM
+  The one Major is a trace-gap: three
+  EP-003 edges still marked SUSPECT in the
+  registered graph at phase close.
+end note
+note bottom of SI
+  Zero findings. Coverage arithmetic, the
+  21-edge anomaly count and Document Control
+  all reproduce; System Inventory#F3 resolved.
+end note
+note bottom of IP
+  Zero findings. Every exit criterion is
+  certified on its own artifact's evidence
+  and no row claims a correction it lacks;
+  Iteration Plan#F3 resolved.
+end note
 
-| Field | Content |
-|---|---|
-| Location | Document Control, "Iteration: 1, Cycle 1" |
-| Defect | The artifact carries the iteration-2 rework — the AN-021 row names all three entry points and Coverage is recomputed — while its metadata still declares iteration 1. Development Case, Risk List and Iteration Plan all read "Iteration: 2, Cycle 1", so the four artifacts cannot be read as one iteration's state |
-| Consequence | Metadata only. No role builds on the iteration number and no exit criterion depends on it, so the defect stays inside the artifact |
-| Remediation | Set the Document Control iteration field to 2, Cycle 1, matching the three other artifacts under review |
+SS --> SAD : same defect, two artifacts
+SS --> DEP : same defect, third artifact
+@enduml
+```
 
-#### Iteration Plan
+#### Supplementary Specification
 
-**Finding IP-1 (F3, Minor, `contained-defect`) — the fine plan's State column contradicts the artifacts.**
+**Major** — `Supplementary Specification#F1`, criterion `consumed-defect`. The artifact states four times that no `RateLimiting` configuration section exists and that the code's defaults of 100 / 100 per 10 s / queue 100 are therefore the effective values: mechanism M3 ("no such section exists in the delivery, so these defaults are the effective values"), S2 ("a `RateLimiting` configuration section that does not exist in the delivery ... none is externally tunable as delivered"), P1 ("100 tokens per caller per 10-second period with a queue of 100") and R8. `Todo.Api/appsettings.Development.json` carries exactly such a section at `TokenLimit` 50, `TokensPerPeriod` 50 and `QueueLimit` 50, and both launch profiles set the environment to Development — so the effective budget in the only environment this delivery starts in is half the stated value. The recovery already knows this: the System Inventory records it as AN-024 and the Risk List carries it as R025. The defect reaches the Software Architect, who repeats the figure in SP1 and M3, and the Deployment Model, which copies it into its environment table; any load or throttling reading taken from this artifact is off by a factor of two. **Remediation:** state both values — the code defaults from `RateLimitExtensions.cs:14-31` and the Development override from `appsettings.Development.json:8-12` — in M3, S2, P1 and R8, and cite AN-024 so the three artifacts carry one fact under one identifier.
 
-| Field | Content |
-|---|---|
-| Location | "This iteration's fine plan", the State column of rows 4, 5 and 6 |
-| Defect | Rows 4 (Development Case rework) and 5 (System Inventory rework) read "With the owner" although both corrections are verifiably in place; row 6 — the technical lens re-run — reads "Not started" while it is the review being taken now |
-| Consequence | Metadata only, but it is the column the management lens and the Review Coordinator read as the iteration's progress, so for one reader it misstates status. No artifact content and no exit criterion depends on it |
-| Remediation | Mark rows 4 and 5 Complete with what closed each, and row 6 In progress until the lens returns — or delete the State column and leave progress to the Iteration Assessment, which is the artifact that records what the iteration did |
+**Major** — `Supplementary Specification#F2`, criterion `consumed-defect`. R4 reads "No retry, circuit breaker or fallback is configured on either hop." `TodoApp.ServiceDefaults/Extensions.cs:32-42` calls `ConfigureHttpClientDefaults` with `AddStandardResilienceHandler()`, which applies the standard retry, circuit-breaker, timeout and rate-limiter pipeline to every container-built `HttpClient` — and the BFF's `AuthClient` is one, registered at `Todo.Web/Server/Program.cs:23-26`. Only the YARP forwarder carries a default `ForwarderRequestConfig` and no handler. The Software Architecture Document records exactly this at its Process View P6 and states it does not edit this artifact because the System Analyst owns it, so the correction is owed here. A role reading R4 concludes neither hop retries: wrong on the sign-in and registration path, right on the task path, and the asymmetry the architecture recovered is lost. **Remediation:** replace R4 with the two hops stated apart, citing `TodoApp.ServiceDefaults/Extensions.cs:32-42`, `Todo.Web/Server/Program.cs:23-26` and `Todo.Web/Server/TodoApi.cs:12-25`, and record it under AN-023 / R024.
 
-**What the lens confirms, and does not.** Re-reading the four artifacts against the seven findings and against the stakeholder's order, every Major is closed and each closure is backed by the corrected artifact section and, where a repository claim was involved, by the file it cites. The rework added no new Major: the two defects it left are status metadata, and both are the owner's to correct in the next turn without holding anything downstream.
+#### Software Architecture Document
 
-This lens does not close the milestone. The SBC gate turns on gate H2 — the stakeholder's confirmation of the perimeter as the System Inventory records it — which was refused on 2026-11-23 and is re-taken after this review. The technical lens has no authority over that answer and records no verdict on it.
+**Major** — `Software Architecture Document#F1`, criterion `consumed-defect`. SP1 states "No `RateLimiting` section exists, so these are the effective values and none is tunable as delivered", and mechanism M3 repeats it ("every value bindable from a `RateLimiting` section that does not exist"). The file carries one, at 50 / 50 / 50, and both launch profiles run in Development. The artifact cites its neighbouring anomalies AN-023 and AN-025 but not AN-024, which is the one that records this. This is the copy the Deployment Model's environment table inherits. **Remediation:** correct SP1 and M3 to state both values with their sources and cite AN-024; correct the Quality view's "Availability — bounded load" row so the bound in the measured environment reads 50, not 100.
+
+#### Deployment Model
+
+**Major** — `Deployment Model#F1`, criterion `consumed-defect`. The Environment Mapping preamble states "No environment file in the delivery carries a connection string, a provider credential, a rate-limit value or an address", and the Rate limiting row reads "Code defaults: 100 / 100 per 10 s / queue 100 | Same | No `RateLimiting` section exists anywhere, so the values are not tunable as delivered". `Todo.Api/appsettings.Development.json:8-12` carries the rate-limit values. This is the artifact where the error costs most: the section exists to state what differs between environments, it concludes that one setting separates them, and there are two — the second stated backwards. **Remediation:** narrow the preamble to what is true (no connection string, provider credential or address), and rewrite the Rate limiting row so Development reads 50 / 50 / 50 with its anchor and any other environment reads the code defaults, noting that every launch profile sets Development; cite AN-024 and R025.
+
+#### Use-Case Model
+
+**Major** — `Use-Case Model#F1`, criterion `trace-gap`. Three edges this artifact declares are marked SUSPECT in the registered graph and remain open at the phase close: `EP-003 → UC-006`, `EP-003 → UC-007`, `EP-003 → UC-008`, each «SUSPECT → System Analyst». The Traceability rows assert them and the Survey and every affected flow cite EP-003 — the todo list screen — as the screen an actor enters them through. The edges are substantively right; what is missing is the confirmation that clears the marking. A phase that closes with a suspect trace open leaves the screen route of three of eleven use cases unconfirmed, and the eleven-use-case count gate H4 puts to the stakeholder rests on it. **Remediation:** re-register the three edges as confirmed after checking each — `Todo.Web/Client/Components/TodoList.razor:3-32` carries the new-todo input and the per-row remove control, so it precedes UC-007's and UC-008's step 1, and it is the screen the signed-in shell renders for UC-006's step 1 (`Todo.Web/Server/App.razor:44-52`). Record in the Use-Case Survey beside the three rows why a screen entry point and the forwarded operation differ, so the graph carries the edge and the artifact explains its shape.
+
+**Minor** — `Use-Case Model#F2`, criterion `contained-defect`. The actor-goal matrix and the Source column disagree for two use cases with nothing saying they answer different questions: the matrix draws `A1 --> UC3 : EP-002` and `A1 --> UC4 : EP-001, EP-006`, while the Use-Case Survey gives UC-003 as `EP-007, EP-008, EP-016` and UC-004 as `EP-006`, and the registered graph carries only the latter. The matrix's heading is "with the entry points it uses", which suggests the screen the actor acts on, while Source names the entry point whose code performs the operation. **Remediation:** state the distinction once in the Actors section and relabel the matrix's edges — the actor acts on EP-001 and the POST goes to EP-006 — so two lists answering different questions are visibly doing so.
+
+#### Vision
+
+**Major** — `Vision#F1`, criterion `use-case-shape`. The Features diagram draws two cross-cutting technical mechanisms with use-case notation: `usecase "Start the system and create its schema EP-022" as U12` and `usecase "Observe readiness and liveness EP-020, EP-021" as U13`. Schema migration and health probing are platform mechanisms with no actor goal; the Use-Case Model correctly declines to recover either, and the Supplementary Specification already homes them as M9 and M8. The effect is that the Vision states thirteen use cases in the artifact the stakeholder is asked to confirm at gate H4, while the Use-Case Model, the Iteration Plan's objective O1 and the SAD's Use-Case View all state eleven. The artifact's own note ("this Vision creates none") shows the author saw the problem and drew the shapes anyway. **Remediation:** remove U12, U13 and their package from the diagram, keep the two Features rows re-labelled as platform mechanisms cross-referenced to Supplementary Specification M8 and M9 and to the Use-Case Model's "Not recovered, and why".
+
+#### Risk List
+
+**Minor** — `Risk List#F2`, criterion `contained-defect`. R024's premise reads "The Design Model describes the BFF's two outbound hops as equally protected when they are not". The Design Model does the opposite: its PKG-D3 note reads "A default `ForwarderRequestConfig` and no resilience handler, so this hop neither retries nor breaks the circuit, unlike the `AuthClient` hop", and the SAD states the same at P6. The mitigation therefore names an action two artifacts have already performed, and the risk can never be observed as retired. The underlying anomaly AN-023 is real and correctly anchored; only the sentence about which artifact gets it wrong is wrong. **Remediation:** restate R024 as the risk that a later role assumes the hops are equivalent, and point the mitigation at the artifact that does still carry the open error — the Supplementary Specification's R4.
+
+#### Design Model
+
+**Minor** — `Design Model#F1`, criterion `contained-defect`. The migration-history diagram PD-D3 attributes the unconverted owner key to AN-005: "a row written before migration 3 keeps what it held where the constraint now expects an Id ... AN-005." AN-005's subject is that the test suite builds its schema with `EnsureCreated`; the unconverted owner key is AN-025, and the Risk List carries it correctly as R026 refining AN-025. A reader following the citation from this diagram reaches an anomaly about test coverage rather than about data conversion. **Remediation:** change the PD-D3 citation to AN-025 and keep AN-005 only where the artifact states that the test host builds its schema by `EnsureCreated`.
+
+#### Development Case
+
+**Minor** — `Development Case#F3`, criterion `contained-defect`. Document Control still reads "Phase: Survey", "Status: Draft — produced for the end-of-Survey (SBC) milestone review", "Milestone Target: end-of-Survey (SBC) — not yet achieved", "Iteration: 2, Cycle 1". The project is in Excavation iteration 1 and every other artifact under this review states it. **Remediation:** update the four metadata fields to Excavation iteration 1 and the AR milestone target; the tailoring content is current — both classification verdicts and all six optional triggers were re-evaluated and the Deployment Model's FIRED verdict still holds on its condition.
+
+**Minor, recorded here and carried by another lens** — `Development Case#F2` is the Management Reviewer's finding of the Survey review, and this lens does not close or duplicate it. It stands open: "Roles and Ownership" still reads "Reviewer, CodeReviewer, plus the Configuration Manager's baseline record" and CLS-DC-01 draws no edge into the Review Record from the Management Reviewer, the Business Reviewer or the Review Coordinator. It is named here only because the Iteration Plan's criterion A11 counts it and this review read that row; the finding itself is the Management Reviewer's to reconcile.
+
+#### System Inventory and Iteration Plan — no finding from this lens
+
+Both artifacts were read whole and this lens records nothing against either. The System Inventory's coverage arithmetic reproduces from its own per-area table (84 read, 55 unread of 139), its anomalies carry 21 `DependsOn` edges across twelve entry-point-bearing anomalies matching the Iteration Plan's twelve-row handoff, and its Document Control now names the iteration its content belongs to. The Iteration Plan certifies every exit criterion on the artifact it cites rather than on an adjacent answer, its work items are all stages the phase runs, and its State column states each row's actual outcome. Silence from this lens is approval.
+
+```plantuml
+@startuml
+title Evidence behind each Major finding - the anchor opened, and the artifact text it contradicts
+
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam wrapWidth 230
+left to right direction
+
+package "Code read by this lens" {
+  component "Todo.Api/appsettings.Development.json\nRateLimiting { TokenLimit 50,\nTokensPerPeriod 50, QueueLimit 50 }" as CFG
+  component "TodoApp.ServiceDefaults/Extensions.cs:32-42\nConfigureHttpClientDefaults\nAddStandardResilienceHandler()" as SD
+  component "Todo.Api/Todos/TodoApi.cs:24-73\nfive operations, one ownership predicate\nwritten four times" as TODO
+  component "Todo.Web/Client/Components/TodoList.razor:3-32\nnew-todo input, per-row remove control" as LIST
+}
+
+package "The artifact text that contradicts it" {
+  component "Supplementary Specification\nM3, S2, P1, R8: 'no such section exists'\nfigures 100 / 100 / 100" as SS_A
+  component "Supplementary Specification R4\n'no retry, circuit breaker or fallback\nis configured on either hop'" as SS_B
+  component "Software Architecture Document SP1, M3\n'No RateLimiting section exists,\nso these are the effective values'" as SAD_A
+  component "Deployment Model, Environment Mapping\n'No environment file ... carries a\nrate-limit value' / 'Same'" as DEP_A
+  component "Use-Case Model\nTraceability UC-006, UC-007, UC-008\nrows naming EP-003" as UCM_A
+  component "Vision, Features diagram\nusecase U12 'Start the system'\nusecase U13 'Observe readiness'" as VIS_A
+}
+
+package "The artifact that already holds the correct fact" {
+  component "System Inventory AN-024\n'Development configuration halves\nthe request budget'" as SI_1
+  component "System Inventory AN-023\n'the two hops are not equally\nprotected'" as SI_2
+  component "Risk List R025, R024\ncarry both facts, correctly anchored" as RL
+}
+
+CFG --> SS_A : contradicts
+CFG --> SAD_A : contradicts
+CFG --> DEP_A : contradicts
+SD --> SS_B : contradicts
+LIST --> UCM_A : the edge is right,\nthe graph still suspects it
+TODO --> VIS_A : eleven use cases, not thirteen
+
+SI_1 --> CFG : is the correct statement of
+SI_2 --> SD : is the correct statement of
+RL --> SI_1 : Refines
+RL --> SI_2 : Refines
+
+note bottom of SS_B
+  One code fact, three artifacts wrong, and the
+  recovery already recorded it as AN-024. The
+  correction is the same sentence in three places.
+end note
+note bottom of VIS_A
+  AN-001 and the System Inventory's "Not recovered"
+  table both say EP-020 to EP-022 carry no use case;
+  the Vision's diagram draws them with use-case
+  notation while its own note says they are not.
+end note
+
+@enduml
+```
 
 ### Management Reviewer lens
 <!-- review: Survey I2 -->
