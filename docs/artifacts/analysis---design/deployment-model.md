@@ -7,18 +7,16 @@
 - Owner: Software Architect
 
 ## Deployment Topology
-
 The system has **one supported placement and no deployment artifact**: no Dockerfile, compose file, Kubernetes manifest or infrastructure definition is anywhere in the tree, and `.iari/README.md` records that it is not deployed. The `ContainerImageName` and `ContainerImageTag` properties two project files still carry are a residue the tree no longer backs. What places the processes is `TodoApp.AppHost`, and it does so on one machine, in one developer's session.
 
 | Property | As the delivery has it | Anchor |
 |---|---|---|
-| Node count | One. A browser process, three .NET processes and one container, all on the same machine | `TodoApp.AppHost/Program.cs:1-28` |
-| Process count | Four .NET processes: AppHost, Todo.Web.Server, Todo.Api, and the `dotnet-ef` child it spawns once | `TodoApp.AppHost/Program.cs:5-7,9-10`; `Extensions.cs:25-33` |
+| Node count | One machine. A browser process, three long-lived .NET processes, two short-lived children (the global tool install and the migration) and one container, all co-located | `TodoApp.AppHost/Program.cs:1-28`; `Extensions.cs:25-33` |
 | Network hops | Two between servers: COMP-007 and COMP-008 each reach the API over `http://todoapi`. The browser reaches only the server | `Todo.Web/Server/Program.cs:23-26`; `Todo.Web/Server/TodoApi.cs:16` |
 | Discovery | By resource name through Aspire service discovery; no address is written anywhere in the code | `TodoApp.ServiceDefaults/Extensions.cs:34-35`; `Todo.Web/Server/Program.cs:25` |
-| Ports | 5000 and 5001 forwarded by the developer container; the API's port is allocated by the app host | `.devcontainer/devcontainer.json:1-11`; `Todo.Web/Server/Properties/launchSettings.json` |
+| Ports | **The orchestration declares none.** `AddProject` takes a name and no endpoint. Each process binds its own launch profile: `Todo.Api` 5000 (http) and 5001 (https); `Todo.Web.Server` 5147 and 7123. The only fixed port in the tree is the container's target 8080. The developer container forwards 5000 and 5001 — the API's pair, not the BFF's | `TodoApp.AppHost/Program.cs:5-19`; `Todo.Api/Properties/launchSettings.json`; `Todo.Web/Server/Properties/launchSettings.json`; `.devcontainer/devcontainer.json:1-11` |
 | Transport security | HTTPS between browser and server (`UseHttpsRedirection`, HSTS outside Development); HTTP in the clear between the BFF and the API | `Todo.Web/Server/Program.cs:38-45`; `Todo.Web/Server/TodoApi.cs:16` |
-| Environments | `Development` is the only one that differs: the reference UI, both health endpoints and body-and-header logging exist only there | `Todo.Api/Program.cs:35-56`; `TodoApp.ServiceDefaults/Extensions.cs:110-118` |
+| Environments | `Development` is the only one that differs: the reference UI, both health endpoints and body-and-header logging exist only there, and both launch profiles set it | `Todo.Api/Program.cs:35-56`; `TodoApp.ServiceDefaults/Extensions.cs:110-118`; both `launchSettings.json` |
 | Deployment mechanism | None. `dotnet run` on the app host, or the Aspire CLI pinned by `.aspire/settings.json` | `.aspire/settings.json:1-3`; `README.md` |
 
 ```plantuml
@@ -34,7 +32,7 @@ node "Developer workstation - one machine, no container" {
   node "Browser process" as BROWSER {
     component "COMP-001 screens\nCOMP-002 HTTP gateway\nBlazor WebAssembly bundle" as WASM
   }
-  node ".NET 9 process: Todo.Web.Server\nHTTPS 5001, HTTP 5000" as BFF {
+  node ".NET 9 process: Todo.Web.Server\nlaunch profile 5147 / 7123" as BFF {
     component "COMP-004 host" as B4
     component "COMP-005 session" as B5
     component "COMP-006 /auth" as B6
@@ -42,7 +40,7 @@ node "Developer workstation - one machine, no container" {
     component "COMP-008 forwarder" as B8
     component "COMP-021 service defaults" as B21
   }
-  node ".NET 9 process: Todo.Api\nservice name todoapi, discovered" as API {
+  node ".NET 9 process: Todo.Api\nlaunch profile 5000 / 5001\nservice name todoapi, discovered" as API {
     component "COMP-009 Identity" as A9
     component "COMP-010 token exchange" as A10
     component "COMP-011 Todos" as A11
@@ -116,6 +114,16 @@ note right of HOST
   delivery supports. DC12
 end note
 
+note left of BROWSER
+  The ports above are each project's launch profile,
+  not the orchestration: AddProject declares no
+  endpoint for either process. 5000/5001 are the
+  API's pair and 5147/7123 the BFF's, which is why
+  the developer container forwards the API's pair.
+  Properties/launchSettings.json of both projects;
+  TodoApp.AppHost/Program.cs:5-10
+end note
+
 @enduml
 ```
 
@@ -127,9 +135,10 @@ Recorded because it is what a deployment decision would meet, not as a recommend
 |---|---|---|
 | `Todos.db` | A file path relative to the API's working directory; a second API node would need a shared store or its own file | `Todo.Api/Program.cs:23` |
 | The data-protection key ring | No key store is pinned, so two nodes share a ring only if the framework's default file location is shared between them — which a container split does not give | `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11`; AN-010 |
-| The sqlite-web container | A bind mount of the API's `.db` directory; meaningful only where that directory is on the same file system | `TodoApp.AppHost/Program.cs:14-19` |
+| The sqlite-web container | A bind mount of the API's `.db` directory; meaningful only where that directory is on the same file system — and it is excluded from the manifest, so it would not ship | `TodoApp.AppHost/Program.cs:14-19` |
 | Service discovery | Aspire's development-time discovery; nothing in the tree states a production resolver | `TodoApp.ServiceDefaults/Extensions.cs:30-35` |
-| The migration | Run by the app host, which is a development process, not a deploy step | `TodoApp.AppHost/Extensions.cs:5-21` |
+| The migration | Run by the app host, which is a development process and skips the block entirely outside run mode, not a deploy step | `TodoApp.AppHost/Extensions.cs:5-7` |
+| The serving processes' ports | Declared only in each project's launch profile. A published or hosted process would bind the framework's default, and the developer container's forwarded pair would point nowhere | `Todo.Api/Properties/launchSettings.json`; `Todo.Web/Server/Properties/launchSettings.json` |
 
 ## Nodes and Connectors
 | Node | What runs there | Placed by | Reachable from | Anchor |
