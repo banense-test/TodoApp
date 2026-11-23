@@ -15,7 +15,7 @@ The delivery carries no architecture document of its own (`.iari/README.md`, the
 | Deployment | DEP-D1 | `TodoApp.AppHost/Program.cs`, `Program.cs` of both hosts, the `appsettings.json` pairs and `Todo.Api/appsettings.Development.json`, the two `launchSettings.json` files |
 | Implementation | IMP-D1 | `TodoApp.sln`, `Directory.Build.props`, `Directory.Packages.props`, the seven project files |
 | Data | the table in "Data View" | `Todo.Api/TodoDbContext.cs`, the three migrations |
-| Requirements coverage | SPEC-D1 | The Supplementary Specification's eight groups, against the mechanism that answers each |
+| Requirements coverage | SPEC-D1 | The Supplementary Specification's Functionality group, its mechanisms M1 to M11 and its behaviours F1 to F12, plus its seven other groups, against the mechanism that answers each. SPEC-D1 also carries the mapping between the specification's mechanism numbering and this document's, which diverge at the seventh |
 
 The topology is stated in full in the **Deployment Model**, which the Development Case's trigger fires; this document states the deployment view only to the depth the other views need it.
 
