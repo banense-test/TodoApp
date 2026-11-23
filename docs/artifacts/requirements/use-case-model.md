@@ -925,7 +925,7 @@ stop
 @enduml
 ```
 
-**The five `COMP-014` edges are confirmed.** `COMP-014 → UC-006`, `UC-007`, `UC-008`, `UC-009` and `UC-010` each hold as `Realizes`, and none carries a pending marking. Each was checked against this diagram and against `Todo.Api/Todos/TodoApi.cs:19-20`, where `RequirePerUserRateLimit()` is applied to the `/todos` group before any of the five operations runs: the bucket is the gate every one of them passes, not the goal any of them serves, and each flow above names that gate at its own step — UC-006 step 5, UC-007 step 4, UC-008 step 3, UC-009 step 2, UC-010 step 2. The reading is the one already used for the `EP-003` screen edges in the Survey, where the screen is what the actor acts on and the operation is what performs it.
+**`COMP-014` realizes UC-006 to UC-010.** `RequirePerUserRateLimit()` is applied to the whole `/todos` group at `Todo.Api/Todos/TodoApi.cs:19-20`, before any of the five operations runs, so the token bucket is the gate every one of them passes and the goal none of them serves. Each flow names it at its own step — UC-006 step 5, UC-007 step 4, UC-008 step 3, UC-009 step 2, UC-010 step 2 — and the operation each performs is the step that follows. The reading is the one the Survey applies to the `EP-003` edges: the screen is what the actor acts on, the operation is what performs it.
 
 ### UC-011 Consult the API reference
 
