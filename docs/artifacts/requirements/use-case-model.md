@@ -922,6 +922,20 @@ stop
 | A2 — the caller reads the delivery's README instead | The README directs the reader to a Swagger UI; the code mounts the Scalar reference UI and no Swagger UI exists anywhere in the tree | AN-008; `README.md`, "Using the API standalone" |
 | A3 — the document's server list | The UI is configured with an empty server list, so a client generated from the document carries no base address | `Todo.Api/Program.cs:51` |
 
+### The instability UC-001 to UC-004 sit on
+
+The four account use cases pass through the BFF's session surface, and that surface is the least settled part of the delivery: `Todo.Web/Server` carries 33 commits and `AuthApi.cs` alone carries 15, every one of them touching a success path, and none of them touching the three failure paths that now stand as `AN-019`, `AN-020` and `AN-021` (`AN-029`). The whole surface carries no test of any kind (`AN-012`).
+
+Three consequences bear on these four specifications, and a reader must not treat any flow below as settled:
+
+| Consequence | Which flows it reaches | Anchor |
+|---|---|---|
+| The failure paths were never modified while every success path was, so the flow shapes here are the original ones by absence of change rather than by intent — including the single 401, the unconditional redirect, and the provider name taken unchecked from the route | UC-001 A1 and A2; UC-002 A1; UC-003 A1 and A2 | AN-029, AN-021, AN-020, AN-019; `Todo.Web/Server/AuthApi.cs:14-38,55-97` |
+| No test exercises any of it, so no flow below is confirmed by execution — each is a reading of the code alone | UC-001 to UC-004 | AN-012; `Todo.Api.Tests/Todo.Api.Tests.csproj:9` |
+| The session cookie, its token set and the provider ticket are the state these flows read and write, and the key ring behind the provider protection is not pinned (`AN-010`) | UC-001 step 6; UC-002 step 6; UC-003 A3; UC-004 step 4 | AN-010; `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11` |
+
+A change to any of UC-001 to UC-004 lands on code that has moved 33 times and been verified zero times. Nothing in this model asserts that the flow as specified will survive the next move of that surface.
+
 ## Traceability
 
 | Element | Traces From | Link Type | Traces To |
