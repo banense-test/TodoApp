@@ -69,8 +69,7 @@ O6 --> IA
 No objective was missed and no objective was deferred. The iteration did what it planned to do; what it produced is not yet certifiable, and that is the finding this record carries into iteration 2.
 
 ## Adherence to Plan
-
-The plan was a strictly sequential nine-item chain, and it ran as planned: every work item reached Complete, the review gate was reached last, and the stakeholder gate H1 was answered inside the iteration rather than queued behind the review. The divergence from plan is not in the chain but in its last two items — the review returned six open Major findings, so the milestone review item closes with a verdict of iteration required, and gate H1's sanction question, put for the first time at that review, was answered No.
+The plan was a strictly sequential chain of nine work items plus the human gates, and it ran as planned: every work item reached Complete, the review came last, and gate H1 was answered inside the iteration rather than queued behind the review. The divergence is in the last two gates — the review returned six open Major findings, so the milestone review closed with a verdict of iteration required, and gate H2, the perimeter sanction put at that review, was answered No.
 
 ```plantuml
 @startuml
@@ -91,7 +90,7 @@ start
 
 |Project Manager|
 :Risk List - 22 risks, 21 refined from an anomaly, each scored, owned, mitigated;
-:Iteration Plan - seven-milestone roadmap, nine work items, ten exit criteria;
+:Iteration Plan - eight-milestone roadmap, ten work items, twelve exit criteria;
 
 |Reviewer|
 :Technical lens - 7 findings - 0 Critical, 4 Major, 3 Minor - Approved with Changes;
@@ -113,7 +112,7 @@ stop
 | Elapsed agent time | The same stretch | 0:45:44.3700545 | The clock figure quoted beside the spend, never added to it |
 | Stakeholder queue time | Human gates in this iteration | 1:04:37.8136958 | Whether the human gates, not the agent work, dominate this phase's wall clock. Excludes the end-of-iteration approval gate, which is not measured |
 
-The two are reported side by side and never summed: the third row is waiting, not working, and adding it to the first two would denominate queue time as effort. No token budget exists — the project declares none — so no spend is judged against a box and no declared work was deferred to fit one. The stakeholder queue time is the larger figure of the two clocks in this iteration, and that is the fact iteration 2 is planned around: what lengthens a phase here is a gate waiting for an answer, not an agent working.
+The two are reported side by side and never summed: the third row is waiting, not working, and adding it to the first two would denominate queue time as effort. No token budget exists — the project declares none — so no spend is judged against a box and no declared work was deferred to fit one. Stakeholder queue time is the larger of the two clocks in this iteration, and that is the fact iteration 2 is planned around: what lengthens a phase here is a gate waiting for an answer, not an agent working. It is also why the `R004` and `R011` grants were put in this iteration rather than held behind the score reconciliation.
 
 ```plantuml
 @startuml
@@ -167,13 +166,14 @@ end note
 | Planned | Outcome | Variance | Root cause | Adjustment forced in iteration 2 |
 |---|---|---|---|---|
 | Nine work items, sequential, each owned | All nine reached Complete in the planned order | None | — | None. The chain is not re-planned: no item is split, added or reordered |
-| Gate H1 answered inside the iteration | Its three questions were answered 2026-11-23 | None on the priority order and on R012/R016; the perimeter sanction was put at the review and refused | The plan placed the perimeter sanction behind the review; the plan treated two perimeter-membership answers as if they were the perimeter confirmation | `Iteration Plan#F1` (Management Reviewer): restate C2 as two criteria — the answered perimeter-membership and priority questions, and the confirmation of the recorded perimeter, which is not met |
+| Gate H1 answered inside the iteration | Its four questions were answered 2026-11-23 | None on perimeter membership, the priority order or `R012`/`R016` | — | None. H1 is met and recorded in the Iteration Plan's gate table |
+| The perimeter sanction treated as answered by gate H1 | It was put separately at the review and refused; the plan now records it as gate H2, not met | The milestone slipped for want of a sanction the plan assumed it already had | The plan treated the two perimeter-membership answers as if they were the perimeter confirmation, and wrote C2 as met on them | `Iteration Plan#F1` (Management Reviewer): C2 restated as C2a (answered) and C2b (not met) — corrected in the Iteration Plan this iteration |
 | Review closes the iteration when exit criteria pass | Review returned 6 open Major, verdict iteration required | Milestone slips to an iteration the phase did not plan | Two causes, both inside the artifacts: scores that do not reproduce from their stated inputs, and exit criteria certified on evidence that does not state them | Iteration 2 is planned from this record. No new scope enters it: every item is a correction to content already written |
-| Risk List scores the anomalies for sequencing | The register holds 22 risks, all owned and scored | 13 of 21 scores contradict the inventory's likelihood and impact; R004 and R011 sit below the grant band only because of it | Every anomaly was scored afresh from its evidence without reconciling against the inventory's own column, and with no single mapping from the inventory's words to the IARI scale | `Risk List#F1`: score each risk once, or declare the score the Project Manager's own reading; re-derive the grant band and put any reconciled Significant/High risk to the stakeholder in this cycle |
-| Hand the entry-point-bearing anomalies to Excavation | A count was stated and a list of seven named | Five constraints on priorities 6 and 8 are not handed over | The count was written first and the list enumerated from memory rather than from the System Inventory's Anomalies table | `Iteration Plan#F1` (Reviewer): name all twelve, or drop the enumeration and point at the table |
-| Coverage figure quoted as C6's evidence | The figure is quoted | The headline does not reproduce from the per-area table it sits beside | The headline was authored, not summed from the table | `System Inventory#F2`: recompute; then C6 cites the settled figure |
+| Risk List scores the anomalies for sequencing | The register holds 22 risks, all owned and scored | 13 of 21 scores contradict the inventory's likelihood and impact; `R004` and `R011` sat below the grant band only because of it | Every anomaly was scored afresh from its evidence without reconciling against the inventory's own column, and with no single mapping from the inventory's words to the IARI scale | `Risk List#F1`: score each risk once, or declare the score the Project Manager's own reading. The two named risks now carry the stakeholder's conditional grants of 2026-11-23; only the arithmetic is owed |
+| Hand the entry-point-bearing anomalies to Excavation | A count of twelve was stated and a list of seven named | Five constraints on priorities 6 and 8 were not handed over | The count was written first and the list enumerated from memory rather than from the System Inventory's Anomalies table | `Iteration Plan#F1` (Reviewer): all twelve now named in a table with what each forbids — corrected in the Iteration Plan this iteration |
+| Coverage figure quoted as C6's evidence | The figure is quoted | The headline does not reproduce from the per-area table it sits beside | The headline was authored, not summed from the table | `System Inventory#F2`: recompute; then C6 cites the settled figure. C6 is restated in the Iteration Plan this iteration as met in substance with its evidence unreconciled |
 
-No work item is reopened by this assessment: an item marked Complete that delivered defective content is a finding against its artifact, which is where the reviews recorded it, not an unfinished item of the chain.
+No work item is reopened by this assessment: an item marked Complete that delivered defective content is a finding against its artifact, which is where the reviews recorded it, not an unfinished item of the chain. The three corrections the Project Manager could make without the reconciliation — the anomaly handoff, the split of C2, and the restatement of C6 — are already written into the Iteration Plan this iteration; the remaining open items are the reconciliation of the scores and the two artifacts the other owners hold.
 
 ## Use Cases and Scenarios Implemented
 
