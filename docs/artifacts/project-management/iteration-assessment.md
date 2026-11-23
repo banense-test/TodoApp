@@ -5,67 +5,99 @@
 - Iteration: 2, Cycle 1
 - Owner: Project Manager
 ## Iteration Objectives Reached
-Six objectives were planned; six were delivered; two of the six carry a defect inside them that keeps the milestone open. Objective delivery and milestone exit are separate questions and this record answers them separately.
+Nine objectives were planned across the phase — six for the phase, three for its second iteration — and nine were delivered. The iteration-1 review left ten findings open against four artifacts; all ten are resolved by the lenses that recorded them, and the four that remain open are Minors below the milestone's hold. Objective delivery and milestone exit are separate questions and this record answers them separately: the verdict on the milestone is the Review Coordinator's, recorded in the Review Record.
 
 ```plantuml
 @startuml
-title The iteration's six objectives - each against what it delivered, and the milestone that stayed open
-
+title The phase's nine objectives - what each delivered, and the two Minors that sit inside two of them
 skinparam shadowing false
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 240
 hide empty members
+skinparam wrapWidth 240
 
-class "O1  The tailoring that governs the sprint zero exists" as O1 {
-  verdict : Met
-  evidence : two disciplines inactive behind their recorded conditions, one OPTIONAL fired, measurement policy stated
-}
-class "O2  The existing system is read and its perimeter stated" as O2 {
-  verdict : Met
-  evidence : four processes, 19 components, 9 external systems, 5 stores, 22 entry points anchored
-}
-class "O3  The unread remainder is declared" as O3 {
-  verdict : Met, one count unreconciled
-  evidence : every unread file named with its reason; the headline does not reproduce from the per-area table
-}
-class "O4  The anomalies are carried as scored, owned risks" as O4 {
-  verdict : Met in structure, not in arithmetic
-  evidence : 21 of 21 carried with strategy, owner, action, contingency; 13 scores contradict the inventory's own words
-}
-class "O5  The priorities are ordered and the answer recorded" as O5 {
-  verdict : Met
-  evidence : eight areas ordered with reasons; the 2026-11-23 answer quoted
-}
-class "O6  The plan for the sprint zero and the phases exists" as O6 {
-  verdict : Met
-  evidence : eight-milestone roadmap, ten work items with owners, twelve exit criteria
-}
-
-class "Iteration acceptance" as IA {
-  objectives delivered : 6 of 6
-  delivered with a defect inside : 2
-  milestone : not achieved - iteration REQUIRED
+package "O1 to O6, planned for the phase" {
+  class "O1 tailoring exists" as O1 {
+    verdict : Met
+    settled : version policy no longer asserted
+    open : Development Case F2 Minor
+  }
+  class "O2 perimeter read and stated" as O2 {
+    verdict : Met
+    evidence : four processes, 22 entry points anchored
+  }
+  class "O3 unread remainder declared" as O3 {
+    verdict : Met
+    evidence : 79 read, 54 unread of 133, reproduces
+  }
+  class "O4 anomalies carried as scored risks" as O4 {
+    verdict : Met
+    evidence : 21 anomalies, 22 risks, one mapping
+  }
+  class "O5 priorities ordered, answer recorded" as O5 {
+    verdict : Met
+    evidence : eight areas, answer of 2026-11-23
+  }
+  class "O6 plan exists" as O6 {
+    verdict : Met
+    evidence : milestone sequence, nine work items
+  }
 }
 
-O1 --> IA
-O2 --> IA
-O3 --> IA
-O4 --> IA
-O5 --> IA
-O6 --> IA
+package "O7 to O9, planned for iteration 2" {
+  class "O7 every finding reworked" as O7 {
+    verdict : Met
+    evidence : ten iteration-1 findings resolved
+  }
+  class "O8 criteria rest on their own evidence" as O8 {
+    verdict : Met
+    evidence : C2 split, C6 reproduced, C7 split
+  }
+  class "O9 the perimeter put again" as O9 {
+    verdict : Met
+    evidence : gate H2 answered Yes 2026-11-23
+  }
+}
+
+class "Phase outcome at this record" as PH {
+  open Critical : 0
+  open Major : 0
+  open Minor : 4
+  exit criteria met : 12 of 12
+}
+
+O1 --> PH
+O2 --> PH
+O3 --> PH
+O4 --> PH
+O5 --> PH
+O6 --> PH
+O7 --> PH
+O8 --> PH
+O9 --> PH
 @enduml
 ```
 
 | # | Objective | Owner | Verdict | Basis |
 |---|---|---|---|---|
-| O1 | The tailoring that governs the sprint zero exists | Process Engineer | Met | Development Case records `business-process-led = false` and `real-time-system = false`, one OPTIONAL fired (Deployment Model) with its §5.2 condition, five NOT FIRED each justified, and the measurement policy. `Development Case#F1` (Reviewer) finds an unsourced assertion inside it, which is a defect of the content, not a missing objective |
-| O2 | The existing system is read and its perimeter stated | Software Archaeologist | Met | System Inventory records four processes, 19 components, 9 external systems, 5 stores and `EP-001`…`EP-022`, each with kind, initiator and anchor. No finding is raised against any anchor the reviewers opened |
-| O3 | The unread remainder is declared rather than left implicit | Software Archaeologist | Met, one count unreconciled | Coverage names every unread file and its reason. `System Inventory#F2` records that the headline count does not reproduce from the per-area table |
-| O4 | The anomalies are carried as scored, actionable risks | Project Manager | Met in structure, not in arithmetic | All 21 anomalies map to `R001`…`R021` with strategy, owner, action, contingency and warning sign. `Risk List#F1` records 13 scores that contradict the inventory's own likelihood and impact |
-| O5 | The reading's priorities are ordered and the stakeholder's answer recorded | Software Archaeologist | Met | Eight areas carry an order and a reason; the 2026-11-23 answer is quoted in Priorities |
-| O6 | The project's plan for the sprint zero and the RUP phases exists | Project Manager | Met | Iteration Plan carries the eight-milestone coarse roadmap — the seven phases plus the re-taken SBC — ten fine-plan work items with owners, and twelve exit criteria |
+| O1 | The tailoring that governs the sprint zero exists | Process Engineer | Met | Development Case records `business-process-led = false`, `real-time-system = false`, one OPTIONAL fired (Deployment Model) with its §5.2 condition and five NOT FIRED each justified. `Development Case#F1` (Reviewer) — the unsourced enterprise version policy that directed the Software Architect at a policy existing nowhere — is resolved, and the section now asserts no policy and cites only `Directory.Packages.props`, `global.json` and `nuget.config`. One Minor remains (`Development Case#F2`, Management Reviewer) on the lens list of the Review Record |
+| O2 | The existing system is read and its perimeter stated | Software Archaeologist | Met | System Inventory records four processes, 19 components, 9 external systems, 5 stores and `EP-001`…`EP-022`, each with kind, initiator and anchor. `System Inventory#F1` (Reviewer) is resolved: the `AN-021` row carries `EP-004`, `EP-005` and `EP-007`, matching the diagram and the registered edges |
+| O3 | The unread remainder is declared rather than left implicit | Software Archaeologist | Met | Coverage declares 133 files, 79 read and 54 unread, and the figure reproduces from its own per-area table — the `Read` column sums to 79 and the `Files` column to 133. `System Inventory#F2` (Reviewer) is resolved on that recomputation; every unread file is named with the reason it was not read and none carries a perimeter fact |
+| O4 | The anomalies the reading found are carried as scored, actionable risks | Project Manager | Met | 21 anomalies map to 22 risks, each with strategy, owner, action, contingency and warning sign. `Risk List#F1` under both lenses is resolved: one published word-to-score mapping, all 21 anomaly-derived rows reproduce from it, no inventory word scores differently in different rows, and `R004` and `R011` land at 4 × 3 = 12 rather than below the grant band |
+| O5 | The reading's priorities are ordered and the stakeholder's answer recorded | Software Archaeologist | Met | Eight areas carry an order and a reason, and the 2026-11-23 answer — the order stands as it is, nothing matters more than it reflects, nothing left out — is quoted in Priorities |
+| O6 | The project's plan for the rest of the sprint zero and the RUP phases exists | Project Manager | Met | Iteration Plan carries the milestone sequence for the sprint zero and the seven RUP phases, the iteration-2 critical chain, nine fine-plan work items with owners and twelve exit criteria |
+| O7 | Every finding the SBC review recorded against an artifact is reworked by the artifact's owner | Owners the Review Record names | Met | Ten iteration-1 findings — five Major, five Minor — are resolved by the lens that recorded each, verified against the corrected section. The Review Coordinator's consolidated ledger records 0 open Critical and 0 open Major from either executed lens |
+| O8 | The exit criteria rest on the evidence each criterion actually has | Project Manager | Met | `Iteration Plan#F1` (Management Reviewer) is resolved: C2 is split into the answered membership and priority questions and the confirmation the stakeholder had not then given, C6 cites the coverage figure the System Inventory reproduces from its own table, and C7 is split into carriage and reproducibility, each decided on the artifact it cites |
+| O9 | The perimeter as recorded is put to the stakeholder again | Project Manager puts it; the stakeholder answers | Met — 2026-11-23 | Gate H2 answered Yes: the four-process perimeter with its 22 entry points, 21 anchored anomalies and eight priority areas confirmed as recorded, and the sanction to advance past SBC into Excavation granted, with the order that the Minor findings be addressed in the next phase. This is the objective the phase's first iteration could not close and the reason Survey ran a second |
 
-No objective was missed and no objective was deferred. The iteration did what it planned to do; what it produced is not yet certifiable, and that is the finding this record carries into iteration 2.
+### The three phase objectives as the work order states them
+
+| Phase objective | Where the plan carries it | Verdict |
+|---|---|---|
+| Confirm the System Boundary | O2 with C1, C2a, C2b, C3 | Met — the perimeter is stated with anchors and confirmed by the stakeholder at gate H2 on 2026-11-23 |
+| Tailor Development Process | O1 | Met — two disciplines inactive behind their recorded conditions, one OPTIONAL fired, five NOT FIRED justified, measurement policy stated; the unsourced version policy removed |
+| Identify Critical Risks | O4 with C7a, C7b, C8, C9 | Met — 21 anomalies carried as 22 scored, owned risks on one reproducible mapping, four Significant acceptances each under the stakeholder's own grant |
+
+No objective was missed and none was deferred. Every one of the four Minors still open sits on content the milestone approves: none states an objective unmet, and the stakeholder's order of 2026-11-23 assigns each to its owner in Excavation's first iteration.
 
 ## Adherence to Plan
 The plan was a strictly sequential chain of nine work items plus the human gates, and it ran as planned: every work item reached Complete, the review came last, and gate H1 was answered inside the iteration rather than queued behind the review. The divergence is in the last two gates — the review returned six open Major findings, so the milestone review closed with a verdict of iteration required, and gate H2, the perimeter sanction put at that review, was answered No.
