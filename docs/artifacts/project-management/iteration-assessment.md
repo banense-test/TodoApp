@@ -1,10 +1,9 @@
 ## Document Control
 - Phase: Survey
-- Status: Assessed. The milestone is NOT achieved — the Review Coordinator's verdict is SBC iteration REQUIRED and the stakeholder refused the sanction on 2026-11-23.
-- Milestone Target: end-of-Survey (SBC) — not achieved; iteration 2 is planned from this record
-- Iteration: 1, Cycle 1
+- Status: Assessed. The milestone verdict is the Review Coordinator's and is recorded in the Review Record; this record assesses the iteration given that verdict and declares no milestone of its own.
+- Milestone Target: end-of-Survey (SBC) — verdict issued by the Review Coordinator
+- Iteration: 2, Cycle 1
 - Owner: Project Manager
-
 ## Iteration Objectives Reached
 Six objectives were planned; six were delivered; two of the six carry a defect inside them that keeps the milestone open. Objective delivery and milestone exit are separate questions and this record answers them separately.
 
