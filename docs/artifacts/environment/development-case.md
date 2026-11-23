@@ -162,7 +162,6 @@ Evaluated against the delivery as it stands. Re-evaluated at the start of every 
 | Test Plan | Formal delivery, regulatory audit, contractual test reporting | NOT FIRED | No regulator, contract or audit consumes test reporting. Per-iteration test scope is set by the Iteration Plan and reported in the Test Evaluation Summary. |
 
 ## Roles and Ownership
-
 Deltas over the 26-role roster — two roles do not work, and nothing else changes:
 
 - **BusinessProcessAnalyst — does not work.** `business-process-led = false`; the inherited process runs this role only when the Development Case records a business-process-led project.
@@ -292,6 +291,124 @@ Each item is a reference to a file and its owning role. Its content and its stat
 | Request collection | `Requests/todo.http` | Tester |
 
 The enterprise version policy is recorded with the process and is anchored by the Software Architect in the Software Architecture Document. It governs over the registry's *latest* for every package the delivery adds.
+
+### Role deltas
+
+Two roles of the roster do not work in this project, and nothing else changes:
+
+- **BusinessProcessAnalyst — does not work.** `business-process-led = false`; the inherited process runs this role only when the Development Case records a business-process-led project.
+- **CapsuleDesigner — does not work.** `real-time-system = false`; the capsule tailoring applies only to a system with hard deadlines or concurrent event-driven behaviour.
+
+The remaining roles work as the inherited process schedules them. No role is added, merged or renamed, and no CORE artifact's primary ownership is reassigned. Co-owned artifacts keep the contributor sets the baseline gives them; this document names no contributor set of its own.
+
+```plantuml
+@startuml
+title CLS-DC-01 Role-artifact ownership and the tool references of this project
+
+skinparam classAttributeIconSize 0
+
+package "Environment" {
+  class "ProcessEngineer" as PE
+  class "docs/CONTRIBUTING.md" as CG
+}
+package "Sprint zero" {
+  class "SoftwareArchaeologist" as SWA
+  class "ProjectManager" as PM
+}
+package "Requirements" {
+  class "SystemAnalyst" as SYA
+  class "RequirementsSpecifier" as RS
+  class "UserInterfaceDesigner" as UID
+}
+package "Analysis and Design" {
+  class "SoftwareArchitect" as ARC
+  class "Designer" as DES
+  class "DatabaseDesigner" as DBD
+}
+package "Implementation" {
+  class "Implementer" as IMPL
+  class "CodeReviewer" as CRV
+  class "Integrator" as IGR
+}
+package "Test" {
+  class "TestManager" as TM
+  class "TestDesigner" as TD
+  class "TestAnalyst" as TA
+  class "Tester" as TS
+}
+package "Deployment and Documentation" {
+  class "DeploymentManager" as DM
+  class "TechnicalWriter" as TW
+}
+package "Configuration and Change Management" {
+  class "ConfigurationManager" as CFM
+  class "ChangeControlManager" as CCM
+}
+package "Review" {
+  class "Reviewer" as RV
+  class "BusinessReviewer" as BRV
+  class "ManagementReviewer" as MRV
+  class "ReviewCoordinator" as RCO
+}
+package "INACTIVE in this project" {
+  class "BusinessProcessAnalyst" as BPA <<inactive: business-process-led = false>>
+  class "CapsuleDesigner" as CPD <<inactive: real-time-system = false>>
+}
+package "Artifacts" {
+  class "Development Case" as DC
+  class "System Inventory" as SI
+  class "Risk List, Iteration Plan, Iteration Assessment" as PLN
+  class "Vision, Use-Case Model" as UCM
+  class "Supplementary Specification" as SS
+  class "Software Architecture Document" as SAD
+  class "Design Model" as DMO
+  class "Deployment Model" as DPM <<OPTIONAL trigger fired>>
+  class "Implementation Model (in the SCM)" as IM
+  class "Test Case" as TC
+  class "Test Evaluation Summary" as TES
+  class "User Documentation, Release Notes" as UDRN
+  class "Review Record" as RR
+  class "Change Request" as CRQ
+}
+package "Tool configurations referenced by path" {
+  class ".github/workflows/ci.yaml" as CI
+  class "Directory.Build.props and package pinning files" as BUILD
+  class ".devcontainer and .aspire and .vscode" as ENVD
+  class "Requests/todo.http" as REQH
+}
+
+PE --> DC : owns
+PE --> CG : owns
+SWA --> SI : owns
+PM --> PLN : owns
+SYA --> UCM : owns
+SYA --> SS : owns
+RS --> SS : owns
+UID --> UCM : storyboards
+ARC --> SAD : owns
+ARC --> DPM : owns
+DES --> DMO : owns
+DBD --> DMO : persistent data
+IMPL --> IM : owns
+CRV --> RR : records
+IGR --> IM : builds
+TM --> TES : owns
+TD --> TC : owns
+TS --> TC : executes
+DM --> DPM : owns
+DM --> UDRN : owns
+TW --> UDRN : owns
+CFM --> RR : baseline record
+CCM --> CRQ : owns
+RV --> RR : owns
+RV --> DC : reviews
+IGR ..> CI : references
+IGR ..> BUILD : references
+IGR ..> ENVD : references
+IMPL ..> BUILD : references
+TS ..> REQH : references
+@enduml
+```
 
 ## Guidelines and Procedures
 ### Guideline ownership
