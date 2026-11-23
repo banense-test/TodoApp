@@ -14,13 +14,13 @@
 <!-- review: Excavation I1 -->
 
 - Phase: Excavation
-- Status: Draft — AR milestone review taken at the end of Excavation iteration 1
-- Milestone Target: end-of-Excavation (AR) — not achieved; sanction refused at gate H4 on 2026-11-23
+- Status: AR (end-of-Excavation) milestone review taken at the end of Excavation iteration 1. This lens records 2 Major and 3 Minor this milestone, and carries 1 Minor from the SBC gate (`Development Case#F2`) that the phase's own criterion A11 counts. Read with the technical lens, the gate has 8 Major open and 0 Critical. Four findings of this lens closed at this gate.
+- Milestone Target: end-of-Excavation (AR) — **not achieved**. Sanction refused by the stakeholder at gate H4 on 2026-11-23; the order given is "We must correct all major findings."
 - Iteration: 1, Cycle 1
 - Owner: Management Reviewer
-- Review type: Lifecycle Milestone Review (AR) — exit-criteria lens, not a feasibility or completion lens
-- Verdict: No-Go
-- Stakeholder sanction: REFUSED
+- Review type: Lifecycle Milestone Review (AR) — exit-criteria lens. Nine of the thirteen AR criteria established on their own evidence; two not establishable as written; two not met.
+- Verdict: **No-Go**
+- Stakeholder sanction: **REFUSED**
 
 ### Review Coordinator lens
 <!-- review: Survey I2 -->
