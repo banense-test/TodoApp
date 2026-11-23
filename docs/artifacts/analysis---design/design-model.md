@@ -37,7 +37,6 @@ Three properties of this domain govern every class below.
 **The wire vocabulary exists twice.** Seven shapes are declared here and six of them are declared again in the assembly the client and the BFF share, with no reference between the two assemblies and no compiler between the two declarations (AN-003). Both declarations are recovered below, because a later reader has to know which side a change lands on.
 
 ## Domain Model
-
 ```plantuml
 @startuml
 title DM-D1 Persisted domain classes - two entities, the ownership key, and the context that maps them
@@ -350,6 +349,15 @@ The classes above are the vocabulary; the behaviour is in the endpoint handlers 
 `Todo` and `CLS-002`/`CLS-008` decide one rule between them: the request shape carries no `OwnerId`, so the owner is never read from a body and `OwnerId` never leaves the process. A create body that asks for a completed row still produces `IsComplete` false, because the insert copies only the title (`Todo.Api/Todos/TodoApi.cs:38-50`).
 
 `CLS-007` is the class the ownership predicate is decided against, and the row that must exist before any task operation succeeds: the authorization handler fails the request when no account row matches the token's `NameIdentifier` (`Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:28-36`; `Todo.Api/Authorization/CurrentUserExtensions.cs:11-30`).
+
+### Use cases no domain class realizes
+
+| Use case | Why no domain class appears in its row | What it touches instead | Anchor |
+|---|---|---|---|
+| UC-004 Sign out | It persists nothing and reads no entity: one call signs the cookie scheme out, and the row the account lives in is untouched | The BFF's cookie scheme; the session cookie's token set, which `AuthApi.SignIn` wrote and this operation discards | `Todo.Web/Server/AuthApi.cs:40-52` |
+| UC-011 Consult the API reference | It reads metadata the framework generated, not data the model holds | The OpenAPI document and the Scalar UI mapping; the bearer scheme it declares | `Todo.Api/Program.cs:46-58`; `Todo.Api/Extensions/OpenApiOptionsExtensions.cs` |
+
+Both are recovered use cases with a real entry point; neither has a domain class in its path, so neither appears as a `Traces From` value above. That is the model's shape, not a gap in the realization.
 
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
