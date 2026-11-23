@@ -80,16 +80,18 @@ DC ..> CG : conventions referenced
 ## Disciplines and Intensity
 Every active discipline runs at the intensity the canonical matrix fixes for its phase. **No deviation is requested and no intensity level is assigned by this document.**
 
-Inactive disciplines and inactive periods:
+### Inactive disciplines and inactive periods
 
 | Discipline | Status in this project |
 |---|---|
 | Business Modeling | Inactive for the whole project — `business-process-led = false` (see Classification verdicts). The glossary and use-case-model work the Business Process Analyst would contribute is carried by Requirements. |
-| Discovery | Active in the sprint zero only (Survey, Excavation, Consolidation, Critical). It does not run from Inception on. |
+| Discovery | Active in the sprint zero only (Survey, Excavation, Consolidation, at Critical). It has no intensity from Inception on. |
 | Environment | **Active in every phase**, per the canonical matrix: High in Survey and Inception, Medium in Elaboration, Low in Excavation, Consolidation, Construction and Transition. It opens each phase as that phase's first discipline, so the Development Case is current for the phase before the first working role of that iteration starts. No phase is one the process skips it in. |
 | Requirements, Analysis & Design, Implementation, Test, Deployment, Configuration & Change Management, Project Management | Active in all phases, per canonical matrix. |
 
-ACT-DC-01 is the role schedule: every phase partition names every discipline the canonical matrix schedules in that phase, at the intensity the matrix gives it, with the roles that run its stage there. A discipline absent from a partition is absent because the matrix gives it no intensity in that phase — Discovery from Inception on, and nothing else.
+### Phase role schedule
+
+ACT-DC-01 is the role schedule. Every phase partition names every discipline the canonical matrix schedules in that phase, at the intensity the matrix gives it, with the roles that run its stage there. A discipline is absent from a partition for exactly one of two reasons, both stated in the table above: Business Modeling is inactive for the whole project, and Discovery has no intensity from Inception on. Project Management appears in every partition because the matrix gives it an intensity in every phase.
 
 ```plantuml
 @startuml
@@ -164,6 +166,7 @@ partition "Transition (PR)" {
 stop
 @enduml
 ```
+
 ## Artifacts and Templates
 
 All 16 CORE artifacts are produced; none is omitted and none changes owner. The one OPTIONAL artifact whose trigger fires is the **Deployment Model** (see Optional Artifact Triggers).
