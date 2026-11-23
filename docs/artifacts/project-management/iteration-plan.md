@@ -1,8 +1,8 @@
 ## Document Control
 - Phase: Excavation
-- Status: Iteration 2 assessed and closed; the AR verdict is the Review Coordinator's — iteration required — and this plan governs iteration 3, planned from the Review Record
-- Milestone Target: end-of-Excavation (AR) — not achieved; iteration 3 required
-- Iteration: 3, Cycle 1
+- Status: Iteration 3 assessed; the AR verdict is the Review Coordinator's — iteration required — and this plan governs the fourth Excavation iteration, planned from the Review Record
+- Milestone Target: end-of-Excavation (AR) — not achieved; a fourth iteration is required
+- Iteration: 4, Cycle 1
 - Owner: Project Manager
 ## Iteration Objectives
 Excavation recovers what the existing system is into the models the rest of the project works from. It is the sprint zero's second phase: the SBC milestone is passed, and nothing the stakeholder declares is worked here — the delivery declares no scope, so every element this phase writes is read from code and cites its anchor.
