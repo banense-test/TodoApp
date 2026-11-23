@@ -36,30 +36,30 @@
 
 ## Review Scope and Criteria
 ### Reviewer lens
-<!-- review: Excavation I3 -->
+<!-- review: Excavation I4 -->
 
-<!-- review: Excavation I3 -->
+<!-- review: Excavation I4 -->
 
-#### Review scope — Excavation iteration 3, technical lens
+#### Review scope — Excavation iteration 4, technical lens
 
-The three artifacts this lens held open at the AR re-take, the eight this lens reads for exit-criteria evidence, and the two SCM surfaces that answer for the iteration's code state. Each corrected fact was checked at its source — the file, the graph or the peer artifact — not taken from the finding's own remedy.
+The ten artifacts of the recovered set, read at the sections the corrections of this iteration touch and at the sections this lens has found defective in earlier passes. Every closure asserted below was verified at its source — the registered graph, the file the anchor names, or the peer artifact as it now reads — and never taken from a finding's own remedy or from an owner's report of it.
 
-| Artifact | Reviewed for | Iteration-3 outcome |
+| Artifact | Reviewed for | Iteration-4 outcome |
 |---|---|---|
-| Development Case | Document Control; the contributor set in CLS-DC-01; the Environment statement as against the canonical matrix | Clean — F3 closed; CLS-DC-01 carries all six lenses |
-| System Inventory | Coverage arithmetic and anchors re-checked after the Risk List was restated | Clean |
-| Risk List | Every retirement claim against the artifact it names; the grant band | 1 Minor open — F3, R032 behind the Use-Case Model |
-| Iteration Plan | Every exit-criterion cell against the artifact its evidence names | **1 Major open** — F4, four places behind their artifacts |
-| Vision | Use-case count against the Use-Case Model | Clean — F1 closed at the previous pass and holding |
-| Use-Case Model | The rules diagram's figures; the five `COMP-014` rows against a fresh graph query | Clean — F3 and F4 closed |
-| Supplementary Specification | The recovered figures under `AN-024` and `AN-023`; Document Control | 1 Minor open — F3, one metadata field |
-| Software Architecture Document | `SP1`, `M3` and the bounded-load row; the component trace rows against the graph | Clean — F1 closed at the previous pass and holding |
-| Deployment Model | Environment Mapping against the files it maps | Clean — F1 closed at the previous pass and holding |
-| Design Model | Anomaly citations; `PD-D3` against `AN-025` | Clean — F1 closed at the previous pass and holding |
+| Development Case | Document Control; the Disciplines and Intensity table; ACT-DC-01 as the project's role schedule; all six optional-trigger verdicts | 1 Minor recorded — F4, ACT-DC-01 omits Project Management after Survey |
+| System Inventory | Coverage arithmetic and headline; every anchor spot-checked | Clean |
+| Risk List | R032 against the artifact it names; R030 and R031 left unchanged; the grant band | Clean — F3 closed |
+| Iteration Plan | Every criteria and objectives cell against the artifact its evidence names; the Closes column; the fine plan's sequence | Clean from this lens — F4 closed |
+| Vision | Use-case count against the Use-Case Model | Clean |
+| Use-Case Model | R6 against `AN-024`; the five `COMP-014` rows against a fresh graph query; the trace rows | Clean |
+| Supplementary Specification | Document Control against the set; the recovered figures under `AN-024` and `AN-023` | Clean — F3 closed |
+| Software Architecture Document | `SP1`, `M3`, the bounded-load row and the component trace rows against the graph | Clean |
+| Deployment Model | Environment Mapping against the files it maps | Clean |
+| Design Model | Anomaly citations; `PD-D3` against `AN-025`; the trace rows against the graph | Clean |
 
 #### Criteria applied
 
-This milestone's question is EXIT CRITERIA. Eight items are inherited from the previous pass unchanged, and one is added because this iteration produced the defect the eighth does not catch: a document asserting another artifact's state. Each item is a test with a pass or fail answer.
+This milestone's question is EXIT CRITERIA. The nine items are those the two previous passes used, unchanged, so that a pass's verdict is comparable with the ones before it. Each is a test with a pass or fail answer, and each is decided on the artifact's own text.
 
 | # | Criterion | What passes |
 |---|---|---|
@@ -75,45 +75,99 @@ This milestone's question is EXIT CRITERIA. Eight items are inherited from the p
 
 #### SCM and build evidence
 
-The repository reports no pull requests in any state, and no IARI pipeline file exists, so there is no diff to dispose and no CI result to weigh at this gate. That is the phase's correct state rather than a gap: Excavation produces no production code, the tree's own code is unchanged since `307a1ea`, and the iteration's work is artifact correction. Every disposition below therefore rests on artifact, graph and code evidence, and the absence of SCM evidence is stated here rather than passed over in silence.
+The repository reports no pull request in any state, and no IARI pipeline file exists, so there is no diff to dispose and no CI result to weigh at this gate. That is the phase's correct state and not a gap: Excavation produces no production code, the tree's own code is unchanged since `307a1ea`, and this iteration's work is four corrections across two owners. Every disposition below rests on artifact, graph and code evidence, and the absence of SCM evidence is stated here rather than passed over in silence.
 
 #### Evidence verified at source this iteration
 
-| Fact | Artifact statements checked | Read at | Result |
+| Fact | Where checked | Read at | Result |
 |---|---|---|---|
-| Development halves the request budget | Use-Case Model R6 and its note; Supplementary Specification R8, P1, S2, M3 | `Todo.Api/appsettings.Development.json` — `RateLimiting` `TokenLimit` 50, `TokensPerPeriod` 50, `QueueLimit` 50; `Todo.Api/Extensions/RateLimitExtensions.cs` for the code defaults 100 | Reproduces. R6 states both under `AN-024`; the one-budget reading is gone |
-| The bucket gates the whole `/todos` group | The five `COMP-014` rows in the Software Architecture Document Traceability | `Todo.Api/Todos/TodoApi.cs:19-20` — `group.RequirePerUserRateLimit();` applied to the group before every handler | Reproduces. The graph returns five `Realizes` edges with no SUSPECT marking |
-| The contributor set of the Review Record | Development Case co-owned-artifact sentence; CLS-DC-01 edges | `read_artifact` on the Review Record's three lenses — Reviewer, Management Reviewer, Review Coordinator each writing a block | Reproduces. Six contributors named, six edges drawn, including `CRV`, `MRV`, `BRV`, `RCO` and `CFM` |
-| Environment runs in Excavation | Development Case Disciplines and Intensity; Iteration Plan Resources and A13 | The canonical intensity matrix — Environment Low in Excavation, High in Survey and Inception | Reproduces. The Development Case states the baseline; the plan records the stage first |
-| Coverage arithmetic | System Inventory Coverage | The per-area Files column sums to 139, the Read column to 84, the unread cells to 55 | Reproduces from the table, not accepted |
+| The request budget is halved in every environment the delivery starts in | Use-Case Model R6 and its note; Supplementary Specification R8, P1, S2, M3; Software Architecture Document SP1, M3 and the bounded-load row; Deployment Model Environment Mapping | `Todo.Api/appsettings.Development.json` — `RateLimiting` `TokenLimit` 50, `TokensPerPeriod` 50, `QueueLimit` 50; `Todo.Api/Extensions/RateLimitExtensions.cs:22-24` — 100 / 100 / 100 | Reproduces at the file. No artifact states one value as both |
+| The two outbound hops out of the BFF are not equally protected | Supplementary Specification R4 under `AN-023`; Software Architecture Document P6; Design Model `PKG-D3` | `TodoApp.ServiceDefaults/Extensions.cs` — `ConfigureHttpClientDefaults(http => { http.AddStandardResilienceHandler(); ... })` | Reproduces. A container-built client inherits the handler; the YARP forwarder does not |
+| The five `COMP-014` carriage edges are confirmed | Use-Case Model Traceability and the Software Architecture Document's `COMP-014` row | `model_generate_rtm` on the project — `COMP-014` upstream returns `UC-006`, `UC-007`, `UC-008`, `UC-009`, `UC-010`, `Realizes`, state OK, no SUSPECT | Reproduces. No suspect marking survives the phase |
+| Every declared trace row is carried by the graph | Use-Case Model (11 rows), Risk List (32 rows), Design Model (42 rows), System Inventory (51 rows), Software Architecture Document (22 rows) | The same RTM projection, row by row | Reproduces. Each declared row has its edges; the four `—` rows of the Risk List and the four component rows with no use case are stated as such in the artifacts and are correct |
+| Coverage arithmetic | System Inventory Coverage | Per-area Files column sums to 139, Read to 84, unread to 55; headline reproduces | Reproduces from the table, not accepted |
+| Project Management runs in every phase | Development Case Disciplines and Intensity table; ACT-DC-01 | The canonical intensity matrix — Project Management Medium in Excavation | The table reproduces; the diagram does not. Recorded as `Development Case#F4` |
 
 #### What this iteration closed, and how it was verified
 
+```plantuml
+@startuml
+title Closures and what authorised each - three findings of this lens closed at iteration 4, verified at source rather than on an owner's report
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 240
+hide circle
+hide empty members
+
+package "Iteration Plan#F4 - consumed-defect, Major" {
+  class "A1 read 'open Major' on five\nCOMP-014 edges 'still marked suspect'" as F4A
+  class "A10 read 'Not met' on R6\nreading 100 tokens, no AN-024" as F4B
+  class "O2 read 'Not met - two Majors stand'" as F4C
+}
+
+package "Risk List#F3 - contained-defect, Minor" {
+  class "R032 read 'action performed on\nfive of six; one citing artifact open',\nwarning sign 'fired at Use-Case Model#F4'" as F3A
+}
+
+package "Supplementary Specification#F3 - contained-defect, Minor" {
+  class "Document Control read\n'Iteration: 2, Cycle 1'" as F3B
+}
+
+package "What the artifacts now hold - read at source" {
+  class "A1 'Met', five Realizes edges requoted\nfrom a fresh graph query, none marked" as V1 <<verified>>
+  class "A10 'Met - certified on the recovered set',\nR6 named as the fourth artifact under AN-024" as V2 <<verified>>
+  class "O2 'Met' on the same reading" as V3 <<verified>>
+  class "R032 'avoidance performed on all six;\nthe exposure is retired', residual named" as V4 <<verified>>
+  class "Document Control 'Iteration: 4, Cycle 1',\nmatching all ten artifacts under review" as V5 <<verified>>
+}
+
+package "Read at the file, not at the artifact" {
+  class "appsettings.Development.json:\nTokenLimit 50, TokensPerPeriod 50, QueueLimit 50" as CODE1 <<code>>
+  class "RateLimitExtensions.cs:22-24:\nTokenLimit 100, TokensPerPeriod 100, QueueLimit 100" as CODE2 <<code>>
+  class "ServiceDefaults/Extensions.cs:\nAddStandardResilienceHandler on\nConfigureHttpClientDefaults" as CODE3 <<code>>
+}
+
+F4A --> V1
+F4B --> V2
+F4C --> V3
+F3A --> V4
+F3B --> V5
+V2 --> CODE1
+V2 --> CODE2
+V4 --> CODE1
+CODE3 --> V2 : AN-023's two hops,\nstated apart in R4
+
+note bottom of V2
+  The one fact six artifacts were corrected against was opened
+  at the file this pass. Both values reproduce, and neither
+  artifact quotes the other's figure as the system's.
+end note
+note bottom of V5
+  The field is the whole of the defect and the whole of the
+  remedy: no content changed, none needed to.
+end note
+
+@enduml
+```
+
 | Finding | Criterion | Verified at |
 |---|---|---|
-| Development Case#F3 | contained-defect | Document Control reads Phase: Excavation, Iteration 3, Cycle 1; the four Survey fields are gone |
-| Use-Case Model#F3 | trace-gap | `model_query_traces` on `COMP-014` upstream returns five `Realizes` edges — UC-010, UC-009, UC-008, UC-007, UC-006 — none carrying a SUSPECT marking. The Software Architecture Document's row for `COMP-014` names the same five |
-| Use-Case Model#F4 | consumed-defect | R6 reads "In force: 50 tokens, 50 per 10 s, queue 50. Code defaults: 100 tokens, 100 per 10 s, queue 100. Over budget answers 429. AN-024", its note citing `RateLimitExtensions.cs:14-31` and `appsettings.Development.json:8-12`; the file was opened and binds 50 / 50 / 50 |
+| `Iteration Plan#F4` | consumed-defect | A1 reads "Met" and requotes the five `COMP-014` edges from a fresh graph query; A10 reads "Met — certified on the recovered set" and names the Use-Case Model's R6 as the fourth artifact with its current wording under `AN-024`; O2 reads "Met" on the same reading. A11's cell and the sequence were not in this finding's scope and were checked separately, below |
+| `Risk List#F3` | contained-defect | R032's strategy cell reads "avoidance performed on all six citing artifacts; the exposure is retired", names R6 among the six with its current wording under `AN-024`, and records the warning sign as no longer firing against a closed finding; the diagram's sixth-artifact node is relabelled to the one residual — the four artifacts re-read in a single pass. `R030` and `R031` unchanged, as the finding required |
+| `Supplementary Specification#F3` | contained-defect | Document Control reads Phase Excavation, Status Draft — produced for the end-of-Excavation (AR) milestone review, Milestone Target not yet achieved, Iteration 4, Cycle 1. No other field and no content changed. All ten artifacts under this review now read iteration 4 |
 
-#### Disposition by artifact
+Each closure was confirmed by re-reading the corrected section and then, where the fact turns on the code, by opening the file. The three findings are closed through `resolve_artifact_finding` under this lens.
 
-| Artifact | This lens's disposition |
-|---|---|
-| Development Case | **Approved** — `#F3` closed; the tailoring matches the baseline on both deltas, the Environment statement and all six optional triggers |
-| System Inventory | **Approved** — no open finding from any lens; coverage arithmetic recomputed and reproducing |
-| Risk List | **Approved with changes** — `#F3` open on `R032`; contained, holds no criterion |
-| Iteration Plan | **Changes required** — `#F4` open; a Major, because A1, A10 and A11 are decided on those cells |
-| Vision | **Approved** — `#F1` closed; eleven use cases, mechanisms drawn as components |
-| Use-Case Model | **Approved** — `#F3` and `#F4` closed on graph and code evidence |
-| Supplementary Specification | **Approved with changes** — `#F3` open, one metadata field |
-| Software Architecture Document | **Approved** — `#F1` closed and verified at source |
-| Deployment Model | **Approved** — `#F1` closed and verified at source |
-| Design Model | **Approved** — `#F1` closed and verified |
-| Iteration Assessment | **Not judged** — authored in the Assess touchpoint after this review; its state before the review is not a finding |
+#### Artifacts with no finding from this lens
+
+System Inventory, Risk List, Iteration Plan, Vision, Use-Case Model, Supplementary Specification, Software Architecture Document, Deployment Model and Design Model carry no open finding from this lens at this pass. Each was re-read at the sections earlier passes found defective — the Risk List's R032, the plan's criteria and objectives tables, the Use-Case Model's R6 and its trace rows, the Supplementary Specification's Document Control — and each now holds. Silence from this lens is the approval, and it is recorded as silence rather than as a pass claimed on prose.
+
+No Major stands against any artifact from this lens. The two Majors the Management Reviewer recorded against the Iteration Plan at iteration 3 are not re-recorded here: they are that lens's keys, and my `Iteration Plan#F4` — the same defect read at the artifact's cells rather than at the criteria table — is closed on the evidence above.
 
 #### Scope this lens did not re-open
 
-The four exclusions the stakeholder ruled on 2026-11-23 stand untouched and no finding here approaches them: external-provider sign-in is recovered and marked unreachable in the delivered configuration, the `admin` branch of `EP-011`, `EP-013` and `EP-014` is an exceptional entity and not a use case, and `EP-020`, `EP-021` and `EP-022` carry no use case. The recovered set — eleven use cases over twenty-two entry points, twenty-two components across four processes, eight persisted entity types — is unchanged by this iteration's corrections, none of which added or removed an element.
+The four exclusions the stakeholder ruled on 2026-11-23 stand untouched and no finding here approaches them: external-provider sign-in is recovered and marked unreachable in the delivered configuration, the `admin` branch of `EP-011`, `EP-013` and `EP-014` is an exceptional entity and not a use case, and `EP-020`, `EP-021` and `EP-022` carry no use case. The recovered set — eleven use cases over twenty-two entry points, twenty-two components across four processes, eight persisted entity types — is unchanged by this iteration, whose four corrections added and removed no element.
 
 ### Management Reviewer lens
 <!-- review: Excavation I3 -->
