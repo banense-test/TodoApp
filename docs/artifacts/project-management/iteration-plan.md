@@ -281,13 +281,13 @@ The roles are the 26-role roster of the IARI DC baseline, minus the two the Deve
 | Reviewer | Review | Yes | Technical lens on the recovered set |
 | Management Reviewer | Review | Yes | Management lens on the AR exit criteria |
 | Review Coordinator | Review | Yes | AR milestone verdict |
-| Process Engineer | Environment | On order only | Environment runs at no intensity in Excavation. The Process Engineer works here for one reason: `Development Case#F2`, a Minor the stakeholder ordered closed in the next phase. Not a discipline stage |
+| Process Engineer | Environment | **Outstanding, on order only** | Environment runs at no intensity in Excavation. The Process Engineer works here for one reason: `Development Case#F2`, a Minor the stakeholder ordered closed in this phase on 2026-11-23. The correction is **not in the artifact** — "Roles and Ownership" still omits the three lenses — so the role's work item stands open and A11 counts it. Not a discipline stage |
 | Requirements Specifier | Requirements | No — Elaboration | Use-case detail and NFR thresholds are written against a declared scope; the delivery declares none |
 | User Interface Designer | Analysis & Design | No — Elaboration | Storyboards and the navigation map follow the use-case specification |
 | Capsule Designer | Analysis & Design | No — inactive | `real-time-system = false` |
 | Business Process Analyst | Business Modeling | No — inactive | `business-process-led = false` |
 | Implementer | Implementation | No — Inception | No code is written in the sprint zero |
-| Integrator | Implementation | No — Inception | The build environment is set up in Inception; R007 waits on it |
+| Integrator | Implementation | No — Inception | The build environment is set up in Inception; `R007` waits on it |
 | Code Reviewer | Implementation | No — Elaboration | — |
 | Test Manager | Test | No — Inception | No Test Plan is triggered |
 | Test Designer / Tester / Test Analyst | Test | No — Elaboration | No test case is written before a use case is specified |
@@ -337,7 +337,9 @@ class "Project Manager\nProject Management" as PM {
   closes : Iteration Plan#F2, Iteration Plan#F3
 }
 class "Process Engineer\nEnvironment - on order only" as PE {
-  closes : Development Case#F2
+  outstanding : Development Case#F2
+  note : the artifact still
+  omits three lenses
 }
 class "Reviewer, Management Reviewer\nReview Coordinator" as REV {
   produces : Review Record, AR verdict
@@ -357,7 +359,7 @@ AR --> REV
 DE --> REV
 DB --> REV
 PM --> REV
-PE --> REV
+PE --> REV : outstanding work, counted by A11
 REV --> SH : gate H4, after the review
 SH --> REV : the answer the verdict reads
 @enduml
