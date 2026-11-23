@@ -291,16 +291,14 @@ The stakeholder confirmed the recovered set as the model of their system at the 
 This review carries no financial figure and no market or staffing estimate. The only numbers in it are artifact identifiers, counts read from the artifacts, and risk exposures computed on the published probability × impact mapping. The plan's cost record is quoted in the two currencies the system measures — tokens and elapsed agent time, apart from stakeholder queue time — and no person-week, person-month or story-point figure appears anywhere in the set under review.
 
 ### Review Coordinator lens
-<!-- review: Excavation I3 -->
-
-<!-- review: Excavation I3 -->
+<!-- review: Excavation I4 -->
 
 **Lens participation at this milestone — authoritative, not inferred from the artifact.** Excavation's milestone review runs Reviewer, then Management Reviewer, then Review Coordinator. The Business Reviewer's first scheduled stage is LCO, so at AR it is not a participant.
 
 | Lens | Participation | What it evaluated | Bearing on the verdict |
 |---|---|---|---|
-| Reviewer (technical) | EXECUTED | Ten artifacts against nine checklist items; every closure re-verified at the graph, the file or the peer artifact | Counted in full — 1 Major, 2 Minor |
-| Management Reviewer | EXECUTED | The thirteen AR exit criteria A1 to A13 against the artifact each is decided on, the grant band, and gate H4 | Counted in full — 1 Major, 2 Minor |
+| Reviewer (technical) | EXECUTED | Ten artifacts against nine checklist items; every closure re-verified at the registry, the file or the peer artifact | Counted in full — 0 Critical, 0 Major, 1 Minor |
+| Management Reviewer | EXECUTED | The thirteen AR exit criteria A1 to A13 against the artifact each is decided on; the grant band; gate H4 | Counted in full — 0 Critical, 0 Major, 1 Minor |
 | Business Reviewer | **INACTIVE — did not evaluate this review** | Nothing | No verdict attributed and none inferred |
 | Review Coordinator | EXECUTED | The consolidated ledger, cross-lens reconciliation, action priority, the milestone verdict | Records the verdict in Disposition |
 
@@ -308,62 +306,59 @@ This review carries no financial figure and no market or staffing estimate. The 
 
 ```plantuml
 @startuml
-title Review events of the AR milestone at Excavation iteration 3 - each triggered by a workflow activity
-
+title AR milestone review events, Excavation iteration 4 - each event triggered by the workflow activity that produces what it judges
 skinparam shadowing false
-skinparam wrapWidth 235
+skinparam wrapWidth 230
 
 |Workflow activities|
 start
-:Iteration 2 closes with 8 open entries
-0 Critical, 4 Major defects, 3 Minor;
-:Gate H4 put a third time
-sanction refused while a Major stands;
-:Iteration 3 corrective pass
-five owners rework five artifacts;
-:Seven findings closed by their recording lenses;
+:Iteration 3 closes with 5 open entries
+0 Critical, 2 Major entries over one defect, 3 Minor;
+:Iteration 4 corrective pass
+four owner corrections across three artifacts;
+:Gate H4 put a fourth time
+the recovered set confirmed at the third put;
 
 |Reviewer|
 :Iteration Plan Review
-A1 to A13 read on the artifacts their cells name;
+A1, A10, A11 and O2 read at the artifacts their cells name;
 :Iteration Evaluation Criteria Review
 nine checklist items on ten artifacts;
-:Closures verified at the graph and at the file;
 :Verdict issued - Approved with Changes
-0 Critical, 1 Major, 2 Minor;
+one Minor recorded, no Major;
 
 |Management Reviewer|
-:Exit-criteria lens on A1 to A13
-twelve on their own artifacts, A12 on the answer alone;
-:Gate H4 recorded as put and refused
-both halves as given, no condition added;
-:Verdict issued - No-Go
-0 Critical, 1 Major, 2 Minor;
+:Exit-criteria lens
+thirteen criteria, each decided on the artifact that owns it;
+:Gate H4 recorded as put and granted
+answer Yes, 2026-11-23;
+:Verdict issued - Go;
 
 |Review Coordinator|
-:Consolidated ledger read from the finding graph
-39 entries over 12 artifacts, 5 open;
-:Cross-lens reconciliation
-two keys, one defect;
+:Consolidated ledger read from the finding data
+42 entries over 12 artifacts, 2 open;
 :Milestone verdict recorded
-requiresIteration true;
+requiresIteration false;
 
 |Stakeholder|
-:Contribution requested for the next pass;
+:Gate H4 answered Yes
+sanction GRANTED 2026-11-23;
 stop
-
 @enduml
 ```
+
+**Review scope.** Twelve artifacts were read for findings: Development Case, System Inventory, Risk List, Iteration Plan, Review Record, Iteration Assessment, Vision, Use-Case Model, Supplementary Specification, Software Architecture Document, Deployment Model, Design Model. Ten are the recovered set under judgement; the Iteration Assessment is read because its cells state the iteration's own outcome; the Review Record is read because this lens writes into it.
 
 **Entry and exit criteria enforced at each event.**
 
 | Event | Entry criterion | Exit criterion | Enforced |
 |---|---|---|---|
-| Iteration Plan Review | The plan carries this iteration's work items with owners, and each criterion is read on the artifact its evidence cell names | Every criterion decided on its own artifact's evidence | **Passed at the artifacts, failed at the plan's cells** — A1, A10, A11, O2 and A12 report states their own artifacts and the gate have superseded (`Iteration Plan#F4`, `#F9`) |
-| Iteration Evaluation Criteria Review | The recovered artifacts are in their target state and the anchors exist to be checked | Every finding verified at the section it names, and at the source where the finding turns on a recovered fact | Yes — seven closures each cite the graph, the file or the peer artifact at which they were verified |
-| Milestone Review AR | Both executed lenses have returned and the stakeholder's gate answer is on the record | 0 Critical and 0 Major open, and the stakeholder's sanction GRANTED | **No** — one Major defect open and the sanction refused |
+| Iteration Plan Review | The plan carries this iteration's work items with owners, and each criterion is read on the artifact its evidence cell names | Every criterion decided on its own artifact's evidence | **Yes** — A1, A10, A11 and O2 read at the artifacts their cells name; `Iteration Plan#F4` and `#F9` closed |
+| Iteration Evaluation Criteria Review | The recovered artifacts are in their target state and the anchors exist to be checked | Every finding verified at the section it names, and at the source where the finding turns on a recovered fact | **Yes** — six closures, each citing the graph, the file or the peer artifact at which it was verified |
+| Lifecycle Milestone Review (AR) | Both executed lenses have returned and the stakeholder's gate answer is on the record | 0 Critical and 0 Major open, and the stakeholder's sanction GRANTED | **Yes** — 0 Critical, 0 Major, sanction GRANTED at put 4 on 2026-11-23 |
+| Iteration Acceptance (folded into the same review) | The phase's three stated objectives are on the plan with an evidence cell each | Each objective met on the artifact that carries it | **Yes** — O1, O2 and O3 met on the Use-Case Model, the Software Architecture Document and the Deployment Model |
 
-**Scope of this consolidation.** Twelve artifacts were read for findings: the ten under review, plus the Iteration Assessment and this Review Record. Two carry no finding from any lens — the Iteration Assessment (authored by the Project Manager after this review) and the Review Record itself. The Data Model, the Glossary and the Test Plan are absent on the Development Case's NOT FIRED verdict on each trigger; both executed lenses checked each verdict against its §5.2 condition and neither carries a finding.
+**Scope of this consolidation.** The four exclusions the stakeholder ruled on stand untouched and no finding at this gate approaches them: external-provider sign-in is recovered and marked unreachable in the delivered configuration; the cross-owner admin branch of `EP-011`, `EP-013` and `EP-014` is an exceptional entity and not a use case; `EP-020`, `EP-021` and `EP-022` carry no use case. The Data Model, the Glossary and the Test Plan are absent on the Development Case's NOT FIRED verdict on each trigger; both executed lenses checked each verdict against its §5.2 condition and neither carries a finding.
 
 **No SCM surface is reviewed.** The repository reports no pull request in any state and no IARI pipeline file exists. Excavation produces no production code, so the absence of a diff and of a CI result is the phase's correct state, not a gap in this review's coverage.
 
