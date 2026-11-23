@@ -1377,9 +1377,9 @@ end note
 
 ### Relationship inventory — every association among the package classes
 
-The Domain Model carries a relationship inventory for the eleven domain classes. The thirty-one classes of the packages carry none, and a class diagram without multiplicities and anchors leaves the Implementer to decide the wire-up. This table is that layer: one row per association the code declares, with the kind of link the code gives it and the line that declares it. The two diagrams above and below are the same rows drawn.
+The Domain Model carries a relationship inventory for the eleven domain classes. The thirty-one classes of the packages carried none, and a class diagram without multiplicities and anchors leaves the Implementer to decide the wire-up. This is that layer: one row per association the code declares, with the kind of link the code gives it and where in the file it is written. Each anchor names the construct and the range that encloses it, so a reader lands on the declaration rather than on a line count.
 
-An arrow in `CLS-D1` says only that a dependency exists. The distinction that matters for implementation is the one in the **Kind** column: an injected constructor or lambda parameter is resolved per request by the container, a static extension call is a compile-time binding with no instance, a `*--` composition is a `private` nested type that nothing outside the declaring file can name, and a serialized shape is a type written to or read from JSON with no reference in either direction.
+An arrow in `CLS-D1` says only that a dependency exists. The distinction that matters for implementation is the **Kind** column: an injected constructor or lambda parameter is resolved per request by the container, a static extension call is a compile-time binding with no instance, a `*--` composition is a `private` nested type nothing outside the declaring file can name, and a serialized shape is a type written to or read from JSON with no reference in either direction.
 
 **Todo.Api / Todos and Authorization.**
 
@@ -1480,39 +1480,39 @@ end note
 @enduml
 ```
 
-| From | To | Kind | Multiplicity | Declared at |
+| From | To | Kind | Multiplicity | Where the code declares it |
 |---|---|---|---|---|
-| CLS-012 `TodoApi` | CLS-006 `TodoDbContext` | Injected lambda parameter | 1 per request, one per handler — five times | `Todo.Api/Todos/TodoApi.cs:24,29,39,52,68` |
-| CLS-012 `TodoApi` | CLS-013 `CurrentUser` | Injected lambda parameter | 1 per request, one per handler — five times | `Todo.Api/Todos/TodoApi.cs:24,29,39,52,68` |
-| CLS-012 `TodoApi` | CLS-002 `TodoItem` (API) | Request body bound and response returned | 0..* per operation: one list, one item, one body | `Todo.Api/Todos/TodoApi.cs:22,29,39,49,52` |
-| CLS-012 `TodoApi` | CLS-001 `Todo` | Constructed | 0..1 per `POST`; never constructed on the other four | `Todo.Api/Todos/TodoApi.cs:41-45` |
-| CLS-012 `TodoApi` | CLS-003 `TodoMappingExtensions` | Static extension call | 1 per projected row — three call sites | `Todo.Api/Todos/TodoApi.cs:26,34,49` |
-| CLS-012 `TodoApi` | CLS-021 `RateLimitExtensions` | Static extension call | 1 policy applied to the whole group | `Todo.Api/Todos/TodoApi.cs:18` |
-| CLS-012 `TodoApi` | CLS-020 `ValidationFilterExtensions` | Static extension call | 1 filter factory per named type; names CLS-002 alone | `Todo.Api/Todos/TodoApi.cs:21` |
-| CLS-003 `TodoMappingExtensions` | CLS-001 `Todo` | Parameter | 1 per call, `this Todo todo` | `Todo.Api/Todos/Todo.cs:25` |
-| CLS-003 `TodoMappingExtensions` | CLS-002 `TodoItem` (API) | Return value | 1 per call | `Todo.Api/Todos/Todo.cs:23-34` |
-| CLS-013 `CurrentUser` | CLS-007 `TodoUser` | Property `User` | 0..1 — null when the token names no account row | `Todo.Api/Authorization/CurrentUser.cs:7` |
-| CLS-014 `CurrentUserExtensions` | CLS-013 `CurrentUser` | Registers as scoped | 1 registration | `Todo.Api/Authorization/CurrentUserExtensions.cs:10` |
-| CLS-014 `CurrentUserExtensions` | CLS-015 `ClaimsTransformation` | Registers as `IClaimsTransformation` | 1 registration | `Todo.Api/Authorization/CurrentUserExtensions.cs:11` |
-| CLS-014 `CurrentUserExtensions` | CLS-015 `ClaimsTransformation` | Composition — nested `private sealed` | 1, and unreachable from outside the file | `Todo.Api/Authorization/CurrentUserExtensions.cs:15` |
-| CLS-015 `ClaimsTransformation` | CLS-013 `CurrentUser` | Constructor parameter, then two property writes | 1 per request | `Todo.Api/Authorization/CurrentUserExtensions.cs:15,20,27` |
-| CLS-015 `ClaimsTransformation` | CLS-007 `TodoUser` | Resolved through `UserManager<TodoUser>` | 0..1 per request, once | `Todo.Api/Authorization/CurrentUserExtensions.cs:23` |
-| CLS-016 `AuthorizationHandlerExtensions` | CLS-017 `CheckCurrentUserRequirement` | Composition — nested `private`; constructed per policy | 1 per `RequireCurrentUser` call | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:17,22` |
-| CLS-016 `AuthorizationHandlerExtensions` | CLS-018 `CheckCurrentUserAuthHandler` | Composition — nested `private`; registered as `IAuthorizationHandler` | 1 registration, 1 instance per request | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:7,26` |
-| CLS-018 `CheckCurrentUserAuthHandler` | CLS-013 `CurrentUser` | Primary-constructor parameter, then read | 1 per request | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:26,28` |
-| CLS-018 `CheckCurrentUserAuthHandler` | CLS-017 `CheckCurrentUserRequirement` | Handler parameter | 1 per authorization evaluation | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:26` |
-| CLS-019 `UsersApi` | CLS-005 `ExternalUserInfo` (API) | Request body bound; and named in `typeof` | 0..1 per exchange; 1 filter attachment | `Todo.Api/Users/UsersApi.cs:18,24` |
-| CLS-019 `UsersApi` | CLS-007 `TodoUser` | Constructed and created through `UserManager` | 0..1 per exchange, only when no login row matches | `Todo.Api/Users/UsersApi.cs:42-48` |
-| CLS-019 `UsersApi` | CLS-020 `ValidationFilterExtensions` | Static extension call | 1 filter factory, naming CLS-005 alone | `Todo.Api/Users/UsersApi.cs:18` |
-| CLS-006 `TodoDbContext` | CLS-001 `Todo` | `DbSet<Todo>` | 0..* rows | `Todo.Api/TodoDbContext.cs:8` |
-| CLS-006 `TodoDbContext` | CLS-007 `TodoUser` | `IdentityDbContext<TodoUser>` base | 1 account per request that reaches it | `Todo.Api/TodoDbContext.cs:6` |
-| CLS-020 `ValidationFilterExtensions` | — | None | Depends on framework types only: `IEndpointConventionBuilder`, `MethodInfo`, `MiniValidator`, `Results` | `Todo.Api/Filters/ValidationFilter.cs:1-62` |
-| CLS-021 `RateLimitExtensions` | — | None | Depends on framework types only: `IServiceCollection`, `RateLimitPartition`, `ClaimTypes` | `Todo.Api/Extensions/RateLimitExtensions.cs:1-56` |
-| CLS-022 `OpenApiOptionsExtensions` | — | None | Depends on framework types only: `OpenApiOptions`, `OpenApiSecurityScheme`, `IAuthorizeData` | `Todo.Api/Extensions/OpenApiOptionsExtensions.cs:1-48` |
+| CLS-012 `TodoApi` | CLS-006 `TodoDbContext` | Injected lambda parameter | 1 per request, in all five handlers | `Todo.Api/Todos/TodoApi.cs:24-73` — each `group.Map*` parameter list |
+| CLS-012 `TodoApi` | CLS-013 `CurrentUser` | Injected lambda parameter | 1 per request, in all five handlers | `Todo.Api/Todos/TodoApi.cs:24-73` — each `group.Map*` parameter list |
+| CLS-012 `TodoApi` | CLS-002 `TodoItem` (API) | Request body bound, and response returned | 0..* per operation: one list, one item, one body | `Todo.Api/Todos/TodoApi.cs:22` — `WithParameterValidation(typeof(TodoItem))`; `:24-66` — handler returns and body parameters |
+| CLS-012 `TodoApi` | CLS-001 `Todo` | Constructed | 0..1 per `POST`; never constructed on the other four | `Todo.Api/Todos/TodoApi.cs:39-50` — the create handler's object initialiser |
+| CLS-012 `TodoApi` | CLS-003 `TodoMappingExtensions` | Static extension call | 1 per projected row, three call sites | `Todo.Api/Todos/TodoApi.cs:24-50` — `.AsTodoItem()` in the list, the read-one and the create |
+| CLS-012 `TodoApi` | CLS-021 `RateLimitExtensions` | Static extension call | 1 policy applied to the whole group | `Todo.Api/Todos/TodoApi.cs:9-22` — `group.RequirePerUserRateLimit()` among the three conventions |
+| CLS-012 `TodoApi` | CLS-020 `ValidationFilterExtensions` | Static extension call | 1 filter factory per named type; names CLS-002 alone | `Todo.Api/Todos/TodoApi.cs:9-22` — `group.WithParameterValidation(typeof(TodoItem))` |
+| CLS-003 `TodoMappingExtensions` | CLS-001 `Todo` | Parameter | 1 per call, `this Todo todo` | `Todo.Api/Todos/Todo.cs:23-34` — `AsTodoItem(this Todo todo)` |
+| CLS-003 `TodoMappingExtensions` | CLS-002 `TodoItem` (API) | Return value | 1 per call | `Todo.Api/Todos/Todo.cs:23-34` — `AsTodoItem(this Todo todo)` |
+| CLS-013 `CurrentUser` | CLS-007 `TodoUser` | Property `User` | 0..1 — null when the token names no account row | `Todo.Api/Authorization/CurrentUser.cs:4-11` — `public TodoUser? User` |
+| CLS-014 `CurrentUserExtensions` | CLS-013 `CurrentUser` | Registers as scoped | 1 registration | `Todo.Api/Authorization/CurrentUserExtensions.cs:8-13` — `AddCurrentUser` |
+| CLS-014 `CurrentUserExtensions` | CLS-015 `ClaimsTransformation` | Registers as `IClaimsTransformation` | 1 registration | `Todo.Api/Authorization/CurrentUserExtensions.cs:8-13` — the second `AddScoped` |
+| CLS-014 `CurrentUserExtensions` | CLS-015 `ClaimsTransformation` | Composition — nested `private sealed` | 1, unreachable from outside the file | `Todo.Api/Authorization/CurrentUserExtensions.cs:15-31` — the nested declaration |
+| CLS-015 `ClaimsTransformation` | CLS-013 `CurrentUser` | Primary-constructor parameter, then two property writes | 1 per request | `Todo.Api/Authorization/CurrentUserExtensions.cs:15-30` — parameter list and `TransformAsync` body |
+| CLS-015 `ClaimsTransformation` | CLS-007 `TodoUser` | Resolved through `UserManager<TodoUser>` | 0..1 per request, once | `Todo.Api/Authorization/CurrentUserExtensions.cs:15-30` — `FindByIdAsync` |
+| CLS-016 `AuthorizationHandlerExtensions` | CLS-017 `CheckCurrentUserRequirement` | Composition — nested `private`; constructed per policy | 1 per `RequireCurrentUser` call | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:5-22` — `RequireCurrentUser` and the nested marker class |
+| CLS-016 `AuthorizationHandlerExtensions` | CLS-018 `CheckCurrentUserAuthHandler` | Composition — nested `private`; registered as `IAuthorizationHandler` | 1 registration, 1 instance per request | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:5-36` — the handler registration and the nested type |
+| CLS-018 `CheckCurrentUserAuthHandler` | CLS-013 `CurrentUser` | Primary-constructor parameter, then read | 1 per request | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:24-36` — parameter list and `HandleRequirementAsync` |
+| CLS-018 `CheckCurrentUserAuthHandler` | CLS-017 `CheckCurrentUserRequirement` | Handler parameter | 1 per authorization evaluation | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:26-35` — `HandleRequirementAsync` |
+| CLS-019 `UsersApi` | CLS-005 `ExternalUserInfo` (API) | Request body bound; and named in `typeof` | 0..1 per exchange; 1 filter attachment | `Todo.Api/Users/UsersApi.cs:18` — `typeof(ExternalUserInfo)`; `:24-60` — the handler's body parameter |
+| CLS-019 `UsersApi` | CLS-007 `TodoUser` | Constructed and created through `UserManager` | 0..1 per exchange, only when no login row matches | `Todo.Api/Users/UsersApi.cs:24-60` — `new TodoUser()` and `FindByLoginAsync` |
+| CLS-019 `UsersApi` | CLS-020 `ValidationFilterExtensions` | Static extension call | 1 filter factory, naming CLS-005 alone | `Todo.Api/Users/UsersApi.cs:9-22` — `group.WithParameterValidation` |
+| CLS-006 `TodoDbContext` | CLS-001 `Todo` | `DbSet<Todo>` | 0..* rows | `Todo.Api/TodoDbContext.cs:6-20` — `public DbSet<Todo> Todos` |
+| CLS-006 `TodoDbContext` | CLS-007 `TodoUser` | `IdentityDbContext<TodoUser>` base and the fluent relation | 1 account per task row | `Todo.Api/TodoDbContext.cs:6-20` — the base list and `OnModelCreating` |
+| CLS-020 `ValidationFilterExtensions` | — | None | Framework types only: `IEndpointConventionBuilder`, `MethodInfo`, `MiniValidator`, `Results` | `Todo.Api/Filters/ValidationFilter.cs:6-63` |
+| CLS-021 `RateLimitExtensions` | — | None | Framework types only: `IServiceCollection`, `RateLimitPartition`, `ClaimTypes` | `Todo.Api/Extensions/RateLimitExtensions.cs:8-57` |
+| CLS-022 `OpenApiOptionsExtensions` | — | None | Framework types only: `OpenApiOptions`, `OpenApiSecurityScheme`, `IAuthorizeData` | `Todo.Api/Extensions/OpenApiOptionsExtensions.cs:7-48` |
 
-**Three of these classes are unreachable from outside their declaring file.** CLS-015, CLS-017 and CLS-018 are `private` nested types: the only way into any of them is the one registration call in their enclosing class. That is not an oversight to be repaired in implementation — it is what the code declares, and a design that exposed them would be designing a different system.
+**Three of these classes are unreachable from outside their declaring file.** CLS-015, CLS-017 and CLS-018 are `private` nested types: the only way into any of them is the one registration call in its enclosing class. That is not an oversight for implementation to repair — it is what the code declares, and a design that exposed them would be designing a different system.
 
-**CLS-022 has no CLS caller.** `AddBearerTokenAuthentication` is called once, from `Todo.Api/Program.cs:31`, inside a lambda in a top-level program that declares no type. The same holds for the three conventions CLS-012 applies: they arrive through `MapTodos`, so there the call site is a CLS class. CLS-022's is not, and the class diagram cannot draw an edge to a program.
+**CLS-022 has no CLS caller.** `AddBearerTokenAuthentication` is called once, in `Todo.Api/Program.cs`, inside a lambda in a top-level program that declares no type. The three conventions CLS-012 applies do arrive through a CLS class, so their call site is drawn; CLS-022's is not, and a class diagram cannot draw an edge to a program.
 
 **Todo.Web.Server, Todo.Web.Client, Todo.Web.Shared, orchestration and the tests.**
 
@@ -1622,41 +1622,41 @@ end note
 @enduml
 ```
 
-| From | To | Kind | Multiplicity | Declared at |
+| From | To | Kind | Multiplicity | Where the code declares it |
 |---|---|---|---|---|
-| CLS-023 `AuthApi` | CLS-024 `AuthClient` | Injected lambda parameter | 1 per request, three of the five endpoints | `Todo.Web/Server/AuthApi.cs:15,27,70` |
-| CLS-023 `AuthApi` | CLS-009 `UserInfo` (shared) | Request body bound | 0..1 per `register` and `login` | `Todo.Web/Server/AuthApi.cs:15,27` |
-| CLS-023 `AuthApi` | CLS-010 `ExternalUserInfo` (shared) | Constructed with the protected provider id | 1 per callback | `Todo.Web/Server/AuthApi.cs:80` |
-| CLS-023 `AuthApi` | CLS-030 `AuthenticationSchemes` | Static read | 1 per callback path — authenticate and sign-out | `Todo.Web/Server/AuthApi.cs:67,89` |
-| CLS-023 `AuthApi` | CLS-031 `TokenNames` | Static read, written into the cookie's token set | 1 per successful sign-in | `Todo.Web/Server/AuthApi.cs:114` |
-| CLS-023 `AuthApi` | CLS-011 `AuthToken` | Never referenced | 0 — the BFF receives the token as a `string` from CLS-024 and never deserializes it | `Todo.Web/Server/AuthApi.cs:13-121` |
-| CLS-024 `AuthClient` | CLS-009 `UserInfo` (shared) | Serialized request body | 1 per login and per register | `Todo.Web/Server/AuthClient.cs:8,20` |
-| CLS-024 `AuthClient` | CLS-010 `ExternalUserInfo` (shared) | Serialized request body | 1 per exchange | `Todo.Web/Server/AuthClient.cs:32` |
-| CLS-024 `AuthClient` | CLS-011 `AuthToken` | Deserialized response | 0..1 per successful call | `Todo.Web/Server/AuthClient.cs:14,36` |
-| CLS-025 `TodoApi` (BFF forwarder) | CLS-031 `TokenNames` | Static read | 1 per forwarded request | `Todo.Web/Server/TodoApi.cs:20` |
-| CLS-026 `App` | CLS-028 `ExternalProviders` | Injected | 1 singleton, read once per render | `Todo.Web/Server/App.razor:2,46` |
-| CLS-026 `App` | CLS-029 `HttpAuthenticationStateProvider` | Injected as `AuthenticationStateProvider` | 1 singleton, read once per render | `Todo.Web/Server/App.razor:3,45` |
-| CLS-026 `App` | CLS-033 `TodoApp` | Renders, passing both values as parameters | 1 component | `Todo.Web/Server/App.razor:24` |
-| CLS-027 `AuthenticationExtensions` | CLS-028 `ExternalProviders` | Registers as singleton | 1 registration | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:87` |
-| CLS-027 `AuthenticationExtensions` | CLS-029 `HttpAuthenticationStateProvider` | Registers as the `AuthenticationStateProvider` | 1 registration | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:90` |
-| CLS-027 `AuthenticationExtensions` | CLS-030 `AuthenticationSchemes` | Static read, writes `SignInScheme` into each provider's options | 1 per configured provider, 0 in the delivered configuration | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:60-67,103` |
-| CLS-028 `ExternalProviders` | CLS-030 `AuthenticationSchemes` | Static read, skips the named cookie | 1 per enumeration | `Todo.Web/Server/Authentication/ExternalProviders.cs:26` |
-| CLS-032 `TodoClient` | CLS-008 `TodoItem` (shared) | Sent and received over JSON | 0..* — one list, one created item | `Todo.Web/Client/TodoClient.cs:17,34,44,47` |
-| CLS-032 `TodoClient` | CLS-009 `UserInfo` (shared) | Sent over JSON | 1 per login and per register | `Todo.Web/Client/TodoClient.cs:55,71` |
-| CLS-033 `TodoApp` | CLS-032 `TodoClient` | Injected | 1 scoped | `Todo.Web/Client/TodoApp.razor:1,37` |
-| CLS-033 `TodoApp` | CLS-035 `TodoList` | Renders, one `EventCallback` outward | 0..1 — only when `CurrentUser` is non-empty | `Todo.Web/Client/TodoApp.razor:14` |
-| CLS-033 `TodoApp` | CLS-034 `LogInForm` | Renders, one `EventCallback` outward | 0..1 — only when `CurrentUser` is empty | `Todo.Web/Client/TodoApp.razor:18` |
-| CLS-034 `LogInForm` | CLS-032 `TodoClient` | Injected | 1 scoped | `Todo.Web/Client/Components/LogInForm.razor:1,81,91` |
-| CLS-035 `TodoList` | CLS-032 `TodoClient` | Injected | 1 scoped | `Todo.Web/Client/Components/TodoList.razor:1,53,63,72` |
-| CLS-036 `Extensions` (AppHost) | — | None | Depends on Aspire types and on the SDK-generated project metadata | `TodoApp.AppHost/Extensions.cs:1-34` |
-| CLS-037 `Extensions` (ServiceDefaults) | — | None | Depends on framework and OpenTelemetry types only | `TodoApp.ServiceDefaults/Extensions.cs:1-130` |
-| CLS-038 `TodoApplication` | CLS-039 `AuthHandler` | Composition — nested `private sealed`, constructed per client | 1 per `CreateClient` call | `Todo.Api.Tests/TodoApplication.cs:54,74` |
-| CLS-038 `TodoApplication` | CLS-040 `TokenService` | Registers as scoped | 1 registration | `Todo.Api.Tests/TodoApplication.cs:66` |
-| CLS-039 `AuthHandler` | CLS-040 `TokenService` | Resolved from the request scope | 1 per outgoing request | `Todo.Api.Tests/TodoApplication.cs:78-82` |
-| CLS-041 `TodoApiTests` | CLS-038 `TodoApplication` | Constructs and disposes | 1 per `[Fact]`, ten facts | `Todo.Api.Tests/TodoApiTests.cs:2-266` |
-| CLS-042 `UserApiTests` | CLS-038 `TodoApplication` | Constructs and disposes | 1 per `[Fact]`, six facts | `Todo.Api.Tests/UserApiTests.cs:5-185` |
+| CLS-023 `AuthApi` | CLS-024 `AuthClient` | Injected lambda parameter | 1 per request, three of the five endpoints | `Todo.Web/Server/AuthApi.cs:13-97` — the `register`, `login` and `signin` handler parameter lists |
+| CLS-023 `AuthApi` | CLS-009 `UserInfo` (shared) | Request body bound | 0..1 per `register` and per `login` | `Todo.Web/Server/AuthApi.cs:13-35` — the two handler parameter lists |
+| CLS-023 `AuthApi` | CLS-010 `ExternalUserInfo` (shared) | Constructed with the protected provider id | 1 per callback | `Todo.Web/Server/AuthApi.cs:64-97` — the object initialiser passed to `GetOrCreateUserAsync` |
+| CLS-023 `AuthApi` | CLS-030 `AuthenticationSchemes` | Static read | 1 per callback path — authenticate, then sign out | `Todo.Web/Server/AuthApi.cs:64-97` — both `context.AuthenticateAsync`/`SignOutAsync` calls |
+| CLS-023 `AuthApi` | CLS-031 `TokenNames` | Static read, written into the cookie's token set | 1 per successful sign-in | `Todo.Web/Server/AuthApi.cs:104-121` — `properties.StoreTokens([...])` |
+| CLS-023 `AuthApi` | CLS-011 `AuthToken` | Never referenced | 0 — the BFF receives the token as a `string` from CLS-024 and never deserializes it | `Todo.Web/Server/AuthApi.cs:9-121` — no occurrence of the type |
+| CLS-024 `AuthClient` | CLS-009 `UserInfo` (shared) | Serialized request body | 1 per login and per register | `Todo.Web/Server/AuthClient.cs:5-28` — `PostAsJsonAsync` in `GetTokenAsync` and `CreateUserAsync` |
+| CLS-024 `AuthClient` | CLS-010 `ExternalUserInfo` (shared) | Serialized request body | 1 per exchange | `Todo.Web/Server/AuthClient.cs:30-39` — `GetOrCreateUserAsync` |
+| CLS-024 `AuthClient` | CLS-011 `AuthToken` | Deserialized response | 0..1 per successful call | `Todo.Web/Server/AuthClient.cs:5-39` — `ReadFromJsonAsync<AuthToken>()` |
+| CLS-025 `TodoApi` (BFF forwarder) | CLS-031 `TokenNames` | Static read | 1 per forwarded request | `Todo.Web/Server/TodoApi.cs:9-26` — `GetTokenAsync(TokenNames.AccessToken)` in the request transform |
+| CLS-026 `App` | CLS-028 `ExternalProviders` | Injected | 1 singleton, read once per render | `Todo.Web/Server/App.razor:1-47` — the `@inject` and `OnInitializedAsync` |
+| CLS-026 `App` | CLS-029 `HttpAuthenticationStateProvider` | Injected as `AuthenticationStateProvider` | 1 singleton, read once per render | `Todo.Web/Server/App.razor:1-47` — the `@inject` and `OnInitializedAsync` |
+| CLS-026 `App` | CLS-033 `TodoApp` | Renders, passing both values as parameters | 1 component | `Todo.Web/Server/App.razor:20-28` — the `<TodoApp>` element with its two parameters |
+| CLS-027 `AuthenticationExtensions` | CLS-028 `ExternalProviders` | Registers as singleton | 1 registration | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:13-107` — `AddSingleton<ExternalProviders>()` |
+| CLS-027 `AuthenticationExtensions` | CLS-029 `HttpAuthenticationStateProvider` | Registers as the `AuthenticationStateProvider` | 1 registration | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:13-107` — the `AddSingleton<AuthenticationStateProvider, ...>` line |
+| CLS-027 `AuthenticationExtensions` | CLS-030 `AuthenticationSchemes` | Static read; writes `SignInScheme` into each provider's options | 1 per configured provider — zero in the delivered configuration | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:13-107` — the external cookie registration, the options callback and the Auth0 post-configure |
+| CLS-028 `ExternalProviders` | CLS-030 `AuthenticationSchemes` | Static read, skips the named cookie | 1 per enumeration | `Todo.Web/Server/Authentication/ExternalProviders.cs:22-35` — the scheme loop's skip condition |
+| CLS-032 `TodoClient` | CLS-008 `TodoItem` (shared) | Sent and received over JSON | 0..* — one list, one created item | `Todo.Web/Client/TodoClient.cs:7-50` — the todo operations |
+| CLS-032 `TodoClient` | CLS-009 `UserInfo` (shared) | Sent over JSON | 1 per login and per register | `Todo.Web/Client/TodoClient.cs:52-74` — `LoginAsync` and `CreateUserAsync` |
+| CLS-033 `TodoApp` | CLS-032 `TodoClient` | Injected | 1 scoped | `Todo.Web/Client/TodoApp.razor:1-38` — the `@inject` and `Logout` |
+| CLS-033 `TodoApp` | CLS-035 `TodoList` | Renders, one `EventCallback` outward | 0..1 — only when `CurrentUser` is non-empty | `Todo.Web/Client/TodoApp.razor:3-38` — the signed-in branch |
+| CLS-033 `TodoApp` | CLS-034 `LogInForm` | Renders, one `EventCallback` outward | 0..1 — only when `CurrentUser` is empty | `Todo.Web/Client/TodoApp.razor:15-21` — the signed-out branch |
+| CLS-034 `LogInForm` | CLS-032 `TodoClient` | Injected | 1 scoped | `Todo.Web/Client/Components/LogInForm.razor:3-98` — the `@inject` and the two submit paths |
+| CLS-035 `TodoList` | CLS-032 `TodoClient` | Injected | 1 scoped | `Todo.Web/Client/Components/TodoList.razor:3-76` — the `@inject` and the three operations |
+| CLS-036 `Extensions` (AppHost) | — | None | Depends on Aspire types and on SDK-generated project metadata | `TodoApp.AppHost/Extensions.cs:3-34` |
+| CLS-037 `Extensions` (ServiceDefaults) | — | None | Depends on framework and OpenTelemetry types only | `TodoApp.ServiceDefaults/Extensions.cs:17-130` |
+| CLS-038 `TodoApplication` | CLS-039 `AuthHandler` | Composition — nested `private sealed`, constructed per client | 1 per `CreateClient` call | `Todo.Api.Tests/TodoApplication.cs:20-23,74-86` — `CreateClient` and the nested type |
+| CLS-038 `TodoApplication` | CLS-040 `TokenService` | Registers as scoped | 1 registration | `Todo.Api.Tests/TodoApplication.cs:38-72` — `CreateHost`'s service substitutions |
+| CLS-039 `AuthHandler` | CLS-040 `TokenService` | Resolved from the request scope | 1 per outgoing request | `Todo.Api.Tests/TodoApplication.cs:74-86` — `SendAsync` |
+| CLS-041 `TodoApiTests` | CLS-038 `TodoApplication` | Constructs and disposes | 1 per `[Fact]`, ten facts | `Todo.Api.Tests/TodoApiTests.cs` — every fact's first statement |
+| CLS-042 `UserApiTests` | CLS-038 `TodoApplication` | Constructs and disposes | 1 per `[Fact]`, six facts | `Todo.Api.Tests/UserApiTests.cs` — every fact's first statement |
 
-**Two cross-process relations have no edge a class diagram can draw, and they are the ones the use cases follow.** CLS-032 reaches CLS-023 and CLS-025 over HTTP at relative paths `auth/...` and `todos`; CLS-024 and CLS-025 reach CLS-019 and CLS-012 over HTTP at the base address `http://todoapi`. The client's base address is the host environment's address (`Todo.Web/Client/Program.cs:9`) and the BFF's is a literal (`Todo.Web/Server/Program.cs:23-26`). Both cross a process boundary with no interface type, which is why "Interface Contracts" records that the delivery declares none.
+**Two cross-process relations have no edge a class diagram can draw, and they are the ones the use cases follow.** CLS-032 reaches CLS-023 and CLS-025 over HTTP at the relative paths `auth/...` and `todos`; CLS-024 and CLS-025 reach CLS-019 and CLS-012 over HTTP at the base address `http://todoapi`. The client's base address is the host environment's address (`Todo.Web/Client/Program.cs`) and the BFF's is a literal (`Todo.Web/Server/Program.cs`). Both cross a process boundary with no interface type, which is why "Interface Contracts" records that the delivery declares none.
 
 **`AuthToken` is declared three times and linked to nothing in any direction.** CLS-011 in the shared assembly, `AccessTokenResponse` in the framework, and a `private` nested `AuthToken` inside CLS-042. Nothing checks that they agree, and the third is private to the test class, so nothing outside `UserApiTests.cs` can even name it.
 
