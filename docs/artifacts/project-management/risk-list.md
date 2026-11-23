@@ -6,7 +6,6 @@
 - Owner: Project Manager
 
 ## Risk Classification
-
 The scale is the IARI risk scale of the Development Case baseline, §9.10. The project Development Case records no scale of its own, and this artifact defines none. Probability and impact are scored on that scale; a risk's magnitude is the band its exposure (probability × impact) falls in — it is never chosen.
 
 | Probability | Level | Means |
@@ -33,26 +32,38 @@ The scale is the IARI risk scale of the Development Case baseline, §9.10. The p
 | Minor | 3 to 4 | the Project Manager's |
 | Low | 1 to 2 | the Project Manager's |
 
+### How each score is derived
+
+Twenty-one of the twenty-two risks score the likelihood and impact the System Inventory states for the anomaly they refine. Those words are translated once, here, and the same word gives the same number in every row:
+
+| Inventory word | Score | Inventory word | Score |
+|---|---|---|---|
+| likelihood `possible` | Probability 3 — Medium, 31 % to 50 % | impact `low` | Impact 2 — Low |
+| likelihood `likely` | Probability 4 — High, 51 % to 70 % | impact `moderate` | Impact 3 — Medium |
+| | | impact `high` | Impact 4 — High |
+
+`R022` refines no anomaly: it is the plan's own dependency on stakeholder answers, and its 2 × 4 is the Project Manager's reading of this iteration's gate, which queued three answers and closed none.
+
 ```plantuml
 @startuml
-title Risk classification structure - one risk scores probability and impact, and its magnitude is the band its exposure falls in
+title Risk scoring - the inventory's words map to probability and impact, exposure picks the band, and the band decides who may accept
 
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 hide empty members
 
-class "Risk List" as RL
-class "Risk RNNN" as RISK {
-  description : the consequence to the project
-  probability : 1 to 5
-  impact : 1 to 5
-  exposure : probability x impact
-  strategy : avoid, transfer or accept
-  owner : role carrying the action
-  state : open or retired
+class "AN-NNN (System Inventory)" as AN {
+  likelihood : possible or likely
+  impact : low, moderate or high
 }
-class "Probability" as P
-class "Impact" as I
+class "RNNN (this register)" as RISK {
+  probability : 1 to 5, mapped
+  impact : 1 to 5, mapped
+  exposure : probability x impact
+  magnitude : the band exposure falls in
+  strategy : avoid, transfer or accept
+  owner : the role carrying the action
+}
 class "Magnitude" as M {
   High : 15 to 25
   Significant : 9 to 12
@@ -60,32 +71,38 @@ class "Magnitude" as M {
   Minor : 3 to 4
   Low : 1 to 2
 }
-class "Stakeholder grant" as G
-
-RL "1" *-- "many" RISK : registers
-RISK --> P : scores
-RISK --> I : scores
+class "Who may accept it" as A {
+  High : the stakeholder
+  Significant : the stakeholder
+  ModerateOrLower : the Project Manager
+}
+AN "1" --> "1" RISK : every risk but R022
 RISK --> M : falls in, never chosen
-M --> G : needed for High and Significant when the strategy is accept
-
-note bottom of M
-  Scale: IARI Development Case baseline section 9.10.
-  The project Development Case adds nothing and this artifact defines no scale of its own.
+M --> A : decides
+note bottom of AN
+  likelihood possible = probability 3, likely = probability 4
+  impact low = 2, moderate = 3, high = 4
+  Scale: IARI baseline section 9.10.
 end note
-note bottom of G
-  Avoidance and transfer are the Project Manager's to choose.
+note bottom of A
+  Avoidance and transfer are the Project Manager's at any band.
   Acceptance hands the consequence to the stakeholder, so it is theirs to grant.
+  This artifact defines no scale of its own.
 end note
 @enduml
 ```
 
+### The register by band
+
 | Magnitude | Risks | Count | Strategy in this register |
 |---|---|---|---|
 | High | — | 0 | — |
-| Significant | R001, R007, R012, R016 | 4 | R001 and R007 avoid; R012 and R016 accept, granted by the stakeholder on 2026-11-23 |
-| Moderate | R002, R003, R005, R009, R010, R011, R015, R017, R018, R019, R020, R021, R022 | 13 | R011, R015, R022 accept with mitigation and contingency; the rest avoid |
-| Minor | R004, R006, R008, R013, R014 | 5 | avoid |
+| Significant | R001, R002, R003, R004, R005, R007, R009, R010, R011, R012, R016, R018, R020, R021 | 14 | R001, R002, R003, R005, R007, R009, R010, R018, R020 and R021 avoid, which is the Project Manager's authority at any band; R004, R011, R012 and R016 accept, each under the stakeholder's own grant of 2026-11-23 |
+| Moderate | R006, R008, R013, R014, R015, R017, R019, R022 | 8 | R015 and R022 accept with mitigation and contingency, on the Project Manager's authority; the rest avoid |
+| Minor | — | 0 | — |
 | Low | — | 0 | — |
+
+Every risk the reconciliation raised into the Significant band is either avoided — a strategy the Project Manager may take at any band — or carries the stakeholder's granting answer. No risk sits in a band that its strategy cannot be held in.
 
 Not carried: no risk in this register concerns staffing, skills, turnover or friction between people. The executing agents are not a development organization and the stakeholder is the only human here, so such a risk would name no actor and would be retired as not applicable rather than classified. What the people the SYSTEM serves do with it is a domain risk and stays.
 
