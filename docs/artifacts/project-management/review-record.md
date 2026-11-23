@@ -753,7 +753,7 @@ end note
 == Recorded this iteration, both Minors ==
 MR -> PE : Development Case#F2 — the Review Record's contributor set omits three lenses
 MR -> PM : Iteration Plan#F2 — C2b still reads Not met after the answer was Yes
-MR -> RC : the verdict, with the sanction in it
+MR -> RC : the disposition, with the sanction in it
 @enduml
 ```
 
@@ -765,13 +765,13 @@ MR -> RC : the verdict, with the sanction in it
 | Development Case | F2 | Minor | Process Engineer | Open | The co-owned-artifact sentence and the CLS-DC-01 diagram must name Management Reviewer, Business Reviewer and Review Coordinator among the lenses that write into the Review Record. |
 | Iteration Plan | F2 | Minor | Project Manager | Open | C2b is still "Not met" on the 2026-11-23 refusal; it is met on the answer gate H2 returned, so the state and its evidence cell are restated. |
 
-**The stakeholder's order, carried forward.** Answering the sanction question on 2026-11-23 the stakeholder said: "Yes, let's move on to the next phase. Minor findings should also be addressed during the next phase—let's not leave them unattended." That order governs five open Minors across the four artifacts under review, and each has an owner who corrects it in the next phase rather than whenever it next happens to work: `Development Case#F2` and `Iteration Plan#F2` from this lens, and `System Inventory#F3` and `Iteration Plan#F3` from the technical lens — with `Iteration Plan` carrying two of the five, one from each lens, both the Project Manager's to correct.
+**The stakeholder's order, carried forward.** Answering the sanction question on 2026-11-23 the stakeholder said: "Yes, let's move on to the next phase. Minor findings should also be addressed during the next phase—let's not leave them unattended." That order governs the four open Minors across the four artifacts under review: `Development Case#F2` and `Iteration Plan#F2` from this lens, and `System Inventory#F3` and `Iteration Plan#F3` from the technical lens. `Iteration Plan` carries two of the four, one from each lens, both the Project Manager's to correct.
 
-**Outstanding actions, with their owners.** These are the Process Engineer's and the Project Manager's next-turn corrections. None holds an exit criterion, none blocks a downstream role, and the four artifacts are approved from this lens on them.
+**Outstanding actions, with their owners.** These are the Process Engineer's and the Project Manager's next-phase corrections. None holds an exit criterion, none blocks a downstream role, and the four artifacts are approved from this lens on them.
 
 **No change request is opened for any of them.** The Change Control Manager does not work in the sprint zero — no ledger exists and no CR is opened before Inception — so the order reaches its owners through the Work Order and through these ledger entries, which is the route the sprint zero provides. Nothing in this iteration orders a change to declared scope.
 
-**What reopens this gate.** Nothing this lens found. The three Majors this iteration inherited are closed and verified; no Major and no Critical remains open from either executed lens; the gate's own condition is answered Yes. The milestone verdict is the Review Coordinator's to record on this disposition and the sanction in it.
+**What reopens this gate.** Nothing this lens found. The three Majors this iteration inherited are closed and verified; no Major and no Critical remains open from either executed lens; the gate's own condition is answered Yes.
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
