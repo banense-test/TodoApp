@@ -5,14 +5,17 @@
 - Iteration: 1, Cycle 1
 - Owner: Software Architect
 ## Architectural Representation
+The delivery carries no architecture document of its own (`.iari/README.md`, the tree holds none). What follows is recovered from code and configuration: every element cites the file and lines that carry it, and no statement of intent is attributed to authors who cannot be asked.
+
 | View | Diagram | What it is anchored to |
 |---|---|---|
 | Logical | COMP-D1 component model, COMP-D2 change axes, CLS-1 ownership mechanism | `Todo.Api/`, `Todo.Web/Server/`, `Todo.Web/Client/` |
-| Use-Case | COMP-D3, SEQ-1, SEQ-2, SEQ-3 | `EP-001` to `EP-019` as the System Inventory records them, and the eleven use-case specifications |
+| Use-Case | COMP-D3, SEQ-1, SEQ-2, SEQ-3, SEQ-4 | `EP-001` to `EP-019` as the System Inventory records them, and the eleven use-case specifications |
 | Process | ACT-D1 | `TodoApp.ServiceDefaults/Extensions.cs`, `RateLimitExtensions.cs`, `Todo.Api/appsettings.Development.json:8-12`, `TodoApi.cs:59-63` |
 | Deployment | DEP-D1 | `TodoApp.AppHost/Program.cs`, `Program.cs` of both hosts, the `appsettings.json` pairs and `Todo.Api/appsettings.Development.json`, the two `launchSettings.json` files |
 | Implementation | IMP-D1 | `TodoApp.sln`, `Directory.Build.props`, `Directory.Packages.props`, the seven project files |
 | Data | the table in "Data View" | `Todo.Api/TodoDbContext.cs`, the three migrations |
+| Requirements coverage | SPEC-D1 | The Supplementary Specification's eight groups, against the mechanism that answers each |
 
 The topology is stated in full in the **Deployment Model**, which the Development Case's trigger fires; this document states the deployment view only to the depth the other views need it.
 
