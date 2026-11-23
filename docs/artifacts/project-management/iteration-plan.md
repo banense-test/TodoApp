@@ -567,101 +567,36 @@ The chain is sequential at its load-bearing points: the architecture, the design
 ## Resources
 The roles are the 26-role roster of the IARI DC baseline, minus the two the Development Case records as not working in this project. No role is added, merged or renamed.
 
-| Role | Discipline | Works in this iteration | Why |
-|---|---|---|---|
-| System Analyst | Requirements | Yes | Recovers the use cases, the actors and the supplementary constraints |
-| Software Architect | Analysis & Design | Yes | Recovers the architecture, its mechanisms and the deployment |
-| Designer | Analysis & Design | Yes | Recovers the domain model and the classes |
-| Database Designer | Analysis & Design | Yes | Recovers the persistent data, its keys and the rules the schema enforces |
-| Software Archaeologist | Discovery | Yes | Deepens the System Inventory and closes `System Inventory#F3` |
-| Project Manager | Project Management | Yes | Carries the anomalies as risks, plans the phase and closes `Iteration Plan#F2` and `#F3` |
-| Reviewer | Review | Yes | Technical lens on the recovered set |
-| Management Reviewer | Review | Yes | Management lens on the AR exit criteria |
-| Review Coordinator | Review | Yes | AR milestone verdict |
-| Process Engineer | Environment | **Outstanding, on order only** | Environment runs at no intensity in Excavation. The Process Engineer works here for one reason: `Development Case#F2`, a Minor the stakeholder ordered closed in this phase on 2026-11-23. The correction is **not in the artifact** — "Roles and Ownership" still omits the three lenses — so the role's work item stands open and A11 counts it. Not a discipline stage |
-| Requirements Specifier | Requirements | No — Elaboration | Use-case detail and NFR thresholds are written against a declared scope; the delivery declares none |
-| User Interface Designer | Analysis & Design | No — Elaboration | Storyboards and the navigation map follow the use-case specification |
-| Capsule Designer | Analysis & Design | No — inactive | `real-time-system = false` |
-| Business Process Analyst | Business Modeling | No — inactive | `business-process-led = false` |
-| Implementer | Implementation | No — Inception | No code is written in the sprint zero |
-| Integrator | Implementation | No — Inception | The build environment is set up in Inception; `R007` waits on it |
-| Code Reviewer | Implementation | No — Elaboration | — |
-| Test Manager | Test | No — Inception | No Test Plan is triggered |
-| Test Designer / Tester / Test Analyst | Test | No — Elaboration | No test case is written before a use case is specified |
-| Deployment Manager | Deployment | No — Inception | The Deployment Model is recovered here; the deployment plan is Inception's |
-| Technical Writer | Deployment | No — Construction | — |
-| Configuration Manager | Configuration & Change Management | No — Inception | No baseline exists yet |
-| Change Control Manager | Configuration & Change Management | No — Inception | The Change Request ledger is opened at LCO |
-| Business Reviewer | Review | No — from LCO | Excavation's milestone review runs Reviewer, Management Reviewer, Review Coordinator |
+| Role | Discipline | Iteration 1 | Iteration 2 | Why |
+|---|---|---|---|---|
+| System Analyst | Requirements | Yes | Yes | Recovers the use cases, the actors and the supplementary constraints; in iteration 2 corrects the four Majors against them |
+| Software Architect | Analysis & Design | Yes | Yes | Recovers the architecture, its mechanisms and the deployment; in iteration 2 corrects the figure it inherited and the environment table |
+| Designer | Analysis & Design | Yes | Yes | Recovers the domain model and the classes; in iteration 2 corrects one citation |
+| Database Designer | Analysis & Design | Yes | No | Recovers the persistent data; no finding was recorded against it, so no work item exists for it |
+| Software Archaeologist | Discovery | Yes | No | Deepens the System Inventory and closes `System Inventory#F3`; the Minor `#F4` it recorded is on its history section and is not scheduled here |
+| Project Manager | Project Management | Yes | Yes | Carries the anomalies as risks, plans both iterations, and states the criteria and strategies as the evidence establishes them |
+| Reviewer | Review | Yes | Yes | Technical lens on the recovered set, then on the eight Majors |
+| Management Reviewer | Review | Yes | Yes | Management lens — the AR exit criteria re-taken |
+| Review Coordinator | Review | Yes | Yes | AR milestone verdict, read twice |
+| Process Engineer | Environment | **On order only — did not run** | **Yes, on the stakeholder's order** | Environment runs at no intensity in Excavation. In iteration 1 the role worked for one reason — `Development Case#F2`, a Minor the stakeholder ordered closed in this phase on 2026-11-23 — and it did not run: "Roles and Ownership" still omits three lenses, A11 counts it, and the milestone could not close. Iteration 2 plans it explicitly, as work the phase runs on the stakeholder's order and NOT as a discipline stage; the Development Case records Environment at no intensity here and this plan does not override it |
+| Requirements Specifier | Requirements | No — Elaboration | No — Elaboration | Use-case detail and NFR thresholds are written against a declared scope; the delivery declares none |
+| User Interface Designer | Analysis & Design | No — Elaboration | No — Elaboration | Storyboards and the navigation map follow the use-case specification |
+| Capsule Designer | Analysis & Design | No — inactive | No — inactive | `real-time-system = false` |
+| Business Process Analyst | Business Modeling | No — inactive | No — inactive | `business-process-led = false` |
+| Implementer | Implementation | No — Inception | No — Inception | No code is written in the sprint zero |
+| Integrator | Implementation | No — Inception | No — Inception | The build environment is set up in Inception; `R007` waits on it |
+| Code Reviewer | Implementation | No — Elaboration | No — Elaboration | — |
+| Test Manager | Test | No — Inception | No — Inception | No Test Plan is triggered |
+| Test Designer / Tester / Test Analyst | Test | No — Elaboration | No — Elaboration | No test case is written before a use case is specified |
+| Deployment Manager | Deployment | No — Inception | No — Inception | The Deployment Model is recovered here; the deployment plan is Inception's |
+| Technical Writer | Deployment | No — Construction | No — Construction | — |
+| Configuration Manager | Configuration & Change Management | No — Inception | No — Inception | No baseline exists yet |
+| Change Control Manager | Configuration & Change Management | No — Inception | No — Inception | The Change Request ledger is opened at LCO |
+| Business Reviewer | Review | No — from LCO | No — from LCO | Excavation's milestone review runs Reviewer, Management Reviewer, Review Coordinator |
 
-The stakeholder is not an agent role: they are the only human in the process, and their work in this iteration is gate H4 alone.
+The stakeholder is not an agent role: they are the only human in the process, and their work is gate H4 — put in iteration 1 and refused, re-put once in iteration 2.
 
-### Agent role profile across the phase
-
-```plantuml
-@startuml
-title The roles at work in Excavation iteration 1, what each hands on, and where the stakeholder sits
-
-skinparam shadowing false
-skinparam classAttributeIconSize 0
-hide empty members
-skinparam wrapWidth 220
-
-class "System Analyst\nRequirements" as SA {
-  produces : Vision, Use-Case Model
-  produces : Supplementary Specification
-  carries : R001 R004 R019 R020 R021 R023 R028 R030
-}
-class "Software Architect\nAnalysis and Design" as AR {
-  produces : Software Architecture Document
-  produces : Deployment Model (fired OPTIONAL)
-  carries : R002 R009 R010 R017 R015 R024 R025
-}
-class "Designer\nAnalysis and Design" as DE {
-  produces : Design Model - domain model and classes
-  carries : R003 R018 R027
-}
-class "Database Designer\nAnalysis and Design" as DB {
-  produces : Design Model - persistent data
-  carries : R026 R029
-}
-class "Software Archaeologist\nDiscovery" as SWA {
-  produces : System Inventory deepened
-  closes : System Inventory#F3
-}
-class "Project Manager\nProject Management" as PM {
-  produces : Risk List, Iteration Plan
-  closes : Iteration Plan#F2, Iteration Plan#F3
-}
-class "Process Engineer\nEnvironment - on order only" as PE {
-  outstanding : Development Case#F2
-  note : the artifact still
-  omits three lenses
-}
-class "Reviewer, Management Reviewer\nReview Coordinator" as REV {
-  produces : Review Record, AR verdict
-}
-class "Stakeholder\nhuman gate" as SH {
-  answers : gate H4
-}
-
-PM --> SA : carries the anomalies
-SA --> AR : the use cases the architecture is checked against
-AR --> DE : the components the classes realize
-AR --> DB : the stores the data lives in
-DE --> DB : the classes the tables persist
-SWA --> REV : coverage and anomalies
-SA --> REV
-AR --> REV
-DE --> REV
-DB --> REV
-PM --> REV
-PE --> REV : outstanding work, counted by A11
-REV --> SH : gate H4, after the review
-SH --> REV : the answer the verdict reads
-@enduml
-```
-
+The Process Engineer's presence is the one resource decision iteration 2 makes, and it is the smallest one available: four metadata fields and one sentence in a diagram, from a role the phase does not otherwise reach. The alternative — assigning the correction to a role that has a stage — is not open: the artifact's owner is fixed, and a role editing another's artifact is the defect ownership exists to prevent.
 ## Use Cases and Scenarios Addressed
 Eleven use cases, recovered from the 22 entry points the System Inventory records. Every use case traces to the `EP-NNN` whose code performs it, and no use case is recovered from an intent the code does not carry. Every anomaly cited below is cited for the fact the System Inventory's Anomalies table gives it.
 
