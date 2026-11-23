@@ -256,7 +256,7 @@ package "Consolidating" {
   component "Directory.Build.props\n5 commits, 2022-03-06 to 2024-11-15" as B
   component ".github\n4 commits, 2022-11-12 to 2024-11-23" as CI
   component ".vscode\n7 commits, 2022-11-12 to 2025-01-11" as VS
-  component "docs\n50 commits, all 2026-11-23" as D
+  component "docs\nall 2026-11-23" as D
 }
 
 package "Stable" {
@@ -300,12 +300,18 @@ note bottom of R
   The count measures a predecessor repository too.
 end note
 
+note bottom of D
+  This process's own output, not the system's history:
+  every commit in the area is an artifact upsert of
+  2026-11-23, and none changed a file of the system.
+end note
+
 @enduml
 ```
 
 | Area | Commits read and period | What was removed or reworked | Reading | Commits |
 |---|---|---|---|---|
-| Whole repository — the 50 most recent | 50 commits listed, all 2026-11-23; older history exists beyond them and reaches the system code | Nothing of the system: every one of the 50 is this process's own artifact commit of that day | Consolidating | `5bbc9b2`, `4c7cd64`, `326e259`, `1171857`, `b035b0f`, `01e9df5`, `1160fea`, `b8bdb93`, `d77fb04`, `c22b201`, `3170955`, `e069b1e`, `36bca7d`, `b697966`, `8430eab`, `9805e15`, `88d79a5`, `d042b4f`, `1e42189`, `b3fe833`, `251416d`, `300d20b`, `6d36484`, `b7ffa32`, `758c17d`, `117a98a`, `1c9dee0`, `a9daa38`, `ade54ae`, `10556e2`, `1d2f5c3`, `5a43519`, `530aab2`, `e54c1d2`, `c5f531e`, `7592864`, `1633826`, `6e34924`, `db1706c`, `b905b5e`, `82d44c4`, `9281a5b`, `671b07a`, `92523ed`, `45de8b5`, `e5f912b`, `d94ee4a`, `0f53c2f`, `3fc5bd5`, `277c534` |
+| Whole repository — the 50 most recent at this reading | 50 commits listed, all 2026-11-23; older history exists beyond them and reaches the system code | Nothing of the system: every one of the 50 is this process's own artifact commit of that day. Later artifact commits of the same day exist beyond this listing and are the same kind | Consolidating | `5bbc9b2`, `4c7cd64`, `326e259`, `1171857`, `b035b0f`, `01e9df5`, `1160fea`, `b8bdb93`, `d77fb04`, `c22b201`, `3170955`, `e069b1e`, `36bca7d`, `b697966`, `8430eab`, `9805e15`, `88d79a5`, `d042b4f`, `1e42189`, `b3fe833`, `251416d`, `300d20b`, `6d36484`, `b7ffa32`, `758c17d`, `117a98a`, `1c9dee0`, `a9daa38`, `ade54ae`, `10556e2`, `1d2f5c3`, `5a43519`, `530aab2`, `e54c1d2`, `c5f531e`, `7592864`, `1633826`, `6e34924`, `db1706c`, `b905b5e`, `82d44c4`, `9281a5b`, `671b07a`, `92523ed`, `45de8b5`, `e5f912b`, `d94ee4a`, `0f53c2f`, `3fc5bd5`, `277c534` |
 | Todo.Api | 10 commits, 2024-11-23 to 2025-08-07 | Files moved and the projects renamed (`bbd680d`, `3308193`); the OpenAPI surface configured and then reconfigured (`fdc49bb`, `69127f1`); rate-limit options moved into configuration (`993421c`); a service-to-service authentication TODO added (`2d890e8`) and never done; cleanup (`2d0d82d`, `fb0032e`); the whole solution force-upgraded once (`a6dea68`) | Consolidating | `a6dea68`, `a519c10`, `69127f1`, `2d890e8`, `993421c`, `fdc49bb`, `2d0d82d`, `fb0032e`, `3308193`, `bbd680d` |
 | Todo.Api/Todos — the five task operations | 1 commit, 2024-11-23 | Nothing after the move: the path carries `bbd680d` alone, so the ownership predicate, the admin branch and the absent update path all predate it; whatever changed before the move is under a former path this listing does not follow, and is unlisted | Stable as it stands, with earlier history unlisted | `bbd680d` |
 | Todo.Api/Authorization — caller resolution and the authorization handler | 1 commit, 2024-11-23 | As above, `bbd680d` alone. The lockout `TODO` and the `IsAdmin` role read arrived with the move; nothing has touched them since | Stable as it stands, with earlier history unlisted | `bbd680d` |
@@ -324,7 +330,7 @@ end note
 | .aspire | 1 commit, 2025-08-07 | Created with the solution-wide upgrade (`a6dea68`) and untouched since | Stable | `a6dea68` |
 | .vscode | 7 commits, 2022-11-12 to 2025-01-11 | Extension recommendations added (`0ffe121`, `4a460f1`), the launch configuration iterated (`4c98ac8`, `213325a`), the .NET 8 update (`2e54de3`), the email clarification (`625f34f`), and `tasks.json` and `launch.json` deleted (`1d4e043`, 2025-01-11) | Consolidating — the only thing removed from it is the pair that used to launch the API by hand, and that removal is the newest commit in the area | `1d4e043`, `625f34f`, `2e54de3`, `213325a`, `4c98ac8`, `0ffe121`, `4a460f1` |
 | README.md | 43 commits, 2021-05-04 to 2025-09-28 | Serilog introduced in place of OpenTelemetry (`764573c`) and documented (`5667455`), after an OpenTelemetry-exporter commit (`f947c99`); the external-OIDC section removed (`2c4300d`); a docker-compose project added to the repository (`8e8e8a1`) and no file of it left in the tree; the standalone-API instructions and the sample requests revised repeatedly (`abd9421`, `fdc49bb`, `09ea52d`, `6b9f07e`); clarity edits (`a6ff858`). Its five oldest commits, 2021-05-04 to 2021-06-25, predate every code area | Consolidating — more commits than any code area, but 29 of them predate 2023 and the document has not moved since 2025-09-28 | `a6ff858`, `beb0011`, `fdc49bb`, `3308193`, `c064cff`, `09ea52d`, `6b9f07e`, `abd9421`, `2e54de3`, `ea30470`, `2dbf03c`, `213325a`, `e386445`, `2c4300d`, `1c559c2`, `5667455`, `764573c`, `f8eea11`, `82898c5`, `8e8e8a1`, `2a16d3e`, `ec99127`, `c81c402`, `9b6e23b`, `78a93f1`, `63c221d`, `2c310de`, `d562d73`, `b5195f8`, `cae1562`, `f947c99`, `6e740a3`, `29d0890`, `7f4d50b`, `3d2cdc0`, `a84369d`, `4a460f1`, `ebd2de4`, `d4a4720`, `ee555fc`, `5f8044f`, `af9dd60`, `5ad1daf` |
-| docs | 50 commits, all 2026-11-23 | This process's own output: the contribution guide and every sprint-zero artifact, written and rewritten within one day. No commit here changed a file of the system | Stable — and it is not the system's history | the 50 listed above, each an artifact upsert of 2026-11-23 |
+| docs | 50 commits listed, all 2026-11-23; the listing is the most recent 50 at this reading and older process output exists beyond it | This process's own output: the contribution guide and every sprint-zero artifact, written and rewritten within one day. No commit here changed a file of the system | Stable — and it is not the system's history | the 50 listed above, each an artifact upsert of 2026-11-23 |
 
 ## Anomalies
 Each anomaly is a risk: the evidence is anchored, the likelihood says how likely it is to bite, the impact how much it costs when it does. The Project Manager carries these into the Risk List by `AN-NNN`. Nineteen of them sit on an entry point and are carried below as forty `DependsOn` edges; the other ten concern the build, the tests, the pipeline or the delivery and have no entry point to hang from. None of the nineteen is a defect of a path the stakeholder put out of the perimeter: the provider sign-in path and the admin branch both stay in it as decided on 2026-11-23, so their anomalies stay live risks.
