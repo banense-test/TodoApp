@@ -47,7 +47,6 @@ end note
 | O3 | Recover the Persistent Data | Designer, Database Designer | The Design Model carries the domain model, packages and classes, and the persistent data with entities, keys, associations and enforced rules | **Met** — 42 classes, the relationship inventory, the eight entity types, the owner key's re-point under `AN-025` and "What the code does not hold", each anchored to `TodoDbContext.cs:11-17` and the three migrations. No lens recorded a finding against this objective in any of the three iterations |
 
 The recovery converged this iteration: seven findings closed, every one verified at the graph, the file or the peer artifact, and no artifact's recovered content now carries an open finding from any lens. What did not converge is this plan's own record of it. The one Major open at the gate — `Iteration Plan#F4` and `#F9` — is that four cells of this plan's criteria and objectives tables and one of its gate rows stated, as present fact, states their own artifacts had already superseded. Twelve of the thirteen criteria held on the artifact that owns each while the plan said three of them failed.
-
 ## Adherence to Plan
 Iteration 3's fine plan was eleven items: three Development Case corrections in the Environment stage, two on the Use-Case Model, two on this plan and the register, two review lenses, the stakeholder gate and the verdict. Nine ran, one was answered, one ruled.
 
