@@ -227,170 +227,115 @@ Ten of the twenty Significant-band risks are retired on evidence in an artifact.
 The Development Case's optional-trigger table is audited rather than accepted. Deployment Model FIRED on a genuinely distributed topology: a browser-hosted WebAssembly client, a server host, a separate API process, a SQLite store and a reverse-proxy hop, with per-project settings pairs. That condition holds. The five NOT FIRED verdicts each hold against the project's real facts: eight persisted entity types sit below the >10 Data Model threshold, no untried mechanism needs empirical validation, the UI is recovered rather than designed, and no regulator or contract consumes test reporting. No trigger is over-fired and none is unjustified.
 
 ### Review Coordinator lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-**Review event.** Lifecycle milestone review, System Boundary Confirmed (SBC), the first of the sprint zero's three milestones, consolidated at the end of Survey iteration 2. This is the milestone review the phase closes on — not a PRA review, not an Iteration Acceptance Review carried in its place. The iteration-acceptance question ("did the iteration deliver what it planned") is answered by the Iteration Assessment, which the Project Manager authors; the milestone question answered here is "may the phase advance".
+**Lens participation at this milestone — authoritative, not inferred from the artifact.** Excavation's milestone review runs Reviewer, Management Reviewer, Review Coordinator. The Business Reviewer's first stage is LCO, so at AR it is not a scheduled participant.
 
-**Lens participation — authoritative.** Declared against the artifact, not inferred from it.
-
-| Lens | Role | Participation | Findings, both iterations |
+| Lens | Participation | What it evaluated | Bearing on the verdict |
 |---|---|---|---|
-| Technical | Reviewer | EXECUTED | 9 — 0 Critical, 4 Major, 5 Minor; 7 resolved, 2 open |
-| Business | BusinessReviewer | **INACTIVE — did not evaluate this review** | none |
-| Management | Management Reviewer | EXECUTED | 5 — 0 Critical, 2 Major, 3 Minor; 3 resolved, 2 open |
+| Reviewer (technical) | EXECUTED | Ten findings over nine artifacts — 6 Major, 4 Minor — each against an anchor in the code | Counted in full |
+| Management Reviewer | EXECUTED | The thirteen AR criteria, the grant band, and the two Majors of its own; 2 Major and 4 Minor recorded | Counted in full |
+| Business Reviewer | **INACTIVE — did not evaluate this review** | Nothing | No verdict is attributed to it, and none is inferred from its absence |
+| Review Coordinator | Consolidating this milestone | The consolidated ledger, the cross-lens reconciliation, the verdict | Records the verdict in Disposition |
 
-The Business Reviewer does not run at SBC: the IARI Development Process sets the SBC sequence at Reviewer → Management Reviewer → Review Coordinator, and the Business Reviewer enters at LCO. Its non-participation is the process's own schedule. It carries no verdict and no finding, and the milestone decision below rests only on the two lenses that executed.
-
-**Artifacts under review.** Development Case (Process Engineer, Environment), System Inventory (Software Archaeologist, Discovery), Risk List and Iteration Plan (Project Manager, Project Management). The Review Record is the reviewers' own output and is not itself under review. The Iteration Assessment was read for its stated state and is not judged: at review time it cannot describe the iteration being reviewed.
+**Review events of this milestone, each triggered by a workflow activity.** The calendar is the sprint zero's full sequence; the two Excavation events are this milestone's.
 
 ```plantuml
 @startuml
-title SBC review event at Survey iteration 2 - the lens sequence held, and the gate that answered
-skinparam shadowing false
-skinparam wrapWidth 235
+title Review calendar - every review event of the sprint zero, each triggered by a workflow activity, none on a calendar date
 
-|Reviewer|
+skinparam shadowing false
+skinparam wrapWidth 240
+
+|Review events|
 start
-:re-run the technical lens on the four corrected artifacts;
-:seven iteration-1 findings closed, two new Minors recorded;
-|Management Reviewer|
-:re-run the milestone gate against C1 to C10;
-:three iteration-1 findings closed, two new Minors recorded;
-:put gate H2 to the stakeholder;
-|Stakeholder|
-:answer Yes - perimeter confirmed, sanction granted;
-|Review Coordinator|
-:consolidate both ledgers;
-:verify open Critical and open Major against the ledger;
-:record the milestone verdict;
+:Project Approval Review and Project Planning Review
+held inside the SBC milestone, never as separate events;
+:Iteration Plan Review - Survey iteration 1;
+:Iteration Evaluation Criteria Review - Survey iteration 1;
+:Milestone Review SBC iteration 1 - No-Go
+5 Major open, the stakeholder refused the perimeter;
+:Iteration Plan Review - Survey iteration 2;
+:Iteration Evaluation Criteria Review - Survey iteration 2;
+:Milestone Review SBC iteration 2 - Go
+0 Major, 1 Minor, the perimeter sanctioned;
+
+|Excavation iteration 1|
+:Iteration Plan Review - A1 to A13 read on the plan;
+:Iteration Evaluation Criteria Review - technical lens
+10 findings, 6 Major and 4 Minor, over 9 artifacts;
+:Milestone Review AR - management lens
+6 findings read at this gate, 2 Major and 4 Minor;
 note right
-  The Business Reviewer lens is INACTIVE at SBC:
-  the IARI process runs Reviewer, Management Reviewer
-  and Review Coordinator here, and the Business
-  Reviewer enters at LCO. Its absence carries
-  no verdict and no finding.
+  Business Reviewer INACTIVE - did not evaluate
+  this review. Excavation runs Reviewer,
+  Management Reviewer, Review Coordinator.
 end note
+
+|The gate and the verdict|
+:Gate H4 put to the stakeholder
+the 11 use cases, 22 components, 8 tables, 4 exclusions;
+:Gate H4 answered No
+order given - correct all major findings;
+:AR verdict on the consolidated ledger
+16 open - 0 Critical, 8 Major, 8 Minor;
+:milestone NOT sanctioned
+requiresIteration true;
 stop
+
 @enduml
 ```
+
+**Entry and exit criteria actually enforced at this milestone.**
+
+| Event | Entry criterion | Exit criterion | Held |
+|---|---|---|---|
+| Iteration Plan Review | The plan carries this iteration's work items with owners and its exit criteria read on the artifact each cites | Every criterion decided on its own artifact's evidence | Yes — the plan was re-read and the two Minors it carried closed; the Management Reviewer then found A10 certified on an adjacent artifact |
+| Iteration Evaluation Criteria Review | The recovered artifacts are in their target state and the anchors exist to be checked | Every criterion decided on evidence the cited section carries | Yes — the technical lens read the code behind each Major |
+| Milestone Review AR | Both executed lenses have returned and the stakeholder's gate answer is on the record | 0 Critical, 0 Major open; the stakeholder's sanction GRANTED | **No** — 8 Major open and the sanction REFUSED |
+
+**The review process for a finding at this milestone** — the state each of the 16 open findings is in, and who owns the act that closes it.
 
 ```plantuml
 @startuml
-title The SBC review event - the interaction that produced this record
+title Finding lifecycle at this milestone - the 16 open findings, their states, and the act that closes each
+
 skinparam shadowing false
-skinparam sequenceMessageAlign left
-skinparam wrapWidth 235
+skinparam wrapWidth 240
 
-actor "Stakeholder" as SH
-participant "Review Coordinator" as RC
-participant "Reviewer" as RV
-participant "Management Reviewer" as MR
-participant "Artifact owners" as OW
+[*] --> Open : a lens records it via record_artifact_finding
+Open --> Assigned : owner named in the lens Remediation
+Assigned --> InProgress : owner reworks the artifact
+InProgress --> Resolved : the corrective action is in the artifact
+Resolved --> Verified : the SAME lens re-reads the section
+Verified --> Closed : resolve_artifact_finding accepted
+Resolved --> Open : the lens finds the defect still stands
 
-RC -> RV : request the technical lens on the four artifacts
-RC -> MR : request the milestone gate
-note over RC
-  Entry criteria checked before either lens runs:
-  four artifacts in target state, both ledgers readable,
-  reviewers matched to the artifact domain.
+state "Escalated" as ESC
+Open --> ESC : deadline missed by more than 1 business day
+Assigned --> ESC : no owner action, or no stage in the phase
+ESC --> Assigned : Project Manager re-assigns, or the phase plans a slot
+
+state "Carried into Excavation iteration 2" as CARRY
+Open --> CARRY : Major - reworked before any role consumes it
+Assigned --> CARRY : Minor - owner's next turn, after the Majors
+
+note right of CARRY
+  All 16. Eight Major hold the milestone; eight Minor
+  are ordered corrected by the stakeholder on 2026-11-23.
 end note
-RV -> OW : finding - defect, criterion, remediation
-MR -> OW : finding - defect, criterion, remediation
-OW --> RV : rework in the named section
-OW --> MR : rework in the named section
-RV -> RV : resolve_artifact_finding, verified against the section
-MR -> MR : resolve_artifact_finding, verified against the section
-MR -> SH : gate H2 - confirm the perimeter, sanction advancing
-SH --> MR : Yes, and the order to close the Minors in the next phase
-RV --> RC : 2 open Minors, disposition Approved with Changes
-MR --> RC : 2 open Minors, disposition Go, sanction GRANTED
-RC -> RC : consolidate, verify open Critical and open Major
-RC -> RC : record the milestone verdict
+note bottom of ESC
+  Development Case F2 is already here - its owner, the
+  Process Engineer, has no stage in Excavation, which is
+  what R031 predicts and materializes.
+end note
+
 @enduml
 ```
 
-**Entry criteria — checked before this event.**
-
-| Entry condition | State |
-|---|---|
-| The four artifacts are in their target state, not draft placeholders | Met — all four carry full content; the iteration-2 rework is in the sections the findings named |
-| Reviewers assigned with expertise matched to the artifact domain | Met — Environment, Discovery and Project Management artifacts read by the technical and management lenses; no lens reviewing outside its competency |
-| Finding ledgers available to the coordinator before consolidation | Met — read from `read_artifact_findings` on all four artifacts plus the Iteration Assessment and the Review Record |
-| Exit criteria and the evidence column distributed before the review | Met — the Iteration Plan's Evaluation Criteria table is the evidence column, and the management lens judged each row against the artifact it cites |
-
-**Exit criteria — checked at this event.**
-
-| Exit condition | State |
-|---|---|
-| Every Critical and Major finding carries an owner and a remediation | Met — 0 open Critical, 0 open Major; the 6 Majors recorded this cycle each carried owner and remediation and each is closed by its recording lens |
-| No open Critical/Major remains before the phase advances | Met — 0 and 0 on the ledger |
-| The verdict is recorded and archived | Met — recorded in Disposition, this artifact |
-| The stakeholder's sanction is recorded verbatim and answered | Met — GRANTED 2026-11-23, recorded in the management lens's Disposition and in this artifact's Disposition |
-| The perimeter of the existing system is confirmed by the stakeholder | Met — confirmed as the System Inventory records it, 2026-11-23 |
-| The iteration's planned objectives are achieved | Met — assessed by the management lens against all six of the iteration's objectives and, separately, by the Iteration Assessment |
-
-**Review calendar — every event on its iteration boundary, from SBC onward.**
-
-```plantuml
-@startuml
-title Review calendar from SBC onward - each event on its iteration boundary
-skinparam shadowing false
-skinparam wrapWidth 225
-
-|#DDEBF7|Sprint zero - Survey closed at SBC|
-start
-:SBC review held - technical lens, management gate, verdict;
-stop
-
-|#E2EFDA|Sprint zero - Excavation, AR|
-start
-:AR review - Reviewer lens;
-:AR gate - Management Reviewer lens;
-:AR verdict - Review Coordinator;
-:the four open SBC Minors corrected and closed by their recording lens;
-stop
-
-|#FFF2CC|Sprint zero - Consolidation, GHR|
-start
-:GHR review - Reviewer and Management Reviewer lenses;
-:GHR verdict - Review Coordinator;
-stop
-
-|#FCE4D6|RUP phases|
-start
-:LCO - Reviewer, Business Reviewer, Management Reviewer, Review Coordinator;
-:LCA - Reviewer, Business Reviewer, Management Reviewer, Review Coordinator;
-:IOC - Reviewer, Management Reviewer, Review Coordinator;
-:PR - Reviewer, Management Reviewer, Review Coordinator;
-note right
-  Every iteration boundary inside a phase carries
-  an Iteration Plan Review, an Iteration Evaluation
-  Criteria Review and an Iteration Acceptance Review.
-  Only the SBC event has occurred.
-end note
-stop
-@enduml
-```
-
-**Review process framework — the types this project runs, and the criteria that gate each.**
-
-| Review type | Triggering activity | Required participants | Entry criteria | Exit criteria | Primary output |
-|---|---|---|---|---|---|
-| Milestone review SBC (held) | Survey work items complete | Reviewer, Management Reviewer, Review Coordinator | Four artifacts in target state; finding ledgers distributed before the review | 0 open Critical/Major with owner and deadline; verdict recorded; sanction answered | This Review Record, SBC block |
-| Milestone review AR | Excavation work items complete | Reviewer, Management Reviewer, Review Coordinator | Recovered Use-Case Model, SAD, Design Model, Deployment Model, Risk List, Iteration Plan in target state | As above, plus every recovered element anchored to its file or entry point | Review Record, AR block |
-| Milestone review GHR | Consolidation work items complete | Reviewer, Management Reviewer, Review Coordinator | Coverage counted and declared; recovered set complete | As above | Review Record, GHR block |
-| Milestone review LCO | Inception work items complete | Reviewer, **Business Reviewer**, Management Reviewer, Review Coordinator | Vision, Use-Case Model, Supplementary Specification, SAD, Change Request ledger in target state | As above, plus business acceptability stated | Review Record, LCO block |
-| Milestone review LCA | Elaboration work items complete | Reviewer, Business Reviewer, Management Reviewer, Review Coordinator | Architecture baseline and executable architecture built and tested | As above, plus the architecture gate passed | Review Record, LCA block |
-| Milestone review IOC | Construction work items complete | Reviewer, Management Reviewer, Review Coordinator | Iteration baseline integrated with an iteration baseline build | As above, plus the integrated baseline verified | Review Record, IOC block |
-| Milestone review PR | Transition work items complete | Reviewer, Management Reviewer, Review Coordinator | Release build baselined and acceptance-tested | As above, plus every Change Request closed | Review Record, PR block |
-| Iteration Plan Review | "Plan for Next Iteration" | Project Manager, Reviewer, Review Coordinator | Next iteration's plan drafted | Findings closed; plan accepted | Review Record entry |
-| Iteration Evaluation Criteria Review | "Manage Iteration", before close | Reviewer, Project Manager, Review Coordinator | Exit criteria and their evidence tabled | Each criterion passes or is reclassified | Review Record entry |
-| Iteration Acceptance Review | "Manage Iteration", at close | Reviewer, Management Reviewer, Review Coordinator | Evaluation Criteria Review passed | Deliverables formally accepted | Review Record entry |
-| Project Acceptance Review | Project close-out | Stakeholder, Management Reviewer, Review Coordinator | All milestones sanctioned | The stakeholder accepts the delivery | Review Record entry |
-
-SBC is the only row that has occurred. Every later row is scheduled, not completed.
+A finding closes only when the lens that recorded it re-reads the corrected section and calls `resolve_artifact_finding`. A correction an owner states in prose does not close it; a coordinator's consolidation does not close it.
 
 ## Findings
 ### Reviewer lens
