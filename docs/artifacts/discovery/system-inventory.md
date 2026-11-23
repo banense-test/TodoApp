@@ -294,7 +294,7 @@ Of 129 files in the tree (37 of the 166 entries are directories), 77 were opened
 | .vscode | 1 | 1 | — |
 | docs | 3 | 2 | `docs/artifacts/environment/development-case.md` was read as the Development Case artifact and `docs/artifacts/discovery/system-inventory.md` as this artifact, not as files of the delivery |
 | .iari | 1 | 1 | — |
-| Commit history | — | 50 commits of the repository plus 12 per-area lists | Only 50 commits were listed, so anything before 2023-07-14 is unread; `Todo.Web/Server`, `Todo.Web/Shared` and `Requests` have no separate commit list — their changes appear inside the `Todo.Web` list |
+| Commit history | — | 12 commits of the whole repository, plus the per-area lists this iteration re-read (`Todo.Web/Client` 15, `.devcontainer` 6) and the per-area lists carried from the previous reading | The repository list stops at 2025-08-07, so anything older is unread; `Todo.Web/Server`, `Todo.Web/Shared` and `Requests` have no separate commit list — their changes appear inside the `Todo.Web` list |
 
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
