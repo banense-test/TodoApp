@@ -596,73 +596,149 @@ end note
 ```
 
 ### Management Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-Two findings are open from this lens at the end of this review, both Minors. Each is recorded against the artifact that carries the defect, in the finding ledger, not here as prose alone.
+Two findings are this lens's own at this gate, and both are recorded through `record_artifact_finding` before this report was written. The remaining Majors belong to the technical lens and are cited here because the milestone verdict reads them, not re-recorded as duplicates.
+
+#### The criteria as this lens certifies them
 
 ```plantuml
 @startuml
-title FINDINGS-SBC-02 The management lens at iteration 2 - three prior findings closed, two new Minors, nothing holding the gate
+title AR-C1 Exit-criteria compliance - the thirteen AR criteria of Excavation iteration 1, the state each is certified in, and what the state rests on
 
 skinparam shadowing false
-left to right direction
-skinparam componentStyle rectangle
-skinparam wrapWidth 240
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 250
+hide empty members
+hide circle
 
-package "Recorded in iteration 1 - all closed against the corrected artifact" {
-  component "Development Case#F1 (Minor)\nthe stakeholder's duplication order" as DC1
-  component "Risk List#F1 (Major)\nthe grant band could not be established" as RL1
-  component "Iteration Plan#F1 (Major)\ncriteria certified on answers that did not state them" as IP1
+package "Met on the artifact that owns the evidence - 8" {
+  class "A1 Operations recovered as use cases\n11 UCs, each with its EP-NNN, 4 exclusions stated" as A1 <<met>>
+  class "A4 Data recovered with anchors\n8 tables, keys, rules, PD-D1 to PD-D5" as A4 <<met>>
+  class "A6 Coverage measured and reproducible\n84 opened, 55 unread of 139, per-area sums" as A6 <<met>>
+  class "A7 Every anomaly carried as a risk\n29 Refines edges, R022 and R031 origins stated" as A7 <<met>>
+  class "A8 No grant-band accept without the stakeholder\n4 grants at exposure 12, 16 avoid" as A8 <<met>>
+  class "A9 Every risk actionable\n31 rows: strategy, action, owner, contingency, sign" as A9 <<met>>
+  class "A13 No work the process does not run\nitems 1 to 12 and 14 are Excavation stages" as A13 <<met>>
+  class "A3 and A5 - the artifact exists\n22 components; nodes, stores, key ring" as A35 <<exists>>
 }
 
-package "Recorded in iteration 2 - open Minors" {
-  component "Development Case#F2 (Minor)\nthe Review Record's contributor set omits three lenses" as DC2
-  component "Iteration Plan#F2 (Minor)\nC2b still reads Not met after the answer was Yes" as IP2
+package "Recorded Met, not establishable as written - 2" {
+  class "A2 remainder named for Consolidation\nthe named rows are permanent exclusions" as A2 <<notmet>>
+  class "A10 recovery states what the code does\n3 artifacts still state the contradicted value" as A10 <<notmet>>
 }
 
-package "What each closure was verified against" {
-  component "Roles and Ownership\none CLS-DC-01 diagram, one role-deltas block" as V1
-  component "Risk Classification\none published mapping, R004 and R011 at 4 x 3 = 12" as V2
-  component "Evaluation Criteria\nC2 split into C2a met and C2b not met, C6 and C7 restated" as V3
+package "Not met - 2" {
+  class "A11 The four SBC Minors closed\n3 of 4: Development Case#F2 stands" as A11 <<notmet>>
+  class "A12 The recovered set confirmed\nGate H4 answered No" as A12 <<refused>>
 }
 
-package "Gate effect" {
-  component "Sanction GRANTED 2026-11-23\nperimeter confirmed as recorded" as GATE
-  component "Three Minors, ordered corrected\nin the next phase by the stakeholder" as MIN
-}
+class "Software Architecture Document#F1\nSP1 and M3 state the budget as 100\nwhere Development overrides it to 50" as D3 <<open major>>
+class "Deployment Model#F1\nthe one setting that differs between\nenvironments is stated backwards" as D5 <<open major>>
 
-DC1 --> V1 : verified
-RL1 --> V2 : verified
-IP1 --> V3 : verified
-V1 --> GATE
-V2 --> GATE
-V3 --> GATE
-DC2 --> MIN : no criterion depends on it
-IP2 --> MIN : the criterion is met in this record
+A35 ..> D3 : the artifact exists but a Major\nholds its certification
+A35 ..> D5 : the artifact exists but a Major\nholds its certification
+
+note bottom of A11
+  Its owner, the Process Engineer, has no stage in
+  Excavation: Environment runs at no intensity here.
+  R031 carries the exposure; the criterion is not
+  waived and no row of the plan is marked complete on it.
+end note
+
+note bottom of A12
+  Certified by the stakeholder's answer alone. No artifact
+  can hold it and no evidence cell can cite it, which is
+  why the verdict reads the answer.
+end note
+
+note bottom of A2
+  Contained: the recoverable operations all sit in
+  priorities 1 to 5 and areas 6 to 8 are infrastructure
+  that will never carry a use case. A criterion may still
+  not be certified on a clause its evidence does not carry.
+end note
+
 @enduml
 ```
 
-#### Development Case
-
-`Development Case#F2` — Minor, contained defect. The contributor set the tailoring states for the Review Record omits three of the lenses that write into it: it names "Reviewer, CodeReviewer, plus the Configuration Manager's baseline record", while the artifact carries a Management Reviewer lens, a Business Reviewer lens and a Review Coordinator lens besides. The CLS-DC-01 class diagram repeats the omission, drawing no edge from any of those three roles to the Review Record. It stays inside the document: every lens writes its own block whatever the tailoring says, so no role built on wrong content, and no SBC criterion depends on it.
-
-The defect the stakeholder ordered corrected — `Development Case#F1`, the duplicated role-delta list and the duplicated CLS-DC-01 diagram — is closed this iteration and is recorded under Resolutions and Actions, not restated here.
-
 #### Risk List
 
-No finding from this lens. The register is the artifact this iteration changed most and it now holds under the management lens's own tests: every score reproduces from the one mapping published in "Risk Classification", the band table agrees with the register row for row, every Significant-band acceptance carries the stakeholder's own answer verbatim, and the register states without embellishment that SBC retires no risk. `Risk List#F1` is closed under Resolutions and Actions.
+`Risk List Management Reviewer#F2` — **Major**, criterion `exit-criterion-unmet`. **R030 is the one Significant-band risk whose retirement action was due in this iteration, and the action was not performed — while the register records the risk as avoided, which asserts that it was.** The Use-Case Model carries no statement of the session surface's instability beside UC-001 to UC-004; the Iteration Plan's own risk-sequencing diagram assigns `R030` to the Use-Case Model stretch, so the plan and the artifact disagree about whether the work landed. Avoidance is a claim of retirement, not a status note. Recommended: the System Analyst writes the statement beside those flows citing `AN-029`, or the register restates `R030` as not yet retired.
 
 #### Iteration Plan
 
-`Iteration Plan#F2` — Minor, contained defect. The Evaluation Criteria table records C2b as "Not met" on the refusal of 2026-11-23, though the stakeholder has since answered gate H2, confirmed the perimeter as recorded and granted the sanction. The row's own clause — "H2 is re-taken after this iteration's review" — has been fulfilled, so the cell states a state the answer superseded. The defect is contained: C2b is verified met in this record on the stakeholder's answer, so no exit criterion fails and no role is blocked by the stale cell; only the plan's evidence column is behind.
+`Iteration Plan Management Reviewer#F3` — **Major**, criterion `exit-criterion-unmet`. **A10 is certified Met on the System Inventory identifying a contradiction, while three artifacts the criterion governs state the contradicted value as fact.** A10's own test is about the recovered set, not about the inventory's anomalies table: the Supplementary Specification, the Software Architecture Document and the Deployment Model each state that no `RateLimiting` section exists and that 100/100/100 are the effective values, against `appsettings.Development.json:8-12`. Recommended: hold A10 open until those three are corrected, or split the criterion so the gate can see the difference.
 
-`Iteration Plan#F1` is closed: C2 is split into the answered membership and priority questions and the confirmation the stakeholder did not then give, C6 cites the coverage figure the System Inventory reproduces from its own table, and C7 is split into carriage and reproducibility, each decided on the artifact it cites. The plan's evidence column is now the artifact the verdict can rest on.
+`Iteration Plan Management Reviewer#F4` — **Minor**, criterion `contained-defect`. A2's evidence cell certifies a clause the artifact it cites does not carry: "Not recovered, and why" names permanent exclusions, not work deferred to Consolidation, and priorities 6 to 8 carry no statement. Contained — no role builds on the missing sentence and areas 6 to 8 will never carry a use case.
 
-#### System Inventory
+`Iteration Plan Management Reviewer#F5` — **Minor**, criterion `contained-defect`. A12 still reads "Not yet asked — the gate follows this review", a state the stakeholder's answer has superseded. Contained — the true state is in this record's Disposition, and nothing another role builds turns on the plan's cell.
 
-No finding from this lens, in either iteration. The reading is the artifact this gate exists to establish and it is the strongest of the four: the perimeter is anchored component by component, the 22 entry points carry kind, initiator and anchor, the priorities are ordered with the stakeholder's answer recorded in their own words, the coverage figure reproduces from its own per-area table, and every anchor this lens followed read as the artifact cites it. The two questions the reading could not settle were put to the stakeholder and are recorded as decided, with the external-provider path kept as a recovered use case marked unreachable and the `admin` branch recorded as an exceptional entity — both in the reading's own text, not only in an answer that has since been lost.
+#### Development Case
 
-**Not this lens's findings, and not this lens's to close.** The technical lens's two open Minors — `System Inventory#F3` and `Iteration Plan#F3`, both status metadata — belong to that lens and are closed by it. They are named here only so the Review Coordinator's consolidated count is complete.
+`Development Case Management Reviewer#F2` — **Minor**, recorded at the SBC re-take and still open, criterion `contained-defect`. The contributor set stated for the Review Record omits the Management Reviewer, the Business Reviewer and the Review Coordinator, and CLS-DC-01 draws no edge from them into it, although all three write their own block. Verified again at this gate. **This is the finding that holds A11 and therefore the phase.** The stakeholder ordered on 2026-11-23 that Minors be addressed in the next phase rather than left unattended; the order has not been executed because Environment runs at no intensity in Excavation and its owner has no scheduled slot. `R031` predicted exactly this and has materialized.
+
+#### The Majors of other lenses, which this verdict reads
+
+```plantuml
+@startuml
+title AR-C2 Findings ledger at the AR gate - every finding open on the artifacts under review, and the one anomaly three of them share
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 245
+hide empty members
+hide circle
+
+package "The AN-024 cluster - one anomaly, three artifacts, three Majors" {
+  class "Supplementary Specification#F1  Major\nM3, S2, P1, S4 state 100/100/100\nand 'no RateLimiting section exists'" as SS1 <<major>>
+  class "Software Architecture Document#F1  Major\nSP1 and M3 state the same, and\ncite no AN-024 anywhere" as SAD1 <<major>>
+  class "Deployment Model#F1  Major\n'No environment file carries a rate-limit\nvalue' - the one setting that differs" as DPM1 <<major>>
+}
+
+package "Independent Majors" {
+  class "Supplementary Specification#F2  Major\nR4: 'no retry ... on either hop'\nthe token hop inherits the handler" as SS2 <<major>>
+  class "Use-Case Model#F1  Major\n3 suspect edges open at the phase close\nEP-003 to UC-006, UC-007, UC-008" as UCM1 <<major>>
+  class "Risk List Management#F2  Major\nR030 avoided, action in no artifact" as RL1 <<major>>
+  class "Iteration Plan Management#F3  Major\nA10 met on the inventory's word,\nnot on the recovered set" as IP1 <<major>>
+}
+
+package "Minor - recorded, does not hold the milestone" {
+  class "Use-Case Model#F2\nmatrix and survey name different entry points" as M1 <<minor>>
+  class "Risk List#F2\nR024's premise names the wrong artifact" as M2 <<minor>>
+  class "Iteration Plan Management#F4, #F5\nA2's unsupported clause; A12 superseded" as M3 <<minor>>
+  class "Development Case#F2 and #F3\ncontributor set; Survey-era Document Control" as M4 <<minor>>
+}
+
+class "AN-024\nThe Development configuration halves\nthe request budget: 50 against 100" as AN <<anomaly>>
+
+AN --> SS1 : contradicted
+AN --> SAD1 : contradicted
+AN --> DPM1 : contradicted
+
+note bottom of AN
+  The System Inventory records the fact and R025 carries
+  it. Three artifacts state the opposite as the system's
+  behaviour, which is why one correction closes three
+  Majors and why A10 cannot be certified over them.
+end note
+
+note bottom of RL1
+  Its warning sign has already come true: a recovered
+  model presents the session flows without the caveat
+  the risk exists to attach to them.
+end note
+
+note bottom of UCM1
+  The edges are substantively right; what is open is the
+  confirmation that clears the suspect marking before the
+  eleven-use-case count goes to the stakeholder.
+end note
+
+@enduml
+```
+
+**Seven Majors, no Critical.** None of the seven needs a stakeholder decision — each is a correction its owner can make inside this iteration, and none is a disagreement about what the system does: the facts are recovered and anchored everywhere; three artifacts simply still assert the value the reading contradicts. No Critical finding exists because no ambiguity and no contradiction in what the stakeholder declared remains open.
 
 ### Review Coordinator lens
 <!-- review: Survey I2 -->
