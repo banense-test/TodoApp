@@ -377,6 +377,119 @@ Quality is red and that is the finding. Scope is green: the reading's perimeter 
 
 **SCM evidence.** The repository carries no IARI pipeline and no branch of this process; no build of this project exists to be red, no pull request is open, and no defect issue is filed. No SCM condition can therefore hold this gate, and none is reported as passing or failing — the gate is judged on the artifacts, which is what the sprint zero produces.
 
+### Review Coordinator lens
+<!-- review: Survey I1 -->
+
+<!-- review: Survey I1 -->
+
+**Review event.** Lifecycle milestone review, System Boundary Confirmed (SBC), the first of the sprint zero's three milestones. Consolidation of two executed lenses into one authoritative record.
+
+**Lens participation — authoritative.**
+
+| Lens | Role | Participation | Findings recorded |
+|---|---|---|---|
+| Technical | Reviewer | EXECUTED | 7 — 0 Critical, 4 Major, 3 Minor |
+| Business | BusinessReviewer | **INACTIVE — did not evaluate this review** | none |
+| Management | Management Reviewer | EXECUTED | 3 — 0 Critical, 2 Major, 1 Minor |
+
+The Business Reviewer does not work in Survey: the IARI Development Process runs `Reviewer → Management Reviewer → Review Coordinator` at SBC, and the Business Reviewer enters from LCO. Its absence is correct process behaviour and carries no verdict. The milestone decision below rests on the two lenses that executed.
+
+**Review type and authority.** This is not a PRA review and not an Iteration Acceptance Review carried in place of a milestone review. The management lens stated the iteration-acceptance question separately and answered it all six objectives delivered, while withholding the milestone. Those are different questions and this record keeps them apart — the milestone verdict is the one recorded below.
+
+**Artifacts under review.** Development Case (Process Engineer, Environment), System Inventory (Software Archaeologist, Discovery), Risk List and Iteration Plan (Project Manager, Project Management). The Review Record is the reviewers' own output and is not itself under review.
+
+**Review schedule — the review events this project runs, on their iteration boundaries.**
+
+```plantuml
+@startuml
+title Review calendar - every review event on its iteration boundary, sprint zero first
+
+skinparam shadowing false
+skinparam wrapWidth 220
+
+|#DDEBF7|Sprint zero - Survey|
+start
+:Survey I1 - four artifacts produced;
+note right
+  Development Case, System Inventory,
+  Risk List, Iteration Plan
+end note
+:Technical review - Reviewer lens;
+:Milestone gate - Management Reviewer lens;
+:Milestone verdict - Review Coordinator;
+if (open Major, or sanction withheld?) then (yes)
+  :Survey I2 - reworked artifacts re-reviewed;
+  :Technical lens re-run on the rework;
+  :Milestone gate re-taken on C1 to C10;
+  :Milestone verdict re-taken;
+else (no)
+endif
+:SBC closed and sanctioned;
+
+|#E2EFDA|Sprint zero - Excavation|
+:AR technical review - Reviewer lens;
+:AR milestone gate - Management Reviewer lens;
+:AR verdict - Review Coordinator;
+if (open Major, or sanction withheld?) then (yes)
+  :Excavation next iteration review;
+else (no)
+endif
+:AR closed and sanctioned;
+
+|#FFF2CC|Sprint zero - Consolidation|
+:GHR technical review - Reviewer lens;
+:GHR milestone gate and verdict;
+:GHR closed and sanctioned;
+
+|#FCE4D6|RUP phases|
+:LCO - Reviewer, Business Reviewer, Management Reviewer, Review Coordinator;
+:LCA - Reviewer, Business Reviewer, Management Reviewer, Review Coordinator;
+:IOC - Reviewer, Management Reviewer, Review Coordinator;
+:PR - Reviewer, Management Reviewer, Review Coordinator;
+stop
+@enduml
+```
+
+**Review process framework — the review types this project runs, with the criteria that gate each.**
+
+| Review type | Triggering activity | Required participants | Entry criteria | Exit criteria | Primary output |
+|---|---|---|---|---|---|
+| Milestone review SBC (this event) | Survey work items complete | Reviewer, Management Reviewer, Review Coordinator | Four artifacts in target state; findings ledgers distributed before the review | Every Critical and Major carries owner and deadline; verdict recorded; sanction answers recorded | This Review Record |
+| Milestone review AR | Excavation work items complete | Reviewer, Management Reviewer, Review Coordinator | Recovered Use-Case Model, SAD, Design Model, Deployment Model, Risk List, Iteration Plan in target state | As above, plus the recovered set anchored | Review Record, AR block |
+| Milestone review GHR | Consolidation work items complete | Reviewer, Management Reviewer, Review Coordinator | Coverage counted and declared; recovered set complete | As above | Review Record, GHR block |
+| Milestone review LCO | Inception work items complete | Reviewer, **Business Reviewer**, Management Reviewer, Review Coordinator | Vision, Use-Case Model, Supplementary Spec, SAD, Change Request ledger in target state | As above, plus business acceptability stated | Review Record, LCO block |
+| Milestone review LCA | Elaboration work items complete | Reviewer, Business Reviewer, Management Reviewer, Review Coordinator | Architecture baseline and executable architecture built and tested | As above, plus architecture gate passed | Review Record, LCA block |
+| Milestone review IOC | Construction work items complete | Reviewer, Management Reviewer, Review Coordinator | Iteration baseline integrated with green CI | As above, plus integrated baseline verified | Review Record, IOC block |
+| Milestone review PR | Transition work items complete | Reviewer, Management Reviewer, Review Coordinator | Release build baselined and acceptance-tested | As above, plus every Change Request closed | Review Record, PR block |
+| Iteration Plan Review | "Plan for Next Iteration" | Project Manager, Reviewer, Review Coordinator | Next iteration's plan drafted | Findings closed; plan accepted | Review Record entry |
+| Iteration Evaluation Criteria Review | "Manage Iteration", before close | Reviewer, Project Manager, Review Coordinator | Exit criteria and evidence tabled | Each criterion passes or is reclassified | Review Record entry |
+| Iteration Acceptance Review | "Manage Iteration", at close | Reviewer, Management Reviewer, Review Coordinator | Evaluation criteria review passed | Deliverables formally accepted | Review Record entry |
+| Project Acceptance Review | Project close-out | Stakeholder, Management Reviewer, Review Coordinator | All milestones sanctioned | Stakeholder accepts the delivery | Review Record entry |
+
+The SBC event in this table is the only one that has occurred. Every later row is scheduled, not completed.
+
+**Entry criteria — checked at this event.**
+
+| Entry condition | State |
+|---|---|
+| The four artifacts are in their target state, not draft placeholders | Met — all four carry full content |
+| The reviewers are assigned with expertise matched to the artifact domain | Met — Environment, Discovery and Project Management artifacts, read by the technical and management lenses |
+| The finding ledgers are available to the coordinator before consolidation | Met — 10 findings read from the ledger |
+| The stakeholder's answers to the gate questions are on record | Met — answered 2026-11-23 |
+
+**Exit criteria — checked at this event.**
+
+| Exit condition | State |
+|---|---|
+| Every Critical and Major finding carries an owner and a remediation | Met — 6 Major, each with owner and remediation from its lens |
+| The verdict is recorded and archived | Met — No-Go, below |
+| The stakeholder's sanction is recorded verbatim | Met — REFUSED, 2026-11-23 |
+| Zero open Critical/Major before the phase advances | **Not met** — 6 open Major |
+
+**Method.** Both lenses opened the load-bearing anchors in the repository rather than trusting the claims: the perimeter files, the authorization surface, the `/auth` flows, the client components, the test host, the build and container manifests, `docs/CONTRIBUTING.md` and `.iari/README.md`. The technical lens found no defect against the reading's accuracy on any anchor it opened. Every finding sits in a count, a trace edge, a score, or an assertion no file supports — not in a misread file.
+
+**SCM evidence.** No IARI pipeline file exists on `main`, no branch of this process exists, no pull request is open, and no defect issue is filed. No SCM condition holds or clears this gate; none is reported as passing.
+
 ## Findings
 ### Reviewer lens
 <!-- review: Survey I1 -->
