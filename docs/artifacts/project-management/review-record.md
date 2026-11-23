@@ -938,10 +938,10 @@ Four findings of this lens were reconciled before any new defect was recorded, e
 
 | Order | Owner | Action | Criterion it moves |
 |---|---|---|---|
-| 1 | System Analyst | Correct the Supplementary Specification: M3, S2, P1 and S4 state the code's 100/100/100 **and** the Development override to 50 with its anchor; rewrite R4 as two hops, the token hop inheriting the standard resilience handler and the forwarder hop inheriting nothing | A10, A3 |
+| 1 | System Analyst | Correct the Supplementary Specification: M3, S2, P1 and R8 state the code's 100/100/100 **and** the Development override to 50 with its anchor; rewrite R4 as two hops, the token hop inheriting the standard resilience handler and the forwarder hop inheriting nothing | A10, A3 |
 | 2 | Software Architect | Correct SP1, M3 and the Quality view's "bounded load" row the same way, citing `AN-024` | A10, A3 |
 | 3 | Software Architect | Correct the Deployment Model's preamble and Rate limiting row: the Development value is 50 and any other environment 100, and this is one of the settings that differ | A10, A5 |
-| 4 | System Analyst | Write R030's statement beside the recovered session flows, citing `AN-029`; and confirm the three `EP-003` edges so the eleven-use-case count is not resting on a suspect marking | A1, risk retirement |
+| 4 | System Analyst | Write R030's statement beside the recovered session flows, citing `AN-029`; confirm the three `EP-003` edges so the eleven-use-case count is not resting on a suspect marking; and bring the Vision's Features diagram to eleven use cases, matching the Use-Case Model | A1, risk retirement, the count gate H4 puts |
 | 5 | Project Manager | Re-state A2 and A10 against what their evidence establishes, and set A12 to the answer as given | The plan's own certification |
 | 6 | Process Engineer | `Development Case#F2`: name every lens in the Review Record's contributor set and draw the three missing edges in CLS-DC-01; bring Document Control forward to Excavation | **A11 — the criterion that holds the phase** |
 
@@ -958,7 +958,7 @@ skinparam wrapWidth 250
 
 [*] --> UnderReview : iteration 1 artifacts written
 UnderReview --> CriteriaAssessed : management lens reads A1 to A13
-CriteriaAssessed --> SanctionSought : 7 Major open, A11 not met
+CriteriaAssessed --> SanctionSought : 8 Major open, A11 not met
 
 state "Sanction sought at gate H4" as SanctionSought {
   SanctionSought : the recovered set put to the stakeholder
@@ -977,7 +977,7 @@ state "Milestone NOT sanctioned" as Refused {
 }
 
 state "Rework inside Excavation iteration 2" as Rework {
-  Rework : 7 Major closed by their owners
+  Rework : 8 Major closed by their owners
   Rework : A11 owned by a role the phase does not schedule
   Rework : R030 retirement performed or the risk restated
 }
@@ -1008,7 +1008,7 @@ note right of Refused
 end note
 
 note bottom of Rework
-  Nothing in the seven Majors needs a stakeholder decision.
+  Nothing in the eight Majors needs a stakeholder decision.
   Each is a correction its owner can make in this iteration:
   one anomaly, AN-024, accounts for three of them.
 end note
@@ -1022,7 +1022,7 @@ end note
 @enduml
 ```
 
-**A second iteration is not a schedule failure; refusing the gate would be the failure.** Six of the seven Majors were avoidable within this iteration had the three artifacts been corrected against the anomaly their own reading had already recorded — `AN-024` was in the System Inventory and `R025` in the register, and three documents still asserted the opposite. The rework is cheap now and would not have been later: the Deployment Model's environment table is the only statement in the delivery of what differs between environments, and Consolidation would have copied it.
+**A second iteration is not a schedule failure; refusing the gate would be the failure.** Seven of the eight Majors were avoidable within this iteration had the artifacts been corrected against the anomaly their own reading had already recorded — `AN-024` was in the System Inventory and `R025` in the register, and three documents still asserted the opposite. The eighth, the Vision's use-case count, is the cheapest of all: delete two ellipses. The rework is cheap now and would not have been later: the Deployment Model's environment table is the only statement in the delivery of what differs between environments, and Consolidation would have copied it.
 
 #### What does not move
 
