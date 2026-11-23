@@ -813,25 +813,26 @@ The verdict below is No-Go, and the reason is not the count of findings. Four Ma
 
 <!-- review: Excavation I2 -->
 
-**Actions, in the order the next iteration of this phase takes them.** Each action is the remediation its recording lens wrote. No action carries a calendar date: the phase declares none, and a date projected from an estimate would read downstream as an observation. The due point is a state of the work.
+**Actions, in the order the next iteration of this phase takes them.** Each action is the remediation its recording lens wrote. No action carries a calendar date: the phase declares none, and a date projected from an estimate would read downstream as an observation. The due point is a state of the work. Every action is performed in **one** iteration — the stakeholder placed the Process Engineer's turn in the same iteration as the Use-Case Model and Iteration Plan corrections, so the phase closes in one iteration.
 
 | # | Action | Artifact | Owner | Closes | Due point | Escalates if |
 |---|---|---|---|---|---|---|
-| 1 | Record the stakeholder's order of 2026-11-23 as the stage it creates: add the next Excavation iteration to the milestone sequence, place the two Development Case items in it against the Process Engineer, restate A13's evidence cell | Iteration Plan | Project Manager | `Iteration Plan#F7` | Before the Process Engineer's turn, so the stage exists when the role works | The plan again records the phase as not running the role |
-| 2 | State both budgets in R6 under `AN-024` — code defaults 100 / 100 per 10 s / queue 100, Development override 50 / 50 / 50 as the value in force — and cite `appsettings.Development.json:8-12` | Use-Case Model | System Analyst | `Use-Case Model#F4` | Owner's next turn, first among the artifact corrections | R6 and the gate diagram still give two answers |
+| 1 | Record the Environment stage in the milestone sequence as the phase's first discipline, place the two Development Case items against the Process Engineer in the next iteration, and restate A13's evidence cell to cite that stage | Iteration Plan | Project Manager | `Iteration Plan#F7` | First, so the stage exists before the role's turn | The plan again records Environment as inactive in this phase |
+| 2 | State both budgets in R6 under `AN-024` — code defaults 100 / 100 per 10 s / queue 100, Development override 50 / 50 / 50 as the value in force — and cite `appsettings.Development.json:8-12` | Use-Case Model | System Analyst | `Use-Case Model#F4` | Same iteration, first among the artifact corrections | R6 and the gate diagram still give two answers |
 | 3 | Re-register the five `COMP-014 → UC-006` … `UC-010` edges as confirmed, each checked against `TodoApi.cs:19-20`, and record beside the gate diagram why the bucket gates the operation without being it | Use-Case Model | System Analyst | `Use-Case Model#F3`, `Use-Case Model#F1` | Same turn as action 2 | Any edge still carries a SUSPECT marking when the graph is re-queried |
 | 4 | Name the Use-Case Model's R6 in A10's evidence cell so the criterion is certified on all four artifacts its test covers, or narrow the stated test to the artifacts the cell verifies | Iteration Plan | Project Manager | `Iteration Plan#F6` | After action 2 lands — the cell cannot certify what is not yet correct | A10 is recorded met on a subset again |
-| 5 | Name every lens writing into the Review Record in the co-owned-artifact sentence and draw the corresponding edges in CLS-DC-01 | Development Case | Process Engineer, scheduled here from the next iteration | `Development Case#F2` | The Process Engineer's turn, created by action 1 | The role is still absent from the phase plan when its turn falls due |
-| 6 | Bring the four Document Control fields from Survey to Excavation iteration 2 | Development Case | Process Engineer, same turn | `Development Case#F3` | With action 5 | — |
-| 7 | Restate R030's strategy cell: the retirement action has landed in the Use-Case Model under `AN-029`; the exposure stays live because `AN-012` stands and no test covers the surface | Risk List | Project Manager | `Risk List#F3` | Owner's next turn, after the Majors | The row claims a retirement that has not occurred, in either direction |
+| 5 | Name every lens writing into the Review Record in the co-owned-artifact sentence and draw the corresponding edges in CLS-DC-01 | Development Case | Process Engineer | `Development Case#F2` | Same iteration, in the Environment stage action 1 records | The role's turn is again absent from the phase plan |
+| 6 | Bring the four Document Control fields forward to the phase the document governs | Development Case | Process Engineer, same turn | `Development Case#F3` | With action 5 | — |
+| 7 | State in the Development Case that Environment runs in every phase, and in Excavation as its first discipline, so the tailoring matches the baseline the rest of the document is read against | Development Case | Process Engineer, same turn | The tailoring statement the stakeholder ordered corrected alongside `#F2` and `#F3` | With actions 5 and 6 | The Development Case again states a phase in which the role does not run |
+| 8 | Restate R030's strategy cell: the retirement action has landed in the Use-Case Model under `AN-029`; the exposure stays live because `AN-012` stands and no test covers the surface | Risk List | Project Manager | `Risk List#F3` | Owner's next turn, after the Majors | The row claims a retirement that has not occurred, in either direction |
 
-Actions 2 and 3 are one turn by one owner on one artifact and are sequenced only because `#F4` supplies the fact A10's cell must name. Actions 5 and 6 are one turn by one owner and are the content of the order the stakeholder gave.
+Actions 2 and 3 are one turn by one owner on one artifact, sequenced only because `#F4` supplies the fact A10's cell must name. Actions 5, 6 and 7 are one turn by one owner and are the content of the stakeholder's answer. Actions 1 and 4 are the Project Manager's, and both are records of a stage or a criterion rather than corrections to recovered content.
 
 **Escalation — what is escalated, and what is not.**
 
 ```plantuml
 @startuml
-title The escalation path a finding takes when its owner has no stage in the phase, applied to Development Case#F2
+title The escalation path a finding takes when its owner has no stage in the phase, and how Development Case#F2 left it
 
 skinparam shadowing false
 skinparam wrapWidth 245
@@ -853,18 +854,20 @@ else (no)
   :escalate - written notice to the Project Manager
   with the ledger entry as evidence;
   note right
-    Development Case#F2. The plan records no Process
-    Engineer stage in Excavation. R031 predicted this
-    and has materialized twice. The finding is not waived.
+    Development Case#F2 stood here for two iterations.
+    The plan recorded Environment as inactive in
+    Excavation. R031 predicted this and materialized twice.
+    The finding was never waived.
   end note
 endif
 
 |Project Manager|
-:Record the stage that gives the owner a turn;
+:Record the Environment stage in the milestone sequence;
 note right
-  The stakeholder's order of 2026-11-23 creates it:
-  the Process Engineer runs in this phase from the
-  next iteration, and A11 stays as written.
+  Environment runs in every phase. In Excavation it is
+  the first discipline, with the Process Engineer's
+  stage in the next iteration, alongside the other
+  corrections.
 end note
 if (stage recorded?) then (yes)
   :owner performs the correction in that turn;
@@ -884,9 +887,9 @@ stop
 
 | Item | State | Why |
 |---|---|---|
-| `Development Case#F2` | **Escalated to the Project Manager until the order is recorded in the plan** | Its owner has no stage in this phase as the plan stands, which is what `R031` predicted and what has materialized. The stakeholder's order creates the stage; action 1 is the Project Manager recording it. Until action 1 is performed the finding's owner cannot act, and a criterion depends on it |
-| Every other open finding | **Not escalated** | Each owner holds a stage in this phase. No finding is overdue: the phase has not closed, and the due point of each is the next iteration's work |
-| Systemic process failure | **No escalation to the Configuration and Change Management Board** | The ledger shows no repeated architecture violation and no skipped review. The same defect appearing twice across lenses is convergence, not process failure. The Change Control Manager does not work in the sprint zero, so no change request is opened for any finding; the stakeholder's order reaches its owners through this record and through their Work Orders |
+| `Development Case#F2` | **Escalated until action 1 is performed** | Its owner had no stage in this phase for two iterations, which is what `R031` predicted and what materialized. The stage now exists in the process and the stakeholder placed the role in the next iteration; action 1 is the Project Manager recording it in the plan. Until that record exists the finding's owner has no scheduled turn, and a criterion depends on it |
+| Every other open finding | **Not escalated** | Each owner holds a stage in this phase and a turn in the next iteration. No finding is overdue: the phase has not closed, and the due point of each is that iteration's work |
+| Systemic process failure | **No escalation to the Configuration and Change Management Board** | The ledger shows no repeated architecture violation and no skipped review. The same defect appearing twice across lenses is convergence, not process failure. The Change Control Manager does not work in the sprint zero, so no change request is opened for any finding; the stakeholder's answer reaches its owners through this record and through their Work Orders |
 
 **Review effectiveness — this milestone's measured counts.** Second review event of this phase; the previous one is this milestone's iteration-1 pass, so the comparison is against that pass and nothing older.
 
@@ -898,11 +901,11 @@ stop
 | Closed by their recording lens | 13 | 27 cumulative | Resolution objects on the ledger |
 | Defect density, open entries by discipline | Requirements 6, Analysis & Design 3, Project Management 5, Environment 2, Discovery 0 | Requirements 4 over 2 defects, Project Management 2, Environment 2, Analysis & Design 0, Discovery 0 | Open entries at each gate, by the artifact carrying them |
 | Duplicate subjects reached by both lenses | 1 — the rate limiter | 2 — the five `COMP-014` edges, and the rate budget at artifact and criterion | The reconciliation table in Findings |
-| Scope of the correction required | 8 Majors across 7 artifacts | 4 Major defects across 2 artifacts | The open Major ledger |
+| Scope of the correction required | 8 Majors across 7 artifacts | 4 Major defects across 2 artifacts, all correctable in one iteration | The open Major ledger |
 | Defect removal efficiency | Not computable | Not computable | No test execution has occurred in the sprint zero; nothing is found by test against which review-found defects could be compared, and no ratio is invented |
 | Rework effort | Not measured | Not measured | No per-finding token or elapsed-time attribution exists; the phase has not closed, so no measured actual is available to attribute |
 
-**What the metrics say.** Open entries fell from 16 to 8 and the artifacts carrying a Major fell from 7 to 2, while coverage held at 10 of 10. What remains is concentrated: three of the four Major defects sit on two artifacts and are performed in two owner turns. The indicator that did not improve is the one the gate turns on — a criterion whose evidence cell certifies a subset of what its own test covers reappeared one artifact over; `Iteration Plan#F3` closed at this pass and `#F6` opened against the same method. The process found it in the same pass that recorded it, which is the mechanism working; it did not prevent it.
+**What the metrics say.** Open entries fell from 16 to 8 and the artifacts carrying a Major fell from 7 to 2, while coverage held at 10 of 10. The remaining work is concentrated in two artifacts and one owner turn each, and the stage the two Development Case Minors needed now exists in the plan the next iteration will carry. The indicator that did not improve is the one the gate turns on — a criterion whose evidence cell certifies a subset of what its own test covers reappeared one artifact over; `Iteration Plan#F3` closed at this pass and `#F6` opened against the same method. The process found it in the same pass that recorded it, which is the mechanism working; it did not prevent it.
 
 **No finding is recorded for three absences.** The Data Model, the Glossary and the Test Plan are absent on the Development Case's NOT FIRED verdict on each trigger, which both executed lenses checked against the §5.2 conditions. The Iteration Assessment describes no iteration being reviewed because the Project Manager authors it after this review. No SCM condition exists to report: the sprint zero runs no build, opens no pull request and files no defect, which is the phase's correct state.
 
