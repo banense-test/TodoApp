@@ -487,6 +487,214 @@ Four persistence facts bound the recovered use cases and belong with the store r
 
 The ownership predicate is written four times in CLS-012 and, as AN-018 records, not identically: the list filters on `OwnerId` alone while the three single-row operations also admit the `admin` claim. The schema serves either predicate through `IX_Todos_OwnerId` and `PK_Todos`; the disagreement is in the code, and the store records nothing about it.
 
+### Constraints the schema enforces, and the rules it leaves to code
+
+**No stored procedure, trigger, view, function, computed column, sequence or `CHECK` constraint exists anywhere in the tree, and there is no `.sql` file.** The three migration classes contain only `CreateTable`, `CreateIndex`, `DropColumn`, `DropForeignKey`, `DropUniqueConstraint`, `AlterColumn` and `AddForeignKey` — the schema is declarative structure and nothing else. Every rule the system enforces beyond keys and nullability is application code, and each is recorded below with the statement that carries it. Thirteen rules are enforced; seven the system relies on are held by nothing.
+
+```plantuml
+@startuml
+title PD-D4 Every storage rule, where it is enforced, and what the store leaves to code
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide circle
+hide empty members
+skinparam wrapWidth 250
+
+package "Enforced by a constraint in a migration - R1 to R6" {
+  class "R1 a task has a title" as R1 <<rule>>
+  class "R2 a task names an existing account" as R2 <<rule>>
+  class "R3 a task id is unique" as R3 <<rule>>
+  class "R4 a provider identity is unique" as R4 <<rule>>
+  class "R5 a normalised user name is unique" as R5 <<rule>>
+  class "R6 deleting an account deletes its tasks" as R6 <<rule>>
+}
+
+package "Enforced by the delivery's own statements - R7 to R11" {
+  class "R7 the owner is taken from the caller" as R7 <<rule>>
+  class "R8 one row is changed by its owner" as R8 <<rule>>
+  class "R9 one row is read by its owner" as R9 <<rule>>
+  class "R10 the list returns the caller's rows" as R10 <<rule>>
+  class "R11 an admin claim admits any row" as R11 <<rule>>
+}
+
+package "Enforced by framework code - R12, R13" {
+  class "R12 password policy at register" as R12 <<rule>>
+  class "R13 lockout consulted at sign-in" as R13 <<rule>>
+}
+
+package "Enforced nowhere - N1 to N7" {
+  class "N1 an email is unique" as N1 <<unenforced>>
+  class "N2 a title has a length bound" as N2 <<unenforced>>
+  class "N3 a completion flag is boolean" as N3 <<unenforced>>
+  class "N4 two writes cannot collide" as N4 <<unenforced>>
+  class "N5 an account has a user name" as N5 <<unenforced>>
+  class "N6 a caller is an administrator" as N6 <<unenforced>>
+  class "N7 lockout is checked on a request" as N7 <<unenforced>>
+}
+
+R11 ..> R10 : the list does not apply it
+R11 ..> R9 : compiled from a client-side bool
+N6 --> R11 : no row exists to test
+N5 --> R2 : the principal key moved, no row was converted
+
+note right of R2
+  FK_Todos_AspNetUsers_OwnerId, ON DELETE CASCADE.
+  Migrations/20230714032431_ForeignKeyChange.cs:35-42;
+  Migrations/20221123071234_Initial.cs
+end note
+
+note right of R9
+  FindAsync(id) first, then OwnerId == owner.Id in memory:
+  the row is materialised before it is authorised, so the
+  statement carries no ownership predicate.
+  Todos/TodoApi.cs:31-35
+end note
+
+note bottom of R10
+  Filters on OwnerId alone, with no admin branch, unlike
+  R8 and R9. AN-018. Todos/TodoApi.cs:26
+end note
+
+note right of R11
+  owner.IsAdmin is a client-side bool derived from a role
+  claim and parameterised into the statement. Role claims
+  come from AspNetUserRoles and AspNetRoles, which no
+  statement in the tree writes. AN-004
+end note
+
+note bottom of N4
+  Todos carries no row version, and ExecuteUpdateAsync and
+  ExecuteDeleteAsync bypass the change tracker, so the last
+  write wins with no version check. Todos/TodoApi.cs:59-63
+end note
+
+note bottom of N7
+  LockoutEnabled and LockoutEnd are columns the framework's
+  sign-in path reads; the delivery's own requirement handler
+  records its lockout check as a TODO and does not perform it.
+  Authorization/CheckCurrentUserAuthHandler.cs:26-35
+end note
+
+@enduml
+```
+
+| ID | Rule | Enforced | How, exactly | Anchor |
+|---|---|---|---|---|
+| R1 | A task has a title | Yes, in the schema | `Todos.Title` is `TEXT NOT NULL`, declared from `[Required]` on CLS-001 | `Todo.Api/Todos/Todo.cs:6-7`; `Todo.Api/Migrations/20221123071234_Initial.cs:190` |
+| R2 | A task names an existing account | Yes, in the schema | `Todos.OwnerId` is `TEXT NOT NULL` with `FK_Todos_AspNetUsers_OwnerId` to `AspNetUsers.Id` | `Todo.Api/Todos/Todo.cs:10-11`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:35-42` |
+| R3 | A task identifier is unique | Yes, in the schema | `PK_Todos (Id)`, `Sqlite:Autoincrement` | `Todo.Api/Migrations/20221123071234_Initial.cs:198-201` |
+| R4 | Two accounts cannot share a provider identity | Yes, in the schema | `PK_AspNetUserLogins (LoginProvider, ProviderKey)` | `Todo.Api/Migrations/20221123071234_Initial.cs:112-118` |
+| R5 | Two accounts cannot share a user name | Yes, in the schema, for non-null values | `UserNameIndex` UNIQUE on `NormalizedUserName`. SQLite permits several NULL values in a unique index, so the rule holds only where the normalised name is present | `Todo.Api/Migrations/20221123071234_Initial.cs:243-247` |
+| R6 | Deleting an account deletes its tasks | Yes, in the schema | `ON DELETE CASCADE` on the ownership foreign key. Latent: no statement in the delivery deletes an `AspNetUsers` row | `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:41` |
+| R7 | A task's owner is the authenticated caller, never a request body | Yes, in the delivery's code | The insert assigns `OwnerId = owner.Id`; the request shape CLS-002 carries no owner field, so no caller can supply one | `Todo.Api/Todos/TodoApi.cs:41-45` |
+| R8 | One row is changed or removed only by its owner, or by a caller with the `admin` role | Yes, in the delivery's code | One predicate on both statements: `t.Id == id && (t.OwnerId == owner.Id \|\| owner.IsAdmin)`. `PUT` additionally refuses a body whose `Id` differs from the route | `Todo.Api/Todos/TodoApi.cs:54-65,68-73` |
+| R9 | One row is read only by its owner, or by a caller with the `admin` role | Yes, in the delivery's code | `FindAsync(id) switch { Todo todo when todo.OwnerId == owner.Id \|\| owner.IsAdmin => … }` — the predicate runs in memory after materialisation | `Todo.Api/Todos/TodoApi.cs:29-37` |
+| R10 | The list returns the caller's own rows | Yes, in the delivery's code | `Where(todo => todo.OwnerId == owner.Id)` with **no** admin branch — the disagreement AN-018 records | `Todo.Api/Todos/TodoApi.cs:24-27` |
+| R11 | A caller holding the `admin` role reaches any row | Code-only, and no source exists | `CurrentUser.IsAdmin => Principal.IsInRole("admin")`. Role claims come from `AspNetUserRoles`/`AspNetRoles`, which no statement in the tree writes, so the rule cannot be satisfied in the delivered system (AN-004) | `Todo.Api/Authorization/CurrentUser.cs:12` |
+| R12 | A password satisfies Identity's policy at registration | Yes, in framework code | `AddIdentityCore<TodoUser>()` applies the framework's default password policy; the delivery configures no policy of its own | `Todo.Api/Program.cs:17-20` |
+| R13 | A locked-out account cannot sign in | Yes, in framework code, on the framework's own sign-in path | `SignInManager` consults `LockoutEnd`/`LockoutEnabled` on the Identity login endpoint | `Todo.Api/Users/UsersApi.cs:20` |
+| N1 | Two accounts cannot share an email | **No** | `EmailIndex` on `NormalizedEmail` is **not unique**; the store stops nothing. Any duplicate check is Identity code, not schema | `Todo.Api/Migrations/20221123071234_Initial.cs:232-236` |
+| N2 | A task title has a length bound | **No** | `Todos.Title` is unbounded `TEXT`. The `[StringLength]` rules are Razor component attributes on the client form, not schema and not the API contract | `Todo.Web/Client/Components/LogInForm.razor:55-68`; `Todo.Api/Migrations/20221123071234_Initial.cs:190` |
+| N3 | A completion flag is a boolean | **No**, beyond type affinity | `IsComplete` is `INTEGER` with no `CHECK (IsComplete IN (0,1))` and no `DEFAULT`; the `false` every created row carries is supplied by the CLR default because the insert omits the column | `Todo.Api/Migrations/20221123071234_Initial.cs:191`; `Todo.Api/Todos/TodoApi.cs:41-45` |
+| N4 | Two concurrent writes cannot silently overwrite each other | **No, on `Todos`** | `Todos` carries no row version or concurrency token, and `ExecuteUpdateAsync`/`ExecuteDeleteAsync` bypass the change tracker entirely. `AspNetUsers` and `AspNetRoles` carry `ConcurrencyStamp`; `Todos` has no equivalent | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs`; `Todo.Api/Todos/TodoApi.cs:59-63` |
+| N5 | An account has a user name | **No, as of migration 3** | The third migration made `UserName` nullable and dropped `AK_AspNetUsers_UserName` in the same step | `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:19-27` |
+| N6 | A caller is an administrator | **No, and no source at rest** | No column and no seeded row. `IsAdmin` was dropped by migration 2; `AspNetRoles`, `AspNetUserRoles` and `AspNetRoleClaims` are created by migration 1 and never written by the running system | `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs:13-15`; AN-004 |
+| N7 | Lockout is checked on every authorized request | **No** | `CheckCurrentUserAuthHandler` succeeds when an account row exists, and records the lockout check as a `TODO` it does not perform | `Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:26-35` |
+
+The schema's whole contribution to integrity is primary keys, foreign keys with cascade, two unique indexes and NOT NULL. Everything else — the data-annotation filter in CLS-020, Identity's policies, and the ownership predicate written four times in CLS-012 — is code, and `N1` to `N7` are the rules that follow from that boundary.
+
+### Each association and rule confirmed against the statement that exercises it
+
+The rules in the preceding block are not inferred from the class model: every association and rule was checked against the statement that actually reads or writes it, and where the schema holds an element no statement reaches, that is recorded as such rather than passed over. Two consequences follow from the table and belong with the store.
+
+```plantuml
+@startuml
+title PD-D5 Each statement the code issues, and the schema element it reaches
+
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam wrapWidth 240
+left to right direction
+
+package "Todos/TodoApi.cs - five statements against Todos" {
+  component "S1 list\nWhere(OwnerId == owner.Id)\n.Select(AsTodoItem).AsNoTracking()" as S1
+  component "S2 read one\nFindAsync(id) then\nOwnerId == owner.Id in memory" as S2
+  component "S3 create\nAdd(todo) + SaveChangesAsync()" as S3
+  component "S4 change\nWhere(Id == id && (OwnerId == owner.Id\n|| owner.IsAdmin)).ExecuteUpdateAsync()" as S4
+  component "S5 remove\nWhere(Id == id && (OwnerId == owner.Id\n|| owner.IsAdmin)).ExecuteDeleteAsync()" as S5
+}
+
+package "Authorization and Users - three statements" {
+  component "S6 resolve caller\nUserManager.FindByIdAsync(id)\nonce per authorized request" as S6
+  component "S7 resolve provider identity\nFindByLoginAsync(provider, providerKey)" as S7
+  component "S8 create provider identity\nCreateAsync then AddLoginAsync" as S8
+}
+
+package "Tables the migrations declare" {
+  component "Todos\nId INTEGER PK\nTitle TEXT\nIsComplete INTEGER\nOwnerId TEXT FK" as T
+  component "AspNetUsers\nId TEXT PK" as U
+  component "AspNetUserLogins\nLoginProvider TEXT PK\nProviderKey TEXT PK\nUserId TEXT FK" as L
+  component "AspNetRoles\nId TEXT PK" as R
+  component "AspNetUserRoles\nUserId PK FK\nRoleId PK FK" as UR
+}
+
+S1 --> T : IX_Todos_OwnerId
+S2 --> T : PK_Todos, no ownership predicate
+S3 --> T : PK_Todos insert
+S4 --> T : PK_Todos + IX_Todos_OwnerId
+S5 --> T : PK_Todos + IX_Todos_OwnerId
+S6 --> U : PK_AspNetUsers lookup
+S7 --> L : PK_AspNetUserLogins lookup
+S8 --> L : PK_AspNetUserLogins insert
+S8 --> U : PK_AspNetUsers insert
+
+R ..> S4 : never joined
+UR ..> S4 : never joined
+
+note bottom of S4
+  owner.IsAdmin arrives as a parameter value, not as a
+  join: the role tables are read by no statement.
+  AN-004. TodoApi.cs:60
+end note
+
+note right of S2
+  The only statement that materialises a row before
+  deciding whether the caller may see it.
+  TodoApi.cs:31
+end note
+
+note bottom of R
+  Both identity role tables exist and no statement in
+  the tree reads or writes either. The admin rule has
+  no source at rest. AN-004
+end note
+
+@enduml
+```
+
+| Schema element or rule | The statement that exercises it | Confirmed | Anchor |
+|---|---|---|---|
+| Ownership association, `FK_Todos_AspNetUsers_OwnerId` | The insert assigns `OwnerId = owner.Id`; the predicate reads `t.OwnerId == owner.Id` in three statements | Yes | `Todo.Api/Todos/TodoApi.cs:26,33,41-45,60,70` |
+| `OwnerId` never crosses the wire | The create body is CLS-002, three properties and no owner; the projection `AsTodoItem` drops `OwnerId` | Yes | `Todo.Api/Todos/Todo.cs:15-21,23-34` |
+| `PK_Todos` | `db.Todos.FindAsync(id)`; `Where(t => t.Id == id …)` in the update and the delete | Yes | `Todo.Api/Todos/TodoApi.cs:31,60,70` |
+| `IX_Todos_OwnerId` | The list predicate, and the `OwnerId` half of the update and delete predicates | Yes | `Todo.Api/Todos/TodoApi.cs:26,60,70` |
+| `Todos.Title` NOT NULL | `POST` writes `Title`; `PUT` writes `Title` and `IsComplete` together — no statement writes a NULL title | Yes | `Todo.Api/Todos/TodoApi.cs:41-45,62-63` |
+| `Todos.IsComplete` never set on insert | The create copies `Title` alone, so every new row carries the CLR default `false`; only `PUT` changes it | Yes | `Todo.Api/Todos/TodoApi.cs:41-45,63` |
+| Cascade `R6` | No statement deletes an `AspNetUsers` row; the test host's `Dispose` drops the whole in-memory database instead | **Present, unexercised** | `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:41`; `Todo.Api.Tests/TodoApplication.cs` |
+| `PK_AspNetUsers` | `userManager.FindByIdAsync(id)` once per authorized request, inside the claims transformation | Yes | `Todo.Api/Authorization/CurrentUserExtensions.cs:22-26` |
+| `PK_AspNetUserLogins` | `FindByLoginAsync(provider, providerKey)`, then `AddLoginAsync` when no row matches | Yes | `Todo.Api/Users/UsersApi.cs:36-46` |
+| `AspNetUsers.UserName` nullable | `new TodoUser() { UserName = userInfo.Username }` on the provider path; the Identity register path supplies one | Yes | `Todo.Api/Users/UsersApi.cs:42` |
+| `AspNetRoles`, `AspNetUserRoles`, `AspNetRoleClaims`, `AspNetUserClaims` | No statement in the tree inserts a role, a role claim or a user claim | **Absent** — the tables exist and nothing writes them | `Todo.Api/Migrations/20221123071234_Initial.cs`; AN-004 |
+| `AspNetUserTokens` | No statement reads or writes a row. The browser's access token lives in the session cookie's token set, not here | **Absent** | `Todo.Web/Server/AuthApi.cs:104-121`; `Todo.Web/Server/TodoApi.cs:18-22` |
+| `R11` admin admission | `owner.IsAdmin` is a bool computed from the principal and passed into the statement as a parameter — never a join to `AspNetUserRoles` | **Code-only, with no source at rest** | `Todo.Api/Authorization/CurrentUser.cs:12`; `Todo.Api/Todos/TodoApi.cs:33,60,70` |
+| `R5` user-name uniqueness | No delivery statement queries `NormalizedUserName`; the framework's user manager does | **Framework path only** | `Todo.Api/Migrations/20221123071234_Initial.cs:243-247` |
+| `N1` email uniqueness | No delivery statement queries `NormalizedEmail`, and no UNIQUE index exists on it | **Unenforced by the store** | `Todo.Api/Migrations/20221123071234_Initial.cs:232-236` |
+
+**Single-task authorization has two different shapes.** The item read materialises the row and then decides in memory (`R9`), while the update and the delete push the whole predicate into the statement (`R8`). Both admit the same two callers, so the difference is a performance property rather than a behavioural one — but it means `PK_Todos` alone serves the item read, whereas the update and the delete are served by `PK_Todos` and `IX_Todos_OwnerId` together.
+
+**The list and the item operations disagree on who may see a row** (`R10` against `R8`/`R9`), which AN-018 records. The schema is neutral: `IX_Todos_OwnerId` serves either predicate, and nothing in the store can enforce or prevent either. The disagreement is in code.
+
 ## Domain Model
 ```plantuml
 @startuml
