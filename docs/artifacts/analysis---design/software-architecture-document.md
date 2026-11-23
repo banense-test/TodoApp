@@ -5,15 +5,14 @@
 - Iteration: 2, Cycle 1
 - Owner: Software Architect
 ## Architectural Representation
-
 The delivery carries no architecture document of its own (`.iari/README.md`, the tree holds none). What follows is recovered from code and configuration: every element cites the file and lines that carry it, and no statement of intent is attributed to authors who cannot be asked.
 
 | View | Diagram | What it is anchored to |
 |---|---|---|
 | Logical | COMP-D1 component model, COMP-D2 change axes, CLS-1 ownership mechanism | `Todo.Api/`, `Todo.Web/Server/`, `Todo.Web/Client/` |
 | Use-Case | COMP-D3, SEQ-1, SEQ-2, SEQ-3 | `EP-001` to `EP-019` as the System Inventory records them |
-| Process | ACT-D1 | `TodoApp.ServiceDefaults/Extensions.cs`, `RateLimitExtensions.cs`, `TodoApi.cs:59-63` |
-| Deployment | DEP-D1 | `TodoApp.AppHost/Program.cs`, `Program.cs` of both hosts, `appsettings.json` pairs |
+| Process | ACT-D1 | `TodoApp.ServiceDefaults/Extensions.cs`, `RateLimitExtensions.cs`, `Todo.Api/appsettings.Development.json:8-12`, `TodoApi.cs:59-63` |
+| Deployment | DEP-D1 | `TodoApp.AppHost/Program.cs`, `Program.cs` of both hosts, the `appsettings.json` pairs and `Todo.Api/appsettings.Development.json`, the two `launchSettings.json` files |
 | Implementation | IMP-D1 | `TodoApp.sln`, `Directory.Build.props`, `Directory.Packages.props`, the seven project files |
 | Data | the table in "Data View" | `Todo.Api/TodoDbContext.cs`, the three migrations |
 
@@ -54,7 +53,7 @@ package "P3 Todo.Api - minimal-API REST service" {
   component "COMP-011\nTodo endpoints EP-010 to EP-014" as C11
   component "COMP-012\nCurrent-user resolution" as C12
   component "COMP-013\nAuthorization requirement" as C13
-  component "COMP-014\nPer-user token bucket" as C14
+  component "COMP-014\nPer-user token bucket\n50 / 50 per 10 s / queue 50 in force" as C14
   component "COMP-015\nData-annotation validation filter" as C15
   component "COMP-016\nPersistence: DbContext, entity model, migrations" as C16
   component "COMP-017\nOpenAPI document and Scalar UI" as C17
@@ -110,6 +109,13 @@ note right of C18
   Todo.Api/Program.cs:35-47
 end note
 
+note bottom of C14
+  The code defaults are 100 / 100 / queue 100.
+  appsettings.Development.json:8-12 binds all three
+  to 50 and every launch profile selects Development,
+  so 50 is the bucket in force. AN-024
+end note
+
 note bottom of C19
   The API does not reference this assembly. It declares
   TodoItem and the two user shapes again in its own
@@ -126,7 +132,6 @@ end note
 
 @enduml
 ```
-
 ## Architectural Goals and Constraints
 **The delivery states no goal.** It carries no requirement, no quality-attribute target and no constraint statement (`.iari/README.md`); nothing in this section is a declared intention. What follows is the set of properties the architecture **does** hold, read from the code, together with the constraints any change to it must live inside.
 
