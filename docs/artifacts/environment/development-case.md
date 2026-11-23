@@ -505,3 +505,46 @@ The rule's one limit is stated with it: a cell that asserts a gate's answer cann
 | After each iteration | The process findings of the Iteration Assessment are the input. A change to this document names the finding it answers; a change with no finding behind it is not made. |
 | To request a change to this document | Through the `Change Control Manager`, who carries it as a change request with `nature:enhancement` or `nature:refactoring`. The label table is in `docs/CONTRIBUTING.md`. |
 
+### Discipline workflow
+
+ACT-DC-02 is what the Environment discipline itself does — one cluster that runs once, one that runs at the start of every iteration, one that runs continuously. The three activity clusters the RUP names, in this project's form.
+
+```plantuml
+@startuml
+title ACT-DC-02 The Environment discipline in this project - three activity clusters, and which of them recur
+
+start
+partition "Prepare for project - once, in Survey" {
+  :Assess the development organization - the eight findings of the baseline table;
+  :Select the RUP subset this project uses - 16 CORE artifacts, one OPTIONAL fired, two roles inactive;
+  :Tailor - both classification verdicts and six OPTIONAL trigger verdicts recorded against the delivery;
+  :Publish docs/CONTRIBUTING.md and this Development Case before any other role works;
+}
+partition "Prepare for iteration - at the start of every iteration" {
+  :Re-evaluate both classification verdicts and all six OPTIONAL triggers;
+  :Set Document Control to this phase and this iteration;
+  if (a finding or a stakeholder order names this document?) then (yes)
+    :Correct the named section, and nothing else;
+  else (no)
+    :Preserve it unchanged - no upsert without a finding behind it;
+  endif
+  :Hand the iteration a current Development Case before its first working role starts;
+}
+partition "Support during iteration - continuous, every iteration" {
+  repeat
+    :Answer a process question inside the iteration it is asked in;
+    if (the question blocks a role?) then (yes)
+      :Escalate to the stakeholder in the same turn it is found;
+    else (no)
+      :Answer where the rule lives - docs/CONTRIBUTING.md or this document;
+    endif
+    :Read token spend and elapsed time for the closed phases, two clocks kept apart;
+  repeat while (the iteration is open?) is (yes)
+  :Iteration close - take the process findings of the Iteration Assessment as the input;
+  :Change this document only for a finding it names;
+  :Carry a Minor to its owner's next scheduled stage, named in the exit criterion;
+}
+stop
+@enduml
+```
+
