@@ -1851,5 +1851,8 @@ end note
 | CLS-041 | — | — | — |
 | CLS-042 | — | — | — |
 
-Four framework types carry a completed flow and no `CLS` label, so they carry no row: `IdentityUser`, `IdentityDbContext` (DM-D1), and `AccessTokenResponse` and `UserLoginInfo`, whose DM-D4 record now covers the session chain's use of both. They are not classes the Implementer writes, and every row above is a class the delivery declares.
+Thirty-five rows carry a `Realizes` edge; seven carry none, and the last seven are the classes no recovered use case's path crosses — the orchestration helper, the platform defaults, and the five test types. Their upstream is the code they were read from, cited at each row of the class inventory, and not a use case.
 
+**Two edges are flagged and I cannot clear them.** Restating CLS-020's generic constraint marked `CLS-020 → UC-007` and `CLS-020 → UC-010` suspect. Both still hold on the code: CLS-012 names `typeof(TodoItem)` at `Todo.Api/Todos/TodoApi.cs:21`, so the create and the change operation on that group both carry the filter, and the constraint refinement changes how the operation is declared, not which use case it serves. The System Analyst owns the other end of both edges and is the only role that may clear a suspicion; the reasoning is stated here so the clearance needs no re-reading.
+
+Four framework types carry a completed flow and no `CLS` label, so they carry no row: `IdentityUser`, `IdentityDbContext` (DM-D1), and `AccessTokenResponse` and `UserLoginInfo`, whose DM-D4 record now covers the session chain's use of both. The eight framework contracts, two generated project types and four top-level programs of PKG-D8 likewise carry no row: none is a class the Implementer writes, so no implementation could be traced to one. Every row above is a class the delivery declares.
