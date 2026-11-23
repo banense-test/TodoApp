@@ -539,7 +539,7 @@ package "Read in full - every file of the area opened" {
   component "Requests, .github, .devcontainer\n.aspire, .iari, .vscode\n7 - 7 - 7" as A5
 }
 
-package "Read in part -每 unopened file named" {
+package "Read in part - every unopened file named" {
   component "Todo.Web/Server\n15 - 14 - 14" as B1
   component "Todo.Web/Client authored\n11 - 8 - 6" as B2
   component "Repository root\n8 - 7 - 6" as B3
@@ -560,12 +560,12 @@ end note
 note right of A3
   Opened, uncited: Properties/launchSettings.json and the
   two environment files - the launch profile of a process
-  that starts others and the two files that bind nothing.
+  that starts others, and the two files that bind nothing.
 end note
 
 note right of B1
-  Opened, uncited: _Imports.razor is the one file of the
-  area never opened; all fourteen opened files are anchored.
+  All fourteen opened files are anchored. _Imports.razor is
+  the one file of the area never opened.
 end note
 
 note right of B2
