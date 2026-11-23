@@ -227,11 +227,11 @@ The owner's note states what the delivery does and does not contain. Checked cla
 ## History
 Commit history is the only record of how the system reached its present shape; the tree carries none. Each row states the commits listed for that area and the period they cover. **The newest commit touching any part of the system is `307a1ea` of 2026-02-12** — the same commit and date the owner's note names as the delivery's provenance (`307a1ead`, 12 February 2026). Every commit after it is this process's own output.
 
-Two areas are unstable by two different measures, and both readings are kept because they answer different questions. `Todo.Web/Server` carries 33 commits across the whole life of the delivery — the most of any area of its code, and its `AuthApi.cs` is the most-reworked code file in it — which is instability by count (AN-029). `TodoApp.AppHost` carries five commits, but it holds the newest one; that is instability by recency (AN-015). Reading either signal alone mistakes it for the whole picture. The only path with more commits than the BFF is `README.md` at 43, and that count is not comparable: 29 of those commits predate 2023 and five of them predate the application.
+Two areas are unstable by two different measures, and both readings are kept because they answer different questions. `Todo.Web/Server` carries 33 commits across the whole life of the delivery — the most of any area of its code, and its `AuthApi.cs` is the most-reworked code file in it — which is instability by count (AN-029). `TodoApp.AppHost` carries five commits, but it holds the newest one; that is instability by recency (AN-015). Reading either signal alone mistakes it for the whole picture. The only path with more commits than the BFF is `README.md` at 43, and that count is not comparable: 29 of its commits predate 2023 and 18 predate the first commit that carries the web tier.
 
 Three listings begin at a file move or a rename, not at the code's origin. `Todo.Api/Todos` carries `bbd680d` "Move files around" and nothing else; `Todo.Api/Authorization` the same; `TodoApp.AppHost` begins at the rename `3308193`. Whatever changed in them before that sits under a former path these listings do not follow. Each is recorded as settled-as-it-stands with its earlier history unlisted — never as evidence that nothing about it ever changed. This is also why the sqlite-web container and the migration step appear in no commit of the app host: they exist, and the list that would show their arrival does not reach it.
 
-The repository's history is older than the application. `README.md`'s oldest commit is 2021-05-04 and `Directory.Build.props`' is 2022-03-06, while the earliest commit any area reaches is 2022-11-12 (`.github`, `Requests`, `.vscode`) and both halves of the web tier begin at `cb67410` "Davidfowl/fe (#23)" of 2022-11-27. The delivery therefore sits on a predecessor repository whose history the code areas' path-filtered lists do not reach, which is why a file's commit count measures more than this system.
+The repository's history is older than the application. The oldest commit in any listing is `README.md`'s of 2021-05-04, followed by `Directory.Build.props`' of 2022-03-06; the earliest commit of the application's own code is `cb67410` "Davidfowl/fe (#23)" of 2022-11-27, at which both halves of the web tier and the shared project begin. The delivery therefore sits on a predecessor repository whose history the code areas' path-filtered lists do not reach, which is why a file's commit count measures more than this system.
 
 ```plantuml
 @startuml
@@ -294,9 +294,9 @@ note bottom of T
 end note
 
 note bottom of R
-  43 commits, but 29 of them predate 2023 and its oldest
-  entry is 2021-05-04 - eighteen months before the first
-  commit carrying the web tier (cb67410, 2022-11-27).
+  43 commits, but 29 of them predate 2023 and 18 predate
+  the web tier's first commit (cb67410, 2022-11-27). Its
+  oldest entry is 2021-05-04, the oldest in any listing.
   The count measures a predecessor repository too.
 end note
 
