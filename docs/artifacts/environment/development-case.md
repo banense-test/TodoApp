@@ -496,3 +496,12 @@ The rule is written here because it is a process rule and not a project-manageme
 
 The rule's one limit is stated with it: a cell that asserts a gate's answer cannot be right before the gate is answered, and is corrected by the first turn after the answer. `Iteration Plan#F10` was that case, and it is the reason the rule is written as a same-turn obligation rather than as an error to be avoided.
 
+### Cadence of this document
+
+| When | What happens |
+|---|---|
+| Before each iteration | Both classification verdicts and all six OPTIONAL triggers are re-evaluated; Document Control names the phase and the iteration; every section a finding or a stakeholder order names is corrected. This document is current before the phase's first working role starts. A trigger that has fired is not un-fired by a later reading. |
+| During each iteration | A process question is answered inside the iteration it is asked in. A blocking one — an approval whose approver is unstated, a template that cannot be applied — is escalated to the stakeholder in the same turn it is found, never carried to the next iteration. |
+| After each iteration | The process findings of the Iteration Assessment are the input. A change to this document names the finding it answers; a change with no finding behind it is not made. |
+| To request a change to this document | Through the `Change Control Manager`, who carries it as a change request with `nature:enhancement` or `nature:refactoring`. The label table is in `docs/CONTRIBUTING.md`. |
+
