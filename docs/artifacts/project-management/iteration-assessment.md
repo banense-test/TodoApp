@@ -237,38 +237,9 @@ Because no test execution has run, no defect-removal efficiency can be computed 
 No scope change reached the project in this iteration. Nothing the stakeholder said adds, removes or reorders declared work; the declared change is worked from Inception and Survey reads the system as it is.
 
 ## Rework Required
-Iteration 2 exists for one purpose: to close what this iteration's review left open, so the SBC gate can be re-taken. It carries no new scope — every item below is a correction to content already written, inside artifacts the sprint zero already owns. The order is the Review Coordinator's priority order, by consequence rather than by artifact.
-
-```plantuml
-@startuml
-title What iteration 2 must close before the SBC gate is re-taken - in the Review Coordinator's priority order
-
-skinparam shadowing false
-skinparam wrapWidth 220
-
-start
-:1  Risk List finding - score every risk once from the IARI scale and its cited evidence;
-if (a reconciled risk lands at Significant or High?) then (yes)
-  :ask the stakeholder for that grant in the same turn;
-else (no)
-endif
-:2  Iteration Plan finding - restate C2, C6 and C7 on the evidence each actually holds;
-:3  Development Case finding - name the version-policy file, or state central pinning alone;
-:4  Iteration Plan finding - name all twelve entry-point-bearing anomalies, or point at the table;
-:5  System Inventory finding - add EP-007 to the AN-021 row;
-:6  Development Case duplication - delete one role-delta list and one CLS-DC-01 diagram;
-:7  System Inventory finding - recompute the Coverage headline from the per-area table;
-:8  Iteration Plan finding - move Gate H1 ahead of the Reviewer;
-:Both lenses re-run against the rework;
-:Sanction question put to the stakeholder again, with the new count;
-:Review Coordinator re-takes the SBC verdict;
-stop
-@enduml
-```
-
 | # | Rework | Artifact | Owner | Closes | Why it ranks here |
 |---|---|---|---|---|---|
-| 1 | Score each of the 21 risks once from the IARI scale and its cited evidence — or delete the inventory's likelihood/impact as a scoring claim and declare the score the Project Manager's own reading. Then re-derive the grant band and put every risk landing at Significant or High to the stakeholder in this cycle | Risk List | Project Manager | `Risk List#F1` (Reviewer), `Risk List#F1` (Management Reviewer) | The defect reaches a grant the project has already taken; the question it raises to the stakeholder must be asked in this cycle |
+| 1 | Score each of the 21 risks once from the IARI scale and its cited evidence — or delete the inventory's likelihood/impact as a scoring claim and declare the score the Project Manager's own reading. Re-derive the grant band from the reconciled exposures. `R004` and `R011` already hold the stakeholder's grant of 2026-11-23; any other risk the reconciliation places at Significant or High is put to the stakeholder in the same turn | Risk List | Project Manager | `Risk List#F1` (Reviewer), `Risk List#F1` (Management Reviewer) | The defect reaches a grant the project has already taken. The two risks it named now carry the stakeholder's answer, so only the arithmetic is still owed |
 | 2 | Restate C2 as two criteria — the answered perimeter-membership and priority questions, and the confirmation of the recorded perimeter which is not met; cite the settled coverage figure for C6; split C7 into carriage and reproducibility | Iteration Plan | Project Manager | `Iteration Plan#F1` (Management Reviewer) | It is the evidence column the milestone verdict reads, and it records a confirmation the stakeholder refused |
 | 3 | Name the file recording the version policy, or replace the claim with central pinning in `Directory.Packages.props` and nuget.org as the only configured source | Development Case | Process Engineer | `Development Case#F1` (Reviewer) | It directs the Software Architect at a policy that exists nowhere, and Excavation is the next phase |
 | 4 | Name all twelve entry-point-bearing anomalies, or drop the enumeration and point at the System Inventory's Anomalies table | Iteration Plan | Project Manager | `Iteration Plan#F1` (Reviewer) | Five constraints on the areas ranked sixth and eighth are not handed to Excavation |
@@ -279,25 +250,5 @@ stop
 
 Two dependencies order the work and are not negotiable: item 1 precedes item 2, because the reconciled scores are C7's evidence; and item 7 precedes item 2's C6 line, because the recomputed figure is what that line cites. Each finding closes only when its recording lens re-reads the corrected artifact and resolves it — a correction stated in a plan does not close a finding, and the same defect recorded under two lenses closes twice.
 
-### What iteration 2 does not do
-
-- **It does not add agent roles.** The chain of iteration 1 was sequential and stayed inside its budget; the milestone slipped on the quality of two artifacts, not on the capacity to produce them. Adding roles would buy no clock and would add contention over the same three artifacts.
-- **It does not cut declared scope.** Nothing is dropped to reach the gate: the System Inventory's perimeter, entry points and priorities stand as confirmed and are not re-read.
-- **It does not restate a forecast.** No phase has closed, so no measured actual exists; iteration 2's work items carry owners and no size. Spend and elapsed time are recorded after the fact, as they were here.
-- **It does not treat the six Major findings as new scope or open a Change Request for them.** The Change Control Manager does not work in the sprint zero; the order reached its owners through the Review Record, and its ledger is the record.
-
-### The stakeholder's grants on the two contested bands
-
-The Review Coordinator ordered the `R004` and `R011` acceptance question held until the scores reconcile. The Project Manager put it anyway, conditionally, and the stakeholder answered both on 2026-11-23:
-
-| Risk | The question as put | The stakeholder's answer |
-|---|---|---|
-| `R004` — the cross-owner `admin` branch read as live functionality when nothing in the running system grants that role | If the reconciled score lands at exposure 9 to 12 or above, do you accept this risk for the sprint zero, until Excavation records the branch as the exceptional entity you ruled it to be? | Yes |
-| `R011` — a framework upgrade breaks the test suite while no product behaviour changes, because the suite reproduces the bearer-token ticket format from framework internals | If the reconciled score lands at exposure 9 to 12 or above, do you accept this risk for the sprint zero? | Yes |
-
-Both are the stakeholder's own grants, on their own words, and neither is a self-granted acceptance: the Project Manager asked, the stakeholder answered, and the register may now record an acceptance at the Significant band for either risk once the reconciliation places it there.
-
-The grant does not itself move either risk's band. Whether `R004` and `R011` sit at Significant or below is arithmetic, and item 1 still owes it: the System Inventory states "likely / moderate" for `AN-004` and `AN-011`, which on the IARI scale is 4 × 3 = 12, while the register records 2 × 2 and 4 × 2. What changed on 2026-11-23 is that the band the arithmetic may produce no longer has an unanswered question behind it. The SBC gate is not waiting on a second queue cycle when it is re-taken, and the Risk List's remediation is complete apart from the reconciliation pass.
-
-The Project Manager's reason for not following the coordinator's ordering stands on this iteration's measured facts: stakeholder queue time of 1:04:37.8136958 against agent time of 0:45:44.3700545 means the human gate, not the agent work, is what lengthens a phase here. A conditional grant binds the reconciled outcome without asking on a magnitude the register could not yet state.
+Item 1 is now narrower than the Review Coordinator ordered it. The coordinator held the `R004` and `R011` acceptance behind the reconciliation; the stakeholder answered both on 2026-11-23, so no gate is left waiting on that queue. What item 1 still owes is the arithmetic, and the instruction to ask stands only for a risk the reconciliation newly places in the grant band.
 
