@@ -288,7 +288,6 @@ Each risk carries the action its owner takes and the sign that it has started to
 | R030 | Avoid | Record beside the recovered session flows that the file carrying them is the delivery's most-reworked file, that none of its fifteen commits touched a failure path, and that no test covers it — so what Excavation recovers there is read from code that never settled | System Analyst | A phase treats the session behaviour as stable and builds on it without re-reading; the flows are re-read against the file before the baseline | A design cites the session surface as settled |
 
 ## Traceability
-
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
 | R001 | AN-001 | Refines | — |
@@ -321,3 +320,5 @@ Each risk carries the action its owner takes and the sign that it has started to
 | R028 | AN-027 | Refines | — |
 | R029 | AN-028 | Refines | — |
 | R030 | AN-029 | Refines | — |
+| R031 | — | — | — |
+
