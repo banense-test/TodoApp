@@ -120,15 +120,18 @@ Three things the running system does, stated here because the features below dep
 What it keeps: `Todos.db`, one SQLite file at `Data Source=.db/Todos.db` relative to the API's working directory, created by three EF Core migrations, holding `Todos` plus the seven ASP.NET Core Identity tables. `IsComplete` is stored on every row and nothing but an operation with no caller writes it (System Inventory — Persistent Data; AN-001).
 
 ## Features
-The features are the goals the one human actor reaches through the entry points, plus the two goals the perimeter assigns to the processes themselves. Every feature names the `EP-NNN` that deliver it, and all twenty-two entry points are named at least once.
+The features are the eleven goals the one human actor reaches through the entry points. Every feature names the `EP-NNN` that deliver it, and all twenty-two entry points are named at least once.
+
+Eleven features are use cases, and they are the eleven the Use-Case Model recovers. Two further rows of the table below describe what the delivery does for the processes themselves — creating the schema at start-up, and answering readiness and liveness. **Neither is a use case**: schema migration and health probing carry no actor goal, the Use-Case Model declines to recover either and states why under "Not recovered, and why", and the Supplementary Specification homes them as mechanisms M9 and M8. They are recorded here as platform mechanisms so that all twenty-two entry points are accounted for, and they are drawn as components, not use-case ellipses.
 
 ```plantuml
 @startuml
-title Features of the recovered system - the goals of the one human actor, and the entry points that serve each
+title Features of the recovered system - eleven use cases, the goals of the one human actor, and the platform mechanisms that are not use cases
 
 left to right direction
 skinparam shadowing false
-skinparam wrapWidth 200
+skinparam wrapWidth 210
+skinparam componentStyle rectangle
 
 actor "Person with a task list\nthe only human actor the perimeter names" as USER
 
@@ -150,9 +153,10 @@ rectangle "Todo App" {
   package "API reference" {
     usecase "Consult the API reference\nEP-017, EP-018, EP-019" as U11
   }
-  package "Running the system - no human actor initiates these" {
-    usecase "Start the system and create its schema\nEP-022" as U12
-    usecase "Observe readiness and liveness\nEP-020, EP-021" as U13
+
+  package "Platform mechanisms - no actor goal, not use cases" {
+    component "Start the system and create its schema\nEP-022" as PM1
+    component "Observe readiness and liveness\nEP-020, EP-021" as PM2
   }
 }
 
@@ -174,8 +178,14 @@ N1 .. U3
 note "No client call reaches EP-013 and the list's\ncheckbox is bound to nothing: an API operation\nwith no screen path. AN-001" as N2
 N2 .. U10
 
-note "The System Inventory names 'App host or operator'\nas the initiator of EP-020 to EP-022 and defines\nno operator actor; this Vision creates none." as N3
-N3 .. U13
+note "Supplementary Specification M9, and\nUse-Case Model, Not recovered, and why" as NM1
+NM1 .. PM1
+
+note "Supplementary Specification M8, and\nUse-Case Model, Not recovered, and why" as NM2
+NM2 .. PM2
+
+note "The System Inventory names 'App host or operator'\nas the initiator of EP-020 to EP-022 and defines\nno operator actor: neither is a use case, and this\nVision creates no actor for them." as N3
+N3 .. PM2
 
 @enduml
 ```
@@ -187,14 +197,14 @@ N3 .. U13
 | Sign in with an external provider | Challenges one of four configurable schemes, receives the provider callback, protects the provider identifier with a data-protection protector named after the provider, and exchanges it at the API for a local user and a bearer token, creating the user and its login on first sight. Unreachable in the delivered configuration: no scheme is registered (stakeholder, 2026-11-23). The challenge takes the provider name unchecked (AN-019) and the callback reports no failure (AN-020) | `EP-007`, `EP-008`, `EP-016` | `Todo.Web/Server/AuthApi.cs:55-97`; `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:39-92`; `Todo.Web/Server/appsettings.json`; `Todo.Api/Users/UsersApi.cs:24-60` |
 | Sign out | Clears the session cookie only. No remote sign-out is performed: the code's own `TODO: Support remote logout` marks the gap | `EP-006` | `Todo.Web/Server/AuthApi.cs:40-52`; `Todo.Web/Client/TodoApp.razor:8` |
 | Maintain one's account | The ASP.NET Core Identity endpoint set the API maps under `/users`: refresh, confirm email, resend confirmation, forgot password, reset password, manage two-factor, manage info. No screen of the client calls it, and it is the only surface of the system with no rate limit (AN-009) | `EP-015` | `Todo.Api/Users/UsersApi.cs:20`; `Todo.Api/Extensions/RateLimitExtensions.cs:38-47`; `Todo.Web/Client/TodoClient.cs:7-71` |
-| See one's own tasks | Loads the caller's rows — filtered on `OwnerId` alone, with no `admin` branch (AN-018) — into the list screen, which shows a spinner while the load is in flight and drops to the login form when the load answers 401 or 403 | `EP-001`, `EP-003`, `EP-009`, `EP-010` | `Todo.Api/Todos/TodoApi.cs:24-27`; `Todo.Web/Server/TodoApi.cs:12-25`; `Todo.Web/Client/Components/TodoList.razor:3-32` |
+| See one's own tasks | Loads the caller's rows — filtered on `OwnerId` alone, with no `admin` branch (AN-018) — into the list screen, which shows a spinner while the load is in flight and drops to the login form when the load answers 401 or 403. When the client has no base address the load returns an empty list without a request, so the screen renders an empty list rather than a spinner (AN-026) | `EP-001`, `EP-003`, `EP-009`, `EP-010` | `Todo.Api/Todos/TodoApi.cs:24-27`; `Todo.Web/Server/TodoApi.cs:12-25`; `Todo.Web/Client/Components/TodoList.razor:3-32`; `Todo.Web/Client/TodoClient.cs:32-38` |
 | Add a task | Posts a title, which data annotations require to be non-empty and which carries no declared length bound; creates the row owned by the caller with `IsComplete` false, and returns it so the list can append it without reloading | `EP-003`, `EP-009`, `EP-012` | `Todo.Api/Todos/TodoApi.cs:38-50`; `Todo.Api/Todos/Todo.cs:15-21`; `Todo.Web/Shared/SharedClass.cs:5-11`; `Todo.Web/Client/Components/TodoList.razor:3-32`; `Todo.Web/Client/TodoClient.cs:7-71` |
 | Remove a task | Deletes the row when the caller owns it; a row the caller does not own answers 404, not 403 | `EP-003`, `EP-009`, `EP-014` | `Todo.Api/Todos/TodoApi.cs:67-73`; `Todo.Web/Client/Components/TodoList.razor:3-32` |
 | Read one task by id | Returns the row when the caller owns it and 404 otherwise. No screen and no client call reaches it: an API operation only | `EP-011` | `Todo.Api/Todos/TodoApi.cs:29-36`; `Todo.Web/Client/TodoClient.cs:7-71` |
 | Change a task | Sets the title and the completion flag of a row the caller owns, and rejects a body whose `Id` disagrees with the route with 400. It is the only operation that writes `IsComplete`, and it has no caller: the client makes no update call and the list's checkbox is bound to nothing (AN-001) | `EP-013` | `Todo.Api/Todos/TodoApi.cs:52-65`; `Todo.Web/Client/Components/TodoList.razor:24-27`; `Todo.Web/Client/TodoClient.cs:7-71` |
 | Consult the API reference | Serves the OpenAPI document with the bearer scheme and the Scalar reference UI, and redirects the API's root to it. The UI and the document's server list are configured for Development, while the root redirect is unconditional (AN-017); the README sends the reader to a Swagger UI that is not mounted (AN-008) | `EP-017`, `EP-018`, `EP-019` | `Todo.Api/Program.cs:49-62`; `Todo.Api/Extensions/OpenApiOptionsExtensions.cs`; `README.md` |
-| Start the system and create its schema | The app host starts the API and the server and raises the EF migration before the API starts, in run mode and only when `Todo.Api/.db` does not exist. No human initiates it: it is the one platform event in the perimeter | `EP-022` | `TodoApp.AppHost/Extensions.cs:1-34`; `TodoApp.AppHost/Program.cs:1-28` |
-| Observe readiness and liveness | Readiness fails unless every check passes; liveness is tagged `live`. Both are mapped in Development only. The perimeter names "app host or operator" as their initiator and defines no operator actor | `EP-020`, `EP-021` | `TodoApp.ServiceDefaults/Extensions.cs:110-118` |
+| **Mechanism, not a feature**: start the system and create its schema | The app host starts the API and the server and raises the EF migration before the API starts, in run mode and only when `Todo.Api/.db` does not exist. No human initiates it: it is the one platform event in the perimeter, stated as mechanism M9 in the Supplementary Specification — Design Constraints and Functionality | `EP-022` | `TodoApp.AppHost/Extensions.cs:1-34`; `TodoApp.AppHost/Program.cs:1-28`; Supplementary Specification M9 |
+| **Mechanism, not a feature**: observe readiness and liveness | Readiness fails unless every check passes; liveness is tagged `live`. Both are mapped in Development only. The perimeter names "app host or operator" as their initiator and defines no operator actor, so no actor goal exists; stated as mechanism M8 in the Supplementary Specification — Supportability and Functionality | `EP-020`, `EP-021` | `TodoApp.ServiceDefaults/Extensions.cs:110-118`; Supplementary Specification M8 |
 
 Four things follow for the use cases recovered from these features, and each constrains what a recovered specification may claim.
 
@@ -204,7 +214,6 @@ Four things follow for the use cases recovered from these features, and each con
 | External-provider sign-in is a use case of the system that the delivered configuration cannot reach: it is recovered and marked unreachable | Sign in with an external provider | Stakeholder, 2026-11-23; `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:57-75`; `Todo.Web/Server/appsettings.json` |
 | Cross-owner access is not recovered as a use case: it is an exceptional entity the model leaves out | See one's own tasks, Read one task, Change a task, Remove a task | Stakeholder, 2026-11-23; AN-004 |
 | No failure cause reaches the person: every authentication and registration failure answers one 401 and the client shows one fixed string, so no recovered flow may claim a distinguishable failure | Create an account, Sign in with an email and password, Sign in with an external provider | AN-021, AN-020; `Todo.Web/Client/Components/LogInForm.razor:76-95` |
-
 ## Assumptions and Dependencies
 
 | # | Assumption | Why it stands, and what would break it |
