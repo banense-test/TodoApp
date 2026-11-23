@@ -1075,12 +1075,11 @@ The Data Model optional artifact is not triggered (eight persisted entity types,
 Three properties matter to the architecture rather than to the schema. **The schema has exactly one definition** — three migrations and their snapshot; no `.sql` file, procedure or trigger exists in the tree, so any schema statement is a C# statement. **The ownership key is the only access-control datum the data holds** — there is no role table row, no permission, no share; `IsAdmin` is read from a token claim and the column that once backed it is gone. **`OwnerId` is excluded from every response shape** by mapping to `TodoItem`, so the key cannot round-trip to a client.
 
 ## Size and Performance
-
 **The delivery declares no performance target** — no response-time threshold, throughput figure, concurrency limit, payload bound or resource budget appears anywhere in the tree. What follows is the budget the code fixes on itself, and what a later threshold must not assume.
 
 | # | What the code fixes | Anchor |
 |---|---|---|
-| SP1 | A request budget exists on `/todos` and nowhere else: 100 tokens per caller, 100 replenished per 10-second period, a queue of 100, 429 on rejection. No `RateLimiting` section exists, so these are the effective values and none is tunable as delivered | `Todo.Api/Extensions/RateLimitExtensions.cs:20-30`; S2 of the Supplementary Specification |
+| SP1 | A request budget exists on `/todos` and nowhere else. The code defaults are 100 tokens per caller, 100 replenished per 10-second period and a queue of 100; `appsettings.Development.json:8-12` binds all three to 50, and every launch profile in both serving processes sets `ASPNETCORE_ENVIRONMENT=Development`, so **50 tokens, 50 per 10 s and a queue of 50 is the budget in force wherever this delivery runs**, and 429 is the rejection status. The 100 series applies only in an environment no launch profile in the tree selects. One fact, recorded once: AN-024 (AN-024) | `Todo.Api/Extensions/RateLimitExtensions.cs:14-31`; `Todo.Api/appsettings.Development.json:8-12`; `Todo.Api/Properties/launchSettings.json`; `Todo.Web/Server/Properties/launchSettings.json`; S2 of the Supplementary Specification |
 | SP2 | No payload size limit is configured on any endpoint, in either process | `Todo.Api/Program.cs`; `Todo.Web/Server/Program.cs` |
 | SP3 | Every task read and write is one SQL statement over the indexed `OwnerId`, or one primary-key lookup. The list declares no order and no pagination, so it returns every row the caller owns in one response | `Todo.Api/Todos/TodoApi.cs:24-51` |
 | SP4 | Every authorized request costs one extra database read for the caller's identity, inside the same scope and cached nowhere across requests | `Todo.Api/Authorization/CurrentUser.cs:6-13` |
@@ -1089,7 +1088,6 @@ Three properties matter to the architecture rather than to the schema. **The sch
 | SP7 | A browser task operation traverses four components and two HTTP hops; a direct API call traverses one. The recovered architecture has both routes and they are not the same cost | `Todo.Web/Server/TodoApi.cs:12-25`; `README.md` |
 
 **What a later threshold must not assume.** No figure stated for the system as a whole can hold for `/users`, which is unlimited (AN-009) and whose policy could not be moved as written. No response-time figure can hold for a caller with an unbounded number of rows, because the list has no page bound. And the two hops out of the BFF are not equivalent under failure: only the token hop retries (P6).
-
 ## Quality
 Each quality attribute is stated with the tactic the architecture actually embodies and the element that carries it. No attribute is recorded as "to be addressed later": where the delivery holds no tactic, the cell says so and names the anomaly.
 
