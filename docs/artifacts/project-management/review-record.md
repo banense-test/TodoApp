@@ -897,17 +897,17 @@ end note
 ### Management Reviewer lens
 <!-- review: Survey I2 -->
 
-**Disposition from the management lens: Go, on the four artifacts as corrected.**
+**Disposition from the management lens: Go.**
 
-That is a verdict on the artifacts, and it is the one they have earned. The three Majors this lens recorded in iteration 1 are closed and verified against the corrected sections, not against the owners' assurances: the grant band can now be derived from scores that reproduce, the exit criteria are certified only on evidence the artifact each cites actually records, and the duplication the stakeholder ordered deleted is gone. No Major and no Critical finding is open from either executed lens. Every one of the eleven SBC criteria that an artifact can establish is established — nine on the reading, the register and the plan, two more on the stakeholder's own answers of 2026-11-23, and the eleventh now on this review's answer.
+That is a verdict on the artifacts, and it is the one they have earned. The three Majors this lens recorded in iteration 1 are closed and verified against the corrected sections, not against the owners' assurances: the grant band can now be derived from scores that reproduce, the exit criteria are certified on evidence the artifact each cites actually records, and the duplication the stakeholder ordered deleted is gone. No Major and no Critical finding is open from either executed lens. Every row of the criteria table is met — nine on the reading, the register and the plan, and three on the stakeholder's own answers of 2026-11-23, the last of them in this review.
 
 **Stakeholder sanction: GRANTED** — 2026-11-23.
 
 **Stakeholder acceptance:** "Yes" — asked whether they confirm the perimeter of the existing system as the System Inventory records it — four processes, 22 entry points, 21 anomalies each anchored, eight priority areas with nothing left out — and sanction advancing past the System Boundary Confirmed milestone into Excavation. With the instruction: "Yes, let's move on to the next phase. Minor findings should also be addressed during the next phase—let's not leave them unattended."
 
-**C2b is closed on the stakeholder's answer.** The criterion this lens recorded as not met at 2026-11-23 is now met, on the same day and in the stakeholder's own words, and it is met by their answer and not by an inference of any reviewer's. The perimeter as the System Inventory records it stands confirmed.
+**C2b is closed on the stakeholder's answer.** The criterion this lens recorded as not met at 2026-11-23 is now met, on the same day and in the stakeholder's own words, and it is met by their answer and not by an inference of any reviewer's. The perimeter as the System Inventory records it stands confirmed, and the sanction to advance stands granted.
 
-**The open Minors carry into Excavation, by the stakeholder's order.** The three Minors open across the four artifacts are addressed in the next phase rather than left until someone notices them: `Development Case#F2` (the co-owned-artifact sentence omits the Management Reviewer, Business Reviewer and Review Coordinator lenses), `System Inventory#F3` (the Document Control iteration field reads 1) and `Iteration Plan#F3` (the fine-plan State column still shows rows 4 and 5 with the owner and row 6 not started). The order is the stakeholder's and none of the three is deferred to whenever its owner next happens to work: `Development Case#F2` is the Process Engineer's and the other two their own artifacts' owners', each in its next turn.
+**The open Minors carry into Excavation, by the stakeholder's order.** Five Minors stand open across the four artifacts and the next phase closes them: `Development Case#F2` (the co-owned-artifact sentence omits the Management Reviewer, Business Reviewer and Review Coordinator lenses), `Iteration Plan#F2` (C2b still reads "Not met" after the answer was Yes), and the technical lens's `System Inventory#F3` and `Iteration Plan#F3`. Each has an owner who corrects it in the next phase's own iteration, and none is left to wait on the owner's convenience.
 
 ```plantuml
 @startuml
@@ -933,7 +933,8 @@ note bottom of Excavation
   The stakeholder ordered on 2026-11-23 that the
   open Minors be addressed in the next phase and
   not left unattended: Development Case#F2,
-  System Inventory#F3, Iteration Plan#F3.
+  Iteration Plan#F2, System Inventory#F3,
+  Iteration Plan#F3.
 end note
 @enduml
 ```
@@ -941,13 +942,13 @@ end note
 | Axis | State | Basis |
 |---|---|---|
 | Scope | Green | Nothing declared is worked in the sprint zero, correctly. The perimeter holds four processes, 22 entry points and eight ordered priorities, and the 54 unread files are each named with the reason it was not read and none carries a perimeter fact. |
-| Schedule | Green | The gate's own condition is answered: the sanction is granted and the perimeter confirmed, both on 2026-11-23. The second iteration was spent on rework the stakeholder ordered and it closed every Major it named. No forecast is stated, because no phase has closed. |
+| Schedule | Green | The gate's own condition is answered: the sanction is granted and the perimeter confirmed, both on 2026-11-23. The second iteration was spent on the rework the stakeholder ordered and it closed every Major that rework named. No forecast is stated, because no phase has closed. |
 | Cost | Not measured | No budget is declared, so none is set. Tokens and elapsed time are the two measured quantities and neither figure is filled where nothing has been measured. This axis carries no reading, and a green here would be an invention. |
-| Quality | Green | Ten of eleven criteria met on artifact evidence and the stakeholder's own words; C2b met on this review's answer. No Critical and no Major open from either lens. Three Minors open, each ordered corrected in the next phase, none of them holding anything. |
+| Quality | Green | Every criterion row met — nine on artifact evidence, three on the stakeholder's own words. No Critical and no Major open from either lens. Five Minors open, each ordered corrected in the next phase, none of them holding anything. |
 
-**Why the verdict is Go rather than Conditional.** A Conditional Go would name conditions the project team must satisfy before the next gate, and no Major stands for one to be built on. The three Minors are ordered corrected in the next phase and are recorded as the owners' work there, not as a condition on this sanction: the stakeholder granted the sanction with them open and told the team to address them onward. The register is honest that SBC retires no risk — the reading makes the risks owned, and the actions that retire them are Excavation's and later.
+**Why the verdict is Go rather than Conditional.** A Conditional Go would name conditions the project team must satisfy before the next gate, and no Major stands for one to be built on. The open Minors are ordered corrected in the next phase and are recorded as the owners' work there, not as a condition on this sanction: the stakeholder granted the sanction with them open and told the team to address them onward. The register is honest that SBC retires no risk — the reading makes the risks owned, and the actions that retire them are Excavation's and later.
 
-**What Excavation inherits from this gate.** A perimeter the stakeholder has confirmed in this review; a constraint list of twelve entry-point-bearing anomalies with the 21 edges the System Inventory records, the nine anomalies with no entry point carried through the Risk List; a register whose every score reproduces and whose four acceptances above the Moderate band each hold the stakeholder's own answer; a plan that names no work the process does not run in Survey; and three Minors with an order to close them rather than leave them unattended.
+**What Excavation inherits from this gate.** A perimeter the stakeholder has confirmed in this review; a constraint list of twelve entry-point-bearing anomalies with the 21 edges the System Inventory records, the nine anomalies with no entry point carried through the Risk List; a register whose every score reproduces and whose four acceptances above the Moderate band each hold the stakeholder's own answer; a plan that names no work the process does not run in Survey; and the order to close the open Minors rather than leave them unattended.
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
