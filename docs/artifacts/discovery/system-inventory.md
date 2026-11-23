@@ -524,7 +524,7 @@ The tree is unchanged since `307a1ea` of 2026-02-12. `Todo.Api`'s newest commit 
 
 ```plantuml
 @startuml
-title Final coverage - 139 files in 11 areas, 84 opened, 68 anchored by a recovered artifact, 55 never opened
+title Final coverage - 139 files in 16 areas, 84 opened, 68 anchored by a recovered artifact, 55 never opened
 
 skinparam componentStyle rectangle
 skinparam shadowing false
@@ -581,7 +581,8 @@ note right of B3
 end note
 
 note right of B4
-  SharedClass.cs is anchored; Todo.Web.Shared.csproj is not.
+  SharedClass.cs is anchored; Todo.Web.Shared.csproj is
+  never opened.
 end note
 
 note right of B5
@@ -631,10 +632,10 @@ end note
 **Every file that was never opened, with the reason it stays unopened.** The 55 fall into three kinds and no fourth:
 
 - **Vendored — 45 files.** The Bootstrap 5 distribution under `Todo.Web/Client/wwwroot/bootstrap/`: a third-party release the contribution contract forbids editing. The system's own styling is `app.css`, not this. Anchored as one distribution in Technology and Size and in the Software Architecture Document's component view.
-- **No perimeter fact — 6 files.** `wwwroot/css/app.css` and the two binary assets `bg.png` and `favicon.ico` (styling, no behaviour); `_Imports.razor` (an import list); `Todo.Web.Shared.csproj` (a project file); `.gitignore` (ignore rules). None carries a fact any recovered element rests on.
+- **No perimeter fact — 6 files.** `wwwroot/css/app.css` and the two binary assets `bg.png` and `favicon.ico` (styling, no behaviour); `_Imports.razor` (an import list, counted once for the client and once for the server, both import lists); `Todo.Web.Shared.csproj` (a project file); `.gitignore` (ignore rules). None carries a fact any recovered element rests on.
 - **Not reached — 4 files.** `risk-list.md`, `iteration-assessment.md`, `vision.md` and `supplementary-specification.md`, other roles' artifacts of this process. They document the process, not the delivery, and no perimeter fact depends on them.
 
-**The 16 opened and uncited.** Three migration `.Designer.cs` files, `GlobalUsings.cs`, the client's `launchSettings.json` and `_Imports.razor`, `LICENSE`, the app host's `launchSettings.json` and two environment files, `Todo.Web.Shared.csproj`, and six artifacts under `docs/artifacts/`. Each either restates a fact anchored in its own file (the designer files restate the migration, the environment files bind nothing) or declares no behaviour (import lists, a licence, a project file). Leaving them uncited is what keeps the anchor set honest: an anchor names the file a fact was read from, not every file that happens to be open.
+**The 16 opened and uncited.** Three migration `.Designer.cs` files, `GlobalUsings.cs`, the client's `Properties/launchSettings.json`, the server's `_Imports.razor`, `LICENSE`, the app host's `Properties/launchSettings.json` and its two environment files, and six artifacts under `docs/artifacts/`. Each either restates a fact anchored in its own file (the designer files restate the migration, the app host's environment files bind nothing) or declares no behaviour (import lists, a licence, a project file). Leaving them uncited is what keeps the anchor set honest: an anchor names the file a fact was read from, not every file that happens to be open.
 
 **What the reading established, by area.** Every file the recovered set rests on was read against the lines its anchor names: the five Todo endpoints, the rate limiter, the current-user resolver and its handler, the whole `/auth` surface with its forwarder, its token client and its five authentication files, the client's three components and its HTTP client, the Identity provider registration and its scheme and provider-name services, both programs' data-protection calls and their `appsettings` pairs, both launch profiles, the test host with its token minter and its `DbContextOptions` helper, the app host's migration extension and its resource graph, the README section the code contradicts, and the build and container manifests. Everything in `Todo.Api`, `Todo.Api.Tests`, `TodoApp.AppHost`, `TodoApp.ServiceDefaults`, `Requests`, `.aspire`, `.vscode`, `.github` and `.devcontainer` was opened. `.iari/README.md` was read as the owner's note and is counted in its own row.
 
