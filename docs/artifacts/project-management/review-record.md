@@ -1114,7 +1114,7 @@ Both executed lenses reach the same conclusion by different routes: the technica
 
 ```plantuml
 @startuml
-title AR milestone disposition - eight criteria met, three contested, two not met, and the route the stakeholder's order sanctions
+title AR milestone disposition - eight criteria met, three contested, two not met, and the single iteration that closes the phase
 
 skinparam shadowing false
 skinparam wrapWidth 240
@@ -1135,7 +1135,7 @@ package "Met on the artifact that owns the evidence - 8" {
 package "Contested - held by an open Major at its own artifact - 3" {
   class "A1 operations recovered as use cases\nfive COMP-014 edges SUSPECT at the close" as A1 <<contested>>
   class "A10 the set states the code's behaviour\nR6 states one budget where two are in force" as A10 <<contested>>
-  class "A13 no work the process does not run\nthe sequence records no Process Engineer stage" as A13 <<contested>>
+  class "A13 no work the process does not run\nthe plan records Environment as inactive here" as A13 <<contested>>
 }
 
 package "Not met - 2" {
@@ -1148,21 +1148,31 @@ package "Verdict" {
   class "Milestone NOT sanctioned\nrequiresIteration true" as R <<verdict>>
 }
 
+package "The iteration that closes the phase" {
+  class "Environment stage recorded as the phase's first discipline\nProcess Engineer corrects Development Case#F2, #F3\nand the Environment tailoring statement" as N <<route>>
+  class "Use-Case Model R6 corrected, five COMP-014 edges confirmed" as N2 <<route>>
+  class "A10 and A13 evidence cells restated on what they certify" as N3 <<route>>
+}
+
 A1 --> V : one confirmation per edge
 A10 --> V : one diagram, one evidence cell
 A13 --> V : one stage to record
-A11 --> V : one owner turn, created by A13's correction
+A11 --> V : one owner turn on that stage
 A12 --> V : the stakeholder's answer alone
 V --> R
+N --> A11 : performs it
+N2 --> A1 : certifies it
+N2 --> A10 : certifies it
+N3 --> A13 : certifies it
 
 note bottom of A12
   Certified by the stakeholder's answer and by nothing else.
   No artifact can hold it, so no evidence cell cites one.
 end note
-note bottom of A11
-  A11 stays as written on the order of 2026-11-23.
-  It is neither waived nor restated, and both Minors
-  are corrected in the next iteration of this phase.
+note bottom of N
+  Environment runs in every phase; in Excavation it is the
+  first discipline. A11 stays as written and both Minors are
+  corrected in that turn.
 end note
 
 @enduml
@@ -1170,9 +1180,9 @@ end note
 
 **What this consolidation records as settled.** Eight of the thirteen AR criteria are met on the artifact that owns each. The recovered set is not in question: eleven use cases, a 22-component architecture across four processes, and an eight-table data model, each resting on the file and lines it cites. Seven Major findings were cleared this iteration and verified at source rather than accepted from the artifacts' own text, and no finding is waived, deferred or recorded as closed on its owner's prose. The four exclusions the stakeholder ruled on stand untouched: external-provider sign-in is recovered and unreachable, the admin branch is an exceptional entity, and `EP-020`, `EP-021` and `EP-022` are not use cases.
 
-**What it records as requiring work.** Four Major defects and three Minors, all corrections their owners make inside this phase, itemized in Resolutions and Actions. Three of the four Major defects sit on two artifacts. The one that gates the process rather than an artifact is `Iteration Plan#F7`: as the plan stands the phase schedules no Process Engineer stage, so the criterion A11 counts cannot be satisfied and `Development Case#F2` has no owner turn — the condition `R031` predicted and which has now materialized twice.
+**What it records as requiring work.** Four Major defects and three Minors, all corrections their owners make inside this phase, itemized in Resolutions and Actions. Three of the four Major defects sit on two artifacts, and one owner turn performs both Use-Case Model corrections. `Iteration Plan#F7` gates the rest: the plan records Environment as inactive in Excavation, so the stage on which `Development Case#F2` and `#F3` are corrected does not exist in it — the condition `R031` predicted and which has now materialized twice.
 
-**The route.** `Risk List#R031`'s contingency, and the stakeholder's order of 2026-11-23, both point to the same thing: **one further iteration of this phase**, performing actions 1 to 7, then gate H4 re-put once the recovered set agrees with itself. No declared scope is cut or deferred to reach it, and no role is added that the process does not run — the Process Engineer is placed here by the stakeholder's order, and that order is the only authority that places the role.
+**The route — one iteration.** `Risk List#R031`'s contingency and the stakeholder's answer of 2026-11-23 both point to a single further iteration of this phase, performing actions 1 to 8, then gate H4 re-put once the recovered set agrees with itself. The stakeholder placed the Process Engineer's turn in that same iteration, so the phase closes in one iteration rather than two, and stated that Environment runs in every phase and is Excavation's first discipline with the Process Engineer's stage — not an exception to the process. A13's evidence cell cites that stage. No declared scope is cut or deferred to reach it.
 
 **Disposition by artifact.**
 
@@ -1187,7 +1197,7 @@ end note
 | Risk List | **Approved with changes** — `#F3` open, one strategy cell behind the artifact it points at; holds no criterion |
 | Use-Case Model | **Changes required** — `#F4`, `#F3` and the Management Reviewer's `#F1` open |
 | Iteration Plan | **Changes required** — `#F6` and `#F7` open |
-| Development Case | **Changes required** — `#F2` and `#F3` open; the owner is scheduled by order from the next iteration |
+| Development Case | **Changes required** — `#F2` and `#F3` open, plus the Environment tailoring statement; the owner's stage is recorded in the next iteration |
 | Iteration Assessment | **Not judged** — authored after this review; it cannot describe the iteration it follows |
 
-**Stakeholder contribution required.** The next iteration cannot complete without the stakeholder's input on one point: the plan must record the Process Engineer's stage in this phase for A11 to be satisfiable, and the wording of that record is the stakeholder's order to confirm. The request is put in this turn, and the answer is folded into this record as a stakeholder finding before it is acted on.
+**Stakeholder contribution — answered and recorded.** The stakeholder's answer to the routing question is folded into Findings as a stakeholder finding and into Resolutions and Actions as the due point of every action. A11 stays as written; the two Development Case Minors are corrected in the next iteration; A13's evidence cites the Environment stage, not an order. Nothing beyond what the stakeholder stated is recorded.
