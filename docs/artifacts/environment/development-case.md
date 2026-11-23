@@ -77,6 +77,15 @@ DC ..> CG : conventions referenced
 @enduml
 ```
 
+### State at this phase
+
+Consolidation is the sprint zero's third and last phase and the only one whose intensity rises in Requirements while Analysis & Design falls from Critical to Medium: the reading is done, the set is being completed and counted. What this document changes for it, and nothing else:
+
+- Document Control names Consolidation, iteration 1, target end-of-Consolidation (GHR).
+- `Development Case#F4` — the Reviewer's Minor that `ACT-DC-01` named Project Management only in Survey — is corrected in the Disciplines and Intensity section: every phase partition now names every discipline the canonical matrix schedules in it.
+- The six OPTIONAL triggers and both classification verdicts are re-evaluated for this phase: five NOT FIRED, `Deployment Model` remains FIRED, and no trigger newly fires.
+- No tailoring decision of the baseline changes. No role is added, merged, removed or reassigned; no CORE artifact is omitted and no intensity deviates.
+
 ## Disciplines and Intensity
 Every active discipline runs at the intensity the canonical matrix fixes for its phase. **No deviation is requested and no intensity level is assigned by this document.**
 
