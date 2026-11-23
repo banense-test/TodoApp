@@ -901,72 +901,115 @@ Both were closed by `resolve_artifact_finding` before any new defect was recorde
 **Not a finding, and why.** The absence of an Iteration Assessment describing this iteration is correct state — the Project Manager authors it after this review. The absence of a Data Model is the Development Case's NOT FIRED verdict on its trigger, which this lens checked and found to hold: eight persisted entity types, below the >10 threshold, no migration in scope, and the data written inline in the Design Model. The absence of an open pull request is the sprint zero's correct state, not an omission. No finding is recorded for any of the three.
 
 ### Management Reviewer lens
-<!-- review: Survey I2 -->
+<!-- review: Excavation I1 -->
 
-Closure was executed in the dedicated reconciliation step before any new finding was recorded: `resolve_artifact_finding` first, this narrative second. All three findings this lens recorded in iteration 1 are closed against the corrected artifact, and each closure names the section it was verified at.
+#### Findings this lens closed at this gate
+
+Four findings of this lens were reconciled before any new defect was recorded, each verified against the artifact it names through the lens's own `resolve_artifact_finding` call. Closure is the tool call; what follows is the rationale.
+
+| Finding | What it claimed | Why it is closed |
+|---|---|---|
+| `Development Case#F1` | The duplication the stakeholder ordered deleted on 2026-11-23 — the role-delta list and the CLS-DC-01 diagram, each stated twice | Verified at "Roles and Ownership": one CLS-DC-01 diagram, one "### Role deltas" block with two bullets. The correction is in the artifact, not merely promised |
+| `Iteration Plan#F1` | C2b recorded "Not met" after the stakeholder had granted gate H2 — a cell stating a state the answer superseded | The row no longer exists. The plan's Evaluation Criteria now carries A1 to A13, and the Survey milestone is stated once in the coarse roadmap as "SBC — passed … Met at the re-take on 2026-11-23" |
+| `Risk List#F1` | SBC criterion C8 could not be established: `R004` and `R011` sat at Minor and Moderate and were accepted on the Project Manager's authority while the inventory's words scored them 12 | The scores are reconciled against one published word-to-score mapping; both rows read 4 × 3 = 12 and carry the stakeholder's verbatim grant of 2026-11-23. Recomputed row by row, all 29 anomaly-derived rows reproduce |
+| `Iteration Plan#F2` | The fine plan's State column stated outcomes its artifacts did not carry | Row 9 now states the Document Control correction that is verifiably in the System Inventory, row 10 records `Development Case#F2` as "Not started" and names the exact sentence that still omits three lenses, and rows 11 to 14 state the review's own position. No row claims a correction its artifact does not carry |
+
+#### Actions this lens's findings require, in the order the phase can hold them
+
+| Order | Owner | Action | Criterion it moves |
+|---|---|---|---|
+| 1 | System Analyst | Correct the Supplementary Specification: M3, S2, P1 and S4 state the code's 100/100/100 **and** the Development override to 50 with its anchor; rewrite R4 as two hops, the token hop inheriting the standard resilience handler and the forwarder hop inheriting nothing | A10, A3 |
+| 2 | Software Architect | Correct SP1, M3 and the Quality view's "bounded load" row the same way, citing `AN-024` | A10, A3 |
+| 3 | Software Architect | Correct the Deployment Model's preamble and Rate limiting row: the Development value is 50 and any other environment 100, and this is one of the settings that differ | A10, A5 |
+| 4 | System Analyst | Write R030's statement beside the recovered session flows, citing `AN-029`; and confirm the three `EP-003` edges so the eleven-use-case count is not resting on a suspect marking | A1, risk retirement |
+| 5 | Project Manager | Re-state A2 and A10 against what their evidence establishes, and set A12 to the answer as given | The plan's own certification |
+| 6 | Process Engineer | `Development Case#F2`: name every lens in the Review Record's contributor set and draw the three missing edges in CLS-DC-01; bring Document Control forward to Excavation | **A11 — the criterion that holds the phase** |
+
+Actions 1 to 5 are work an Excavation role performs in the phase as the process runs it. Action 6 is not: Environment has no intensity in Excavation, so its owner has no scheduled stage. That asymmetry — not the size of any defect — is what makes Excavation iteration 1 unable to close on its own evidence, and it is the materialization of `R031`.
+
+#### The two outcomes this gate permits, and what each costs
 
 ```plantuml
 @startuml
-title RESOLUTIONS-SBC-03 Closure of this lens's prior findings, then the sanction, and the Minors the stakeholder ordered carried forward
+title AR-S1 The state the Architecture Recovered milestone is in at this review, and what moves it forward
 
 skinparam shadowing false
-skinparam sequenceMessageAlign left
-skinparam wrapWidth 240
+skinparam wrapWidth 250
 
-participant "Management Reviewer" as MR
-participant "Process Engineer" as PE
-participant "Project Manager" as PM
-participant "Stakeholder" as SH
-participant "Review Coordinator" as RC
+[*] --> UnderReview : iteration 1 artifacts written
+UnderReview --> CriteriaAssessed : management lens reads A1 to A13
+CriteriaAssessed --> SanctionSought : 7 Major open, A11 not met
 
-== Iteration 1 findings - closed this iteration ==
-MR -> PE : Development Case#F1 — the duplication the stakeholder ordered deleted
-PE --> MR : one CLS-DC-01 diagram, one role-deltas block
-MR -> MR : resolve_artifact_finding — Resolved, verified at Roles and Ownership
+state "Sanction sought at gate H4" as SanctionSought {
+  SanctionSought : the recovered set put to the stakeholder
+  SanctionSought : 11 use cases, 22 components, 8 tables
+  SanctionSought : 4 stated exclusions
+}
 
-MR -> PM : Risk List#F1 — the grant band could not be established
-PM --> MR : one published mapping, R004 and R011 re-scored 4 x 3 = 12
-PM -> SH : each Significant acceptance put to the stakeholder
-SH --> PM : granted, in their own words, four times
-MR -> MR : resolve_artifact_finding — Resolved, verified at Risk Classification and the grant rows
+SanctionSought --> Refused : stakeholder answers No
+SanctionSought --> Sanctioned : stakeholder answers Yes
 
-MR -> PM : Iteration Plan#F1 — criteria certified on answers that did not state them
-PM --> MR : C2 split, C2b recorded not met, C6 and C7 restated on their own evidence
-MR -> MR : resolve_artifact_finding — Resolved, verified at Evaluation Criteria
+state "Milestone NOT sanctioned" as Refused {
+  Refused : verdict No-Go at this review
+  Refused : A11 not met - 3 of 4 Minors closed
+  Refused : A12 not met - sanction refused
+  Refused : order given - correct all major findings
+}
 
-== The gate's own condition ==
-MR -> SH : gate H2 — confirm the perimeter as recorded, sanction advancing past SBC
-SH --> MR : Yes
-note right
-  Stakeholder sanction: GRANTED
-  2026-11-23
-  with the order that the Minor findings
-  be addressed in the next phase and not
-  left unattended
+state "Rework inside Excavation iteration 2" as Rework {
+  Rework : 7 Major closed by their owners
+  Rework : A11 owned by a role the phase does not schedule
+  Rework : R030 retirement performed or the risk restated
+}
+
+Refused --> Rework : iteration 2 planned from the Review Record
+Rework --> CriteriaAssessed : criteria re-taken
+Rework --> PlanA11 : if the Process Engineer still has no stage
+
+state "A11 stands - R031 materializes" as PlanA11 {
+  PlanA11 : the phase needs an iteration
+  PlanA11 : it did not plan
+  PlanA11 : declared work is never cut to avoid it
+}
+
+PlanA11 --> Rework : plan the extra iteration
+
+state "Milestone sanctioned" as Sanctioned {
+  Sanctioned : exit criteria met on their own evidence
+  Sanctioned : Consolidation may start
+}
+
+Sanctioned --> [*]
+
+note right of Refused
+  A refusal is not a defect the team fixes: it is the
+  stakeholder's to give. What it changes is the verdict,
+  which may not grant a sanction they withheld.
 end note
 
-== Recorded this iteration, both Minors ==
-MR -> PE : Development Case#F2 — the Review Record's contributor set omits three lenses
-MR -> PM : Iteration Plan#F2 — C2b still reads Not met after the answer was Yes
-MR -> RC : the disposition, with the sanction in it
+note bottom of Rework
+  Nothing in the seven Majors needs a stakeholder decision.
+  Each is a correction its owner can make in this iteration:
+  one anomaly, AN-024, accounts for three of them.
+end note
+
+note bottom of PlanA11
+  Environment runs at no intensity in Excavation, so the
+  Development Case's owner has no scheduled slot here. That
+  is why one Minor holds the phase, and why R031 exists.
+end note
+
 @enduml
 ```
 
-| Artifact | Finding | Severity | Owner | Status | What closed it, and where it was verified |
-|---|---|---|---|---|---|
-| Development Case | F1 | Minor | Process Engineer | Resolved | "Roles and Ownership" carries one CLS-DC-01 diagram and one role-deltas block listing the two inactive roles; the duplicate of each is gone, as the stakeholder ordered on 2026-11-23. Verified against the section, and against "Tool and configuration references" for the version-policy claim the technical lens removed. |
-| Risk List | F1 | Major | Project Manager | Resolved | "Risk Classification" publishes one word-to-score mapping and all 21 anomaly-derived rows reproduce from it; R004 and R011 read 4 × 3 = 12, Significant; the four Significant-band acceptances each carry the stakeholder's own answer and the other ten Significant-band risks avoid. The gate condition is now establishable and reproducible. |
-| Iteration Plan | F1 | Major | Project Manager | Resolved | "Evaluation Criteria" splits C2 into C2a (met, the three answers quoted) and C2b (recorded not met against the 2026-11-23 refusal), cites the self-reproducing coverage figure for C6, and splits C7 into carriage and reproducibility, both met on the artifacts they cite. No answer is recorded as a confirmation it does not contain. |
-| Development Case | F2 | Minor | Process Engineer | Open | The co-owned-artifact sentence and the CLS-DC-01 diagram must name Management Reviewer, Business Reviewer and Review Coordinator among the lenses that write into the Review Record. |
-| Iteration Plan | F2 | Minor | Project Manager | Open | C2b is still "Not met" on the 2026-11-23 refusal; it is met on the answer gate H2 returned, so the state and its evidence cell are restated. |
+**A second iteration is not a schedule failure; refusing the gate would be the failure.** Six of the seven Majors were avoidable within this iteration had the three artifacts been corrected against the anomaly their own reading had already recorded — `AN-024` was in the System Inventory and `R025` in the register, and three documents still asserted the opposite. The rework is cheap now and would not have been later: the Deployment Model's environment table is the only statement in the delivery of what differs between environments, and Consolidation would have copied it.
 
-**The stakeholder's order, carried forward.** Answering the sanction question on 2026-11-23 the stakeholder said: "Yes, let's move on to the next phase. Minor findings should also be addressed during the next phase—let's not leave them unattended." That order governs the four open Minors across the four artifacts under review: `Development Case#F2` and `Iteration Plan#F2` from this lens, and `System Inventory#F3` and `Iteration Plan#F3` from the technical lens. `Iteration Plan` carries two of the four, one from each lens, both the Project Manager's to correct.
+#### What does not move
 
-**Outstanding actions, with their owners.** These are the Process Engineer's and the Project Manager's next-phase corrections. None holds an exit criterion, none blocks a downstream role, and the four artifacts are approved from this lens on them.
-
-**No change request is opened for any of them.** The Change Control Manager does not work in the sprint zero — no ledger exists and no CR is opened before Inception — so the order reaches its owners through the Work Order and through these ledger entries, which is the route the sprint zero provides. Nothing in this iteration orders a change to declared scope.
-
-**What reopens this gate.** Nothing this lens found. The three Majors this iteration inherited are closed and verified; no Major and no Critical remains open from either executed lens; the gate's own condition is answered Yes.
+- **No declared scope is cut.** The delivery declares none, so nothing is deferred to protect a figure.
+- **No plan is re-sized.** Excavation has no measured actual — it has not closed — so no forecast is stated here and none is invented. The two currencies stay apart: agent work in tokens and elapsed time, the stakeholder's queue in days of waiting, never summed.
+- **`R031` is not accepted away.** It stays an avoided Significant risk, and its contingency — a second iteration planned from this record — is what is now required.
+- **The stakeholder's order is recorded as given**: "We must correct all major findings." No further condition, limit or prohibition was stated, and none is recorded.
 
 ### Review Coordinator lens
 <!-- review: Survey I2 -->
