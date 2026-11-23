@@ -121,7 +121,7 @@ end note
 | Validation filter | Component | Rejects a request whose parameters fail data annotations with a 400 `ValidationProblemDetails` | `Todo.Api/Filters/ValidationFilter.cs` |
 | Per-user rate limiter | Component | Token-bucket policy partitioned by the caller's `NameIdentifier`; applied to `/todos` only | `Todo.Api/Extensions/RateLimitExtensions.cs` |
 | Persistence over SQLite | Component | `TodoDbContext` deriving from `IdentityDbContext<TodoUser>`, the entity model, and the three migrations that create and change the schema | `Todo.Api/TodoDbContext.cs:6-20; Todo.Api/Migrations/` |
-| OpenAPI and API reference | Component | Emits the OpenAPI document, documents the bearer scheme, serves the Scalar reference UI in Development, and redirects `/` to it | `Todo.Api/Program.cs:29-30,49-58,62; Todo.Api/Extensions/OpenApiOptionsExtensions.cs` |
+| OpenAPI and API reference | Component | Emits the OpenAPI document with the bearer scheme, serves the Scalar reference UI in Development, and redirects `/` to it | `Todo.Api/Program.cs:30,49-56,58,62; Todo.Api/Extensions/OpenApiOptionsExtensions.cs` |
 | HTTP logging | Component | Development-only combined request/response logging with body and header fields | `Todo.Api/Program.cs:35-42,46` |
 | Todo.Web.Server | Subsystem | Serves the WebAssembly client, holds the browser session, and forwards `/todos` to the API | `Todo.Web/Server/` |
 | Session and external-provider authentication | Component | Cookie schemes, the four configurable identity providers, and the Blazor authentication state | `Todo.Web/Server/Authentication/` |
@@ -129,7 +129,7 @@ end note
 | Forwarding proxy | Component | YARP `IHttpForwarder` that rewrites the session cookie into a bearer token for `/todos` | `Todo.Web/Server/TodoApi.cs:8-25` |
 | Todo.Web.Client | Component | Blazor WebAssembly UI: login and create-user form, todo list, logout | `Todo.Web/Client/` |
 | Shared contracts | Component | `TodoItem`, `UserInfo`, `ExternalUserInfo` and `AuthToken` as compiled into client and BFF | `Todo.Web/Shared/SharedClass.cs:1-31` |
-| Service defaults | Component | Service discovery, HTTP resilience, liveness and readiness endpoints, OpenTelemetry | `todoapp.servicedefaults/extensions.cs` |
+| Service defaults | Component | Service discovery, HTTP resilience, liveness and readiness endpoints, OpenTelemetry | `TodoApp.ServiceDefaults/Extensions.cs:1-130` |
 | AppHost orchestration | Component | Starts the API and the server, runs the EF migration, runs the sqliteweb container | `TodoApp.AppHost/Program.cs:1-28; TodoApp.AppHost/Extensions.cs:1-34` |
 | Integration test suite | Component | Exercises the API over HTTP through `WebApplicationFactory`, seeding users and rows directly | `Todo.Api.Tests/` |
 | Build and package configuration | Layer | Target framework, language level, central package versions, package-source pinning, solution | `Directory.Build.props; Directory.Packages.props; global.json; nuget.config; TodoApp.sln` |
