@@ -1,8 +1,8 @@
 ## Document Control
-- Phase: Excavation
-- Status: Live register, carried into Consolidation. Two risks this gate left open — `R012` and `R016`, both Significant at exposure 12 — remain accepted on the stakeholder's grants of 2026-11-23 and neither is claimed retired. The AR verdict is the Review Coordinator's and reads "no further iteration required"
-- Milestone Target: end-of-Excavation (AR) — sanctioned at gate H4's fourth put on 2026-11-23 on that verdict; the register is live through Consolidation
-- Iteration: 4, Cycle 1
+- Phase: Consolidation
+- Status: Live register carried into the end-of-Consolidation (GHR) milestone review
+- Milestone Target: end-of-Consolidation (GHR) — not yet achieved
+- Iteration: 1, Cycle 1
 - Owner: Project Manager
 
 ## Risk Classification
