@@ -225,16 +225,16 @@ Three consequences follow for the next plan, and each is already a registered ri
 Because no test execution has run, no defect-removal efficiency can be computed at this gate and none is claimed in its place. The only defect detector that has operated is the milestone review.
 
 ## External Changes
-
 | Change | Effect on this iteration | Handled by |
 |---|---|---|
-| The stakeholder answered gate H1 inside the iteration on 2026-11-23 — the priority order confirmed, `R012` and `R016` accepted | `R022` did not bite: the three answers arrived ahead of the review and the 14-day ceiling was never approached | Iteration Plan — gate H1 row; Risk List — `R012`, `R016`, `R022` |
+| The stakeholder answered gate H1 inside the iteration on 2026-11-23 — the external-provider path and the admin branch ruled on, the priority order confirmed, `R012` and `R016` accepted | `R022` did not bite on H1: the answers arrived ahead of the review and the 14-day ceiling was never approached | Iteration Plan — gate H1 row; Risk List — `R004`, `R012`, `R016`, `R022` |
 | The stakeholder answered the perimeter-sanction question No at the SBC review on 2026-11-23 | The milestone is not achieved and the phase needs an iteration it did not plan | This record; the Review Record's Management Reviewer and Review Coordinator lenses |
-| The stakeholder ordered the Development Case duplication corrected | A Minor is lifted above the ordinary Minor queue, because an order is not declined | `Development Case#F1` (Management Reviewer) — action 6, executed before the un-ordered Minors |
+| The stakeholder granted `R004` and `R011` on 2026-11-23, conditionally on each reconciled score landing at exposure 9 to 12 or above | The register can record an acceptance at the Significant band for either risk, so no risk it can place there lacks the stakeholder's answer; criterion C8 moved to Met | Risk List — the grants block and the two rows; Iteration Plan — criterion C8 |
+| The stakeholder ordered the Development Case duplication corrected | A Minor is lifted above the ordinary Minor queue, because an order is not declined | `Development Case#F1` (Management Reviewer) — rework item 6, executed before the un-ordered Minors |
 | The stakeholder stated that the major findings must be corrected | No artifact and no new defect is named — every one of the six open Major findings already requires rework | The Review Record's ledger. No duplicate finding minted; no Change Request opened, because the Change Control Manager does not work in the sprint zero and the order reached its owners through the Review Record |
 | No SCM condition arose | The repository carries no IARI pipeline, no branch of this process and no open pull request, so no build could be red and no pull request disposed | Not reported as passing or failing |
 
-No scope change reached the project in this iteration. Nothing the stakeholder said adds, removes or reorders declared work; the declared change is worked from Inception and Survey reads the system as it is.
+No scope change reached the project in this iteration. Nothing the stakeholder said adds, removes or reorders declared work; the declared change is worked from Inception and Survey reads the system as it is. The two grants of 2026-11-23 are risk decisions, not scope: neither changes what the system is asked to do.
 
 ## Rework Required
 Iteration 2 exists for one purpose: to close what this iteration's review left open, so the SBC gate can be re-taken. It carries no new scope — every item below is a correction to content already written, inside artifacts the sprint zero already owns. The order is the Review Coordinator's priority order, by consequence rather than by artifact.
