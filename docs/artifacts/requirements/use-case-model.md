@@ -99,13 +99,20 @@ end note
 
 The task use cases therefore carry **one main flow with two scenarios** — through the screens, or directly with a bearer token — and are not split per actor. UC-009, UC-010 and UC-005 are reached by ACT-003 alone: no screen and no client call reaches `EP-011`, `EP-013`, or any Identity endpoint beyond register and login.
 
+**Two entry points, two different questions.** Every use case in this model is anchored twice over, and the two lists below answer different questions, so they are not expected to agree and are not two statements of one fact:
+
+- The **Source** column of the Survey names the entry point **whose code performs the use case**. When ACT-003 calls `POST /todos` that is `EP-012`; when ACT-001 adds a task from the list screen, the screen is `EP-003` but the request still leaves through the BFF's forwarder `EP-009` to `EP-012`.
+- The **actor-goal matrix** names the entry point **the actor reaches the use case through** — the screen or the endpoint the actor itself acts on. ACT-001 acts on `EP-003`; the operation the system then performs is not named there.
+
+A screen entry point and the forwarded operation are therefore both true of one use case, and the matrix says which one its edges name.
+
 ```plantuml
 @startuml
-title Actor-goal matrix - each actor handle against the use cases it reaches, with the entry points it uses
+title Actor-goal matrix - each actor handle against the use cases it reaches, naming the screen the actor acts on
 
 left to right direction
 skinparam shadowing false
-skinparam wrapWidth 195
+skinparam wrapWidth 200
 
 actor "ACT-001\nPerson with a task list\nthrough the three screens" as A1
 actor "ACT-003\nThe same person\nthrough the API with a bearer token" as A3
@@ -125,25 +132,25 @@ rectangle "Use cases of the recovered model" {
   usecase "UC-011 Consult the API reference" as UC11
 }
 
-A1 --> UC1 : EP-002, EP-004
-A1 --> UC2 : EP-002, EP-005
-A1 --> UC3 : EP-002
-A1 --> UC4 : EP-001, EP-006
-A1 --> UC6 : EP-001, EP-003, EP-009
-A1 --> UC7 : EP-003, EP-009
-A1 --> UC8 : EP-003, EP-009
+A1 --> UC1 : acts on EP-002
+A1 --> UC2 : acts on EP-002
+A1 --> UC3 : acts on EP-002
+A1 --> UC4 : acts on EP-001
+A1 --> UC6 : acts on EP-003
+A1 --> UC7 : acts on EP-003
+A1 --> UC8 : acts on EP-003
 
-A3 --> UC1 : EP-015
-A3 --> UC2 : EP-015
-A3 --> UC5 : EP-015
-A3 --> UC6 : EP-010
-A3 --> UC7 : EP-012
-A3 --> UC8 : EP-014
-A3 --> UC9 : EP-011
-A3 --> UC10 : EP-013
-A3 --> UC11 : EP-017, EP-018, EP-019
+A3 --> UC1 : calls EP-015
+A3 --> UC2 : calls EP-015
+A3 --> UC5 : calls EP-015
+A3 --> UC6 : calls EP-010
+A3 --> UC7 : calls EP-012
+A3 --> UC8 : calls EP-014
+A3 --> UC9 : calls EP-011
+A3 --> UC10 : calls EP-013
+A3 --> UC11 : calls EP-017, EP-018, EP-019
 
-A2 --> UC3 : EP-008, answered on the person's behalf
+A2 --> UC3 : answers EP-008
 
 note right of UC5
   ACT-003 alone: no screen and no client call
@@ -151,9 +158,14 @@ note right of UC5
 end note
 
 note bottom of UC3
-  EP-007 and EP-016 complete this use case for
-  ACT-001; EP-008 is answered by ACT-002.
-  Unreachable in the delivered configuration.
+  The person acts on the login screen EP-002; the
+  challenge leaves for EP-007 and the provider answers
+  at EP-008. Unreachable in the delivered configuration.
+end note
+
+note bottom of A2
+  ACT-002 answers EP-008 on the person's behalf
+  and initiates no use case of its own.
 end note
 
 @enduml
