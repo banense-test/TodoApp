@@ -192,17 +192,16 @@ H2 --> EX : sanction
 ```
 
 ## Resources
-
 The roles are the 26-role roster of the IARI DC baseline, minus the two the Development Case records as not working in this project. No role is added, merged or renamed.
 
 | Role | Discipline | Works in this iteration | Why |
 |---|---|---|---|
-| Process Engineer | Environment | Yes | The tailoring must exist before Discovery reads against it |
-| Software Archaeologist | Discovery | Yes | The reading is the iteration's own product |
-| Project Manager | Project Management | Yes | Risk List and Iteration Plan |
-| Reviewer | Review | Yes | Milestone review, first lens |
-| Management Reviewer | Review | Yes | Milestone review, second lens |
-| Review Coordinator | Review | Yes | Milestone verdict |
+| Project Manager | Project Management | Yes | Reconciles the Risk List's scores and restates the Iteration Plan's exit criteria |
+| Process Engineer | Environment | Yes | Corrects the Development Case's duplicated role deltas and diagram and its version-policy claim |
+| Software Archaeologist | Discovery | Yes | Corrects the System Inventory's AN-021 row and its Coverage figure |
+| Reviewer | Review | Yes | Re-runs the technical lens against the rework |
+| Management Reviewer | Review | Yes | Re-runs the management lens on C1 to C10 and puts the sanction question again |
+| Review Coordinator | Review | Yes | Milestone verdict on the re-taken SBC review |
 | System Analyst | Requirements | No — Excavation | Survey produces no Vision and no Use-Case Model |
 | Requirements Specifier | Requirements | No — Elaboration | — |
 | Software Architect | Analysis & Design | No — Excavation | No architecture is recovered before Excavation |
@@ -217,12 +216,61 @@ The roles are the 26-role roster of the IARI DC baseline, minus the two the Deve
 | Deployment Manager | Deployment | No — Inception | The Deployment Model is fired but recovered in Consolidation |
 | Technical Writer | Deployment | No — Construction | — |
 | Configuration Manager | Configuration & Change Management | No — Inception | No baseline exists yet |
-| Change Control Manager | Configuration & Change Management | No — Inception | The Change Request ledger is opened at LCO |
+| Change Control Manager | Configuration & Change Management | No — Inception | The Change Request ledger is opened at LCO; no CR is opened in the sprint zero |
 | Business Reviewer | Review | No — from LCO | Survey's milestone review runs Reviewer, Management Reviewer, Review Coordinator |
 | Business Process Analyst | Business Modeling | No — inactive | `business-process-led = false` |
 | Capsule Designer | Analysis & Design | No — inactive | `real-time-system = false` |
 
-The stakeholder is not an agent role: they are the only human in the process, and their work in this iteration is gate H1 alone.
+The stakeholder is not an agent role: they are the only human in the process, and their work in this iteration is gate H2 alone.
+
+### Agent role profile across the phase
+
+```plantuml
+@startuml
+title Which roles work in which Survey iteration, and what the second iteration's roles carry
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide empty members
+
+class "Process Engineer\nEnvironment" as PE {
+  iteration 1 : Development Case, contribution contract
+  iteration 2 : one copy of each, version-policy claim corrected
+}
+class "Software Archaeologist\nDiscovery" as SA {
+  iteration 1 : System Inventory, 22 entry points, 21 anomalies
+  iteration 2 : AN-021 row, Coverage figure
+}
+class "Project Manager\nProject Management" as PM {
+  iteration 1 : Risk List, Iteration Plan
+  iteration 2 : scores reconciled, C2 C6 C7 restated
+}
+class "Reviewer\nReview" as RV {
+  iteration 1 : technical lens, 7 findings
+  iteration 2 : technical lens re-run
+}
+class "Management Reviewer\nReview" as MR {
+  iteration 1 : management lens, 3 findings, sanction refused
+  iteration 2 : management lens re-run, sanction put again
+}
+class "Review Coordinator\nReview" as RC {
+  iteration 1 : verdict iteration REQUIRED
+  iteration 2 : milestone verdict
+}
+class "Stakeholder\nhuman gate" as SH {
+  iteration 1 : H1 answered, H3 granted, H2 refused
+  iteration 2 : H2 re-taken
+}
+
+PM --> RV : hands the reworked plan
+SA --> RV
+PE --> RV
+RV --> MR : lens findings
+MR --> SH : sanction question
+SH --> RC : the answer
+RC --> PM : the verdict the next plan is built from
+@enduml
+```
 
 ## Use Cases and Scenarios Addressed
 None. Survey is the sprint zero's first phase and recovers no use case: the 22 entry points are recorded as entry points in the System Inventory, and it is Excavation that recovers them into Use-Case Model use cases — `UC-NNN` from `EP-NNN` — in the reading order of the Priorities section. No use case, no scenario and no use-case realization is planned in this iteration.
