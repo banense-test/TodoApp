@@ -1019,98 +1019,93 @@ One turn by the Project Manager restates the four places, and one turn each by t
 No artifact outside the ten reviewed was re-read for a finding, and none is changed by this lens. The Review Record is this lens's only output.
 
 ### Management Reviewer lens
-<!-- review: Excavation I2 -->
+<!-- review: Excavation I3 -->
 
-**Verdict: NO-GO.** The Architecture Recovered milestone is not sanctioned. Excavation iteration 2 does not close it, and the project does not advance into Consolidation on this evidence.
+<!-- review: Excavation I3 -->
 
-**0 Critical, 4 Major, 3 Minor.** The eight Majors that held iteration 1 are all closed and verified at their artifacts. No finding is deferred, none is waived, and no criterion is recorded as met on an answer it does not carry.
+**Verdict: NO-GO.** The Architecture Recovered milestone is not sanctioned. Excavation iteration 3 does not close it.
+
+**0 Critical, 1 Major defect, 3 Minor.** Five of this lens's findings are closed on verified evidence at the artifacts. The recovered set is confirmed by the stakeholder as the model of the existing system. The one Major is not in the recovery: it is in the plan that reports on it.
 
 #### Disposition — No-Go
 
 ```plantuml
 @startuml
-title Disposition - eight criteria met, three contested, two not met, and the route the stakeholder's order sanctions
+title Disposition - the recovered set is confirmed, one Major holds the record it is reported in, and the verdict follows
 
 skinparam shadowing false
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 230
+skinparam wrapWidth 235
 hide circle
 hide empty members
 
-state "AR milestone" as AR {
-  state "Iteration 2 evidence" as I2
-  state "Eight criteria met" as MET
-  state "Three contested by their own artifacts" as CONT
-  state "A11 not met, A12 refused" as NOT
+state "AR milestone, third put" as AR {
+  state "Recovered set confirmed by the stakeholder" as CONF
+  state "Sanction to advance refused" as REF
+  state "Twelve criteria met on the evidence that owns each" as MET
+  state "One Major: the plan's cells lag its artifacts" as MAJ
   state "No-Go" as NG
-  state "Third iteration, then gate H4 re-put" as ROUTE
+  state "One correction pass, then gate H4 a fourth time" as ROUTE
 
-  [*] --> I2
-  I2 --> MET : A2 A3 A4 A5 A6 A7 A8 A9
-  I2 --> CONT : A1 A10 A13
-  I2 --> NOT : A11, A12
-  MET --> NG : met is not enough while
-  CONT --> NG : a criterion's own
-  NOT --> NG : evidence fails
+  [*] --> CONF
+  [*] --> MET
+  CONF --> REF : a Major stands
+  MET --> MAJ : A1 A10 A11 O2 A12\nare reported as failing
+  REF --> NG
+  MAJ --> NG : the verdict is read\non the plan
   NG --> ROUTE : R031's contingency
   ROUTE --> [*]
 }
 
 note right of ROUTE
-  The stakeholder ordered the Development Case corrected in
-  this phase, the Process Engineer scheduled here from the
-  next iteration, and A11 left as written. Nothing in this
-  disposition adds to that order or narrows it.
+  The stakeholder stated that no recovered content is at issue and
+  that the next iteration changes none of it. The work is five cells
+  and three Minors, each one turn by its owner.
 end note
 note bottom of NG
-  No Critical finding. Nothing here needs a stakeholder
-  decision that has not been given: the Majors are
-  corrections their owners make, and the route is the
-  order the stakeholder stated in words.
+  A Conditional Go would assert a sanction on the stakeholder's behalf
+  after they declined it in words. A12 turns on their answer alone and
+  no artifact can hold it. No Critical finding is open.
 end note
+
 @enduml
 ```
 
-#### Why No-Go rather than Conditional
+#### Why No-Go and not a Conditional Go
 
-A Conditional Go is a sanction with conditions: the gate opens and the conditions are verified at the next milestone. This lens may not issue one here, for three reasons that are about the criteria rather than about the finding count.
+`A12` turns on the stakeholder's answer alone, and the answer was **No** — to the sanction, in words, at this review, with every open defect named inside the question. A Conditional Go is a sanction with conditions attached: it opens the gate and defers verification. This lens may not issue one when the sanction itself was declined. Doing so would record on the stakeholder's behalf the one thing they refused to record, which is exactly the failure this lens recorded against the plan at Survey and again at the AR re-take.
 
-1. **`A12` is refused, not pending.** The stakeholder was asked at this review whether they confirm the recovered set and sanction advancing into Consolidation, with every open Major named inside the question. They answered **No**. A conditional sanction would assert on their behalf the one thing they declined to assert; `A12` turns on their answer alone and no artifact can hold it.
+The confirmation is not thereby withheld. The stakeholder confirmed the recovered set as the model of their system — the eleven use cases, the four stated exclusions, the twenty-two components and the eight tables — and stated that nothing is wrong or missing and no exclusion is re-opened. That half of `A12` is answered and is recorded as answered. What they declined is advancing while a Major stands.
 
-2. **`A11` records no stage that can satisfy it, and the stakeholder has ordered otherwise.** The plan's `A13` states Environment runs at no intensity in Excavation. The order of 2026-11-23 refuses the carry, schedules the Process Engineer in this phase from the next iteration, and leaves `A11` as written. Until the plan records that stage, the phase carries a criterion its own milestone sequence contradicts.
+#### Why the Major holds the milestone
 
-3. **`A10` fails on its own test.** The criterion claims no artifact in the recovered set states a behaviour the code contradicts, and its evidence cell verifies three of the four artifacts the set contains. The Use-Case Model's R6 states 100 where Development binds 50 — the same fact `AN-024` records, in the artifact a Designer reads first.
+`Iteration Plan#F9` and `#F4` are one defect: five cells of the criteria table and the Objectives table report states their own artifacts and the gate have superseded. A1 reads "Not met — open Major" on five `COMP-014` edges that the registered graph returns confirmed. A10 reads "Not met" on R6 reading 100, where R6 now states both budgets under `AN-024`. A11 reads "two of four open" where all four Minors are corrected. Objectives O2 reads "Not met" on the same two closed findings. A12 records the second put alone, while the third has now returned a different answer.
 
-A milestone is not advanced because the calendar says the iteration is over. It advances when its exit criteria are met, and three are not.
+Twelve of thirteen criteria hold on the evidence that owns them, and this lens certifies each of them. But the AR verdict is decided on the plan's table, and a verdict read on it today would certify the milestone on cells saying three criteria fail — one of them a Minor the stakeholder ordered corrected by name. The burden of proof rests on the project team to show the criteria are met; a record that says they are not met cannot carry that burden, whatever the artifacts behind it show.
 
-#### What this disposition does not say
-
-- It does not dispute the recovery. The eleven use cases, the 22-component architecture, the eight-table data model and the deployment all rest on anchors and are, in substance, right. The defects are three sentences and one missing stage.
-- It does not re-open a single one of the four exclusions. External-provider sign-in is recovered and marked unreachable; the `admin` branch is an exceptional entity; `EP-020`, `EP-021` and `EP-022` are not use cases. Each stands on the stakeholder's 2026-11-23 answer and no finding here touches them.
-- It does not order a change the stakeholder did not order. Items 1 to 3 and 7 of the action table are corrections the artifacts' own owners make to defects this lens recorded. Item 4 records the order the stakeholder gave. Items 5 and 6 are that order's content.
-- It records no condition, limit or prohibition beyond what the stakeholder stated.
-
-#### The route this lens sanctions
-
-`Risk List#R031`'s contingency, planned from this record: **a third iteration of Excavation**, performing items 1 to 4 of the action table, then gate H4 re-put once the recovered set agrees with itself. Nothing in the phase's declared scope is cut or deferred to reach it, and no role is added that the phase does not run — the Process Engineer is scheduled by the stakeholder's order, and that order is the only authority that places the role here.
-
-`R031` has materialized for the second consecutive iteration. It is recorded, scored at 4 × 3 = 12 and avoided; recording it has not retired it, and this disposition does not claim otherwise.
+The correction is one turn by one owner over five cells. No recovered content is at issue. The stakeholder said so, and the three Minors — `Iteration Plan#F8`, `Risk List#F3`, `Supplementary Specification#F3` — are corrected by their owners in their next turns.
 
 #### Disposition by artifact
 
 | Artifact | Disposition from this lens |
 |---|---|
-| Development Case | **Changes required** — `#F2` open, ordered corrected in this phase; `#F3` open (Reviewer lens) |
 | System Inventory | **Approved** — no open finding from any lens; coverage arithmetic recomputed and reproducing |
-| Risk List | **Approved with changes** — `#F3` open, one strategy cell behind its artifact |
-| Iteration Plan | **Changes required** — `#F6` and `#F7` open |
-| Iteration Assessment | **Not judged** — authored in the Assess touchpoint after this review; its absence before the review is not a finding |
-| Vision | **Approved** — `#F1` closed this iteration |
-| Use-Case Model | **Changes required** — `#F3` and `#F4` open (technical lens), `#F1` open (this lens) |
-| Supplementary Specification | **Approved** — `#F1` and `#F2` closed and verified |
-| Software Architecture Document | **Approved** — `#F1` closed and verified |
-| Deployment Model | **Approved** — `#F1` closed and verified |
-| Design Model | **Approved** — `#F1` closed and verified |
+| Vision | **Approved** — no open finding from any lens |
+| Supplementary Specification | **Approved with changes** — `#F3` open, one Document Control field |
+| Software Architecture Document | **Approved** — no open finding from any lens |
+| Deployment Model | **Approved** — no open finding from any lens |
+| Design Model | **Approved** — no open finding from any lens |
+| Use-Case Model | **Approved** — `#F1` and both technical-lens Majors closed on verified evidence; the R6 correction and the five `COMP-014` confirmations read at the artifact and at the graph |
+| Development Case | **Approved** — `#F2` and `#F3` closed; the contributor set names six lenses and Document Control reads this phase and iteration |
+| Risk List | **Approved with changes** — `#F3` open, one strategy cell behind the artifact it points at; holds no criterion |
+| Iteration Plan | **Changes required** — `#F9`, `#F4` and `#F8` open |
+| Iteration Assessment | **Not judged** — authored after this review; it cannot describe the iteration it follows |
+
+#### The route this lens sanctions
+
+`Risk List#R031`'s contingency, planned from this record: **one further iteration of Excavation**, performing the Project Manager's pass over the five cells and the three Minors, then gate H4 put a fourth time. Nothing in the phase's declared scope is cut or deferred to reach it, no role is added, and no recovered content changes — the stakeholder stated that explicitly and this disposition adds nothing to it and narrows nothing in it.
+
+`R031` has materialized for the second consecutive iteration. It is recorded, scored 3 × 4 = 12 and avoided; recording it has not retired it, and this disposition does not claim otherwise.
 
 ### Review Coordinator lens
 <!-- review: Excavation I2 -->
