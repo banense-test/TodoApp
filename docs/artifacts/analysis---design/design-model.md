@@ -593,6 +593,63 @@ end note
 
 [OMITTED: Data Model — the Development Case's §5.2 trigger has not fired for this project: the store holds eight persisted entity types, below the ten-entity threshold; the system is not data-centric, since every operation is a single-row or single-owner-set statement; and no data migration is in scope, the three migrations being recovered history rather than declared work. Persistence therefore lives inline in this model, as the sections above it record]
 
+### The store outside the schema — the data-protection key ring
+
+`UC-003` is the one completed use case whose data does not all land in `Todos.db`. The external-identity exchange protects the provider key under a data protector named after the provider at the BFF (`Todo.Web/Server/AuthApi.cs:82-90`) and unprotects it at the API (`Todo.Api/Users/UsersApi.cs:24-34`). The key that protects it lives in the ASP.NET Core data-protection key ring, which is a filesystem store: the delivery configures only the application discriminator `TodoApp`, on both sides (`Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11`), and configures no path, no directory and no key lifetime.
+
+```plantuml
+@startuml
+title PD-D6 The one store outside the schema - the data-protection key ring, the two processes that must share it, and what no construct enforces
+
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam wrapWidth 215
+left to right direction
+
+package "BFF - Todo.Web.Server" {
+  component "AuthApi EP-008\nCreateProtector(provider)\nProtect(NameIdentifier)\nAuthApi.cs:82-90" as BFF
+}
+
+package "Filesystem - not a relational store, no schema" {
+  component "Data-protection key ring\nASP.NET Core default key storage\nApplicationDiscriminator = \"TodoApp\"\nProgram.cs:13 both processes" as RING
+}
+
+package "Todo.Api" {
+  component "UsersApi EP-016\nCreateProtector(provider)\nUnprotect(ProviderKey)\nUsersApi.cs:24-34" as API
+  component "AspNetUserLogins\nPK (LoginProvider, ProviderKey)\nTBL-003" as TBL
+}
+
+BFF --> RING : writes the protected key\ninto the redirect and the exchange call
+RING --> API : the key the API must resolve\nunder the same discriminator
+API --> TBL : FindByLoginAsync, or\nAddLoginAsync when absent
+
+note bottom of RING
+  The only store the delivery depends on without naming it: no path,
+  no directory and no key lifetime is configured, so it is the runtime's
+  default. The two processes share a ring only where that default storage
+  is shared. AN-010 records the consequence: where it is not, the
+  Unprotect at UsersApi.cs:32 raises rather than returning null.
+end note
+
+note right of API
+  No construct enforces that the two processes share a ring.
+  A mismatch is a deployment fact, discovered at the first
+  external sign-in, and UC-003 answers it with a 500 rather
+  than a refusal the person could act on.
+end note
+
+@enduml
+```
+
+| Aspect | What the delivery configures | What no construct enforces | Anchor |
+|---|---|---|---|
+| Where keys are stored | Nothing — the runtime's default filesystem storage. No `PersistKeysToFileSystem`, no `PersistKeysToDbContext`, no `SetApplicationName` other than via the discriminator | That the directory is writable, survives a redeploy, or is shared between the two processes | `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11` |
+| Key identity | `ApplicationDiscriminator = "TodoApp"` on both processes | That both processes resolve the same ring. A protector built under the same purpose string over a different ring unprotects to a different payload, or raises | `AN-010`; `Todo.Api/Users/UsersApi.cs:32` |
+| Key lifetime | Nothing — the framework default 90 days | That a key revoked or expiring mid-session is recoverable | `Todo.Web/Server/AuthApi.cs:82-90` |
+| The protected value's transit | The protected provider key travels in the redirect and in the `users/token/{provider}` request body | That the transit is over TLS — no requirement declares it and no configuration binds it | `Todo.Web/Server/AuthApi.cs:82-90`; `Todo.Api/Users/UsersApi.cs:24-34` |
+
+This store is recorded because `UC-003`'s postcondition — a local account tied to the provider identity — cannot be reached without it, and because it is the one persistent concern the migrations do not describe. It carries no table, no key constraint the schema declares, and therefore no `TBL` label: it is not a table in `Todos.db`, and minting a table label for a filesystem directory would put an element in the trace graph that no migration creates. Its anchor is the two configuration lines and the protect/unprotect pair cited above.
+
 ## Domain Model
 ```plantuml
 @startuml
