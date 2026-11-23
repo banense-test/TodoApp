@@ -1,7 +1,7 @@
 ## Document Control
 - Phase: Excavation
-- Status: Iteration 4 correction pass performed by the plan's two owners; the AR verdict is the Review Coordinator's and is not yet given
-- Milestone Target: end-of-Excavation (AR) — not achieved
+- Status: The plan carried iteration 4 to its close. Gate H4's fourth put was answered Yes on 2026-11-23 and the Review Coordinator's verdict on the AR milestone is "no further iteration required" — the verdict is that role's, recorded here as given
+- Milestone Target: end-of-Excavation (AR) — sanctioned at gate H4's fourth put on 2026-11-23, on the Review Coordinator's verdict; Consolidation is the next phase
 - Iteration: 4, Cycle 1
 - Owner: Project Manager
 
