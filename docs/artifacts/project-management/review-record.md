@@ -1074,3 +1074,94 @@ No artifact outside the ten reviewed was re-read for a finding, and none is chan
 
 ### Management Reviewer lens
 <!-- review: Excavation I2 -->
+
+**Verdict: NO-GO.** The Architecture Recovered milestone is not sanctioned. Excavation iteration 2 does not close it, and the project does not advance into Consolidation on this evidence.
+
+**0 Critical, 4 Major, 3 Minor.** The eight Majors that held iteration 1 are all closed and verified at their artifacts. No finding is deferred, none is waived, and no criterion is recorded as met on an answer it does not carry.
+
+#### Disposition — No-Go
+
+```plantuml
+@startuml
+title Disposition - eight criteria met, three contested, two not met, and the route the stakeholder's order sanctions
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 230
+hide circle
+hide empty members
+
+state "AR milestone" as AR {
+  state "Iteration 2 evidence" as I2
+  state "Eight criteria met" as MET
+  state "Three contested by their own artifacts" as CONT
+  state "A11 not met, A12 refused" as NOT
+  state "No-Go" as NG
+  state "Third iteration, then gate H4 re-put" as ROUTE
+
+  [*] --> I2
+  I2 --> MET : A2 A3 A4 A5 A6 A7 A8 A9
+  I2 --> CONT : A1 A10 A13
+  I2 --> NOT : A11, A12
+  MET --> NG : met is not enough while
+  CONT --> NG : a criterion's own
+  NOT --> NG : evidence fails
+  NG --> ROUTE : R031's contingency
+  ROUTE --> [*]
+}
+
+note right of ROUTE
+  The stakeholder ordered the Development Case corrected in
+  this phase, the Process Engineer scheduled here from the
+  next iteration, and A11 left as written. Nothing in this
+  disposition adds to that order or narrows it.
+end note
+note bottom of NG
+  No Critical finding. Nothing here needs a stakeholder
+  decision that has not been given: the Majors are
+  corrections their owners make, and the route is the
+  order the stakeholder stated in words.
+end note
+@enduml
+```
+
+#### Why No-Go rather than Conditional
+
+A Conditional Go is a sanction with conditions: the gate opens and the conditions are verified at the next milestone. This lens may not issue one here, for three reasons that are about the criteria rather than about the finding count.
+
+1. **`A12` is refused, not pending.** The stakeholder was asked at this review whether they confirm the recovered set and sanction advancing into Consolidation, with every open Major named inside the question. They answered **No**. A conditional sanction would assert on their behalf the one thing they declined to assert; `A12` turns on their answer alone and no artifact can hold it.
+
+2. **`A11` records no stage that can satisfy it, and the stakeholder has ordered otherwise.** The plan's `A13` states Environment runs at no intensity in Excavation. The order of 2026-11-23 refuses the carry, schedules the Process Engineer in this phase from the next iteration, and leaves `A11` as written. Until the plan records that stage, the phase carries a criterion its own milestone sequence contradicts.
+
+3. **`A10` fails on its own test.** The criterion claims no artifact in the recovered set states a behaviour the code contradicts, and its evidence cell verifies three of the four artifacts the set contains. The Use-Case Model's R6 states 100 where Development binds 50 — the same fact `AN-024` records, in the artifact a Designer reads first.
+
+A milestone is not advanced because the calendar says the iteration is over. It advances when its exit criteria are met, and three are not.
+
+#### What this disposition does not say
+
+- It does not dispute the recovery. The eleven use cases, the 22-component architecture, the eight-table data model and the deployment all rest on anchors and are, in substance, right. The defects are three sentences and one missing stage.
+- It does not re-open a single one of the four exclusions. External-provider sign-in is recovered and marked unreachable; the `admin` branch is an exceptional entity; `EP-020`, `EP-021` and `EP-022` are not use cases. Each stands on the stakeholder's 2026-11-23 answer and no finding here touches them.
+- It does not order a change the stakeholder did not order. Items 1 to 3 and 7 of the action table are corrections the artifacts' own owners make to defects this lens recorded. Item 4 records the order the stakeholder gave. Items 5 and 6 are that order's content.
+- It records no condition, limit or prohibition beyond what the stakeholder stated.
+
+#### The route this lens sanctions
+
+`Risk List#R031`'s contingency, planned from this record: **a third iteration of Excavation**, performing items 1 to 4 of the action table, then gate H4 re-put once the recovered set agrees with itself. Nothing in the phase's declared scope is cut or deferred to reach it, and no role is added that the phase does not run — the Process Engineer is scheduled by the stakeholder's order, and that order is the only authority that places the role here.
+
+`R031` has materialized for the second consecutive iteration. It is recorded, scored at 4 × 3 = 12 and avoided; recording it has not retired it, and this disposition does not claim otherwise.
+
+#### Disposition by artifact
+
+| Artifact | Disposition from this lens |
+|---|---|
+| Development Case | **Changes required** — `#F2` open, ordered corrected in this phase; `#F3` open (Reviewer lens) |
+| System Inventory | **Approved** — no open finding from any lens; coverage arithmetic recomputed and reproducing |
+| Risk List | **Approved with changes** — `#F3` open, one strategy cell behind its artifact |
+| Iteration Plan | **Changes required** — `#F6` and `#F7` open |
+| Iteration Assessment | **Not judged** — authored in the Assess touchpoint after this review; its absence before the review is not a finding |
+| Vision | **Approved** — `#F1` closed this iteration |
+| Use-Case Model | **Changes required** — `#F3` and `#F4` open (technical lens), `#F1` open (this lens) |
+| Supplementary Specification | **Approved** — `#F1` and `#F2` closed and verified |
+| Software Architecture Document | **Approved** — `#F1` closed and verified |
+| Deployment Model | **Approved** — `#F1` closed and verified |
+| Design Model | **Approved** — `#F1` closed and verified |
