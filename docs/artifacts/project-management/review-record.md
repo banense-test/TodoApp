@@ -819,30 +819,80 @@ MR -> RC : the disposition, with the sanction in it
 **What reopens this gate.** Nothing this lens found. The three Majors this iteration inherited are closed and verified; no Major and no Critical remains open from either executed lens; the gate's own condition is answered Yes.
 
 ### Review Coordinator lens
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-<!-- review: Survey I1 -->
+<!-- review: Survey I2 -->
 
-**Actions ordered, with owner and the finding each closes.** Every action is the remediation the recording lens wrote; none is the coordinator's own instruction of what the defect should be.
+**Closed this milestone — ten findings, each by the lens that recorded it, each verified against the artifact section it names.** Closure is a lens's act: a correction stated in an owner's narrative does not close a finding; the recording lens's `resolve_artifact_finding`, called after it re-read the corrected section, does.
 
-| # | Action | Artifact | Owner | Closes | Deadline |
+| Artifact | Key | Lens | Owner | Closed against |
+|---|---|---|---|---|
+| Development Case | F1 | Reviewer | Process Engineer | "Tool and configuration references" — no policy asserted, only the pinning files cited, checked against `global.json` and `nuget.config` |
+| Development Case | F2 | Reviewer | Process Engineer | "Roles and Ownership" — one CLS-DC-01 diagram, one role-deltas block |
+| Development Case | F1 | Management Reviewer | Process Engineer | The same section, verified by this lens against the stakeholder's order of 2026-11-23 |
+| System Inventory | F1 | Reviewer | Software Archaeologist | "Traceability" — the AN-021 row against the Anomalies diagram and the registered edges |
+| System Inventory | F2 | Reviewer | Software Archaeologist | "Coverage" — the headline recomputed from the per-area table, 79 + 54 = 133 |
+| Risk List | F1 | Reviewer | Project Manager | "Risk Classification" and the register's P/I/exposure columns for all 22 rows |
+| Risk List | F1 | Management Reviewer | Project Manager | The grant-band table and the four acceptance rows, each carrying the stakeholder's answer |
+| Iteration Plan | F1 | Reviewer | Project Manager | "Use Cases and Scenarios Addressed" — twelve anomalies, 21 edges, against the System Inventory |
+| Iteration Plan | F2 | Reviewer | Project Manager | The coarse roadmap and the fine-plan critical chain |
+| Iteration Plan | F1 | Management Reviewer | Project Manager | "Evaluation Criteria" — C2a/C2b, C6, C7a/C7b |
+
+**Actions carried into Excavation — four, one per open finding, ordered as in Findings.** Each is the remediation its recording lens wrote; none is the coordinator's own instruction of what the defect should be. No deadline column states a calendar date: the sprint zero declares no date beyond the one on this work order, and a projected date computed from an estimate would read downstream as an observation.
+
+| # | Action | Artifact | Owner | Closes | Due |
 |---|---|---|---|---|---|
-| 1 | Score each of the 21 risks once, deriving probability and impact from the IARI scale and its cited evidence — or delete the inventory's likelihood/impact as a scoring claim and declare the score the Project Manager's own reading. Then re-derive the grant band and put every risk landing at Significant or High to the stakeholder in this cycle (R004 and R011 are the two candidates) | Risk List | Project Manager | Risk List#F1 (Reviewer), Risk List#F1 (Management Reviewer) | Before the SBC gate is re-taken |
-| 2 | Restate C2 as two criteria — the answered perimeter-membership and priority questions, and the confirmation of the recorded perimeter which is not met; cite the recomputed coverage figure for C6; split C7 into carriage and reproducibility | Iteration Plan | Project Manager | Iteration Plan#F1 (Management Reviewer) | Before the SBC gate is re-taken |
-| 3 | Name the file recording the version policy, or replace the claim with central pinning in `Directory.Packages.props` and nuget.org as the only configured source | Development Case | Process Engineer | Development Case#F1 (Reviewer) | Before Excavation consumes the tailoring |
-| 4 | Name all twelve entry-point-bearing anomalies, or drop the enumeration and point at the System Inventory's Anomalies table | Iteration Plan | Project Manager | Iteration Plan#F1 (Reviewer) | Before Excavation reads its constraint list |
-| 5 | Add EP-007 to the AN-021 Traceability row | System Inventory | Software Archaeologist | System Inventory#F1 (Reviewer) | Next turn |
-| 6 | Delete the duplicated role-delta list and the duplicated CLS-DC-01 diagram — the stakeholder's order of 2026-11-23, taken before the un-ordered Minors | Development Case | Process Engineer | Development Case#F1 (Management Reviewer), Development Case#F2 (Reviewer) | Next turn |
-| 7 | Recompute the Coverage headline from the per-area table; settle whether the `docs/` rows count as read | System Inventory | Software Archaeologist | System Inventory#F2 (Reviewer) | Next turn |
-| 8 | Move Gate H1 ahead of the Reviewer in the critical-chain diagram | Iteration Plan | Project Manager | Iteration Plan#F2 (Reviewer) | Next turn |
+| 1 | Restate C2b as Met — 2026-11-23 and replace its evidence cell with the answer as given: the stakeholder confirmed the four-process perimeter as the System Inventory records it and sanctioned advancing past SBC into Excavation | Iteration Plan | Project Manager | Iteration Plan#F2 (Management Reviewer) | Excavation iteration 1, first turn |
+| 2 | Set rows 4 and 5 of the fine plan to Complete with what closed each, row 6 to In progress until the lens returns — or delete the State column and leave progress to the Iteration Assessment | Iteration Plan | Project Manager | Iteration Plan#F3 (Reviewer) | Excavation iteration 1, first turn, with action 1 |
+| 3 | Name every lens that writes into the Review Record in the co-owned-artifact sentence — Reviewer, Management Reviewer, Business Reviewer, Review Coordinator, Code Reviewer, plus the Configuration Manager's baseline record — and draw the corresponding edges in CLS-DC-01 | Development Case | Process Engineer | Development Case#F2 (Management Reviewer) | Excavation iteration 1 |
+| 4 | Set the Document Control iteration field to the iteration the content belongs to, matching the three other artifacts under review | System Inventory | Software Archaeologist | System Inventory#F3 (Reviewer) | Excavation iteration 1 |
 
-**Stakeholder order folded in.** The stakeholder's answer of 2026-11-23 carries two instructions. The first — "The development case contains duplicated diagrams and text; it needs to be corrected" — is action 6, executed before the un-ordered Minors because the order is theirs. The second — "the major findings must be corrected" — names no artifact and no new defect: all six Major findings above already require rework, and no duplicate finding is minted to say so. The ledger's Major rows are the record of that instruction. No change request is opened: the Change Control Manager does not work in the sprint zero, and the order has reached its owner through this record.
+```plantuml
+@startuml
+title Finding lifecycle - where the four open Minors stand and who closes each
+skinparam shadowing false
+skinparam wrapWidth 240
 
-**What is not recorded as an action.** No action is raised for the perimeter not being confirmed: that is not a defect of the System Inventory but of the Iteration Plan that recorded a confirmation which did not happen, and action 2 carries it. No action is raised for the absence of a Test Plan, Data Model or Glossary, for an Iteration Assessment, or for a token budget — each is correct state, stated under Findings.
+[*] --> Open : lens records it via record_artifact_finding
+Open --> Assigned : owner named from the lens Remediation
+Assigned --> InProgress : owner reworks the artifact
+InProgress --> Resolved : owner states the corrective action done
+Resolved --> Verified : the SAME lens re-reads the artifact
+Verified --> Closed : resolve_artifact_finding accepted
+Resolved --> Open : lens finds the defect still stands
 
-**Closure procedure.** Each action closes only when its recording lens re-reads the corrected artifact and calls `resolve_artifact_finding` on that key. A correction stated in this record does not close a finding; a lens's verification does. The two Development Case keys close separately. The coordinator escalates to the Project Manager any finding past its deadline by more than one business day, and to the Configuration and Change Management Board any defect that reappears across artifacts as a process failure.
+state "Escalated - overdue" as Esc
+Open --> Esc : deadline missed by more than 1 business day
+Assigned --> Esc : no owner action by deadline
+Esc --> Assigned : Project Manager assigns, or CCB opens a CR
 
-**What reopens the gate.** All six Major findings reworked and closed by their recording lenses, both executed lenses re-run against the rework, the Development Case duplication deleted on the stakeholder's order, and any risk the reconciled scores place at Significant or High put to the stakeholder and granted or refused in their own words. Then the sanction question is asked again with the new count, and the SBC verdict is re-taken.
+state "Carried into Excavation" as CAR
+note bottom of CAR
+  Development Case#F2 (Management Reviewer)
+  Iteration Plan#F2 (Management Reviewer)
+  System Inventory#F3 (Reviewer)
+  Iteration Plan#F3 (Reviewer)
+  Each is corrected by its owner in Excavation's
+  own iteration, on the stakeholder's order of
+  2026-11-23 that no Minor is left unattended.
+end note
+
+Open --> CAR : Minor, ordered corrected in the next phase
+note right of Open
+  At this milestone: 4 open, all Minor.
+  Open Critical 0, open Major 0 from both
+  executed lenses.
+end note
+@enduml
+```
+
+**Closure procedure.** Each of the four closes only when its recording lens re-reads the corrected artifact and calls `resolve_artifact_finding` on that key. Two of the four sit on the Iteration Plan under different lenses: `Iteration Plan#F2` is the Management Reviewer's to close and `Iteration Plan#F3` the Reviewer's, and one Project Manager turn satisfies both subjects. A finding still open at the AR milestone becomes a Major finding against the artifact carrying it — criterion `contained-defect`.
+
+**Escalation channel.** A finding past its due point by more than one business day escalates to the Project Manager in writing, with the ledger entry as evidence. A defect that reappears across artifacts as a process failure escalates to the Configuration and Change Management Board. The coordinator surfaces these; it does not correct them.
+
+**No change request is opened for any of the four.** The Change Control Manager does not work in the sprint zero — no ledger exists and no CR is opened before Inception. The stakeholder's order reaches its owners through this record and through their Work Order, which is the route the sprint zero provides. Nothing in this iteration orders a change to declared scope.
+
+**The stakeholder's order, recorded and acted on.** Answering gate H2 on 2026-11-23: "Yes, let's move on to the next phase. Minor findings should also be addressed during the next phase—let's not leave them unattended." It is folded in as `Stakeholder finding` — verified against the ledger rather than deferred: the four open Minors are exactly the items the order names, all four are assigned with an owner and a due point in Excavation's first iteration, and none is recorded as closed or deferred. No new defect is minted for the order, because every item it names is already in the ledger. The first half of the answer is the sanction, recorded in Disposition.
 
 ## Disposition
 ### Reviewer lens
