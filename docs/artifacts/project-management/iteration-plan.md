@@ -80,9 +80,10 @@ The work items are the stages the IARI DEVELOPMENT PROCESS runs in Survey, in it
 
 ```plantuml
 @startuml
-title Critical chain of Survey (SBC) - the sequential agent stretches to the gate, then the gate
+title Critical chain of Survey (SBC) - the sequential agent stretches, then the gate answered mid-iteration, then the review that refused the sanction
 
 skinparam shadowing false
+skinparam wrapWidth 230
 
 |Environment|
 start
@@ -96,25 +97,39 @@ four processes, 22 entry points;
 :System Inventory - Anomalies and Priorities
 21 anomalies, 8 priorities;
 
-|Project Management|
+|Project Manager|
 :Risk List
 22 risks, 21 refined from an anomaly;
 :Iteration Plan - Survey
 coarse roadmap, fine plan, exit criteria;
 
+|Stakeholder|
+:Gate H1 - answered 2026-11-23
+perimeter membership, priority order,
+R012 and R016 granted;
+note right
+  Answered inside the iteration, ahead of the review,
+  so R022's 14-day ceiling was never approached.
+end note
+
 |Reviewer|
-:Reviews Development Case, System Inventory,
-Risk List and Iteration Plan;
+:Technical lens - 7 findings
+0 Critical, 4 Major, 3 Minor
+Approved with Changes;
 
 |Management Reviewer|
-:Management review;
-
-|Review Coordinator|
-:Milestone verdict - SBC;
+:Management lens - 3 findings
+0 Critical, 2 Major, 1 Minor
+No-Go;
 
 |Stakeholder|
-:Gate H1 - perimeter, priority order, R012 and R016
-answered 2026-11-23;
+:Sanction question - answered No 2026-11-23
+perimeter not confirmed, Major findings
+ordered corrected;
+
+|Review Coordinator|
+:Milestone verdict - SBC not achieved
+iteration REQUIRED;
 stop
 @enduml
 ```
@@ -128,18 +143,20 @@ stop
 | 5 | System Inventory — Anomalies and Priorities: 21 anchored anomalies, 8 ordered areas, coverage counted | Software Archaeologist | 3 | Complete | not recorded |
 | 6 | Risk List — 22 risks scored, classified, mitigated; 21 refined from an anomaly | Project Manager | 5 | Complete | not recorded |
 | 7 | Iteration Plan — coarse roadmap, fine plan, resources, exit criteria | Project Manager | 6 | Complete | not recorded |
-| 8 | Milestone review SBC — Reviewer, then Management Reviewer, then Review Coordinator | Reviewer / Management Reviewer / Review Coordinator | 2, 4, 5, 6, 7 | Not started | not recorded |
-| 9 | Gate H1 — perimeter confirmed, priority order confirmed, R012 and R016 granted | Stakeholder | 8 | Answers in hand, 2026-11-23 | queued in days; no estimate |
+| 8 | Milestone review SBC — Reviewer, then Management Reviewer, then Review Coordinator | Reviewer / Management Reviewer / Review Coordinator | 2, 4, 5, 6, 7 | Complete — 6 open Major, verdict iteration required | not recorded |
+| 9 | Gate H1 — perimeter-membership questions, priority order, R012 and R016 granted; the perimeter sanction put at the review | Stakeholder | 8 | Perimeter membership, priority order and both grants answered 2026-11-23; sanction refused at the review | queued in days; no estimate |
 
-Two currencies, never summed. Items 1 to 8 are agent work, measured in tokens and elapsed agent time; nothing has been measured yet because no phase has closed, so the forecast column is empty rather than filled with a guess. Item 9 is a human gate — waiting, not working — quoted only in days of queue time, bounded as R022 with a ceiling of 14 days and no estimate.
+Two currencies, never summed. Items 1 to 8 are agent work, measured in tokens and elapsed agent time; the phase's measured spend is now recorded in the Iteration Assessment, and no per-item figure exists. Item 9 is a human gate — waiting, not working — quoted only in days of queue time, bounded as R022 with a ceiling of 14 days and no estimate.
 
 The chain is sequential end to end: Discovery cannot read a tailoring that does not exist, Risk is scored on what Discovery found, and the review judges what Project Management wrote. Adding agent roles to this chain would buy no clock and would add contention over the same four artifacts.
 
 | Human gate | Who | What the iteration waits for | Bound | Answer |
 |---|---|---|---|---|
-| H1 | Stakeholder | Three answers: the four-process perimeter confirmed, the eight-area priority order confirmed, and the two Significant-risk acceptances (R012, R016) granted or refused | R022 — ceiling 14 days; on expiry the process suspends and nothing is auto-filled | Taken in-iteration on 2026-11-23, not queued behind the review: the priority order stands as it is with nothing left out; R012 accepted; R016 accepted. R022 is not binding this iteration, and an answer given before the review is still the stakeholder's, not the reviewers' |
+| H1 | Stakeholder | Four answers: the external-provider path and the admin branch ruled in or out, the eight-area priority order confirmed, and the two Significant-risk acceptances (R012, R016) granted or refused | R022 — ceiling 14 days; on expiry the process suspends and nothing is auto-filled | Taken in-iteration on 2026-11-23, not queued behind the review: the external-provider path recorded as a recovered use case marked unreachable in the delivered configuration; the admin branch treated as an exceptional entity; the priority order stands as it is with nothing left out; R012 accepted; R016 accepted. R022 is not binding this iteration |
+| H2 | Stakeholder | The perimeter as the System Inventory records it, confirmed, and the sanction to advance past SBC | R022 — same ceiling, no estimate | REFUSED on 2026-11-23. Answered No, with the instruction that the Development Case's duplicated diagrams and text be corrected and that the Major findings be corrected. H2 is not met and the phase needs another iteration |
+| H3 | Stakeholder | The `R004` and `R011` acceptances, conditionally on their reconciled scores landing at exposure 9 to 12 or above | R022 — same ceiling, no estimate | Both granted on 2026-11-23. The Risk List records each answer |
 
-The two Significant accepts remain the stakeholder's to grant, and they are granted in their own words. The milestone review is the reviewers' to rule on: no work item above is closed by this plan.
+Each of the three gates was answered by the stakeholder in their own words, and none was inferred by a reviewer or by the Project Manager. H2 is the one that did not pass, and it is the reason this milestone is not achieved. The milestone review is the reviewers' to rule on: no work item above is closed by this plan, and item 8 closed with the verdict the Review Coordinator recorded.
 
 ## Resources
 
