@@ -186,7 +186,7 @@ end note
 ## Results Relative to Evaluation Criteria
 ```plantuml
 @startuml
-title Results relative to the AR exit criteria, iteration 3 - twelve on their own evidence, and the gate that did not open
+title Results relative to the AR exit criteria at the close of iteration 4 - thirteen met, each on the artifact or the answer that owns it
 skinparam shadowing false
 skinparam wrapWidth 245
 hide circle
@@ -207,23 +207,23 @@ package "Met on the artifact that owns each - 12" {
   class "A13 no work the process does not run" as A13 <<met>>
 }
 
-package "Not met - the gate" {
-  class "A12 the recovered set confirmed\nset confirmed; the advance REFUSED\nwhile a Major stands" as A12 <<notmet>>
+package "Met on the stakeholder's answer" {
+  class "A12 the recovered set confirmed\nset confirmed at the third put,\nthe advance sanctioned at the fourth" as A12 <<met>>
 }
 
 A1 --> A12 : the recovery half answered
 A10 --> A12
 A11 --> A12
 note bottom of A12
-  Twelve of thirteen met is not the milestone. The sanction is the
-  stakeholder's, and it was refused while this plan's one Major stands.
+  Thirteen of thirteen is the milestone's evidence, not this record's
+  verdict. The verdict is the Review Coordinator's and it reads this answer.
 end note
 @enduml
 ```
 
 | # | Criterion | State | Evidence, and the finding that bears on it |
 |---|---|---|---|
-| A1 | The operations the system performs are recovered as use cases | **Met** | Use-Case Model — Use-Case Survey: `UC-001` to `UC-011` each with its `EP-NNN`, and "Not recovered, and why" accounting for `EP-020`, `EP-021`, `EP-022` and the `admin` branch. A query of `COMP-014` upstream returns five `Realizes` edges — `UC-006` to `UC-010` — none SUSPECT. `Use-Case Model#F3` and `#F1` closed |
+| A1 | The operations the system performs are recovered as use cases | Met | Use-Case Model — Use-Case Survey: `UC-001` to `UC-011` each with its `EP-NNN`, and "Not recovered, and why" accounting for `EP-020`, `EP-021`, `EP-022` and the `admin` branch. A query of `COMP-014` upstream returns five `Realizes` edges — `UC-006` to `UC-010` — none SUSPECT. `Use-Case Model#F3` and `#F1` closed |
 | A2 | The recovered use cases are read from the priorities the reading ordered first | Met | System Inventory — Priorities, areas 1 to 5; the eleven use cases trace to `EP-NNN` in each. The criterion claims nothing about priorities 6 to 8 |
 | A3 | The architecture is recovered and checked against the use cases | Met | Software Architecture Document — Logical View and Use-Case View; SP1, M3 and the bounded-load row read 50 / 50 / 50 under `AN-024`. `Software Architecture Document#F1` closed |
 | A4 | The data is recovered with its anchors | Met | Design Model — persisted domain classes, the relationship inventory, "What the code does not hold", anchored to `TodoDbContext.cs:11-17` and the three migrations. `Design Model#F1` closed |
@@ -231,13 +231,23 @@ end note
 | A6 | The coverage is measured and the remainder declared | Met | System Inventory — Coverage: 84 read and 55 unread of 139; both lenses recomputed the per-area sums and the headline reproduces |
 | A7 | Every anomaly the recovery surfaced is carried as a scored risk | Met | Risk List — Risk Register: 29 `Refines` edges from `AN-NNN`, plus `R022`, `R031` and `R032` with their separate origins stated |
 | A8 | No accepted risk above Moderate lacks the stakeholder's grant | Met — 2026-11-23 | Risk List — the grant table: four grants at 4 × 3 = 12 on `R004`, `R011`, `R012` and `R016`, each in the stakeholder's own words. No risk this iteration placed in the grant band took the accept strategy |
-| A9 | Every risk is actionable | Met | Risk List — Risk Mitigation and Contingency: every row names a strategy, an owner, an action, a contingency and a warning sign. `R032` now states its avoidance as performed and its residual named |
-| A10 | The recovery states what the code does, not what it was meant to do | **Met — certified on the recovered set** | All four artifacts its own test names hold. Supplementary Specification M3, S2, P1, R8 under `AN-024` and R4 under `AN-023`; Software Architecture Document SP1, M3 and the bounded-load row; Deployment Model's Rate limiting row and narrowed preamble; and the Use-Case Model's R6, which now reads "In force: 50 tokens, 50 per 10 s, queue 50. Code defaults: 100 tokens, 100 per 10 s, queue 100" under `AN-024`, its note citing `RateLimitExtensions.cs:14-31` and `appsettings.Development.json:8-12`. `Use-Case Model#F4` closed |
-| A11 | The Minors the SBC review left open are closed | **Met — four of four** | `Iteration Plan#F2` and `#F3` and `System Inventory#F3` closed in iteration 1. `Development Case#F2` closed this gate — the contributor set names all six lenses and CLS-DC-01 draws the edges into the Review Record; `Development Case#F3` closed — Document Control reads Phase: Excavation, Iteration 3. Both were performed in the Environment stage the plan records. The criterion stands as written; no carry to Inception is recorded |
-| A12 | The recovered set is confirmed by the stakeholder | **Not met — the set confirmed, the sanction refused** | Gate H4 was put for the third time on 2026-11-23. Both halves are recorded as given: the set is confirmed as the model of the existing system — eleven use cases, four exclusions, twenty-two components, eight tables, nothing wrong or missing, no exclusion re-opened; and the sanction to advance past AR is refused while a Major stands. The criterion is the gate and the gate opens on the sanction; no condition is added beyond the refusal |
-| A13 | The plan names no work the process does not run | Met | The milestone sequence, coarse roadmap and Resources record Environment as this phase's first discipline; fine-plan items 1 to 3 sit against the Process Engineer under it. Every other item belongs to a stage the process runs in Excavation. `Iteration Plan#F7` closed |
+| A9 | Every risk is actionable | Met | Risk List — Risk Mitigation and Contingency: every row names a strategy, an owner, an action, a contingency and a warning sign. `R032` states its avoidance as performed and its residual named; `Risk List#F3` closed on that restatement |
+| A10 | The recovery states what the code does, not what it was meant to do | Met — certified on the recovered set | All four artifacts its own test names hold. Supplementary Specification M3, S2, P1, R8 under `AN-024` and R4 under `AN-023`; Software Architecture Document SP1, M3 and the bounded-load row; Deployment Model's Rate limiting row and narrowed preamble; and the Use-Case Model's R6, which reads "In force: 50 tokens, 50 per 10 s, queue 50. Code defaults: 100 tokens, 100 per 10 s, queue 100" under `AN-024`, its note citing `RateLimitExtensions.cs:14-31` and `appsettings.Development.json:8-12`. `Use-Case Model#F4` closed |
+| A11 | The Minors the SBC review left open are closed | Met — four of four | `Iteration Plan#F2` and `#F3` and `System Inventory#F3` closed in iteration 1. `Development Case#F2` closed — the contributor set names all six lenses and CLS-DC-01 draws the edges into the Review Record; `Development Case#F3` closed — Document Control reads Phase: Excavation, Iteration 4. Both were performed in the Environment stage the plan records. The criterion stands as written; no carry to Inception is recorded |
+| A12 | The recovered set is confirmed by the stakeholder | **Met — 2026-11-23** | Both puts are recorded as given. At the **third put** the set was confirmed as the model of the existing system — eleven use cases, four exclusions, twenty-two components, eight tables, nothing wrong or missing, no exclusion re-opened — and the advance refused while a Major stood, that Major being this plan's own four cells and one gate row. Those cells were corrected in this iteration and verified at their artifacts by both lenses. At the **fourth put**, on records that agree with the set, the stakeholder sanctioned advancing past the AR milestone into Consolidation |
+| A13 | The plan names no work the process does not run | Met | The milestone sequence, coarse roadmap and Resources record Environment as this phase's first discipline at Low intensity, running in every phase; iteration 3's fine-plan items 1 to 3 sit against the Process Engineer under it. Every item of iteration 4 belongs to a stage the process runs in Excavation: Project Management, Requirements, Review and the Gate. No item schedules work a phase before Elaboration or Inception performs. `Iteration Plan#F7` closed |
 
-**Twelve met on the artifact that owns each; A12 not met.** No criterion is certified on another's answer, and no finding is waived by a criterion's state. The milestone stays open on one Major of this plan's own and on the stakeholder's refusal; neither is a defect in the recovery, and no artifact of the recovered set carries an open finding from any lens.
+**Thirteen met, each on the artifact or the answer that owns it; none met on an adjacent artifact's answer.** Twelve of them held at iteration 3 while this plan said three of them failed — which is the whole of what iteration 4 corrected. The thirteenth, `A12`, is not the plan's to certify: it opened on the stakeholder's answer at the fourth put.
+
+### What the criteria do not certify
+
+| Limit of this result | Why it is recorded here |
+|---|---|
+| The recovered set is confirmed as a model of the existing system, not validated against a declared requirement | The delivery declares no scope. No artifact of this phase can state that the recovered behaviour is the intended behaviour, only that it is the behaviour — which is what `A10` certifies and what `R016`, granted at exposure 12, records |
+| Coverage is 84 of 139 files | The 55 unread files carry no perimeter fact by the System Inventory's own account, and Consolidation completes the set. `A6` is met on a measured and declared remainder, not on a complete reading |
+| No test executed, no test case written | `A12` is a stakeholder's answer about a model, not an acceptance result. `R012` — the BFF and client carry no test of any kind — remains live and granted; writing tests is work no phase before Elaboration runs |
+| Two Minors remain open | `Development Case#F4` and `Iteration Plan#F10`, each contained, each with an owner scheduled in Consolidation. No criterion depends on either, and neither is waived: they are carried with their corrective action named |
+
 ## Test Results
 No test was executed in this iteration and none was planned. The Test discipline works from Elaboration, no test case is written before a use case is specified, and the Development Case records `Test Plan` NOT FIRED. No Test Evaluation Summary exists in Excavation. This section rests on the review, and nothing below is presented as a test result.
 
