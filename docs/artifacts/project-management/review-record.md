@@ -558,161 +558,107 @@ System Inventory, Supplementary Specification, Software Architecture Document, D
 The System Inventory's coverage arithmetic was recomputed rather than accepted: the Files column sums to 139, the Read column to 84, the unread cells to 55, and the headline reproduces. The Risk List's 32 rows each name strategy, owner, action, contingency and warning sign, and `R030` and `R031` state "not yet retired" and "materialized" rather than claiming retirements that have not occurred.
 
 ### Review Coordinator lens
-<!-- review: Excavation I1 -->
+<!-- review: Excavation I2 -->
 
-<!-- review: Excavation I1 -->
+<!-- review: Excavation I2 -->
 
-**Consolidated finding ledger.** Twenty-nine findings were recorded against ten artifacts by the two executed lenses at this milestone. Thirteen carry a resolution object and were closed by their recording lens; sixteen are open — none Critical, eight Major, eight Minor. Every count below is copied from `read_artifact_findings` on the artifact named, never from a reviewer's narrative.
+**Consolidated finding ledger.** Every count below is copied from `read_artifact_findings` on each of the twelve artifacts, never from a lens's narrative. The line this section rests on, verbatim:
 
-The ledger line this section rests on, verbatim:
+`[FINDINGS] read=12, unread=none, open Critical=0, open Major=5, open Minor=3`
 
-`[FINDINGS] read=12, unread=none, open Critical=0, open Major=8, open Minor=8`
+Thirty-five finding entries stand against the ten artifacts under review. Twenty-seven carry a resolution object and were closed by the lens that recorded them. Eight are open: none Critical, five Major entries covering four distinct defects, three Minor.
 
-**Open — the eight Majors. Each holds the milestone; none needs a stakeholder decision.**
+**Open findings — the four Major defects.**
 
-| Artifact | Key | Lens | Severity | Criterion | Owner | The corrective action | Holds |
+| # | Defect | Entries | Lens | Criterion | Owner | The corrective action | Holds |
 |---|---|---|---|---|---|---|---|
-| Supplementary Specification | F1 | Reviewer | Major | `consumed-defect` | System Analyst | State both rate-limit values with sources in M3, S2, P1 and R8 — code defaults 100/100/queue 100 (`RateLimitExtensions.cs:14-31`), Development override 50/50/50 (`appsettings.Development.json:8-12`); cite AN-024 | Yes |
-| Supplementary Specification | F2 | Reviewer | Major | `consumed-defect` | System Analyst | Rewrite R4 as the two hops stated apart: the token hop inherits `AddStandardResilienceHandler` (`TodoApp.ServiceDefaults/Extensions.cs:32-42`, `Todo.Web/Server/Program.cs:23-26`), the forwarder hop inherits nothing; cite AN-023 / R024 | Yes |
-| Software Architecture Document | F1 | Reviewer | Major | `consumed-defect` | Software Architect | Correct SP1, M3 and the Quality view's "bounded load" row; cite AN-024 | Yes |
-| Deployment Model | F1 | Reviewer | Major | `consumed-defect` | Software Architect | Narrow the environment preamble to what is true; rewrite the Rate limiting row — Development 50/50/50, any other environment the code defaults | Yes |
-| Use-Case Model | F1 | Reviewer | Major | `trace-gap` | System Analyst | Re-register the three EP-003 edges as confirmed and record in the Use-Case Survey why a screen entry point and the forwarded operation are both named | Yes |
-| Vision | F1 | Reviewer | Major | `use-case-shape` | System Analyst | Remove U12 and U13 from the Features diagram; keep the two rows as platform mechanisms cross-referenced to Supplementary Specification M8 and M9 | Yes |
-| Risk List | F2 | Management Reviewer | Major | `exit-criterion-unmet` | System Analyst, then Project Manager | Write R030's statement beside UC-001 to UC-004 citing AN-029, or restate R030 as not yet retired rather than avoided | Yes |
-| Iteration Plan | F3 | Management Reviewer | Major | `exit-criterion-unmet` | Project Manager | Hold A10 open naming the three artifacts that state AN-024's contradicted value, or split the criterion; do not certify it on the inventory's word | Yes |
+| 1 | Five `COMP-014 → UC-006` … `UC-010` edges remain marked SUSPECT in the registered graph at the phase close | `Use-Case Model#F3` (Reviewer), `Use-Case Model#F1` (Management Reviewer) | both | `trace-gap` / `exit-criterion-unmet` | System Analyst | Re-register the five edges as confirmed, each checked against the gate diagram the artifact already carries and against `Todo.Api/Todos/TodoApi.cs:19-20`; record beside the gate diagram why a throttling mechanism that gates an operation is not the operation itself — the reading already written for the `EP-003` screen edges | A1 |
+| 2 | The rules diagram's R6 states one request budget where two are in force | `Use-Case Model#F4` | Reviewer | `consumed-defect` | System Analyst | State both values in R6 — the code defaults 100 / 100 per 10 s / queue 100 from `Todo.Api/Extensions/RateLimitExtensions.cs:14-31`, and the Development override 50 / 50 / 50 from `Todo.Api/appsettings.Development.json:8-12`, which is what the delivery enforces — and cite `AN-024` as the other rules do | A10 |
+| 3 | A10 is certified on three of the four artifacts its own test covers | `Iteration Plan#F6` | Management Reviewer | `exit-criterion-unmet` | Project Manager | Name the Use-Case Model's R6 in A10's evidence cell and hold the criterion until it states both budgets under `AN-024`, or narrow the stated test to the artifacts the cell verifies | A10 |
+| 4 | A13 states Environment is inactive in this phase, while the stakeholder's order schedules the Process Engineer here from the next iteration | `Iteration Plan#F7` | Management Reviewer | `exit-criterion-unmet` | Project Manager | Record the order of 2026-11-23 as the stage it creates: add the next Excavation iteration to the milestone sequence, place the two Development Case items against the Process Engineer in it, and restate A13's evidence cell to state that the role runs here from that iteration on the order — not as a discipline stage, not as work carried to another phase | A13 |
 
-**Open — the eight Minors. Recorded, assigned, and not holding the milestone.** The stakeholder ordered on 2026-11-23 that no Minor be left unattended; all eight are owned and none is recorded as closed or deferred.
+**Open findings — the three Minors. Recorded, owned, none holding the milestone.**
 
 | Artifact | Key | Lens | Criterion | Owner | The corrective action |
 |---|---|---|---|---|---|
-| Use-Case Model | F2 | Reviewer | `contained-defect` | System Analyst | State the matrix-versus-Survey distinction once and relabel the matrix's edges |
-| Vision | F1 | Management Reviewer | `contained-defect` | System Analyst | The same two ellipses, read as contained because the Use-Case Model governs the set |
-| Risk List | F2 | Reviewer | `contained-defect` | Project Manager | Restate R024 without the misattribution; point its mitigation at the Supplementary Specification's R4, which still carries the error |
-| Design Model | F1 | Reviewer | `contained-defect` | Designer | Change PD-D3's citation from AN-005 to AN-025 |
-| Development Case | F2 | Management Reviewer | `contained-defect` | Process Engineer | Name every lens in the Review Record's contributor set and draw the edges in CLS-DC-01. **This is the finding that holds A11** |
-| Development Case | F3 | Reviewer | `contained-defect` | Process Engineer | Bring the four Document Control fields to Excavation iteration 1 |
-| Iteration Plan | F4 | Management Reviewer | `contained-defect` | Project Manager | Narrow A2 to what its evidence carries, or add the deferred-set sentence to the Use-Case Model's "Not recovered, and why" |
-| Iteration Plan | F5 | Management Reviewer | `contained-defect` | Project Manager | Set A12 to "Not met — refused" with the answer as given |
+| Development Case | F2 | Management Reviewer | `contained-defect` | Process Engineer, scheduled here from the next iteration | Name every lens writing into the Review Record — Reviewer, Management Reviewer, Business Reviewer, Review Coordinator, CodeReviewer, plus the Configuration Manager's baseline record — and draw the corresponding edges in CLS-DC-01. **A11 counts this finding** |
+| Development Case | F3 | Reviewer | `contained-defect` | Process Engineer, same turn | Bring the four Document Control fields forward from Survey to Excavation iteration 2; the tailoring content is current. **A11 counts this finding** |
+| Risk List | F3 | Management Reviewer | `contained-defect` | Project Manager | Restate R030's strategy cell: the retirement action has been performed and is in the Use-Case Model under `AN-029`; the exposure stays live because `AN-012` stands and no test covers the surface |
 
 ```plantuml
 @startuml
-title Open findings at the AR gate - 16 open over 10 artifacts, 0 Critical, 8 Major, 8 Minor
+title The eight findings open at the AR gate - severity, what each blocks, and the act that closes it
 
 skinparam shadowing false
 skinparam classAttributeIconSize 0
-hide empty members
+skinparam wrapWidth 235
 hide circle
-skinparam wrapWidth 250
+hide empty members
 
-package "Artifacts carrying an open Major - 7" {
-  class "Supplementary Specification" as SS {
-    Major F1 : rate limit 100 where Development reads 50
-    Major F2 : R4 denies the resilience handler
-  }
-  class "Software Architecture Document" as SAD {
-    Major F1 : the same figure, AN-024 uncited
-  }
-  class "Deployment Model" as DEP {
-    Major F1 : the one setting that differs, backwards
-  }
-  class "Use-Case Model" as UCM {
-    Major F1 : three EP-003 edges suspect
-    Minor F2 : matrix against Survey column
-  }
-  class "Vision" as VIS {
-    Major F1 : thirteen ellipses against eleven
-    Minor F1 : the same two, contained reading
-  }
-  class "Risk List" as RL {
-    Major F2 : R030 avoided, action unperformed
-    Minor F2 : R024 premise misattributed
-  }
-  class "Iteration Plan" as IP {
-    Major F3 : A10 met on an adjacent artifact
-    Minor F4 : A2 clause unsupported
-    Minor F5 : A12 superseded by the answer
-  }
+package "Major - 5 entries, 4 distinct defects" {
+  class "Use-Case Model#F3 (Reviewer)\nUse-Case Model#F1 (Management Reviewer)\ntrace-gap\nfive COMP-014 edges SUSPECT at the close" as M1 <<major>>
+  class "Use-Case Model#F4 (Reviewer)\nconsumed-defect\nR6 states 100 where Development binds 50" as M2 <<major>>
+  class "Iteration Plan#F6 (Management Reviewer)\nexit-criterion-unmet\nA10 checks three of the four artifacts its test names" as M3 <<major>>
+  class "Iteration Plan#F7 (Management Reviewer)\nexit-criterion-unmet\nA13 states Environment inactive here, the order schedules the role" as M4 <<major>>
 }
 
-package "Artifacts carrying a Minor only - 3" {
-  class "Design Model" as DM {
-    Minor F1 : PD-D3 cites AN-005 for AN-025
-  }
-  class "Development Case" as DC {
-    Minor F2 : contributor set - holds A11
-    Minor F3 : Survey-era Document Control
-  }
-  class "System Inventory" as SI {
-    none : F1 to F3 closed
-  }
+package "Minor - 3 entries, 3 distinct defects" {
+  class "Development Case#F2 (Management Reviewer)\ncontained-defect\ncontributor set omits three lenses; A11 counts it" as m1 <<minor>>
+  class "Development Case#F3 (Reviewer)\ncontained-defect\nDocument Control a phase behind" as m2 <<minor>>
+  class "Risk List#F3 (Management Reviewer)\ncontained-defect\nR030's strategy cell behind the artifact it points at" as m3 <<minor>>
 }
 
-class "AN-024" as AN {
-  the Development override
-  halves the request budget
+package "Blocks the milestone" {
+  class "A1 contested" as A1 <<criterion>>
+  class "A10 contested" as A10 <<criterion>>
+  class "A13 contested" as A13 <<criterion>>
+  class "A11 not met - three of four" as A11 <<criterion>>
 }
-AN --> SS : contradicted
-AN --> SAD : contradicted
-AN --> DEP : contradicted
 
-note bottom of AN
-  One anomaly, three Majors. Correcting it in three
-  artifacts closes three of the eight and moves A10.
+M1 --> A1 : one confirmation per edge
+M2 --> A10 : the rules diagram is in the set
+M3 --> A10 : the cell must cover the set
+M4 --> A13 : the sequence must carry the stage
+m1 --> A11 : the fourth Minor A11 counts
+m2 --> A11 : same artifact, same turn
+
+note right of m1
+  The stakeholder's order of 2026-11-23 schedules the
+  Process Engineer in this phase from the next iteration
+  and keeps A11 as written.
 end note
-note bottom of DC
-  F2 is the only finding that holds an exit criterion.
-  A11 counts it and its owner has no stage in Excavation.
-end note
-note bottom of SI
-  Zero open findings. Coverage, the anomaly count
-  and Document Control all reproduce.
+note bottom of m3
+  Contained: A9 holds, the register understates the
+  position, nothing is carried into design on it.
 end note
 
 @enduml
 ```
 
-**Closed this milestone — thirteen, each by the lens that recorded it.**
+**Cross-lens reconciliation — where two lenses spoke on one subject.**
 
-| Artifact | Key | Lens | Severity | Closed against |
-|---|---|---|---|---|
-| Development Case | F1 | Reviewer | Major | "Tool and configuration references" — no version policy asserted |
-| Development Case | F2 | Reviewer | Minor | "Roles and Ownership" — one CLS-DC-01 diagram, one role-deltas block |
-| Development Case | F1 | Management Reviewer | Minor | The same section, under the stakeholder's order of 2026-11-23 |
-| System Inventory | F1 | Reviewer | Major | "Traceability" — the AN-021 row reads all three entry points |
-| System Inventory | F2 | Reviewer | Minor | "Coverage" — the headline recomputes from the per-area table |
-| System Inventory | F3 | Reviewer | Minor | "Document Control" — Excavation iteration 1 |
-| Risk List | F1 | Reviewer | Major | "Risk Classification" — one published word-to-score mapping; every row reproduces |
-| Risk List | F1 | Management Reviewer | Major | The grant band re-derived; four grants at exposure 12 |
-| Iteration Plan | F1 | Reviewer | Major | "Use Cases and Scenarios Addressed" — twelve anomalies, 21 edges |
-| Iteration Plan | F2 | Reviewer | Minor | The coarse roadmap and the critical chain — the gate precedes the verdict |
-| Iteration Plan | F1 | Management Reviewer | Major | "Evaluation Criteria" — C2a/C2b, C6, C7a/C7b |
-| Iteration Plan | F3 | Reviewer | Minor | The fine plan's State column, each row against its artifact |
-| Iteration Plan | F2 | Management Reviewer | Minor | The superseded C2b row no longer exists; A1 to A13 replace it |
-
-**Cross-lens reconciliation — no contradiction, one severity disagreement, one duplicate subject.**
-
-| Subject | The two lenses | Resolution this verdict records |
+| Subject | The two lenses | Resolution recorded here |
 |---|---|---|
-| The rate limiter (AN-024) | All three artifacts named by the Reviewer; the Management Reviewer reaches the same conclusion through A10 | Not a conflict — the Management Reviewer classified it at the criterion, not at the artifact. One fact, three corrections, both lenses agreed on the defect |
-| The Vision's two ellipses (`U12`, `U13`) | Reviewer: **Major** (`Vision#F1`, `use-case-shape`) — thirteen use cases where the recovery holds eleven. Management Reviewer: **Minor** (`Vision#F1`, `contained-defect`) — the Use-Case Model governs the set, no criterion depends on the Vision's count | **The two lenses disagree on consequence, not on fact.** Counted at the **Major** band for the gate: gate H4 puts a use-case count to the stakeholder, and a supporting artifact stating a different count beside it is a defect in the material the sanction rests on. The Minor is recorded and does not double the work — one correction closes both |
-| `Risk List#F2` | Two findings share the key under different lenses and different subjects: the Reviewer's Minor on R024's premise, the Management Reviewer's Major on R030's unperformed retirement | Two distinct findings, not a duplicate. The R024 Minor's remedy is partly satisfied by the R030 Major's — both point the mitigation at an artifact that still carries the error — but each lens closes only its own key |
-| `Development Case#F2` | Recorded by both lenses at SBC, closed by the Reviewer's key, still open under the Management Reviewer's | No duplicate recorded at this gate: the technical lens named it and did not re-record it. Only the Management Reviewer may close it, and only that key holds A11 |
+| The five `COMP-014` edges | Reviewer records `Use-Case Model#F3`; Management Reviewer records `Use-Case Model#F1` — same five edges, same marking, same remedy | **One defect, two keys.** Each lens verified it against the registered graph independently. One correction closes both, and each lens closes only its own key. Neither entry is doubled in the action plan |
+| The request budget (AN-024) | Reviewer records `Use-Case Model#F4` at the artifact; Management Reviewer records `Iteration Plan#F6` at the criterion | **One cause, two consequences.** `#F6` cannot pass while R6 says 100; `#F4` is the correction that lets it pass. Reconciled as two findings because two things must change — the artifact and the criterion's evidence cell — and each has its own owner act |
+| The Vision's two ellipses | Both lenses recorded `Vision#F1` at iteration 1, the Reviewer as Major and the Management Reviewer as Minor | **Closed by both lenses.** No reconciliation is needed at this gate; the disagreement on consequence was resolved at the previous milestone in favour of the Major band, and one correction closed both keys |
+| `Development Case#F2` and `#F3` | Two keys, two lenses, two distinct defects on one artifact, both named in the stakeholder's order | **Not a duplicate.** Both are counted by A11 and both are corrected in one turn by one owner. They are sequenced together as one action, not two |
+| `Risk List#F2` (Reviewer, Minor) and `Risk List#F3` (Management Reviewer, Minor) | `#F2` closed on R024; `#F3` was recorded open against R030's strategy cell in the same pass | **Successive, not contradictory.** `#F3` arose from the correction `#F2` and the Management Reviewer's own R030 closure; the register now understates the position rather than overstating it |
 
-**Priority of what remains — the order the second iteration takes them.** Majors before Minors, and within each band, the finding that unblocks another first.
+No lens contradicts another on a fact. The one severity disagreement of this milestone was adjudicated at the previous gate; no finding at this gate carries a disputed band.
+
+**Priority of what remains — Major before Minor, and within the Major band the item that unblocks another first.**
 
 | Priority | Finding | Why it ranks here |
 |---|---|---|
-| 1 | Supplementary Specification#F1 | The root of three Majors; correcting M3, S2, P1 and R8 lets the Software Architect and the Deployment Model copy one settled figure |
-| 2 | Software Architecture Document#F1 | Reads the same fact from the Supplementary Specification; the Deployment Model's environment table inherits this copy |
-| 3 | Deployment Model#F1 | The only statement in the delivery of what differs between environments; Consolidation would copy it unchanged |
-| 4 | Supplementary Specification#F2 | Independent of the rate limiter, and the SAD's P6 already holds the correct reading, so the correction is a transcription |
-| 5 | Use-Case Model#F1 | The eleven-use-case count gate H4 puts rests on the three edges; confirming them also clears the material the Vision's count is checked against |
-| 6 | Vision#F1 | Cheapest of the eight — delete two ellipses — and it must follow priority 5 so the count matches |
-| 7 | Risk List#F2 (Management Reviewer) | A Significant exposure read as retired; its warning sign has already come true |
-| 8 | Iteration Plan#F3 (Management Reviewer) | The plan's own certification; re-taken after priorities 1 to 4 land, so A10 can be certified on the recovered set |
-| 9–16 | The eight Minors | In the order of Resolutions and Actions; `Development Case#F2` first among them because A11 counts it |
+| 1 | `Iteration Plan#F7` | The only finding the stakeholder ordered by name at this review, and the only one that creates a stage another finding depends on: the Process Engineer's turn is what closes `Development Case#F2` and `#F3`, and `A11` cannot be met without it |
+| 2 | `Use-Case Model#F4` | One diagram, one citation. It is also the artefact behind `Iteration Plan#F6`, so correcting it is the precondition for that criterion to be certifiable |
+| 3 | `Use-Case Model#F3` and `#F1` | Five confirmations against evidence the artifact already holds; closes A1 and the widest mechanism in the Use-Case View. Ranks after `#F4` because a single owner turn performs both |
+| 4 | `Iteration Plan#F6` | A certification cell, corrected once the artifact it must name is correct. Certifying it before `#F4` lands would repeat the defect it records |
+| 5 | `Development Case#F2` then `#F3` | One turn, one owner, both named in the order; `A11` counts both and stays as written |
+| 6 | `Risk List#F3` | A transcription of a fact that has already landed; a Minor that holds no criterion |
 
-**One fact, three Majors, one correction.** The three rate-limit Majors are one wrong sentence in three artifacts. The recovery already holds the right answer in the same phase — the System Inventory records it as AN-024 and the Risk List carries it as R025, both anchored. The defect is not a failure of reading; it is three documents asserting the value their own reading contradicts.
+**What the ledger says about the review process.** Four of the eight open entries are four distinct defects, not eight problems: the recovery is substantively right and its remaining fault is transcription and confirmation, not reading. The two lenses converged on the same defect twice without seeing each other's keys, which is the signature of a real defect rather than a lens artefact. Every Major carries an owner who holds the artifact and a stage in this phase — the condition `Development Case#F2` did not satisfy for two iterations, and which the stakeholder's order has now created.
 
 ## Resolutions and Actions
 ### Reviewer lens
