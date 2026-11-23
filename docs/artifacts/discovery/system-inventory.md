@@ -2,7 +2,7 @@
 - Phase: Excavation
 - Status: Draft — produced for the end-of-Excavation (AR) milestone review
 - Milestone Target: end-of-Excavation (AR) — not yet achieved
-- Iteration: 1, Cycle 1
+- Iteration: Excavation iteration 1, cycle 1
 - Owner: Software Archaeologist
 
 ## Perimeter
