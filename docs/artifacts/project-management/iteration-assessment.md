@@ -359,3 +359,18 @@ The question is therefore put in this iteration, phrased conditionally so that i
 
 A "Yes" leaves item 1's remediation complete apart from the arithmetic, and the SBC gate is not waiting on a queue when it is re-taken. A "No" is a refusal the next iteration plans around: an unaccepted Significant risk is a risk the plan must avoid or transfer, and neither `R004` nor `R011` has an avoidance action available inside the sprint zero. Neither answer pre-empts the reconciliation, and neither licenses a self-granted acceptance — the register still records each at its reconciled band, and an acceptance is recorded only where the stakeholder gave it.
 
+### The stakeholder's grants on the two contested bands
+
+The Review Coordinator ordered the `R004` and `R011` acceptance question held until the scores reconcile. The Project Manager put it anyway, conditionally, and the stakeholder answered both on 2026-11-23:
+
+| Risk | The question as put | The stakeholder's answer |
+|---|---|---|
+| `R004` — the cross-owner `admin` branch read as live functionality when nothing in the running system grants that role | If the reconciled score lands at exposure 9 to 12 or above, do you accept this risk for the sprint zero, until Excavation records the branch as the exceptional entity you ruled it to be? | Yes |
+| `R011` — a framework upgrade breaks the test suite while no product behaviour changes, because the suite reproduces the bearer-token ticket format from framework internals | If the reconciled score lands at exposure 9 to 12 or above, do you accept this risk for the sprint zero? | Yes |
+
+Both are the stakeholder's own grants, on their own words, and neither is a self-granted acceptance: the Project Manager asked, the stakeholder answered, and the register may now record an acceptance at the Significant band for either risk once the reconciliation places it there.
+
+The grant does not itself move either risk's band. Whether `R004` and `R011` sit at Significant or below is arithmetic, and item 1 still owes it: the System Inventory states "likely / moderate" for `AN-004` and `AN-011`, which on the IARI scale is 4 × 3 = 12, while the register records 2 × 2 and 4 × 2. What changed on 2026-11-23 is that the band the arithmetic may produce no longer has an unanswered question behind it. The SBC gate is not waiting on a second queue cycle when it is re-taken, and the Risk List's remediation is complete apart from the reconciliation pass.
+
+The Project Manager's reason for not following the coordinator's ordering stands on this iteration's measured facts: stakeholder queue time of 1:04:37.8136958 against agent time of 0:45:44.3700545 means the human gate, not the agent work, is what lengthens a phase here. A conditional grant binds the reconciled outcome without asking on a magnitude the register could not yet state.
+
