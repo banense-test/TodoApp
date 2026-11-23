@@ -277,18 +277,16 @@ end note
 ```
 
 ## Optional Artifact Triggers
-
-Evaluated against the delivery as it stands. Re-evaluated at the start of every iteration; a trigger that has fired stays fired for the rest of the project.
+Evaluated against the delivery as it stands and re-evaluated at the start of every iteration; a trigger that has fired stays fired for the rest of the project. Re-evaluated for Consolidation iteration 1 — five verdicts unchanged, one trigger fired.
 
 | Optional artifact | §5.2 condition | Verdict | Evidence |
 |---|---|---|---|
 | Glossary | Domain uses specialist vocabulary requiring stakeholder-validated definitions | NOT FIRED | The vocabulary is *todo*, *user*, *owner*, *token* — plain English names for records an actor owns. No regulated, legal, medical or financial term is in play, and the system's authors cannot be asked to validate a definition. |
-| Architectural Proof-of-Concept | Elaboration + at least one technical risk requiring empirical validation | NOT FIRED | No technical risk in the delivery requires empirical validation of an untried mechanism: the architecture already runs as it stands (`TodoApp.AppHost` boots the API, the server host and the database) and the declared change is worked on top of it. Re-evaluated every iteration once the Risk List exists. |
+| Architectural Proof-of-Concept | Elaboration + at least one technical risk requiring empirical validation | NOT FIRED | The trigger needs a phase that has not started and a technical risk with an untried mechanism. Neither holds: no phase before Elaboration runs this artifact, and the architecture already runs as it stands — `TodoApp.AppHost` boots the API, the server host and the database. Re-evaluated every iteration. |
 | Data Model | Data-centric system, OR more than 10 entities, OR data migration in scope | NOT FIRED | Eight persisted entity types: the seven ASP.NET Core Identity tables of `IdentityDbContext<TodoUser>` plus `Todo`. Below the >10 threshold. No data migration is in scope — there is no production data, and the three migrations are the schema's only history. Persistent data is written in the Design Model. |
-| Deployment Model | Distributed / multi-node topology, OR non-trivial multi-environment setup | FIRED | The topology is genuinely distributed: a browser-hosted Blazor WebAssembly client, a server host, a separate REST API process, a SQLite database, and a reverse-proxy hop (YARP `IHttpForwarder`) from the server to the API. `TodoApp.AppHost` orchestrates the processes, and each of `Todo.Api`, `Todo.Web/Server`, `Todo.Web/Client`, `TodoApp.AppHost` carries its own `appsettings.json` / `appsettings.Development.json` pair. |
+| Deployment Model | Distributed / multi-node topology, OR non-trivial multi-environment setup | **FIRED** | The topology is genuinely distributed: a browser-hosted Blazor WebAssembly client, a server host, a separate REST API process, a SQLite database, and a reverse-proxy hop (YARP `IHttpForwarder`) from the server to the API. `TodoApp.AppHost` orchestrates the processes, and each of `Todo.Api`, `Todo.Web/Server`, `Todo.Web/Client`, `TodoApp.AppHost` carries its own `appsettings.json` / `appsettings.Development.json` pair. |
 | User-Interface Prototype | UX-critical, or UI complexity requiring stakeholder validation before implementation | NOT FIRED | The UI is recovered from the existing Blazor components (`TodoList.razor`, `LogInForm.razor`); no UX-critical decision waits on stakeholder validation before implementation. |
 | Test Plan | Formal delivery, regulatory audit, contractual test reporting | NOT FIRED | No regulator, contract or audit consumes test reporting. Per-iteration test scope is set by the Iteration Plan and reported in the Test Evaluation Summary. |
-
 ## Roles and Ownership
 Ownership, the two role deltas, the six contributors to the Review Record and every tool configuration this project references, in one view. Nothing of the baseline's ownership moves; every path named in this section belongs to the role beside it, and its content and its state are that role's.
 
