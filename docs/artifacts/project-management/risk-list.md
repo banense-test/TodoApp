@@ -91,7 +91,6 @@ end note
 Not carried: no risk in this register concerns staffing, skills, turnover or friction between people. The executing agents are not a development organization and the stakeholder is the only human here, so such a risk would name no actor and would be retired as not applicable rather than classified. What the people the SYSTEM serves do with it is a domain risk and stays.
 
 ## Risk Register
-
 Every risk traces to one anomaly of the System Inventory. The twenty-one anomalies are all carried; R022 comes from the delivery's dependency on stakeholder gates and has no anomaly behind it.
 
 ```plantuml
@@ -204,6 +203,19 @@ end note
 | R020 | A recovered use case cannot state a failure flow the system has: the provider callback redirects to `/` on every path, so a rejected provider, a null exchange and a failed cookie sign-in are indistinguishable to the person | `Todo.Web/Server/AuthApi.cs:64-97` | 4 | 2 | 8 | Moderate | Avoid | System Analyst |
 | R021 | A recovered use case that states why registration or login failed states a distinction the system does not make: every authentication failure answers 401 with no body, and the BFF discards the API's validation problem | `Todo.Web/Server/AuthApi.cs:14-38`; `Todo.Web/Server/AuthClient.cs:6-34` | 4 | 2 | 8 | Moderate | Avoid | System Analyst |
 | R022 | A phase's milestone cannot close while a stakeholder answer is queued. Every phase gate depends on one, and this iteration's gate asked for three answers | this register, R012, R016, and the priority-order question answered 2026-11-23 | 2 | 4 | 8 | Moderate | Accept | Project Manager |
+
+### Stakeholder grants on the two contested bands
+
+Two risks in this register may sit above the Moderate band once their scores are reconciled, and acceptance at Significant or High is the stakeholder's alone. Both were put to the stakeholder on 2026-11-23, with the question stated conditionally so that it binds whatever the reconciliation returns:
+
+| Risk | Anomaly | Recorded here | What the System Inventory states | Exposure those words give | The stakeholder's answer |
+|---|---|---|---|---|---|
+| `R004` | `AN-004` | 2 × 2 = 4, Minor | "likely / moderate" | 4 × 3 = 12, Significant | Yes — accepted for the sprint zero should the reconciled score land at 9 to 12 or above, until Excavation records the branch as the exceptional entity the stakeholder ruled it to be |
+| `R011` | `AN-011` | 4 × 2 = 8, Moderate | "likely / moderate" | 4 × 3 = 12, Significant | Yes — accepted for the sprint zero should the reconciled score land at 9 to 12 or above |
+
+The grant is the stakeholder's own, in their own words, and no condition beyond the one the question itself stated was added, narrowed or widened by it. What it does not do is settle the arithmetic: the two rows above still record the scores this review declared unreproducible, and the reconciliation is owed before the SBC gate is re-taken. The grant closes the question that reconciliation would otherwise raise at the gate — not the reconciliation.
+
+`R001`, `R007`, `R012` and `R016` are unaffected: `R001` and `R007` are avoided, which is the Project Manager's authority at any band, and `R012` and `R016` carry the stakeholder's own grants of 2026-11-23 for their recorded exposures of 12.
 
 ## Risk Mitigation and Contingency
 
