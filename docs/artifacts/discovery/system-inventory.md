@@ -1,8 +1,7 @@
 ## Document Control
-
-- Phase: Survey
-- Status: Draft — produced for the end-of-Survey (SBC) milestone review
-- Milestone Target: end-of-Survey (SBC) — not yet achieved
+- Phase: Excavation
+- Status: Draft — produced for the end-of-Excavation (AR) milestone review
+- Milestone Target: end-of-Excavation (AR) — not yet achieved
 - Iteration: 1, Cycle 1
 - Owner: Software Archaeologist
 
