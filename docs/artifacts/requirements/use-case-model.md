@@ -416,7 +416,7 @@ stop
 
 | Field | Content |
 |---|---|
-| Primary actor | ACT-001 through the API only; ACT-003 |
+| Primary actor | ACT-003. No screen and no client call reaches any of these endpoints |
 | Trigger | A caller posts to one of the Identity endpoints under `/users` |
 | Precondition | The operation decides its own: refresh and manage require a bearer token, the recovery endpoints do not |
 | Postcondition | The operation's effect: a refreshed token, a confirmed email, a reset password, a pending two-factor change, an updated profile |
@@ -430,7 +430,7 @@ stop
 
 | Alternative or exception | What the code does | Anchor |
 |---|---|---|
-| A1 — no screen reaches any of these | The client makes six calls and none of them is an Identity endpoint beyond register and login: `AddTodoAsync`, `DeleteTodoAsync`, `GetTodosAsync`, `LoginAsync`, `CreateUserAsync` (which posts `/auth/register`) and `LogoutAsync`. Every operation here is reachable only by an API caller, so the UI cannot confirm an email, reset a password or refresh a token | `Todo.Web/Client/TodoClient.cs:7-71` |
+| A1 — no screen reaches any of these | The client makes six calls and none of them is an Identity endpoint beyond register and login: `AddTodoAsync`, `DeleteTodoAsync`, `GetTodosAsync`, `LoginAsync`, `CreateUserAsync` (which posts `/auth/register`) and `LogoutAsync`. Every operation here is reachable only by an API caller, so the UI cannot confirm an email, reset a password or refresh a token. ACT-001 therefore carries no edge to this use case | `Todo.Web/Client/TodoClient.cs:7-71` |
 | A2 — an anonymous caller floods the recovery endpoints | No limit applies, and the policy as written could not simply be extended to them: it partitions on `NameIdentifier`, which an anonymous caller does not have | AN-009; `Todo.Api/Extensions/RateLimitExtensions.cs:38-47` |
 
 ### UC-006 See one's own tasks
