@@ -477,13 +477,6 @@ Two quantities are measured and no others: tokens consumed, and elapsed time spl
 
 No velocity, no derived forecast and no invented figure is reported from these numbers. No token budget is declared for this project; none is set here.
 
-### Process evolution and support
-
-- **Before each iteration:** the optional triggers and both classification verdicts are re-evaluated and the Development Case made current before the first working role of that iteration starts. A trigger that has fired is not un-fired by a later reading.
-- **During each iteration:** process questions are answered inside the same iteration. A blocking one — an approval whose approver is unstated, a template that cannot be applied — is escalated to the stakeholder in the same turn it is found.
-- **After each iteration:** the process findings of the Iteration Assessment are the input. A change to this document names the finding it answers; a change with no finding behind it is not made.
-- **How a change to this document is requested:** through the `Change Control Manager`, who carries it as a change request with `nature:enhancement` or `nature:refactoring`. The label table is in `docs/CONTRIBUTING.md`.
-
 ### The contribution contract
 
 `docs/CONTRIBUTING.md` is the project's contract for whoever contributes — a person or a role. It carries one section, "Working with IARI", in five parts: how a change is requested and with which labels, the branching and deployment rules and where their owners state them, the code and test conventions the kept code follows (each citing the file that states it), what a review checks, and where a process question goes. Its label table is the label table of the process, character for character; a label written differently reaches no role. It is published and it holds over any other guide in the repository for how a change is requested, labelled and reviewed.
