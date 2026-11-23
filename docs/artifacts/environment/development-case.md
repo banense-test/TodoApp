@@ -444,7 +444,9 @@ Each item is a reference to a file and its owning role. Its content and its stat
 | Developer environment | `.devcontainer/devcontainer.json`, `.devcontainer/init.sh`, `.aspire/settings.json`, `.vscode/extensions.json` | Process Engineer (onboarding), Integrator (build environment) |
 | Request collection | `Requests/todo.http` | Tester |
 
-**Version selection.** No enterprise version policy is recorded for this project: no file in the delivery states one and no stakeholder decision fixes one, so this document asserts none. Version selection follows the files the delivery already carries — `Directory.Packages.props` manages every package version centrally, `global.json` pins SDK `9.0.100` with `latestFeature` roll-forward, and `nuget.config` clears the sources and maps `*` to `nuget.org`, so a package from another feed does not restore. A version the delivery takes is read from those files; `docs/CONTRIBUTING.md` §3 states the same conventions as the code follows them, and the Software Architect owns them.
+**Version policy.** The delivery fixes its runtime platform and this document formalizes it as the policy that governs over any registry `latest`: framework `.NET`, pinned `9.0.100`, read from `global.json` (SDK `9.0.100`, `rollForward: latestFeature`, `allowPrerelease: true`), `Directory.Build.props` (`TargetFramework` `net9.0` for every project) and `Directory.Packages.props` (central package management, every version pinned there). No stakeholder-declared enterprise policy overrides it and none is invented: the pin records what the code in hand already fixes. Resolving a version against a package feed is the Software Architect's work, not this document's, and no version is verified here.
+
+The one contradiction the files carry is stated where it stands and belongs to a build decision this document does not make: `.devcontainer/devcontainer.json` names the image `mcr.microsoft.com/dotnet/sdk:8.0` while the target is `net9.0`. Settling it is the Integrator's; the pin above is the target, and `docs/CONTRIBUTING.md` §3 cites both files as they are written.
 
 ### Role deltas
 
