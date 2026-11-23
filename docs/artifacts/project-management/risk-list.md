@@ -1,9 +1,10 @@
 ## Document Control
 - Phase: Excavation
-- Status: Live register. Iteration 3's review closed seven findings against the recovered set; the register carries the corrections the ledger orders for the fourth iteration, and the AR verdict is the Review Coordinator's
-- Milestone Target: end-of-Excavation (AR) — not yet achieved
+- Status: Live register, carried into Consolidation. Two risks this gate left open — `R012` and `R016`, both Significant at exposure 12 — remain accepted on the stakeholder's grants of 2026-11-23 and neither is claimed retired. The AR verdict is the Review Coordinator's and reads "no further iteration required"
+- Milestone Target: end-of-Excavation (AR) — sanctioned at gate H4's fourth put on 2026-11-23 on that verdict; the register is live through Consolidation
 - Iteration: 4, Cycle 1
 - Owner: Project Manager
+
 ## Risk Classification
 The scale is the IARI risk scale of the Development Case baseline, §9.10. The project Development Case records no scale of its own, and this artifact defines none. Probability and impact are scored on that scale; a risk's magnitude is the band its exposure (probability × impact) falls in — it is never chosen.
 
