@@ -892,13 +892,19 @@ end note
 
 **Disposition from the management lens: Go, on the four artifacts as corrected.**
 
-That is a verdict on the artifacts, and it is the one they have earned. The three Majors this lens recorded in iteration 1 are closed and verified against the corrected sections, not against the owners' assurances: the grant band can now be derived from scores that reproduce, the exit criteria are certified only on evidence the artifact each cites actually records, and the duplication the stakeholder ordered deleted is gone. No Major and no Critical finding is open from either executed lens. Every one of the eleven SBC criteria that an artifact can establish is established — nine on the reading, the register and the plan, two more on the stakeholder's own answers of 2026-11-23.
+That is a verdict on the artifacts, and it is the one they have earned. The three Majors this lens recorded in iteration 1 are closed and verified against the corrected sections, not against the owners' assurances: the grant band can now be derived from scores that reproduce, the exit criteria are certified only on evidence the artifact each cites actually records, and the duplication the stakeholder ordered deleted is gone. No Major and no Critical finding is open from either executed lens. Every one of the eleven SBC criteria that an artifact can establish is established — nine on the reading, the register and the plan, two more on the stakeholder's own answers of 2026-11-23, and the eleventh now on this review's answer.
 
-**The milestone is not yet achieved, and that is not a defect.** C2b — the perimeter as the System Inventory records it confirmed by the stakeholder, and the sanction to advance — is the one criterion no artifact and no reviewer can close. It was refused on 2026-11-23, and it is put again in this review. The artifacts are ready to be sanctioned; whether they are sanctioned is the stakeholder's to say, and this lens does not state it for them.
+**Stakeholder sanction: GRANTED** — 2026-11-23.
+
+**Stakeholder acceptance:** "Yes" — asked whether they confirm the perimeter of the existing system as the System Inventory records it — four processes, 22 entry points, 21 anomalies each anchored, eight priority areas with nothing left out — and sanction advancing past the System Boundary Confirmed milestone into Excavation. With the instruction: "Yes, let's move on to the next phase. Minor findings should also be addressed during the next phase—let's not leave them unattended."
+
+**C2b is closed on the stakeholder's answer.** The criterion this lens recorded as not met at 2026-11-23 is now met, on the same day and in the stakeholder's own words, and it is met by their answer and not by an inference of any reviewer's. The perimeter as the System Inventory records it stands confirmed.
+
+**The open Minors carry into Excavation, by the stakeholder's order.** The three Minors open across the four artifacts are addressed in the next phase rather than left until someone notices them: `Development Case#F2` (the co-owned-artifact sentence omits the Management Reviewer, Business Reviewer and Review Coordinator lenses), `System Inventory#F3` (the Document Control iteration field reads 1) and `Iteration Plan#F3` (the fine-plan State column still shows rows 4 and 5 with the owner and row 6 not started). The order is the stakeholder's and none of the three is deferred to whenever its owner next happens to work: `Development Case#F2` is the Process Engineer's and the other two their own artifacts' owners', each in its next turn.
 
 ```plantuml
 @startuml
-title STATE-SBC-01 The gate's state machine at the end of Survey iteration 2
+title STATE-SBC-01 The SBC gate - the answer gate H2 returned, and where the project stands
 
 skinparam shadowing false
 skinparam wrapWidth 250
@@ -906,22 +912,21 @@ skinparam wrapWidth 250
 [*] --> SanctionRefused : iteration 1, stakeholder answered No on 2026-11-23
 SanctionRefused --> Reworked : six Major findings and one ordered Minor corrected\nby their owners, no scope added
 Reworked --> SanctionSought : both lenses re-run\non the corrected artifacts
-SanctionSought --> Achieved : stakeholder confirms the perimeter\nas recorded and grants the sanction
-SanctionSought --> SanctionRefused : stakeholder answers No
-Achieved --> Excavation : Excavation recovers\nfrom the confirmed perimeter
-SanctionRefused --> Stopped : stakeholder withdraws the project
+SanctionSought --> Achieved : stakeholder answers Yes on 2026-11-23 -\nperimeter confirmed as recorded, sanction granted
+Achieved --> Excavation : Excavation recovers from the confirmed perimeter,\nand closes the open Minors in its own iteration
 
-note right of SanctionSought
-  Where the project is now.
-  Everything this gate can establish
-  on evidence is established. The one
-  criterion left is the stakeholder's
-  answer to gate H2.
+note right of Achieved
+  Gate H2 answered YES on 2026-11-23.
+  The perimeter as the System Inventory
+  records it is confirmed and the sanction
+  to advance is granted. The verdict on the
+  milestone is the Review Coordinator's.
 end note
-note bottom of Reworked
-  The rework changed no scope: it corrected
-  content already written, inside the four
-  artifacts the sprint zero owns.
+note bottom of Excavation
+  The stakeholder ordered on 2026-11-23 that the
+  open Minors be addressed in the next phase and
+  not left unattended: Development Case#F2,
+  System Inventory#F3, Iteration Plan#F3.
 end note
 @enduml
 ```
@@ -929,15 +934,13 @@ end note
 | Axis | State | Basis |
 |---|---|---|
 | Scope | Green | Nothing declared is worked in the sprint zero, correctly. The perimeter holds four processes, 22 entry points and eight ordered priorities, and the 54 unread files are each named with the reason it was not read and none carries a perimeter fact. |
-| Schedule | Amber | The milestone is not achieved, and its cause is a refused sanction rather than a slipped deliverable: the iteration's own work is complete and the second iteration was planned for the rework, not for work that ran late. No forecast exists to improve or worsen, because no phase has closed. |
+| Schedule | Green | The gate's own condition is answered: the sanction is granted and the perimeter confirmed, both on 2026-11-23. The second iteration was spent on rework the stakeholder ordered and it closed every Major it named. No forecast is stated, because no phase has closed. |
 | Cost | Not measured | No budget is declared, so none is set. Tokens and elapsed time are the two measured quantities and neither figure is filled where nothing has been measured. This axis carries no reading, and a green here would be an invention. |
-| Quality | Green | Nine of eleven criteria met on artifact evidence, two met on the stakeholder's own words, one open and it is the stakeholder's. No defect from either lens holds the gate. The register is honest that SBC retires no risk — the reading makes the risks owned, and Excavation and later retire them. |
+| Quality | Green | Ten of eleven criteria met on artifact evidence and the stakeholder's own words; C2b met on this review's answer. No Critical and no Major open from either lens. Three Minors open, each ordered corrected in the next phase, none of them holding anything. |
 
-**Sanction question put at this review: QUEUED.** No answer has been recorded in this cycle. The question goes to the stakeholder with this lens's verdict and the one open finding named in it, and the Review Coordinator rules on the answer it returns. This lens records no sanction token line until the stakeholder has spoken.
+**Why the verdict is Go rather than Conditional.** A Conditional Go would name conditions the project team must satisfy before the next gate, and no Major stands for one to be built on. The three Minors are ordered corrected in the next phase and are recorded as the owners' work there, not as a condition on this sanction: the stakeholder granted the sanction with them open and told the team to address them onward. The register is honest that SBC retires no risk — the reading makes the risks owned, and the actions that retire them are Excavation's and later.
 
-**Why the verdict is Go rather than Conditional.** A Conditional Go would name conditions the project team must satisfy before the next gate, and there are none: the two Majors that held iteration 1 are closed, and the one finding open from this lens is a Minor on a tailoring sentence that no role consumes and no criterion depends on. What remains is not a condition to be met but an answer to be given. Turning the stakeholder's own pending answer into a condition on the team would make the team responsible for a decision that is not theirs.
-
-**What the next gate inherits from this one.** Excavation starts from a perimeter the stakeholder has confirmed, a constraint list of twelve entry-point-bearing anomalies with the 21 edges the System Inventory records, a register whose every score reproduces and whose four acceptances above the Moderate band each hold the stakeholder's own answer, and a plan that names no work the process does not run in Survey. The one thing it must not inherit is a claim of sanction that was never granted.
+**What Excavation inherits from this gate.** A perimeter the stakeholder has confirmed in this review; a constraint list of twelve entry-point-bearing anomalies with the 21 edges the System Inventory records, the nine anomalies with no entry point carried through the Risk List; a register whose every score reproduces and whose four acceptances above the Moderate band each hold the stakeholder's own answer; a plan that names no work the process does not run in Survey; and three Minors with an order to close them rather than leave them unattended.
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
