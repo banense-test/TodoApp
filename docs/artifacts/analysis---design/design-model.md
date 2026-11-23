@@ -1031,7 +1031,6 @@ Two facts bound that future realization and are recorded here so it does not beg
 | The session state is not an object either | CLS-023 writes the token into the cookie's token set and CLS-025 reads it back; neither holds it, so a realization of UC-006 has to model the cookie, not a session object | `Todo.Web/Server/AuthApi.cs:99-116`; `Todo.Web/Server/TodoApi.cs:18-22` |
 
 ## Design Packages and Classes
-
 Thirty-one classes beyond the eleven already recovered as domain classes, in eleven packages, each anchored to the file that declares it.
 
 **The packages are the assemblies and the folders, not namespaces.** Seven assemblies exist and are the real package boundaries. Inside them the API's five behavioural files all declare the single namespace `TodoApi`, so its folder structure carries no namespace of its own — `Todos/`, `Authorization/`, `Users/`, `Filters/` and `Extensions/` separate the files and nothing more. The entity files and the shared shapes declare no namespace at all and sit in the global namespace, which is why the client and the API can each declare a type named `TodoItem` without a clash.
@@ -1937,6 +1936,19 @@ end note
 | A type representing a provider or a scheme | None. Providers are a `Dictionary<string, ExternalAuthProvider>` inside a method body and schemes are strings; there is no provider type, enum or registry object | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:48-53` |
 | A view model or state container on the client | None. CLS-033 carries the signed-in name, CLS-035 carries the row list, and no type outlives either component | `Todo.Web/Client/TodoApp.razor:26-37`; `Todo.Web/Client/Components/TodoList.razor:44-47` |
 | An abstraction over the two declarations of the wire contract | None. Three declarations of the token shape and two of each request shape, with no shared type and no compiler between them | `Todo.Web/Shared/SharedClass.cs:5-31`; `Todo.Api/Todos/Todo.cs:15-21`; `Todo.Api.Tests/UserApiTests.cs:178-183` |
+
+### The anomalies these classes carry, and the two a reader may confuse
+
+Four anomalies are cited repeatedly across this model, and two of them concern closely adjacent facts: the schema the migrations build, and the schema the test suite builds instead. Each citation below belongs to its own subject. A reader following AN-005 reaches test coverage; a reader following AN-025 reaches data conversion. Neither stands for the other anywhere in this model.
+
+| Anomaly | Its subject | Where this model cites it | Anchor |
+|---|---|---|---|
+| AN-003 | The request contracts are declared twice, in two assemblies that do not reference each other, so nothing checks that they still agree | DM-D2, the note on CLS-D1, and the table of what the packages do not hold | `Todo.Api/Todos/Todo.cs:15-21`; `Todo.Web/Shared/SharedClass.cs:5-11` |
+| AN-004 | The `admin` role is granted by nothing in the running system: no seeding exists, and the only code that adds the claim is the test harness | The note on CLS-013 in PKG-D1, the notes on `AspNetRoles` in DM-D3 and PKG-D5, and PD-D2, PD-D4 | `Todo.Api/Authorization/CurrentUser.cs:11-12`; `Todo.Api/Todos/TodoApi.cs:33,60,70`; `Todo.Api.Tests/TokenService.cs:16-19` |
+| AN-005 | The test host builds its schema with `EnsureCreated` and never runs a migration, so a migration that no longer matches the model surfaces only where the app host runs it | The paragraph on the two schema-building mechanisms under Design Overview | `Todo.Api.Tests/TodoApplication.cs:11-14`; `TodoApp.AppHost/Extensions.cs:9-21` |
+| AN-025 | The third migration re-pointed the owner key from `AspNetUsers.UserName` to `AspNetUsers.Id` and converted no row, so a database written by migration 1 or 2 holds user names under a constraint that now resolves identifiers | PD-D3 and the accompanying paragraph on what the history means | `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:9-44` |
+
+The consequence for these packages: CLS-020, CLS-021 and CLS-038 are the classes the migration and test anomalies reach — the data-annotation filter and the rate limiter are the two pipeline conventions no test exercises through the production registration, and CLS-038 is the class that substitutes it. AN-003 is carried by the class pairs CLS-002/CLS-008, CLS-004/CLS-009 and CLS-005/CLS-010, which are identical in shape and linked by no reference; AN-025 is carried by CLS-001 and CLS-006, whose `OwnerId` column is the one the third migration re-pointed.
 
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
