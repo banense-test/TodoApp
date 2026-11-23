@@ -20,42 +20,43 @@ This iteration reads the existing system and states what the project inherits. I
 | O6 | The project's plan for the rest of the sprint zero and the RUP phases exists | This artifact carries the milestone sequence and this iteration's work items with owners | Project Manager |
 
 ## Plan and Milestones
-
 ### Coarse roadmap — the milestone sequence
 
 The sequence is the sprint zero reading the delivery, then the RUP phases working the declared change. Survey is the phase this iteration closes. No milestone below is achieved, and no iteration beyond this one is planned in fine detail.
 
 ```plantuml
 @startgantt
-title Coarse roadmap - the sprint zero then the RUP phases, and the one human gate between them - unanchored
+title Coarse roadmap - the sprint zero then the RUP phases, with the human gate at the sprint-zero boundary - unanchored
 
 [Survey - SBC] lasts 1 day
 [SBC milestone review] happens at [Survey - SBC]'s end
+[SBC milestone review] is colored in Salmon
+[Stakeholder gate H1 - answered 2026-11-23] lasts 1 day
+[Stakeholder gate H1 - answered 2026-11-23] starts at [SBC milestone review]'s end
+[Stakeholder gate H1 - answered 2026-11-23] is colored in Green
 [Excavation - AR] lasts 1 day
-[Excavation - AR] starts at [SBC milestone review]'s end
+[Excavation - AR] starts at [Stakeholder gate H1 - answered 2026-11-23]'s end
 [AR milestone review] happens at [Excavation - AR]'s end
+[AR milestone review] is colored in Salmon
 [Consolidation - GHR] lasts 1 day
 [Consolidation - GHR] starts at [AR milestone review]'s end
 [GHR milestone review] happens at [Consolidation - GHR]'s end
+[GHR milestone review] is colored in Salmon
 [Inception - LCO] lasts 1 day
 [Inception - LCO] starts at [GHR milestone review]'s end
 [LCO milestone review] happens at [Inception - LCO]'s end
+[LCO milestone review] is colored in Salmon
 [Elaboration - LCA] lasts 1 day
 [Elaboration - LCA] starts at [LCO milestone review]'s end
 [LCA milestone review] happens at [Elaboration - LCA]'s end
+[LCA milestone review] is colored in Salmon
 [Construction - IOC] lasts 1 day
 [Construction - IOC] starts at [LCA milestone review]'s end
 [IOC milestone review] happens at [Construction - IOC]'s end
+[IOC milestone review] is colored in Salmon
 [Transition - PR] lasts 1 day
 [Transition - PR] starts at [IOC milestone review]'s end
 [PR milestone review] happens at [Transition - PR]'s end
-
-[SBC milestone review] is colored in Salmon
-[AR milestone review] is colored in Salmon
-[GHR milestone review] is colored in Salmon
-[LCO milestone review] is colored in Salmon
-[LCA milestone review] is colored in Salmon
-[IOC milestone review] is colored in Salmon
 [PR milestone review] is colored in Salmon
 @endgantt
 ```
@@ -80,7 +81,7 @@ The work items are the stages the IARI DEVELOPMENT PROCESS runs in Survey, in it
 
 ```plantuml
 @startuml
-title Critical chain of Survey (SBC) - the sequential agent stretches to the gate, then the human gate
+title Critical chain of Survey (SBC) - the sequential agent stretches to the gate, which is answered
 
 skinparam shadowing false
 
@@ -112,9 +113,9 @@ critical chain, resources, exit criteria;
 :Milestone verdict - SBC;
 
 |Stakeholder|
-:Confirm the perimeter and the priority order.
-Grant or refuse R012 and R016.
-Queue time in days, ceiling 14, no estimate.;
+:Answered 2026-11-23:
+perimeter and priority order stand,
+R012 and R016 granted;
 stop
 @enduml
 ```
@@ -129,15 +130,15 @@ stop
 | 6 | Risk List — 22 risks scored, classified and mitigated | Project Manager | 5 | Complete | not recorded |
 | 7 | Iteration Plan — coarse roadmap, this iteration's work items, exit criteria | Project Manager | 6 | Complete | not recorded |
 | 8 | Milestone review SBC — Reviewer, then Management Reviewer, then Review Coordinator | Reviewer / Management Reviewer / Review Coordinator | 2, 4, 5, 6, 7 | Not started | not recorded |
-| 9 | Stakeholder gate — perimeter and priority order confirmed; the two Significant acceptances granted or refused | Stakeholder | 8 | Not started | queued in days; no estimate |
+| 9 | Stakeholder gate H1 — perimeter and priority order confirmed; R012 and R016 granted | Stakeholder | 8 | Answered 2026-11-23 | queued in days; no estimate |
 
-Two currencies, never summed: items 1 to 7 are agent work, measured in tokens and elapsed agent time, and nothing has been measured yet, so their forecast column is empty rather than filled with a guess. Item 9 is a human gate — waiting, not working — and is quoted only in days of queue time, bounded in the Risk List as R022 with a ceiling of 14 days and no estimate.
+Two currencies, never summed: items 1 to 8 are agent work, measured in tokens and elapsed agent time, and nothing has been measured yet, so their forecast column is empty rather than filled with a guess. Item 9 is a human gate — waiting, not working — quoted only in days of queue time and bounded in the Risk List as R022 with a ceiling of 14 days and no estimate.
 
 The chain is sequential end to end: Discovery cannot read a tailoring that does not exist, Risk is scored on what Discovery found, and the review judges what Project Management wrote. Adding roles to this chain would buy no clock and would add contention over the same artifacts.
 
-| Human gate | Who | What the iteration waits for | Bound |
-|---|---|---|---|
-| H1 | Stakeholder | The perimeter of the four-process delivery confirmed, the eight-area priority order confirmed, and the two Significant-risk acceptances (R012, R016) granted or refused | R022 — ceiling 14 days, escalates to the process suspending rather than auto-filling |
+| Human gate | Who | What the iteration waits for | Bound | Answer |
+|---|---|---|---|---|
+| H1 | Stakeholder | The perimeter of the four-process delivery confirmed, the eight-area priority order confirmed, and the two Significant-risk acceptances (R012, R016) granted or refused | R022 — ceiling 14 days, escalates to the process suspending rather than auto-filling | Answered 2026-11-23: the order stands as it is — nothing matters more than it reflects and nothing is to be left out; R012 accepted, R016 accepted |
 
 ## Resources
 
