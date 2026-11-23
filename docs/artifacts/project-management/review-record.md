@@ -712,7 +712,7 @@ Closure was executed in the dedicated reconciliation step before any new finding
 
 ```plantuml
 @startuml
-title RESOLUTIONS-SBC-03 Closure of this lens's prior findings, and the one action left open
+title RESOLUTIONS-SBC-03 Closure of this lens's prior findings, then the sanction, and the Minors the stakeholder ordered carried forward
 
 skinparam shadowing false
 skinparam sequenceMessageAlign left
@@ -739,18 +739,21 @@ MR -> PM : Iteration Plan#F1 — criteria certified on answers that did not stat
 PM --> MR : C2 split, C2b recorded not met, C6 and C7 restated on their own evidence
 MR -> MR : resolve_artifact_finding — Resolved, verified at Evaluation Criteria
 
-== Recorded this iteration ==
-MR -> PE : Development Case#F2 — the Review Record's contributor set omits three lenses
+== The gate's own condition ==
+MR -> SH : gate H2 — confirm the perimeter as recorded, sanction advancing past SBC
+SH --> MR : Yes
 note right
-  Minor. The Process Engineer corrects it in its
-  next turn. Nothing is built on the wrong part and
-  no exit criterion depends on it.
+  Stakeholder sanction: GRANTED
+  2026-11-23
+  with the order that the Minor findings
+  be addressed in the next phase and not
+  left unattended
 end note
 
-== The one thing no role can close ==
-MR -> SH : gate H2 — confirm the perimeter as recorded, sanction advancing past SBC
-SH --> MR : the answer
-MR -> RC : the verdict, with the answer in it
+== Recorded this iteration, both Minors ==
+MR -> PE : Development Case#F2 — the Review Record's contributor set omits three lenses
+MR -> PM : Iteration Plan#F2 — C2b still reads Not met after the answer was Yes
+MR -> RC : the verdict, with the sanction in it
 @enduml
 ```
 
@@ -758,14 +761,17 @@ MR -> RC : the verdict, with the answer in it
 |---|---|---|---|---|---|
 | Development Case | F1 | Minor | Process Engineer | Resolved | "Roles and Ownership" carries one CLS-DC-01 diagram and one role-deltas block listing the two inactive roles; the duplicate of each is gone, as the stakeholder ordered on 2026-11-23. Verified against the section, and against "Tool and configuration references" for the version-policy claim the technical lens removed. |
 | Risk List | F1 | Major | Project Manager | Resolved | "Risk Classification" publishes one word-to-score mapping and all 21 anomaly-derived rows reproduce from it; R004 and R011 read 4 × 3 = 12, Significant; the four Significant-band acceptances each carry the stakeholder's own answer and the other ten Significant-band risks avoid. The gate condition is now establishable and reproducible. |
-| Iteration Plan | F1 | Major | Project Manager | Resolved | "Evaluation Criteria" splits C2 into C2a (met, the three answers quoted) and C2b (not met, the 2026-11-23 refusal recorded), cites the self-reproducing coverage figure for C6, and splits C7 into carriage and reproducibility, both met on the artifacts they cite. No answer is recorded as a confirmation it does not contain. |
+| Iteration Plan | F1 | Major | Project Manager | Resolved | "Evaluation Criteria" splits C2 into C2a (met, the three answers quoted) and C2b (recorded not met against the 2026-11-23 refusal), cites the self-reproducing coverage figure for C6, and splits C7 into carriage and reproducibility, both met on the artifacts they cite. No answer is recorded as a confirmation it does not contain. |
 | Development Case | F2 | Minor | Process Engineer | Open | The co-owned-artifact sentence and the CLS-DC-01 diagram must name Management Reviewer, Business Reviewer and Review Coordinator among the lenses that write into the Review Record. |
+| Iteration Plan | F2 | Minor | Project Manager | Open | C2b is still "Not met" on the 2026-11-23 refusal; it is met on the answer gate H2 returned, so the state and its evidence cell are restated. |
 
-**Outstanding action, with its owner and what it holds.** One action remains from this lens: the Process Engineer adds the three omitted lenses to the Review Record's contributor set and draws their edges in CLS-DC-01. It is a Minor, it holds no exit criterion, no role builds on the wrong part, and the Development Case is approved from this lens by default on it. It is corrected in the owner's next turn.
+**The stakeholder's order, carried forward.** Answering the sanction question on 2026-11-23 the stakeholder said: "Yes, let's move on to the next phase. Minor findings should also be addressed during the next phase—let's not leave them unattended." That order governs five open Minors across the four artifacts under review, and each has an owner who corrects it in the next phase rather than whenever it next happens to work: `Development Case#F2` and `Iteration Plan#F2` from this lens, and `System Inventory#F3` and `Iteration Plan#F3` from the technical lens — with `Iteration Plan` carrying two of the five, one from each lens, both the Project Manager's to correct.
 
-**No change request is opened for it.** The Change Control Manager does not work in the sprint zero — no ledger exists and no CR is opened before Inception — so the finding reaches its owner through the Work Order and through this ledger entry, which is the route the sprint zero provides. Nothing in this iteration orders a change to declared scope.
+**Outstanding actions, with their owners.** These are the Process Engineer's and the Project Manager's next-turn corrections. None holds an exit criterion, none blocks a downstream role, and the four artifacts are approved from this lens on them.
 
-**What reopens this gate.** Nothing this lens found. The three Majors this iteration inherited are closed and verified; no Major or Critical remains open from either executed lens. The gate's remaining condition is not a defect and is not an action: it is the stakeholder's answer at gate H2, which this review puts.
+**No change request is opened for any of them.** The Change Control Manager does not work in the sprint zero — no ledger exists and no CR is opened before Inception — so the order reaches its owners through the Work Order and through these ledger entries, which is the route the sprint zero provides. Nothing in this iteration orders a change to declared scope.
+
+**What reopens this gate.** Nothing this lens found. The three Majors this iteration inherited are closed and verified; no Major and no Critical remains open from either executed lens; the gate's own condition is answered Yes. The milestone verdict is the Review Coordinator's to record on this disposition and the sanction in it.
 
 ### Review Coordinator lens
 <!-- review: Survey I1 -->
