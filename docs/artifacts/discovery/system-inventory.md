@@ -434,5 +434,4 @@ This iteration re-opened 36 of the 78 to re-check the anchors every anomaly row 
 | AN-018 | — | DependsOn | EP-010, EP-011 |
 | AN-019 | — | DependsOn | EP-007 |
 | AN-020 | — | DependsOn | EP-008 |
-| AN-021 | — | DependsOn | EP-004, EP-005 |
-
+| AN-021 | — | DependsOn | EP-004, EP-005, EP-007 |
