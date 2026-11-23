@@ -14,8 +14,8 @@
 <!-- review: Excavation I4 -->
 
 - Phase: Excavation
-- Status: Lifecycle Milestone Review (AR) taken at iteration 4 — 0 Critical, 0 Major, 1 Minor open. Gate H4 put a fourth time and granted
-- Milestone Target: end-of-Excavation (AR) — sanctioned by the stakeholder at gate H4 put 4 on 2026-11-23; the milestone verdict is the Review Coordinator's, issued after this review
+- Status: Lifecycle Milestone Review (AR) taken at iteration 4 — 0 Critical, 0 Major, 2 Minor open. Gate H4 put a fourth time and granted
+- Milestone Target: end-of-Excavation (AR) — sanctioned by the stakeholder at gate H4 put 4 on 2026-11-23; the milestone verdict on the consolidated ledger is the Review Coordinator's, issued after this review
 - Iteration: 4, Cycle 1
 - Review point: Lifecycle Milestone Review, exit-criteria lens
 - Reviewers executed: Reviewer, then Management Reviewer; the Business Reviewer is inactive at AR
