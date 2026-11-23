@@ -352,7 +352,6 @@ The classes above are the vocabulary; the behaviour is in the endpoint handlers 
 `CLS-007` is the class the ownership predicate is decided against, and the row that must exist before any task operation succeeds: the authorization handler fails the request when no account row matches the token's `NameIdentifier` (`Todo.Api/Authorization/CheckCurrentUserAuthHandler.cs:28-36`; `Todo.Api/Authorization/CurrentUserExtensions.cs:11-30`).
 
 ## Traceability
-
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
 | CLS-001 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
@@ -360,9 +359,10 @@ The classes above are the vocabulary; the behaviour is in the endpoint handlers 
 | CLS-003 | UC-006, UC-007, UC-009 | Realizes | — |
 | CLS-004 | UC-001, UC-002 | Realizes | — |
 | CLS-005 | UC-003 | Realizes | — |
-| CLS-006 | UC-001, UC-003, UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-006 | UC-001, UC-002, UC-003, UC-005, UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
 | CLS-007 | UC-001, UC-002, UC-003, UC-005, UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
 | CLS-008 | UC-006, UC-007, UC-008 | Realizes | — |
 | CLS-009 | UC-001, UC-002 | Realizes | — |
 | CLS-010 | UC-003 | Realizes | — |
 | CLS-011 | UC-001, UC-002, UC-003 | Realizes | — |
+
