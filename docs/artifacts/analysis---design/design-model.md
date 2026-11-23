@@ -589,7 +589,18 @@ end note
 
 **Two of the five are defects the schema could have prevented and does not.** G4 is the one an atomicity boundary would close: the exchange at `UsersApi.cs:38-46` calls `CreateAsync` and then `AddLoginAsync` with no transaction over the pair, so a failure between the two commits leaves an account row that no provider link names — and because the exchange reuses the submitted user name, the retry meets `UserNameIndex` and is refused rather than converging. G5 follows from migration 3: its `Up` makes `UserName` nullable and drops the unique constraint on it, and restores neither in `Up`, so the only uniqueness standing on the account table is over the normalised column, which SQLite's unique index does not bind when null. Neither is a rule the recovered set states the system should have; both are what the migrations actually enforce, and they are recorded as such rather than proposed against a requirement nothing declares.
 
-**Which persistent classes the completed use cases reach.** Every one of the eleven use cases resolves its rows through `TodoDbContext` (CLS-006) and, except UC-011, through `TodoUser` (CLS-007); the five task use cases write and read `Todo` (CLS-001) alone. UC-003 is the only use case that reaches `AspNetUserLogins` (TBL-003), through `FindByLoginAsync` and `AddLoginAsync`. The remaining five Identity tables are reached by no completed use case's path: `AspNetUserRoles` and `AspNetRoles` are written by nothing at all (`AN-004`), and `AspNetUserClaims`, `AspNetUserTokens` and `AspNetRoleClaims` are read and written only by framework endpoints that no screen and no client call reaches. The class-to-table mapping, identity strategy and load policy per class are stated in `PD-D2` and its table above; the eight tables with every column are `PD-D1`; each index against the statement it serves is `PD-D3`; the three migrations, their rollback and the row conversion none performs is `PD-D4`.
+**Which persistent classes the completed use cases reach, table by table.** All eleven use cases but UC-011 resolve their rows through `TodoDbContext` (CLS-006) and `TodoUser` (CLS-007); the five task use cases write and read `Todo` (CLS-001) alone. Of the eight tables:
+
+| Table | Reaching use cases | What they do with it |
+|---|---|---|
+| TBL-001 `Todos` | UC-006, UC-007, UC-008, UC-009, UC-010 | Read, insert, update and delete; the only table the domain writes |
+| TBL-002 `AspNetUsers` | UC-001, UC-002, UC-003, UC-005 and, through the caller resolution in the authorization pipeline, UC-006 to UC-010 | Insert on register and on the exchange; read once per authorized API request |
+| TBL-003 `AspNetUserLogins` | UC-003 | `FindByLoginAsync`, then `AddLoginAsync` when absent — the one framework read on a use-case path |
+| TBL-006 `AspNetUserTokens` | UC-005, through `manage/2fa` only | Stores the authenticator key. The *session's* token set is the cookie, never a row |
+| TBL-005 `AspNetUserClaims`, TBL-008 `AspNetRoleClaims` | None | No endpoint `MapIdentityApi` maps and no delivery handler writes or reads either table |
+| TBL-004 `AspNetUserRoles`, TBL-007 `AspNetRoles` | None | Nothing in the running system writes a row; no seeding exists, so the `admin` claim `AN-004` records has no source |
+
+The class-to-table mapping, identity strategy and load policy per class are stated in `PD-D2` and its table above; the eight tables with every column are `PD-D1`; each index against the statement it serves is `PD-D3`; the three migrations, their rollback and the row conversion none performs is `PD-D4`.
 
 ### The store outside the schema — the data-protection key ring
 
