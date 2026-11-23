@@ -1036,9 +1036,17 @@ partition "Todo.Web.Server - request thread from the Kestrel pool" {
   endif
 }
 partition "Todo.Api - request thread from the Kestrel pool" {
-  :Middleware: UseHttpLogging, then UseRateLimiter;
+  :Pipeline: UseHttpLogging, then UseRateLimiter;
+  note right
+    UseHttpLogging is registered unconditionally, so this
+    stage runs in every environment; the body-and-header
+    field set it writes is selected only in Development.
+    Program.cs:32-44
+  end note
+  :ClaimsTransformation resolves the caller,
+   one user-store read before authorization;
   :Endpoint filter: COMP-015 when registered;
-  :Authorization: COMP-013 resolves COMP-012, one query;
+  :Authorization: COMP-013 tests the resolved row;
   :The endpoint handler runs one statement;
   note right
     Every one of these is synchronous over the
@@ -1080,7 +1088,7 @@ stop
 | P2 | Two processes read and write the same SQLite file. SQLite serialises writers on the file; the API is the only writer | The write path is single-writer. A second API process writing the same file would contend on the file, not on a lock the code manages | `Todo.Api/Program.cs:23-24` |
 | P3 | A completed row can be lost by a concurrent update: the update names `Title` and `IsComplete` and carries no concurrency token | No lost-update detection. Two callers on the same row write in arrival order and neither is told | `Todo.Api/Todos/TodoApi.cs:59-63`; F9 |
 | P4 | The bucket admits up to 50 waiting requests per caller before rejecting, and admits 50 tokens replenished 50 per 10-second period. The code defaults are 100 / 100 / queue 100; the Development configuration overrides all three and every launch profile selects Development, so 50 is the depth in force (AN-024) | A burst is queued, not refused, up to 50 deep; beyond that it is 429. The client does not distinguish 429 from any other failure | `Todo.Api/Extensions/RateLimitExtensions.cs:14-31`; `Todo.Api/appsettings.Development.json:8-12`; `Todo.Api/Properties/launchSettings.json`; UC-006 A3 |
-| P5 | Caller identity costs one additional database read on every authorized request, inside the same request scope | Two queries per task operation at minimum, neither cached across requests | `Todo.Api/Authorization/CurrentUser.cs:6-13`; `CheckCurrentUserAuthHandler.cs:31-36` |
+| P5 | Caller identity costs one additional user-store read on every authenticated request, inside the same request scope, performed by the `ClaimsTransformation` hook before authorization | Two reads per task operation at minimum, neither cached across requests | `Todo.Api/Authorization/CurrentUserExtensions.cs:20-36`; `CheckCurrentUserAuthHandler.cs:31-36` |
 | P6 | **The two HTTP hops out of the BFF are not equally protected.** `ConfigureHttpClientDefaults` applies a standard resilience handler to every client the container builds, which reaches `COMP-007`'s `HttpClient`; the YARP forwarder is not built from the container defaults and carries a default `ForwarderRequestConfig` | The sign-in and registration hop retries and breaks the circuit; the task hop does not. A transient API failure is retried on one path and surfaced as a failure on the other | `TodoApp.ServiceDefaults/Extensions.cs:32-42`; `Todo.Web/Server/Program.cs:23-26`; `Todo.Web/Server/TodoApi.cs:16` |
 
 **The two hops, stated apart.** `AddStandardResilienceHandler()` in `ConfigureHttpClientDefaults` gives the token hop (`COMP-007`) retry, circuit-breaker, timeout and rate-limiter behaviour; the forwarder hop (`COMP-008`) is not built from those defaults and carries none of the four. A use case that signs in and then reads its tasks crosses both, and the two are not equally protected (AN-023, R024).
