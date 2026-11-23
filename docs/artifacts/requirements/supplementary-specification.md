@@ -555,14 +555,11 @@ package "Followed by the code, claimed by no document" {
 package "Followed on one surface, broken on another" {
   class "AS2 problem details\n400 application/problem+json\nfollowed for validation only" as AS2 <<partial>>
   class "AS3 OAuth 2.0 and OpenID Connect\nhandlers registered per scheme,\nnone registered in the delivery" as AS3 <<partial>>
+  class "AS9 TLS and HTTP security headers\nHSTS 30 days on the BFF outside Development,\nHTTPS redirection, antiforgery -\nand none of the three on the API" as AS9 <<partial>>
 }
 
 package "Not established" {
   class "AS7 WCAG or any accessibility standard\nno statement, no test, no attribute\nbeyond aria-label on the inert checkbox" as AS7 <<absent>>
-}
-
-package "Carried by the framework, set by no requirement" {
-  class "AS9 TLS and HTTP security headers\nHSTS 30 days on the BFF outside Development,\nHTTPS redirection, antiforgery -\nand none of the three on the API" as AS9 <<partial>>
 }
 
 class "401 with no body\non every auth failure (AN-021)" as FAIL <<defect>>
@@ -595,5 +592,5 @@ end note
 | AS6 | Entity Framework Core migrations as the schema's only definition | `Todo.Api/Migrations/` | Followed; no SQL script exists |
 | AS7 | WCAG or any accessibility standard | No anchor | **Not established**: no accessibility statement, test or attribute beyond `aria-label="..."` on the inert checkbox |
 | AS8 | Licensing: the delivery is MIT-licensed, and the vendored Bootstrap distribution carries its own licence | `LICENSE`; `Todo.Web/Client/wwwroot/bootstrap/` | Followed |
-| AS9 | TLS and HTTP security headers: HSTS, HTTPS redirection, antiforgery, `Host` filtering | `Todo.Web/Server/Program.cs:38-47`; `Todo.Api/Program.cs:1-77`; `Todo.Api/appsettings.json:8`; `Todo.Web/Server/appsettings.json:10` | **Partly**: the BFF sets HSTS at 30 days outside Development, redirects HTTP and enforces antiforgery. The API sets none of the three and neither process filters the `Host` header (`DC13`, `DC14`). Claimed by no document |
+| AS9 | TLS and HTTP security headers: HSTS, HTTPS redirection, antiforgery, `Host` filtering | `Todo.Web/Server/Program.cs:35-46`; `Todo.Api/Program.cs:44-47`; `Todo.Api/appsettings.json:8`; `Todo.Web/Server/appsettings.json:9` | **Partly**: the BFF sets HSTS at 30 days outside Development, redirects HTTP and enforces antiforgery. The API sets none of the three and neither process filters the `Host` header (`DC13`, `DC14`). Claimed by no document |
 
