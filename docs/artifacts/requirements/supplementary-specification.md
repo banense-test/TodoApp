@@ -209,12 +209,16 @@ No availability, recovery, tolerance or degradation target is stated in the deli
 | R11 | The API's HSTS, redirection and antiforgery posture is the framework's default, which is to register none of them: the BFF's three protections stop at the BFF's own edge and are not inherited by the API it forwards to | `Todo.Web/Server/Program.cs:38-47`; `Todo.Api/Program.cs:1-77`; AS9 |
 
 ## Performance
+No throughput, response-time or resource-usage target is stated in the delivery. The table below is what the code fixes on its own behaviour — the values a threshold written later would have to sit on.
+
 ```plantuml
 @startuml
 title The only numeric limit the delivery fixes on its own behaviour - and the two values it takes
 
 skinparam shadowing false
 skinparam wrapWidth 225
+hide circle
+hide empty members
 
 package "Code defaults - any environment with no RateLimiting section" {
   class "TokenLimit 100" as D1 <<default>>
@@ -263,7 +267,7 @@ end note
 | # | What the code fixes, which a later threshold would have to sit on | Anchor |
 |---|---|---|
 | P1 | A request budget with **two values in force**. The code defaults are 100 tokens per caller per 10-second period with a queue of 100, refilled every 10 seconds, answered 429 when exhausted; `Todo.Api/appsettings.Development.json` binds all three options to 50, and both launch profiles run Development, so **the environment this delivery starts in allows 50 tokens per caller per 10-second period with a queue of 50**. This is the only numeric limit the delivery fixes on its own behaviour, and it is the one number in the delivery that differs between environments (`AN-024`) | `Todo.Api/Extensions/RateLimitExtensions.cs:20-30`; `Todo.Api/appsettings.Development.json:8-12`; `Todo.Api/Properties/launchSettings.json:14-16,25-27`; `Todo.Web/Server/Properties/launchSettings.json:6-8,15-17`; AN-024 |
-| P2 | No payload size limit is configured on any endpoint: no `MaxRequestBodySize`, no request-size limit and no `[RequestSizeLimit]` appears in either program, so the Kestrel default of 30,000,000 bytes applies unmodified and nothing narrower is declared | `Todo.Api/Program.cs`; `Todo.Web/Server/Program.cs` |
+| P2 | No payload size limit is configured on any endpoint: no `MaxRequestBodySize`, no request-size option and no size attribute appears in either program file. The delivery fixes no value here and states none | `Todo.Api/Program.cs`; `Todo.Web/Server/Program.cs` |
 | P3 | Every task read and write is one SQL statement over an indexed `OwnerId`, or one primary-key lookup. No pagination and no ordering is declared, so the list returns every row the caller owns in one response | `Todo.Api/Todos/TodoApi.cs:24-51`; System Inventory — Persistent Data |
 | P4 | The API resolves the user row from the database on every request, in addition to the query the request performs | `Todo.Api/Authorization/CurrentUser.cs:6-13` |
 | P5 | The response body and headers of every API request are logged when the environment is Development | `Todo.Api/Program.cs:35-46` |
