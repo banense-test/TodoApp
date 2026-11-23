@@ -33,18 +33,21 @@ The plan is two-level. The **coarse roadmap** fixes the milestone sequence, the 
 
 ```plantuml
 @startgantt
-title Coarse roadmap - the sprint zero, then the RUP phases, with the human gate at each milestone boundary - unanchored, no calendar date
+title Coarse roadmap - the sprint zero, then the RUP phases, with each human gate ahead of the verdict it feeds - unanchored, no calendar date
 
 [Survey iteration 1 - SBC] lasts 1 day
 [Survey iteration 2 - rework] lasts 1 day
 [Survey iteration 2 - rework] starts at [Survey iteration 1 - SBC]'s end
-[SBC milestone review re-taken] happens at [Survey iteration 2 - rework]'s end
-[SBC milestone review re-taken] is colored in Salmon
-[Stakeholder gate H2 - perimeter confirmed, sanction to advance] lasts 1 day
-[Stakeholder gate H2 - perimeter confirmed, sanction to advance] starts at [SBC milestone review re-taken]'s end
-[Stakeholder gate H2 - perimeter confirmed, sanction to advance] is colored in Green
+[SBC review re-taken - Reviewer and Management Reviewer] lasts 1 day
+[SBC review re-taken - Reviewer and Management Reviewer] starts at [Survey iteration 2 - rework]'s end
+[SBC review re-taken - Reviewer and Management Reviewer] is colored in Salmon
+[Gate H2 re-taken - perimeter confirmed, sanction to advance] lasts 1 day
+[Gate H2 re-taken - perimeter confirmed, sanction to advance] starts at [SBC review re-taken - Reviewer and Management Reviewer]'s end
+[Gate H2 re-taken - perimeter confirmed, sanction to advance] is colored in Green
+[SBC milestone verdict - Review Coordinator] lasts 1 day
+[SBC milestone verdict - Review Coordinator] starts at [Gate H2 re-taken - perimeter confirmed, sanction to advance]'s end
 [Excavation - AR] lasts 1 day
-[Excavation - AR] starts at [Stakeholder gate H2 - perimeter confirmed, sanction to advance]'s end
+[Excavation - AR] starts at [SBC milestone verdict - Review Coordinator]'s end
 [AR milestone review] happens at [Excavation - AR]'s end
 [AR milestone review] is colored in Salmon
 [Consolidation - GHR] lasts 1 day
@@ -70,12 +73,12 @@ title Coarse roadmap - the sprint zero, then the RUP phases, with the human gate
 @endgantt
 ```
 
-No bar carries an absolute date or a projected calendar span: no phase has closed, so nothing measured exists to project one from. The one-day length is the diagram's sequencing device, not a duration claimed for the work. The chain is strictly sequential — each milestone's review precedes the next phase, because the next phase reads what the review sanctioned. Survey carries two iterations because its first left six Major findings open: the Review Coordinator's verdict is iteration REQUIRED, so the rework precedes the re-taken SBC review rather than following the sanction.
+No bar carries an absolute date or a projected calendar span: no phase has closed, so nothing measured exists to project one from. The one-day length is the diagram's sequencing device, not a duration claimed for the work. Each human gate sits ahead of the verdict it feeds, because the verdict reads the answer: at SBC the Management Reviewer puts the sanction question and the Review Coordinator rules on the answer. Survey carries two iterations because its first left six Major findings open: the Review Coordinator's verdict is iteration REQUIRED, so the rework precedes the re-taken review rather than following the sanction.
 
 | Order | Phase | Milestone | Discipline intensity | Risks this milestone confronts | What the milestone is judged on |
 |---|---|---|---|---|---|
 | 1 | Survey | SBC, iteration 1 | Environment High, Discovery Critical, Project Management Medium | Carries R001 to R021 into the register; R016, R012, R004 and R011 are granted for the sprint zero, R022 governs its gates. SBC retires none of the reading's risks — it makes them owned | Assessed at the SBC review of 2026-11-23: the perimeter and its priorities stated, the anomalies carried as scored risks. Verdict: iteration required, six Major findings open |
-| 1b | Survey | SBC re-taken, iteration 2 | Environment High, Discovery Critical, Project Management Medium | Closes the six Major findings and nothing else; no risk is retired by the rework | The perimeter as recorded is confirmed by the stakeholder, and every score reproduces from its stated inputs |
+| 1b | Survey | SBC re-taken, iteration 2 | Environment High, Discovery Critical, Project Management Medium | Closes the six Major findings and nothing else; no risk is retired by the rework | The perimeter as recorded is confirmed by the stakeholder at gate H2, and every score reproduces from its stated inputs |
 | 2 | Excavation | AR | Requirements High, Analysis & Design Critical, Discovery Critical, Project Management Medium | R001, R004, R019, R020, R021 (System Analyst, Use-Case Model); R003, R018 (Designer, Design Model); R002, R009, R010, R017 (Software Architect, SAD and the fired Deployment Model) | The recovered use-case model, architecture, design and deployment rest on anchors and cover the reading's priorities 1 to 5 |
 | 3 | Consolidation | GHR | Requirements High, Analysis & Design Medium, Discovery Critical, Project Management Medium | Completes R003 and R010 where the recovered set is closed; confirms R015's volatility statement against the orchestration as it stands | Coverage is counted and declared; every recovered use case, the Supplementary Specification and the fired Deployment Model are complete |
 | 4 | Inception | LCO | Requirements Critical, Environment High, Project Management High, Analysis & Design Medium, Implementation Medium, Test Low, Deployment Low, CM Medium | R007, R013, R014 (Integrator, Build Environment Setup); R022 opens the Change Request ledger every later gate depends on | The declared change is scoped, a candidate architecture exists, the CM strategy is set and the Change Request ledger is opened |
