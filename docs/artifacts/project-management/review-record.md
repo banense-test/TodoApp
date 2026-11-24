@@ -19,15 +19,16 @@
 <!-- review: Consolidation I2 -->
 
 - Phase: Consolidation
-- Status: Draft — the GHR management lens at the second put of gate H5; 0 Critical, 1 Major, 0 Minor open from this lens
-- Milestone Target: end-of-Consolidation (GHR) — not yet achieved
+- Status: Draft — the GHR management lens; gate H5 put a second time and **refused**; 0 Critical, 1 Major, 0 Minor open from this lens
+- Milestone Target: end-of-Consolidation (GHR) — not achieved at this put
 - Iteration: 2, Cycle 1
 - Review point: Lifecycle Milestone Review — exit-criteria lens, re-taken after the first put was refused on 2026-11-23
 - Review type: formal inspection against checklist, plus the Project Approval question put to the stakeholder
 - Reviewer: Management Reviewer
 - Artifacts reviewed: 12 of 12 present; 10 read at source this turn, 2 declared out of scope for the reasons stated in Disposition
-- Prior findings of this lens: 4 open at the start of this turn — 3 Major closed, 1 Minor resolved, 0 carried
+- Prior findings of this lens: 4 open at the start of this turn — 3 Major and 1 Minor, all resolved
 - New findings recorded this turn: 1 Major (`Risk List#F5`)
+- Stakeholder sanction: REFUSED — gate H5, second put, 2026-11-23
 - Verdict: No-Go at this put
 
 ### Review Coordinator lens
