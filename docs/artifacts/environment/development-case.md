@@ -1,11 +1,12 @@
 ## Document Control
 - Phase: Consolidation
-- Status: Draft — made current for the end-of-Consolidation (GHR) milestone review
+- Status: Draft — made current for this iteration
 - Milestone Target: end-of-Consolidation (GHR) — not yet achieved
-- Iteration: 1, Cycle 1
+- Iteration: 2, Cycle 1
 - Owner: Process Engineer
 - Baseline: IARI DC baseline (26-role roster, 16 CORE artifacts, 6 OPTIONAL artifacts, canonical intensity matrix). This document carries **deltas only**; anything it does not state follows the baseline unchanged.
 - Recorded decisions: business-process-led = false, real-time-system = false, OPTIONAL triggers fired = Deployment Model, version pin = framework `.NET` 9.0.100
+
 ## Tailoring Overview
 This project is built on an existing system: a copy of the public sample `davidfowl/TodoApp` (MIT licence, commit `307a1ead`, 12 February 2026). The delivery therefore runs a **sprint zero** that reads the system as it stands — Survey, Excavation, Consolidation — before the RUP phases, and only from Inception is the declared change worked. Nothing declared is worked in the sprint zero; what the sprint zero produces is the recovered system, and its elements cite the anchor they were read from.
 
