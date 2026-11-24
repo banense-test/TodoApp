@@ -2454,5 +2454,114 @@ end note
 **Why this matters for the use-case realizations.** Two of the delivery's behaviours have no owning class and therefore no edge a class diagram can carry: the registration of the forwarder (`Todo.Web/Server/Program.cs:35`) and the registration of the OpenAPI bearer scheme (`Todo.Api/Program.cs:31`). Both are performed by a top-level statement. A realization that shows CLS-025 receiving a request must start from the forwarder's registration in the program, not from a message between two objects.
 
 ## Traceability
-**Each `Realizes` row is one edge from the class to the use case it serves; each `Specifies` row is one edge from the design class to the table that is its physical storage** — `CLS-001 → TBL-001` and `CLS-007 → TBL-002`, both read at source in the migrations and both holding: four properties in four columns on the first, and fifteen inherited columns with no member of its own on the second.
+| Element | Traces From | Link Type | Traces To |
+|---|---|---|---|
+| CLS-001 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-002 | UC-006, UC-007, UC-009, UC-010 | Realizes | — |
+| CLS-003 | UC-006, UC-007, UC-009 | Realizes | — |
+| CLS-004 | UC-001, UC-002 | Realizes | — |
+| CLS-005 | UC-003 | Realizes | — |
+| CLS-006 | UC-001, UC-002, UC-003, UC-005, UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-007 | UC-001, UC-002, UC-003, UC-005, UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-008 | UC-006, UC-007, UC-008 | Realizes | — |
+| CLS-009 | UC-001, UC-002 | Realizes | — |
+| CLS-010 | UC-003 | Realizes | — |
+| CLS-011 | UC-001, UC-002, UC-003, UC-005 | Realizes | — |
+| CLS-012 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-013 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-014 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-015 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-016 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-017 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-018 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-019 | UC-001, UC-002, UC-003, UC-005 | Realizes | — |
+| CLS-020 | UC-007, UC-010 | Realizes | — |
+| CLS-021 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-022 | UC-011 | Realizes | — |
+| CLS-023 | UC-001, UC-002, UC-003, UC-004 | Realizes | — |
+| CLS-024 | UC-001, UC-002, UC-003 | Realizes | — |
+| CLS-025 | UC-006, UC-007, UC-008 | Realizes | — |
+| CLS-026 | UC-001, UC-002, UC-003, UC-004, UC-006, UC-007, UC-008 | Realizes | — |
+| CLS-027 | UC-003, UC-004 | Realizes | — |
+| CLS-028 | UC-003, UC-004 | Realizes | — |
+| CLS-029 | UC-003, UC-004, UC-006, UC-007, UC-008 | Realizes | — |
+| CLS-030 | UC-003, UC-004 | Realizes | — |
+| CLS-031 | UC-001, UC-002, UC-003, UC-006, UC-007, UC-008 | Realizes | — |
+| CLS-032 | UC-001, UC-002, UC-004, UC-006, UC-007, UC-008 | Realizes | — |
+| CLS-033 | UC-001, UC-002, UC-003, UC-004, UC-006, UC-007, UC-008 | Realizes | — |
+| CLS-034 | UC-001, UC-002, UC-003 | Realizes | — |
+| CLS-035 | UC-006, UC-007, UC-008 | Realizes | — |
+| CLS-036 | — | — | — |
+| CLS-037 | — | — | — |
+| CLS-038 | — | — | — |
+| CLS-039 | — | — | — |
+| CLS-040 | — | — | — |
+| CLS-041 | — | — | — |
+| CLS-042 | — | — | — |
+| TBL-001 | CLS-001 | Specifies | — |
+| TBL-002 | CLS-007 | Specifies | — |
+| TBL-003 | — | — | — |
+| TBL-004 | — | — | — |
+| TBL-005 | — | — | — |
+| TBL-006 | — | — | — |
+| TBL-007 | — | — | — |
+| TBL-008 | — | — | — |
+
+Thirty-five class rows carry a `Realizes` edge; seven carry none, and those seven are the classes no recovered use case's path crosses — the orchestration helper, the platform defaults, and the five test types. Their upstream is the code they were read from, cited at each row of the class inventory, and not a use case.
+
+**Each `Realizes` row is one edge from the class to the use case it serves; each `Specifies` row is one edge from the design class to the table that is its physical storage.** The two `Specifies` edges are read at source and hold at both ends: `CLS-001` is four properties and `TBL-001` stores them in four columns, `CLS-007` adds no member of its own and `TBL-002` stores all fifteen it inherits from `IdentityUser`. The evidence is stated at `DM-D1` and `PD-D2` and is not restated here.
+
+**The two `CLS-020` edges rest on the group registration, not on the filter's declaration.** `CLS-012` attaches the filter to `/todos` naming `typeof(TodoItem)` at `Todo.Api/Todos/TodoApi.cs:22`, so both the create and the change operation carry it and a malformed task body is rejected before the ownership predicate runs. The constraint refinement changed how the filter is declared, not which use cases the group serves.
+
+```plantuml
+@startuml
+title DM-TR2 The two cross-level chains of this model - a design class to the use cases it serves, a table to the class it stores
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 220
+hide circle
+hide empty members
+
+package "Business - UC" {
+  class "UC-007\nChange a task" as U7 <<UseCase>>
+  class "UC-010\nApply the ownership rule" as U10 <<UseCase>>
+}
+
+package "Logical - CLS" {
+  class "CLS-012 TodoApi\nendpoint group" as C12 <<DesignClass>>
+  class "CLS-020 ValidationFilterExtensions\nendpoint filter factory" as C20 <<DesignClass>>
+  class "CLS-001 Todo" as C1 <<DesignClass>>
+  class "CLS-007 TodoUser" as C7 <<DesignClass>>
+}
+
+package "Platform - TBL" {
+  class "TBL-001\nTodos" as T1 <<DatabaseTable>>
+  class "TBL-002\nAspNetUsers" as T2 <<DatabaseTable>>
+}
+
+C12 ..> U7 : Realizes
+C20 ..> U7 : Realizes
+C20 ..> U10 : Realizes
+C1 ..> U7 : Realizes
+C1 ==> T1 : Specifies
+C7 ==> T2 : Specifies
+
+note right of C20
+  Attached to the /todos group by CLS-012 at
+  TodoApi.cs:22, naming typeof(TodoItem). Both the
+  create and the change operation carry it.
+end note
+
+note bottom of T1
+  Four properties, four columns. Detail at DM-D1
+  and PD-D2.
+end note
+
+@enduml
+```
+
+**The eight table rows.** `TBL-001` to `TBL-008` are held by the Database Designer in the Persistent Data Classes section. Two carry a `Specifies` edge to the design class whose physical storage they are; six carry none, because their upstream is a framework type the delivery declares no class for — `IdentityUserLogin`, `IdentityUserRole`, `IdentityUserClaim`, `IdentityUserToken`, `IdentityRole` and `IdentityRoleClaim`. Minting `CLS` labels for those would put elements in the graph no implementation can be traced to; the migration that creates each table is cited in the table inventory, and that is their source.
+
+Four framework types carry a completed flow and no `CLS` label, so they carry no row: `IdentityUser`, `IdentityDbContext` (`DM-D1`), and `AccessTokenResponse` and `UserLoginInfo`, whose `DM-D4` record covers the session chain's use of both. The eight framework contracts, two generated project types and four top-level programs of `PKG-D8` likewise carry no row: none is a class the Implementer writes, so no implementation could be traced to one. Every row above other than the eight `TBL` rows is a class the delivery declares.
 
