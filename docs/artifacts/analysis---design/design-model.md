@@ -2471,13 +2471,13 @@ The per-package tables above abbreviate a declaration to the part a reader needs
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
-| CLS-001 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-001 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | TBL-001 |
 | CLS-002 | UC-006, UC-007, UC-009, UC-010 | Realizes | — |
 | CLS-003 | UC-006, UC-007, UC-009 | Realizes | — |
 | CLS-004 | UC-001, UC-002 | Realizes | — |
 | CLS-005 | UC-003 | Realizes | — |
 | CLS-006 | UC-001, UC-002, UC-003, UC-005, UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
-| CLS-007 | UC-001, UC-002, UC-003, UC-005, UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
+| CLS-007 | UC-001, UC-002, UC-003, UC-005, UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | TBL-002 |
 | CLS-008 | UC-006, UC-007, UC-008 | Realizes | — |
 | CLS-009 | UC-001, UC-002 | Realizes | — |
 | CLS-010 | UC-003 | Realizes | — |
@@ -2522,70 +2522,61 @@ The per-package tables above abbreviate a declaration to the part a reader needs
 | TBL-007 | — | — | — |
 | TBL-008 | — | — | — |
 
-Thirty-five rows carry a `Realizes` edge; seven carry none, and those seven are the classes no recovered use case's path crosses — the orchestration helper, the platform defaults, and the five test types. Their upstream is the code they were read from, cited at each row of the class inventory, and not a use case.
+Thirty-five class rows carry a `Realizes` edge; seven carry none, and those seven are the classes no recovered use case's path crosses — the orchestration helper, the platform defaults, and the five test types. Their upstream is the code they were read from, cited at each row of the class inventory, and not a use case.
+
+The two `Specifies` edges are stated on the class row and on the table row alike, because one edge has two ends and either artifact is read alone. `CLS-001` is four properties and `TBL-001` stores them in four columns; `CLS-007` adds no member of its own and `TBL-002` stores all fifteen it inherits from `IdentityUser` (`Todo.Api/Migrations/20221123071234_Initial.cs:220-247`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:12-47`; `Todo.Api/Users/TodoUser.cs:6-8`; `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs:13-15`).
 
 **The eight table rows.** `TBL-001` to `TBL-008` are held by the Database Designer in the Persistent Data Classes section. Two carry a `Specifies` edge to the design class whose physical storage they are; six carry none, because their upstream is a framework type the delivery declares no class for — `IdentityUserLogin`, `IdentityUserRole`, `IdentityUserClaim`, `IdentityUserToken`, `IdentityRole` and `IdentityRoleClaim`. Minting `CLS` labels for those would put elements in the graph no implementation can be traced to; the migration that creates each table is cited in the table inventory, and that is their source.
 
 ```plantuml
 @startuml
-title DM-TR1 The two Specifies chains, each end read from its own artifact
+title DM-TR2 The two cross-level chains of this model - one design class to one use case, one design class to one table
 
 skinparam shadowing false
 skinparam classAttributeIconSize 0
-skinparam wrapWidth 210
+skinparam wrapWidth 220
 hide circle
 hide empty members
 
-package "Design Model - Domain Model" {
-  class "CLS-001\nTodo" as C1 <<entity>> {
-    Id : int
-    Title : string
-    IsComplete : bool
-    OwnerId : string
-  }
-  class "CLS-007\nTodoUser" as C7 <<entity>> {
-  }
+package "Business - UC" {
+  class "UC-007\nChange a task" as U7 <<UseCase>>
+  class "UC-010\nApply the ownership rule" as U10 <<UseCase>>
 }
 
-package "Design Model - Persistent Data Classes" {
-  class "TBL-001\nTodos" as T1 <<table>> {
-    Id INTEGER PK autoincrement
-    Title TEXT NOT NULL
-    IsComplete INTEGER NOT NULL default 0
-    OwnerId TEXT NOT NULL FK cascade
-  }
-  class "TBL-002\nAspNetUsers" as T2 <<table>> {
-    Id TEXT PK
-    UserName TEXT null
-    NormalizedUserName TEXT
-    NormalizedEmail TEXT
-  }
+package "Logical - CLS" {
+  class "CLS-012 TodoApi\nendpoint group" as C12 <<DesignClass>>
+  class "CLS-020 ValidationFilterExtensions\nendpoint filter factory" as C20 <<DesignClass>>
+  class "CLS-001 Todo" as C1 <<DesignClass>>
+  class "CLS-007 TodoUser" as C7 <<DesignClass>>
 }
 
-C1 --> T1 : Specifies
-C7 --> T2 : Specifies
+package "Platform - TBL" {
+  class "TBL-001\nTodos" as T1 <<DatabaseTable>>
+  class "TBL-002\nAspNetUsers" as T2 <<DatabaseTable>>
+}
 
-note right of C7
-  Declares no member of its own. The fifteen
-  columns TBL-002 stores are IdentityUser's,
-  mapped by IdentityDbContext of TodoUser.
-  IsAdmin was dropped by migration 2.
+C12 ..> U7 : Realizes
+C20 ..> U7 : Realizes
+C20 ..> U10 : Realizes
+C1 ..> U7 : Realizes
+C1 ==> T1 : Specifies
+C7 ==> T2 : Specifies
+
+note right of C20
+  The filter is attached to the /todos group by
+  CLS-012 at TodoApi.cs:22, naming typeof(TodoItem);
+  both the create and the change operation therefore
+  carry it. The constraint refinement changed the
+  declaration, not which use cases the group serves.
 end note
 
-note right of T1
-  Four properties, four columns. The FK was
-  re-pointed from UserName to Id by migration
-  3; IX_Todos_OwnerId and the cascade survive
-  the re-point.
+note bottom of T1
+  Four properties, four columns. Re-pointed from
+  AspNetUsers.UserName to AspNetUsers.Id by the third
+  migration; IX_Todos_OwnerId and ON DELETE CASCADE
+  survive the re-point.
 end note
 
 @enduml
 ```
 
-**`CLS-001 → TBL-001` holds at both ends.** `CLS-001` is four properties — `Id` int, `Title` required, `IsComplete` defaulting false, `OwnerId` required string — and `Todos` stores them in four columns: an autoincrement integer primary key, a `NOT NULL` title, a completion column defaulting to zero, and a `NOT NULL` owner key carrying `IX_Todos_OwnerId` and `ON DELETE CASCADE`. The relation's principal key was `AspNetUsers.UserName` until the third migration re-pointed it to `AspNetUsers.Id`; the index and the cascade were created with the table and survive the re-point (`Todo.Api/Migrations/20221123071234_Initial.cs:220-247`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:12-47`).
-
-**`CLS-007 → TBL-002` holds at both ends.** `CLS-007` adds no member of its own, and `AspNetUsers` stores all fifteen columns it inherits from `IdentityUser`; the `IsAdmin` column the first migration created was dropped by the second, so neither the class nor the table holds an administrative flag (`Todo.Api/Users/TodoUser.cs:6-8`; `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs:13-15`).
-
-**`CLS-020 → UC-007` and `CLS-020 → UC-010` hold on the code.** The constraint refinement changed how the operation is declared, not which use case it serves: `CLS-012` names `typeof(TodoItem)` at `Todo.Api/Todos/TodoApi.cs:21`, so both the create and the change operation on the `/todos` group carry the filter. The use-case authority holds those two edges at its end; the evidence is stated here so no re-reading of the code is owed.
-
-Four framework types carry a completed flow and no `CLS` label, so they carry no row: `IdentityUser`, `IdentityDbContext` (DM-D1), and `AccessTokenResponse` and `UserLoginInfo`, whose DM-D4 record covers the session chain's use of both. The eight framework contracts, two generated project types and four top-level programs of PKG-D8 likewise carry no row: none is a class the Implementer writes, so no implementation could be traced to one. Every row above other than the eight `TBL` rows is a class the delivery declares.
