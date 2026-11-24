@@ -325,30 +325,31 @@ end note
 Three entry-point groups carry no use case and the Use-Case Model says why: `EP-020` and `EP-021` are a platform mechanism with no actor the delivery names, `EP-022` is a component's start-up step, and the `admin` branch of `EP-011`, `EP-013` and `EP-014` is an exceptional entity no running caller can enter — the stakeholder's ruling of 2026-11-23, recorded in the System Inventory's Perimeter and in `AN-004`. The provider sign-in path is the fourth exclusion and is carried, not dropped: `UC-003` exists and is marked unreachable in the delivered configuration.
 
 ## Evaluation Criteria
-The exit criteria for Consolidation's milestone (GHR). Each is decided on the evidence the artifact it cites records. The three families below are the milestone's purpose and nothing beyond it is added to them: the set is **complete**, what rests on it is **counted**, and the stakeholder **accepts it as the starting point**. A criterion about an artifact is certified on that artifact's own text, never on an adjacent artifact's answer.
+The exit criteria for Consolidation's milestone (GHR). Each is decided on the evidence the artifact it cites records, re-derived from that artifact in the turn this plan is written. The three families below are the milestone's purpose and nothing beyond it is added to them: the set is **complete**, what rests on it is **counted**, and the stakeholder **accepts it as the starting point**. A criterion about an artifact is certified on that artifact's own text, never on an adjacent artifact's answer.
 
 ```plantuml
 @startuml
-title GHR exit criteria - eight, three of them the milestone's purpose and five the phase's own obligations
+title GHR exit criteria at Consolidation iteration 2 - eight, each decided on the evidence the artifact it cites records
 skinparam shadowing false
+skinparam classAttributeIconSize 0
 skinparam wrapWidth 250
 hide circle
 hide empty members
 
 package "The set is complete - 3" {
-  class "G1 Every artifact of the set present\nUC-001 to UC-011, 4 exclusions,\nCOMP-001 to COMP-022, 8 tables" as G1 <<open>>
-  class "G2 The stakeholder accepts the set as the\nstarting point of the declared change" as G2 <<not-put>>
-  class "G3 No recovered element reopened\nnor contradicted between artifacts" as G3 <<open>>
+  class "G1 Every artifact of the set present\nUC-001 to UC-011, 4 exclusions,\nCOMP-001 to COMP-022, 8 tables" as G1 <<standing>>
+  class "G2 The stakeholder accepts the set as the\nstarting point of the declared change" as G2 <<refused, re-put>>
+  class "G3 No recovered element reopened\nnor contradicted between artifacts" as G3 <<standing>>
 }
 
 package "What rests on it is counted - 2" {
-  class "G4 The coverage counted\n84 of 139 opened, 55 named with a reason,\nthe headline reproducing from the table" as G4 <<standing>>
+  class "G4 The coverage counted over the delivery's\nown tree, 80 per cent or more" as G4 <<standing>>
   class "G5 Every reading left incomplete is named" as G5 <<standing>>
 }
 
 package "The phase's own obligations - 3" {
   class "G6 Every open anomaly is a scored risk\nand no accept above Moderate lacks a grant" as G6 <<standing>>
-  class "G7 No suspect trace open at the phase close\nfour return marked SUSPECT" as G7 <<open>>
+  class "G7 No suspect trace open at the phase close" as G7 <<standing>>
   class "G8 No work the process does not run here" as G8 <<standing>>
 }
 
@@ -356,28 +357,80 @@ G1 --> G2
 G3 --> G2
 G4 --> G2
 G7 --> G2
+
 note bottom of G2
-  The gate is the criterion and it opens on the answer alone. It has not
-  been put, and this plan records no answer it has not received.
+  Put and refused on 2026-11-23. The criterion opens on the answer
+  alone: no Yes is recorded that has not been given, and this plan
+  certifies nothing on the stakeholder's behalf.
+end note
+note bottom of G4
+  The bar is in the criterion's text. The ratio it is measured on is
+  84 of the 94 files of the delivery's own tree - 89.4 per cent. The
+  raw 84 of 139, 60.4 per cent, sits beside it and is not the figure.
 end note
 note bottom of G7
-  The one criterion this phase has not moved. Its clearance is the
-  owners' act; this plan assigns it and records it open.
+  Four edges the graph returned marked at the first put. Queried this
+  turn, all four return unmarked, each cleared at the end its owner holds.
 end note
 @enduml
 ```
 
 | # | Criterion | Met when | State | Evidence |
 |---|---|---|---|---|
-| G1 | Every artifact of the recovered set is present at this phase | The Use-Case Model, the Supplementary Specification, the Software Architecture Document, the Design Model and the Deployment Model each stand at this phase and iteration, with every element anchored to the file it was read from | Standing — not certified | Each artifact's Document Control names Phase Consolidation, Iteration 1, Cycle 1. The Designer's model carries `CLS-001` to `CLS-042` and `TBL-001` to `TBL-008`; the Architect's carries `COMP-001` to `COMP-022`; the System Analyst's carries `UC-001` to `UC-011` with the four exclusions. The Deployment Model is present under the one optional trigger the Development Case reports fired. What this criterion needs is the lenses reading each, not this plan asserting it |
-| G2 | The stakeholder accepts the complete set as the starting point of the declared change | Gate H5 answered Yes | **Not put — no answer exists** | Nothing. The gate has not been put, and no answer is assumed while it is open. `R022` bounds it at a ceiling of 14 days of queue time, with the process suspending rather than auto-filling on expiry |
-| G3 | No recovered element is reopened or contradicted | The eleven use cases, four exclusions, twenty-two components and eight tables stand as confirmed, and no artifact states a fact another contradicts | Open | The recovered content is unchanged since the confirmation at gate H4. `R033`'s four suspect edges are the one way this criterion could fail: an edge marked suspect is a link no owner has confirmed. `R034`'s fact is now recorded in the persistent-data description, so the snapshot's product version no longer stands as an uncontradicted reading |
-| G4 | The coverage is counted and the remainder declared | Every file is either opened or named with the reason it was not, and the headline figure reproduces from the per-area table | Standing | System Inventory — Coverage: 84 opened and 55 unread of 139, with each unread file named by category. The 55 are 45 vendored Bootstrap files, six carrying no perimeter fact, and four that are other roles' artifacts of this process |
-| G5 | Every reading this phase leaves incomplete is named | Where the count found a reading the phase could not complete, it is handed forward by name rather than left to be discovered | Standing | The Inventory names the model snapshot as that reading; the persistent-data description now records the version it declares against the build's, and `R034` carries the exposure with a named owner and action |
-| G6 | Every open anomaly is a scored risk, and no accept above Moderate lacks a grant | No anomaly maps to no risk, every score reproduces from the one published mapping, and no risk in the High or Significant band is accepted on the Project Manager's authority | Standing | Risk List — 29 `Refines` edges from `AN-001` to `AN-029`; `R022`, `R031`, `R032`, `R033` and `R034` with their origins stated; four grants at 4 × 3 = 12. `R033` sits at exposure 16 and avoids, which is this role's authority at any band |
-| G7 | No suspect trace is open at the phase close | Every edge the graph returns marked SUSPECT has been cleared by the role that owns its far end, with the reading stated, or retired and re-registered | **Open — the phase's live criterion** | The graph returns four, each read at its own end this iteration and none cleared: `CLS-001` → `TBL-001` (`Specifies`) and `CLS-007` → `TBL-002` (`Specifies`) marked for the Designer; `CLS-020` → `UC-007` and `CLS-020` → `UC-010` (`Realizes`) marked for the System Analyst. The Design Model states the evidence for all four, so the clearance needs no re-reading of the code. Both roles hold a stage in this phase. This plan records the criterion as open and does not certify it on the owners' behalf |
+| G1 | Every artifact of the recovered set is present at this phase | The Use-Case Model, the Supplementary Specification, the Software Architecture Document, the Design Model and the Deployment Model each stand at this phase and iteration, with every element anchored to the file it was read from | Standing — not certified | Each artifact's Document Control names Phase Consolidation. The Designer's model carries `CLS-001` to `CLS-042` and `TBL-001` to `TBL-008`; the Architect's carries `COMP-001` to `COMP-022`; the System Analyst's carries `UC-001` to `UC-011` with the four exclusions. The Deployment Model is present under the one optional trigger the Development Case reports fired. What this criterion needs is the lenses reading each, not this plan asserting it |
+| G2 | The stakeholder accepts the complete set as the starting point of the declared change | Gate H5 answered Yes | **Not met — refused at the first put, re-put at this iteration's close** | No Yes exists. The stakeholder refused the sanction on 2026-11-23 and ordered the six Major findings cleared in this phase with the gate put again. `R022` bounds the re-put at a ceiling of 14 days of queue time, with the process suspending rather than auto-filling on expiry. This plan records no answer it has not received |
+| G3 | No recovered element is reopened or contradicted | The eleven use cases, four exclusions, twenty-two components and eight tables stand as confirmed, and no artifact states a fact another contradicts | Standing | The recovered content is unchanged since the confirmation at gate H4, and this iteration reopened no element. **Two causes could fail this criterion and both are now settled at their own artifacts.** First, the four edges marked `SUSPECT` at the first put — `CLS-001` → `TBL-001` and `CLS-007` → `TBL-002` (Designer), `CLS-020` → `UC-007` and `CLS-020` → `UC-010` (System Analyst): an edge nobody confirmed is a link no artifact can be certified against. Both owners cleared their ends and the graph returns all four unmarked. Second, the one code fact the set stated two ways — the Supplementary Specification's S8 and S18 placing the OpenAPI document among the Development-only surfaces, against `Todo.Api/Program.cs:58` where `app.MapOpenApi()` is called outside the Development block at 49-56 and against the SAD's `M12` and the Deployment Model's Environment Mapping. S8, S18 and the Specification's `F13` now state the same gating as those two artifacts on the same anchors. `R034`'s fact is recorded in the persistent-data description, so the snapshot's product version does not stand as an uncontradicted reading |
+| G4 | The coverage is counted over the delivery's own tree and reaches the bar | Coverage of the delivery's own files is **80 per cent or more**, with every file of that tree either opened or named with the reason it was not, and the headline figure reproducing from the per-area table | Standing | System Inventory — Coverage: **84 of the 94 files of the delivery's own tree opened, 89.4 per cent**, against the 80 per cent bar; 67 of the 94 anchored, 71.3 per cent. The raw repository count is stated beside it and is not the figure the criterion is measured on: **84 of 139, 60.4 per cent**. The 45 files excluded from the denominator are the vendored Bootstrap 5 distribution under `Todo.Web/Client/wwwroot/bootstrap/`, named as one third-party release the contribution contract forbids editing, which the stakeholder ruled on 2026-11-23 is not their system. The 10 own-tree files never opened are each named with the reason; the Files column sums to 139 and the Read column to 84, so the figure reproduces from the table |
+| G5 | Every reading this phase leaves incomplete is named | Where the count found a reading the phase could not complete, it is handed forward by name rather than left to be discovered | Standing | The Inventory names the model snapshot as that reading; the persistent-data description records the version it declares against the build's, and `R034` carries the exposure with a named owner and action |
+| G6 | Every open anomaly is a scored risk, and no accept above Moderate lacks a grant | No anomaly maps to no risk, every score reproduces from the one published mapping, and no risk in the High or Significant band is accepted on the Project Manager's authority — **decided on the action performed, never on the strategy word a cell carries** | Standing | Risk List — 29 `Refines` edges from `AN-001` to `AN-029`; `R022`, `R031`, `R032`, `R033` and `R034` with their origins stated; four grants at 4 × 3 = 12, each quoting the stakeholder's own answer; no risk above Moderate accepted on this role's authority. `R031` and `R033` sit in the High band at 5 × 4 = 20 and take the avoid strategy, which is this role's authority at any band — **and both cells are decided on the act, not on the label.** `R031`'s contingency was taken and performed: the Environment stage now runs in Excavation as its first discipline and both Development Case Minors are corrected. `R033`'s avoidance has been performed: all four edges were cleared at the end their owner holds, and a graph query made in this turn returns `CLS-001 → TBL-001`, `CLS-007 → TBL-002`, `CLS-020 → UC-007` and `CLS-020 → UC-010` unmarked. An avoidance whose action has not been performed is not a retirement; these two have been performed, and the evidence is the act |
+| G7 | No suspect trace is open at the phase close | Every edge the graph returns marked SUSPECT has been cleared by the role that owns its far end, with the reading stated, or retired and re-registered | Standing | At the first put the graph returned four marked, and this plan recorded the criterion open rather than certifying it on the owners' behalf. In this turn the graph was queried again at each of the four ends and returns all four unmarked: `CLS-001` → `TBL-001` (`Specifies`), `CLS-007` → `TBL-002` (`Specifies`), `CLS-020` → `UC-007` and `CLS-020` → `UC-010` (`Realizes`). The Design Model's Traceability section states the reading that keeps each edge, so the clearance rested on the model's own evidence and needed no re-reading of the code |
 | G8 | The plan names no work the process does not run | Every work item belongs to a stage the IARI process runs in Consolidation, and no item schedules work a later phase performs | Standing | Decided on this plan's own table above. Every item belongs to Environment, Requirements, Analysis & Design, Discovery, Project Management, the Review lenses, the gate or the verdict. No item schedules implementation, build, test-design or configuration-management work: those belong to Inception, Elaboration and Construction |
 
-**One criterion is the gate and it opens on the answer alone.** `G2` has not been put, and this plan records no answer it has not received. The sprint zero's gates were put five times in all and answered on the fifth; that record is carried in the coarse roadmap and in `O1`'s row, and none of it is read for more than it says.
+The denominator `G4` is measured on, and the two ratios that measure two different things:
 
-**One criterion is open on work this plan can only assign, not perform.** `G7` fails while any of the four edges stands suspect, and no role but its owner can clear one. `R033` is carried at exposure 16 rather than noted for exactly that reason: a suspect left open at phase close is a Major against the artifact that holds it, and the milestone would then need an iteration this phase did not plan. The lever on that outcome is another iteration planned from the Review Record — never more agents on the same four edges, which would add contention over one artifact surface and shorten nothing.
+```plantuml
+@startuml
+title G4 - the denominator the coverage criterion is measured on
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 230
+hide circle
+hide empty members
+
+class "Repository tree\n139 files" as ALL
+
+class "The delivery's own tree\n94 files\ncoverage denominator" as OWN
+class "Vendored Bootstrap 5\nTodo.Web/Client/wwwroot/bootstrap\n45 files" as VEND
+
+class "Opened\n84 files - 89.4 per cent\nagainst the 80 per cent bar" as OPEN
+class "Anchored by a recovered artifact\n67 files - 71.3 per cent" as ANCH
+class "Never opened\n10 files, each named with its reason" as UO
+
+class "Raw ratio\n84 of 139 - 60.4 per cent" as RAW
+
+ALL *-- OWN
+ALL *-- VEND
+OWN *-- OPEN
+OWN *-- ANCH
+OWN *-- UO
+ALL ..> RAW : the same reading over a\ndenominator that mixes in\nthe bundle
+
+note right of VEND
+  Excluded from the denominator by the stakeholder's
+  ruling of 2026-11-23: a third-party release the
+  contribution contract forbids editing, and not the
+  system. Named as one distribution, never file by file.
+end note
+note bottom of RAW
+  Stated beside the count so the arithmetic reproduces,
+  and not the figure coverage is measured on. The two
+  ratios measure two things and neither substitutes
+  for the other.
+end note
+@enduml
+```
+
+**One criterion is the gate and it opens on the answer alone.** `G2` was put and refused; it is re-put at this iteration's close, and this plan records no answer it has not received. The sprint zero's gates were put six times in all and answered on the fifth and sixth; that record is carried in the coarse roadmap and in `O1`'s row, and none of it is read for more than it says.
+
+**Seven criteria stand and one does not, and the one that does not is the stakeholder's to move.** Six of the seven standing were certified on corrections performed in this iteration at their own artifacts; the seventh, `G7`, could only be certified on its owners' act and that act has been performed, verified at the graph in this turn. Nothing here is certified on an owner's behalf. The lever on `G2` is not another reading of the code, another agent, or a narrower criterion — it is the stakeholder's answer, and if the answer is No again the lever is another iteration planned from the Review Record.
+
