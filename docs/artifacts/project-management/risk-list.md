@@ -2,9 +2,8 @@
 - Phase: Consolidation
 - Status: Live register carried into the end-of-Consolidation (GHR) milestone review
 - Milestone Target: end-of-Consolidation (GHR) — not yet achieved
-- Iteration: 1, Cycle 1
+- Iteration: 2, Cycle 1
 - Owner: Project Manager
-
 ## Risk Classification
 The scale is the IARI risk scale of the Development Case baseline, §9.10. The project Development Case records no scale of its own, and this artifact defines none. Probability and impact are scored on that scale; a risk's magnitude is the band its exposure (probability × impact) falls in — it is never chosen.
 
