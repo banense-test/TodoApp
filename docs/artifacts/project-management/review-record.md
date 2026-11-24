@@ -1229,82 +1229,124 @@ When that holds, `G6` and `G7` are read on a register that agrees with the graph
 **No milestone, iteration or phase is recorded as completed by this review.** The Review Coordinator reads this verdict and the finding ledger; the milestone's disposition is theirs to record.
 
 ### Review Coordinator lens
-<!-- review: Consolidation I1 -->
+<!-- review: Consolidation I2 -->
 
-<!-- review: Consolidation I1 -->
+**Verdict: the phase scope is incomplete. The GHR milestone is NOT sanctioned, and Consolidation iteration 3 is required.**
 
-**Verdict: the phase scope is incomplete. The GHR milestone is NOT sanctioned, and Consolidation iteration 2 is required.**
-
-The verdict is read from the finding data, not from judgment. Every condition it rests on is a count or a recorded answer:
+The verdict is read from the finding data, not from judgment. Every condition it rests on is a count or a recorded answer, and every number is copied from the `[FINDINGS]` line in Findings.
 
 | Condition the verdict reads | State |
 |---|---|
 | Artifacts read | 12 of 12, `unread=none` |
 | Open Critical | 0 |
-| Open Major | **6** — `Design Model#F2`, `Supplementary Specification#F4`, `System Inventory#F4`, `Iteration Plan#F11`, `Iteration Plan#F12`, `Iteration Plan#F13` |
-| Open Minor | 3 — `Risk List#F4`, `Vision#F2`, `Software Architecture Document#F2` |
-| Stakeholder sanction | **REFUSED** — gate H5 put and answered 2026-11-23 |
-| The recovered set confirmed | Yes, and unchanged since gate H4's fourth put |
-| The set complete | Yes — 11 use cases, 4 stated exclusions, 22 components, 8 tables |
-| Stakeholder direction for the iteration-2 pass | Received 2026-11-23 — the order confirmed, no ranking among the six, all six cleared in this iteration |
+| Open Major | **2** — `Risk List#F4` (technical lens), `Risk List#F5` (management lens); one defect, one owner |
+| Open Minor | 0 |
+| The nine entries carried out of put 1 | All closed and verified at their artifacts |
+| Stakeholder sanction | **REFUSED** — gate H5, second put, 2026-11-23 |
+| The set complete | Yes — 11 use cases over 22 entry points, 4 stated exclusions, 22 components, 8 tables |
+| The recovered set confirmed and unchanged | Yes, since gate H4's fourth put; no finding this milestone reopened or reclassified a recovered element |
+| Coverage at the bar over a named denominator | Yes — 84 of the delivery's own 94 files, 89.4 per cent, against the 80 per cent bar, on the stakeholder's ruling |
+| Lenses that executed | 2 of 3 — technical and management. The business lens did not evaluate and nothing is counted from it |
 
-`[STATE_BLOCKED: S2_CALENDAR -> milestone_verdict/VERDICT_DONE]` Reason: six unresolved Major findings and a refused stakeholder sanction. The guard into `VERDICT_DONE` requires open Major = 0 and a `Stakeholder sanction: GRANTED` line; neither holds.
+`[STATE_BLOCKED: S2_CALENDAR -> milestone_verdict/VERDICT_DONE]` Reason: two unresolved Major findings, and the Review Record carries `Stakeholder sanction: REFUSED`. The guard into `VERDICT_DONE` requires open Major = 0 and a `Stakeholder sanction: GRANTED` line; neither holds.
 
 ```plantuml
 @startuml
-title DIS-GHR-01 The GHR verdict and the conditions it was read on
+title DIS-GHR-02 The GHR verdict at the second put and the conditions it was read on
 skinparam shadowing false
-skinparam wrapWidth 245
+skinparam wrapWidth 250
 hide circle
 hide empty members
 
 package "Conditions met" {
-  class "12 artifacts read\nunread = none" as X1 <<met>>
+  class "12 artifacts read, unread = none" as X1 <<met>>
   class "open Critical = 0" as X2 <<met>>
-  class "set complete and anchored\n11 UC, 4 exclusions, 22 COMP, 8 TBL" as X3 <<met>>
-  class "recovered set confirmed at gate H4\nunchanged since" as X4 <<met>>
+  class "open Minor = 0" as X3 <<met>>
+  class "the nine entries open at put 1\nall closed and verified" as X4 <<met>>
+  class "set complete - 11 UC, 4 exclusions,\n22 COMP, 8 TBL" as X5 <<met>>
+  class "coverage over the own tree\n84 of 94, 89.4 per cent" as X6 <<met>>
 }
 
-package "Conditions not met - the verdict" {
-  class "open Major = 6" as N1 <<not met>>
-  class "Stakeholder sanction\nREFUSED 2026-11-23" as N2 <<not met>>
+package "Conditions not met" {
+  class "open Major = 2\nRisk List#F4, Risk List#F5" as N1 <<not met>>
+  class "Stakeholder sanction\nREFUSED at the second put" as N2 <<not met>>
 }
 
 package "Verdict" {
-  class "GHR milestone NOT sanctioned\nrequiresIteration = TRUE\nConsolidation iteration 2" as V <<verdict>>
+  class "GHR NOT sanctioned\nrequiresIteration = true\nConsolidation iteration 3" as V <<verdict>>
 }
 
 X1 --> V
 X2 --> V
 X3 --> V
 X4 --> V
-N1 --> V : holds the milestone
-N2 --> V : a refusal admits no\nConditional Go
+X5 --> V
+X6 --> V
+N1 --> V : one row holds the milestone
+N2 --> V : a refusal admits\nno Conditional Go
 
 note bottom of N1
-  Six Major over four artifacts. All six are corrections
-  their owners can make inside this phase; none needs a
-  decision only the stakeholder can take, which is why
-  there is no Critical in the set. The stakeholder's
-  direction of 2026-11-23 is to clear all six here.
+  Both keys name one defect in one row of one artifact. The
+  Project Manager holds a stage in this phase and needs no
+  reading of code to perform it.
 end note
 note bottom of V
-  The phase is not closed and no later phase opens.
-  Inception is not entered on a refused gate.
+  Inception is not entered on a refused gate, and no part of
+  the recovered set is reopened by this verdict.
 end note
 @enduml
 ```
 
-**Why this is not a Critical escalation and not a Conditional Go.** No finding in the ledger meets the Critical bar: nothing here is a decision on scope, a contradiction in what the stakeholder declared, or a risk only the stakeholder may accept. All six Major findings are corrections their owners perform with the evidence already in the artifacts. And a refused sanction admits no Conditional Go — the stakeholder's own decision on 2026-11-23 was to clear the six in this phase and put the gate again, so the process does not reinterpret the refusal as a conditional grant.
+**Why this is not a Critical escalation.** No finding in the ledger meets the Critical bar. Nothing here is a decision on scope, a contradiction in what the stakeholder declared, or a risk only the stakeholder may accept. The two open entries are one restatement whose evidence is already in the register's own preamble, the graph, the Design Model and the plan's two criteria.
 
-**What the next iteration carries.** Nine open entries, in the order recorded above, all by owners the process schedules in Consolidation iteration 2: the Software Archaeologist, the System Analyst, the Designer, the Project Manager, the Software Architect. The recovered content is not at issue in any of the six Majors, so no recovered element is reopened, no count changes, and no per-area row of the System Inventory moves.
+**Why it is not a Conditional Go.** A Conditional Go states conditions under which the milestone holds. Both open entries are Majors against the register on which two of the eight GHR criteria are certified; certifying the milestone conditionally on them would certify a criterion on an artifact that says the opposite of its evidence. The stakeholder refused the advance at the first put with the order to clear the six Majors here, and refused it again at the second with the order that the major findings be fixed. A refusal is not reinterpreted as a conditional grant.
 
-**The stakeholder's ruling of 2026-11-23, applied.** The 45 Bootstrap files under `Todo.Web/Client/wwwroot/bootstrap/` are a third-party distribution and not part of the system; coverage is counted over the delivery's own files. That ruling is the substance of `System Inventory#F4` and the threshold `Iteration Plan#F11` must carry. The stakeholder also recorded that nothing in the recovered set is wrong — the 11 use cases, the 4 exclusions, the 22 components and the eight tables stand as confirmed at gate H4.
+**Why it is not a further delay of the milestone on grounds of judgment.** The verdict moves on measured facts: six Majors and three Minors at put 1, two Majors and no Minors at put 2, fifty-one of fifty-three entries closed and verified. The residue is one row. The phase is not held for its own sake.
 
-**Stakeholder input for the iteration-2 pass, 2026-11-23, verbatim:** "Nothing to add. The order stands: coverage and the OpenAPI gating first, the plan's cells last. No priority among the six — clear all six in this iteration."
+#### Disposition by artifact and by lens — the position of each participant
 
-**Recorded as given — the stakeholder's answer at gate H5, verbatim:** "Nothing in the recovered set is wrong: the 11 use cases, the 4 exclusions, the 22 components and the eight tables stand as I confirmed them. I do not accept a handoff with Majors open: clear the six in this phase and put the gate again. One fact for the coverage count: the 45 Bootstrap files under Todo.Web/Client/wwwroot/bootstrap/ are a third-party distribution, not my system — count coverage over the delivery's own files. Nothing else to add."
+| Artifact | Technical lens | Management lens | Coordinator — basis for the artifact's disposition |
+|---|---|---|---|
+| Development Case | Approved, nothing recorded | Approved, nothing recorded | Deltas only; both inactive roles carry their triggers; six optional verdicts; ACT-DC-01 names Project Management in every partition at the canonical intensity |
+| System Inventory | Approved, nothing recorded | Approved, nothing recorded | Coverage reproduces from its own per-area table on the denominator the stakeholder ruled; all 10 unopened own-tree files named with their reason |
+| Risk List | **Not approved** — `F4` Major open | **Not approved** — `F5` Major open | One row, three places, one owner. The register is the artifact two criteria are read on; it is corrected before any role consumes it again |
+| Iteration Plan | Approved, nothing recorded | Approved, nothing recorded | `G1` to `G8` each carry a threshold in their own text and are decided on acts and on restated evidence, not on labels |
+| Vision | Approved, nothing recorded | Approved, nothing recorded | Eleven use-case ellipses, the platform mechanisms drawn as components, the Constraints row matching the code |
+| Use-Case Model | Approved, nothing recorded | Approved, nothing recorded | Eleven use cases over 22 entry points, four stated exclusions, `R6` stating both budgets under `AN-024` |
+| Supplementary Specification | Approved, nothing recorded | Approved, nothing recorded | S8, S18 and `F13` state the gating the code has, on the same anchors as the SAD and the Deployment Model |
+| Software Architecture Document | Approved, nothing recorded | Approved, nothing recorded | The Deployment View counts two environment differences and reconciles the count by name |
+| Deployment Model | Approved, nothing recorded | Approved, nothing recorded | Environment Mapping reads 50 / 50 / 50 for Development against the code defaults elsewhere, under `AN-024` |
+| Design Model | Approved, nothing recorded | Approved, nothing recorded | All four edges unmarked in the graph; the Traceability section states the reading that keeps each |
+| Iteration Assessment | Not judged | Not judged | Written by the Project Manager on the verdict; at review time it cannot describe the iteration under review |
+| Review Record | This record | This record | — |
 
-**The Iteration Assessment is not judged here.** `[OMITTED: Iteration Assessment — the Project Manager authors it on this verdict; at review time it cannot describe the iteration being reviewed, and its absence is not a defect and not a gate condition]`
+**Lens dispositions, stated as each lens recorded them and not merged into one.** The technical lens records *Approved with Changes* — eleven artifacts approved with nothing against them, one corrected by the Project Manager before any role consumes the register again. The management lens records *No-Go at this put* — one Major is a stop signal at a lifecycle milestone. The business lens is recorded as **INACTIVE — did not evaluate this review**; it is not an approval, not a pass, and not a vote, and no part of the verdict is counted from it. These three positions are not reconciled into a single voice: they are the evidence the verdict was read on, and the verdict is read on the finding data above them.
 
-**The Change Request ledger does not exist here.** `[OMITTED: Change Request — not opened in the sprint zero, where no Change Control Manager works; the stakeholder's orders reach their owners through the Work Order and through this Review Record]`
+#### Review effectiveness at this milestone
+
+| Indicator | Value | Reading |
+|---|---|---|
+| Review coverage | 12 of 12 planned artifacts read and formally reviewed — 100% | Full. No artifact of this phase entered the milestone unread, and no artifact's review was delegated to a later pass |
+| Defect density by artifact type | Requirements (Vision, Use-Case Model, Supplementary Specification): 12 entries over 3 artifacts. Analysis & Design (SAD, Deployment Model, Design Model): 5 entries over 3. Project Management (Iteration Plan, Risk List): 26 entries over 2. Discovery (System Inventory): 4. Environment (Development Case): 6 | The concentration is unchanged from put 1 and it is the phase's principal process finding: the planning artifacts, not the model of the system, are what failed this milestone. The recovered content absorbed 5 entries across three design artifacts; the plan and the register absorbed 26 |
+| Defect removal efficiency (review vs test) | **Not measurable at this milestone.** No test artifact exists in the sprint zero; the Test discipline's first executable statement is Elaboration's | Recorded as unmeasured, not as zero. No figure is invented for it |
+| Rework effort | **Not measurable in this milestone's units.** The process measures tokens and elapsed time per phase; no per-finding spend is recorded and no hour figure is derived from the phase spend | What is measured is the spend, in the Iteration Plan's two currencies, with the two clocks kept apart |
+| Review debt overdue at the close | 0 of 2 open entries | Nothing carried out of put 1 missed a deadline; both open entries were recorded in this review's own turn and are scheduled in the iteration the verdict requires |
+| Convergence across the milestone's two puts | Put 1: 0 Critical, 6 Major, 3 Minor. Put 2: 0 Critical, 2 Major, 0 Minor | The only comparison drawn, and it is between two reviews of the same artifact set in the same phase. Minors reached zero; Majors fell by four. No comparison is drawn against Excavation, which reviewed a different artifact set |
+
+No trend is reported against a prior milestone and no velocity is derived from any phase figure. The comparison above joins two puts of one milestone, which both occurred and were both read.
+
+#### What the next iteration carries
+
+One corrective act, in one artifact, by one owner: the Project Manager restates `R033` at the state the graph holds — three places corrected in one pass, the score left at 5 × 4 = 20. Then the Reviewer closes `Risk List#F4`, the Management Reviewer closes `Risk List#F5`, gate H5 is put a third time, and the verdict is read again on the ledger.
+
+**What the corrective act does not change.** The recovered content. The eleven use cases, the four stated exclusions, the twenty-two components and the eight tables stand as the stakeholder confirmed them at gate H4's fourth put and reaffirmed on 2026-11-23 — "Nothing in the recovered set is wrong". No act on this list touches them, and no finding this milestone recorded reopens or reclassifies one.
+
+**Recorded as given — the stakeholder's answer at gate H5, second put, 2026-11-23:** "Moor findings must be fixed".
+
+**Recorded as given — the stakeholder's answer at gate H5, first put, 2026-11-23:** "Nothing in the recovered set is wrong: the 11 use cases, the 4 exclusions, the 22 components and the eight tables stand as I confirmed them. I do not accept a handoff with Majors open: clear the six in this phase and put the gate again. One fact for the coverage count: the 45 Bootstrap files under Todo.Web/Client/wwwroot/bootstrap/ are a third-party distribution, not my system — count coverage over the delivery's own files. Nothing else to add."
+
+**No milestone, iteration or phase is recorded as completed by this review.**
+
+`[OMITTED: Iteration Assessment — the Project Manager authors it on this verdict; at review time it cannot describe the iteration being reviewed, and its absence is not a defect and not a gate condition]`
+
+`[OMITTED: Change Request — not opened in the sprint zero, where no Change Control Manager works; the stakeholder's orders reach their owners through the Work Order and through this Review Record]`
