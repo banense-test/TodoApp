@@ -1135,30 +1135,33 @@ end note
 **What is left for the verdict.** One restatement by the Project Manager, and the register agrees with the graph, the Design Model and the plan's own two criteria. The recovered set is complete, anchored and unchanged; the coverage is counted at the bar over the denominator the stakeholder ruled on; no suspect trace is open. On this lens's evidence there is no technical obstacle to the gate after that one act, and the gate itself remains the stakeholder's to answer.
 
 ### Management Reviewer lens
-<!-- review: Consolidation I1 -->
+<!-- review: Consolidation I2 -->
 
-<!-- review: Consolidation I1 -->
+<!-- review: Consolidation I2 -->
 
-**Verdict: No-Go.** The Greenfield Handoff Ready milestone is not achieved at this put. One Major at a lifecycle milestone is a stop signal; six is a phase that has not finished. The burden of proof rests on the project team and it has not been discharged.
+**Verdict: No-Go at this put.** The Greenfield Handoff Ready milestone is not achieved. One Major is open at a lifecycle milestone, and at a lifecycle milestone one Major is a stop signal. Five of the six Majors that held the first put are closed and verified at their own artifacts; the sixth is replaced by a defect exposed by its own correction, in the same register.
 
-**Gate H5 — put 2026-11-23, refused.** The question carried the defect list and the coverage figure inside it, and nothing pre-filled. The stakeholder's answer is the record of the gate, and their second answer is the order the further iteration works to.
+**Gate H5 — second put, 2026-11-23.** The question carried the current defect list and the coverage figure inside it, and nothing pre-filled. No answer to this put exists at the time this record is written, and none is recorded as given.
 
 ```plantuml
 @startuml
-title GHR milestone disposition - what holds the gate, and what the further iteration clears
+title GHR milestone disposition at the second put - what holds the gate and what one turn clears
 skinparam shadowing false
 skinparam wrapWidth 250
 
 start
-:Consolidation iteration 1 closes;
+:Consolidation iteration 2 closes;
 :eight GHR criteria read, each on the artifact it cites;
 note right
-  G1, G5, G8 met on the evidence.
-  G4 and G6 not met as the plan states them.
-  G3 and G7 fail outright. G2 put and refused.
+  Seven true on the artifacts that own them.
+  G2 is the gate and opens on the stakeholder's answer alone.
+  G6 and G7 are true on the act performed, and the register
+  those criteria are read on still says the act is owed.
 end note
 
-:six Major and three Minor stand across four artifacts;
+:five of the six Majors of the first put closed and verified;
+:one defect opened by those corrections - Risk List#F5;
+
 if (any Critical open?) then (yes)
   :escalate to the stakeholder;
   stop
@@ -1168,127 +1171,56 @@ endif
 
 :verdict - No-Go at this put;
 note right
-  A missed criterion at a lifecycle milestone is a stop
-  signal, not a negotiating point. There is no partial GHR.
+  There is no partial GHR. A criterion certified on a register
+  that contradicts its own evidence is not certified.
 end note
 
-:gate H5 put with the defect list inside the question;
+:gate H5 put a second time with the defect list inside the question;
 if (stakeholder sanctions the advance?) then (Yes)
-  #lightgreen:the Majors carry into Inception as its first work;
+  #lightgreen:the one restatement becomes Inception's first work item;
   stop
 else (No)
-  #pink:a further Consolidation iteration is planned from this record;
-  :nine corrective acts, each with the role this phase schedules;
-  :the recovered set is confirmed and nothing in it changes;
-  :gate H5 re-put on records that agree with the set;
+  #pink:a third Consolidation iteration is planned from this record;
+  :one row, one owner, one turn - the Project Manager's;
+  :the recovered set is confirmed; nothing in it changes;
+  :gate H5 re-put on a register that agrees with the graph;
   stop
 endif
 @enduml
 ```
 
-**Project health at this gate.** Four dimensions, each rated on evidence and none on the project's own word.
+**Why this is not a Critical escalation.** No finding meets the Critical bar. Nothing here is a decision on scope, a contradiction in what the stakeholder declared, or a risk only the stakeholder may accept. The open Major is a restatement the Project Manager performs with evidence already in hand, and the three places to correct are named in the finding.
 
-```plantuml
-@startuml
-title Project health at the GHR gate - four dimensions, each rated on the evidence this review read
-skinparam shadowing false
-skinparam classAttributeIconSize 0
-skinparam wrapWidth 240
-hide circle
-hide empty members
+**Why it is not a Conditional Go either.** A Conditional Go states conditions under which the milestone holds. `Risk List#F5` is a Major against the register the phase's two risk criteria are read on; certifying the milestone conditionally on it would be certifying a criterion on an artifact that says the opposite of its evidence. The stakeholder refused the advance at the first put for exactly this reason, on order that the Majors be cleared here rather than carried. The same answer is not reinterpreted as a conditional grant.
 
-class "SCOPE  -  Green" as SC {
-  11 use cases, 22 entry points, 4 stated exclusions
-  22 components, 8 tables, 42 classes
-  every element anchored to file and lines
-  no declared scope exists to measure against
-  no recovered element reopened
-}
-class "SCHEDULE  -  Attention" as SD {
-  sprint zero at iteration 1 of Consolidation
-  against Survey 2 and Excavation 4
-  six Majors open at this put, no Critical
-  every corrective act sits with a role this phase schedules
-}
-class "COST  -  Not measurable" as CO {
-  Survey 2 it: 8,995,433 tokens, 29 min agent, 5 min queue
-  Excavation 3 it: 14,424,767 tokens, 28 min, 7 min
-  Excavation 4 it: 9,735,197 tokens, 26 min, 10 min
-  Consolidation: in flight, no figure until it closes
-  no token budget declared, so no variance exists
-}
-class "QUALITY  -  Attention" as QU {
-  0 Critical open
-  6 Major open across 4 artifacts
-  3 Minor open, none holding the milestone
-  every Major a correction its owner can make in phase
-}
+**What moved since the first put of this gate.**
 
-SC --> QU : content sound, record not
-SD --> QU : no slippage in the recovered set
-note bottom of CO
-  Two clocks, never added. No per-iteration velocity and no
-  projected date is derived from these figures.
-end note
-note bottom of QU
-  The one dimension that is not green: six Major defects stand
-  and a milestone is not sanctioned over a Major.
-end note
+| Artifact | Finding at the first put | State now | Verified at |
+|---|---|---|---|
+| System Inventory | `#F4` Major — coverage over a denominator that hid the reading's reach | Closed | Coverage: 84 of 94 own-tree files (89.4 per cent), 67 anchored (71.3 per cent), 10 unopened named, the 45 vendored files named as one excluded distribution |
+| Supplementary Specification | `#F4` Major — the OpenAPI document stated Development-only | Closed | S8, S18 and F13 on `Todo.Api/Program.cs:44,49-58,62`, reconciled with SAD `M12` and the Deployment Model |
+| Design Model | `#F2` Major — four trace edges marked at the close | Closed | Three ends queried this turn, none marked; the model states the reading that keeps each |
+| Vision | `#F2` Minor — the same gating sentence | Closed | Constraints row and diagram split the gated from the ungated |
+| Software Architecture Document | `#F2` Minor — one environment setting against the Deployment Model's two | Closed | Deployment View counts two and reconciles by name |
+| Iteration Plan | `#F11`, `#F12`, `#F13` Major — three criteria certified on the wrong evidence | Closed | `G4` carries its threshold and both ratios; `G3` names both causes; `G6` is decided on the act |
+| Risk List | `#F4` Minor — the firing exposure scored 4 | Closed | `R031` and `R033` both read 5 × 4 = 20 with their basis stated |
+| Risk List | — | **`#F5` Major — the register states an act owed that both owners performed** | The row, the preamble and the diagram note against three queried ends of the graph |
 
-@enduml
-```
+Five of the six Majors are closed at their artifacts; the sixth, `Iteration Plan#F13`, is closed but its subject was the plan's criterion, and the register the criterion is read on was not brought with it. That is the one defect at this put, and it is a defect of the register and not of any criterion's logic.
 
-**Risk retirement is real and not uniform, and the difference is the finding.**
+**What the stakeholder decided, and what is not widened here.** At the first put they refused the sanction, ordered the six Majors cleared in this phase with the gate put again, and ruled the coverage denominator: the 45 Bootstrap files under `Todo.Web/Client/wwwroot/bootstrap/` are a third-party distribution and not their system. Both orders are discharged above — the coverage restatement is at the System Inventory and the threshold is in `G4`'s text. They also confirmed that nothing in the recovered set is wrong: the eleven use cases, the four exclusions, the twenty-two components and the eight tables stand as confirmed at gate H4, and no act on this iteration's list touched recovered content.
 
-```plantuml
-@startuml
-title Risk retirement across the sprint zero - what moved, what did not, and the one exposure now firing
-skinparam shadowing false
-skinparam classAttributeIconSize 0
-skinparam wrapWidth 245
-hide circle
-hide empty members
+**What the next turn must reach before the gate is put a third time.** One restatement, in one artifact, by its owner:
 
-package "Retired - the action performed, verified at the artifact" {
-  class "R031  a criterion's owner not scheduled\nmaterialized twice; contingency taken; Environment\nran as the phase's first discipline" as R31 <<closed>>
-  class "R032  one fact transcribed inconsistently\navoidance performed on all six citing artifacts,\nR6 named, both budgets under AN-024" as R32 <<closed>>
-  class "R030  the session surface never settles\nstatement landed beside UC-001 to UC-004;\nthe exposure stays live, AN-012 stands" as R30 <<landed>>
-  class "R034  the snapshot names another product version\naction performed: recorded where the next role reads it;\nthe incompatibility itself is not corrected" as R34 <<landed>>
-}
+- `R033`'s strategy cell at the state the graph holds — clearance performed on all four, the exposure retired, each edge named with the reading its owner stated;
+- the warning-sign cell at "fired at the first put, on all four; no longer firing", on the pattern `R032` already carries;
+- the section preamble minus `R033` from the rows whose sign is firing now;
+- the diagram note stating the clearance performed rather than owed;
+- the score left at 5 × 4 = 20, because the probability is scored on the record that the sign fired and that record is history.
 
-package "Live and accepted on the stakeholder's grant - unchanged this phase" {
-  class "R004  4 x 3 = 12  admin branch never granted" as R4 <<granted>>
-  class "R011  4 x 3 = 12  token minted from internals" as R11 <<granted>>
-  class "R012  4 x 3 = 12  BFF and client untested" as R12 <<granted>>
-  class "R016  4 x 3 = 12  no document of the system" as R16 <<granted>>
-}
+When that holds, `G6` and `G7` are read on a register that agrees with the graph, the Design Model and the plan's own two criteria, and gate H5 can be put a third time on records that agree with the set they report.
 
-package "Live, avoidance owed by this phase's owners" {
-  class "R001 R002 R003 R005 R007 R009 R010 R018\nR020 R021 R023 R024 R026 R028 R029\nall avoid; no action due in Consolidation" as RB <<carried>>
-  class "R033  4 x 4 = 16  HIGH, firing\nfour edges still marked SUSPECT at the gate\nneither owner has performed the clearance" as R33 <<firing>>
-}
-
-R30 --> R33 : same failure shape, different subject
-R31 --> R33 : a criterion certified on an act not performed
-R33 --> RB : the one High-band exposure at the gate
-note bottom of R33
-  The trend is the finding: the register retired three exposures and
-  added one that is firing. A top-band risk whose sign fires at the
-  milestone the set is certified on is not a static register entry.
-end note
-note bottom of R34
-  Recording an exposure is not retiring it. The action named is
-  "write it where the next role reads it", and that landed.
-end note
-
-@enduml
-```
-
-Three exposures retired with their actions observed in the artifacts that carry them, two more with their retirement landed and their exposure correctly stated as live, and one that is firing at the gate: `R033`, a High-band risk whose avoidance both owners still owe. A register that carried the same top risk unchanged across two milestones would be evidence that risk retirement is not occurring; this one did move, and the exposure it added this phase is the one that has not been discharged. That is not a static register — it is a register that tells the truth about where the phase failed.
-
-**What the stakeholder decided.** Two things, and neither is widened here. They refused the sanction: the six Majors are cleared in this phase and the gate is put again. And they ruled the coverage denominator: the 45 Bootstrap files under `Todo.Web/Client/wwwroot/bootstrap/` are a third-party distribution and not their system, so coverage is counted over the delivery's own files. They confirmed the recovered set unchanged — the eleven use cases, the four exclusions, the twenty-two components and the eight tables stand as they confirmed them at gate H4 — so no act on the corrective list touches recovered content.
-
-**What the further iteration must reach before the gate is re-put.** The six Majors closed and verified at their artifacts, and the three Minors corrected with them where the same owner is working the same artifact. `G4` stated with its threshold and with the denominator the stakeholder gave it; `G3` naming both contradictions in the set; `G6` decided on `R033`'s recorded state; all four trace edges cleared by the roles the graph marks; the Supplementary Specification's S8 and S18 corrected against `Todo.Api/Program.cs:58`; the System Inventory's own-tree ratio stated beside its raw count. When those hold, the criteria can be read again on records that agree with the set they report, and gate H5 can be put a second time.
+**Recorded as given.** The stakeholder's answer at the first put, verbatim: "Nothing in the recovered set is wrong: the 11 use cases, the 4 exclusions, the 22 components and the eight tables stand as I confirmed them. I do not accept a handoff with Majors open: clear the six in this phase and put the gate again. One fact for the coverage count: the 45 Bootstrap files under Todo.Web/Client/wwwroot/bootstrap/ are a third-party distribution, not my system — count coverage over the delivery's own files. Nothing else to add." Their direction for this iteration, verbatim: "Nothing to add. The order stands: coverage and the OpenAPI gating first, the plan's cells last. No priority among the six — clear all six in this iteration."
 
 **No milestone, iteration or phase is recorded as completed by this review.** The Review Coordinator reads this verdict and the finding ledger; the milestone's disposition is theirs to record.
 
