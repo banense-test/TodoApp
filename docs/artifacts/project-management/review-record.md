@@ -1158,6 +1158,7 @@ The verdict is read from the finding data, not from judgment. Every condition it
 | Stakeholder sanction | **REFUSED** — gate H5 put and answered 2026-11-23 |
 | The recovered set confirmed | Yes, and unchanged since gate H4's fourth put |
 | The set complete | Yes — 11 use cases, 4 stated exclusions, 22 components, 8 tables |
+| Stakeholder direction for the iteration-2 pass | Received 2026-11-23 — the order confirmed, no ranking among the six, all six cleared in this iteration |
 
 `[STATE_BLOCKED: S2_CALENDAR -> milestone_verdict/VERDICT_DONE]` Reason: six unresolved Major findings and a refused stakeholder sanction. The guard into `VERDICT_DONE` requires open Major = 0 and a `Stakeholder sanction: GRANTED` line; neither holds.
 
@@ -1196,7 +1197,8 @@ note bottom of N1
   Six Major over four artifacts. All six are corrections
   their owners can make inside this phase; none needs a
   decision only the stakeholder can take, which is why
-  there is no Critical in the set.
+  there is no Critical in the set. The stakeholder's
+  direction of 2026-11-23 is to clear all six here.
 end note
 note bottom of V
   The phase is not closed and no later phase opens.
@@ -1207,9 +1209,11 @@ end note
 
 **Why this is not a Critical escalation and not a Conditional Go.** No finding in the ledger meets the Critical bar: nothing here is a decision on scope, a contradiction in what the stakeholder declared, or a risk only the stakeholder may accept. All six Major findings are corrections their owners perform with the evidence already in the artifacts. And a refused sanction admits no Conditional Go — the stakeholder's own decision on 2026-11-23 was to clear the six in this phase and put the gate again, so the process does not reinterpret the refusal as a conditional grant.
 
-**What the next iteration carries.** Nine open entries, in the priority order recorded above, all by owners the process schedules in Consolidation iteration 2: the Software Archaeologist, the System Analyst, the Designer, the Project Manager, the Software Architect. The recovered content is not at issue in any of the six Majors, so no recovered element is reopened, no count changes, and no per-area row of the System Inventory moves.
+**What the next iteration carries.** Nine open entries, in the order recorded above, all by owners the process schedules in Consolidation iteration 2: the Software Archaeologist, the System Analyst, the Designer, the Project Manager, the Software Architect. The recovered content is not at issue in any of the six Majors, so no recovered element is reopened, no count changes, and no per-area row of the System Inventory moves.
 
 **The stakeholder's ruling of 2026-11-23, applied.** The 45 Bootstrap files under `Todo.Web/Client/wwwroot/bootstrap/` are a third-party distribution and not part of the system; coverage is counted over the delivery's own files. That ruling is the substance of `System Inventory#F4` and the threshold `Iteration Plan#F11` must carry. The stakeholder also recorded that nothing in the recovered set is wrong — the 11 use cases, the 4 exclusions, the 22 components and the eight tables stand as confirmed at gate H4.
+
+**Stakeholder input for the iteration-2 pass, 2026-11-23, verbatim:** "Nothing to add. The order stands: coverage and the OpenAPI gating first, the plan's cells last. No priority among the six — clear all six in this iteration."
 
 **Recorded as given — the stakeholder's answer at gate H5, verbatim:** "Nothing in the recovered set is wrong: the 11 use cases, the 4 exclusions, the 22 components and the eight tables stand as I confirmed them. I do not accept a handoff with Majors open: clear the six in this phase and put the gate again. One fact for the coverage count: the 45 Bootstrap files under Todo.Web/Client/wwwroot/bootstrap/ are a third-party distribution, not my system — count coverage over the delivery's own files. Nothing else to add."
 
