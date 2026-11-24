@@ -246,14 +246,14 @@ The roles are the 26-role roster of the IARI DC baseline, minus the two the Deve
 | Role | Discipline | Works this iteration | Stage it holds here, and why |
 |---|---|---|---|
 | Process Engineer | Environment | Yes | Development Case, at Low intensity as the phase's first discipline. ACT-DC-01 names Project Management in every one of its seven phase partitions, at the intensity the canonical matrix gives it, so `Development Case#F4` is closed |
-| System Analyst | Requirements | Yes | Use-Case Model and Supplementary Specification; and two of the four suspect edges, `CLS-020` → `UC-007` and `CLS-020` → `UC-010`, which are its end to clear |
-| Software Architect | Analysis & Design | Yes | Software Architecture Document — components, mechanisms and the use-case view, at Medium intensity |
-| Designer | Analysis & Design | Yes | Design Model — domain model and package classes; and two of the four suspect edges, `CLS-001` → `TBL-001` and `CLS-007` → `TBL-002`, which are its end to clear |
+| System Analyst | Requirements | Yes | Use-Case Model, Supplementary Specification and Vision; and two of the four suspect edges, `CLS-020` → `UC-007` and `CLS-020` → `UC-010`, cleared at its end |
+| Software Architect | Analysis & Design | Yes | Software Architecture Document — components, mechanisms, the use-case view and the Deployment View, at Medium intensity |
+| Designer | Analysis & Design | Yes | Design Model — domain model and package classes; and two of the four suspect edges, `CLS-001` → `TBL-001` and `CLS-007` → `TBL-002`, cleared at its end |
 | Database Designer | Analysis & Design | Yes | Design Model's persistent data — entities, keys and associations, the enforced rules, and the snapshot's product version that `R034` records |
-| Software Archaeologist | Discovery | Yes | System Inventory, at Critical intensity: the coverage counted and every unread file named |
+| Software Archaeologist | Discovery | Yes | System Inventory, at Critical intensity: the coverage counted over the delivery's own tree and every unread file named |
 | Project Manager | Project Management | Yes | Risk List and Iteration Plan, and the Iteration Assessment after the verdict |
-| Reviewer | Review | Yes | GHR technical lens |
-| Management Reviewer | Review | Yes | GHR management lens, and the gate put |
+| Reviewer | Review | Yes | GHR technical lens, second pass |
+| Management Reviewer | Review | Yes | GHR management lens, second pass, and the gate re-put |
 | Review Coordinator | Review | Yes | GHR milestone verdict |
 | Requirements Specifier | Requirements | No — Elaboration | Use-case detail and NFR thresholds are written against a declared scope; the delivery declares none, and this phase completes the recovered set rather than specifying a new one |
 | User Interface Designer | Analysis & Design | No — Elaboration | Storyboards and the navigation map follow a use-case specification |
@@ -267,7 +267,8 @@ The roles are the 26-role roster of the IARI DC baseline, minus the two the Deve
 
 The stakeholder is not an agent role: they are the only human in the process, and their work is gate H5.
 
-**The profile is ten roles, and it is the shape of the phase rather than a cost decision.** Three of them — the Designer, the System Analyst and the Database Designer — hold a stage here for one reason: the exposures this phase adds are in their artifacts and only they may close them. A profile with the record-keepers alone would leave `R033` to be recorded as a Major at the lens, which is the defect `R031` cost this project two iterations to learn.
+**The profile is ten roles, and it is the shape of the phase rather than a cost decision.** Six of them hold a stage here because one of the nine findings this iteration clears sits in an artifact they own: the System Inventory, the Supplementary Specification and the Vision (System Analyst), the Software Architecture Document (Software Architect), the Design Model (Designer), the Risk List and this plan (Project Manager). A profile with the record-keepers alone would leave each of those findings to be recorded as a Major at the lens, which is the defect `R031` cost this project two iterations to learn.
+
 ## Use Cases and Scenarios Addressed
 Consolidation recovers no use case and adds none. What this phase does is complete the set the stakeholder confirmed and hand it to Inception as that phase's baseline. The set below is the complete recovered model — every use case with the entry points it was read from, and every entry-point group that carries none, with the reason.
 
