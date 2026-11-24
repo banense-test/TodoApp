@@ -14,7 +14,7 @@ The phase's objectives, and each one's standing on the artifact that carries it:
 @startuml
 title Consolidation's three phase objectives - each certified on the artifact that carries it, none of them on the gate
 skinparam shadowing false
-skinparam wrapWidth 235
+skinparam wrapWidth 240
 hide circle
 hide empty members
 
@@ -23,7 +23,7 @@ package "O1 Complete the set - every artifact of the set present" {
   class "Design Model: 42 classes, 8 tables,\nkeys, associations, enforced rules\nDeployment Model: nodes, stores, environment mapping" as O1B <<standing>>
 }
 package "O2 Count the coverage - and say what stays unread" {
-  class "System Inventory: 84 of 139 opened,\n67 anchored, 55 named with the reason each stays shut" as O2 <<standing>>
+  class "System Inventory: 84 of the 94 own-tree files\nopened, 89.4 per cent; 67 anchored, 71.3 per cent;\nthe 45 vendored Bootstrap files named as excluded" as O2 <<standing>>
   class "one reading named as incomplete:\nthe model snapshot's product version, R034\nits action performed in the persistent-data description" as O2B <<standing>>
 }
 package "O3 Hand the set forward - the register and the plan" {
@@ -31,23 +31,24 @@ package "O3 Hand the set forward - the register and the plan" {
   class "this plan: coarse roadmap, fine plan,\nGHR exit criteria" as O3B <<standing>>
 }
 package "The gate, which is not an objective" {
-  class "gate H5 - the set accepted as the\nstarting point of the declared change" as CF <<open>>
+  class "gate H5 - refused at the first put,\nre-put at this iteration's close" as CF <<open>>
 }
 O1 --> CF
 O2 --> CF
 O3 --> CF
 note bottom of CF
-  An objective met is not a milestone sanctioned. Gate H5 has not been
-  put. The verdict is the Review Coordinator's and reads this answer alone.
+  An objective met is not a milestone sanctioned. Gate H5 was put and
+  refused on 2026-11-23 and is re-put now. The verdict is the Review
+  Coordinator's and reads this answer alone.
 end note
 @enduml
 ```
 
 | # | Objective | Satisfied when | Owner | Standing |
 |---|---|---|---|---|
-| O1 | Complete the set the stakeholder confirmed | Every artifact of the recovered set stands at this phase, each element anchored to the file it was read from, and no recovered element has been reopened | System Analyst, Software Architect, Designer, Database Designer | **Standing, not certified** — the six artifacts are present at this phase and iteration. This plan does not certify its own phase's artifacts; that is the lenses' work at the GHR review |
-| O2 | Count the coverage and declare what stays unread | Every file of the tree is either opened or named with the reason it was not, the headline figure reproduces from the per-area table, and any reading left incomplete is named | Software Archaeologist | **Standing** — the coverage reads 84 opened and 55 unread of 139, and the one reading handed forward incomplete is named: the model snapshot's product version, carried as `R034` |
-| O3 | Leave the phase a register and a plan, not a set of notes | Every open anomaly is a scored risk with an owner and an action, no accepted risk above Moderate lacks the stakeholder's grant, and every work item of this phase belongs to a stage the process runs here | Project Manager | **Standing** — 34 risks, 29 `Refines` edges, four grants at exposure 12, and the two exposures this phase adds (`R033`, `R034`) carried with owners that this plan schedules |
+| O1 | Complete the set the stakeholder confirmed | Every artifact of the recovered set stands at this phase, each element anchored to the file it was read from, and no recovered element has been reopened | System Analyst, Software Architect, Designer, Database Designer | **Standing, not certified** — the six artifacts are present at this phase and iteration, and this iteration reopened no element. This plan does not certify its own phase's artifacts; that is the lenses' work at the GHR review |
+| O2 | Count the coverage and declare what stays unread | Coverage of the delivery's own files is counted, every file of that tree is either opened or named with the reason it was not, the headline figure reproduces from the per-area table, and any reading left incomplete is named | Software Archaeologist | **Standing** — the coverage reads 84 of the 94 own-tree files opened (89.4 per cent), 67 anchored (71.3 per cent), with the 45 vendored Bootstrap files named as one excluded third-party distribution and the raw 84 of 139 stated beside it. The one reading handed forward incomplete is named: the model snapshot's product version, carried as `R034` |
+| O3 | Leave the phase a register and a plan, not a set of notes | Every open anomaly is a scored risk with an owner and an action, no accepted risk above Moderate lacks the stakeholder's grant, and every work item of this phase belongs to a stage the process runs here | Project Manager | **Standing** — 34 risks, 29 `Refines` edges, four grants at exposure 12, and the two exposures this phase adds (`R033`, `R034`) carried with owners this plan schedules |
 
 The stakeholder confirmed the recovered content at gate H4 and sanctioned the advance into this phase. Nothing in this phase reopens it, and the objectives above add nothing to it: they complete, count and hand forward.
 
@@ -55,7 +56,7 @@ The stakeholder confirmed the recovered content at gate H4 and sanctioned the ad
 
 `R034`'s action is performed: the persistent-data description records the snapshot's `ProductVersion` `8.0.0` against the build's `net9.0` and its EF Core 9.x packages, so no role scaffolds a migration against it unread. The incompatibility itself is not corrected — the snapshot is the delivery's file and this process records the system as it is.
 
-`R033`'s action is not performed. The graph returns all four edges still marked `SUSPECT`, so the one criterion this phase can still fail on is `G7`, and it fails on an act only the Designer and the System Analyst may perform.
+`R033`'s action is performed. At the first put the graph returned all four edges marked `SUSPECT`; queried again in this iteration at each of the four ends it returns `CLS-001` → `TBL-001`, `CLS-007` → `TBL-002`, `CLS-020` → `UC-007` and `CLS-020` → `UC-010` unmarked. Each owner cleared its own end on the evidence the Design Model already stated, and `G7` now reads Standing on that act rather than on the strategy word the register carries.
 
 ## Plan and Milestones
 The plan is two-level. The **coarse roadmap** fixes the milestone sequence across the project and what each milestone is judged on. The **fine plan** is this iteration's work items with their owners, bounded to Consolidation. What a completed iteration delivered and what it cost belongs in the Iteration Assessment, not here.
