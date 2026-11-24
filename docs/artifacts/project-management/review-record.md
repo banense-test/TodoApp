@@ -706,117 +706,103 @@ Remediation: restate `R033` at the state the graph holds, correcting all three p
 Whether the milestone closes is the Review Coordinator's verdict, read on both executed lenses and on gate H5's answer. This lens records the management position: the recovered set is complete, counted at the bar and unchanged; seven of the eight criteria are true on the artifacts that own them; the gate is the stakeholder's; and one row of one register still tells a reader that a High-band exposure is unmitigated when its clearance has landed.
 
 ### Review Coordinator lens
-<!-- review: Consolidation I1 -->
-
-<!-- review: Consolidation I1 -->
+<!-- review: Consolidation I2 -->
 
 **The line every number below is copied from**, written from `read_artifact_findings` across all twelve artifacts in this milestone's turn and never from a lens's narrative:
 
-`[FINDINGS] read=12, unread=none, open Critical=0, open Major=6 [System Inventory#F4, Supplementary Specification#F4, Design Model#F2, Iteration Plan#F11, Iteration Plan#F12, Iteration Plan#F13], open Minor=3 [Risk List#F4, Vision#F2, Software Architecture Document#F2]`
+`[FINDINGS] read=12, unread=none, open Critical=0, open Major=2 [Risk List#F4 — technical lens; Risk List#F5 — management lens], open Minor=0`
 
-Fifty-one finding entries stand against the twelve artifacts read. Forty-two carry a resolution object and were closed by the lens that recorded them. Nine are open: none Critical, six Major, three Minor.
+Fifty-three finding entries stand against the twelve artifacts. Fifty-one carry a resolution object and were closed by the lens that recorded them. Two are open, both Major, both from a lens that executed. No Critical was recorded by any lens this milestone.
 
 ```plantuml
 @startuml
-title LED-GHR-01 Consolidated finding ledger at the GHR milestone - 51 entries over 12 artifacts, 42 closed, 9 open
+title LED-GHR-02 Consolidated finding ledger at the second put - 53 entries, 51 closed, 2 open, one defect
 skinparam shadowing false
-skinparam wrapWidth 235
+skinparam wrapWidth 240
 hide circle
 hide empty members
 
-package "Major - 6, the artifact is reworked before any role consumes it again" {
-  class "Design Model\nF2 trace-gap\nDesigner 2 edges, System Analyst 2 edges" as M1 <<Major>>
-  class "Supplementary Specification\nF4 consumed-defect\nSystem Analyst" as M2 <<Major>>
-  class "System Inventory\nF4 exit-criterion-unmet\nSoftware Archaeologist" as M3 <<Major>>
-  class "Iteration Plan\nF11 exit-criterion-unmet\nProject Manager" as M4 <<Major>>
-  class "Iteration Plan\nF12 consumed-defect\nProject Manager" as M5 <<Major>>
-  class "Iteration Plan\nF13 exit-criterion-unmet\nProject Manager" as M6 <<Major>>
-}
-
-package "Minor - 3, fixed in the owner's next turn, holding no milestone" {
-  class "Risk List\nF4 contained-defect\nProject Manager" as m1 <<Minor>>
-  class "Vision\nF2 contained-defect\nSystem Analyst" as m2 <<Minor>>
-  class "Software Architecture Document\nF2 contained-defect\nSoftware Architect" as m3 <<Minor>>
+package "Open Major - 2 entries, one defect, two lens keys" {
+  class "Risk List#F4\nReviewer lens\nconsumed-defect" as O1 <<open>>
+  class "Risk List#F5\nManagement Reviewer lens\nconsumed-defect" as O2 <<open>>
+  class "R033, three places\nstrategy cell, section preamble,\ndiagram note\nowner: Project Manager" as D <<defect>>
 }
 
 package "Critical - 0" {
-  class "none\nno undeclared scope, no contradiction in what\nthe stakeholder declared, no risk only they may accept" as C <<none>>
+  class "none\nno scope decision, no declared contradiction,\nno risk only the stakeholder may accept" as C <<none>>
 }
 
-M4 ..> M3 : G4 cites the coverage figure
-M5 ..> M2 : G3 names one of two causes
-M6 ..> M1 : G6 reads the four edges
-m1 ..> M1 : one exposure, three artifacts
-m2 ..> M2 : the same sentence, supporting role
-M1 --> C
-M2 --> C
-M3 --> C
+package "Closed at this milestone - 51 entries over 11 artifacts" {
+  class "the nine open at put 1\nall closed and verified at their artifacts" as K1 <<closed>>
+  class "Risk List F1 to F4\nearlier keys of both lenses" as K2 <<closed>>
+  class "the remaining 39 entries\nclosed at SBC, AR and GHR put 1" as K3 <<closed>>
+}
 
-note bottom of M1
-  Four edges, two owners, one act each, and the evidence
-  already stated in the model. No reading of the code is owed.
+O1 --> D
+O2 --> D
+D --> C
+K1 --> O1 : the closure of Design Model#F2\nexposed this row
+K2 --> O2
+
+note bottom of D
+  One restatement closes both entries. Neither lens may close
+  the other's key, so the act is one and the closures are two.
 end note
-note bottom of M3
-  Every count is right; the denominator is not the stakeholder's
-  ruling. 84 of the 94 files of the delivery's own tree is 89.4
-  per cent and appears in no artifact.
+note bottom of O1
+  G6 and G7 are two of the eight GHR criteria and both derive
+  their state from this row.
 end note
 @enduml
 ```
 
-#### Open findings — nine entries, each with owner, severity and the corrective action
+#### Open findings — two keys, one defect, one owner
 
 | Artifact | Key | Lens | Criterion | Severity | Owner | What closes it |
 |---|---|---|---|---|---|---|
-| Design Model | F2 | Reviewer | `trace-gap` | Major | Designer (2 edges), System Analyst (2 edges) | Clear `CLS-001 → TBL-001`, `CLS-007 → TBL-002`, `CLS-020 → UC-007`, `CLS-020 → UC-010` at the end the graph marks; then restate the Traceability section's two closing paragraphs at the state the graph holds. The evidence for all four is already in the model |
-| Supplementary Specification | F4 | Reviewer | `consumed-defect` | Major | System Analyst | Correct S8 and S18 to the gating the code has: the reference UI and both health endpoints are Development-only, the OpenAPI document is mapped unconditionally, the HTTP logging stage runs in every environment. Cite `Todo.Api/Program.cs:44,49-58` and cross-reference SAD M12 and the Deployment Model's Environment Mapping |
-| System Inventory | F4 | Reviewer | `exit-criterion-unmet` | Major | Software Archaeologist | State the coverage over the 94 files of the delivery's own tree — 84 opened (89.4%), 67 anchored (71.3%) — with the 45 vendored Bootstrap files named as one excluded third-party distribution. Change no count and no per-area row |
-| Iteration Plan | F11 | Management Reviewer | `exit-criterion-unmet` | Major | Project Manager | Write the threshold into `G4`'s text and state both ratios in its evidence cell: 84 of 139 raw, 84 of 94 (89.4%) over the tree the reading is about |
-| Iteration Plan | F12 | Management Reviewer | `consumed-defect` | Major | Project Manager | Name the second cause in `G3`'s evidence cell — the Supplementary Specification's S8/S18 against the code, SAD M12 and the Deployment Model — and list both corrections in the next iteration's work items |
-| Iteration Plan | F13 | Management Reviewer | `exit-criterion-unmet` | Major | Project Manager | Restate `G6`'s evidence cell to carry `R033` at the state the register records — avoidance unperformed, warning sign firing, four edges marked — and decide the criterion on that state, not on the strategy label |
-| Risk List | F4 | Management Reviewer | `contained-defect` | Minor | Project Manager | Restate `R033`'s probability at 5 on the basis its own evidence states, carrying exposure 20; apply the same test to `R031` |
-| Vision | F2 | Reviewer | `contained-defect` | Minor | System Analyst | Correct the Constraints row: the OpenAPI document is served in every environment; the reference UI and both health endpoints are Development-only. Cite `Todo.Api/Program.cs:44,49-58,62` |
-| Software Architecture Document | F2 | Reviewer | `contained-defect` | Minor | Software Architect | Say *configuration binding* where the Deployment View means one binding, so the count cannot be read against the Deployment Model's two environment differences |
+| Risk List | `F4` | Reviewer (technical) | `consumed-defect` | Major | Project Manager | Restate `R033` at the state the graph holds, correcting all three places in one pass: the strategy cell to "Avoid — clearance performed on all four; the exposure is retired", naming each edge with the reading its owner stated (`CLS-001 → TBL-001` and `CLS-007 → TBL-002` for the Designer, `CLS-020 → UC-007` and `CLS-020 → UC-010` for the System Analyst); the warning-sign cell to "fired at the first put, on all four; no longer firing", on the pattern `R032` already carries; the section preamble minus `R033` from the rows whose sign is firing now; the diagram note stating the clearance performed. Keep the score at 5 × 4 = 20 — the probability is scored on the record that the sign fired, which is history. Change nothing in `R030`, `R031`, `R032` or `R034` |
+| Risk List | `F5` | Management Reviewer | `consumed-defect` | Major | Project Manager | The same correction, read against the two criteria it holds: `G6` and `G7` derive their state from this row, and the register a reader takes that state from must agree with the graph. Closes when the technical lens has closed `F4` and the row reads at the state the graph holds |
 
-#### Closed this milestone — forty-two entries, verified at the source
+**Why these are two keys and not a duplicate.** Both lenses read the same three places in the same row, from different questions: the technical lens because the artifact contradicts a fact two other artifacts record, the management lens because two of the eight GHR criteria are certified on the row that contradicts them. The closure invariant admits no cross-lens close — each lens closes its own key — so one owner pass produces two closures. Neither entry is a second round of work. One restatement clears both, and the act is already fully specified by either recommendation.
 
-| Artifact | Entries closed | What they were, and what verified the closure |
-|---|---|---|
-| Development Case | F1, F2, F3 (technical); F1, F2 (management); F4 (technical) | Six entries. The unsourced enterprise version policy is gone; the duplicated role-delta list and CLS-DC-01 diagram are deleted; Document Control is brought forward; the contributor set names all six lenses with the matching CLS-DC-01 edges; ACT-DC-01 names Project Management in every phase partition at the canonical matrix's intensity. Verified in the artifact against the canonical matrix |
-| System Inventory | F1, F2, F3 (technical) | The `AN-021` row carries all three entry points; the coverage headline reproduces from the per-area table; Document Control names the iteration its content belongs to |
-| Risk List | F1 (technical), F1 (management), F2, F3 (technical), F2, F3 (management) | Six entries. The scores reproduce from one published mapping; `R004` and `R011` sit at 12 with the stakeholder's grant; `R024` no longer misattributes a state to the Design Model; `R030` records a retirement that landed without claiming the exposure removed; `R032` records avoidance performed on all six citing artifacts |
-| Iteration Plan | F1, F2, F3, F4 (technical); F1 to F10 (management) | Fourteen entries. The twelve entry-point-bearing anomalies are named; the critical chain puts the gate ahead of the verdict it feeds; the State column states each row's actual outcome; the AR criteria cells are restated at the state their artifacts hold; A12 records the third and fourth puts as given; the Closes column holds finding keys only |
-| Vision | F1 (technical), F1 (management) | Two entries. The Features diagram draws the platform mechanisms as components, not use-case ellipses, so the Vision's count agrees with the Use-Case Model's eleven |
-| Use-Case Model | F1, F2, F3, F4 (technical), F1 (management) | Five entries. The `EP-003` screen edges and the five `COMP-014` edges are confirmed in the graph; the rule separating the actor-goal matrix from the Survey's Source column is stated; R6 states both budgets under `AN-024` |
-| Supplementary Specification | F1, F2, F3 (technical) | The four rate-limit places state both values under `AN-024`; R4 states the two outbound hops apart under `AN-023`; Document Control names the iteration under review |
-| Software Architecture Document | F1 (technical) | `SP1` and M3 state both budgets under `AN-024`, and the bounded-load quality row carries the bound in force |
-| Deployment Model | F1 (technical) | The Environment Mapping preamble limits itself to what is true and the Rate limiting row reads 50/50/50 for Development against the code defaults elsewhere |
-| Design Model | F1 (technical) | The PD-D3 note cites `AN-025` for the unconverted owner key; `AN-005` is cited only for `EnsureCreated` |
-| Iteration Assessment | — | No finding recorded against it |
-| Review Record | — | No finding recorded against it |
+**Why it is Major and not Critical.** Nothing here is a decision on scope, a contradiction in what the stakeholder declared, or a risk only the stakeholder may accept. The evidence for the correction is in the register's own preamble, the graph, the Design Model and the plan's `G6`/`G7`; no reading of code is owed, no count moves and no recovered element is reopened.
 
-#### Cross-lens reconciliation — where the two executed lenses spoke on one subject
+**Why it is not contained.** At a lifecycle milestone a Major is a stop signal, and these two are decided on the register the phase's own two risk criteria are read from. A reader taking `R033` from the register concludes a 5 × 4 = 20 exposure stands unmitigated at the gate, when both owners' acts have landed and the graph returns all four edges unmarked.
 
-| Subject | The two lenses | Resolution recorded here |
-|---|---|---|
-| Design Model's four suspect edges | Technical lens records `Design Model#F2`; the management lens's `Iteration Plan#F13` rests on the same four edges via `G6` | **Two defects, not a duplicate.** `#F2` is the artifact defect; `#F13` is the plan's criterion defect — it decides a criterion on a strategy label. One owner pass at the Design Model does not close `#F13`: `G6` must still be restated on the state the register records |
-| The OpenAPI gating | Technical lens records `Supplementary Specification#F4` (Major) and `Vision#F2` (Minor); the management lens records `Iteration Plan#F12` naming the same contradiction as `G3`'s unnamed second cause | **One root cause, three entries, deliberately kept apart.** The Major is the requirements artifact; the Minor is the same sentence in a supporting artifact; `#F12` is the plan's evidence cell listing one cause where the set carries two. Closing only the Major leaves the next iteration's corrective list one correction short |
-| The coverage ratio | Technical lens records `System Inventory#F4`; the management lens records `Iteration Plan#F11` | **Two entries, one dependency.** `#F4` restates the denominator; `#F11` writes the threshold into `G4` and cites the ratio `#F4` produces. `#F11` cannot be closed before `#F4` |
-| `Risk List#F4` | Only the management lens records it | **No conflict.** The technical lens does not dispute `R033`'s exposure or its strategy; the disagreement is that the probability does not reproduce from the row's own evidence |
-| `Development Case#F4` | Technical lens records it at Excavation iteration 4; management lens had recorded the same class earlier under its own keys | **One defect, one key, closed at this milestone.** The Process Engineer's Consolidation turn corrected ACT-DC-01; both lenses' approval rests on that reading |
-| Severity bands | The two lenses agree on every shared subject | **No disputed band.** No finding needed reclassification at this consolidation, and none was reclassified |
+#### Closed at this milestone — the nine entries carried out of put 1, each verified at its artifact
 
-#### Review effectiveness at this milestone
+| Artifact | Key | Lens | Criterion | Severity | What closed it, read at the artifact and not taken from the owner's word |
+|---|---|---|---|---|---|
+| Design Model | `F2` | Reviewer | `trace-gap` | Major | The four edges queried at both ends and returned unmarked — `CLS-001 → TBL-001`, `CLS-007 → TBL-002`, `CLS-020 → UC-007`, `CLS-020 → UC-010`. The Traceability section states the reading that keeps each and no longer reports a marking |
+| Supplementary Specification | `F4` | Reviewer | `consumed-defect` | Major | S8 removes the OpenAPI document from the Development-only set and names `app.MapOpenApi()` outside the block; S18's conclusion inverts to one diagnostic surface served, three not. `F13` carries the same. Anchors `Todo.Api/Program.cs:44,49-58,62` |
+| System Inventory | `F4` | Reviewer | `exit-criterion-unmet` | Major | Coverage counted over the delivery's own 94 files — 84 opened, 89.4 per cent, against the 80 per cent bar; raw 84 of 139 (60.4 per cent) named beside it as not the figure measured on; 67 anchored, 71.3 per cent; the 45 vendored Bootstrap files named as one excluded third-party distribution |
+| Iteration Plan | `F11` | Management Reviewer | `exit-criterion-unmet` | Major | `G4` carries the 80 per cent threshold in its own text and states both ratios against the System Inventory's identical figures on the same denominator |
+| Iteration Plan | `F12` | Management Reviewer | `consumed-defect` | Major | `G3`'s evidence cell names both causes; both are settled at their own artifacts — the cleared edges and the OpenAPI gating now identical across four artifacts |
+| Iteration Plan | `F13` | Management Reviewer | `exit-criterion-unmet` | Major | `G6`'s test closes "decided on the action performed, never on the strategy word a cell carries", and its evidence records the act for both High-band rows |
+| Risk List | `F4` | Management Reviewer | `contained-defect` | Minor | `R031` and `R033` both read 5 × 4 = 20 with the basis each row states, and the register publishes the scoring rule above its tables instead of applying it to the inventory alone |
+| Vision | `F2` | Reviewer | `contained-defect` | Minor | The Constraints row and diagram split the Development-only surfaces from the unconditionally mapped document, on the same anchors as the Specification and the SAD |
+| Software Architecture Document | `F2` | Reviewer | `contained-defect` | Minor | The Deployment View counts two environment differences and reconciles the count with the Deployment Model by name |
 
-| Indicator | Value | Reading |
-|---|---|---|
-| Review coverage | 12 of 12 planned artifacts read and formally reviewed — 100% | Full. No artifact of this phase entered the milestone unread |
-| Defect density by artifact type | Requirements artifacts (Vision, Use-Case Model, Supplementary Specification): 12 entries over three artifacts. Analysis & Design artifacts (SAD, Deployment Model, Design Model): 5 entries over three. Project Management artifacts (Iteration Plan, Risk List): 24 entries over two. Discovery (System Inventory): 4 entries. Environment (Development Case): 6 entries | Concentration is in the planning artifacts, not the recovered content. The recovered set absorbed 5 entries across the three design artifacts; the two Project Management artifacts absorbed 24. That is the phase's principal process finding: the plan and the register, not the model of the system, are what failed this milestone |
-| Defect removal efficiency (review vs test) | **Not measurable at this milestone.** No test artifact exists in the sprint zero; the Test discipline's first executable statement is Elaboration's | Recorded as unmeasured, not as zero. No figure is invented for it |
-| Rework effort | **Not measurable in this milestone's units.** The open entries are corrections to documents; the process measures tokens and elapsed time per phase, and no per-finding spend is recorded | What is measured is the phase's spend, in the Iteration Plan's two currencies. No hour figure is derived from it |
-| Findings overdue at the close | 0 of 9. Every open entry was recorded in this milestone's own turn and is scheduled in Consolidation iteration 2 | No review debt carried out of the milestone unattended, which is the condition the stakeholder set at the SBC close |
+All nine were recorded in this milestone and all nine closed inside it. No entry carried out of put 1 was re-recorded under its own key.
 
-No trend is reported against a prior milestone. Every finding in this ledger was recorded in this Consolidation iteration's review; there is no earlier Consolidation review to compare against, and a trend drawn against Excavation's entries would compare a different artifact set.
+#### Entry census by artifact and lens — the whole ledger, not only the open rows
+
+| Artifact | Technical lens | Management lens | Total | Closed | Open |
+|---|---|---|---|---|---|
+| Development Case | 4 | 2 | 6 | 6 | 0 |
+| System Inventory | 4 | 0 | 4 | 4 | 0 |
+| Risk List | 4 | 5 | 9 | 7 | 2 |
+| Iteration Plan | 4 | 13 | 17 | 17 | 0 |
+| Vision | 2 | 1 | 3 | 3 | 0 |
+| Use-Case Model | 4 | 1 | 5 | 5 | 0 |
+| Supplementary Specification | 4 | 0 | 4 | 4 | 0 |
+| Software Architecture Document | 2 | 0 | 2 | 2 | 0 |
+| Deployment Model | 1 | 0 | 1 | 1 | 0 |
+| Design Model | 2 | 0 | 2 | 2 | 0 |
+| Iteration Assessment | 0 | 0 | 0 | 0 | 0 |
+| Review Record | 0 | 0 | 0 | 0 | 0 |
+| **Total** | **31** | **22** | **53** | **51** | **2** |
+
+The Business Reviewer lens recorded no entry because it did not evaluate this review. Its zero is an absence, not a pass, and is excluded from the totals the verdict is read on.
 
 ## Resolutions and Actions
 ### Reviewer lens
