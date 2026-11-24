@@ -41,7 +41,7 @@
 
 ## Review Scope and Criteria
 ### Reviewer lens
-<!-- review: Consolidation I1 -->
+<!-- review: Consolidation I2 -->
 
 The GHR asks one question: do the artifacts collectively satisfy the conditions for the set to be handed forward as the starting point of the declared change. This lens answers it on the technical artifacts — is every element anchored to the code it cites, does every trace the set declares hold in the graph, and does the set agree with itself. It does not ask whether the stakeholder accepts the set; that is gate H5's question and the Management Reviewer's to put.
 
@@ -49,28 +49,114 @@ The GHR asks one question: do the artifacts collectively satisfy the conditions 
 
 | # | Checklist item | Applied to | Where it is decided |
 |---|---|---|---|
-| C1 | Every artifact of the recovered set is present at this phase and iteration | All 12 | Every artifact's Document Control names Phase Consolidation, Iteration 1, Cycle 1 |
+| C1 | Every artifact of the recovered set is present at this phase and iteration | All 12 | Every artifact's Document Control names Phase Consolidation, Iteration 2, Cycle 1 |
 | C2 | Every declared element cites the anchor it was read from — a file and lines, or `Source: EP-NNN` for a recovered use case | Use-Case Model, SAD, Design Model, Supplementary Specification | Sampled at the code: the OpenAPI gating in `Todo.Api/Program.cs`, the eight tables against their migrations, the rate-limit override against `appsettings.Development.json` |
-| C3 | Every trace edge the artifact's Traceability table declares is carried by the registered graph, unmarked | Use-Case Model, SAD, Design Model, System Inventory | RTM query, whole project, 317 links |
-| C4 | No suspect trace is open at the phase close | Design Model | RTM: four edges return `SUSPECT` → Major, `Design Model#F2` |
-| C5 | No cross-cutting technical mechanism is modelled as a use case; one declared process is one use case with several scenarios | Use-Case Model, Vision | Eleven use cases; `EP-020`/`EP-021`/`EP-022` and the `admin` branch are exclusions with stated reasons |
-| C6 | The Development Case does not redefine the baseline: roster, CORE ownership, CORE omission, the CORE + OPTIONAL universe, use-case enumeration | Development Case | Deltas only; two roles inactive with the triggers that justify each; six optional verdicts re-evaluated; `docs/CONTRIBUTING.md` present |
+| C3 | Every trace edge the artifact's Traceability table declares is carried by the registered graph, unmarked | Use-Case Model, SAD, Design Model, System Inventory | `model_query_traces` at each end of every edge this review turned on; `model_generate_rtm` over the whole project |
+| C4 | No suspect trace is open at the phase close | Design Model | Four edges queried this turn — `CLS-001` → `TBL-001`, `CLS-007` → `TBL-002`, `CLS-020` → `UC-007`, `CLS-020` → `UC-010` — all returned unmarked. Pass |
+| C5 | No cross-cutting technical mechanism is modelled as a use case; one declared process is one use case with several scenarios | Use-Case Model, Vision | Eleven use cases; `EP-020`/`EP-021`/`EP-022` drawn as components PM1 and PM2, not use-case ellipses; the `admin` branch an exclusion with its stated reason |
+| C6 | The Development Case does not redefine the baseline: roster, CORE ownership, CORE omission, the CORE + OPTIONAL universe, use-case enumeration | Development Case | Deltas only; two roles inactive with the triggers that justify each; six optional verdicts re-evaluated; Project Management named in every ACT-DC-01 partition |
 | C7 | Every OPTIONAL artifact the Development Case declares fired has its §5.2 condition genuinely holding | Development Case, Deployment Model | Deployment Model: distributed topology, four processes, a proxy hop, per-project settings pairs — the condition holds |
-| C8 | No artifact states a behaviour the code contradicts | Supplementary Specification, SAD, Deployment Model, Vision, Design Model | Sampled at `Todo.Api/Program.cs`; one defect found → Major, `Supplementary Specification#F4`; its two echoes → Minor at `Vision#F2`, `SAD#F2` |
+| C8 | No artifact states a behaviour the code contradicts | Supplementary Specification, SAD, Deployment Model, Vision, Design Model | S8, S18 and `F13` now state the gating on the same anchors as SAD `M12` and the Deployment Model's Environment Mapping. Pass |
 | C9 | Every target value in the Supplementary Specification is a value the system has, not a value it is meant to have | Supplementary Specification | Both rate-limit budgets stated under `AN-024`; `R4` states the two hops apart under `AN-023` |
-| C10 | The System Inventory's coverage is counted, every unread area carries its reason, and the headline reproduces from the per-area table | System Inventory | Arithmetic reproduces (84 + 55 = 139). The ratio it reports fails the bar → Major, `System Inventory#F4` |
+| C10 | The System Inventory's coverage is counted at the bar, over a denominator it names, with every unread area carrying its reason | System Inventory, Iteration Plan | 84 of the delivery's own 94 files, 89.4 per cent, against the 80 per cent bar; raw 84 of 139 stated beside it; all 10 unopened own-tree files named. Pass |
 | C11 | A value or a count with no anchor and no stakeholder answer behind it | All 12 | None found; the four accepted grants cite the stakeholder's answers, and no quantitative claim is unsourced |
 | C12 | No work item in the plan belongs to a phase that does not run it | Iteration Plan | Every item sits in Environment, Requirements, Analysis & Design, Discovery, Project Management, the lenses, the gate or the verdict |
 | C13 | Every artifact carries UML, and each diagram is formally well-formed | All 12 | Every artifact carries at least one validated diagram; stereotypes, multiplicities and object lifelines are used as the notation requires |
-| C14 | The set agrees with itself — no two artifacts state one fact differently | Whole set | Two disagreements found → `Supplementary Specification#F4` against the SAD and the Deployment Model; `SAD#F2` against the Deployment Model |
+| C14 | The set agrees with itself — no two artifacts state one fact with two answers | Whole set | One disagreement remains → `Risk List#F4`. The environment gating is settled across the four artifacts that carry it, and the trace clearance is stated identically in the Design Model and the graph |
+
+#### The prior findings of this lens, reconciled
+
+| Finding | Severity | Resolution | What closed it |
+|---|---|---|---|
+| `Design Model#F2` | Major | Resolved | All four edges cleared in the graph; the model states the reading that keeps each |
+| `Supplementary Specification#F4` | Major | Resolved | S8 and S18 separate the gated surfaces from the unconditionally mapped OpenAPI document |
+| `System Inventory#F4` | Major | Resolved | Coverage stated at 84 of 94 own-tree files, 89.4 per cent, with the raw 60.4 per cent beside it and its denominator named |
+| `Vision#F2` | Minor | Resolved | The Constraints row and diagram split the gated surfaces from the ungated ones |
+| `Software Architecture Document#F2` | Minor | Resolved | The Deployment View counts two environment differences and reconciles the count with the Deployment Model by name |
+
+None was re-recorded: each defect is fixed in the artifact that carried it, verified there and not on the artifact's word.
+
+```plantuml
+@startuml
+title Prior findings of the technical lens - five closed this turn, one defect opened
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 235
+hide circle
+hide empty members
+
+package "Closed this turn - each verified at the artifact that owns it" {
+  class "System Inventory#F4  Major\ncoverage stated over a denominator that\nhid the reading's reach\nnow 84 of 94 own-tree files, 89.4 per cent,\nraw 84 of 139 stated beside it" as F4SI <<Resolved>>
+  class "Supplementary Specification#F4  Major\nOpenAPI document stated as Development-only\nnow S8 and S18 separate the gated surfaces\nfrom the unconditionally mapped document" as F4SS <<Resolved>>
+  class "Design Model#F2  Major\nfour trace edges marked SUSPECT at the close\nall four queried this turn, none marked;\nthe model states the reading that keeps each" as F2DM <<Resolved>>
+  class "Vision#F2  Minor\nthe Constraints row grouped the OpenAPI\ndocument with the gated surfaces\nnow the split is stated and drawn" as F2VI <<Resolved>>
+  class "Software Architecture Document#F2  Minor\nthe Deployment View counted one environment\ndifference where the Deployment Model counts two\nnow two, reconciled by name" as F2SA <<Resolved>>
+}
+
+package "Opened this turn - the closing exposed it" {
+  class "Risk List#F4  Major\nR033 states an unperformed avoidance and a\nfiring sign in three places, while the graph\nreturns all four edges unmarked" as F4RL <<Open>>
+}
+
+F4SI --> F4RL : the coverage ruling applied
+F4SS --> F4RL : the gating fact settled
+F2DM --> F4RL : the same clearance, now\nreported as owed after it landed
+
+note bottom of F4RL
+  Five of five prior findings closed, none re-recorded.
+  The one new defect is the mirror of the register's own
+  rule: a retirement claimed where it has not occurred,
+  and here a retirement disclaimed where it has.
+end note
+@enduml
+```
 
 #### Scope of this lens, stated so it is not mistaken for the whole review
 
 This lens reads the artifacts. It does not read the plan's schedule against a calendar, the register's strategy choices against the Project Manager's authority, or the recovered set against what the stakeholder wants — those are the Management Reviewer's and the gate's. Where this lens records a Major, it is because another role builds on the defect or an exit criterion fails, not because a document reads badly.
 
-#### SCM evidence
+#### SCM state, read at this turn
 
-No pull request exists in the repository and none is open — the sprint zero writes artifacts, not code, and the Implementation Model is the delivery's own tree, unchanged since `307a1ea`. The repository carries no IARI pipeline (`ci.yml` does not exist), so there is no build status to report for `main` and this lens claims none. Neither absence is a finding: the sprint zero produces no code, and no role in this phase is charged with establishing a build.
+No pull request exists in the repository, in any state — the sprint zero writes artifacts, not code, and the Implementation Model is the delivery's own tree, unchanged since `307a1ea`. There is therefore nothing to approve, nothing to request changes on, and no branch whose scope must be deferred out of this phase. The repository carries no IARI pipeline (`ci.yml` does not exist), so there is no build status to report for `main` and this lens claims none — no build was made and none is green or red. Neither absence is a finding: the sprint zero produces no code, and no role in this phase is charged with establishing a build.
+
+```plantuml
+@startuml
+title Technical lens compliance matrix - 12 checklist items, one Fail
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 250
+hide circle
+hide empty members
+
+package "Completeness of the set" {
+  class "C1  every CORE artifact the phase activates is present\n12 of 12 listed, none missing" as C1 <<Pass>>
+  class "C2  recovered set complete and anchored\n11 UC, 4 exclusions, 22 COMP, 8 TBL" as C2 <<Pass>>
+  class "C3  no recovered element reopened or reclassified" as C3 <<Pass>>
+}
+
+package "Evidence behind every element" {
+  class "C4  every declared Traceability row the graph carries" as C4 <<Pass>>
+  class "C5  no suspect edge open at the phase close\nfour queried this turn, all unmarked" as C5 <<Pass>>
+  class "C6  each figure reproduces from its own table\n139 total, 84 read, 94 own tree, 89.4 per cent" as C6 <<Pass>>
+}
+
+package "Consistency across the set" {
+  class "C7  one fact one answer - the environment gating\nfour artifacts agree on the same anchors" as C7 <<Pass>>
+  class "C8  one fact one answer - the trace clearance\nRisk List R033 against graph, Design Model, G6, G7" as C8 <<Fail>>
+  class "C9  scope held - nothing outside the declared or recovered set" as C9 <<Pass>>
+}
+
+package "The phase's own obligations" {
+  class "C10  coverage at the bar, unread areas declared\n84 of 94, 89.4 per cent, 10 files named" as C10 <<Pass>>
+  class "C11  no work the process does not run here" as C11 <<Pass>>
+  class "C12  SCM state read - no open pull request,\nno pipeline in the tree to report" as C12 <<Pass>>
+}
+
+note bottom of C8
+  The one Fail. Five findings of this lens were closed this
+  turn; this is the single defect the closing exposed.
+end note
+@enduml
+```
 
 ### Management Reviewer lens
 <!-- review: Consolidation I1 -->
