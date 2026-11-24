@@ -2,7 +2,7 @@
 - Phase: Consolidation
 - Status: Draft — produced for the end-of-Consolidation (GHR) milestone review
 - Milestone Target: end-of-Consolidation (GHR) — not yet achieved
-- Iteration: 1, Cycle 1
+- Iteration: 2, Cycle 1
 - Owner: Software Architect
 ## Architectural Representation
 The delivery carries no architecture document of its own (`.iari/README.md`, the tree holds none). What follows is recovered from code and configuration: every element cites the file and lines that carry it, and no statement of intent is attributed to authors who cannot be asked.
