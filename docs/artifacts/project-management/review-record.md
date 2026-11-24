@@ -159,12 +159,12 @@ end note
 
 **Lens participation — authoritative, not inferred from the artifact.**
 
-| Lens | Status | What it contributes to the verdict |
-|---|---|---|
-| Technical / Reviewer | EXECUTED | 30 entries recorded, 24 closed, 6 open — 3 Major, 2 Minor under its own keys |
-| Management / ManagementReviewer | EXECUTED | 20 entries recorded, 17 closed, 3 open — 3 Major under its own keys, plus the gate H5 put and the stakeholder's answer |
-| Business / BusinessReviewer | **INACTIVE — did not evaluate this review** | Nothing. Business Modeling is inactive for this project (`business-process-led = false`, Development Case); the lens is not counted as Approved, not counted as a pass, and no part of the milestone decision rests on it |
-| Review Coordinator | Executing (this role) | The ledger, the cross-lens reconciliation, the action priorities, the calendar, the metrics and the verdict |
+| Lens | Status | Entries recorded | Open | What it contributes to the verdict |
+|---|---|---|---|---|
+| Technical / Reviewer | EXECUTED | 30 | 5 — 3 Major, 2 Minor | Twelve artifacts read; the artifact-level defect set across Requirements, Analysis & Design, Discovery and Environment |
+| Management / ManagementReviewer | EXECUTED | 21 | 4 — 3 Major, 1 Minor | Twelve artifacts read; the criteria-table defects the milestone verdict is decided on, plus the gate H5 put and the stakeholder's answer |
+| Business / BusinessReviewer | **INACTIVE — did not evaluate this review** | 0 | — | Nothing. Business Modeling is inactive for this project (`business-process-led = false`, Development Case); the lens is not counted as Approved, not counted as a pass, and no part of the milestone decision rests on it |
+| Review Coordinator | Executing (this role) | — | — | The ledger, the cross-lens reconciliation, the action priorities, the calendar, the metrics and the verdict |
 
 **Entry criteria — enforced before the review began.**
 
