@@ -36,6 +36,8 @@ The scale is the IARI risk scale of the Development Case baseline, §9.10. The p
 
 Twenty-nine of the thirty-four risks score the likelihood and impact the System Inventory states for the anomaly they refine. Those words are translated once, here, and the same word gives the same number in every row — the eight risks Excavation added and the one Consolidation added to that set use no word the Survey set did not already use.
 
+The rule binds this register's own exposures as it binds the anomalies: **a row that records its event as already occurred, or as firing, is scored probability 5 — Very high, more than 70%.** A 51% to 70% band states a likelihood; an event the same row states has already happened is not a likelihood, and two answers to one question inside one row is the defect this project has recorded against four artifacts already.
+
 | Inventory word | Score | Inventory word | Score |
 |---|---|---|---|
 | likelihood `possible` | Probability 3 — Medium, 31 % to 50 % | impact `low` | Impact 2 — Low |
@@ -44,11 +46,11 @@ Twenty-nine of the thirty-four risks score the likelihood and impact the System 
 
 Five risks refine no anomaly, and each states its own origin where its row records it:
 
-- `R022` — the plan's own dependency on stakeholder answers. Its 2 × 4 is the Project Manager's reading of the phase gate.
-- `R031` — the plan's own exposure: an exit criterion whose owner the phase did not schedule. Scored 3 × 4 because the correction may land in time and, if it does not, the milestone needs an iteration the phase did not plan.
-- `R032` — the exposure the AR review's defect ledger establishes: one recovered fact transcribed inconsistently into the artifacts that cite it. Scored 4 × 3 because four of the eight Majors at that gate are exactly that.
-- `R033` — the one Consolidation added to the plan-born set: an edge the trace graph returns marked SUSPECT at the milestone the set is certified on. Scored 4 × 4 because the sign has already fired — the graph returns four such edges while both owners that may clear them are scheduled in this phase — and because a suspect left open at phase close is a Major finding, which is the milestone needing an iteration it did not plan.
-- `R034` — the reading this phase's own coverage count flags as incomplete: the model snapshot records a different EF Core product version from the one the build resolves. Scored 3 × 4 because the fact bites only when a migration is scaffolded against that snapshot, and because a migration discovered wrong at integration is an iteration the phase did not plan.
+- `R022` — the plan's own dependency on stakeholder answers. Its 2 × 4 is the Project Manager's reading of the phase gate: no gate has been held by an unanswered question, and each was answered in the turn it was asked.
+- `R031` — the plan's own exposure: an exit criterion whose owner the phase did not schedule. Scored 5 × 4 = 20 because its own row records the event as having occurred — it materialized at two successive AR gates and the phase opened an iteration it had not planned each time. The avoidance is now performed (the Environment stage corrected `Development Case#F2` and `#F3`, and A11 reads four of four), so the score states what the evidence states, not a residual likelihood.
+- `R032` — the exposure the AR review's defect ledger establishes: one recovered fact transcribed inconsistently into the artifacts that cite it. Scored 4 × 3 because four of the eight Majors at that gate are exactly that, and no row records the event as firing now: the avoidance is performed on all six citing artifacts.
+- `R033` — the one Consolidation added to the plan-born set: an edge the trace graph returns marked SUSPECT at the milestone the set is certified on. Scored 5 × 4 = 20 because its own row records the event as firing — the graph returns four marked edges while both owners that may clear them are scheduled in this phase, and a suspect left open at phase close is a Major finding, which is the milestone needing an iteration it did not plan.
+- `R034` — the reading this phase's own coverage count flags as incomplete: the model snapshot records a different EF Core product version from the one the build resolves. Scored 3 × 4 because the fact bites only when a migration is scaffolded against that snapshot, and no row records it as firing: the Database Designer's record of it is written.
 
 ```plantuml
 @startuml
@@ -96,6 +98,8 @@ note bottom of A
   Avoidance and transfer are the Project Manager's at any band.
   Acceptance hands the consequence to the stakeholder, so it is theirs.
   Five risks refine no anomaly: R022, R031, R032, R033, R034.
+  R031 and R033 are scored 5 on their own rows' record of the event
+  as occurred or firing, not on a likelihood.
   This artifact defines no scale of its own.
 end note
 
