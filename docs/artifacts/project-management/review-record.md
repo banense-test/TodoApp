@@ -904,77 +904,162 @@ Nine of the twelve artifacts are approved from this lens with nothing recorded a
 **The one thing worth carrying past this milestone.** The class of defect this project keeps paying for is one fact stated twice in two artifacts with two answers. It cost four Majors at the AR milestone and two more here. The rule that closes it is written in the Development Case; it needs applying to the four artifacts that describe the environment, in one pass, in the same turn the fact changes. That is action 6 of this lens's list, and it is the only action that prevents a finding rather than closing one.
 
 ### Management Reviewer lens
-<!-- review: Excavation I4 -->
+<!-- review: Consolidation I1 -->
 
-**Verdict: GO.** Gate H4 granted the sanction at its fourth put on 2026-11-23. Thirteen of thirteen AR exit criteria are met on the artifact that owns each, and no Critical and no Major finding stands against any artifact in the set.
+<!-- review: Consolidation I1 -->
 
-**0 Critical, 0 Major, 2 Minor.** Both Minors are contained, neither fails a criterion, and both are corrected in their owners' next turns.
+**Verdict: No-Go.** The Greenfield Handoff Ready milestone is not achieved at this put. One Major at a lifecycle milestone is a stop signal; six is a phase that has not finished. The burden of proof rests on the project team and it has not been discharged.
 
-#### Disposition
+**Gate H5 — put 2026-11-23, refused.** The question carried the defect list and the coverage figure inside it, and nothing pre-filled. The stakeholder's answer is the record of the gate, and their second answer is the order the further iteration works to.
 
 ```plantuml
 @startuml
-title Gate H4 - one recovered set, four puts, and what each answer turned on
+title GHR milestone disposition - what holds the gate, and what the further iteration clears
 skinparam shadowing false
-skinparam wrapWidth 235
-actor Stakeholder as SH
-participant "AR lens review" as LR
-participant "Iteration Plan" as PL
-participant "Verdict" as VD
+skinparam wrapWidth 250
 
-LR -> SH : put 1, 2026-11-23
-SH -> LR : No - open Majors stand against the recovered set
-LR -> PL : 8 Majors recorded against the artifacts
-LR -> SH : put 2, 2026-11-23
-SH -> LR : No - no carry, the Development Case corrected in this phase
-LR -> PL : 4 Majors recorded, A11 held as written
-LR -> SH : put 3, 2026-11-23
-SH -> LR : No - the set is confirmed as the model of the system,\nthe advance refused while a Major stands
-LR -> PL : the Major is this plan's own record, one put behind
-LR -> SH : put 4, 2026-11-23
-SH -> LR : Yes
-LR -> VD : 13 of 13 criteria met, no Critical and no Major open
-VD -> SH : Go, sanction granted
-note over VD
-  The set did not change between the third and the fourth put.
-  What changed was the record the verdict is read on.
+start
+:Consolidation iteration 1 closes;
+:eight GHR criteria read, each on the artifact it cites;
+note right
+  G1, G5, G8 met on the evidence.
+  G4 and G6 not met as the plan states them.
+  G3 and G7 fail outright. G2 put and refused.
 end note
+
+:six Major and three Minor stand across four artifacts;
+if (any Critical open?) then (yes)
+  :escalate to the stakeholder;
+  stop
+else (no)
+  :no defect needs a decision only the stakeholder can take;
+endif
+
+:verdict - No-Go at this put;
+note right
+  A missed criterion at a lifecycle milestone is a stop
+  signal, not a negotiating point. There is no partial GHR.
+end note
+
+:gate H5 put with the defect list inside the question;
+if (stakeholder sanctions the advance?) then (Yes)
+  #lightgreen:the Majors carry into Inception as its first work;
+  stop
+else (No)
+  #pink:a further Consolidation iteration is planned from this record;
+  :nine corrective acts, each with the role this phase schedules;
+  :the recovered set is confirmed and nothing in it changes;
+  :gate H5 re-put on records that agree with the set;
+  stop
+endif
 @enduml
 ```
 
-#### Why Go and not a Conditional Go
+**Project health at this gate.** Four dimensions, each rated on evidence and none on the project's own word.
 
-Nothing is left to condition. A Conditional Go defers verification to a later point; there is nothing here to defer — every criterion is decided, both remaining defects are Minors that no criterion depends on, and the sanction the gate turns on has been granted in words. Issuing a condition on a Minor would record a hold the stakeholder did not impose and the exit criteria do not require.
+```plantuml
+@startuml
+title Project health at the GHR gate - four dimensions, each rated on the evidence this review read
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 240
+hide circle
+hide empty members
 
-At the third put this lens refused the same verdict, and for the opposite reason: the sanction had been declined and a Major stood. That No-Go turned on `A12` and on `Iteration Plan#F9`, and both are now settled — `A12` by the fourth put's answer, `F9` by the plan's five cells restated at the state their artifacts hold.
+class "SCOPE  -  Green" as SC {
+  11 use cases, 22 entry points, 4 stated exclusions
+  22 components, 8 tables, 42 classes
+  every element anchored to file and lines
+  no declared scope exists to measure against
+  no recovered element reopened
+}
+class "SCHEDULE  -  Attention" as SD {
+  sprint zero at iteration 1 of Consolidation
+  against Survey 2 and Excavation 4
+  six Majors open at this put, no Critical
+  every corrective act sits with a role this phase schedules
+}
+class "COST  -  Not measurable" as CO {
+  Survey 2 it: 8,995,433 tokens, 29 min agent, 5 min queue
+  Excavation 3 it: 14,424,767 tokens, 28 min, 7 min
+  Excavation 4 it: 9,735,197 tokens, 26 min, 10 min
+  Consolidation: in flight, no figure until it closes
+  no token budget declared, so no variance exists
+}
+class "QUALITY  -  Attention" as QU {
+  0 Critical open
+  6 Major open across 4 artifacts
+  3 Minor open, none holding the milestone
+  every Major a correction its owner can make in phase
+}
 
-#### Stakeholder sanction
+SC --> QU : content sound, record not
+SD --> QU : no slippage in the recovered set
+note bottom of CO
+  Two clocks, never added. No per-iteration velocity and no
+  projected date is derived from these figures.
+end note
+note bottom of QU
+  The one dimension that is not green: six Major defects stand
+  and a milestone is not sanctioned over a Major.
+end note
 
-**GRANTED** at gate H4 put 4 on 2026-11-23. Asked whether, on records that agree with the set they report, they sanction advancing past the Architecture Recovered milestone into Consolidation, the stakeholder answered **Yes**, having confirmed at the third put that the recovered set is the model of their system. No condition, limit or prohibition was stated with the answer and none is recorded.
+@enduml
+```
 
-Across the phase, gate H4 was put four times. The three earlier answers were refusals and each is recorded as given. The fourth put differs from the third in the record the verdict is read on, not in the recovered set: the stakeholder stated at the third put that no recovered content is at issue and that the next iteration changes none of it, and none did.
+**Risk retirement is real and not uniform, and the difference is the finding.**
 
-#### Disposition by artifact
+```plantuml
+@startuml
+title Risk retirement across the sprint zero - what moved, what did not, and the one exposure now firing
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 245
+hide circle
+hide empty members
 
-| Artifact | Disposition from this lens |
-|---|---|
-| Development Case | **Approved with changes** — `#F4` open, one diagram's per-phase discipline list; contained, holds no criterion |
-| System Inventory | **Approved** — coverage arithmetic recomputed and reproducing; no open finding from any lens |
-| Risk List | **Approved** — `#F3` closed on `R032`'s restated retirement; the grant band is reproducible and correctly granted |
-| Iteration Plan | **Approved with changes** — `#F10` open on three gate cells; `#F4`, `#F8` and `#F9` closed and verified |
-| Vision | **Approved** — eleven use cases, the two platform mechanisms drawn as components |
-| Use-Case Model | **Approved** — R6 states both budgets under `AN-024`; five `COMP-014` edges confirmed in the graph |
-| Supplementary Specification | **Approved** — M3, S2, P1, R8 and R4 state the two budgets and the two hops apart; Document Control on iteration 4 |
-| Software Architecture Document | **Approved** — SP1, M3 and the bounded-load row verified at the file |
-| Deployment Model | **Approved** — Environment Mapping verified against the environment files |
-| Design Model | **Approved** — `PD-D3` cites `AN-025` for the owner key and `AN-005` only for `EnsureCreated` |
-| Iteration Assessment | **Not judged** — authored in the Assess touchpoint after this review; its state before the review is not a finding |
+package "Retired - the action performed, verified at the artifact" {
+  class "R031  a criterion's owner not scheduled\nmaterialized twice; contingency taken; Environment\nran as the phase's first discipline" as R31 <<closed>>
+  class "R032  one fact transcribed inconsistently\navoidance performed on all six citing artifacts,\nR6 named, both budgets under AN-024" as R32 <<closed>>
+  class "R030  the session surface never settles\nstatement landed beside UC-001 to UC-004;\nthe exposure stays live, AN-012 stands" as R30 <<landed>>
+  class "R034  the snapshot names another product version\naction performed: recorded where the next role reads it;\nthe incompatibility itself is not corrected" as R34 <<landed>>
+}
 
-#### What this verdict does and does not decide
+package "Live and accepted on the stakeholder's grant - unchanged this phase" {
+  class "R004  4 x 3 = 12  admin branch never granted" as R4 <<granted>>
+  class "R011  4 x 3 = 12  token minted from internals" as R11 <<granted>>
+  class "R012  4 x 3 = 12  BFF and client untested" as R12 <<granted>>
+  class "R016  4 x 3 = 12  no document of the system" as R16 <<granted>>
+}
 
-This is the Management Reviewer's lens. The milestone verdict on the consolidated ledger is the Review Coordinator's, taken after this lens and read on the answer recorded here. What this lens decides is that the exit criteria are met and that the sanction was granted; it does not merge the iteration baseline, which is the Integrator's step after the verdict.
+package "Live, avoidance owed by this phase's owners" {
+  class "R001 R002 R003 R005 R007 R009 R010 R018\nR020 R021 R023 R024 R026 R028 R029\nall avoid; no action due in Consolidation" as RB <<carried>>
+  class "R033  4 x 4 = 16  HIGH, firing\nfour edges still marked SUSPECT at the gate\nneither owner has performed the clearance" as R33 <<firing>>
+}
 
-The recovered set leaves this phase as the model of the existing system, confirmed by the stakeholder: eleven use cases over twenty-two entry points and twenty-two components across four processes, with four stated exclusions — external-provider sign-in recovered and unreachable in the delivered configuration, the cross-owner admin branch an exceptional entity and not a use case, and `EP-020`, `EP-021` and `EP-022` carrying no use case — and an eight-table data model with the unconverted owner key recorded under `AN-025`. Nothing in it changed across the four puts and nothing in it is deferred to Consolidation.
+R30 --> R33 : same failure shape, different subject
+R31 --> R33 : a criterion certified on an act not performed
+R33 --> RB : the one High-band exposure at the gate
+note bottom of R33
+  The trend is the finding: the register retired three exposures and
+  added one that is firing. A top-band risk whose sign fires at the
+  milestone the set is certified on is not a static register entry.
+end note
+note bottom of R34
+  Recording an exposure is not retiring it. The action named is
+  "write it where the next role reads it", and that landed.
+end note
+
+@enduml
+```
+
+Three exposures retired with their actions observed in the artifacts that carry them, two more with their retirement landed and their exposure correctly stated as live, and one that is firing at the gate: `R033`, a High-band risk whose avoidance both owners still owe. A register that carried the same top risk unchanged across two milestones would be evidence that risk retirement is not occurring; this one did move, and the exposure it added this phase is the one that has not been discharged. That is not a static register — it is a register that tells the truth about where the phase failed.
+
+**What the stakeholder decided.** Two things, and neither is widened here. They refused the sanction: the six Majors are cleared in this phase and the gate is put again. And they ruled the coverage denominator: the 45 Bootstrap files under `Todo.Web/Client/wwwroot/bootstrap/` are a third-party distribution and not their system, so coverage is counted over the delivery's own files. They confirmed the recovered set unchanged — the eleven use cases, the four exclusions, the twenty-two components and the eight tables stand as they confirmed them at gate H4 — so no act on the corrective list touches recovered content.
+
+**What the further iteration must reach before the gate is re-put.** The six Majors closed and verified at their artifacts, and the three Minors corrected with them where the same owner is working the same artifact. `G4` stated with its threshold and with the denominator the stakeholder gave it; `G3` naming both contradictions in the set; `G6` decided on `R033`'s recorded state; all four trace edges cleared by the roles the graph marks; the Supplementary Specification's S8 and S18 corrected against `Todo.Api/Program.cs:58`; the System Inventory's own-tree ratio stated beside its raw count. When those hold, the criteria can be read again on records that agree with the set they report, and gate H5 can be put a second time.
+
+**No milestone, iteration or phase is recorded as completed by this review.** The Review Coordinator reads this verdict and the finding ledger; the milestone's disposition is theirs to record.
 
 ### Review Coordinator lens
 <!-- review: Excavation I4 -->
