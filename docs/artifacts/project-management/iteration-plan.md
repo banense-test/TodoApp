@@ -79,18 +79,18 @@ title Consolidation (GHR) in the milestone sequence - unanchored, no project sta
 [Gate H4 - advance into Consolidation granted] is colored in Green
 [Consolidation iteration 1 - the set completed and counted] lasts 1 day
 [Consolidation iteration 1 - the set completed and counted] starts at [Gate H4 - advance into Consolidation granted]'s end
-[GHR review - three lenses] lasts 1 day
-[GHR review - three lenses] starts at [Consolidation iteration 1 - the set completed and counted]'s end
-[GHR review - three lenses] is colored in Salmon
+[Consolidation iteration 1 - the set completed and counted] is colored in Gray
+[Consolidation iteration 2 - the nine open findings cleared] lasts 1 day
+[Consolidation iteration 2 - the nine open findings cleared] starts at [Consolidation iteration 1 - the set completed and counted]'s end
+[GHR review, second pass] lasts 1 day
+[GHR review, second pass] starts at [Consolidation iteration 2 - the nine open findings cleared]'s end
+[GHR review, second pass] is colored in Salmon
 [Gate H5 - the set accepted as the starting point] lasts 1 day
-[Gate H5 - the set accepted as the starting point] starts at [GHR review - three lenses]'s end
+[Gate H5 - the set accepted as the starting point] starts at [GHR review, second pass]'s end
 [Gate H5 - the set accepted as the starting point] is colored in Crimson
 [GHR verdict] lasts 1 day
 [GHR verdict] starts at [Gate H5 - the set accepted as the starting point]'s end
 [GHR verdict] is colored in Crimson
-[Further Consolidation iteration - only on a Review Record finding] lasts 1 day
-[Further Consolidation iteration - only on a Review Record finding] starts at [GHR verdict]'s end
-[Further Consolidation iteration - only on a Review Record finding] is colored in LightGray
 [Inception - LCO] lasts 1 day
 [Inception - LCO] starts at [GHR verdict]'s end
 [Inception - LCO] is colored in Gray
@@ -111,76 +111,83 @@ title Consolidation (GHR) in the milestone sequence - unanchored, no project sta
 @endgantt
 ```
 
-No bar carries an absolute date or a projected calendar span. The one-day lengths are the diagram's sequencing device, not durations claimed for the work: spend is measured in the two currencies — tokens and agent time, kept apart from stakeholder queue time — and never as a span. `Crimson` marks the two stretches not yet reached: gate H5, which has not been put, and the GHR verdict that reads it. `LightGray` marks the further iteration this phase carries only if its Review Record leaves findings open; it is not planned work and nothing is scheduled behind it.
+No bar carries an absolute date or a projected calendar span. The one-day lengths are the diagram's sequencing device, not durations claimed for the work: spend is measured in the two currencies — tokens and agent time, kept apart from stakeholder queue time — and never as a span. `Crimson` marks the two stretches not yet reached: gate H5, at its second put, and the GHR verdict that reads it.
 
 | Order | Phase | Milestone | Discipline intensity | Risks this milestone confronts | What the milestone is judged on |
 |---|---|---|---|---|---|
 | 1 | Survey | SBC — passed at the re-take, 2 iterations | Environment High, Discovery Critical, Project Management Medium | R001 to R021 carried into the register; R016, R012, R004 and R011 granted for the sprint zero | The perimeter and its priorities stated and the anomalies carried as scored risks |
 | 2 | Excavation | AR — passed at gate H4's fourth put, 4 iterations | Environment Low, Requirements High, Analysis & Design Critical, Discovery Critical, Project Management Medium | R001, R004, R019, R020, R021, R023, R028, R030 (System Analyst); R002, R009, R010, R017, R024, R025, R015 (Software Architect); R003, R018, R027 (Designer); R026, R029 (Database Designer); R031 and R032 (the plan's own) | The set recovered on anchors, the coverage measured, and the stakeholder's confirmation of the recovered content as the model of their system |
-| 3 | Consolidation | **GHR — this phase, iteration 1** | Environment Low, Requirements High, Analysis & Design Medium, Discovery Critical, Project Management Medium | R033 (four suspect edges, each clearable only by the role the graph marks, both scheduled here); R034 (the snapshot's product version, recorded where it is read); R003, R010, R018, R024, R025, R027 confirmed against the completed set; R030's statement read again only if the session surface moved, and it has not | **The complete set present and anchored, the coverage counted, and the stakeholder's acceptance of the set as the starting point for the declared change** |
+| 3 | Consolidation | **GHR — this phase, iteration 2** | Environment Low, Requirements High, Analysis & Design Medium, Discovery Critical, Project Management Medium | **R033** (an edge left suspect at the phase close; its avoidance performed this iteration, all four ends cleared); **R032** (one fact transcribed inconsistently — the OpenAPI gating was its seventh instance and is settled at all three artifacts); **R034** (the snapshot's product version, recorded where it is read); R003, R010, R018, R024, R025, R027 confirmed against the completed set; R030's statement read again only if the session surface moved, and it has not | **The complete set present and anchored, the coverage counted over the delivery's own tree, and the stakeholder's acceptance of the set as the starting point for the declared change** |
 | 4 | Inception | LCO | Environment High, Requirements Critical, Project Management High, Analysis & Design Medium, Implementation Medium, Test Low, Deployment Low, CM Medium | R007, R013, R014 (Integrator, Build Environment Setup); R016's grant expires with the sprint zero and the declared change becomes the thing to check against | The declared change is scoped, a candidate architecture exists, the CM strategy is set, the Change Request ledger is opened |
 | 5 | Elaboration | LCA | Environment Medium, Analysis & Design Critical, Requirements High, Implementation Medium, Test Medium, Project Management Medium, CM Medium, Deployment Low | R012, R011, R005 (Test Manager and Test Designer); R006, R029 (the test project is next touched here) | The architecture baseline is accepted and an executable architecture is built |
 | 6 | Construction | IOC | Environment Low, Implementation Critical, Test Critical, Requirements Medium, Analysis & Design High, Project Management High, Deployment Medium, CM High, Business Modeling Low | Completes R012's coverage of the client's todo flow; R008 (Technical Writer); R027 and R024 corrected in the implementation they constrain | The declared scope is implemented and its test evaluation is recorded |
 | 7 | Transition | PR | Environment Low, Deployment Critical, Test High, Project Management Medium, Implementation Medium, Requirements Low, Analysis & Design Low, CM Medium | R011's contingency is taken only if a deliberate upgrade lands before the release; R026 becomes a release-blocking conversion if a pre-existing database is in the release's path | The release build is baselined and acceptance-tested; the Change Requests are closed |
 
-**Sequencing is driven by the Risk List, not by convenience.** Each sequential stretch in this phase exists for one risk's mechanism rather than a technical preference: `R034` is written before any role reads the persistence description, and `R033`'s four edges sit with the owners the graph marks so they are read before the lenses that would otherwise record an uncleared edge as a Major. Item 6 is done and item 7 is not, so that second ordering has been held and not yet discharged — which is why `R033` is carried in the High band and open, not noted.
+**Sequencing is driven by the Risk List, not by convenience.** The first put of this gate was refused on six Major findings, and the order this iteration works in is the Review Coordinator's, confirmed by the stakeholder without a ranking among them: the coverage restatement and the OpenAPI gating first, because the plan's own cells cite both, and the plan's cells last. `R033`'s four edges were cleared by the owners the graph marks before the lenses could read them again. `R034` was written before any role read the persistence description.
 
 No plan here schedules work a later phase performs — the build risks (`R007`, `R013`, `R014`) wait for Inception because that is the first phase the Integrator works, and the test risks (`R005`, `R011`, `R012`) wait for Elaboration and Construction because no test case exists before a use case is specified.
 
 ### This iteration's fine plan
 
-Every item below belongs to a stage the IARI process runs in Consolidation: Environment, Requirements, Analysis & Design, Discovery, Project Management, and the milestone review's three lenses. Nothing is scheduled that a later phase performs. Two items decide whether the milestone can be certified, and they sit in different states: the Database Designer's record of the snapshot's product version has landed, and the clearing of the four suspect edges has not.
+Every item below belongs to a stage the IARI process runs in Consolidation: Environment, Requirements, Analysis & Design, Discovery, Project Management, and the milestone review's three lenses. Nothing is scheduled that a later phase performs. Nine findings held the first put — six Major, three Minor, none Critical — and all nine were corrections their owners could make inside this phase; the stakeholder ordered all six Major cleared here rather than carried into Inception.
 
-**One rule governs every state cell.** A state cell is re-derived from the artifact it describes in the turn this plan is written, never carried from the turn before. It is the rule the previous phase's iteration count taught, and it is the rule item 6 is corrected under below.
+**One rule governs every state cell.** A state cell is re-derived from the artifact it describes in the turn this plan is written, never carried from the turn before. Every correction below was read at its artifact in this iteration, and the four trace edges were queried at the graph.
 
 ```plantuml
 @startuml
-title Critical chain of Consolidation iteration 1 - what has run, what remains, and the gate no role can answer for the stakeholder
+title Critical chain of Consolidation iteration 2 - the nine open findings cleared, then the gate re-put
 skinparam shadowing false
-skinparam wrapWidth 245
+skinparam wrapWidth 250
 
-|Database Designer|
+|Software Archaeologist|
 start
-:C1 Persistent data - the snapshot's product version
-recorded beside the three migrations it generated,
-the build's net9.0 and EF Core 9.x beside it;
-:R034 landed at its source, no file of the delivery changed;
-
-|Designer|
-:C2 CLS-001 to TBL-001 and CLS-007 to TBL-002
-the Design Model states the evidence for both;
-:the graph returns both marked SUSPECT - open,
-and the clearance is the Designer's act;
+:C1 System Inventory#F4
+coverage restated over the delivery's own 94 files
+84 opened 89.4 per cent, 67 anchored 71.3 per cent
+the 45 vendored Bootstrap files named as one excluded distribution;
+:no count and no per-area row changed
+the arithmetic reproduces;
 
 |System Analyst|
-:C3 CLS-020 to UC-007 and CLS-020 to UC-010
-the Design Model states the evidence for both;
-:the graph returns both marked SUSPECT - open,
-and the clearance is the System Analyst's act;
+:C2 Supplementary Specification#F4
+S8 and S18 corrected against Todo.Api/Program.cs:44,49-58,62
+M12 states the gating, F13 carries the constraint
+Vision#F2 settled in the same pass;
+:CLS-020 to UC-007 and CLS-020 to UC-010
+cleared at the System Analyst's end;
+
+|Designer|
+:C3 CLS-001 to TBL-001 and CLS-007 to TBL-002
+cleared at the Designer's end;
+
+|Software Architect|
+:C4 Software Architecture Document#F2
+one configuration binding against the Deployment Model's two
+the count reconciled and said so;
 
 |Project Manager|
-:C4 Risk List - R033 at exposure 16
-its clearance the owners' act, not this plan's
-R034 carried with owner, action and contingency;
-:C5 Iteration Plan - this plan
-coarse roadmap, fine plan, GHR exit criteria;
+:C5 Risk List#F4
+R033 and R031 at probability 5, exposure 20, High band;
+:C6 this plan
+G4's threshold written, G3 names both causes,
+G6 decided on the act and not on the strategy label;
 
 |Reviewer|
-:C6 GHR technical lens;
+:C7 GHR technical lens, second pass;
 
 |Management Reviewer|
-:C7 GHR management lens, and the gate put;
+:C8 GHR management lens, second pass;
 
 |Stakeholder|
-:C8 Gate H5 - not put
+:C9 Gate H5 re-put
 the complete set asked to be accepted as the
 starting point of the declared change;
 
 |Review Coordinator|
-:C9 GHR verdict;
+:C10 GHR verdict;
 
 |Project Manager|
-:C10 Iteration Assessment
+:C11 Iteration Assessment
 written on the verdict;
 stop
 @enduml
@@ -189,24 +196,24 @@ stop
 | # | Work item | Discipline / stage | Owner | State | Closes |
 |---|---|---|---|---|---|
 | 1 | Development Case made current for Consolidation; ACT-DC-01's phase partitions each name every discipline the canonical matrix schedules in them, Project Management included | Environment — Development Case | Process Engineer | Done — ACT-DC-01 names Project Management in every phase it draws, at the intensity the matrix gives it, Survey through Transition | `Development Case#F4` |
-| 2 | Use-Case Model completed: `UC-001` to `UC-011` specified, the four exclusions stated, the statement of the session surface's instability beside `UC-001` to `UC-004` | Requirements — Use-Case Model | System Analyst | Present at this phase and iteration | `R030` |
-| 3 | Supplementary Specification: the cross-cutting mechanisms stated as one list, each with its anchor and the use cases that depend on it | Requirements — Supplementary Specification | System Analyst | Present at this phase and iteration | `R024`, `R025` |
-| 4 | Software Architecture Document: component view completed against the Use-Case View, every use case's path crossing a named component; mechanisms and use-case view | Analysis & Design — SAD Components, Mechanisms and Use-Case View | Software Architect | Present at this phase and iteration | `R002`, `R009`, `R010`, `R017`, `R025` |
-| 5 | Design Model: domain model, packages and classes, the relationship inventory | Analysis & Design — Domain Model, Packages and Classes | Designer | Present at this phase and iteration | `R003`, `R018`, `R027` |
-| 6 | Design Model persistent data: entities, keys and associations, the enforced rules, and the snapshot's product version recorded with the build's version beside it | Analysis & Design — Persistent Data | Database Designer | **Done — landed this iteration.** The persistent-data section states `HasAnnotation("ProductVersion", "8.0.0")` for `TodoDbContextModelSnapshot` against the build's `net9.0` and its EF Core 9.x packages, with the file as its anchor, and states that nothing in the delivery reconciles the two. No file of the delivery was changed | `R026`, `R029`, `R034` |
-| 7 | Clear the four suspect edges, each at its own end: `CLS-001` → `TBL-001` and `CLS-007` → `TBL-002` (Designer); `CLS-020` → `UC-007` and `CLS-020` → `UC-010` (System Analyst). Each owner states why the edge still holds; an edge that does not is retired and re-registered with the link type its evidence supports | Analysis & Design + Requirements — the owner's own stage | Designer, System Analyst | **Open — all four return marked `SUSPECT`.** The Design Model states the evidence for each and records that only its owner, or the System Analyst as steward of the trace repository, may clear one; both owners hold a stage in this iteration. The clearance itself has not been performed on any of the four, and no role but the marked one may perform it | **`R033`** |
-| 8 | System Inventory: the coverage counted, every unread file named with its reason, any reading left incomplete named | Discovery — System Inventory | Software Archaeologist | Present at this phase and iteration | — |
-| 9 | Risk List: the register at Consolidation, `R033` and `R034` carried, no accept above Moderate without a grant | Project Management — Risk List | Project Manager | Done — this phase's register | `Risk List#F3` |
-| 10 | Iteration Plan: this plan — coarse roadmap, fine plan, GHR exit criteria | Project Management — Iteration Plan | Project Manager | Done — this document | `Iteration Plan#F10` |
-| 11 | GHR technical lens | Review | Reviewer | Not yet run | — |
-| 12 | GHR management lens, and the gate put | Review | Management Reviewer | Not yet run | — |
-| 13 | Gate H5 — the complete set accepted by the stakeholder as the starting point of the declared change | Gate | Stakeholder | **Not put. No answer exists** | `G2` |
+| 2 | System Inventory: the coverage restated over the 94 files of the delivery's own tree — 84 opened (89.4 per cent), 67 anchored (71.3 per cent) — with the 45 vendored Bootstrap files named as one excluded third-party distribution and the raw 84 of 139 stated beside it | Discovery — System Inventory | Software Archaeologist | **Done — landed this iteration.** No count and no per-area row changed; the Files column sums to 139 and the Read column to 84 | `System Inventory#F4` |
+| 3 | Supplementary Specification: S8 and S18 corrected against `Todo.Api/Program.cs:44,49-58,62` — the reference UI and both health endpoints are Development-only, the OpenAPI document is mapped unconditionally and is the one diagnostic surface an operating instance publishes, the logging stage runs in every environment with its field set gated. `M12` states the same gating, `F13` carries it as a constraint on later phases | Requirements — Supplementary Specification | System Analyst | **Done — landed this iteration**, cross-referenced to SAD `M12` and the Deployment Model's Environment Mapping on the same anchors | `Supplementary Specification#F4` |
+| 4 | Vision: the Constraints row corrected to the gating the code has — the OpenAPI document served in every environment, the reference UI and both health endpoints Development-only | Requirements — Vision | System Analyst | **Done — landed this iteration**, on the same correction as item 3 | `Vision#F2` |
+| 5 | Clear the two `CLS-020` edges at the System Analyst's end: `CLS-020` → `UC-007` and `CLS-020` → `UC-010` | Requirements — the owner's own stage | System Analyst | **Done — both cleared.** The graph was queried in this turn and returns neither marked. The reading that keeps them is the Design Model's: `CLS-012` attaches the filter to `/todos` naming `typeof(TodoItem)` at `TodoApi.cs:22`, so both the create and the change operation carry it | `Design Model#F2` |
+| 6 | Clear the two `Specifies` edges at the Designer's end: `CLS-001` → `TBL-001` and `CLS-007` → `TBL-002` | Analysis & Design — the owner's own stage | Designer | **Done — both cleared.** The graph was queried in this turn and returns neither marked. The reading that keeps them is the model's: `CLS-001` is four properties in four columns of `Todos`, and `CLS-007` adds no member while `AspNetUsers` stores all fifteen it inherits | `Design Model#F2` |
+| 7 | Software Architecture Document: the Deployment View's count reconciled with the Deployment Model's — one configuration binding and a gated surface set, two differences and not one | Analysis & Design — Software Architecture Document | Software Architect | **Done — landed this iteration.** The Deployment View states the same two the Deployment Model counts and says so | `Software Architecture Document#F2` |
+| 8 | Risk List: `R033`'s probability restated at 5 on the basis its own evidence states — the warning sign firing on all four edges — carrying exposure 20, and `R031` tested the same way | Project Management — Risk List | Project Manager | **Done — landed this iteration.** Both rows read 5 × 4 = 20 in the High band, each with the basis the evidence states | `Risk List#F4` |
+| 9 | Iteration Plan: `G4`'s threshold written into the criterion and both ratios in its evidence cell; `G3`'s evidence naming both causes; `G6` decided on the act performed rather than on the strategy label | Project Management — Iteration Plan | Project Manager | **Done — this document**, in the Evaluation Criteria section above | `Iteration Plan#F11`, `#F12`, `#F13` |
+| 10 | Use-Case Model, Software Architecture Document, Design Model and Deployment Model confirmed against the completed set | Requirements, Analysis & Design | System Analyst, Software Architect, Designer | Present at this phase and iteration, unchanged: the recovered content was confirmed at gate H4 and this iteration reopened no element | `R003`, `R010`, `R018`, `R024`, `R025`, `R027` |
+| 11 | GHR technical lens, second pass | Review | Reviewer | Not yet run | — |
+| 12 | GHR management lens, second pass | Review | Management Reviewer | Not yet run | — |
+| 13 | Gate H5 re-put — the complete set accepted by the stakeholder as the starting point of the declared change | Gate | Stakeholder | **Re-put at this iteration's close. Refused at the first put on 2026-11-23; no answer to the second put exists** | `G2` |
 | 14 | GHR milestone verdict | Review | Review Coordinator | Not yet run | The milestone |
-| 15 | Iteration Assessment, written on the verdict | Project Management — Iteration Assessment | Project Manager | Not yet written — it cannot describe an iteration still under review | — |
+| 15 | Iteration Assessment, written on the verdict | Project Management — Iteration Assessment | Project Manager | **GHR review, second pass — not yet run** | — |
 
-**Item 7 is the one that decides whether this phase can close, and this plan can assign it but not perform it.** An edge is cleared by the role that owns its far end. The graph marks two for the Designer and two for the System Analyst; neither the Project Manager nor either lens may clear an edge it does not own, and a suspect left open at the phase close is a Major finding against the artifact that carries it — which would make the milestone need an iteration this phase did not plan. That exposure is `R033`, carried at 4 × 4 = 16 in the High band, and it is avoided rather than accepted: `R033` is firing, not hypothetical.
+**Items 2 to 9 are the nine findings the first put left open, and all nine are closed at their own artifacts.** The order they were worked in is the one the Review Coordinator set and the stakeholder confirmed: coverage and the OpenAPI gating first, because items 9's criterion cells cite both, and the plan's cells last. That dependency is why `G4` could not be restated before the Inventory held its ratio, and why `G3` could not name its second cause before the Specification held the gating.
 
-**`Iteration Plan#F10`, carried from Excavation.** That finding named three cells of the Excavation plan — `A12`, fine-plan item 7's state, and the human-gate table's Answer cell — and ordered them set to the fourth put's answer. Those cells belonged to the iteration that closed when this phase opened. This plan replaces them with GHR's criteria and GHR's gate, and it carries the answer they were to record where the record survives: the coarse roadmap's row 2, and `O1`'s row in the objectives table. The recovered content is not involved.
+**The one item this plan can assign but not perform is the gate.** `G2` opens on the stakeholder's answer alone. The process waits inside the bound `R022` sets — a ceiling of 14 days of queue time, with the process suspending rather than auto-filling on expiry — and this plan records no answer it has not received.
 
 **Two currencies, never summed.** Items 1 to 12 and 14 are agent work, quoted in tokens and measured elapsed agent time. Item 13 is a human gate — waiting, not working — quoted only in queue time. Item 15 is written after the verdict and costs agent work.
 
@@ -224,13 +231,13 @@ Measured, not estimated, and quoted as the closed phases deliver them. Agent wor
 
 The two Excavation rows are the same phase measured at two iteration counts; the four-iteration row is the record it closed on, and it is the one that carries forward. No per-iteration figure is quoted and none is derived: the record is per phase, and a number obtained by dividing it would be a velocity this system does not measure.
 
-**Consolidation carries no figure of its own.** No phase of its shape has closed, so there is nothing comparable to size it from, and its own spend is being incurred now and closes only when its exit criteria pass. The project declares no token budget, so there is no box to fit: no figure is proposed for the stakeholder to accept, no declared work is cut or deferred to meet an estimate, and no calendar date is projected from any of the figures above.
+**Consolidation carries no figure of its own.** No phase of its shape has closed, so there is nothing comparable to size it from, and its own spend is being incurred now and closes only when its exit criteria pass. The project declares no token budget, so there is no box to fit: no figure is proposed for the stakeholder to accept, no declared work is cut or deferred to meet an estimate, and no calendar date is projected from any of the figures above. The one figure named anywhere in this plan that is not a measured actual is the 80 per cent coverage bar, and it is a criterion's threshold, not an estimate of spend.
 
-The chain is sequential at its load-bearing points and parallelism would buy no clock: items 6 and 7 are two owners clearing two different exposures before the same lenses read them, and adding a third owner to that pair would add contention over one artifact surface rather than shorten it. If this phase needs more than one iteration, the lever is **another iteration planned from the Review Record** — not more agents, and not less scope.
+The chain is sequential at its load-bearing points and parallelism would buy no clock: items 2 to 9 are corrections at six different artifacts, each owed to the role that owns it, and adding a second role to any of them would add contention over one artifact surface rather than shorten it. This phase needed a second iteration because the first left nine findings open, and the lever that took it there was **another iteration planned from the Review Record** — not more agents, and not less scope. If the second put is refused again, that is the lever again.
 
 | Human gate | Who | What the iteration waits for | Bound | Answer |
 |---|---|---|---|---|
-| H5 | Stakeholder | The complete recovered set — eleven use cases, four stated exclusions, twenty-two components, eight tables — accepted as the starting point for the declared change | `R022` — ceiling 14 days of queue time; on expiry the process suspends and nothing is auto-filled | **Not put. No answer exists, and none is assumed.** The sprint zero's three earlier gates were put five times in all and answered on the fifth; the four puts at gate H4 cost a measured 10 min of queue time across the phase, reported apart from agent time and never added to it |
+| H5 | Stakeholder | The complete recovered set — eleven use cases, four stated exclusions, twenty-two components, eight tables — accepted as the starting point for the declared change | `R022` — ceiling 14 days of queue time; on expiry the process suspends and nothing is auto-filled | **Put once and refused on 2026-11-23; re-put at this iteration's close, and no answer to the second put exists.** The refusal ordered this iteration: six Major findings cleared here and the gate put again. The sprint zero's gates were put six times in all and the four puts at gate H4 cost a measured 10 min of queue time across Excavation, reported apart from agent time and never added to it |
 
 ## Resources
 The roles are the 26-role roster of the IARI DC baseline, minus the two the Development Case records as not working in this project. No role is added, merged or renamed.
