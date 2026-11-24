@@ -719,7 +719,7 @@ node "Developer workstation - one machine, no container" {
     component "COMP-020 orchestration\nand migration" as H20
   }
   node "dotnet-ef child process\nmigration, once" as MIG {
-    component "database update --no-build" as M1
+    component "database update --no-build" as MIGX
   }
   node "Container: tomdesinto/sqliteweb\nport 8080, .db bind-mounted" as SQLWEB {
     component "SQLite browser" as S1
@@ -752,8 +752,8 @@ A16 --> DBF : SQLite file
 B5 ..> KF : write
 A10 ..> KF : read
 CFG ..> A14 : binds TokenLimit,\nTokensPerPeriod, QueueLimit
-H20 --> MIG : AddExecutable, WaitForCompletion
-MIG --> DBF : creates the schema
+H20 --> MIGX : AddExecutable, WaitForCompletion
+MIGX --> DBF : creates the schema
 HOST --> API : AddProject
 HOST --> BFF : AddProject
 HOST --> SQLWEB : AddContainer
@@ -824,7 +824,16 @@ end note
 | `tomdesinto/sqliteweb` container | A SQLite browser over the same directory | `AddContainer` with target port 8080 — the one fixed port in the tree — the `.db` directory bind-mounted and `ExcludeFromManifest()` | `TodoApp.AppHost/Program.cs:14-19` |
 | File system | `Todos.db`, the data-protection key ring, `appsettings.Development.json` | A relative path inside the API's project directory; the framework's default key location; the configuration file the runtime loads from the content root | `Todo.Api/Program.cs:23`; `Todo.Api/appsettings.Development.json:8-12`; AN-013, AN-010, AN-024 |
 
-**Two environments, and what differs between them.** `Development` is the only environment in which the reference UI and the health endpoints exist, and the only one in which the request log is widened to the response body and headers; `Todo.Api/Program.cs:32-56` and `TodoApp.ServiceDefaults/Extensions.cs:110-118` gate on it, and every launch profile in both serving processes sets it, so it is the environment the delivery runs in. **Three surfaces are not gated**, and the difference between them is what an operating instance actually exposes: the logging middleware, which runs in every environment with the framework's default fields (M11); the root redirect, which fires in every environment and can lead to an endpoint the process does not serve (AN-017); and the OpenAPI document, which `app.MapOpenApi()` maps unconditionally (M12) — so a non-Development instance serves neither a readiness probe nor a reference UI, but does serve its full API description. One setting separates Development from any other environment: the request budget — `appsettings.Development.json:8-12` binds `TokenLimit`, `TokensPerPeriod` and `QueueLimit` to 50 where the code defaults them to 100 / 100 / queue 100, so the bucket in force is half its code default (AN-024, M3, SP1). Neither environment file — `Todo.Api/appsettings.json` and `Todo.Web/Server/appsettings.json` — carries a connection string or a provider credential; the only connection string in the delivery is the literal `Data Source=.db/Todos.db` written in `Todo.Api/Program.cs:23`, identical in both environments.
+### Two environments: a surface set and one configuration binding
+
+**Two things separate Development from any other environment, and exactly one of them is a configuration binding.**
+
+The first is a set of gated surfaces. The reference UI and the two health endpoints are mapped only in Development (`Todo.Api/Program.cs:49-56`; `TodoApp.ServiceDefaults/Extensions.cs:110-118`), and the request log's field set — response body and headers, written as one combined log — is chosen only there (`Todo.Api/Program.cs:32-44`). Three surfaces are not gated, and the difference between them is what an operating instance actually exposes: the logging middleware, which runs in every environment with the framework's default request fields (M11); the root redirect, which fires in every environment and can lead to an endpoint the process does not serve (AN-017); and the OpenAPI document, which `app.MapOpenApi()` maps unconditionally (`Todo.Api/Program.cs:58`) (M12). A non-Development instance therefore serves no readiness probe and no reference UI, but does serve its full API description and a default-field request log.
+
+The second is one configuration binding, not a set. `Todo.Api/appsettings.Development.json:8-12` binds `TokenLimit`, `TokensPerPeriod` and `QueueLimit` to 50 where the code defaults them to 100 / 100 / queue 100, and because both launch profiles of both serving processes select Development, every request this delivery serves is metered at 50 / 50 / queue 50 — the bucket in force is half its code default (AN-024, M3, SP1). It is the only environment file in the delivery that binds a mechanism's values; the other three carry logging levels and `AllowedHosts` and nothing else.
+
+Neither environment file — `Todo.Api/appsettings.json` and `Todo.Web/Server/appsettings.json` — carries a connection string or a provider credential; the only connection string in the delivery is the literal `Data Source=.db/Todos.db` written in `Todo.Api/Program.cs:23`, identical in both environments. The Deployment Model's Environment Mapping counts the same two differences from the same anchors.
+
 ## Implementation View
 
 ```plantuml
