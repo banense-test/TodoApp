@@ -2,7 +2,7 @@
 - Phase: Consolidation
 - Status: Draft — carried into Consolidation for the end-of-Consolidation (GHR) milestone review; feature set unchanged, no use case added or removed
 - Milestone Target: end-of-Consolidation (GHR) — not yet achieved
-- Iteration: 1, Cycle 1
+- Iteration: 2, Cycle 1
 - Owner: System Analyst
 
 ## Problem Statement
