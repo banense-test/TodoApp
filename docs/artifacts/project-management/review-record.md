@@ -909,7 +909,7 @@ nothing in the verdict rests on this lens;
 |Management Reviewer|
 :GHR management lens executes
 12 artifacts read
-20 entries recorded, 16 closed, 4 open;
+21 entries recorded, 17 closed, 4 open;
 :Put gate H5;
 
 |Stakeholder|
@@ -919,7 +919,7 @@ coverage counted over the delivery's own files;
 
 |Review Coordinator|
 :Consolidate the two executed lenses
-50 entries - 41 closed, 9 open
+51 entries - 42 closed, 9 open
 0 Critical, 6 Major, 3 Minor;
 :Verdict - phase scope incomplete
 Consolidation iteration 2 carries the nine open entries;
