@@ -422,72 +422,134 @@ Every work item belongs to a stage the process runs in Consolidation, and none s
 `Iteration Assessment` and `Change Request` are not judged by this lens this milestone: the first is written on the verdict and the second is not opened in the sprint zero, where no Change Control Manager works. Neither absence is a finding.
 
 ### Management Reviewer lens
-<!-- review: Excavation I4 -->
+<!-- review: Consolidation I1 -->
 
-#### Risk retirement at this gate — the trend, not the register
+<!-- review: Consolidation I1 -->
+
+**Stakeholder sanction: REFUSED** — gate H5 put 2026-11-23.
+**Stakeholder acceptance:** "Nothing in the recovered set is wrong: the 11 use cases, the 4 exclusions, the 22 components and the eight tables stand as I confirmed them. I do not accept a handoff with Majors open: clear the six in this phase and put the gate again. One fact for the coverage count: the 45 Bootstrap files under Todo.Web/Client/wwwroot/bootstrap/ are a third-party distribution, not my system — count coverage over the delivery's own files. Nothing else to add."
+
+Six Major defects and three Minor stand at this put, spread over four artifacts. No Critical.
 
 ```plantuml
 @startuml
-title Project health at the AR gate - four dimensions, and the risks this phase retired
+title DEFECT-GHR-02 Findings by severity and artifact at the GHR gate, this lens and the set it read
 skinparam shadowing false
+skinparam classAttributeIconSize 0
 skinparam wrapWidth 235
 hide circle
 hide empty members
 
-package "The four dimensions - every rating states its evidence" {
-  class "SCOPE - Green\n11 UCs, 22 EPs, 22 COMPs, 8 tables\nevery element traced to its anchor\nno declared scope exists to measure against" as SC <<green>>
-  class "SCHEDULE - Attention\nExcavation ran 4 iterations against a\nmeasured record of 3\niterations 2 to 4 were driven by this\nplan's own status record, not by the recovery" as SD <<amber>>
-  class "COST - Not measurable\n14,424,767 tokens and 28 min of agent time\nmeasured across 3 iterations\nno token budget declared, so no variance exists\nthe fourth iteration is unmeasured" as CO <<grey>>
-  class "QUALITY - Green\n0 Critical and 0 Major open at this gate\n2 Minor open, no criterion depends on either\n4 SBC Minors closed in phase" as QU <<green>>
+package "Major - 6, the artifact is reworked before any role consumes it again" {
+  class "Iteration Plan\nF11  exit-criterion-unmet\nG4 carries no threshold, reads Standing at 60.4 per cent" as M1 <<Major>>
+  class "Iteration Plan\nF12  consumed-defect\nG3 names one of the set's two contradictions" as M2 <<Major>>
+  class "Iteration Plan\nF13  exit-criterion-unmet\nG6 reads R033 'Avoid' as a performed action" as M3 <<Major>>
+  class "Design Model\nF2  trace-gap\nfour edges return SUSPECT at the close" as M4 <<Major>>
+  class "Supplementary Specification\nF4  consumed-defect\nOpenAPI document stated Development-only" as M5 <<Major>>
+  class "System Inventory\nF4  exit-criterion-unmet\nratio over a denominator that mixes in the bundle" as M6 <<Major>>
 }
 
-package "Risks this phase retired, with the action performed" {
-  class "R030 - Avoid, retirement landed\nstatement written beside UC-001 to UC-004\nunder AN-029\nthe exposure stays live, AN-012 stands" as R30 <<retired>>
-  class "R031 - the further iteration\ncontingency taken and performed in iteration 3" as R31 <<retired>>
-  class "R032 - avoidance on all six citing artifacts\nR6 named, both budgets under AN-024\nthe exposure is retired" as R32 <<retired>>
-  class "R022 - the human gate\nceiling 14 days of queue time\nactual: 7 min across three puts" as R22 <<held>>
+package "Minor - 3, fixed by the owner's next turn, holding no milestone" {
+  class "Risk List\nF4  contained-defect\nR033 scored 4 while its sign fired on all four" as m1 <<Minor>>
+  class "Vision\nF2  contained-defect\nthe OpenAPI sentence repeated" as m2 <<Minor>>
+  class "Software Architecture Document\nF2  contained-defect\none setting against the Deployment Model's two" as m3 <<Minor>>
 }
-SD --> QU : the one non-green dimension\nis the record, not the recovery
-note bottom of SD
-  The iteration count rose for bookkeeping, never for recovered
-  content. The plan carries the rule that produced it: a cell that
-  asserts another artifact's state is re-derived in the same turn
-  that artifact changes.
+
+package "Critical - 0" {
+  class "none\nno undeclared scope, no contradiction in what\nthe stakeholder declared, no risk only they may accept" as C <<none>>
+}
+
+package "This lens closed at this milestone - 1" {
+  class "Iteration Plan\nF10  contained-defect\nthe cells recording H4 unput no longer exist" as X <<Resolved>>
+}
+
+M1 --> C
+M2 --> C
+M3 --> C
+M4 --> C
+M5 --> C
+M6 --> C
+
+note bottom of M1
+  Three of the six sit in one artifact and in one place: the criteria
+  table the GHR verdict is read on. That is not three unrelated slips,
+  it is one pass that certified criteria on the strategy they name
+  rather than on the act the strategy requires.
 end note
+note bottom of M6
+  The reading is sound and every unopened file carries its reason.
+  The stakeholder ruled the denominator on 2026-11-23: count the
+  delivery's own files, not the vendored distribution.
+end note
+
 @enduml
 ```
 
-Risk retirement is real but not uniform, and the difference matters at the gate. `R031` — the exposure that a milestone slips and needs an iteration it did not plan — was taken as a contingency and performed: iterations 2, 3 and 4 were each planned from the record rather than assumed. `R032` — that a citing artifact lags the fact it cites — is retired on all six citing artifacts with R6 named and both budgets under `AN-024`. `R030` records its retirement action as landed while stating the exposure stays live, because `AN-012` still stands and no test covers the session surface; that distinction is correct and the row claims neither more nor less than has occurred. The two Significant risks that remain live — `R012` (the client and BFF carry no test) and `R016` (the delivery carries no document at all) — are not retirable in the sprint zero; both carry the stakeholder's own grant of 2026-11-23 at exposure 12 and neither is claimed retired.
+#### Iteration Plan
 
-**The SCHEDULE dimension is the one that is not green, and it is the record that drew it out.** Excavation ran four iterations against a measured record of three, and the fourth was not caused by the recovery: it was caused by this plan's own cells reporting defects their artifacts had already corrected, for four consecutive passes. That is a governance finding about the record-keeping, not about the recovered content, and the plan now carries the rule that closes it — a cell asserting another artifact's state is re-derived from that artifact in the same turn that artifact changes.
+**Major — `Iteration Plan#F11`, criterion `exit-criterion-unmet`.** `G4` is certified "Standing" on a coverage figure that fails the bar this milestone is reviewed against, and the criterion's own text states no bar to fail. Its test asks only that "every file is either opened or named with the reason it was not, and the headline figure reproduces from the per-area table"; its evidence cites "84 opened and 55 unread of 139". 84 of 139 is 60.4%, below the 80% a Consolidation coverage count is required to reach. The ratio that does meet the bar — 84 of the 94 files of the delivery's own tree, 89.4%, over the 45 vendored Bootstrap files excluded as one third-party distribution — appears in neither artifact. A criterion with no threshold in its text and a failing ratio in its evidence reads Standing, so the phase's coverage obligation is discharged by wording rather than by evidence. The stakeholder settled the denominator in the same answer that refused the sanction: count the delivery's own files.
 
-#### Development Case
+**Major — `Iteration Plan#F12`, criterion `consumed-defect`.** `G3` — no recovered element is reopened or contradicted — names one cause where the set carries two, and the next iteration's corrective list is derived from this table. Its evidence cell reads "R033's four suspect edges are the one way this criterion could fail". The recovered set also contradicts itself on a code fact: the Supplementary Specification's S8 lists the OpenAPI document among the Development-only surfaces and S18 concludes that a non-Development run "exposes no readiness probe and no diagnostic surface at all", while the Software Architecture Document's M12 and the Deployment Model's Environment Mapping each state the document is mapped outside the Development block, as the code does at `Todo.Api/Program.cs:58`. A further iteration planned from this cell would clear the four trace edges, run G3 again, and fail it on a contradiction the cell never named.
 
-**Approved, with `#F4` open.** Both Minors the stakeholder ordered corrected at the AR re-take are closed and verified at the artifact: the contributor set names every lens that writes into the Review Record — Reviewer, CodeReviewer, ManagementReviewer, BusinessReviewer, ReviewCoordinator and the ConfigurationManager's baseline record — with CLS-DC-01 drawing the matching edges, and Document Control reads Phase Excavation, Iteration 4, Cycle 1. The tailoring is on the baseline the stakeholder restated: Environment active in every phase, first in Excavation at Low intensity.
+**Major — `Iteration Plan#F13`, criterion `exit-criterion-unmet`.** `G6` is certified Standing by treating `R033`'s strategy label as a performed action while the register records the action unperformed and the warning sign firing. The cell closes "R033 sits at exposure 16 and avoids, which is this role's authority at any band." The Risk List records the same risk "Avoid — not performed; firing", with its warning sign reading "firing now, on all four", and its opening rule states that a risk whose action has not been performed is not retired: avoidance is a claim of retirement, not a status note. A High-band exposure at 4 × 4 = 16 therefore sits live at the gate with neither a performed avoidance nor a grant, cited as evidence that the criterion holds. Recording a strategy in place of the act that performs it is the class `R031` and `Iteration Plan#F7` cost this project three iterations to learn.
 
-`#F4` stands and does not hold the milestone. ACT-DC-01 omits Project Management from every phase partition after Survey while the artifact's own Disciplines and Intensity table declares it active in all phases per the canonical matrix. Contained because the table is the governing tailoring statement: the Iteration Plan takes its intensities from the canonical matrix, and the Project Manager demonstrably works in this phase. A11 counts the four Minors the SBC review left open; `#F4` was recorded after that count, so the criterion is neither re-opened nor left unattended — it is the owner's next turn.
+The remaining five criteria hold on their artifacts: `G1` on the six artifacts' presence at this phase with `UC-001` to `UC-011`, `COMP-001` to `COMP-022` and `TBL-001` to `TBL-008`; `G5` on `R034`'s recorded version difference; `G8` on a ten-role profile in which every item belongs to a stage Consolidation runs; `G7` correctly recorded open rather than certified on the owners' behalf; and `G2` correctly recorded as the gate alone, which I then put and which was refused. Every work item belongs to a stage the process runs in this phase, the two currencies are kept apart, no per-iteration velocity and no projected date is quoted, and the plan carries no declared work to cut.
+
+#### Design Model
+
+**Major — `Design Model#F2`, criterion `trace-gap`.** Four trace edges this model's own Traceability table declares still return marked `SUSPECT` against the registered graph at the phase close: `CLS-001 → TBL-001` and `CLS-007 → TBL-002` marked for the Designer, `CLS-020 → UC-007` and `CLS-020 → UC-010` marked for the System Analyst. I queried all four at source rather than reading the artifact's statement of them, and all four carry the marking.
+
+This is a Major and not a Critical because nothing in the content is at issue and the act is available: the Design Model already states the evidence for each edge, so the clearance needs no re-reading of the code. Both owners — the Designer and the System Analyst — hold a stage in this phase and neither act has been performed. The Iteration Plan's own `G7` reads "Open — the phase's live criterion" on exactly these four edges, and `R033` is carried at exposure 16 as a firing risk, so the plan and the model agree about the state and neither discharges it. A suspect edge left open at the phase close is a Major against the artifact that carries it; it is recorded here and it holds the milestone.
+
+#### Supplementary Specification
+
+**Major — `Supplementary Specification#F4`, criterion `consumed-defect`.** S8 states the OpenAPI document exists in Development only, and S18 concludes that a non-Development run "exposes no readiness probe and no diagnostic surface at all". Both are wrong against `Todo.Api/Program.cs`: `MapOpenApi()` is called at line 58, outside the `if (app.Environment.IsDevelopment())` block at 49-56, so the document is served in every environment and is the one diagnostic surface an operating instance does publish.
+
+This is a consumed defect and not a stale note. The Software Architecture Document's group-answer table names this artifact as the owner of the correction — "the specification's S8 and S18 state the document among the Development-only surfaces; the code maps it unconditionally and the code is recorded" — while that document's own mechanism M12 and the Deployment Model's Environment Mapping state the opposite gating correctly. The set the milestone certifies therefore carries two answers to one question, and the requirements artifact carries the wrong one. The Deployment Manager and the Technical Writer read this artifact to write a runbook and a release note, and both would document a diagnostic surface as absent that is in fact present.
+
+Everything else in this artifact holds, and three parts of it are the strongest content in the set: both rate-limit budgets stated under `AN-024` in M3, P1 and R8 rather than one figure; R4 stating the BFF's two outbound hops apart under `AN-023`; and the twelve behaviours the recovered use cases must not overstate, which are the constraint the Use-Case Model's flows actually obey.
 
 #### System Inventory
 
-**Approved.** Coverage reads 84 opened and 55 unread of 139, the per-area Read column summing to 84 and its Files column to 139; the arithmetic was recomputed and reproduces. No finding from any lens stands. The inventory is the artifact the recovered set's anchors rest on and its anomalies table is what the Risk List's 29 `Refines` edges hang from, so its cleanliness is load-bearing for `A1` and `A7`.
+**Major — `System Inventory#F4`, criterion `exit-criterion-unmet`.** The coverage this phase exists to count is 84 of 139 files — 60.4% — with a second figure of 67 of 139 anchored, 48.2%. Neither reaches the 80% bar, and the Iteration Plan certifies `G4` Standing on exactly that figure. The reading behind the count is sound and candid: every unopened file is named, 45 of the 55 are one vendored Bootstrap 5 distribution the contribution contract forbids editing, and six more carry no perimeter fact. The defect is the denominator, and the stakeholder has now ruled it: the 45 Bootstrap files are a third-party distribution, not the system, and coverage is to be counted over the delivery's own files.
+
+The ratio over the 94 files that are the delivery's own tree — 84 opened, 89.4%; 67 anchored, 71.3% — appears nowhere in either artifact. The counting itself is correct: its Files column sums to 139 and its Read column to 84, so no count and no per-area row needs to change. Only the figure the milestone reads needs the denominator the stakeholder gave it.
+
+Traceability checked against the registered graph and clean: the twenty-two `EP` rows and the forty `AN` `DependsOn` edges agree with the tree, and `AN-021` names `EP-004`, `EP-005` and `EP-007` as diagram, table and graph all carry them.
 
 #### Risk List
 
-**Approved, `#F3` closed this iteration.** `R032` now reads "avoidance performed on all six citing artifacts; the exposure is retired", names the six with R6 among them and quotes its current wording under `AN-024`; the warning-sign cell records the sign as no longer firing rather than fired against a closed finding, and the diagram's sixth-artifact node is relabelled to the single residual. `R030` and `R031` are unchanged. The grant table holds four grants, each at 4 × 3 = 12, recorded verbatim; no risk in the grant band takes the accept strategy on the Project Manager's authority.
+**Minor — `Risk List#F4`, criterion `contained-defect`.** `R033`'s probability contradicts the evidence its own row states. The score reads 4 — "High, 51% to 70%" — while the strategy cell reads "Avoid — not performed; firing", the warning sign reads "firing now, on all four", and the description reads "Scored 4 × 4 because the sign has already fired". An event the register states has already occurred on all four of its instances cannot be scored as a 51 to 70% likelihood. The band does not move — 5 × 4 = 20 is still High — so no grant requirement and no milestone state turns on it; the defect is that the register's published rule, that the same word gives the same number in every row, is applied to the inventory's anomalies and not to its own firing exposure. `R031` carries the same shape, its contingency recorded as taken and performed while the probability stays at 3.
 
-#### Iteration Plan
+The register otherwise holds and its discipline is the set's strongest governance artifact. Thirty-four risks; all 29 anomalies carried, each with a `Refines` edge the graph confirms; every probability and impact reproducing from the one published mapping; four accepts at exposure 12 each quoting the stakeholder's own answer; no risk above Moderate accepted on the Project Manager's authority. `R030` records a retirement that landed without claiming the exposure is removed, and `R034` records an action performed without claiming the incompatibility corrected — both the distinction this register's own rule requires and the distinction that makes it usable at a gate.
 
-**Approved, with `#F10` open.** The Major that held the third put is closed and its four cells verified at their artifacts: `A1` on a fresh `COMP-014` query, `A10` on R6's current wording, `A11` on four of four Minors, `O2` on the same reading. The restated table no longer cites a superseded sentence.
+#### Vision
 
-`#F10` records the one defect this pass finds: three cells still describe the fourth put as unanswered, and it has been answered Yes. The same class as `#F9`, in the one place the earlier pass could not reach — the answer did not exist when the cells were written. Contained: `A12` is satisfied by the answer itself, which is recorded in this lens's Disposition, and the Review Coordinator reads it there.
+**Minor — `Vision#F2`, criterion `contained-defect`.** A Constraints row repeats the OpenAPI gating that `Supplementary Specification#F4` records as wrong. Contained: the Vision is not the artifact the correction is owed to, it carries the same sentence in a supporting role, and no role builds a decision on it. The same correction settles it.
 
-#### Vision, Use-Case Model, Supplementary Specification, Software Architecture Document, Deployment Model, Design Model
+#### Software Architecture Document
 
-**Approved — no open finding from any lens.** Each Major recorded against these artifacts in earlier iterations of this phase is closed and was re-verified at its source for this review: the Vision's two platform mechanisms are drawn as components and the section states eleven use cases, agreeing with the Use-Case Model, the Iteration Plan's `A1` and the SAD's Use-Case View; the Use-Case Model's R6 states both budgets under `AN-024` and the five `COMP-014` edges are confirmed in the graph; the Supplementary Specification's Document Control reads Iteration 4, Cycle 1, with M3, S2, P1, R8 and R4 stating the two budgets and the two outbound hops apart; the SAD's SP1, M3 and bounded-load row read 50 / 50 / 50 as the bound in force; the Deployment Model's Environment Mapping is narrowed to what the files hold and its Rate limiting row reads 50 / 50 / 50 for Development; the Design Model's PD-D3 cites `AN-025` for the unconverted owner key and `AN-005` only for the `EnsureCreated` schema.
+**Minor — `SAD#F2`, criterion `contained-defect`.** The Deployment View closes "One setting separates Development from any other environment: the request budget", while the Deployment Model opens its Environment Mapping conclusion "Two settings separate the environments, not one". Both artifacts have the facts right and their facts agree; only the count is stated twice with two answers, using the same word for different things without saying so. Contained: the SAD is the architecture record and the Deployment Model is the artifact the fired trigger commissions for this question, and no role builds a decision on which count is right.
 
-#### Iteration Assessment
+The rest of the architecture holds on the anchors. Twenty-two components with every use case's path crossing named components; its Traceability table reports the `Realizes` edges read back from the graph and cross-checked from either direction; the components carrying no edge state their anchors instead of a composed one. M8's asymmetry between the BFF's two outbound hops is the finding this phase most needed, because it is the one property no anomaly row records.
 
-**Not judged.** The Project Manager authors it in the Assess touchpoint that follows this review, so at review time it cannot describe the iteration being reviewed. Its state is not a finding and not a gate condition.
+#### Development Case
+
+**Approved.** `Development Case#F4` is closed and verified: ACT-DC-01 names Project Management in every phase partition it draws, at the intensity the canonical matrix gives it, so the diagram and the intensity table agree. The baseline is not redefined: two roles inactive, each carrying the trigger that justifies it; no CORE artifact omitted or reassigned; no artifact outside the CORE + OPTIONAL universe named; the use-case enumeration rules stated as the baseline states them. The six optional verdicts were re-evaluated this iteration against the recovered set, and the one FIRED trigger holds on this project's real facts — four processes, a browser bundle, a separate REST service, SQLite, a YARP proxy hop, and a settings pair per serving project. The five NOT FIRED verdicts each name the condition that does not hold, and each holds up.
+
+#### Use-Case Model
+
+**Approved.** Eleven use cases over 22 entry points, each anchored to the entry point whose code performs it; `EP-020`, `EP-021`, `EP-022` and the `admin` branch are exclusions with a stated reason, three of them the stakeholder's own rulings. No cross-cutting mechanism is modelled as a use case. The five use cases with two routes in are one use case each with two scenarios, not one per actor. The Traceability table's eleven rows match the registered graph, every `EP-NNN → UC-NNN` edge carried unmarked. The two entry-point lists are reconciled with the rule stated: the Survey's Source column names the entry point whose code performs the use case, the actor-goal matrix names the entry point the actor acts through — the screen is `EP-003`, the operation it becomes is `EP-012`. The statement of the session surface's instability beside `UC-001` to `UC-004` is the one place in the set where a recovered behavior is qualified by its own code's history.
+
+#### Deployment Model
+
+**Approved.** The §5.2 trigger genuinely holds and this artifact is why it was upheld: a browser process, three .NET processes, two short-lived children and one container on one machine, a proxy hop between two of them, and an `appsettings` pair per serving project. Its Environment Mapping matches the code on the point that four other artifacts got wrong in Excavation and have since corrected — the budget in force is 50/50/queue 50, not the code's 100 series — and it states the three ungated surfaces correctly, which is what made `Supplementary Specification#F4` visible to this review.
+
+#### Iteration Assessment, Change Request
+
+`[OMITTED: Iteration Assessment — the Project Manager authors it after this review; at review time it cannot describe the iteration being reviewed, and its absence is not a defect and not a gate condition]`
+
+`[OMITTED: Change Request — not opened in the sprint zero, where no Change Control Manager works; the stakeholder's orders reach their owners through the Work Order]`
 
 ### Review Coordinator lens
 <!-- review: Excavation I4 -->
