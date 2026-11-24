@@ -521,46 +521,51 @@ All eight areas carry a commit history in this artifact, each from a listing of 
 | 8 | Requests, CI, dev container, Aspire and editor settings | Supporting material: a hand-run request collection last touched on 2024-03-26 and already behind the API, a four-step pipeline unchanged since 2024-11-23, a container whose SDK contradicts AN-007, and the CLI and editor settings that resolve to the app host — the editor's own `tasks.json` and `launch.json` were deleted on 2025-01-11 | `Requests/todo.http; .github/workflows/ci.yaml; .devcontainer/; .aspire/settings.json; .vscode/extensions.json` |
 
 ## Coverage
-Of **139 files in the tree** (179 entries, 40 of them directories), this sprint zero **opened 84** and **never opened 55**. A recovered artifact anchors **67** of the 139 by name: an `EP`, `AN`, `COMP`, `CLS` or `TBL` label, or a `Source:` citation, names the file. The other **17 of the 84** were opened and no artifact's anchor names them; each is listed below with why nothing rests on it.
+**Coverage is counted over the delivery's own tree: 94 files, of which 84 were opened — 89.4%, against the 80% bar.** The repository holds 139 files; 45 of them are the vendored Bootstrap 5 distribution under `Todo.Web/Client/wwwroot/bootstrap/`, a third-party release the contribution contract forbids editing and that the stakeholder ruled on 2026-11-23 is not their system. Those 45 are excluded from the denominator. The raw repository count is stated beside it and is not the figure coverage is measured on: 84 of 139 is 60.4%.
 
-**67 of 139 files anchored is 48.2%.** The figure measures one thing only — how much of the tree a recovered element can be pointed at. It is not a measure of the reading's completeness and is not offered as one. The 55 never opened are 45 vendored Bootstrap files and 10 files whose content carries no perimeter fact. The 17 opened and uncited either restate a fact anchored in another file or carry no behaviour. The two counts are stated separately for that reason: **coverage is what was opened, anchoring is what a recovered element rests on**, and neither number substitutes for the other.
+**67 of the 94 own-tree files are anchored** by a recovered artifact — an `EP`, `AN`, `COMP`, `CLS` or `TBL` label, or a `Source:` citation, names the file — which is 71.3%. The three figures measure three things: coverage is what was opened over the delivery's own tree (84 of 94, 89.4%); the raw ratio is the same reading over a denominator that mixes in the bundle (84 of 139, 60.4%); anchoring is how much of the tree a recovered element can be pointed at (67 of 94, 71.3%). None substitutes for another.
+
+**10 of the 94 own-tree files were never opened**, and all 10 are named with their reason below: `wwwroot/css/app.css`, `wwwroot/bg.png`, `wwwroot/favicon.ico`, the client's `_Imports.razor`, the server's `_Imports.razor`, `Todo.Web.Shared.csproj`, `.gitignore`, and four of the other roles' artifacts under `docs/artifacts/` — `risk-list.md`, `iteration-assessment.md`, `vision.md`, `supplementary-specification.md` — which are this process's own output rather than documentation of the delivery.
+
+**17 of the 84 opened own-tree files carry no anchor.** Each either restates a fact anchored in its own file — the three migration `.Designer.cs` files restate their migrations, the app host's two environment files bind nothing — or declares no behaviour: `GlobalUsings.cs`, two `launchSettings.json` files, two `_Imports.razor` files, `appsettings.Development.json` at log-level only, `LICENSE`, and six artifacts of this process under `docs/artifacts/`. Leaving them uncited is what keeps the anchor set honest: an anchor names the file a fact was read from, not every file that happens to be open.
 
 The tree is unchanged since `307a1ea` of 2026-02-12. `Todo.Api`'s newest commit is still `a6dea68` of 2025-08-07 and `Todo.Web/Server`'s is `a519c10` of 2024-11-27; both were re-read this phase to confirm it. Every later commit in the repository is this process's own artifact output, so no file count of the system moved between the Excavation reading and this one. The arithmetic below is therefore the same arithmetic, recounted rather than copied.
 
-`docs/` holds thirteen files: the contribution guide and twelve sprint-zero artifacts of this process. Nine were opened, three of them anchored. None of the thirteen documents the delivery, which is why Documentation records no delivered document beyond the root `README.md` and the owner's note.
-
 ```plantuml
 @startuml
-title Final coverage - 139 files in 16 areas, 84 opened, 67 anchored by a recovered artifact, 55 never opened
+title Final coverage - 139 files, of which 94 are the delivery's own tree and 45 a vendored third-party bundle
 
 skinparam componentStyle rectangle
 skinparam shadowing false
 skinparam packageStyle rectangle
 skinparam wrapWidth 250
 
-package "Read in full - every file of the area opened\n45 files - 45 opened - 38 anchored" {
-  component "Todo.Api\n23 / 23 / 20" as A1
-  component "Todo.Api.Tests\n7 / 7 / 6" as A2
-  component "TodoApp.AppHost\n6 / 6 / 3" as A3
-  component "TodoApp.ServiceDefaults\n2 / 2 / 2" as A4
-  component "Requests, .github, .devcontainer\n.aspire, .iari, .vscode\n7 / 7 / 7" as A5
+package "The delivery's own tree - 94 files\n84 opened (89.4%) - 67 anchored by a recovered artifact (71.3%)" {
+  package "Read in full - every file opened\n45 files - 45 opened - 38 anchored" {
+    component "Todo.Api\n23 / 23 / 20" as A1
+    component "Todo.Api.Tests\n7 / 7 / 6" as A2
+    component "TodoApp.AppHost\n6 / 6 / 3" as A3
+    component "TodoApp.ServiceDefaults\n2 / 2 / 2" as A4
+    component "Requests, .github, .devcontainer\n.aspire, .iari, .vscode\n7 / 7 / 7" as A5
+  }
+  package "Read in part - every unopened file named\n49 files - 39 opened - 29 anchored" {
+    component "Todo.Web/Server\n15 / 14 / 13" as B1
+    component "Todo.Web/Client authored\n11 / 8 / 6" as B2
+    component "Repository root\n8 / 7 / 6" as B3
+    component "Todo.Web/Shared\n2 / 1 / 1" as B4
+    component "docs\n13 / 9 / 3" as B5
+  }
 }
 
-package "Read in part - every unopened file named\n49 files - 39 opened - 29 anchored" {
-  component "Todo.Web/Server\n15 / 14 / 13" as B1
-  component "Todo.Web/Client authored\n11 / 8 / 6" as B2
-  component "Repository root\n8 / 7 / 6" as B3
-  component "Todo.Web/Shared\n2 / 1 / 1" as B4
-  component "docs\n13 / 9 / 3" as B5
-}
-
-package "Never opened - one reason\n45 files - 0 opened - 0 anchored" {
-  component "Todo.Web/Client/wwwroot/bootstrap\n45 / 0 / 0" as C1
+package "Excluded from the coverage denominator - 45 files\nBootstrap 5 under Todo.Web/Client/wwwroot/bootstrap, a third-party distribution\n0 opened - 0 anchored - 45 unopened" {
+  component "wwwroot/bootstrap\n45 / 0 / 0" as C1
 }
 
 note right of A1
-  Uncited (3): the three migration .Designer.cs files, each
-  restating its migration body in the designer's generated form.
+  Uncited (3): the three migration .Designer.cs files,
+  each restating its migration body in the designer's
+  generated form. The model snapshot is anchored through
+  the Database Designer's model.
 end note
 
 note right of A3
@@ -605,10 +610,11 @@ end note
 
 note bottom of C1
   Vendored Bootstrap 5: 32 CSS files, 12 JavaScript files,
-  one licence. No behaviour of the system, and the
-  contribution contract forbids editing it. Anchored as one
-  third-party distribution, so no file inside it carries an
-  anchor of its own.
+  one licence. The contribution contract forbids editing it
+  and the stakeholder ruled on 2026-11-23 that it is not the
+  system: coverage is counted over the 94 own-tree files.
+  Anchored as one distribution, so no file inside it carries
+  an anchor of its own.
 end note
 
 @enduml
@@ -616,10 +622,10 @@ end note
 
 | Area | Files | Read | Unread and why |
 |---|---|---|---|
-| Todo.Api | 23 | 23 | — None unopened. Twenty anchored; the three `.Designer.cs` files are opened and uncited, each restating the migration body the migration itself anchors |
+| Todo.Api | 23 | 23 | — None unopened. Twenty anchored; the three `.Designer.cs` files are opened and uncited, each restating the migration body the migration itself anchors. `TodoDbContextModelSnapshot.cs` is anchored through the Database Designer's model, which records its `ProductVersion` note |
 | Todo.Api.Tests | 7 | 7 | — None unopened. Six anchored; `GlobalUsings.cs` is an import list that declares no behaviour |
 | Todo.Web/Client (authored) | 11 | 8 | `wwwroot/css/app.css` (styling, no behaviour), `wwwroot/bg.png` and `wwwroot/favicon.ico` (binary assets). Of the eight opened, six are anchored; `Properties/launchSettings.json` and `_Imports.razor` are not |
-| Todo.Web/Client/wwwroot/bootstrap | 45 | 0 | Vendored third-party Bootstrap 5 distribution: 32 CSS files, 12 JavaScript files and its licence. No behaviour of the system, and the contribution contract forbids editing it. Anchored as one distribution, never file by file |
+| Todo.Web/Client/wwwroot/bootstrap | 45 | 0 | Vendored third-party Bootstrap 5 distribution: 32 CSS files, 12 JavaScript files and its licence. No behaviour of the system, the contribution contract forbids editing it, and the stakeholder's ruling of 2026-11-23 excludes it from the coverage denominator. Anchored as one distribution, never file by file |
 | Todo.Web/Server | 15 | 14 | `_Imports.razor` (an import list only). Of the fourteen opened, thirteen are anchored; `appsettings.Development.json` carries logging levels and no section any anchor names |
 | Todo.Web/Shared | 2 | 1 | `Todo.Web.Shared.csproj` — the source file is anchored; the project file carries no reference that changes the perimeter |
 | TodoApp.AppHost | 6 | 6 | — None unopened. Three anchored: `Extensions.cs`, `Program.cs` and the project file. `Properties/launchSettings.json` and the two environment files are opened and uncited: the process starts others and binds nothing in them |
@@ -631,21 +637,20 @@ end note
 | .aspire | 1 | 1 | — Anchored |
 | .iari | 1 | 1 | — Anchored |
 | .vscode | 1 | 1 | — Anchored |
-| docs | 13 | 9 | Nine opened. Anchored: `CONTRIBUTING.md`, `artifacts/environment/development-case.md`, `artifacts/discovery/system-inventory.md`. Opened but uncited: `artifacts/project-management/review-record.md`, `artifacts/project-management/iteration-plan.md`, `artifacts/requirements/use-case-model.md`, `artifacts/analysis---design/software-architecture-document.md`, `artifacts/analysis---design/design-model.md`, `artifacts/analysis---design/deployment-model.md`. Unopened: `artifacts/project-management/risk-list.md`, `artifacts/project-management/iteration-assessment.md`, `artifacts/requirements/vision.md`, `artifacts/requirements/supplementary-specification.md` — not reached this phase; they are other roles' artifacts of this process, not documentation of the delivery |
-| Total | 139 | 84 | 55 never opened: 45 vendored Bootstrap files, `app.css`, `bg.png`, `favicon.ico`, `_Imports.razor` (twice, once per project that has one), `Todo.Web.Shared.csproj`, `.gitignore`, and four of the other roles' artifacts under `docs/artifacts/`. A further 17 of the 84 opened are uncited: three migration `.Designer.cs` files, `GlobalUsings.cs`, the client's `launchSettings.json` and `_Imports.razor`, the server's `appsettings.Development.json`, `LICENSE`, the app host's `launchSettings.json` and two environment files, and six artifacts under `docs/artifacts/` |
-| Commit history | — | 22 listings, each read newest-first | The whole repository; `Todo.Api` and each of its three subdirectories that changed independently (`Todos`, `Authorization`, `Users`); `Todo.Web/Server` and its `AuthApi.cs`; `Todo.Web/Client`; `Todo.Web/Shared`; `Todo.Api.Tests`; `TodoApp.AppHost`; `TodoApp.ServiceDefaults`; `Directory.Build.props`; `Requests`; `.github`; `.devcontainer`; `.aspire`; `.vscode`; `README.md`; `docs`. Two listings are this phase's: the whole repository and `Todo.Api`, both re-read to confirm the system's code had not moved since `a6dea68`. `Todo.Api/Migrations`, `Todo.Api/Extensions`, `Todo.Api/Filters`, `Todo.Web/Server/Authentication`, `.iari` and the remaining single root files have no listing of their own; their changes appear inside the listing of the area above them, which is why no row of History claims them. The system's own newest commit, `307a1ea` of 2026-02-12, is reachable through `TodoApp.AppHost`. This row counts commits and listings, not files, and sits outside the 139 / 84 / 55 file arithmetic |
+| docs | 13 | 9 | Nine opened. Anchored: `CONTRIBUTING.md`, `artifacts/environment/development-case.md`, `artifacts/discovery/system-inventory.md`. Opened but uncited: `artifacts/project-management/review-record.md`, `artifacts/project-management/iteration-plan.md`, `artifacts/requirements/use-case-model.md`, `artifacts/analysis---design/software-architecture-document.md`, `artifacts/analysis---design/design-model.md`, `artifacts/analysis---design/deployment-model.md`. Unopened: `artifacts/project-management/risk-list.md`, `artifacts/project-management/iteration-assessment.md`, `artifacts/requirements/vision.md`, `artifacts/requirements/supplementary-specification.md` — they are other roles' artifacts of this process, not documentation of the delivery |
+| Total | 139 | 84 | Over the delivery's own 94 files: 84 opened (89.4%), 67 anchored (71.3%), 10 unopened. The 45 Bootstrap files are excluded from that denominator: a third-party distribution, not the system. The 10 own-tree files never opened carry no perimeter fact — the three client assets, one `_Imports.razor` per web project, `Todo.Web.Shared.csproj`, `.gitignore`, and four of the other roles' artifacts under `docs/artifacts/`. A further 17 of the 84 opened are uncited: three migration `.Designer.cs` files, `GlobalUsings.cs`, the client's `launchSettings.json` and `_Imports.razor`, the server's `appsettings.Development.json`, `LICENSE`, the app host's `launchSettings.json` and two environment files, and six artifacts under `docs/artifacts/` |
+| Commit history | — | 22 listings, each read newest-first | The whole repository; `Todo.Api` and each of its three subdirectories that changed independently (`Todos`, `Authorization`, `Users`); `Todo.Web/Server` and its `AuthApi.cs`; `Todo.Web/Client`; `Todo.Web/Shared`; `Todo.Api.Tests`; `TodoApp.AppHost`; `TodoApp.ServiceDefaults`; `Directory.Build.props`; `Requests`; `.github`; `.devcontainer`; `.aspire`; `.vscode`; `README.md`; `docs`. Two listings are this phase's: the whole repository and `Todo.Api`, both re-read to confirm the system's code had not moved since `a6dea68`. `Todo.Api/Migrations`, `Todo.Api/Extensions`, `Todo.Api/Filters`, `Todo.Web/Server/Authentication`, `.iari` and the remaining single root files have no listing of their own; their changes appear inside the listing of the area above them, which is why no row of History claims them. The system's own newest commit, `307a1ea` of 2026-02-12, is reachable through `TodoApp.AppHost`. This row counts commits and listings, not files, and sits outside the 139 / 94 / 84 arithmetic |
 
-**Every file never opened, with the reason it stays unopened.** The 55 fall into three kinds and no fourth:
+**Every own-tree file never opened, with the reason it stays unopened.** The 10 fall into two kinds and no third:
 
-- **Vendored — 45 files.** The Bootstrap 5 distribution under `Todo.Web/Client/wwwroot/bootstrap/`: a third-party release the contribution contract forbids editing. The system's own styling is `app.css`, not this. Anchored as one distribution in Technology and Size and in the Software Architecture Document's component view.
 - **No perimeter fact — 6 files.** `wwwroot/css/app.css` and the two binary assets `bg.png` and `favicon.ico` (styling, no behaviour); the two `_Imports.razor` files, client and server (import lists); `Todo.Web.Shared.csproj` (a project file); `.gitignore` (ignore rules). None carries a fact any recovered element rests on.
 - **Not reached — 4 files.** `risk-list.md`, `iteration-assessment.md`, `vision.md` and `supplementary-specification.md`, other roles' artifacts of this process. They document the process, not the delivery, and no perimeter fact depends on them.
 
-**The 17 opened and uncited.** Three migration `.Designer.cs` files, `GlobalUsings.cs`, the client's `Properties/launchSettings.json` and `_Imports.razor`, the server's `appsettings.Development.json`, `LICENSE`, the app host's `Properties/launchSettings.json` and its two environment files, and six artifacts under `docs/artifacts/`. Each either restates a fact anchored in its own file — the designer files restate their migration, the app host's environment files bind nothing — or declares no behaviour: import lists, a licence, a project file, a log-level file. Leaving them uncited is what keeps the anchor set honest: an anchor names the file a fact was read from, not every file that happens to be open.
+**The excluded 45.** The Bootstrap 5 distribution under `Todo.Web/Client/wwwroot/bootstrap/`: a third-party release the contribution contract forbids editing. The system's own styling is `app.css`, not this. Anchored as one distribution in Technology and Size and in the Software Architecture Document's component view.
 
 **What the reading established, by area.** Every file the recovered set rests on was read against the lines its anchor names: the five Todo endpoints, the rate limiter, the current-user resolver and its handler, the whole `/auth` surface with its forwarder, its token client and its five authentication files, the client's three components and its HTTP client, the Identity provider registration and its scheme and provider-name services, both programs' data-protection calls and their `appsettings` pairs, both launch profiles, the test host with its token minter and its `DbContextOptions` helper, the app host's migration extension and its resource graph, the README section the code contradicts, and the build and container manifests. Everything in `Todo.Api`, `Todo.Api.Tests`, `TodoApp.AppHost`, `TodoApp.ServiceDefaults`, `Requests`, `.aspire`, `.vscode`, `.github` and `.devcontainer` was opened. `.iari/README.md` was read as the owner's note and is counted in its own row.
 
-**What the count does not say.** It does not say the 84 opened were understood, nor that the 67 anchored facts are correct — that is what the milestone review verifies, anchor by anchor. It says which files a recovered element can be pointed at and which cannot, so that no later phase reads this inventory as a complete account of a tree it only partly opened. The 55 unopened carry no recovered element of the system and no fact of the delivery. The one reading of this phase that a later role should treat as incomplete is `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs`: it records the EF Core `ProductVersion` as `8.0.0` against a `net9.0` build, a fact the Database Designer's model records with its anchor and which no anomaly row here duplicates.
+**What the count does not say.** It does not say the 84 opened were understood, nor that the 67 anchored facts are correct — that is what the milestone review verifies, anchor by anchor. It says which files a recovered element can be pointed at and which cannot, so that no later phase reads this inventory as a complete account of a tree it only partly opened. The 10 own-tree files unopened carry no recovered element of the system and no fact of the delivery. The one reading of this phase that a later role should treat as incomplete is `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs`: it records the EF Core `ProductVersion` as `8.0.0` against a `net9.0` build, a fact the Database Designer's model records with its anchor and which no anomaly row here duplicates.
 
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
