@@ -35,7 +35,7 @@ package "Mechanisms, and how far each one reaches" {
   component "M4 Data-annotation validation\n400 ValidationProblemDetails" as M_VAL
   component "M5 Data protection\nApplicationDiscriminator TodoApp,\nno key persistence configured" as M_DP
   component "M6 Cookie session on the BFF\naccess token stored in the token set" as M_COOKIE
-  component "M7 HTTP logging\nDevelopment only" as M_LOG
+  component "M7 HTTP logging\nstage on every request in every environment,\nbody and header fields in Development only" as M_LOG
   component "M8 Telemetry, health checks\nand service discovery" as M_OBS
   component "M9 Schema migration\napp host, run mode, .db absent" as M_MIG
   component "M10 Transport protection\nHSTS 30 days on the BFF outside Development,\nHTTPS redirection, antiforgery -\nnone of the three on the API" as M_TLS
@@ -82,10 +82,17 @@ note bottom of M_DP
 end note
 
 note bottom of M_TLS
-  The API applies none of the three: Program.cs:44-47
+  The API applies none of the three: Program.cs:44-45
   runs only HTTP logging and the rate limiter, and the
   BFF addresses it over http://todoapi (Program.cs:25-28).
   Both hops are plain HTTP by default configuration.
+end note
+
+note bottom of M_LOG
+  HttpLogging is registered on the API in every environment
+  (Program.cs:35-43) and UseHttpLogging runs unconditionally
+  at Program.cs:44. Only CombineLogs and LoggingFields are
+  gated on IsDevelopment.
 end note
 
 @enduml
@@ -99,7 +106,7 @@ end note
 | M4 | Data-annotation validation | Rejects a request whose registered parameter fails `MiniValidation` with 400 `HttpValidationProblemDetails` of content type `application/problem+json`, declared on the endpoint. Only the parameter types the endpoint registers are checked: `/todos` registers `TodoItem` and `/users` registers `ExternalUserInfo`, so a register or login body of type `UserInfo` is checked by nothing at the API and reaches Identity's own policy alone | `Todo.Api/Filters/ValidationFilter.cs:10-63`; `Todo.Api/Todos/TodoApi.cs:22`; `Todo.Api/Users/UsersApi.cs:18` | UC-003, UC-007, UC-010 |
 | M5 | Data protection | `ApplicationDiscriminator` set to `TodoApp` in both the BFF and the API. No key persistence, key lifetime or key protection is configured in either program, so the two processes share a ring only where the framework's default file location is shared | `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11`; AN-010 | UC-003 |
 | M6 | Cookie session on the BFF | The default scheme is a cookie; a second cookie holds the external ticket; the access token is stored in the session's token set and read back by the forwarder | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:14-21`; `Todo.Web/Server/TodoApi.cs:18-22`; `Todo.Web/Server/AuthApi.cs:99-116` | UC-001, UC-002, UC-003, UC-004, UC-006 to UC-008 |
-| M7 | HTTP logging | Combined request and response logging with body and header fields, enabled only when the environment is Development | `Todo.Api/Program.cs:35-46` | Every API request in Development |
+| M7 | HTTP logging: the stage in every environment, the fields in Development only | `AddHttpLogging` and `UseHttpLogging` are both registered on the API outside any environment test, so every request is logged in every environment. What the environment gates is the content: `CombineLogs` and `LoggingFields` — response body and response headers — are set only when `IsDevelopment()`, so a non-Development run logs the stage's default request fields and no response body | `Todo.Api/Program.cs:35-46` | Every API request in every environment |
 | M8 | Telemetry, health checks and service discovery | OpenTelemetry traces, metrics and logs with the ASP.NET Core, HTTP and runtime instrumentation; OTLP export only when `OTEL_EXPORTER_OTLP_ENDPOINT` is non-empty; readiness and liveness endpoints; service discovery through Aspire | `TodoApp.ServiceDefaults/Extensions.cs:1-130` | Every process |
 | M9 | Schema migration | The app host installs `dotnet-ef` and runs `database update --no-build` against the API project, waits for it, and only in run mode and only when `Todo.Api/.db` does not exist. No connection string is passed: a `TODO` records it | `TodoApp.AppHost/Extensions.cs:1-34`; `TodoApp.AppHost/Program.cs:1-28`; AN-005, AN-013 | The system's start-up, for every use case |
 | M10 | Transport protection, and where it stops | The BFF sets HSTS at 30 days in every environment except Development, redirects HTTP to HTTPS, and enforces antiforgery on its endpoints. The API sets none of the three: its request pipeline registers only HTTP logging and the rate limiter, so no HSTS, no redirection and no antiforgery runs there. The BFF addresses the API over the literal `http://todoapi`, so the hop between the two processes carries the bearer token in clear text unless a TLS terminator sits between them, and none is configured in the delivery (`DC13`) | `Todo.Web/Server/Program.cs:35-46`; `Todo.Web/Server/Program.cs:25-28`; `Todo.Api/Program.cs:44-47` | UC-001 to UC-008 |
