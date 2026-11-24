@@ -621,42 +621,69 @@ No trend is reported against a prior milestone. Every finding in this ledger was
 
 ## Resolutions and Actions
 ### Reviewer lens
-<!-- review: Consolidation I1 -->
+<!-- review: Consolidation I2 -->
 
-#### Closed this milestone by this lens
+Six corrective acts this iteration was opened for. Five are verified closed at the artifact that owned each, and one defect was opened by the closing itself. The register below is the technical lens's residue at this put.
 
-| Finding | Criterion | What closed it | Verified at |
-|---|---|---|---|
-| `Development Case#F4` | `contained-defect` | ACT-DC-01 now names Project Management in all seven phase partitions, at the canonical intensity for each phase; the diagram and the intensity table agree | Development Case — Disciplines and Intensity, ACT-DC-01 |
-
-#### Open, and what closes each
-
-| Finding | Criterion | Severity | What closes it | Owner | Where the work belongs |
+| # | Act | Artifact | Finding | State | Verified at |
 |---|---|---|---|---|---|
-| `Design Model#F2` | `trace-gap` | Major | Clear `CLS-020 → UC-007`, `CLS-020 → UC-010` (System Analyst) and `CLS-001 → TBL-001`, `CLS-007 → TBL-002` (Designer), each stating the reading that keeps it; then restate the Traceability section's closing paragraphs at the state the graph holds | System Analyst, Designer | Analysis & Design — both hold a stage in this phase. Closes `R033` and G7 |
-| `Supplementary Specification#F4` | `consumed-defect` | Major | Correct S8 and S18 against `Todo.Api/Program.cs:44,49-58`: the reference UI and both health endpoints are Development-only, the OpenAPI document is mapped unconditionally, the logging stage runs in every environment | System Analyst | Requirements — this phase's stage. Unblocks the Deployment Manager and the Technical Writer |
-| `System Inventory#F4` | `exit-criterion-unmet` | Major | State the ratio over the 94 files that are the delivery's own tree (84 opened, 89.4%) beside the 139-file count, and have `G4` cite the ratio that meets the bar with its denominator named | Software Archaeologist, then Project Manager for G4 | Discovery — this phase's stage |
-| `Vision#F2` | `contained-defect` | Minor | Correct the Constraints row: the OpenAPI document is served in every environment | System Analyst | Requirements — after the Majors |
-| `SAD#F2` | `contained-defect` | Minor | Restate "one setting" as one configuration binding, with the Development-only surfaces named beside it as the Deployment Model counts them | Software Architect | Analysis & Design — after the Majors |
+| 1 | Clear the four trace edges at the ends their owners hold | Design Model, graph | `Design Model#F2` (Major) | Closed | `CLS-001` → `TBL-001`, `CLS-007` → `TBL-002`, `CLS-020` → `UC-007`, `CLS-020` → `UC-010` all queried this turn, none marked |
+| 2 | Correct the OpenAPI gating against the code | Supplementary Specification | `Supplementary Specification#F4` (Major) | Closed | S8, S18 and `F13` state the split on `Todo.Api/Program.cs:44,49-58,62` |
+| 3 | Correct the same statement where it echoes | Vision | `Vision#F2` (Minor) | Closed | Constraints row and diagram split gated from ungated on the same anchors |
+| 4 | Count coverage over the delivery's own tree | System Inventory | `System Inventory#F4` (Major) | Closed | 84 of 94, 89.4 per cent, raw 84 of 139 stated beside it, 10 files named |
+| 5 | Reconcile the environment count with the Deployment Model | Software Architecture Document | `Software Architecture Document#F2` (Minor) | Closed | Deployment View counts two and reconciles the count by name |
+| 6 | Restate the plan's criteria on the corrected artifacts | Iteration Plan | `Iteration Plan#F11`, `#F12`, `#F13` (Management Reviewer's; not this lens's to close) | Outside this lens | `G3`, `G4`, `G6` read at this turn on the corrected artifacts and on the owners' acts |
+| 7 | — | Risk List | `Risk List#F4` (Major) | **Open — opened this turn** | `R033` states an unperformed avoidance in three places against a graph that returns all four edges unmarked |
 
-#### What the two Majors have in common, and why it matters for the next iteration
+**The single open act is one correction in one artifact.** It is a restatement, not a re-reading: the three cells and the diagram note assert a state the graph no longer holds, and the Project Manager holds a stage in this phase. It reopens no recovered element, changes no count, and needs no decision from the stakeholder — which is why it is a Major and not a Critical.
 
-`Supplementary Specification#F4` and `SAD#F2` are the same class of defect this project has now recorded seven times across three phases: one fact, stated twice, in two artifacts, with two answers. The rule that closes the class is already written in the Development Case's "Process rule this phase adds" — a document that reports another artifact's state re-derives it from that artifact in the same turn the artifact changes. It has held for the Iteration Plan this iteration and the plan's cells are clean; it has not yet been applied to the four artifacts that describe the environment, which is where both of these findings sit.
+**Order of work, carried from the stakeholder's direction of 2026-11-23.** Coverage and the OpenAPI gating first, the plan's cells last because they cite those artifacts. Acts 1 to 5 are closed in that order. Act 7 was exposed by act 1: clearing the edges made the register's own row stale, so it is corrected after the artifacts it reports on and before the plan's cells are re-read at the milestone.
 
-`System Inventory#F4` is a different class, and it is the one this milestone should not lose: the reading is thorough (every unopened file named, every reason given, the arithmetic reproducing) and the number it publishes understates what it did, because the denominator counts a vendored bootstrap bundle as though it were the delivery. The correction is one sentence. What would be wrong is to read the 60.4% as a thin reading and order more of the tree opened — nothing is hidden, and the 45 unopened Bootstrap files carry no behaviour of the system.
+**What the correction does not change.** The recovered content. The eleven use cases, the four stated exclusions, the twenty-two components and the eight tables stand as the stakeholder confirmed them at gate H4's fourth put and reaffirmed on 2026-11-23 — "nothing in the recovered set is wrong". No act on this list touches them, and no finding this iteration recorded reopens or reclassifies one.
 
-#### Actions the next iteration carries
+```plantuml
+@startuml
+title The technical lens at Consolidation iteration 2 - what closed, what stands
+skinparam shadowing false
+skinparam wrapWidth 250
+start
 
-| # | Action | Owner | Closes |
-|---|---|---|---|
-| 1 | Clear the four suspect edges at their own ends | System Analyst (2), Designer (2) | `Design Model#F2`, `R033`, G7 |
-| 2 | Correct S8 and S18 to the code's actual gating | System Analyst | `Supplementary Specification#F4` |
-| 3 | State the coverage ratio over the delivery's own tree, and have G4 cite it | Software Archaeologist, Project Manager | `System Inventory#F4`, G4 |
-| 4 | Correct the Vision's Constraints row | System Analyst | `Vision#F2` |
-| 5 | Restate the SAD's "one setting" sentence | Software Architect | `SAD#F2` |
-| 6 | Re-read all four environment-describing artifacts against `Todo.Api/Program.cs` in one pass once actions 2, 4 and 5 land, so the class closes rather than the instance | System Analyst, Software Architect | closes the class, not a finding |
+:prior findings of this lens read at the start of the turn — five open;
+:each artifact read at the section its finding names;
 
-No action above schedules work a later phase performs. Actions 1 to 5 sit in stages this phase runs; action 6 is a reading, not new content.
+fork
+  :System Inventory Coverage;
+  :94 own-tree files, 84 opened, 89.4 per cent;
+  #lightgreen:System Inventory#F4 resolved;
+fork again
+  :Supplementary Specification Supportability;
+  :OpenAPI document mapped unconditionally;
+  #lightgreen:Supplementary Specification#F4 resolved;
+fork again
+  :Design Model Traceability + graph query at four ends;
+  :all four edges unmarked;
+  #lightgreen:Design Model#F2 resolved;
+fork again
+  :Vision Constraints + SAD Deployment View;
+  :both echoes corrected at their own artifacts;
+  #lightgreen:Vision#F2 and SAD#F2 resolved;
+end fork
+
+:the closing exposed one defect the openings could not see;
+:Risk List R033 states an unperformed avoidance;
+note right
+  The graph returns all four edges unmarked.
+  The Design Model and the plan's G6 and G7
+  both record the clearance performed.
+end note
+#pink:Risk List#F4 opened — Major;
+
+:disposition from this lens — Approved with Changes;
+:one act stands: restate R033 on the graph's state;
+
+stop
+@enduml
+```
 
 ### Management Reviewer lens
 <!-- review: Consolidation I1 -->
