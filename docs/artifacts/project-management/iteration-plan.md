@@ -439,7 +439,7 @@ end note
 @enduml
 ```
 
-**One criterion is the gate and it opens on the answer alone.** `G2` was put and refused; it is re-put at this iteration's close, and this plan records no answer it has not received. The sprint zero's gates were put six times in all and answered on the fifth and sixth; that record is carried in the coarse roadmap and in `O1`'s row, and none of it is read for more than it says.
+**One criterion is the gate and it opens on the answer alone.** `G2` was put and refused at the first put of this gate; it is re-put at this iteration's close, and this plan records no answer it has not received. The gate record of the sprint zero is carried in the coarse roadmap: H2 sanctioned at its second put, H4 at its fourth. None of it is read for more than it says.
 
 **Seven criteria stand and one does not, and the one that does not is the stakeholder's to move.** Six of the seven standing were certified on corrections performed in this iteration at their own artifacts; the seventh, `G7`, could only be certified on its owners' act and that act has been performed, verified at the graph in this turn. Nothing here is certified on an owner's behalf. The lever on `G2` is not another reading of the code, another agent, or a narrower criterion — it is the stakeholder's answer, and if the answer is No again the lever is another iteration planned from the Review Record.
 
