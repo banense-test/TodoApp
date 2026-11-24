@@ -318,19 +318,26 @@ package "Testability as delivered" {
 package "Absent from the delivery" {
   class "No environment file outside Development\ncarries a RateLimiting section" as GAP <<gap>>
   class "No deployment artifact anywhere\nno Dockerfile, compose or manifest" as NODEPLOY <<gap>>
-  class "No diagnostic surface outside Development\nhealth, reference UI and OpenAPI\nare all mapped under IsDevelopment" as NODIAG <<gap>>
+  class "The OpenAPI document is mapped unconditionally\nand is the one diagnostic surface of a\nnon-Development run; health endpoints\nare Development only" as NODIAG <<gap>>
 }
 
 S2 --> GAP : the section exists in\none file of the whole tree
 S13 --> S14 : both are the process posture\nthe operator cannot change from settings
 S5 --> S6 : neither reproduces\nthe deployed schema path
 S15 --> NODEPLOY : the only start path\nis the developer one
-S5 --> NODIAG : the untested processes are\nalso the unobservable ones
+S5 --> NODIAG : the untested processes are\nalso the least observable ones
 
 note bottom of GAP
   Every launch profile sets Development, so the tuned budget is the only
   one this delivery ever runs - and an operator moving the system to any
   other environment silently gets the code defaults. AN-024.
+end note
+
+note bottom of NODIAG
+  app.MapOpenApi() is called at Program.cs:58, outside the
+  IsDevelopment block at 49-56. The reference UI (49-56) and
+  both health endpoints (ServiceDefaults:110-118) are gated;
+  the document is not.
 end note
 
 @enduml
@@ -345,7 +352,7 @@ end note
 | S5 | Testability as delivered: one test project over the API alone; the client and the BFF carry no test of any kind, and the three defective `/auth` flows are exactly the untested ones | AN-012; `Todo.Api.Tests/Todo.Api.Tests.csproj:9`; R012 |
 | S6 | The test host builds its schema with `EnsureCreated` rather than the migrations, so no test reproduces the schema the deployment creates | AN-005; `Todo.Api.Tests/TodoApplication.cs:11-14` |
 | S7 | The suite mints tokens by reproducing the bearer-token ticket format from framework internals, so a framework upgrade can break it with no behaviour change | AN-011; `Todo.Api.Tests/TokenService.cs:10,21,31-34` |
-| S8 | Diagnostic surfaces exist in Development only: the reference UI, the OpenAPI document, HTTP logging with bodies and headers, and both health endpoints | `Todo.Api/Program.cs:35-62`; `TodoApp.ServiceDefaults/Extensions.cs:110-118` |
+| S8 | The surfaces that exist in Development only are the reference UI, the HTTP logging content and both health endpoints. The reference UI is mapped inside the `IsDevelopment()` block; the logging stage itself runs in every environment while `CombineLogs` and `LoggingFields` — response body and response headers — are set only there; readiness and liveness are mapped inside the same environment test in the service defaults. The OpenAPI document is **not** one of them: `app.MapOpenApi()` is called outside the block and is served in every environment | `Todo.Api/Program.cs:35-46`; `Todo.Api/Program.cs:49-56`; `Todo.Api/Program.cs:58`; `TodoApp.ServiceDefaults/Extensions.cs:110-118` |
 | S9 | The developer container names SDK 8.0 while the build targets `net9.0` and the SDK pin is 9.0.100 | AN-007; `.devcontainer/devcontainer.json:2`; `Directory.Build.props:4`; `global.json:3` |
 | S10 | The store is addressable from configuration alone: `ConnectionStrings:Todos` when present, otherwise the relative `Data Source=.db/Todos.db`. The path is resolved against the API's working directory, so the same configuration names a different file depending on where the process is started | `Todo.Api/Program.cs:23`; AN-013 |
 | S11 | Provider registration is configuration-driven and fail-quiet: a scheme is registered only when `Authentication:Schemes:<name>` exists, and the delivered files carry no such section, so the system starts with no provider and reports nothing about the absence | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:39-92`; `Todo.Web/Server/appsettings.json`; AN-010 |
@@ -355,7 +362,7 @@ end note
 | S15 | The only start path that creates a schema is the developer one: the app host in its default run mode, gated on `Todo.Api/.db` being absent, with no connection string passed. There is no documented way to apply the migrations to any other database | `TodoApp.AppHost/Extensions.cs:1-34`; AN-005, AN-013 |
 | S16 | The delivery cannot be operated from its tree alone: no Dockerfile, compose file, manifest or runbook exists, two project files still carry container image properties that nothing uses, and the root `README.md` documents only the `dotnet run` path | `.iari/README.md`; `README.md`; DC12 |
 | S17 | The transport posture between the two processes is fixed in code, not in settings: the forwarder's target is the literal `http://todoapi` and the API's pipeline registers no redirection, so no configuration file the operator can edit changes whether that hop is protected | `Todo.Web/Server/TodoApi.cs:18`; `Todo.Web/Server/Program.cs:25-28`; `Todo.Api/Program.cs:44-47`; `DC13` |
-| S18 | The delivery ships no way to observe the system outside Development: the health endpoints, the reference UI and the OpenAPI document are all mapped under `IsDevelopment()`, so a non-Development run exposes no readiness probe and no diagnostic surface at all | `TodoApp.ServiceDefaults/Extensions.cs:110-118`; `Todo.Api/Program.cs:49-56`; `S8` |
+| S18 | The delivery ships one diagnostic surface that a non-Development run publishes and three that it does not. Serving in every environment: `app.MapOpenApi()` at line 58, outside the environment block, so `GET /openapi/v1.json` answers in any environment and is the only readiness-, health- or contract-level surface an operating instance exposes; the `UseHttpLogging` stage at line 44, likewise unconditional, though at its default field set. Gated on `IsDevelopment()`: the Scalar reference UI at 49-56 and both health endpoints at `TodoApp.ServiceDefaults/Extensions.cs:110-118`, so a non-Development run exposes no readiness probe, no liveness probe and no interactive reference, and the OpenAPI document alone remains. The API's root redirect to `/scalar/v1` is unconditional and therefore targets a UI that a non-Development run does not map (`AN-017`) | `Todo.Api/Program.cs:44,49-58,62`; `TodoApp.ServiceDefaults/Extensions.cs:110-118`; `S8` |
 
 ## Design Constraints
 Each constraint below is binding whether or not the delivery states it: it is what the code fixes, and a later phase that violates one breaks the system as delivered.
