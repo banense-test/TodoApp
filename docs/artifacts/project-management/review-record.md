@@ -32,19 +32,19 @@
 - Verdict: No-Go at this put
 
 ### Review Coordinator lens
-<!-- review: Consolidation I1 -->
-
-<!-- review: Consolidation I1 -->
+<!-- review: Consolidation I2 -->
 
 - Phase: Consolidation
-- Status: Draft — produced for the end-of-Consolidation (GHR) milestone review
+- Status: Draft — the GHR milestone consolidation; 0 Critical, 2 Major, 0 Minor open from the lenses that executed
 - Milestone Target: end-of-Consolidation (GHR) — not yet achieved
-- Iteration: 1, Cycle 1
+- Iteration: 2, Cycle 1
 - Owner: Review Coordinator
-- Review event: GHR — Greenfield Handoff Ready; gate H5 put 2026-11-23
+- Review event: GHR — Greenfield Handoff Ready; gate H5 put a second time, 2026-11-23
+- Review type: milestone review at phase exit; the iteration's Evaluation Criteria Review and Acceptance Review are folded into it, because the iteration and the phase close on one boundary in the sprint zero
 - Lenses executed: Reviewer (technical), ManagementReviewer (management)
 - Lens inactive: BusinessReviewer — did not evaluate this review
-- Milestone verdict: phase scope incomplete — six Major findings carried into Consolidation iteration 2
+- Stakeholder sanction: REFUSED — gate H5, second put, 2026-11-23
+- Verdict: phase scope incomplete — Consolidation iteration 3 required, gate H5 re-put there
 
 ## Review Scope and Criteria
 ### Reviewer lens
