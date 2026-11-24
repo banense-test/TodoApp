@@ -25,7 +25,8 @@ package "Request surfaces of the running system" {
   component "/users Identity endpoint set\nEP-015" as S_ID
   component "/users/token/{provider}\nEP-016" as S_TOKEN
   component "/auth on the BFF\nEP-004 to EP-008" as S_AUTH
-  component "OpenAPI, reference UI,\nhealth endpoints" as S_DOCS
+  component "OpenAPI document EP-018\nserved in every environment" as S_OPENAPI
+  component "Scalar reference UI EP-019\nhealth EP-020, alive EP-021\nDevelopment only" as S_DEVONLY
 }
 
 package "Mechanisms, and how far each one reaches" {
@@ -52,10 +53,8 @@ S_TOKEN --> M_DP
 S_AUTH --> M_COOKIE
 S_AUTH --> M_TLS
 S_AUTH --> M_HOST
-S_DOCS --> M_OBS
-M_LOG ..> S_TODOS : applies
-M_LOG ..> S_ID : applies
-M_MIG ..> S_TODOS : creates the schema before the API starts
+S_DEVONLY --> M_OBS
+S_DEVONLY --> M_BEARER
 
 note right of M_VAL
   The mechanism reaches only the parameter types an
@@ -95,6 +94,15 @@ note bottom of M_LOG
   gated on IsDevelopment.
 end note
 
+note bottom of S_DEVONLY
+  Two gatings, not one. Mapped outside the IsDevelopment block
+  at Program.cs:49-56 and therefore served in every environment:
+  MapOpenApi() at line 58. Mapped inside it: MapScalarApiReference
+  at 49-56, and both health endpoints at ServiceDefaults:110-118.
+  The unconditional root redirect at Program.cs:62 targets the
+  reference UI a non-Development run does not map. AN-017
+end note
+
 @enduml
 ```
 
@@ -107,10 +115,11 @@ end note
 | M5 | Data protection | `ApplicationDiscriminator` set to `TodoApp` in both the BFF and the API. No key persistence, key lifetime or key protection is configured in either program, so the two processes share a ring only where the framework's default file location is shared | `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11`; AN-010 | UC-003 |
 | M6 | Cookie session on the BFF | The default scheme is a cookie; a second cookie holds the external ticket; the access token is stored in the session's token set and read back by the forwarder | `Todo.Web/Server/Authentication/AuthenticationExtensions.cs:14-21`; `Todo.Web/Server/TodoApi.cs:18-22`; `Todo.Web/Server/AuthApi.cs:99-116` | UC-001, UC-002, UC-003, UC-004, UC-006 to UC-008 |
 | M7 | HTTP logging: the stage in every environment, the fields in Development only | `AddHttpLogging` and `UseHttpLogging` are both registered on the API outside any environment test, so every request is logged in every environment. What the environment gates is the content: `CombineLogs` and `LoggingFields` — response body and response headers — are set only when `IsDevelopment()`, so a non-Development run logs the stage's default request fields and no response body | `Todo.Api/Program.cs:35-46` | Every API request in every environment |
-| M8 | Telemetry, health checks and service discovery | OpenTelemetry traces, metrics and logs with the ASP.NET Core, HTTP and runtime instrumentation; OTLP export only when `OTEL_EXPORTER_OTLP_ENDPOINT` is non-empty; readiness and liveness endpoints; service discovery through Aspire | `TodoApp.ServiceDefaults/Extensions.cs:1-130` | Every process |
+| M8 | Telemetry, health checks and service discovery | OpenTelemetry traces, metrics and logs with the ASP.NET Core, HTTP and runtime instrumentation; OTLP export only when `OTEL_EXPORTER_OTLP_ENDPOINT` is non-empty; readiness and liveness endpoints mapped only inside the service defaults' Development test; service discovery through Aspire | `TodoApp.ServiceDefaults/Extensions.cs:1-130` | Every process |
 | M9 | Schema migration | The app host installs `dotnet-ef` and runs `database update --no-build` against the API project, waits for it, and only in run mode and only when `Todo.Api/.db` does not exist. No connection string is passed: a `TODO` records it | `TodoApp.AppHost/Extensions.cs:1-34`; `TodoApp.AppHost/Program.cs:1-28`; AN-005, AN-013 | The system's start-up, for every use case |
 | M10 | Transport protection, and where it stops | The BFF sets HSTS at 30 days in every environment except Development, redirects HTTP to HTTPS, and enforces antiforgery on its endpoints. The API sets none of the three: its request pipeline registers only HTTP logging and the rate limiter, so no HSTS, no redirection and no antiforgery runs there. The BFF addresses the API over the literal `http://todoapi`, so the hop between the two processes carries the bearer token in clear text unless a TLS terminator sits between them, and none is configured in the delivery (`DC13`) | `Todo.Web/Server/Program.cs:35-46`; `Todo.Web/Server/Program.cs:25-28`; `Todo.Api/Program.cs:44-47` | UC-001 to UC-008 |
 | M11 | Host filtering | `AllowedHosts` is `*` in both the API's and the BFF's base settings file, and their Development files carry no host section at all, so neither process restricts the `Host` header it answers (`DC14`) | `Todo.Api/appsettings.json:8`; `Todo.Api/appsettings.Development.json`; `Todo.Web/Server/appsettings.json:9`; `Todo.Web/Server/appsettings.Development.json` | Every request to either process |
+| M12 | The environment gating of the diagnostic surface | Three surfaces are served in every environment and three are not. Served unconditionally: `GET /openapi/v1.json` — `app.MapOpenApi()` at line 58, called **outside** the `if (app.Environment.IsDevelopment())` block at 49-56, so the document answers in any environment and is the one contract-level diagnostic surface an operating instance publishes; the HTTP logging stage at line 44, at its default field set; and the root `GET /` redirect to `/scalar/v1` at line 62. Gated on `IsDevelopment()`: the Scalar reference UI at 49-56, and the readiness and liveness endpoints at `TodoApp.ServiceDefaults/Extensions.cs:110-118`. A non-Development run therefore publishes the OpenAPI document and no interactive reference, no readiness probe and no liveness probe, and its unconditional root redirect targets a UI it does not map (`AN-017`) | `Todo.Api/Program.cs:44,49-58,62`; `TodoApp.ServiceDefaults/Extensions.cs:110-118`; AN-017 | UC-008 through the UI it serves, and every operating instance |
 
 ### Behaviours the recovered use cases must not overstate
 
@@ -128,6 +137,7 @@ end note
 | F10 | The request budget is not one value. The code defaults all three options to 100 and `appsettings.Development.json` binds all three to 50, and both launch profiles run Development | No request budget may be stated as a single figure, and no load or throttling observation taken in Development describes any other environment | AN-024; `Todo.Api/Extensions/RateLimitExtensions.cs:14-31`; `Todo.Api/appsettings.Development.json:8-12` |
 | F11 | The bearer token reaches the API over `http://todoapi`, and the API registers no HTTPS redirection, HSTS or antiforgery | No transport-security guarantee may be claimed between the two processes. The token crosses in clear text unless a terminator outside the delivery fronts the API | `Todo.Web/Server/TodoApi.cs:18`; `Todo.Web/Server/Program.cs:25-28`; `Todo.Api/Program.cs:44-47`; `DC13` |
 | F12 | Neither process restricts the `Host` header: `AllowedHosts` is `*` in both base settings files | No host-restriction claim may be made for any request | `Todo.Api/appsettings.json:8`; `Todo.Web/Server/appsettings.json:9`; `DC14` |
+| F13 | The diagnostic surface is not one surface and is not wholly Development-only: the OpenAPI document is served everywhere, the reference UI and both health endpoints only in Development | No runbook, release note or operating procedure may state that a non-Development run has no diagnostic surface, and none may assume the reference UI answers there | `Todo.Api/Program.cs:44,49-58,62`; `TodoApp.ServiceDefaults/Extensions.cs:110-118`; AN-017; `M12` |
 
 ## Usability
 The delivery states no usability requirement and carries no documentation of the interface beyond the README's screenshot. What the code fixes about the interface, it fixes in the three components of the client.
