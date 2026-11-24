@@ -24,13 +24,19 @@
 - Verdict: No-Go
 
 ### Review Coordinator lens
-<!-- review: Excavation I4 -->
+<!-- review: Consolidation I1 -->
 
-- Phase: Excavation
-- Status: Consolidation complete for the AR (end-of-Excavation) milestone review, iteration 4, cycle 1 — 0 open Critical, 0 open Major, 2 open Minor
-- Milestone Target: end-of-Excavation (AR) — sanctioned by the stakeholder at gate H4 put 4 on 2026-11-23
-- Iteration: 4, Cycle 1
+<!-- review: Consolidation I1 -->
+
+- Phase: Consolidation
+- Status: Draft — produced for the end-of-Consolidation (GHR) milestone review
+- Milestone Target: end-of-Consolidation (GHR) — not yet achieved
+- Iteration: 1, Cycle 1
 - Owner: Review Coordinator
+- Review event: GHR — Greenfield Handoff Ready; gate H5 put 2026-11-23
+- Lenses executed: Reviewer (technical), ManagementReviewer (management)
+- Lens inactive: BusinessReviewer — did not evaluate this review
+- Milestone verdict: phase scope incomplete — six Major findings carried into Consolidation iteration 2
 
 ## Review Scope and Criteria
 ### Reviewer lens
