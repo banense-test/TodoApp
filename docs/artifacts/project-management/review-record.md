@@ -1,15 +1,16 @@
 ## Document Control
 ### Reviewer lens
-<!-- review: Consolidation I1 -->
+<!-- review: Consolidation I2 -->
 
 - Phase: Consolidation
-- Status: Draft — the GHR technical lens, taken before the milestone verdict; 0 Critical, 3 Major, 2 Minor open from this lens
+- Status: Draft — the GHR technical lens, taken before the milestone verdict; 0 Critical, 1 Major, 0 Minor open from this lens
 - Milestone Target: end-of-Consolidation (GHR) — not yet achieved
-- Iteration: 1, Cycle 1
+- Iteration: 2, Cycle 1
 - Review point: Lifecycle Milestone Review, exit-criteria lens
 - Review type: formal inspection against checklist
 - Reviewer: Reviewer
 - Artifacts reviewed: 12 of 12
+- Prior findings of this lens: 5 open at the start of this turn, 5 closed this turn, 0 re-recorded
 - Disposition: Approved with Changes
 
 ### Management Reviewer lens
