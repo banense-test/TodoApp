@@ -132,76 +132,58 @@ end note
 **What was deliberately not judged.** `Iteration Assessment` is the Project Manager's Assess touchpoint and runs after this review; at review time it cannot describe the iteration under review, so its absence is not a defect and not a gate condition. `Change Request` is not opened in the sprint zero, where no Change Control Manager works. Neither is a finding.
 
 ### Review Coordinator lens
-<!-- review: Excavation I4 -->
+<!-- review: Consolidation I1 -->
 
-**Lens participation at this milestone — authoritative, not inferred from the artifact.** Excavation's milestone review runs Reviewer, then Management Reviewer, then Review Coordinator. The Business Reviewer's first scheduled stage is LCO, so at AR it is not a participant.
+<!-- review: Consolidation I1 -->
 
-| Lens | Participation | What it evaluated | Bearing on the verdict |
-|---|---|---|---|
-| Reviewer (technical) | EXECUTED | Ten artifacts against nine checklist items; every closure re-verified at the registry, the file or the peer artifact | Counted in full — 0 Critical, 0 Major, 1 Minor |
-| Management Reviewer | EXECUTED | The thirteen AR exit criteria A1 to A13 against the artifact each is decided on; the grant band; gate H4 | Counted in full — 0 Critical, 0 Major, 1 Minor |
-| Business Reviewer | **INACTIVE — did not evaluate this review** | Nothing | No verdict attributed and none inferred |
-| Review Coordinator | EXECUTED | The consolidated ledger, cross-lens reconciliation, action priority, the milestone verdict | Records the verdict in Disposition |
+**Review type:** Milestone review at phase exit — the Greenfield Handoff Ready (GHR) review, which sanctions (or refuses) the transition from Consolidation into Inception. Per decision heuristic 1 it is a milestone review and nothing substitutes for it; the Iteration Evaluation Criteria Review and the Iteration Acceptance Review for this iteration are folded into it, because the iteration and the phase close on the same boundary in the sprint zero.
 
-**Review events of this milestone, each triggered by a workflow activity.** No event sits on a calendar date; each follows the activity that produces the artifacts it judges.
+**Trigger:** Consolidation iteration 1's artifacts in their target state and the Iteration Plan's GHR criteria `G1` to `G8` written. Not a calendar date, and not decoupled from the plan: if the iteration's artifacts slip, this review slips with them.
 
-```plantuml
-@startuml
-title AR milestone review events, Excavation iteration 4 - each event triggered by the workflow activity that produces what it judges
-skinparam shadowing false
-skinparam wrapWidth 230
+**Scope:** twelve artifacts read — the eight CORE artifacts this phase produces, the System Inventory, and the Review Record itself.
 
-|Workflow activities|
-start
-:Iteration 3 closes with 5 open entries
-0 Critical, 2 Major entries over one defect, 3 Minor;
-:Iteration 4 corrective pass
-four owner corrections across three artifacts;
-:Gate H4 put a fourth time
-the recovered set confirmed at the third put;
+| Artifact | Owner | Why it is in scope at GHR |
+|---|---|---|
+| Development Case | Process Engineer | The tailoring that governs every discipline's floor this milestone |
+| System Inventory | Software Archaeologist | The coverage this phase exists to count |
+| Risk List | Project Manager | The register the phase's exposures are carried on |
+| Iteration Plan | Project Manager | The criteria the GHR verdict is read on |
+| Vision | System Analyst | The stakeholder-facing statement of the recovered set |
+| Use-Case Model | System Analyst | The 11 use cases and 4 stated exclusions |
+| Supplementary Specification | System Analyst | The mechanisms the use cases include |
+| Software Architecture Document | Software Architect | The 22-component architecture |
+| Deployment Model | Software Architect | The fired optional trigger's artifact |
+| Design Model | Designer | 42 classes, 8 tables, the edge set |
+| Review Record | Reviewer / Management Reviewer / Review Coordinator | This record |
+| Iteration Assessment | Project Manager | Not judged here — it is written on the verdict (see Disposition) |
 
-|Reviewer|
-:Iteration Plan Review
-A1, A10, A11 and O2 read at the artifacts their cells name;
-:Iteration Evaluation Criteria Review
-nine checklist items on ten artifacts;
-:Verdict issued - Approved with Changes
-one Minor recorded, no Major;
+**Lens participation — authoritative, not inferred from the artifact.**
 
-|Management Reviewer|
-:Exit-criteria lens
-thirteen criteria, each decided on the artifact that owns it;
-:Gate H4 recorded as put and granted
-answer Yes, 2026-11-23;
-:Verdict issued - Go;
+| Lens | Status | What it contributes to the verdict |
+|---|---|---|
+| Technical / Reviewer | EXECUTED | 30 entries recorded, 24 closed, 6 open — 3 Major, 2 Minor under its own keys |
+| Management / ManagementReviewer | EXECUTED | 20 entries recorded, 17 closed, 3 open — 3 Major under its own keys, plus the gate H5 put and the stakeholder's answer |
+| Business / BusinessReviewer | **INACTIVE — did not evaluate this review** | Nothing. Business Modeling is inactive for this project (`business-process-led = false`, Development Case); the lens is not counted as Approved, not counted as a pass, and no part of the milestone decision rests on it |
+| Review Coordinator | Executing (this role) | The ledger, the cross-lens reconciliation, the action priorities, the calendar, the metrics and the verdict |
 
-|Review Coordinator|
-:Consolidated ledger read from the finding data
-42 entries over 12 artifacts, 2 open;
-:Milestone verdict recorded
-requiresIteration false;
+**Entry criteria — enforced before the review began.**
 
-|Stakeholder|
-:Gate H4 answered Yes
-sanction GRANTED 2026-11-23;
-stop
-@enduml
-```
+| Criterion | State at entry |
+|---|---|
+| The artifacts reviewed are in target state, not draft-for-review | Met — each artifact's Document Control names Consolidation iteration 1 |
+| Reviewers assigned with matching expertise | Met — architecture and design artifacts to the technical lens, the tailoring and coverage artifacts to both lenses, the sanction question reserved to the stakeholder |
+| Agenda and evaluation criteria distributed in advance | Met — the Iteration Plan's `G1` to `G8` state the criteria before the artifact set is read |
+| The tailoring exists and is current | Met — Development Case made current for Consolidation |
 
-**Review scope.** Twelve artifacts were read for findings: Development Case, System Inventory, Risk List, Iteration Plan, Review Record, Iteration Assessment, Vision, Use-Case Model, Supplementary Specification, Software Architecture Document, Deployment Model, Design Model. Ten are the recovered set under judgement; the Iteration Assessment is read because its cells state the iteration's own outcome; the Review Record is read because this lens writes into it.
+**Exit criteria — enforced before the verdict.**
 
-**Entry and exit criteria enforced at each event.**
-
-| Event | Entry criterion | Exit criterion | Enforced |
-|---|---|---|---|
-| Iteration Plan Review | The plan carries this iteration's work items with owners, and each criterion is read on the artifact its evidence cell names | Every criterion decided on its own artifact's evidence | **Yes** — A1, A10, A11 and O2 read at the artifacts their cells name; `Iteration Plan#F4` and `#F9` closed |
-| Iteration Evaluation Criteria Review | The recovered artifacts are in their target state and the anchors exist to be checked | Every finding verified at the section it names, and at the source where the finding turns on a recovered fact | **Yes** — six closures, each citing the graph, the file or the peer artifact at which it was verified |
-| Lifecycle Milestone Review (AR) | Both executed lenses have returned and the stakeholder's gate answer is on the record | 0 Critical and 0 Major open, and the stakeholder's sanction GRANTED | **Yes** — 0 Critical, 0 Major, sanction GRANTED at put 4 on 2026-11-23 |
-| Iteration Acceptance (folded into the same review) | The phase's three stated objectives are on the plan with an evidence cell each | Each objective met on the artifact that carries it | **Yes** — O1, O2 and O3 met on the Use-Case Model, the Software Architecture Document and the Deployment Model |
-
-**Scope of this consolidation.** The four exclusions the stakeholder ruled on stand untouched and no finding at this gate approaches them: external-provider sign-in is recovered and marked unreachable in the delivered configuration; the cross-owner admin branch of `EP-011`, `EP-013` and `EP-014` is an exceptional entity and not a use case; `EP-020`, `EP-021` and `EP-022` carry no use case. The Data Model, the Glossary and the Test Plan are absent on the Development Case's NOT FIRED verdict on each trigger; both executed lenses checked each verdict against its §5.2 condition and neither carries a finding.
-
-**No SCM surface is reviewed.** The repository reports no pull request in any state and no IARI pipeline file exists. Excavation produces no production code, so the absence of a diff and of a CI result is the phase's correct state, not a gap in this review's coverage.
+| Criterion | State at the close |
+|---|---|
+| Every Critical and Major finding has an owner and a deadline | Met — all nine open entries carry an owner and are scheduled in Consolidation iteration 2 |
+| The Review Record is signed and archived | Met — this record, committed to the SCM repository |
+| No open Critical and no open Major at the milestone | **Not met — 6 Major open.** This is why the milestone is not sanctioned |
+| The stakeholder sanction is recorded | Met as recorded — gate H5 was put and **REFUSED**; a refusal is a recorded answer and admits no Conditional Go |
+| Coverage counted at the bar the milestone is reviewed against | **Not met on the figure the artifacts state** — see `System Inventory#F4` and `Iteration Plan#F11` |
 
 ## Findings
 ### Reviewer lens
