@@ -832,72 +832,37 @@ stop
 ```
 
 ### Management Reviewer lens
-<!-- review: Consolidation I1 -->
+<!-- review: Consolidation I2 -->
 
-<!-- review: Consolidation I1 -->
+<!-- review: Consolidation I2 -->
 
-Findings my lens closed at this milestone: one. All six Major defects and three Minor stand open and are the further iteration's work.
+Five actions stand from this lens at this put. Four are closed — the tool call and this table agree, each closure verified in the artifact that carried the defect. One is open, and it is the one act that holds the milestone.
 
-| Artifact | Key | Criterion | Owner | The corrective action |
-|---|---|---|---|---|
-| Iteration Plan | F11 | `exit-criterion-unmet` | Project Manager | Write the threshold into G4 — every file either opened or named with its reason, and coverage of the delivery's own tree at 80% or more — and state both ratios in the evidence cell: 84 of 139 raw, and 84 of 94 (89.4%) over the tree the reading is about, naming the 45 vendored Bootstrap files as the one excluded third-party distribution. The stakeholder ruled that denominator on 2026-11-23 |
-| Iteration Plan | F12 | `consumed-defect` | Project Manager | Name the second cause in G3's evidence cell — the Supplementary Specification's S8 and S18 against `Todo.Api/Program.cs:58` and against the SAD's M12 and the Deployment Model's Environment Mapping — and list both corrections in the further iteration's work items, not the four trace edges alone |
-| Iteration Plan | F13 | `exit-criterion-unmet` | Project Manager | Restate G6's evidence cell to carry R033 at the state the register records — exposure in the High band, avoidance unperformed, warning sign firing, all four edges marked — and decide the criterion on that state rather than on the strategy label |
-| Design Model | F2 | `trace-gap` | Designer (2 edges), System Analyst (2 edges) | Each owner reads its own end and clears the edge stating why it still holds, or retires and re-registers it with the link type its evidence supports: `CLS-001 → TBL-001` and `CLS-007 → TBL-002` for the Designer; `CLS-020 → UC-007` and `CLS-020 → UC-010` for the System Analyst. The evidence is already written in the model, so no re-reading of the code is needed |
-| Supplementary Specification | F4 | `consumed-defect` | System Analyst | Correct S8 and S18 against the code: `MapOpenApi()` is mapped at `Todo.Api/Program.cs:58`, outside the `if (app.IsDevelopment())` block at 49-56, so the OpenAPI document is served in every environment and is a diagnostic surface an operating instance does publish. Bring S18's conclusion with it |
-| System Inventory | F4 | `exit-criterion-unmet` | Software Archaeologist | State the two ratios the tree actually has and settle which one coverage is counted on. Keep 139 files / 84 opened / 55 unopened as the raw count and add the ratio over the 94 files that are the delivery's own tree — 84 opened, 89.4%, 67 anchored — with the 45 vendored Bootstrap files named as one third-party distribution the stakeholder does not call their system. Change no count and no per-area row: the arithmetic reproduces |
-| Risk List | F4 | `contained-defect` | Project Manager | Restate R033's probability at 5 with a one-line basis naming what the evidence states, or state why an exposure whose warning sign has already fired is scored in the 51 to 70% band. Apply the same test to R031 |
-| Vision | F2 | `contained-defect` | System Analyst | Settle the OpenAPI gating with `Supplementary Specification#F4`; one correction closes both |
-| Software Architecture Document | F2 | `contained-defect` | Software Architect | State which count "one setting" and "two settings" each refer to, or adopt the Deployment Model's count and say so — the facts already agree and only the word differs |
+| # | Finding | Severity | Owner | Action that closes it | State |
+|---|---|---|---|---|---|
+| 1 | `Risk List#F4` | Minor | Project Manager | Restate `R033`'s probability at 5 on the basis its own evidence states, carrying exposure 20, and apply the same test to `R031` | **Resolved** — both rows read 5 × 4 = 20 with their basis stated, and the register publishes the rule above its tables |
+| 2 | `Iteration Plan#F11` | Major | Project Manager | Write the coverage threshold into `G4`'s own text and state both ratios in its evidence cell | **Resolved** — the criterion reads "over the delivery's own tree … 80 per cent or more"; evidence states 84 of 94 (89.4 per cent) against the bar and raw 84 of 139 (60.4 per cent) beside it |
+| 3 | `Iteration Plan#F12` | Major | Project Manager | Name the second cause in `G3`'s evidence cell — the OpenAPI gating — and list both corrections in the iteration's work items | **Resolved** — the cell names both causes, both settled; the Specification's S8, S18 and F13 now hold the gating SAD `M12` and the Deployment Model state |
+| 4 | `Iteration Plan#F13` | Major | Project Manager | Restate `G6`'s evidence cell so the criterion is decided on the act performed rather than on the strategy label | **Resolved** — the criterion's test closes "decided on the action performed, never on the strategy word a cell carries"; the act is recorded for both High-band rows |
+| 5 | `Risk List#F5` | Major | Project Manager | Restate `R033`'s strategy cell, the section preamble and the diagram note at the state the graph holds: clearance performed on all four, the exposure retired, the warning sign no longer firing; keep the score at 5 × 4 = 20 | **Open** — the three places still state the avoidance owed and the sign firing |
 
-```plantuml
-@startuml
-title The further Consolidation iteration - nine corrective acts, each with the role the process schedules here
-skinparam shadowing false
-skinparam wrapWidth 250
+#### What the closure of each was verified against
 
-|Project Manager|
-start
-:Iteration Plan#F11 - G4's threshold written into the criterion,
-both coverage ratios in the evidence cell;
-:Iteration Plan#F12 - G3's evidence names both contradictions,
-the further iteration's items carry both corrections;
-:Iteration Plan#F13 - G6 decided on R033's recorded state,
-not on the strategy label;
-:Risk List#F4 - R033's probability against the evidence it states,
-R031 tested the same way;
-:plan the further iteration from this record, and re-put gate H5;
+| Finding | Verified in the artifact, not on the owner's word |
+|---|---|
+| `Risk List#F4` | `Risk Register` rows `R031` and `R033` both read 5 \| 4 \| 20 \| High, and the Mitigation section's preamble states the scoring rule the two rows are scored by |
+| `Iteration Plan#F11` | `Evaluation Criteria` `G4` — criterion, test and evidence cells; the three figures checked against `System Inventory` → `Coverage`, which states the same three on the same denominator |
+| `Iteration Plan#F12` | `Evaluation Criteria` `G3` evidence cell against `Supplementary Specification` S8, S18 and F13, each read in full this turn |
+| `Iteration Plan#F13` | `Evaluation Criteria` `G6` test and evidence cells against `model_query_traces` at three ends — `CLS-001` downstream, `CLS-007` downstream, `CLS-020` upstream — none returning a marking |
+| `Risk List#F5` (open) | `Risk Mitigation and Contingency` R033 strategy and warning-sign cells; the section preamble; the diagram note. Each still states the avoidance unperformed and the sign firing on all four |
 
-|System Analyst|
-:Supplementary Specification#F4 - S8 and S18 corrected against
-Todo.Api/Program.cs:58, outside the Development block at 49-56;
-:Vision#F2 - the same gating settled in one pass;
-:CLS-020 to UC-007 and CLS-020 to UC-010 cleared with the reading stated;
+#### Actions this lens does not own
 
-|Designer|
-:CLS-001 to TBL-001 and CLS-007 to TBL-002 cleared
-with the reading the model already holds;
+The four Majors the technical lens recorded at the first put are closed at their own artifacts — `System Inventory#F4`, `Supplementary Specification#F4`, `Design Model#F2` — together with its two Minors on the Vision and the Software Architecture Document. They were resolved through that lens, not this one, and are recorded as verified in the Disposition's table rather than here.
 
-|Software Architect|
-:Software Architecture Document#F2 - the count reconciled
-with the Deployment Model's;
+`[OMITTED: Change Request — not opened in the sprint zero, where no Change Control Manager works; the stakeholder's orders reach their owners through the Work Order and through this record]`
 
-|Software Archaeologist|
-:System Inventory#F4 - the own-tree ratio stated beside the raw count,
-the 45 Bootstrap files named as the excluded distribution;
-
-|Management Reviewer|
-:the GHR lens re-run on records that agree with the set;
-:gate H5 put again;
-stop
-@enduml
-```
-
-**Why this is one iteration's work and not more.** Every one of the nine acts belongs to a role the process schedules in Consolidation — Environment, Requirements, Analysis & Design, Discovery and Project Management all run here, and the three lenses of the milestone review follow them. None requires a decision from the stakeholder: the one decision that was theirs, the coverage denominator, they gave in the answer that refused the sanction. None requires re-reading the code: the four trace edges carry their evidence in the model, the OpenAPI fact is anchored at a line number, and the coverage arithmetic reproduces from the table. No recovered content is touched, which is why the stakeholder's confirmation of the eleven use cases, four exclusions, twenty-two components and eight tables is unaffected by any act on this list.
-
-**The one closure this lens recorded.** `Iteration Plan#F10` — three cells recording gate H4's fourth put as unanswered — is closed and verified: the plan now carries GHR's criteria in place of the AR criteria, and the fourth put is recorded as passed in the milestone sequence. The one gate the plan records as unput is H5, a different gate, which genuinely had not been put at the time and has now been put and refused.
-
-**Two Minors the technical lens and I recorded that no criterion turns on.** `Risk List#F4` and `Software Architecture Document#F2` are inside their artifacts; the further iteration lists them with the Majors because their owners are working those artifacts anyway, not because they hold anything.
+`[OMITTED: Iteration Assessment — the Project Manager writes it on the verdict, so at review time it cannot describe the iteration under review. Its absence is not a defect and not a gate condition]`
 
 ### Review Coordinator lens
 <!-- review: Consolidation I1 -->
