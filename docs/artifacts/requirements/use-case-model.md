@@ -1,8 +1,8 @@
 ## Document Control
 - Phase: Consolidation
-- Status: Draft — produced for the end-of-Consolidation (GHR) milestone review
+- Status: Draft — produced for the end-of-Consolidation (GHR) milestone review; eleven use cases and four exclusions unchanged, the two `CLS-020` `Realizes` edges into UC-007 and UC-010 confirmed at this end
 - Milestone Target: end-of-Consolidation (GHR) — not yet achieved
-- Iteration: 1, Cycle 1
+- Iteration: 2, Cycle 1
 - Owner: System Analyst
 
 ## Use-Case Diagram
