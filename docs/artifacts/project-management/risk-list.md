@@ -172,7 +172,7 @@ package "System Inventory anomalies - 29, each one risk" {
 package "Risk List - 34 risks" {
   component "R001 to R021, R023 to R030\none per anomaly" as ANOM
   component "R022  milestone waits on stakeholder gates" as R022
-  component "R031  a criterion's owner was not scheduled" as R031
+  component "R031  a criterion owner was not scheduled" as R031
   component "R032  one fact transcribed inconsistently" as R032
   component "R033  an edge stays suspect at the gate" as R033
   component "R034  the snapshot names another product version" as R034
@@ -209,8 +209,8 @@ A28 --> ANOM : Refines
 A29 --> ANOM : Refines
 
 note bottom of R022
-  R022 has no anomaly behind it: it is the plan\'s own dependency
-  on stakeholder answers, carried because every phase\'s gate depends on one.
+  R022 has no anomaly behind it: it is the plan-level dependency
+  on stakeholder answers, carried because every gate of a phase depends on one.
 end note
 
 note bottom of R031
@@ -227,8 +227,8 @@ note bottom of R033
 end note
 
 note bottom of R034
-  R034 refines no anomaly either: the System Inventory\'s own coverage
-  count names this reading as the one it hands forward incomplete.
+  R034 refines no anomaly either: the coverage count this phase publishes
+  names this reading as the one it hands forward incomplete.
   The snapshot records product version 8.0.0 against a net9.0 build.
 end note
 
@@ -271,6 +271,22 @@ end note
 | R032 | One recovered fact is transcribed inconsistently into the artifacts that cite it, so the set a milestone certifies contradicts the fact its own phase recorded. The AR review established it: four of its eight Majors were two code facts — the Development rate-limit override and the standard resilience handler — stated wrongly in four artifacts, while the System Inventory had recorded both in the same phase as AN-024 and AN-023 | the AR review's ledger — `Supplementary Specification#F1`, `#F2`, `Software Architecture Document#F1`, `Deployment Model#F1`; the two facts are anchored at `Todo.Api/appsettings.Development.json:8-12` and `TodoApp.ServiceDefaults/Extensions.cs:32-42` | 4 | 3 | 12 | Significant | Avoid — **avoidance performed on all six citing artifacts; the exposure is retired; the residual discharged.** All six now hold, the Use-Case Model's rules diagram R6 stating both budgets under `AN-024`; both lenses re-read them at Excavation's milestone review and found them agreeing | Project Manager |
 | R033 | An edge the artifact holds stays marked SUSPECT when the phase closes, so the set a milestone certifies rests on a link no owner has confirmed — and the finding rule makes a suspect left open at phase close a Major against the artifact that carries it. The registered graph returns four such edges: `CLS-001` → `TBL-001` and `CLS-007` → `TBL-002` marked for the Designer, `CLS-020` → `UC-007` and `CLS-020` → `UC-010` marked for the System Analyst. Both roles are scheduled in this phase, and the Design Model states the reasoning for each edge so the clearance needs no re-reading. Scored 5 × 4 because the row's own evidence records the sign as firing on all four, which is not a 51% to 70% likelihood | the trace graph as it stands: four `Realizes`/`Specifies` edges returned marked `[SUSPECT]`, two against the Designer and two against the System Analyst; the Design Model's Traceability section states the evidence for each | 5 | 4 | 20 | High | Avoid — **not performed; firing** — clearance is the owner's act and both owners hold a stage in this phase: each reads its own end, then clears the edge with `model_clear_suspect` stating why it still holds, or retires and re-registers it if it does not | Designer (two edges), System Analyst (two edges) |
 | R034 | A later role scaffolds a migration against a snapshot that names another EF Core product version, and the generated migration disagrees with the model it was read from: `TodoDbContextModelSnapshot` records `ProductVersion` `8.0.0` while the build targets `net9.0` and resolves the EF Core packages at 9.x. Nothing in the delivery reconciles the two, and no anomaly row records it — this phase's own coverage count names it as the one reading it hands forward incomplete | `Todo.Api/Migrations/TodoDbContextModelSnapshot.cs` (`HasAnnotation("ProductVersion", "8.0.0")`); `Directory.Build.props:4` (`net9.0`); `Directory.Packages.props` (EF Core 9.x); the System Inventory's Coverage section, which names this file as the phase's incomplete reading | 3 | 4 | 12 | Significant | Avoid | Database Designer |
+
+### Grants for accepted risks
+
+Four risks take the accept strategy inside the Significant band. Each carries the stakeholder's own answer of 2026-11-23, and no other risk is accepted above Moderate on this role's authority.
+
+| Risk | Exposure | What the stakeholder accepted | Their answer |
+|---|---|---|---|
+| R004 | 4 × 3 = 12 | That a later role treats the `admin` branch as live functionality while nothing in the running system grants the role — for the sprint zero, until Excavation records it as the exceptional entity they ruled it to be | Yes |
+| R011 | 4 × 3 = 12 | That a framework upgrade breaks the test suite while no product behaviour changes — for the sprint zero | Yes |
+| R012 | 4 × 3 = 12 | That the BFF and the client carry no test of any kind, and the three defective `/auth` flows are exactly the untested ones — for the sprint zero | Yes |
+| R016 | 4 × 3 = 12 | That every recovered element is an interpretation of code with no stated intent to check it against — for the sprint zero | Yes |
+
+`R015` and `R022` are accepted at Moderate exposure (8), which is this role's authority at any band. `R030`, `R031`, `R032`, `R033` and `R034` take the avoid strategy, so no grant is needed for any of them and none is assumed. `R031` and `R033` sit in the High band at exposure 20 and are avoided, which is this role's authority at every band — and neither avoidance is claimed as a status note: `R031`'s action has been performed and its row says so, `R033`'s has not and its row says that too.
+
+Two of the four grants were scoped to the sprint zero by their own wording. `R004` closes when Excavation records the `admin` branch as the exceptional entity the stakeholder ruled it to be, which that phase has done. Neither `R011` nor `R012` is retired by the sprint zero: writing tests is work no phase before Elaboration runs.
+
 ## Risk Mitigation and Contingency
 Each risk carries the action its owner takes and the sign that it has started to bite. A risk accepted carries a mitigation as well as a contingency; a risk avoided is retired by its action, which the named owner performs. A risk whose action has not been performed is stated as not yet retired: avoidance is a claim of retirement, not a status note, and this register does not make that claim where it is not true.
 
