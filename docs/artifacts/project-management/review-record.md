@@ -178,7 +178,7 @@ This lens decides whether the organization may hand the recovered set forward as
 |---|---|---|---|
 | M1 | Every artifact the phase activates is present and its Document Control names this iteration | All 12 | Each names Phase Consolidation, Iteration 2, Cycle 1 |
 | M2 | Every GHR exit criterion is true on the artifact its evidence cell cites, read at that artifact and not on the plan's word | Iteration Plan `G1` to `G8` | Criteria table below; `G4` recomputed from the System Inventory's per-area table, `G3` and `G6` from the Specification and the register |
-| M3 | The stakeholder accepts the complete set as the starting point of the declared change | gate H5 | Put and refused at the first put; re-put at this iteration's close — see Disposition |
+| M3 | The stakeholder accepts the complete set as the starting point of the declared change | gate H5 | Put a second time on 2026-11-23 and **refused**; the answer and the order it carried are recorded in Disposition |
 | M4 | No risk in the High or Significant band is accepted on the Project Manager's authority | Risk List, grants table | Four accepts at 4 × 3 = 12, each quoting the stakeholder's own answer; `R015` and `R022` accepted at Moderate 8, which is this role's authority |
 | M5 | Every risk's magnitude reproduces from its own stated probability and impact, on the one published scale | Risk List | All 34 rows recomputed; `R031` and `R033` both read 5 × 4 = 20 with the basis each row states |
 | M6 | A risk recorded as retired has had its retirement act performed, and a risk whose act was performed is not recorded as owed | Risk List | One row fails — `R033` → `Risk List#F5` |
@@ -187,7 +187,7 @@ This lens decides whether the organization may hand the recovered set forward as
 | M9 | The Development Case does not redefine the baseline: roster, CORE ownership, CORE omission, the CORE + OPTIONAL universe, use-case enumeration | Development Case | Deltas only; two roles inactive with their triggers; six optional verdicts |
 | M10 | Every OPTIONAL artifact the Development Case declares fired has its §5.2 condition genuinely holding | Development Case, Deployment Model | One fired — Deployment Model, on a four-process topology with a proxy hop and a per-project settings pair. Holds |
 | M11 | No quantitative claim is unsourced and no figure is fabricated | All 12 | The four grants cite the stakeholder's answers; coverage reproduces from its own table; every spend figure is a measured actual of a closed phase |
-| M12 | A conditional verdict issued at a prior milestone has its conditions verified resolved before the next verdict | Gate H4's fourth put, gate H5's first put | Both checked — criterion table below and the prior-findings reconciliation |
+| M12 | A conditional verdict issued at a prior milestone has its conditions verified resolved before the next verdict | Gate H4's fourth put, gate H5's two puts | Both checked — criterion table below and the prior-findings reconciliation |
 | M13 | The plan and the record agree with the artifacts they describe: no cell states as present fact a state its own artifact has superseded | Iteration Plan, Risk List | Four of five prior Majors of this kind closed and verified; one instance remains, recorded in the register rather than the plan |
 
 #### The eight GHR criteria, each read at the artifact it cites
@@ -195,7 +195,7 @@ This lens decides whether the organization may hand the recovered set forward as
 | Criterion | State on the evidence read this turn | What was read |
 |---|---|---|
 | `G1` set present and anchored | Met | Every artifact's Document Control names this phase; `UC-001` to `UC-011` with four exclusions, `COMP-001` to `COMP-022`, `TBL-001` to `TBL-008` |
-| `G2` stakeholder accepts the set | **Not met — refused at the first put, re-put at this close** | No Yes exists. The refusal of 2026-11-23 and the order it carried are recorded in Disposition |
+| `G2` stakeholder accepts the set | **Not met — refused at the second put, 2026-11-23** | No Yes exists. The answer and the order it carried are recorded in Disposition |
 | `G3` no recovered element reopened or contradicted | Met | Both causes the plan names are settled at their artifacts: the four cleared edges, and the OpenAPI gating now stated identically in the Specification's S8, S18 and F13, SAD `M12` and the Deployment Model |
 | `G4` coverage counted over the delivery's own tree, at 80 per cent or more | Met | System Inventory, Coverage: 84 of 94 own-tree files opened, 89.4 per cent; 67 anchored, 71.3 per cent; 10 own-tree files unopened, each named; raw 84 of 139 stated beside it as not the figure measured on |
 | `G5` every incomplete reading named | Met | The model snapshot's product version, carried as `R034` with an owner and an action performed |
@@ -207,7 +207,7 @@ This lens decides whether the organization may hand the recovered set forward as
 
 ```plantuml
 @startuml
-title GHR compliance at the second put of gate H5 - eight criteria, one gate, one defect holding it
+title GHR compliance at the second put of gate H5 - eight criteria, one gate refused, one defect holding it
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 skinparam wrapWidth 240
@@ -225,7 +225,7 @@ package "True on the artifact each cites - 7" {
 }
 
 package "The gate - the stakeholder's answer alone" {
-  class "G2  the stakeholder accepts the complete set\nas the starting point of the declared change" as G2 <<refused, re-put>>
+  class "G2  the stakeholder accepts the complete set\nas the starting point of the declared change" as G2 <<refused 2026-11-23>>
 }
 
 package "The one defect this lens records" {
@@ -247,8 +247,11 @@ note bottom of D1
   contradicts cannot be certified as the record stands.
 end note
 note bottom of G2
-  No Yes is recorded that the stakeholder has not given.
-  A refusal admits no Conditional Go.
+  Put twice and refused twice: the first on 2026-11-23 with the
+  order to clear six Majors here, the second on the same date with
+  the order that the major findings be fixed. No Yes is recorded
+  that the stakeholder has not given, and a refusal admits no
+  Conditional Go.
 end note
 @enduml
 ```
@@ -268,7 +271,7 @@ The four Major findings recorded by the technical lens at the first put are also
 
 #### Prior conditional verdicts, checked
 
-The Excavation close issued no Conditional Go — the AR gate was refused three times and sanctioned at its fourth put on a clean record, so no condition from that milestone survives into this one. Gate H5's own first put issued no Conditional Go either: the stakeholder refused the advance outright and ordered the six Major findings cleared here, which is what this iteration did. Neither condition is dropped silently; both are checked and neither exists.
+The Excavation close issued no Conditional Go — the AR gate was refused three times and sanctioned at its fourth put on a clean record, so no condition from that milestone survives into this one. Gate H5's two puts issued no Conditional Go either: the stakeholder refused the advance both times, ordering at the first that the six Major findings be cleared here and at the second that the major findings be fixed. Neither condition is dropped silently; both are checked and neither exists.
 
 #### Project health at this gate
 
