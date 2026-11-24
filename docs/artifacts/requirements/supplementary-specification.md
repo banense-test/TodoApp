@@ -364,6 +364,10 @@ end note
 | S17 | The transport posture between the two processes is fixed in code, not in settings: the forwarder's target is the literal `http://todoapi` and the API's pipeline registers no redirection, so no configuration file the operator can edit changes whether that hop is protected | `Todo.Web/Server/TodoApi.cs:18`; `Todo.Web/Server/Program.cs:25-28`; `Todo.Api/Program.cs:44-47`; `DC13` |
 | S18 | The delivery ships one diagnostic surface that a non-Development run publishes and three that it does not. Serving in every environment: `app.MapOpenApi()` at line 58, outside the environment block, so `GET /openapi/v1.json` answers in any environment and is the only readiness-, health- or contract-level surface an operating instance exposes; the `UseHttpLogging` stage at line 44, likewise unconditional, though at its default field set. Gated on `IsDevelopment()`: the Scalar reference UI at 49-56 and both health endpoints at `TodoApp.ServiceDefaults/Extensions.cs:110-118`, so a non-Development run exposes no readiness probe, no liveness probe and no interactive reference, and the OpenAPI document alone remains. The API's root redirect to `/scalar/v1` is unconditional and therefore targets a UI that a non-Development run does not map (`AN-017`) | `Todo.Api/Program.cs:44,49-58,62`; `TodoApp.ServiceDefaults/Extensions.cs:110-118`; `S8` |
 
+### Where the same gating is stated
+
+The gating above is the one `M12` of the Software Architecture Document and the Environment Mapping of the Deployment Model state, on the same anchors. Those two artifacts and this one now answer the environment question identically: the reference UI and both health endpoints are Development-only, the OpenAPI document is mapped unconditionally, and the HTTP logging stage runs everywhere with its field set gated.
+
 ## Design Constraints
 Each constraint below is binding whether or not the delivery states it: it is what the code fixes, and a later phase that violates one breaks the system as delivered.
 
