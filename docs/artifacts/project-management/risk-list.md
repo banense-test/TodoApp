@@ -110,13 +110,13 @@ end note
 
 | Magnitude | Risks | Count | Strategy in this register |
 |---|---|---|---|
-| High | R033 | 1 | R033 avoids; avoidance is the Project Manager's authority at any band, so no grant is needed and none is assumed |
-| Significant | R001, R002, R003, R004, R005, R007, R009, R010, R011, R012, R016, R018, R020, R021, R023, R024, R026, R028, R030, R031, R032, R034 | 22 | R004, R011, R012 and R016 accept, each under the stakeholder's own grant of 2026-11-23; the other eighteen avoid, which is the Project Manager's authority at any band |
+| High | R031, R033 | 2 | Both avoid; avoidance is the Project Manager's authority at any band, so no grant is needed and none is assumed. Neither avoidance is claimed as performed where it is not: `R031`'s action has landed, `R033`'s has not |
+| Significant | R001, R002, R003, R004, R005, R007, R009, R010, R011, R012, R016, R018, R020, R021, R023, R024, R026, R028, R030, R032, R034 | 21 | R004, R011, R012 and R016 accept, each under the stakeholder's own grant of 2026-11-23; the other seventeen avoid, which is the Project Manager's authority at any band |
 | Moderate | R006, R008, R013, R014, R015, R017, R019, R022, R025, R027, R029 | 11 | R015 and R022 accept with mitigation and contingency, on the Project Manager's authority; the other nine avoid |
 | Minor | — | 0 | — |
 | Low | — | 0 | — |
 
-No risk sits in a band its strategy cannot be held in: every risk in the High and Significant bands either avoids or carries the stakeholder's granting answer. `R030` avoids and its retirement action has landed in the Use-Case Model, while the exposure stays live on `AN-012` and is stated as live, not as retired. `R031` avoids; its contingency was taken and performed in Excavation's Environment stage. `R032` avoids and its action is performed on all six citing artifacts — the Use-Case Model's rules diagram R6 among them, stating both budgets under `AN-024` — so the exposure is retired by that avoidance.
+No risk sits in a band its strategy cannot be held in: every risk in the High and Significant bands either avoids or carries the stakeholder's granting answer. `R030` avoids and its retirement action has landed in the Use-Case Model, while the exposure stays live on `AN-012` and is stated as live, not as retired. `R031` avoids; its contingency was taken and performed in Excavation's Environment stage, and its score states the event as occurred rather than as a residual likelihood. `R032` avoids and its action is performed on all six citing artifacts — the Use-Case Model's rules diagram R6 among them, stating both budgets under `AN-024` — so the exposure is retired by that avoidance.
 
 **Not carried, and why.** No risk in this register concerns staffing, skills, turnover or friction between people. The executing agents are not a development organization and the stakeholder is the only human here, so such a risk would name no actor and is retired as not applicable rather than classified. What the people the SYSTEM serves do with it is a domain risk and stays.
 
