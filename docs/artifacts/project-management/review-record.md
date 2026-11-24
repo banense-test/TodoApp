@@ -1142,7 +1142,11 @@ end note
 
 **Verdict: No-Go at this put.** The Greenfield Handoff Ready milestone is not achieved. One Major is open at a lifecycle milestone, and at a lifecycle milestone one Major is a stop signal. Five of the six Majors that held the first put are closed and verified at their own artifacts; the sixth is replaced by a defect exposed by its own correction, in the same register.
 
-**Gate H5 — second put, 2026-11-23.** The question carried the current defect list and the coverage figure inside it, and nothing pre-filled. No answer to this put exists at the time this record is written, and none is recorded as given.
+**Stakeholder sanction: REFUSED** — gate H5, second put, 2026-11-23.
+
+**Stakeholder acceptance:** "Moor findings must be fixed"
+
+**Gate H5 — second put, 2026-11-23.** The question carried the open defect list and the coverage figure inside it, and nothing pre-filled. The answer is recorded as given: the sanction to advance into Inception was refused, and the order was that the major findings be fixed. Nothing is recorded in the answer that it does not contain.
 
 ```plantuml
 @startuml
@@ -1170,29 +1174,30 @@ else (no)
   :no defect needs a decision only the stakeholder can take;
 endif
 
+:gate H5 put a second time - refused;
+note right
+  The stakeholder's answer is No, with the order that the
+  major findings be fixed. No condition, limit or prohibition
+  is added to it here.
+end note
+
 :verdict - No-Go at this put;
 note right
   There is no partial GHR. A criterion certified on a register
   that contradicts its own evidence is not certified.
 end note
 
-:gate H5 put a second time with the defect list inside the question;
-if (stakeholder sanctions the advance?) then (Yes)
-  #lightgreen:the one restatement becomes Inception's first work item;
-  stop
-else (No)
-  #pink:a third Consolidation iteration is planned from this record;
-  :one row, one owner, one turn - the Project Manager's;
-  :the recovered set is confirmed; nothing in it changes;
-  :gate H5 re-put on a register that agrees with the graph;
-  stop
-endif
+#pink:a further Consolidation turn is planned from this record;
+:one row, one owner, one turn - the Project Manager's;
+:the recovered set is confirmed; nothing in it changes;
+:gate H5 re-put on a register that agrees with the graph;
+stop
 @enduml
 ```
 
 **Why this is not a Critical escalation.** No finding meets the Critical bar. Nothing here is a decision on scope, a contradiction in what the stakeholder declared, or a risk only the stakeholder may accept. The open Major is a restatement the Project Manager performs with evidence already in hand, and the three places to correct are named in the finding.
 
-**Why it is not a Conditional Go either.** A Conditional Go states conditions under which the milestone holds. `Risk List#F5` is a Major against the register the phase's two risk criteria are read on; certifying the milestone conditionally on it would be certifying a criterion on an artifact that says the opposite of its evidence. The stakeholder refused the advance at the first put for exactly this reason, on order that the Majors be cleared here rather than carried. The same answer is not reinterpreted as a conditional grant.
+**Why it is not a Conditional Go either.** A Conditional Go states conditions under which the milestone holds. `Risk List#F5` is a Major against the register the phase's two risk criteria are read on; certifying the milestone conditionally on it would be certifying a criterion on an artifact that says the opposite of its evidence. The stakeholder has refused the advance twice, the second time with the order that the major findings be fixed, and that answer is not reinterpreted as a conditional grant.
 
 **What moved since the first put of this gate.**
 
@@ -1209,9 +1214,9 @@ endif
 
 Five of the six Majors are closed at their artifacts; the sixth, `Iteration Plan#F13`, is closed but its subject was the plan's criterion, and the register the criterion is read on was not brought with it. That is the one defect at this put, and it is a defect of the register and not of any criterion's logic.
 
-**What the stakeholder decided, and what is not widened here.** At the first put they refused the sanction, ordered the six Majors cleared in this phase with the gate put again, and ruled the coverage denominator: the 45 Bootstrap files under `Todo.Web/Client/wwwroot/bootstrap/` are a third-party distribution and not their system. Both orders are discharged above — the coverage restatement is at the System Inventory and the threshold is in `G4`'s text. They also confirmed that nothing in the recovered set is wrong: the eleven use cases, the four exclusions, the twenty-two components and the eight tables stand as confirmed at gate H4, and no act on this iteration's list touched recovered content.
+**What the stakeholder decided, and what is not widened here.** At the first put they refused the sanction, ordered the six Majors cleared in this phase with the gate put again, and ruled the coverage denominator: the 45 Bootstrap files under `Todo.Web/Client/wwwroot/bootstrap/` are a third-party distribution and not their system. Both orders are discharged above — the coverage restatement is at the System Inventory and the threshold is in `G4`'s text. At the second put they refused the sanction again and ordered the major findings fixed. They also confirmed at the first put that nothing in the recovered set is wrong: the eleven use cases, the four exclusions, the twenty-two components and the eight tables stand as confirmed at gate H4, and no act on this iteration's list touched recovered content.
 
-**What the next turn must reach before the gate is put a third time.** One restatement, in one artifact, by its owner:
+**What the next turn must reach before the gate is put again.** One restatement, in one artifact, by its owner:
 
 - `R033`'s strategy cell at the state the graph holds — clearance performed on all four, the exposure retired, each edge named with the reading its owner stated;
 - the warning-sign cell at "fired at the first put, on all four; no longer firing", on the pattern `R032` already carries;
@@ -1219,9 +1224,9 @@ Five of the six Majors are closed at their artifacts; the sixth, `Iteration Plan
 - the diagram note stating the clearance performed rather than owed;
 - the score left at 5 × 4 = 20, because the probability is scored on the record that the sign fired and that record is history.
 
-When that holds, `G6` and `G7` are read on a register that agrees with the graph, the Design Model and the plan's own two criteria, and gate H5 can be put a third time on records that agree with the set they report.
+When that holds, `G6` and `G7` are read on a register that agrees with the graph, the Design Model and the plan's own two criteria, and gate H5 is put again on records that agree with the set they report.
 
-**Recorded as given.** The stakeholder's answer at the first put, verbatim: "Nothing in the recovered set is wrong: the 11 use cases, the 4 exclusions, the 22 components and the eight tables stand as I confirmed them. I do not accept a handoff with Majors open: clear the six in this phase and put the gate again. One fact for the coverage count: the 45 Bootstrap files under Todo.Web/Client/wwwroot/bootstrap/ are a third-party distribution, not my system — count coverage over the delivery's own files. Nothing else to add." Their direction for this iteration, verbatim: "Nothing to add. The order stands: coverage and the OpenAPI gating first, the plan's cells last. No priority among the six — clear all six in this iteration."
+**Recorded as given.** The stakeholder's answer at the first put, verbatim: "Nothing in the recovered set is wrong: the 11 use cases, the 4 exclusions, the 22 components and the eight tables stand as I confirmed them. I do not accept a handoff with Majors open: clear the six in this phase and put the gate again. One fact for the coverage count: the 45 Bootstrap files under Todo.Web/Client/wwwroot/bootstrap/ are a third-party distribution, not my system — count coverage over the delivery's own files. Nothing else to add." Their answer at the second put, verbatim: "Moor findings must be fixed".
 
 **No milestone, iteration or phase is recorded as completed by this review.** The Review Coordinator reads this verdict and the finding ledger; the milestone's disposition is theirs to record.
 
