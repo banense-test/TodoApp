@@ -956,25 +956,72 @@ stop
 
 ## Disposition
 ### Reviewer lens
-<!-- review: Consolidation I1 -->
+<!-- review: Consolidation I2 -->
 
 **Disposition: Approved with Changes.**
 
-Nine of the twelve artifacts are approved from this lens with nothing recorded against them. Three are not, and the three are reworked before any role consumes them again:
+Eleven of the twelve artifacts are approved from this lens with nothing recorded against them. One is not: `Risk List#F4`, corrected by the Project Manager in this phase before any role consumes the register again.
 
-- `Design Model#F2` — four suspect edges open at the phase close, which is the one GHR exit criterion the phase has not moved (`G7`, `R033`)
-- `Supplementary Specification#F4` — the OpenAPI document's gating stated backwards in the artifact the Deployment Manager and the Technical Writer will read
-- `System Inventory#F4` — the coverage ratio published against a denominator that hides the reading's actual reach, on the criterion `G4` certifies
+**No Critical finding is open, and none was recorded this turn.** Nothing in the set needs the stakeholder to unblock it: the one open defect is a restatement its owner performs with the evidence already in hand. This lens therefore sends nothing to gate H5 and escalates nothing.
 
-**No Critical finding is recorded, and none needs the stakeholder to unblock it.** Every defect above is a correction its owner can make inside this phase with the evidence already in hand; none needs a decision on scope, on a contradiction in what was declared, or on a risk only the stakeholder may accept. This lens therefore sends nothing to gate H5 and escalates nothing.
+**What moved since the first put of this gate.** Five of the six corrections the phase was opened for are closed and verified at their own artifacts, each checked there rather than on the artifact's word — the coverage ratio on the stakeholder's own ruling of 2026-11-23, the OpenAPI gating against `Todo.Api/Program.cs:58`, and the four trace edges against a fresh graph query. Two of those five closed findings were Minors this lens recorded, and the register's correction (`Risk List#F4`) was exposed by the first of them: clearing the edges made the row that reports them stale.
 
-**What this lens does not decide.** Whether the milestone closes is the Review Coordinator's verdict, read on all three lenses and on gate H5's answer. This lens records the technical position only: the set is substantially complete and anchored, its recovered content is confirmed and no finding reopens it, and five corrections stand between it and a clean technical certification.
+**What this lens adds to the milestone's reading.** One criterion pair is decided on the register and cannot be certified while it says the opposite of the graph: `G6` and `G7` derive their state from `R033`, and `R033` states a clearance owed that both owners have performed. Restating it is what lets those two criteria be read on an artifact that agrees with its own evidence.
 
-**On the two that hold the milestone.** `Design Model#F2` and `System Inventory#F4` each fail a criterion the milestone is read on, and each closes on one act in a stage this phase runs. Nothing about either requires another iteration: the owners hold their stages this iteration, the evidence is in the artifacts, and the corrections add no content and reopen no recovered element. If an iteration is opened, it is opened for them, not for the set.
+**The class of defect this project keeps paying for, and the instance this turn.** One fact stated twice in two artifacts with two answers cost four Majors at AR and two more at the first put of this gate; the rule that closes it is written in the Development Case and applied here to the environment gating, which now agrees across the four artifacts that carry it. The instance this turn is the same shape in a register rather than a specification: `R033`'s row, the Design Model's Traceability section, the graph and the plan's `G6`/`G7` each hold a version of one fact, and three of the four say the clearance landed. The rule to carry past this milestone is the register's own, applied in both directions — a retirement is claimed only where its act was performed, and disclaimed only where its act was not.
 
-**On the recovered content.** Nothing in this review touches it. The eleven use cases, the four stated exclusions, the twenty-two components and the eight tables stand as the stakeholder confirmed them at gate H4, and this lens found nothing wrong with any of them. `R033` is a bookkeeping defect in the graph, not a defect in what the graph describes — which is why the correction is a clearance and not a re-reading.
+```plantuml
+@startuml
+title DIS-TECH-01 The technical lens at Consolidation iteration 2
+skinparam shadowing false
+skinparam wrapWidth 245
+hide circle
+hide empty members
 
-**The one thing worth carrying past this milestone.** The class of defect this project keeps paying for is one fact stated twice in two artifacts with two answers. It cost four Majors at the AR milestone and two more here. The rule that closes it is written in the Development Case; it needs applying to the four artifacts that describe the environment, in one pass, in the same turn the fact changes. That is action 6 of this lens's list, and it is the only action that prevents a finding rather than closing one.
+package "The set, from this lens" {
+  class "12 artifacts read\nunread = none" as A1 <<met>>
+  class "11 approved, nothing recorded" as A2 <<met>>
+  class "1 with a Major — Risk List" as A3 <<open>>
+}
+
+package "Prior findings of this lens" {
+  class "5 open at the start of the turn" as P1 <<input>>
+  class "5 closed this turn, 0 re-recorded" as P2 <<met>>
+  class "0 persisting under their own key" as P3 <<met>>
+}
+
+package "Severity at this put" {
+  class "Critical  0\nnothing escalates to the stakeholder" as S1 <<met>>
+  class "Major  1\nRisk List#F4" as S2 <<open>>
+  class "Minor  0" as S3 <<met>>
+}
+
+package "Disposition" {
+  class "Approved with Changes\none act, one owner, this phase" as D <<verdict>>
+}
+
+A1 --> D
+A2 --> D
+P2 --> D
+S1 --> D
+S2 --> D : holds a clean technical\ncertification
+A3 --> S2
+
+note bottom of S2
+  A restatement, not a re-reading. It reopens no
+  recovered element and changes no count, and the
+  Project Manager holds a stage in this phase.
+end note
+note bottom of D
+  The milestone's disposition is the Review
+  Coordinator's, read on all three lenses and on
+  gate H5's answer. This lens records the
+  technical position only.
+end note
+@enduml
+```
+
+**What is left for the verdict.** One restatement by the Project Manager, and the register agrees with the graph, the Design Model and the plan's own two criteria. The recovered set is complete, anchored and unchanged; the coverage is counted at the bar over the denominator the stakeholder ruled on; no suspect trace is open. On this lens's evidence there is no technical obstacle to the gate after that one act, and the gate itself remains the stakeholder's to answer.
 
 ### Management Reviewer lens
 <!-- review: Consolidation I1 -->
