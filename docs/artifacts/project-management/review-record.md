@@ -13,17 +13,15 @@
 - Disposition: Approved with Changes
 
 ### Management Reviewer lens
-<!-- review: Excavation I4 -->
+<!-- review: Consolidation I1 -->
 
-- Phase: Excavation
-- Status: Lifecycle Milestone Review (AR) taken at iteration 4 — 0 Critical, 0 Major, 2 Minor open. Gate H4 put a fourth time and granted
-- Milestone Target: end-of-Excavation (AR) — sanctioned by the stakeholder at gate H4 put 4 on 2026-11-23; the milestone verdict on the consolidated ledger is the Review Coordinator's, issued after this review
-- Iteration: 4, Cycle 1
-- Review point: Lifecycle Milestone Review, exit-criteria lens
-- Reviewers executed: Reviewer, then Management Reviewer; the Business Reviewer is inactive at AR
-- Verdict this lens issues: Go
-- Stakeholder sanction: GRANTED
-- Stakeholder acceptance: "Yes" — asked whether, on records that agree with the set they report, they sanction advancing past the Architecture Recovered milestone into Consolidation, having confirmed at the third put that the recovered set is the model of their system
+<!-- review: Consolidation I1 -->
+
+- Review type: Lifecycle Milestone Review — end-of-Consolidation (GHR)
+- Milestone target: end-of-Consolidation (GHR) — not achieved at this put
+- Iteration: Consolidation iteration 1, cycle 1
+- Lens: Management Reviewer
+- Verdict: No-Go
 
 ### Review Coordinator lens
 <!-- review: Excavation I4 -->
