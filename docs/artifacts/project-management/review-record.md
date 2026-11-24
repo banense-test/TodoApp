@@ -764,6 +764,8 @@ stop
 
 <!-- review: Consolidation I1 -->
 
+**Stakeholder finding (2026-11-23, on the iteration-2 pass):** "Nothing to add. The order stands: coverage and the OpenAPI gating first, the plan's cells last. No priority among the six — clear all six in this iteration." The priority order below is confirmed as written and no ranking within the six is applied: all six Major findings are cleared in Consolidation iteration 2, none deferred to a later pass or to Inception.
+
 Nine corrective actions and no escalations. Every open entry has an owner who holds a stage in Consolidation iteration 2, so none is escalated to the Project Manager for a deadline miss — no deadline has yet passed — and none is escalated to the stakeholder, because none is Critical.
 
 #### Priority order — the order the next iteration works in
@@ -777,6 +779,8 @@ Nine corrective actions and no escalations. Every open entry has an owner who ho
 | 5 | `Risk List#F4` | Minor | `R033`'s probability contradicts the evidence its own row states. The band does not move (20 is still High), so no grant requirement and no milestone state turns on it |
 | 6 | `Vision#F2` | Minor | The same OpenAPI sentence at a supporting artifact, settled by the same correction as priority 2 |
 | 7 | `Software Architecture Document#F2` | Minor | One word used for two things. Contained: both artifacts' facts are right and agree |
+
+The order above sequences the work; it does not rank it. All six Major findings are cleared in this phase's next iteration, and the three Minor findings with them.
 
 **Escalations: none.** No finding in this ledger is Critical, no deadline has passed, and no role has failed to provide an artifact on time. The gate H5 refusal is not an escalation of this role — it is the stakeholder's own decision, recorded as given.
 
@@ -824,6 +828,8 @@ against environment difference;
 Steps 4 to 6 wait on them: a plan cell citing a ratio,
 a cause or an edge cannot be restated before the
 artifact holds it;
+:All six Major findings clear in this iteration
+none is deferred to a later pass or to Inception;
 
 |Reviewer|
 :7  technical lens re-run over the corrected set;
@@ -916,6 +922,8 @@ nothing in the verdict rests on this lens;
 :Gate H5 answered 2026-11-23
 sanction REFUSED - six Majors cleared in this phase
 coverage counted over the delivery's own files;
+:Order confirmed for the iteration-2 pass
+all six cleared in this iteration, no ranking among them;
 
 |Review Coordinator|
 :Consolidate the two executed lenses
