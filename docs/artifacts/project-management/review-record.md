@@ -720,29 +720,72 @@ stop
 No action above schedules work a later phase performs. Actions 1 to 5 sit in stages this phase runs; action 6 is a reading, not new content.
 
 ### Management Reviewer lens
-<!-- review: Excavation I4 -->
+<!-- review: Consolidation I1 -->
 
-#### Findings this lens closed in this pass
+<!-- review: Consolidation I1 -->
 
-Each closure was materialized in the ledger with `resolve_artifact_finding` and verified at the thing it asserts before the call was made.
+Findings my lens closed at this milestone: one. All six Major defects and three Minor stand open and are the further iteration's work.
 
-| Finding | Resolution | What verified it |
-|---|---|---|
-| `Iteration Plan#F9` | Resolved | Read at the artifact: `A1` "Met" on a fresh `COMP-014` upstream query returning five `Realizes` edges, none marked; `A10` "Met — certified on the recovered set" naming the Use-Case Model's R6 as the fourth artifact with its current wording under `AN-024`; `A11` "Met — four of four"; `A12` recording the third put in both halves; `O2` "Met". No cell quotes a superseded sentence |
-| `Iteration Plan#F8` | Resolved | Read at the fine plan: every Closes cell holds a finding key and nothing else; no cell names a moment |
+| Artifact | Key | Criterion | Owner | The corrective action |
+|---|---|---|---|---|
+| Iteration Plan | F11 | `exit-criterion-unmet` | Project Manager | Write the threshold into G4 — every file either opened or named with its reason, and coverage of the delivery's own tree at 80% or more — and state both ratios in the evidence cell: 84 of 139 raw, and 84 of 94 (89.4%) over the tree the reading is about, naming the 45 vendored Bootstrap files as the one excluded third-party distribution. The stakeholder ruled that denominator on 2026-11-23 |
+| Iteration Plan | F12 | `consumed-defect` | Project Manager | Name the second cause in G3's evidence cell — the Supplementary Specification's S8 and S18 against `Todo.Api/Program.cs:58` and against the SAD's M12 and the Deployment Model's Environment Mapping — and list both corrections in the further iteration's work items, not the four trace edges alone |
+| Iteration Plan | F13 | `exit-criterion-unmet` | Project Manager | Restate G6's evidence cell to carry R033 at the state the register records — exposure in the High band, avoidance unperformed, warning sign firing, all four edges marked — and decide the criterion on that state rather than on the strategy label |
+| Design Model | F2 | `trace-gap` | Designer (2 edges), System Analyst (2 edges) | Each owner reads its own end and clears the edge stating why it still holds, or retires and re-registers it with the link type its evidence supports: `CLS-001 → TBL-001` and `CLS-007 → TBL-002` for the Designer; `CLS-020 → UC-007` and `CLS-020 → UC-010` for the System Analyst. The evidence is already written in the model, so no re-reading of the code is needed |
+| Supplementary Specification | F4 | `consumed-defect` | System Analyst | Correct S8 and S18 against the code: `MapOpenApi()` is mapped at `Todo.Api/Program.cs:58`, outside the `if (app.IsDevelopment())` block at 49-56, so the OpenAPI document is served in every environment and is a diagnostic surface an operating instance does publish. Bring S18's conclusion with it |
+| System Inventory | F4 | `exit-criterion-unmet` | Software Archaeologist | State the two ratios the tree actually has and settle which one coverage is counted on. Keep 139 files / 84 opened / 55 unopened as the raw count and add the ratio over the 94 files that are the delivery's own tree — 84 opened, 89.4%, 67 anchored — with the 45 vendored Bootstrap files named as one third-party distribution the stakeholder does not call their system. Change no count and no per-area row: the arithmetic reproduces |
+| Risk List | F4 | `contained-defect` | Project Manager | Restate R033's probability at 5 with a one-line basis naming what the evidence states, or state why an exposure whose warning sign has already fired is scored in the 51 to 70% band. Apply the same test to R031 |
+| Vision | F2 | `contained-defect` | System Analyst | Settle the OpenAPI gating with `Supplementary Specification#F4`; one correction closes both |
+| Software Architecture Document | F2 | `contained-defect` | Software Architect | State which count "one setting" and "two settings" each refer to, or adopt the Deployment Model's count and say so — the facts already agree and only the word differs |
 
-#### Actions this gate leaves open
+```plantuml
+@startuml
+title The further Consolidation iteration - nine corrective acts, each with the role the process schedules here
+skinparam shadowing false
+skinparam wrapWidth 250
 
-| Action | Owner | Bearing on the milestone |
-|---|---|---|
-| `Development Case#F4` — add the Project Management discipline to the partitions of ACT-DC-01 after Survey, naming its stage as the Survey partition does; change the intensity table not at all, since it is correct | Process Engineer | None. Minor, contained, approved by default; no exit criterion depends on it |
-| `Iteration Plan#F10` — set `A12` to "Met — 2026-11-23" recording both puts as given, set fine-plan item 7's state to the answer, and set the human-gate table's Answer cell to the fourth put's answer | Project Manager | None on the criterion, which the answer satisfies; the three cells are a record correction in the owner's next turn |
+|Project Manager|
+start
+:Iteration Plan#F11 - G4's threshold written into the criterion,
+both coverage ratios in the evidence cell;
+:Iteration Plan#F12 - G3's evidence names both contradictions,
+the further iteration's items carry both corrections;
+:Iteration Plan#F13 - G6 decided on R033's recorded state,
+not on the strategy label;
+:Risk List#F4 - R033's probability against the evidence it states,
+R031 tested the same way;
+:plan the further iteration from this record, and re-put gate H5;
 
-Both are Minors and both are corrected in their owners' next turns. Neither is carried out of the phase: the stakeholder ordered at the SBC close that open Minors be addressed rather than left unattended, and `A11` is satisfied on the four Minors the SBC review counted.
+|System Analyst|
+:Supplementary Specification#F4 - S8 and S18 corrected against
+Todo.Api/Program.cs:58, outside the Development block at 49-56;
+:Vision#F2 - the same gating settled in one pass;
+:CLS-020 to UC-007 and CLS-020 to UC-010 cleared with the reading stated;
 
-#### The conditional verdict this gate carries forward
+|Designer|
+:CLS-001 to TBL-001 and CLS-007 to TBL-002 cleared
+with the reading the model already holds;
 
-No Conditional Go was issued at the previous milestone and none is issued here. The third put refused the sanction outright and this lens recorded **No-Go**, with the reason stated: `A12` turns on the stakeholder's answer alone, and a Conditional Go would have recorded on their behalf the one thing they declined to record. That refusal is now answered — the fourth put granted the advance on records that agree with the set they report — and nothing this lens attached to the No-Go stands.
+|Software Architect|
+:Software Architecture Document#F2 - the count reconciled
+with the Deployment Model's;
+
+|Software Archaeologist|
+:System Inventory#F4 - the own-tree ratio stated beside the raw count,
+the 45 Bootstrap files named as the excluded distribution;
+
+|Management Reviewer|
+:the GHR lens re-run on records that agree with the set;
+:gate H5 put again;
+stop
+@enduml
+```
+
+**Why this is one iteration's work and not more.** Every one of the nine acts belongs to a role the process schedules in Consolidation — Environment, Requirements, Analysis & Design, Discovery and Project Management all run here, and the three lenses of the milestone review follow them. None requires a decision from the stakeholder: the one decision that was theirs, the coverage denominator, they gave in the answer that refused the sanction. None requires re-reading the code: the four trace edges carry their evidence in the model, the OpenAPI fact is anchored at a line number, and the coverage arithmetic reproduces from the table. No recovered content is touched, which is why the stakeholder's confirmation of the eleven use cases, four exclusions, twenty-two components and eight tables is unaffected by any act on this list.
+
+**The one closure this lens recorded.** `Iteration Plan#F10` — three cells recording gate H4's fourth put as unanswered — is closed and verified: the plan now carries GHR's criteria in place of the AR criteria, and the fourth put is recorded as passed in the milestone sequence. The one gate the plan records as unput is H5, a different gate, which genuinely had not been put at the time and has now been put and refused.
+
+**Two Minors the technical lens and I recorded that no criterion turns on.** `Risk List#F4` and `Software Architecture Document#F2` are inside their artifacts; the further iteration lists them with the Majors because their owners are working those artifacts anyway, not because they hold anything.
 
 ### Review Coordinator lens
 <!-- review: Excavation I4 -->
