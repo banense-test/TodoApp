@@ -904,108 +904,96 @@ The four Majors the technical lens recorded at the first put are closed at their
 `[OMITTED: Iteration Assessment — the Project Manager writes it on the verdict, so at review time it cannot describe the iteration under review. Its absence is not a defect and not a gate condition]`
 
 ### Review Coordinator lens
-<!-- review: Consolidation I1 -->
+<!-- review: Consolidation I2 -->
 
-<!-- review: Consolidation I1 -->
+**Stakeholder finding (2026-11-23, on the second put of gate H5):** "Moor findings must be fixed". Recorded as given. It is read as an order to clear what stands open, in this phase, before the gate is put again — not as a grant, a conditional grant or a narrowing of scope. Nothing is added to it and nothing is subtracted.
 
-**Stakeholder finding (2026-11-23, on the iteration-2 pass):** "Nothing to add. The order stands: coverage and the OpenAPI gating first, the plan's cells last. No priority among the six — clear all six in this iteration." The priority order below is confirmed as written and no ranking within the six is applied: all six Major findings are cleared in Consolidation iteration 2, none deferred to a later pass or to Inception.
+**Fourteen corrective actions, all closed but one.** This iteration was opened for nine entries and produced two more, one from each lens, naming a single defect. Fifty-one actions closed at their artifacts; one stands, and both open keys point at it.
 
-Nine corrective actions and no escalations. Every open entry has an owner who holds a stage in Consolidation iteration 2, so none is escalated to the Project Manager for a deadline miss — no deadline has yet passed — and none is escalated to the stakeholder, because none is Critical.
-
-#### Priority order — the order the next iteration works in
+#### Priority order — what Consolidation iteration 3 works, and why it ranks where it does
 
 | Priority | Finding | Severity | Why it ranks here |
 |---|---|---|---|
-| 1 | `System Inventory#F4` | Major | The stakeholder ruled the denominator on 2026-11-23. Restating the ratio over the 94 files of the delivery's own tree is a figure, not a re-reading: the counts are right and no per-area row changes. `Iteration Plan#F11` cannot be written before it |
-| 2 | `Supplementary Specification#F4` | Major | A consumed defect the Deployment Manager and the Technical Writer read to write a runbook and a release note. It also settles `Vision#F2` and supplies one of the two causes `Iteration Plan#F12` must name |
-| 3 | `Design Model#F2` | Major | Four edges, two owners, the evidence already stated in the model. It closes `R033` — the phase's live High-band exposure at 4 × 4 = 16 — and it is the state `Iteration Plan#F13` must be decided on |
-| 4 | `Iteration Plan#F11`, `#F12`, `#F13` | Major | Three defects in one place: the criteria table the GHR verdict is read on. All three depend on priorities 1 to 3 being settled at their artifacts; restating the cells before the artifacts hold the facts would repeat the defect |
-| 5 | `Risk List#F4` | Minor | `R033`'s probability contradicts the evidence its own row states. The band does not move (20 is still High), so no grant requirement and no milestone state turns on it |
-| 6 | `Vision#F2` | Minor | The same OpenAPI sentence at a supporting artifact, settled by the same correction as priority 2 |
-| 7 | `Software Architecture Document#F2` | Minor | One word used for two things. Contained: both artifacts' facts are right and agree |
+| 1 | `Risk List#F4` and `Risk List#F5` | Major | One act, one owner, one artifact. It is the only open defect in the set and the only thing holding the milestone. It depends on nothing else: the four edges are cleared, the Design Model states its reading, and the two criteria are certified. Only the register's own row is behind |
+| 2 | Gate H5, third put | — | Follows immediately on priority 1. `G2` is the stakeholder's answer alone and no record can be issued in its place |
+| 3 | The verdict | — | Read on the ledger after the gate answers, as this one was |
 
-The order above sequences the work; it does not rank it. All six Major findings are cleared in this phase's next iteration, and the three Minor findings with them.
+The order of work set by the stakeholder on 2026-11-23 for the iteration-2 pass was discharged in full: coverage and the OpenAPI gating first, the plan's cells last because they cite those artifacts. Priorities 1 to 5 of that order are closed and verified in that sequence, and the plan's three cells were restated on the corrected artifacts. Nothing from that order is carried forward.
 
-**Escalations: none.** No finding in this ledger is Critical, no deadline has passed, and no role has failed to provide an artifact on time. The gate H5 refusal is not an escalation of this role — it is the stakeholder's own decision, recorded as given.
+**The one remaining act, completely specified — the Project Manager, in Consolidation iteration 3**
+
+`R033`'s strategy cell becomes "Avoid — **clearance performed on all four; the exposure is retired**", naming each edge with the reading its owner stated: `CLS-001 → TBL-001` (four properties in four columns, `Id` autoincrement, `OwnerId` a required cascade FK) and `CLS-007 → TBL-002` (the class adds no member; all fifteen columns inherited) for the Designer; `CLS-020 → UC-007` and `CLS-020 → UC-010` (the filter is attached to the `/todos` group naming `TodoItem`, so the create and the change both carry it) for the System Analyst. The warning-sign cell becomes "fired at the first put, on all four; no longer firing", on the pattern `R032` already carries. The section preamble drops `R033` from the rows whose sign is firing now, and the diagram note states the clearance performed rather than owed. The score stays at 5 × 4 = 20: the probability is scored on the record the sign fired, which is `R033`'s history and correct as it stands. `R030`, `R031`, `R032` and `R034` are unchanged — each already states its own act against the artifact that carries it.
+
+**Escalations: none.** No finding in this ledger is Critical, no deadline has passed, and no role has failed to deliver an artifact on time. The gate H5 refusal is not an escalation of this role — it is the stakeholder's own decision, recorded as given. Review debt overdue at this close is 0 of 2: both open entries were recorded in this review's own turn and are scheduled in the iteration the verdict requires. The stakeholder's condition at the SBC close — that open Minors be addressed rather than left unattended — holds: three Minors were carried into this iteration and all three are closed.
 
 ```plantuml
 @startuml
-title ACT-GHR-02 Correction order for Consolidation iteration 2 - three artifacts land first, the plan restates after them
+title ACT-GHR-03 Correction order for Consolidation iteration 3 - one act, two closures, one re-put gate
 skinparam shadowing false
-skinparam wrapWidth 250
-
-|Software Archaeologist|
-start
-:1  System Inventory#F4
-state the coverage over the 94 files of the
-delivery's own tree - 84 opened, 89.4 per cent,
-67 anchored, 71.3 per cent;
-:name the 45 vendored Bootstrap files as one
-third-party distribution excluded by the
-stakeholder's ruling of 2026-11-23;
-:change no count and no per-area row;
-
-|System Analyst|
-:2  Supplementary Specification#F4
-correct S8 and S18 to the gating the code has -
-the OpenAPI document is mapped unconditionally;
-:then Vision#F2
-the same sentence at its own artifact;
-
-|Designer and System Analyst|
-:3  Design Model#F2
-clear CLS-001 to TBL-001 and CLS-007 to TBL-002,
-CLS-020 to UC-007 and CLS-020 to UC-010
-each at the end the graph marks;
+skinparam wrapWidth 270
 
 |Project Manager|
-:4  Risk List#F4
-restate R033's probability at 5 on the basis its
-own evidence states, carry exposure 20;
-:5  Iteration Plan#F11, F12, F13
-write G4's threshold and cite step 1's ratios,
-name both causes in G3, decide G6 on step 3's state;
-:6  Software Architecture Document#F2
-one word for two things - configuration binding
-against environment difference;
-:Steps 1 to 3 are independent and run in either order.
-Steps 4 to 6 wait on them: a plan cell citing a ratio,
-a cause or an edge cannot be restated before the
-artifact holds it;
-:All six Major findings clear in this iteration
-none is deferred to a later pass or to Inception;
+start
+:R033 strategy cell becomes
+"Avoid - clearance performed on all four.
+The exposure is retired",
+each edge named with its owner's reading;
+:R033 warning-sign cell becomes
+"fired at the first put, on all four.
+No longer firing";
+:the section preamble drops R033 from the
+rows whose sign is firing now;
+:the diagram note states the clearance
+performed rather than owed;
+:the score stays at 5 x 4 = 20, scored on
+the record that the sign fired;
+:change nothing in R030, R031, R032 or R034;
 
 |Reviewer|
-:7  technical lens re-run over the corrected set;
+:Query the graph at the four ends;
+:Close Risk List#F4 on the restored row;
 
 |Management Reviewer|
-:8  management lens re-run;
-:9  gate H5 put a second time;
+:Read the restored row against G6 and G7;
+:Close Risk List#F5;
+:Put gate H5, third time;
 
 |Stakeholder|
-:10  sanction decision read from the finding data;
+:Sanction decision read from the
+finding data, nothing pre-filled;
 
 |Review Coordinator|
-:11  GHR verdict on the second put;
+:Consolidation iteration 3 verdict;
 stop
 @enduml
 ```
 
-#### Finding lifecycle — where each entry stands at this close
+#### Cross-lens reconciliation — every subject on which both executed lenses spoke
+
+| Subject | The two lenses | Resolution recorded here |
+|---|---|---|
+| `R033`'s row in the Risk List | Technical lens records `Risk List#F4`; the management lens records `Risk List#F5`. Both quote the same three places and the same queried graph ends | **Two keys, one defect, deliberately not merged.** The technical question is whether the artifact contradicts the facts the set holds; the management question is whether the two criteria certified on that row can be certified. The closure invariant admits no cross-lens close, so the single restatement produces two closures. Neither is a second round of work and the owner is one |
+| Design Model's four suspect edges | Technical lens closed `Design Model#F2`; the management lens's `Iteration Plan#F13` rested on the same four edges via `G6` | **Two defects, both closed, not duplicates.** `#F2` was the artifact defect; `#F13` was the plan deciding a criterion on a strategy label. Closing the artifact did not close the criterion, and both closures were verified separately — `#F2` on a graph query, `#F13` in the criterion's own text |
+| The OpenAPI gating | Technical lens recorded `Supplementary Specification#F4` (Major) and `Vision#F2` (Minor); the management lens recorded `Iteration Plan#F12` naming the same contradiction as `G3`'s unnamed second cause | **One root cause, three entries, all closed.** The Majors and Minors are now stated identically across the Specification, the Vision, the SAD `M12` and the Deployment Model's Environment Mapping, and `G3` names the cause a second time so the next iteration is planned from a complete list |
+| The coverage ratio | Technical lens recorded `System Inventory#F4`; the management lens recorded `Iteration Plan#F11` | **Two entries, one dependency, both closed.** `#F4` restated the denominator on the stakeholder's ruling; `#F11` wrote the threshold and cited the ratio `#F4` produced. The sequencing held — the plan's cell was restated after the artifact held the fact |
+| Severity bands | The two lenses agree on every shared subject | **No disputed band.** No finding needed reclassification at this consolidation and none was reclassified. Both open entries are Major from both lenses |
+| Lens coverage | The technical lens read twelve artifacts; the management lens read ten at source and declared two out of scope | **No conflict.** The two the management lens declared out of scope are the Iteration Assessment, which the Project Manager writes on the verdict, and this record. Its twelve-of-twelve count and the technical lens's twelve-of-twelve count are not in dispute; the difference is a declared reading limit, recorded by that lens |
+
+#### Finding lifecycle at this close
 
 ```plantuml
 @startuml
-title MET-GHR-01 Finding lifecycle at the GHR milestone - 51 entries, where each stands
+title MET-GHR-02 Finding lifecycle at the second put - 53 entries, where each stands
 skinparam shadowing false
 skinparam wrapWidth 235
 
-state "Recorded by a lens\n51 entries this milestone" as R
-state "Assigned\nowner and severity on the entry\n51" as A
-state "In progress\nthe owner holds a stage in Consolidation\n51" as P
-state "Resolved\nowner performed the correction\n42" as RV
-state "Verified\nlens checked it at the artifact\n42" as VF
-state "Closed\nresolution object on the entry\n42" as C
-state "Open at the close\nholds the milestone if Major\n9" as O
+state "Recorded by a lens\n53 entries across the milestone" as R
+state "Assigned\nowner and severity on the entry\n53" as A
+state "In progress\nthe owner holds a stage this phase runs\n2" as P
+state "Resolved\nowner performed the correction\n51" as RV
+state "Verified\nlens checked it at the artifact\n51" as VF
+state "Closed\nresolution object on the entry\n51" as C
+state "Open at the close\nboth Major, one row\n2" as O
 
 R --> A
 A --> P
@@ -1013,94 +1001,66 @@ P --> RV
 RV --> VF
 VF --> C
 P --> O : corrective act not performed
-O --> P : Consolidation iteration 2
+O --> P : Consolidation iteration 3
 
 note right of C
-  Closed by lens - technical 25, management 17.
-  One management entry, Development Case#F2, was
-  recorded at Excavation under the stakeholder's
-  order and closed at this milestone.
+  Closed by lens - technical 32, management 19.
+  Nine of them closed in this milestone's own turn:
+  the six Majors and three Minors carried out of put 1,
+  each verified at the artifact that owned it.
+end note
+note right of VF
+  Verification is read at the artifact and, for a trace
+  defect, at the graph. No entry is closed on an owner's
+  statement that the correction was made.
 end note
 note right of O
-  Open by lens - technical 5, management 4.
-  Severity - 6 Major, 3 Minor, 0 Critical.
-  All nine owners hold a stage in Consolidation
-  iteration 2, which the process schedules.
+  Two keys, one defect, one owner. A lens closes only its
+  own key, so the single restatement produces two closures
+  and neither lens is asked to close the other's entry.
 end note
 @enduml
 ```
 
-#### Review calendar — the milestone's cadence and the second put
-
-The GHR review is scheduled against the iteration boundary, not a calendar date: it opens when the iteration's artifacts are in target state and the plan's `G1` to `G8` are written, and it closes when the verdict is recorded. Because the stakeholder refused the sanction on 2026-11-23, the same review is re-scheduled for the close of Consolidation iteration 2 — the iteration this verdict records as required. No later milestone review (LCO, LCA, IOC, PR) is moved by this: each remains anchored to its own phase exit.
+#### The review event, end to end
 
 ```plantuml
 @startuml
-title CAL-GHR-01 Consolidation review calendar - review events at the iteration boundary
+title SEQ-GHR-01 The review event at the second put - who read, who answered, who recorded
 skinparam shadowing false
-skinparam wrapWidth 300
+skinparam wrapWidth 235
 
-|Review Coordinator|
-start
-:Calendar the GHR review for the end of
-Consolidation iteration 1, aligned to the
-Iteration Plan's GHR criteria G1 to G8;
+participant "Review\nCoordinator" as RC
+participant "Reviewer\ntechnical lens" as RV
+participant "Management\nReviewer lens" as MR
+participant "Business\nReviewer lens" as BR
+participant "Correction\nowners" as CO
+participant "Stakeholder\n(gate H5)" as SH
 
-|Reviewer|
-:GHR technical lens executes
-12 artifacts read
-30 entries recorded, 25 closed, 5 open;
+RC -> RV : open the GHR lens at put 2
+RC -> MR : open the GHR lens at put 2
+RC -> BR : open the GHR lens at put 2
+BR --> RC : INACTIVE - did not evaluate this review
 
-|Business Reviewer|
-:INACTIVE - did not evaluate this review
-Business Modeling inactive per the Development Case
-nothing in the verdict rests on this lens;
+CO -> CO : nine corrective acts performed\nat the artifacts that owned them
 
-|Management Reviewer|
-:GHR management lens executes
-12 artifacts read
-21 entries recorded, 17 closed, 4 open;
-:Put gate H5;
+RV -> RV : read 12 artifacts, query the graph\nat the four ends
+RV -> RC : 5 prior findings closed, 1 Major\nRisk List#F4
 
-|Stakeholder|
-:Gate H5 answered 2026-11-23
-sanction REFUSED - six Majors cleared in this phase
-coverage counted over the delivery's own files;
-:Order confirmed for the iteration-2 pass
-all six cleared in this iteration, no ranking among them;
+MR -> MR : read 12 artifacts, recompute\nthe register and the criteria
+MR -> SH : put gate H5, second time
+SH --> MR : REFUSED 2026-11-23\norder - the major findings must be fixed
+MR -> RC : 4 prior findings closed, 1 Major\nRisk List#F5
 
-|Review Coordinator|
-:Consolidate the two executed lenses
-51 entries - 42 closed, 9 open
-0 Critical, 6 Major, 3 Minor;
-:Verdict - phase scope incomplete
-Consolidation iteration 2 carries the nine open entries;
-:Calendar the second GHR put
-for the close of Consolidation iteration 2;
+RC -> RC : consolidate - 0 Critical, 2 Major, 0 Minor
+RC -> RC : record the ledger, the order,\nthe metrics and the verdict
+RC -> CO : Consolidation iteration 3\none restatement, one owner
 
-|Correction owners|
-:Iteration 2 - the nine open entries corrected
-at their artifacts by their owners;
-
-note right
-  Two of the six Majors depend on a third:
-  Iteration Plan#F11 cites the ratio
-  System Inventory#F4 restates,
-  Iteration Plan#F12 names the cause
-  Supplementary Specification#F4 corrects.
+note over RC, SH
+  The business lens is recorded as not having evaluated
+  this review. Nothing in the verdict is counted from it,
+  and it is not recorded as an approval of any kind.
 end note
-
-|Reviewer|
-:Lens re-run on the corrected set;
-
-|Management Reviewer|
-:Management lens re-run;
-:Gate H5 put a second time;
-
-|Stakeholder|
-:Sanction decision on the recorded finding data;
-
-stop
 @enduml
 ```
 
