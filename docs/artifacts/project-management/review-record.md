@@ -165,64 +165,235 @@ end note
 ```
 
 ### Management Reviewer lens
-<!-- review: Consolidation I1 -->
+<!-- review: Consolidation I2 -->
 
-<!-- review: Consolidation I1 -->
+<!-- review: Consolidation I2 -->
 
-This lens decides the milestone: whether the recovered set is complete, whether what rests on it is counted, and whether the organization may hand it forward as the starting point of the declared change. The question is exit criteria, not completion and not feasibility — the iteration's artifacts are read as the evidence each criterion cites.
+This lens decides whether the organization may hand the recovered set forward as the starting point of the declared change. It asks the exit-criteria question, not the completion question: are the eight GHR criteria true on the artifact each cites, is every High-band exposure accounted for on the register, and does the stakeholder accept the set.
 
-Ten artifacts read at source: Development Case, System Inventory, Risk List, Iteration Plan, Vision, Use-Case Model, Supplementary Specification, Software Architecture Document, Deployment Model, Design Model. Trace state was queried against the registered graph rather than taken from any artifact's word: `CLS-001`, `CLS-020` and the business-level RTM covering all 315 links.
+#### Checklist applied
+
+| # | Checklist item | Applied to | Where it is decided |
+|---|---|---|---|
+| M1 | Every artifact the phase activates is present and its Document Control names this iteration | All 12 | Each names Phase Consolidation, Iteration 2, Cycle 1 |
+| M2 | Every GHR exit criterion is true on the artifact its evidence cell cites, read at that artifact and not on the plan's word | Iteration Plan `G1` to `G8` | Criteria table below; `G4` recomputed from the System Inventory's per-area table, `G3` and `G6` from the Specification and the register |
+| M3 | The stakeholder accepts the complete set as the starting point of the declared change | gate H5 | Put and refused at the first put; re-put at this iteration's close — see Disposition |
+| M4 | No risk in the High or Significant band is accepted on the Project Manager's authority | Risk List, grants table | Four accepts at 4 × 3 = 12, each quoting the stakeholder's own answer; `R015` and `R022` accepted at Moderate 8, which is this role's authority |
+| M5 | Every risk's magnitude reproduces from its own stated probability and impact, on the one published scale | Risk List | All 34 rows recomputed; `R031` and `R033` both read 5 × 4 = 20 with the basis each row states |
+| M6 | A risk recorded as retired has had its retirement act performed, and a risk whose act was performed is not recorded as owed | Risk List | One row fails — `R033` → `Risk List#F5` |
+| M7 | The plan is sized in the currencies the process measures, with the two clocks apart, no token box the project did not declare, and no declared scope cut to fit an estimate | Iteration Plan, measured actuals | Phase-level tokens, agent time and stakeholder queue reported apart; no per-iteration velocity; no projected date; no declared work cut |
+| M8 | Every work item belongs to a stage the IARI process runs in Consolidation | Iteration Plan fine plan | Fifteen items in Environment, Requirements, Analysis & Design, Discovery, Project Management, the three lenses, the gate and the verdict |
+| M9 | The Development Case does not redefine the baseline: roster, CORE ownership, CORE omission, the CORE + OPTIONAL universe, use-case enumeration | Development Case | Deltas only; two roles inactive with their triggers; six optional verdicts |
+| M10 | Every OPTIONAL artifact the Development Case declares fired has its §5.2 condition genuinely holding | Development Case, Deployment Model | One fired — Deployment Model, on a four-process topology with a proxy hop and a per-project settings pair. Holds |
+| M11 | No quantitative claim is unsourced and no figure is fabricated | All 12 | The four grants cite the stakeholder's answers; coverage reproduces from its own table; every spend figure is a measured actual of a closed phase |
+| M12 | A conditional verdict issued at a prior milestone has its conditions verified resolved before the next verdict | Gate H4's fourth put, gate H5's first put | Both checked — criterion table below and the prior-findings reconciliation |
+| M13 | The plan and the record agree with the artifacts they describe: no cell states as present fact a state its own artifact has superseded | Iteration Plan, Risk List | Four of five prior Majors of this kind closed and verified; one instance remains, recorded in the register rather than the plan |
+
+#### The eight GHR criteria, each read at the artifact it cites
+
+| Criterion | State on the evidence read this turn | What was read |
+|---|---|---|
+| `G1` set present and anchored | Met | Every artifact's Document Control names this phase; `UC-001` to `UC-011` with four exclusions, `COMP-001` to `COMP-022`, `TBL-001` to `TBL-008` |
+| `G2` stakeholder accepts the set | **Not met — refused at the first put, re-put at this close** | No Yes exists. The refusal of 2026-11-23 and the order it carried are recorded in Disposition |
+| `G3` no recovered element reopened or contradicted | Met | Both causes the plan names are settled at their artifacts: the four cleared edges, and the OpenAPI gating now stated identically in the Specification's S8, S18 and F13, SAD `M12` and the Deployment Model |
+| `G4` coverage counted over the delivery's own tree, at 80 per cent or more | Met | System Inventory, Coverage: 84 of 94 own-tree files opened, 89.4 per cent; 67 anchored, 71.3 per cent; 10 own-tree files unopened, each named; raw 84 of 139 stated beside it as not the figure measured on |
+| `G5` every incomplete reading named | Met | The model snapshot's product version, carried as `R034` with an owner and an action performed |
+| `G6` every anomaly scored, no accept above Moderate without a grant | Met on the criterion's own terms | 29 `Refines` edges, four grants at exposure 12, no authority-band accept. The criterion is now decided on the act performed |
+| `G7` no suspect trace open at the close | Met | I queried three ends this turn: `CLS-001` → `TBL-001`, `CLS-007` → `TBL-002`, `CLS-020` → `UC-007` and `UC-010`. None carries a marking |
+| `G8` no work the process does not run here | Met | Fifteen fine-plan items, each in a stage Consolidation runs |
+
+`G6` and `G7` are true on the acts their owners performed. They are *read on* the register, and the register contradicts them — which is `Risk List#F5`, a defect of the register and not of the criteria.
 
 ```plantuml
 @startuml
-title GHR exit criteria - eight, each decided on the artifact it cites
+title GHR compliance at the second put of gate H5 - eight criteria, one gate, one defect holding it
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 skinparam wrapWidth 240
 hide circle
 hide empty members
 
-package "Met on the evidence this review read - 3" {
-  class "G1  Every artifact of the recovered set is present\nUC-001 to UC-011, COMP-001 to COMP-022,\nTBL-001 to TBL-008, all at Consolidation iteration 1" as G1 <<Met>>
-  class "G5  A reading left incomplete is named\nR034: the snapshot names ProductVersion 8.0.0\nagainst a net9.0 build, recorded where it is read" as G5 <<Met>>
-  class "G8  No work the process does not run here\n10 roles at work, each in a stage Consolidation runs" as G8 <<Met>>
+package "True on the artifact each cites - 7" {
+  class "G1  set present, every element anchored\n11 UC, 4 exclusions, 22 COMP, 8 TBL, 42 CLS" as G1 <<Met>>
+  class "G3  no recovered element contradicted\nboth causes settled at their artifacts" as G3 <<Met>>
+  class "G4  coverage over the own tree at the bar\n84 of 94, 89.4 per cent, 10 files named" as G4 <<Met>>
+  class "G5  every incomplete reading named\nR034, the snapshot's product version" as G5 <<Met>>
+  class "G6  no accept above Moderate without a grant\nfour grants at exposure 12, quotable" as G6 <<Met>>
+  class "G7  no suspect trace at the close\nthree ends queried this turn, none marked" as G7 <<Met>>
+  class "G8  no work the process does not run here\n15 items, all in stages this phase runs" as G8 <<Met>>
 }
 
-package "Not met as the plan states it - 2" {
-  class "G4  Coverage counted and the remainder declared\ncites 84 of 139 = 60.4 per cent, below the\n80 per cent bar; 84 of the 94 own-tree files\nis 89.4 per cent and is stated nowhere" as G4 <<Not-met>>
-  class "G6  No accept above Moderate lacks a grant\nR033 sits at 16 in the High band, its action\nunperformed, and no grant is recorded" as G6 <<Not-met>>
+package "The gate - the stakeholder's answer alone" {
+  class "G2  the stakeholder accepts the complete set\nas the starting point of the declared change" as G2 <<refused, re-put>>
 }
 
-package "Failing the criterion outright - 2" {
-  class "G3  No recovered element contradicted\nSupplementary Specification#F4 states the\nOpenAPI document as Development-only" as G3 <<Not-met>>
-  class "G7  No suspect trace open at the phase close\nall four edges still carry SUSPECT" as G7 <<Not-met>>
+package "The one defect this lens records" {
+  class "Risk List#F5  Major  consumed-defect\nR033 states an avoidance owed and a firing sign\nin three places, against the graph and two artifacts" as D1 <<open>>
 }
 
-package "The gate itself - 1" {
-  class "G2  Stakeholder accepts the set as the start\nGate H5 put 2026-11-23 and refused" as G2 <<Not-met>>
-}
-
+G1 --> G2
+G3 --> G2
 G4 --> G2
 G6 --> G2
-G3 --> G2
 G7 --> G2
+D1 --> G6 : the register a reader takes\nthe criterion's state from
+D1 --> G7 : same row, same two criteria
 
+note bottom of D1
+  One row, one owner, one turn. It changes no count, reopens no
+  recovered element and needs no reading of code. At a lifecycle
+  milestone a Major is a stop signal, so the criterion it
+  contradicts cannot be certified as the record stands.
+end note
 note bottom of G2
-  A criterion met is not the milestone sanctioned. Six Majors
-  stand at this put and no Critical does.
+  No Yes is recorded that the stakeholder has not given.
+  A refusal admits no Conditional Go.
 end note
-note bottom of G7
-  CLS-001 to TBL-001 and CLS-007 to TBL-002 marked for the
-  Designer; CLS-020 to UC-007 and UC-010 for the System Analyst.
-  Both roles hold a stage in this phase; neither act is done.
-end note
-
 @enduml
 ```
 
-**What was checked beyond the eight criteria.** The Development Case against the IARI baseline: two roles inactive, each carrying the trigger that justifies it, no CORE artifact omitted or reassigned, no artifact outside the CORE + OPTIONAL universe named, and one optional trigger fired whose §5.2 condition genuinely holds against a four-process topology with a per-process settings pair. All six optional verdicts audited one by one rather than accepted as a table. The coverage arithmetic recomputed from the per-area table: its Files column sums to 139 and its Read column to 84, so the count reproduces and only the denominator is at issue. The register's grants read against the band each exposure falls in: four accepts at 4 × 3 = 12 each quote the stakeholder's own answer, and no risk above Moderate accepts on the Project Manager's authority.
+#### Prior findings of this lens, reconciled
 
-**What was deliberately not judged.** `Iteration Assessment` is the Project Manager's Assess touchpoint and runs after this review; at review time it cannot describe the iteration under review, so its absence is not a defect and not a gate condition. `Change Request` is not opened in the sprint zero, where no Change Control Manager works. Neither is a finding.
+| Finding | Severity | Resolution | What closed it, verified at the source |
+|---|---|---|---|
+| `Risk List#F4` | Minor | Resolved | `R033` now reads 5 × 4 = 20 and `R031` the same, each stating the basis its evidence gives; the register publishes the rule above its tables instead of applying it to the inventory alone |
+| `Iteration Plan#F11` | Major | Resolved | `G4` carries the 80 per cent threshold in its own text and states both ratios — 84 of 94 own-tree (89.4 per cent) and raw 84 of 139 (60.4 per cent) — against the System Inventory's identical figures |
+| `Iteration Plan#F12` | Major | Resolved | `G3`'s evidence cell names both causes and both are settled: the four cleared edges, and the OpenAPI gating now identical across the Specification's S8, S18 and F13, SAD `M12` and the Deployment Model |
+| `Iteration Plan#F13` | Major | Resolved | `G6`'s test now closes "decided on the action performed, never on the strategy word a cell carries", and its evidence records the act for both High-band rows |
+
+None was re-recorded. Each defect is fixed in the artifact that carried it, and each fix was read there rather than taken from the owner's statement.
+
+The four Major findings recorded by the technical lens at the first put are also verified closed at their own artifacts and are not this lens's to close: `System Inventory#F4`, `Supplementary Specification#F4`, `Design Model#F2` and the two Reviewer Minors on Vision and the Software Architecture Document.
+
+#### Prior conditional verdicts, checked
+
+The Excavation close issued no Conditional Go — the AR gate was refused three times and sanctioned at its fourth put on a clean record, so no condition from that milestone survives into this one. Gate H5's own first put issued no Conditional Go either: the stakeholder refused the advance outright and ordered the six Major findings cleared here, which is what this iteration did. Neither condition is dropped silently; both are checked and neither exists.
+
+#### Project health at this gate
+
+```plantuml
+@startuml
+title Project health at the second put of gate H5 - four dimensions, each rated on evidence read this turn
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 235
+hide circle
+hide empty members
+
+class "SCOPE - Green" as SC {
+  11 use cases, 4 stated exclusions
+  22 components, 8 tables, 42 classes
+  recovered set confirmed at gate H4, unchanged
+  no recovered element contradicted in the set
+}
+class "SCHEDULE - Attention" as SD {
+  Consolidation at iteration 2; no phase figure yet
+  Survey 2 it, Excavation 4 it at close
+  one Major open, no Critical
+  it sits with the Project Manager, a stage this phase runs
+}
+class "COST - Not measurable" as CO {
+  Survey: 8,995,433 tokens / 29 min agent / 5 min queue
+  Excavation at close: 9,735,197 / 26 min / 10 min
+  Consolidation: in flight, no figure until it closes
+  no token budget declared, so no variance exists
+}
+class "QUALITY - Attention" as QU {
+  Critical 0
+  Major 1 - Risk List#F5, one row, one owner
+  Minor 0 from this lens
+  five of six prior Majors verified closed at source
+}
+
+class "Risk retirement in this phase" as RR {
+  R031 and R032 retired, actions performed
+  R030 and R034 landed, exposures correctly left live
+  R033's clearance performed; the register has not caught up
+  four Significant accepts unchanged on the stakeholder's grant
+}
+
+SC --> QU : set sound, record one row behind
+SD --> QU : no slip in the recovered content
+RR --> QU : no top-band exposure unaccounted for
+CO --> QU
+
+note bottom of SD
+  Two clocks, never added. No per-iteration velocity and no
+  projected date is derived from any figure here.
+end note
+note bottom of QU
+  The one defect is a restatement, not a re-reading: no count
+  moves and no recovered element is reopened. It is still a stop
+  signal at a lifecycle milestone, which is why this put is No-Go.
+end note
+@enduml
+```
+
+Scope is green: the recovered content is complete, anchored and unchanged, and this iteration reopened nothing. Quality is the dimension that is not green, and it is one row in one artifact. Schedule carries attention only as a consequence — the phase needs the turn it is in, and no work item of it belongs to a phase that does not run here. Cost is not measurable at this point and no figure is invented for it: no phase of Consolidation's shape has closed, the project declares no token budget, so there is no box and no variance.
+
+#### Risk retirement in this phase, and the direction each row moved
+
+Three exposures retired with their acts observed in the artifacts that carry them, two more with the retirement landed and the exposure correctly left live, and one whose act has been performed while its row still says it is owed.
+
+- `R031` (5 × 4 = 20) — materialized twice; the contingency was taken and performed, the Environment stage ran, and the two Development Case Minors A11 counts are corrected.
+- `R032` (4 × 3 = 12) — the avoidance is performed on all six citing artifacts, R6 among them under `AN-024`. Its residual was discharged at Excavation's close.
+- `R030` (4 × 3 = 12) — retirement landed; the exposure stays live and the row says so, because `AN-012` stands and no test covers the surface. This is the register's rule applied correctly.
+- `R034` (3 × 4 = 12) — the action is performed and the incompatibility is not corrected, which the row states, because the snapshot is the delivery's file and this process records the system as it is.
+- `R033` (5 × 4 = 20) — the clearance is performed at both owners' ends and the graph returns three queried ends unmarked; the row, the section preamble and the diagram still state the opposite. `Risk List#F5`.
+
+The trend is real and it is not a static register: it retired three exposures and took on one new High-band exposure this phase, which is the one now discharging. What it has not done is keep its own row current with the act its owner performed — the exact mirror of the fault the register's opening rule forbids in the other direction.
+
+```plantuml
+@startuml
+title Risk retirement this phase - the act each exposure required, and whether the register states it
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 235
+hide circle
+hide empty members
+
+state "Exposure carried" as CARRIED
+state "Act owed by a named owner" as OWED
+state "Act performed, verified at the artifact" as PERFORMED
+state "Register states the act" as STATED
+state "Retired" as RETIRED
+state "Live, exposure stated" as LIVE
+
+state "R031  5 x 4 = 20" as R31
+state "R032  4 x 3 = 12" as R32
+state "R030  4 x 3 = 12" as R30
+state "R034  3 x 4 = 12" as R34
+state "R033  5 x 4 = 20" as R33
+
+[*] --> CARRIED
+CARRIED --> OWED
+OWED --> PERFORMED
+PERFORMED --> RETIRED
+PERFORMED --> LIVE
+RETIRED --> STATED
+LIVE --> STATED
+
+R31 --> PERFORMED : Environment stage ran, both\nMinors corrected; A11 four of four
+R32 --> PERFORMED : all six citing artifacts hold,\nR6 under AN-024
+R30 --> PERFORMED : statement landed beside\nUC-001 to UC-004, AN-029
+R34 --> PERFORMED : ProductVersion recorded in the\npersistent-data description
+R33 --> PERFORMED : both owners cleared their ends;\nthree ends queried this turn, none marked
+
+note right of R33
+  R033 is the one row at PERFORMED whose state the register does
+  not state: its strategy cell still reads "not performed; firing"
+  and its diagram note still says the graph returns all four
+  marked. The other four each state their own act against the
+  artifact that carries it.
+end note
+note bottom of STATED
+  A register is the artifact a milestone verdict reads to know
+  whether a High-band exposure is live. Where the act is performed
+  and the row says it is owed, the row is the defect - not the
+  exposure, and not the owner's work.
+end note
+@enduml
+```
 
 ### Review Coordinator lens
 <!-- review: Consolidation I1 -->
