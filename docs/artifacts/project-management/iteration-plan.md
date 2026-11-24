@@ -2,7 +2,7 @@
 - Phase: Consolidation
 - Status: Draft — the plan for this phase's current iteration, produced for the end-of-Consolidation (GHR) milestone review
 - Milestone Target: end-of-Consolidation (GHR) — not yet achieved
-- Iteration: 1, Cycle 1
+- Iteration: 2, Cycle 1
 - Owner: Project Manager
 
 ## Iteration Objectives
