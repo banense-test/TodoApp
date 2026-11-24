@@ -832,7 +832,9 @@ The first is a set of gated surfaces. The reference UI and the two health endpoi
 
 The second is one configuration binding, not a set. `Todo.Api/appsettings.Development.json:8-12` binds `TokenLimit`, `TokensPerPeriod` and `QueueLimit` to 50 where the code defaults them to 100 / 100 / queue 100, and because both launch profiles of both serving processes select Development, every request this delivery serves is metered at 50 / 50 / queue 50 — the bucket in force is half its code default (AN-024, M3, SP1). It is the only environment file in the delivery that binds a mechanism's values; the other three carry logging levels and `AllowedHosts` and nothing else.
 
-Neither environment file — `Todo.Api/appsettings.json` and `Todo.Web/Server/appsettings.json` — carries a connection string or a provider credential; the only connection string in the delivery is the literal `Data Source=.db/Todos.db` written in `Todo.Api/Program.cs:23`, identical in both environments. The Deployment Model's Environment Mapping counts the same two differences from the same anchors.
+Neither environment file — `Todo.Api/appsettings.json` and `Todo.Web/Server/appsettings.json` — carries a connection string or a provider credential; the only connection string in the delivery is the literal `Data Source=.db/Todos.db` written in `Todo.Api/Program.cs:23`, identical in both environments.
+
+**Reconciled with the Deployment Model's count, which is the same two.** The Deployment Model's Environment Mapping closes "Two settings separate the environments, not one". The two it counts are these two and no others: the gated surface set, which is not a setting, and the one configuration binding, which is. No third difference exists in the tree — no connection string, no provider credential, no key-ring location, no transport posture is chosen per environment. The number is two in both artifacts; the word "setting" in the Deployment Model covers the pair, and only one member of the pair is bound from a file.
 
 ## Implementation View
 
