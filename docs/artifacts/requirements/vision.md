@@ -235,13 +235,48 @@ Four things follow for the use cases recovered from these features, and each con
 ## Constraints
 The constraints below are the conditions any change to this system must live within. They are read from the delivery; no budget, schedule or organisational constraint is stated anywhere in it.
 
+```plantuml
+@startuml
+title The environment gating the delivery actually has, and the constraint each surface places on a change
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 230
+hide circle
+hide empty members
+
+package "Served in every environment" {
+  class "GET /openapi/v1.json\napp.MapOpenApi()\nProgram.cs:58, outside the block" as OPENAPI <<ungated>>
+  class "the HTTP logging stage\nUseHttpLogging()\nProgram.cs:44, field set gated" as LOGSTAGE <<ungated>>
+  class "GET / -> /scalar/v1\nResults.Redirect\nProgram.cs:62, unconditional" as ROOTREDIR <<ungated>>
+}
+
+package "Mapped in Development only" {
+  class "Scalar reference UI\nMapScalarApiReference\nProgram.cs:49-56" as SCALAR <<gated>>
+  class "GET /health readiness\nGET /alive liveness\nServiceDefaults:110-118" as HEALTH <<gated>>
+  class "combined logs, response body\nand response headers\nLoggingFields inside IsDevelopment" as LOGFIELDS <<gated>>
+}
+
+ROOTREDIR ..> SCALAR : targets a surface\na non-Development run does not map
+OPENAPI ..> SCALAR : the reference UI renders\nthe document the same process serves
+
+note bottom of ROOTREDIR
+  The one surface a non-Development run publishes is the OpenAPI
+  document. A constraint that a diagnostic surface is unavailable
+  outside Development is wrong for this delivery, and a change
+  planned on that assumption would remove the only probe it has.
+end note
+
+@enduml
+```
+
 | Constraint | Anchor |
 |---|---|
 | Target framework `net9.0`, nullable and implicit usings enabled, `LangVersion` pinned to `preview`; every project inherits them | `Directory.Build.props:4-7` |
 | Every package version is managed centrally and resolves from nuget.org alone: `nuget.config` clears the sources and maps `*` to nuget.org | `Directory.Packages.props`; `nuget.config` |
 | The topology is four processes with a reverse-proxy hop, and that hop carries no service credential: the API accepts a bearer token from any caller | System Inventory — Perimeter; `Todo.Api/Users/UsersApi.cs:16`; AN-002 |
 | The only store is one SQLite file created by three EF Core migrations; there is no database script, procedure or trigger in the delivery | `.iari/README.md`; `Todo.Api/Migrations/`; `Todo.Api/Program.cs:23-24` |
-| The reference UI, the OpenAPI document and both health endpoints serve only where the process runs in Development, while the API's root redirect to the reference UI is unconditional and runs in every environment | `Todo.Api/Program.cs:49-62`; `AN-017`; System Inventory — Entry points `EP-019`, `EP-020`, `EP-021` |
+| The reference UI and both health endpoints serve only where the process runs in Development, while the OpenAPI document is mapped unconditionally and is the one diagnostic surface a non-Development run publishes; the API's root redirect to the reference UI is likewise unconditional and runs in every environment | `Todo.Api/Program.cs:49-58,62`; `TodoApp.ServiceDefaults/Extensions.cs:110-118`; `AN-017`; System Inventory — Entry points `EP-018`, `EP-019`, `EP-020`, `EP-021` |
 | The external-provider path requires a shared data-protection key ring that the code does not configure: only the application discriminator `TodoApp` is set in either process | `Todo.Web/Server/Program.cs:13`; `Todo.Api/Program.cs:11`; AN-010 |
 | The sprint zero works no declared change: Inception onwards is where the stakeholder's scope is worked | Development Case — Tailoring Overview |
 | No budget is declared for this project and none is set; work is sized in tokens and elapsed time only, never in person-days | Development Case — Measurement policy; this Work Order's measured actuals for Survey |
