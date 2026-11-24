@@ -760,98 +760,197 @@ stop
 **Two Minors the technical lens and I recorded that no criterion turns on.** `Risk List#F4` and `Software Architecture Document#F2` are inside their artifacts; the further iteration lists them with the Majors because their owners are working those artifacts anyway, not because they hold anything.
 
 ### Review Coordinator lens
-<!-- review: Excavation I4 -->
+<!-- review: Consolidation I1 -->
 
-**Actions this consolidation carries into Consolidation.** Each action is the remediation its recording lens wrote. No action carries a calendar date: the phase declares none, and a date projected from an estimate would read downstream as an observation. The due point is a state of the work — the owner's first stage in the next phase.
+<!-- review: Consolidation I1 -->
+
+Nine corrective actions and no escalations. Every open entry has an owner who holds a stage in Consolidation iteration 2, so none is escalated to the Project Manager for a deadline miss — no deadline has yet passed — and none is escalated to the stakeholder, because none is Critical.
+
+#### Priority order — the order the next iteration works in
+
+| Priority | Finding | Severity | Why it ranks here |
+|---|---|---|---|
+| 1 | `System Inventory#F4` | Major | The stakeholder ruled the denominator on 2026-11-23. Restating the ratio over the 94 files of the delivery's own tree is a figure, not a re-reading: the counts are right and no per-area row changes. `Iteration Plan#F11` cannot be written before it |
+| 2 | `Supplementary Specification#F4` | Major | A consumed defect the Deployment Manager and the Technical Writer read to write a runbook and a release note. It also settles `Vision#F2` and supplies one of the two causes `Iteration Plan#F12` must name |
+| 3 | `Design Model#F2` | Major | Four edges, two owners, the evidence already stated in the model. It closes `R033` — the phase's live High-band exposure at 4 × 4 = 16 — and it is the state `Iteration Plan#F13` must be decided on |
+| 4 | `Iteration Plan#F11`, `#F12`, `#F13` | Major | Three defects in one place: the criteria table the GHR verdict is read on. All three depend on priorities 1 to 3 being settled at their artifacts; restating the cells before the artifacts hold the facts would repeat the defect |
+| 5 | `Risk List#F4` | Minor | `R033`'s probability contradicts the evidence its own row states. The band does not move (20 is still High), so no grant requirement and no milestone state turns on it |
+| 6 | `Vision#F2` | Minor | The same OpenAPI sentence at a supporting artifact, settled by the same correction as priority 2 |
+| 7 | `Software Architecture Document#F2` | Minor | One word used for two things. Contained: both artifacts' facts are right and agree |
+
+**Escalations: none.** No finding in this ledger is Critical, no deadline has passed, and no role has failed to provide an artifact on time. The gate H5 refusal is not an escalation of this role — it is the stakeholder's own decision, recorded as given.
 
 ```plantuml
 @startuml
-title Closures this iteration and the source each was verified at - six entries, no closure taken from an owner's prose
+title ACT-GHR-02 Correction order for Consolidation iteration 2 - three artifacts land first, the plan restates after them
 skinparam shadowing false
-skinparam wrapWidth 240
-hide circle
-hide empty members
+skinparam wrapWidth 250
 
-package "Recorded as open at iteration 3 - 5 entries" {
-  class "Iteration Plan#F4 Reviewer\nconsumed-defect Major" as O1
-  class "Iteration Plan#F9 Management Reviewer\nexit-criterion-unmet Major" as O2
-  class "Iteration Plan#F8 Management Reviewer\ncontained-defect Minor" as O3
-  class "Risk List#F3 Reviewer\ncontained-defect Minor" as O4
-  class "Supplementary Specification#F3 Reviewer\ncontained-defect Minor" as O5
-}
+|Software Archaeologist|
+start
+:1  System Inventory#F4
+state the coverage over the 94 files of the
+delivery's own tree - 84 opened, 89.4 per cent,
+67 anchored, 71.3 per cent;
+:name the 45 vendored Bootstrap files as one
+third-party distribution excluded by the
+stakeholder's ruling of 2026-11-23;
+:change no count and no per-area row;
 
-package "Read at the artifact - what each now holds" {
-  class "A1 Met, five COMP-014 Realizes edges\nrequoted from a fresh graph query" as V1 <<verified>>
-  class "A10 Met, R6 named as the fourth artifact\nunder AN-024" as V2 <<verified>>
-  class "A12 records the third put in both halves\nO2 Met on the same reading" as V3 <<verified>>
-  class "Every Closes cell holds a finding key\nand no moment" as V4 <<verified>>
-  class "R032 avoidance performed on all six\nthe exposure retired, residual named" as V5 <<verified>>
-  class "Document Control Iteration 4, Cycle 1\nno other field changed" as V6 <<verified>>
-}
+|System Analyst|
+:2  Supplementary Specification#F4
+correct S8 and S18 to the gating the code has -
+the OpenAPI document is mapped unconditionally;
+:then Vision#F2
+the same sentence at its own artifact;
 
-package "Read at the file, not at the artifact" {
-  class "appsettings.Development.json:8-12\nTokenLimit 50, TokensPerPeriod 50, QueueLimit 50" as CODE1 <<code>>
-  class "RateLimitExtensions.cs:22-24\n100 / 100 / 100 code defaults" as CODE2 <<code>>
-}
+|Designer and System Analyst|
+:3  Design Model#F2
+clear CLS-001 to TBL-001 and CLS-007 to TBL-002,
+CLS-020 to UC-007 and CLS-020 to UC-010
+each at the end the graph marks;
 
-O1 --> V1
-O1 --> V2
-O2 --> V1
-O2 --> V3
-O2 --> V2
-O3 --> V4
-O4 --> V5
-O5 --> V6
-V2 --> CODE1
-V2 --> CODE2
-V5 --> CODE1
+|Project Manager|
+:4  Risk List#F4
+restate R033's probability at 5 on the basis its
+own evidence states, carry exposure 20;
+:5  Iteration Plan#F11, F12, F13
+write G4's threshold and cite step 1's ratios,
+name both causes in G3, decide G6 on step 3's state;
+:6  Software Architecture Document#F2
+one word for two things - configuration binding
+against environment difference;
+:Steps 1 to 3 are independent and run in either order.
+Steps 4 to 6 wait on them: a plan cell citing a ratio,
+a cause or an edge cannot be restated before the
+artifact holds it;
 
-note bottom of V2
-  The one fact six artifacts were corrected against was opened at
-  the file. Both values reproduce and no artifact quotes one as both.
+|Reviewer|
+:7  technical lens re-run over the corrected set;
+
+|Management Reviewer|
+:8  management lens re-run;
+:9  gate H5 put a second time;
+
+|Stakeholder|
+:10  sanction decision read from the finding data;
+
+|Review Coordinator|
+:11  GHR verdict on the second put;
+stop
+@enduml
+```
+
+#### Finding lifecycle — where each entry stands at this close
+
+```plantuml
+@startuml
+title MET-GHR-01 Finding lifecycle at the GHR milestone - 51 entries, where each stands
+skinparam shadowing false
+skinparam wrapWidth 235
+
+state "Recorded by a lens\n51 entries this milestone" as R
+state "Assigned\nowner and severity on the entry\n51" as A
+state "In progress\nthe owner holds a stage in Consolidation\n51" as P
+state "Resolved\nowner performed the correction\n42" as RV
+state "Verified\nlens checked it at the artifact\n42" as VF
+state "Closed\nresolution object on the entry\n42" as C
+state "Open at the close\nholds the milestone if Major\n9" as O
+
+R --> A
+A --> P
+P --> RV
+RV --> VF
+VF --> C
+P --> O : corrective act not performed
+O --> P : Consolidation iteration 2
+
+note right of C
+  Closed by lens - technical 25, management 17.
+  One management entry, Development Case#F2, was
+  recorded at Excavation under the stakeholder's
+  order and closed at this milestone.
 end note
-note bottom of V6
-  The field was the whole of the defect and the whole of the remedy.
+note right of O
+  Open by lens - technical 5, management 4.
+  Severity - 6 Major, 3 Minor, 0 Critical.
+  All nine owners hold a stage in Consolidation
+  iteration 2, which the process schedules.
 end note
 @enduml
 ```
 
-| # | Action | Artifact | Owner | Closes | Due point | Escalates if |
-|---|---|---|---|---|---|---|
-| 1 | Set A12 to "Met — 2026-11-23", stating both puts as given: the third confirmed the recovered set and refused the advance while a Major stood, the fourth granted the advance on records that agree with the set. Set fine-plan item 7's state to the answer and the human-gate table's Answer cell to the fourth put's answer. Change nothing else — A1, A10 and A11 are correct as restated | Iteration Plan | Project Manager | `Iteration Plan#F10` | The Project Manager's first stage in Consolidation | Any of the three cells again records the fourth put as unanswered |
-| 2 | Add the Project Management discipline to the Excavation, Consolidation, Inception, Elaboration, Construction and Transition partitions of ACT-DC-01, naming its stage as the Survey partition does. Change nothing in the Disciplines and Intensity table | Development Case | Process Engineer | `Development Case#F4` | The Process Engineer's first stage in Consolidation | The diagram is retitled to the Environment opening alone and the per-phase intensity annotations left in place |
+#### Review calendar — the milestone's cadence and the second put
 
-**Escalation at this gate.**
+The GHR review is scheduled against the iteration boundary, not a calendar date: it opens when the iteration's artifacts are in target state and the plan's `G1` to `G8` are written, and it closes when the verdict is recorded. Because the stakeholder refused the sanction on 2026-11-23, the same review is re-scheduled for the close of Consolidation iteration 2 — the iteration this verdict records as required. No later milestone review (LCO, LCA, IOC, PR) is moved by this: each remains anchored to its own phase exit.
 
-| Item | State | Why |
-|---|---|---|
-| `Iteration Plan#F10` and `Development Case#F4` | **Not escalated** | Both are Minor and contained; no exit criterion depends on either, and each owner has a stage in the phase that follows. Neither is overdue: the phase is closing and both due points are the owners' first stage in Consolidation |
-| Systemic process failure | **No escalation to the Configuration and Change Management Board** | The ledger shows no repeated architecture violation and no skipped or informal review. The one recurring class — a cell asserting another artifact's state — was recorded four passes running and is now closed in every cell, with the rule it produced written into the plan |
-| Stakeholder escalation | **None required** | 0 Critical findings and nothing outstanding requires a decision from them. Gate H4's fourth put granted the advance; the answer is recorded as given in Disposition and nothing is added to it |
-| Findings carried out of the phase | **None unattended** | The stakeholder ordered at the SBC close that open Minors be addressed rather than left unattended. Both open Minors have an owner scheduled in Consolidation and an action that closes them; neither is waived, deferred or recorded as closed on a document having been written |
+```plantuml
+@startuml
+title CAL-GHR-01 Consolidation review calendar - review events at the iteration boundary
+skinparam shadowing false
+skinparam wrapWidth 300
 
-**Review effectiveness — this milestone's measured counts.** Fourth review event of this phase; the comparison is against the three passes of the same milestone that precede it and against nothing older.
+|Review Coordinator|
+start
+:Calendar the GHR review for the end of
+Consolidation iteration 1, aligned to the
+Iteration Plan's GHR criteria G1 to G8;
 
-| Indicator | Iteration 1 | Iteration 2 | Iteration 3 | Iteration 4 |
-|---|---|---|---|---|
-| Review coverage | 10 of 10 reviewed artifacts read by both executed lenses | 10 of 10 by both executed lenses | 10 of 10 by both executed lenses; 12 artifacts read for findings | 10 of 10 by both executed lenses; 12 artifacts read for findings |
-| Finding entries recorded, cumulative | 29 | 35 | 39 | 42 |
-| Open at the gate | 16 — 0 Critical, 8 Major, 8 Minor | 8 — 0 Critical, 5 Major entries over 4 defects, 3 Minor | 5 — 0 Critical, 2 Major entries over 1 defect, 3 Minor | 2 — 0 Critical, 0 Major, 2 Minor |
-| Closed by their recording lens, cumulative | 13 | 27 | 34 | 40 |
-| Defect density, open entries by discipline | Requirements 6, Analysis & Design 3, Project Management 5, Environment 2, Discovery 0 | Requirements 4 over 2 defects, Project Management 2, Environment 2, Analysis & Design 0, Discovery 0 | Project Management 5 over 2 artifacts, Requirements 1, Environment 0, Analysis & Design 0, Discovery 0 | Environment 1, Project Management 1, Requirements 0, Analysis & Design 0, Discovery 0 |
-| Duplicate subjects reached by both lenses | 1 — the rate limiter | 2 — the five `COMP-014` edges, and the rate budget at artifact and criterion | 1 — the five cells of the iteration's tables | 2 — the five cells under `#F4` and `#F9`, and `#F9` against `#F10` as successive keys on one class |
-| Defect removal efficiency | Not computable | Not computable | Not computable | Not computable |
-| Rework effort | Not measured | Not measured | Not measured | Not measured |
+|Reviewer|
+:GHR technical lens executes
+12 artifacts read
+30 entries recorded, 25 closed, 5 open;
 
-**What the metrics say.** Open entries fell 16 → 8 → 5 → 2, and the artifacts carrying a Major fell 7 → 2 → 1 → 0. Coverage held at 10 of 10 for the whole phase. The gate's condition — no Critical and no Major open — is met for the first time at this milestone, and every condition the verdict is read on is satisfied on the finding data rather than on a lens's account of it.
+|Business Reviewer|
+:INACTIVE - did not evaluate this review
+Business Modeling inactive per the Development Case
+nothing in the verdict rests on this lens;
 
-The one indicator that did not improve on its own is the one this iteration closes by construction: a cell asserting another artifact's state recurred in four consecutive passes (`Iteration Plan#F3`, `#F6`, `#F4`, `#F9`, then `#F10` in the one place the answer did not yet exist). The plan now carries the rule that prevents the next occurrence — a cell that asserts another artifact's state is re-derived from that artifact in the same turn the artifact changes.
+|Management Reviewer|
+:GHR management lens executes
+12 artifacts read
+20 entries recorded, 16 closed, 4 open;
+:Put gate H5;
 
-Defect removal efficiency and rework effort are not computable and not measured: no test has executed in the sprint zero, so nothing is found by test against which review-found defects could be compared, and no per-finding token or elapsed attribution exists. Neither ratio is invented.
+|Stakeholder|
+:Gate H5 answered 2026-11-23
+sanction REFUSED - six Majors cleared in this phase
+coverage counted over the delivery's own files;
 
-**Cost, in the two currencies this system measures.** Excavation's closed record reads 14,424,767 tokens and 28 minutes of agent time across three iterations, with 7 minutes of stakeholder queue time apart from it. The fourth iteration is unmeasured — its spend is not yet closed — and this report states no forecast for Consolidation. No token budget was declared for this project, so no variance exists to report. Person-weeks, person-months, man-hours and story points are units this system does not produce and none appears in this record.
+|Review Coordinator|
+:Consolidate the two executed lenses
+50 entries - 41 closed, 9 open
+0 Critical, 6 Major, 3 Minor;
+:Verdict - phase scope incomplete
+Consolidation iteration 2 carries the nine open entries;
+:Calendar the second GHR put
+for the close of Consolidation iteration 2;
 
-**Stakeholder contribution — the answer already given, folded in and acted on.** At gate H4's fourth put the stakeholder sanctioned advancing past the Architecture Recovered milestone into Consolidation, having confirmed at the third put that the recovered set is the model of their system: eleven use cases over twenty-two entry points, four stated exclusions, twenty-two components across four processes, and an eight-table data model, nothing wrong or missing and no exclusion re-opened. Verified against the artifacts rather than deferred: thirteen of thirteen AR criteria hold on the artifact that owns each, and the two open Minors are record corrections on documents whose content the stakeholder has already confirmed. That answer is the route of this disposition and no further consultation arises this iteration.
+|Correction owners|
+:Iteration 2 - the nine open entries corrected
+at their artifacts by their owners;
+
+note right
+  Two of the six Majors depend on a third:
+  Iteration Plan#F11 cites the ratio
+  System Inventory#F4 restates,
+  Iteration Plan#F12 names the cause
+  Supplementary Specification#F4 corrects.
+end note
+
+|Reviewer|
+:Lens re-run on the corrected set;
+
+|Management Reviewer|
+:Management lens re-run;
+:Gate H5 put a second time;
+
+|Stakeholder|
+:Sanction decision on the recorded finding data;
+
+stop
+@enduml
+```
 
 ## Disposition
 ### Reviewer lens
