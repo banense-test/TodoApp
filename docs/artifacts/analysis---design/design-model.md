@@ -2471,13 +2471,13 @@ The per-package tables above abbreviate a declaration to the part a reader needs
 ## Traceability
 | Element | Traces From | Link Type | Traces To |
 |---|---|---|---|
-| CLS-001 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | TBL-001 |
+| CLS-001 | UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
 | CLS-002 | UC-006, UC-007, UC-009, UC-010 | Realizes | — |
 | CLS-003 | UC-006, UC-007, UC-009 | Realizes | — |
 | CLS-004 | UC-001, UC-002 | Realizes | — |
 | CLS-005 | UC-003 | Realizes | — |
 | CLS-006 | UC-001, UC-002, UC-003, UC-005, UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
-| CLS-007 | UC-001, UC-002, UC-003, UC-005, UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | TBL-002 |
+| CLS-007 | UC-001, UC-002, UC-003, UC-005, UC-006, UC-007, UC-008, UC-009, UC-010 | Realizes | — |
 | CLS-008 | UC-006, UC-007, UC-008 | Realizes | — |
 | CLS-009 | UC-001, UC-002 | Realizes | — |
 | CLS-010 | UC-003 | Realizes | — |
@@ -2524,7 +2524,13 @@ The per-package tables above abbreviate a declaration to the part a reader needs
 
 Thirty-five class rows carry a `Realizes` edge; seven carry none, and those seven are the classes no recovered use case's path crosses — the orchestration helper, the platform defaults, and the five test types. Their upstream is the code they were read from, cited at each row of the class inventory, and not a use case.
 
-The two `Specifies` edges are stated on the class row and on the table row alike, because one edge has two ends and either artifact is read alone. `CLS-001` is four properties and `TBL-001` stores them in four columns; `CLS-007` adds no member of its own and `TBL-002` stores all fifteen it inherits from `IdentityUser` (`Todo.Api/Migrations/20221123071234_Initial.cs:220-247`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:12-47`; `Todo.Api/Users/TodoUser.cs:6-8`; `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs:13-15`).
+**The two `Specifies` chains.** Each is written once, on the row of its platform end, which is the concrete end of the edge.
+
+**`CLS-001 → TBL-001`.** `CLS-001` is four properties — `Id` int, `Title` required, `IsComplete` defaulting false, `OwnerId` required string — and `Todos` stores them in four columns: an autoincrement integer primary key, a `NOT NULL` title, a completion column defaulting to zero, and a `NOT NULL` owner key carrying `IX_Todos_OwnerId` and `ON DELETE CASCADE`. The relation's principal key was `AspNetUsers.UserName` until the third migration re-pointed it to `AspNetUsers.Id`; the index and the cascade were created with the table and survive the re-point (`Todo.Api/Migrations/20221123071234_Initial.cs:220-247`; `Todo.Api/Migrations/20230714032431_ForeignKeyChange.cs:12-47`).
+
+**`CLS-007 → TBL-002`.** `CLS-007` adds no member of its own, and `AspNetUsers` stores all fifteen columns it inherits from `IdentityUser`; the `IsAdmin` column the first migration created was dropped by the second, so neither the class nor the table holds an administrative flag (`Todo.Api/Users/TodoUser.cs:6-8`; `Todo.Api/Migrations/20221123165051_RemoveIsAdmin.cs:13-15`).
+
+**The two `CLS-020` edges.** `CLS-020 → UC-007` and `CLS-020 → UC-010` hold on the code: the constraint refinement changed how the operation is declared, not which use case it serves. `CLS-012` names `typeof(TodoItem)` at `Todo.Api/Todos/TodoApi.cs:22`, so both the create and the change operation on the `/todos` group carry the filter, and the filter is what rejects a malformed task body before the ownership rule is applied.
 
 **The eight table rows.** `TBL-001` to `TBL-008` are held by the Database Designer in the Persistent Data Classes section. Two carry a `Specifies` edge to the design class whose physical storage they are; six carry none, because their upstream is a framework type the delivery declares no class for — `IdentityUserLogin`, `IdentityUserRole`, `IdentityUserClaim`, `IdentityUserToken`, `IdentityRole` and `IdentityRoleClaim`. Minting `CLS` labels for those would put elements in the graph no implementation can be traced to; the migration that creates each table is cited in the table inventory, and that is their source.
 
